@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlParamCompDao">
+    
+	<sql id="ctlParamCompColumns">
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.sbs_code AS "sbsCode",
+		a.para_code AS "paraCode",
+		a.para_value AS "paraValue",
+		b.para_desc AS "remark"
+	</sql>
+	
+	<sql id="ctlParamCompJoins">
+	</sql>
+    	
+    <select id="getComp" resultType="CtlParamComp">
+		SELECT com_code as "comCode",com_name as "comName"
+		FROM ctl_comp
+	</select>
+	
+	<select id="getCompByCode" resultType="CtlParamComp">
+		SELECT com_code as "comCode",com_name as "comName"
+		FROM ctl_comp where com_code=#{comCode}
+	</select>
+	
+	  <select id="getSbs" resultType="String"> <!-- 从子系统表中获取全部子系统   李明月：error 是模块编码-->
+		SELECT sbs_code
+		FROM ctl_modu
+	</select>
+	
+	<select id="getBusiByComCode" resultType="CtlParamComp"> 
+		SELECT busi_code as "sbsCode",busi_name as "sbsName"
+		FROM ctl_com_busi_relation where com_code=#{comCode}
+	</select>
+	
+	<select id="get" resultType="CtlParamComp">
+		SELECT 
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.sbs_code AS "sbsCode",
+		a.para_code AS "paraCode",
+		a.para_value AS "paraValue"	
+		FROM ctl_param_comp a
+		<include refid="ctlParamCompJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlParamComp"> <!-- 先从系统参数定义表中更新，再从机构参数表中获取数据 -->
+	
+	
+	
+		SELECT '' AS "id",b.para_code AS "paraCode",b.DEFAULE_VALUE AS "paraValue",b.para_desc as "remark",'' AS "comCode",b.sbs_code AS "sbsCode"
+		
+		FROM ctl_param b
+		
+		WHERE 	
+			<if test="sbsCode != null and sbsCode != ''">
+				b.sbs_code = #{sbsCode} AND 
+		   </if>
+				b.para_level='E' 
+				AND not exists
+				(SELECT a.para_code ,a.sbs_code FROM ctl_param_comp a
+				WHERE a.para_code=b.para_code AND a.sbs_code=b.sbs_code
+				)
+		UNION
+		
+				SELECT a.id AS "id",a.para_code AS "paraCode",a.para_value AS "paraValue", '' as "remark",a.com_code AS "comCode",a.sbs_code AS "sbsCode"
+				FROM ctl_param_comp a
+					
+				
+				<if test="comCode != null and comCode != ''">
+				WHERE a.com_code =#{comCode} 
+				</if>
+				<if test="paraCode != null and paraCode != ''">
+				AND a.para_code=#{paraCode}
+				</if>
+				<if test="sbsCode != null and sbsCode != ''">
+				AND a.sbs_code=#{sbsCode}
+				</if>
+				
+				
+				
+					
+		
+		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+
+	<select id="getSbsList" resultType="CtlParamComp"> <!-- 从机构参数表中获取子系统 -->
+		SELECT 
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.sbs_code AS "sbsCode",
+		a.para_code AS "paraCode"
+		
+		FROM ctl_param_comp a
+		<include refid="ctlParamCompJoins"/>
+		<where>
+		
+		<if test="comCode != null and comCode != ''">
+		AND a.com_code=#{comCode}
+		</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<select id="findAllList" resultType="CtlParamComp">
+		SELECT * 
+		FROM ctl_param_comp
+		<include refid="ctlParamCompJoins"/>
+		<where>
+		<if test="sbsCode != null and sbsCode != ''">
+		
+		<if test="comCode != null and comCode != ''">
+		</if>
+		</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+		<select id="findLocalList" resultType="CtlParamComp">
+		SELECT 
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.sbs_code AS "sbsCode",
+		a.para_code AS "paraCode",
+		a.para_value AS "paraValue"
+		
+		FROM ctl_param_comp a
+
+		<where>
+		<if test="sbsCode != null and sbsCode != ''">
+		 AND a.sbs_code=#{sbsCode}
+
+		</if>
+		<if test="comCode != null and comCode != ''">
+		AND a.com_code=#{comCode}
+		</if>
+		<if test="paraCode != null and paraCode != ''">
+		 AND a.para_code=#{paraCode}
+		</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ctl_param_comp(
+			id,
+			com_code,
+			sbs_code,
+			para_code,
+			para_value,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{comCode},
+			#{sbsCode},
+			#{paraCode},
+			#{paraValue},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_param_comp SET 	
+
+
+			para_value = #{paraValue}
+
+		WHERE id=#{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_param_comp
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.WyLogDao">
+ <sql id="wyLogColumns">
+	 v.ID id,
+	 v.USER_ID userId,
+	 v.CREATE_TIME createTime,
+	 v.AREA area,
+	 v. `HOUR` `hour`,
+	 v.CONTENT content,
+	 v.PROCESSING_PERSON_ID processingPersonId,
+	 v.PROCESSING_PERSON_Name processingPersonName,
+	 v. `DESCRIBES` `describes`,
+	 v.REMARKS remarks,
+	 o2.user_name userName,
+	 o3.user_name userRecordName,
+	 o4.TELEPNO3 telePhone
+	</sql>
+
+	<sql id="wyLogJoins">
+		LEFT JOIN ctl_user o2 ON o2.user_code = v.PROCESSING_PERSON_ID
+		LEFT JOIN ctl_user o3 ON o3.user_code = v.USER_ID
+	    LEFT JOIN ctl_emp o4 ON o4.emp_code=v.USER_ID
+	</sql>
+
+	<select id="findList" resultType="com.sgai.property.wy.entity.WyLog">
+		SELECT <include refid="wyLogColumns"/>
+		FROM WY_EVT_LOG v
+		<include refid="wyLogJoins"/>
+		 <where>
+		 	v.del_flag='0'
+		 		<if test="type != 2">
+			 	<if test="sqlMap != null  and  sqlMap.sql != null and sqlMap.sql != ''">
+					AND	${sqlMap.sql}
+				</if>
+			</if>
+			<if test="content != null and content != ''">
+				AND v.content like '%'||#{content}||'%'
+			</if>
+			<if test="userRecordName != null and userRecordName != ''">
+				AND o3.user_name like '%'||#{userRecordName}||'%'
+			</if>
+			<if test="userName != null and userName != ''">
+				AND o2.user_name  like '%'||#{userName}||'%'
+			</if>
+			<if test="type != 3">
+			<if test="processingPersonId != null and processingPersonId != ''">
+				AND v.processing_person_id =#{processingPersonId}
+			</if>
+			</if>
+			<if test="type == 3">
+				AND v.processing_person_id is not null
+			</if>
+			<if test="startTime != null">
+				AND	STR_TO_DATE(DATE_FORMAT(v.CREATE_TIME,'%y-%m-%d'),'%y-%m-%d') &gt;= #{startTime}
+				<!-- AND v.CREATE_TIME  &gt;= #{startTime} -->
+			</if>
+			<if test="endTime != null">
+			AND	STR_TO_DATE(DATE_FORMAT(v.CREATE_TIME,'%y-%m-%d'),'%y-%m-%d') &lt;= #{endTime}
+				<!-- AND v.CREATE_TIME  &lt;= #{endTime}  -->
+			</if>
+			<if test="logNowToday != null  and logNowToday !='' ">
+				AND DATE_FORMAT(v.create_time,'%y-%m-%d') = DATE_FORMAT(sysdate,'%y-%m-%d')
+			</if>
+			<if test="cho != null  and cho !='' ">
+				and v.DESCRIBES is null
+			</if>
+		</where>
+		ORDER BY v.CREATE_TIME DESC
+	</select>
+	<insert id="insert">
+		INSERT INTO WY_EVT_LOG(
+			id,
+			USER_ID,
+			create_time,
+			area,
+			hour,
+			content,
+			processing_person_id,
+			processing_person_name,
+			describes,
+			remarks,
+			del_flag,
+			COM_CODE,
+			DEPT_CODE,
+			CREATED_BY,
+			area_code
+		) VALUES (
+			#{id},
+			#{userId},
+			#{createTime},
+			#{area},
+			#{hour},
+			#{content},
+			#{processingPersonId},
+			#{processingPersonName},
+			#{describes},
+			#{remarks},
+			'0',
+			#{comCode},
+			#{deptCode},
+			#{createdBy},
+			#{areaCode}
+		)
+	</insert>
+	<update id="update">
+		UPDATE WY_EVT_LOG
+		<set>
+	    <if test="userId != null and userId != ''">
+			USER_ID = #{userId},
+		</if>
+		<if test="createTime != null and createTime != ''">
+			create_time = #{createTime},
+		</if>
+		<if test="area != null and area != ''">
+			area = #{area},
+		</if>
+		<if test="areaCode != null and areaCode != ''">
+			crea_code = #{areaCode},
+		</if>
+		<if test="hour != null and hour != ''">
+			hour = #{hour},
+		</if>
+		<if test="content != null and content != ''">
+			content = #{content},
+		</if>
+		<if test="processingPersonId != null and processingPersonId != ''">
+			processing_person_id = #{processingPersonId},
+		</if>
+		<if test="processingPersonName != null and processingPersonName != ''">
+			processing_person_name = #{processingPersonName},
+		</if>
+		<if test="describes != null and describes != ''">
+			describes = #{describes},
+		</if>
+		<if test="remarks != null and remarks != ''">
+			remarks = #{remarks}
+		</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<update id="deleteWyLog">
+	UPDATE WY_EVT_LOG SET
+	DEL_FLAG=#{delFlag}
+	WHERE id = #{id}
+	</update>
+
+ </mapper>

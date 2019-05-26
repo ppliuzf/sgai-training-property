@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlRuleItemDao">
+    
+	<sql id="ctlRuleItemColumns">
+		a.id AS "id",
+		a.sequ_code AS "sequCode",
+		a.rule_code AS "ruleCode",
+		a.rule_name AS "ruleName",
+		a.rule_order AS "ruleOrder",
+		a.rule_type AS "ruleType",
+		a.rule_value AS "ruleValue",
+		a.padding_side AS "paddingSide",
+		a.padding_width AS "paddingWidth",
+		a.padding_char AS "paddingChar",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="ctlRuleItemJoins">
+		LEFT JOIN ctl_rule_info b ON b.id = a.sequ_code
+	</sql>
+    
+	<select id="get" resultType="CtlRuleItem">
+		SELECT 
+			<include refid="ctlRuleItemColumns"/>
+		FROM ctl_rule_item a
+		<include refid="ctlRuleItemJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlRuleItem">
+		SELECT 
+			<include refid="ctlRuleItemColumns"/>
+		FROM 
+		    ctl_rule_item a
+		<include refid="ctlRuleItemJoins"/>
+		<where>
+			<if test="sequCode != null and sequCode != ''">
+				AND a.sequ_code = #{sequCode}
+			</if>
+		</where>
+		ORDER BY
+		    rule_order ASC
+	</select>
+	
+	<select id="findAllList" resultType="CtlRuleItem">
+		SELECT 
+			<include refid="ctlRuleItemColumns"/>
+		FROM ctl_rule_item a
+		<include refid="ctlRuleItemJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ctl_rule_item(
+			id,
+			sequ_code,
+			rule_code,
+			rule_name,
+			rule_order,
+			rule_type,
+			rule_value,
+			padding_side,
+			padding_width,
+			padding_char,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{sequCode},
+			#{ruleCode},
+			#{ruleName},
+			#{ruleOrder},
+			#{ruleType},
+			#{ruleValue},
+			#{paddingSide},
+			#{paddingWidth},
+			#{paddingChar},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_rule_item SET 	
+			sequ_code = #{sequCode},
+			rule_code = #{ruleCode},
+			rule_name = #{ruleName},
+			rule_order = #{ruleOrder},
+			rule_type = #{ruleType},
+			rule_value = #{ruleValue},
+			padding_side = #{paddingSide},
+			padding_width = #{paddingWidth},
+			padding_char = #{paddingChar},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_rule_item
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE sequ_code = #{sequCode}
+			</otherwise>
+		</choose>
+	</update>
+	
+	<select id="getRuleItemList" resultType="CtlRuleItem">
+		SELECT 
+			<include refid="ctlRuleItemColumns"/>
+		FROM 
+		    ctl_rule_item a
+		<include refid="ctlRuleItemJoins"/>
+		WHERE
+			a.sequ_code = #{sequCode}
+		ORDER BY
+		    rule_order ASC
+	</select>
+	
+	<delete id="batchDelete">
+	    DELETE FROM
+	        ctl_rule_item
+	    WHERE
+	        sequ_code in (
+	                      SELECT sequ_code FROM ctl_rule_info WHERE id in
+	                      <foreach collection="list" item="item" open="(" close=")" separator=",">
+	                          #{item}
+	                      </foreach> 
+	                      )
+	</delete>
+</mapper>

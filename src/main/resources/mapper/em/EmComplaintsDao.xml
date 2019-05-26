@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.em.dao.EmComplaintsDao">
+    
+	<sql id="emComplaintsColumns">
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.compl_code AS "complCode",
+		a.comp_category AS "compCategory",
+		a.compl_type AS "complType",
+		a.compl_from AS "complFrom",
+		a.compl_person AS "complPerson",
+		a.telphone AS "telphone",
+		a.address AS "address",
+		a.compl_time AS "complTime",
+		a.compl_content AS "complContent",
+		a."DESC" AS "desc",
+		a.states AS "states",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.user_code AS "userCode",
+		a.user_name AS "userName",
+		a.modu_code AS "moduCode"
+	</sql>
+	
+	<sql id="emComplaintsJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.em.entity.EmComplaints">
+		SELECT 
+			<include refid="emComplaintsColumns"/>
+		FROM em_complaints a
+		<include refid="emComplaintsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getEmComplaints" resultType="com.sgai.property.em.dto.EmComplaintsVo">
+		SELECT 
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.compl_code AS "complCode",
+		a.comp_category AS "compCategory",
+		a.compl_type AS "complType",
+		a.compl_from AS "complFrom",
+		b.pr_name AS "complPerson",
+		a.telphone AS "telphone",
+		a.address AS "address",
+		a.compl_time AS "complTime",
+		a.compl_content AS "complContent",
+		a."DESC" AS "desc",
+		a.states AS "states",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.user_code AS "userCode",
+		a.user_name AS "userName",
+		a.modu_code AS "moduCode"
+		FROM em_complaints a
+		LEFT JOIN CR_PERSONAL_RECORD_INFO b
+		ON a.COMPL_PERSON = b.id
+		<where>
+			<if test="complCode != null and complCode != ''">
+				AND a.compl_code = #{complCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+	</select>
+	
+	<select id="getEmComplaint" resultType="com.sgai.property.em.entity.EmComplaints">
+		SELECT 
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.compl_code AS "complCode",
+		a.comp_category AS "compCategory",
+		a.compl_type AS "complType",
+		a.compl_from AS "complFrom",
+		a.compl_person AS "complPerson",
+		a.telphone AS "telphone",
+		a.address AS "address",
+		a.compl_time AS "complTime",
+		a.compl_content AS "complContent",
+		a."DESC" AS "desc",
+		a.states AS "states",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.user_code AS "userCode",
+		a.user_name AS "userName",
+		a.modu_code AS "moduCode"
+		FROM em_complaints a
+		<where>
+			<if test="complCode != null and complCode != ''">
+				AND a.compl_code = #{complCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.em.entity.EmComplaints">
+		SELECT *
+		FROM em_complaints a
+		<where>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sqlMap}
+			</if> 
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="complCode != null and complCode != ''">
+				AND a.compl_code = #{complCode}
+			</if>
+			<if test="complType != null and complType != ''">
+				AND a.compl_type = #{complType}
+			</if>
+			<if test="complFrom != null and complFrom != ''">
+				AND a.compl_from = #{complFrom}
+			</if>
+			<if test="complPerson != null and complPerson != ''">
+				AND a.compl_person = #{complPerson}
+			</if>
+			<if test="telphone != null and telphone != ''">
+				AND a.telphone = #{telphone}
+			</if>
+			<if test="address != null and address != ''">
+				AND a.address = #{address}
+			</if>
+			<if test="complTime != null and complTime != ''">
+				AND a.compl_time = #{complTime}
+			</if>
+			<if test="complContent != null and complContent != ''">
+				AND a.compl_content = #{complContent}
+			</if>
+			<if test="desc != null and desc != ''">
+				AND a."DESC" = #{desc}
+			</if>
+			<if test="states != null and states != ''">
+				AND a.states = #{states}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy} DESC
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findComplaintsList" resultType="com.sgai.property.em.entity.EmComplaints">
+		SELECT 
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.compl_code AS "complCode",
+		a.comp_category AS "compCategory",
+		a.compl_type AS "complType",
+		a.compl_from AS "complFrom",
+		b.pr_name AS "complPerson",
+		a.telphone AS "telphone",
+		a.address AS "address",
+		a.compl_time AS "complTime",
+		a.compl_content AS "complContent",
+		a."DESC" AS "desc",
+		a.states AS "states",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.user_code AS "userCode",
+		a.user_name AS "userName",
+		a.modu_code AS "moduCode"
+		FROM em_complaints a
+		LEFT JOIN CR_PERSONAL_RECORD_INFO b
+		ON a.COMPL_PERSON = b.id
+		<where>
+			a.states IN ('1','2','0')
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				  ${sqlMap.sqlMap}
+			</if> 
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="complCode != null and complCode != ''">
+				AND a.compl_code = #{complCode}
+			</if>
+			<if test="complType != null and complType != ''">
+				AND a.compl_type = #{complType}
+			</if>
+			<if test="complFrom != null and complFrom != ''">
+				AND a.compl_from = #{complFrom}
+			</if>
+			<if test="complPerson != null and complPerson != ''">
+				AND a.compl_person = #{complPerson}
+			</if>
+			<if test="telphone != null and telphone != ''">
+				AND a.telphone = #{telphone}
+			</if>
+			<if test="address != null and address != ''">
+				AND a.address = #{address}
+			</if>
+			<if test="complContent != null and complContent != ''">
+				AND a.compl_content = #{complContent}
+			</if>
+			<if test="desc != null and desc != ''">
+				AND a."DESC" = #{desc}
+			</if>
+			<if test="states != null and states != ''">
+				AND a.states = #{states}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy} DESC
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAppList" resultType="com.sgai.property.em.dto.EmEvnetVo">
+		select * from (
+		SELECT a."ID" as "emId",a.COMPL_CODE as "emCode",a.COMPL_TYPE as "emType",a.COMPL_TIME as "emTime",a.COMPL_PERSON as "emPerson",a.ADDRESS as "emAddress",a.COMPL_CONTENT as "emContent",a.STATES as "emState" FROM EM_COMPLAINTS a
+		UNION SELECT b."ID" as "emId",b.EM_CODE,b.EM_TYPE,b.REPORT_DATETIME,b.REPORT_PERSON,b.ADDRESS,b.REPORT_CONTENT,b.STATES FROM EM_EMERGENCY_RECORD b
+		UNION SELECT c."ID" as "emId",c.EM_CODE,c.EM_TYPE,to_char(c.REPAIR_DATE,'yyyy-mm-dd hh24:mi:ss'),c.REPAIR_PERSON,c.ADDRESS,c.REPAIR_CONTENT,c.STATES FROM EM_REPAIR_LIST c
+		UNION SELECT d."ID" as "emId",d.EM_CODE,d.EM_TYPE,to_char(d.REPORT_DATETIME,'yyyy-mm-dd hh24:mi:ss'),d.REPORT_PERSON,d.ADDRESS,d.REPORT_CONTENT,d.STATES FROM EM_SECU_RECORD d) allrecord
+		<where>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sqlMap}
+			</if>
+			<if test="emPerson != null and emPerson != ''">
+				AND allrecord."emPerson" = #{emPerson}
+			</if>
+		</where>
+		ORDER BY allrecord."emTime" DESC
+	</select>
+
+
+
+	<select  id="findUnhandledEvent" resultType="com.sgai.property.em.dto.EmEvnetVo" >
+		SELECT
+			*
+		FROM
+			(
+				SELECT
+					A ."ID" AS "emId",
+					A .COMPL_CODE AS "emCode",
+					A .COMPL_TYPE AS "emType",
+					A .COMPL_TIME AS "emTime",
+					A .COMPL_PERSON AS "emPerson",
+					A .ADDRESS AS "emAddress",
+					A .COMPL_CONTENT AS "emContent",
+					A .STATES AS "emState"
+				FROM
+					EM_COMPLAINTS A
+					<where>
+					    <if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				  			${sqlMap.tsMap}
+						</if> 
+						<if test="comCode != null and comCode != ''">
+							AND A.com_code = #{comCode}
+						</if>
+						<if test="moduCode != null and moduCode != ''">
+							AND A.modu_code = #{moduCode}
+						</if>
+						<if test="moduCode == null or moduCode == ''">
+							AND A.modu_code is null
+						</if>
+					</where>
+				<!-- UNION
+					SELECT
+						b."ID" AS "emId",
+						b.EM_CODE,
+						b.EM_TYPE,
+						b.REPORT_DATETIME,
+						b.REPORT_PERSON,
+						b.ADDRESS,
+						b.REPORT_CONTENT,
+						b.STATES
+					FROM
+						EM_EMERGENCY_RECORD b -->
+					UNION
+						SELECT
+							c."ID" AS "emId",
+							c.EM_CODE,
+							c.EM_TYPE,
+							TO_CHAR (
+								c.REPAIR_DATE,
+								'yyyy-mm-dd hh24:mi:ss'
+							),
+							c.REPAIR_PERSON,
+							c.ADDRESS,
+							c.REPAIR_CONTENT,
+							c.STATES
+						FROM
+							EM_REPAIR_LIST c
+							<where>
+									<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				  						${sqlMap.wxMap}
+									</if> 
+									<if test="comCode != null and comCode != ''">
+										AND c.com_code = #{comCode}
+									</if>
+									<if test="moduCode != null and moduCode != ''">
+										AND c.modu_code = #{moduCode}
+									</if>
+									<if test="moduCode == null or moduCode == ''">
+										AND c.modu_code is null
+									</if>
+								</where>
+						UNION
+							SELECT
+								D ."ID" AS "emId",
+								D .EM_CODE,
+								D .EM_TYPE,
+								TO_CHAR (
+									D .REPORT_DATETIME,
+									'yyyy-mm-dd hh24:mi:ss'
+								),
+								D .REPORT_PERSON,
+								D .ADDRESS,
+								D .REPORT_CONTENT,
+								D .STATES
+							FROM
+								EM_SECU_RECORD D
+								<where>
+									<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				  						${sqlMap.abMap}
+									</if> 
+									<if test="comCode != null and comCode != ''">
+										AND D.com_code = #{comCode}
+									</if>
+									<if test="moduCode != null and moduCode != ''">
+										AND D.modu_code = #{moduCode}
+									</if>
+									<if test="moduCode == null or moduCode == ''">
+										AND D.modu_code is null
+									</if>
+								</where>
+			) allrecord
+		<!-- WHERE
+			allrecord."emCode" IN (
+				SELECT
+			DISTINCT e.EM_CODE
+		FROM
+			WF_INSTANCE_RECORD e
+		WHERE
+			e .STEP_CODE IN (
+				SELECT DISTINCT
+			un.step_code
+		FROM
+			(
+				SELECT
+					f .STEP_CODE
+				FROM
+					WF_USER_RIGHT f
+				<where>
+					<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+						 ${sqlMap.sqlCorrCode}
+					</if>
+				</where>	
+				UNION
+					SELECT
+						g .STEP_CODE
+					FROM
+						WF_USER_RIGHT g
+					WHERE
+						g .CORR_CODE IN (
+							SELECT
+								h.ROLE_CODE
+							FROM
+								CTL_USER_ROLE h
+								<where>
+									<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+										 ${sqlMap.sqlUserCode}
+									</if>
+								</where>
+						)
+			   ) un
+			  )
+			) -->
+		ORDER BY
+			allrecord."emTime" DESC
+	
+	</select>
+	
+
+	
+	<select id="findSkanList" resultType="com.sgai.property.em.entity.EmComplaints">
+		SELECT 
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.compl_code AS "complCode",
+		a.comp_category AS "compCategory",
+		a.compl_type AS "complType",
+		a.compl_from AS "complFrom",
+		b.pr_name AS "complPerson",
+		a.telphone AS "telphone",
+		a.address AS "address",
+		a.compl_time AS "complTime",
+		a.compl_content AS "complContent",
+		a."DESC" AS "desc",
+		a.states AS "states",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.user_code AS "userCode",
+		a.user_name AS "userName",
+		a.modu_code AS "moduCode"
+		FROM em_complaints a
+		LEFT JOIN CR_PERSONAL_RECORD_INFO b
+		ON a.COMPL_PERSON = b.id
+		
+		<where>
+			a.states IN('3','4')
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sqlMap}
+			</if>
+			<if test="complCode != null and complCode != ''">
+				AND a.compl_code = #{complCode}
+			</if>
+			<if test="complPerson != null and complPerson != ''">
+				AND a.compl_person = #{complPerson}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		ORDER BY a.compl_time desc
+		
+	</select>
+	
+	
+	<select id="findNextCodeEmComplaints" resultType="com.sgai.property.em.entity.EmComplaints">
+		select 'TS'||nvl(trim(to_char(to_number(substr(max(t.compl_code),instr(max(t.compl_code),'TS')+2))+1,'0000')),'0001') as complCode
+		from em_complaints t
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.em.entity.EmComplaints">
+		SELECT 
+			<include refid="emComplaintsColumns"/>
+		FROM em_complaints a
+		<include refid="emComplaintsJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO em_complaints(
+			id,
+			com_code,
+			compl_code,
+			comp_category,
+			compl_type,
+			compl_from,
+			compl_person,
+			telphone,
+			address,
+			compl_time,
+			compl_content,
+			"DESC",
+			states,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			user_code,
+			user_name,
+			modu_code
+		) VALUES (
+			#{id},
+			#{comCode},
+			#{complCode},
+			#{compCategory},
+			#{complType},
+			#{complFrom},
+			#{complPerson},
+			#{telphone},
+			#{address},
+			#{complTime},
+			#{complContent},
+			#{desc},
+			#{states},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{userCode},
+			#{userName},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE em_complaints SET 	
+			com_code = #{comCode},
+			compl_code = #{complCode},
+			comp_category = #{compCategory},
+			compl_type = #{complType},
+			compl_from = #{complFrom},
+			compl_person = #{complPerson},
+			telphone = #{telphone},
+			address = #{address},
+			compl_time = #{complTime},
+			compl_content = #{complContent},
+			"DESC" = #{desc},
+			states = #{states},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			user_code = #{userCode},
+			user_name = #{userName},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM em_complaints
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

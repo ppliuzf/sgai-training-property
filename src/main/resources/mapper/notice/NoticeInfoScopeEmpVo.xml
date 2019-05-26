@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.notice.dao.InfoScopeEmpVoDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.notice.entity.NoticeInfoScopeEmp" >
+        <id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="info_id" property="infoId" jdbcType="VARCHAR" />
+         <result column="emp_id" property="empId" jdbcType="BIGINT" />
+         <result column="create_time" property="createTime" jdbcType="BIGINT" />
+         <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       id
+       ,info_id
+       ,emp_id
+       ,create_time
+       ,update_time
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="infoId != null">
+			and info_id=#{infoId}
+		 </if> 
+       <if test="empId != null">
+			and emp_id=#{empId}
+		 </if> 
+       <if test="createTime != null">
+			and create_time=#{createTime}
+		 </if> 
+       <if test="updateTime != null">
+			and update_time=#{updateTime}
+		 </if> 
+      </trim>
+  </sql>
+	<insert id="batchInsert" parameterType="java.util.List">
+		insert into notice_info_scope_emp
+		(
+         	id,info_id,emp_id,create_time,update_time
+		)
+		<foreach collection="list" item="obj" index="index" separator="union all">
+		(
+			select	#{obj.id},#{obj.infoId},#{obj.empId},#{obj.createTime},#{obj.updateTime} from dual
+		)
+		</foreach >
+	</insert>
+   
+</mapper>

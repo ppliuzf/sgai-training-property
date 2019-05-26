@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlAttachfileDao">
+    
+	<sql id="ctlAttachfileColumns">
+		a.id AS "id",		
+		a.master_file_type AS "masterFileType",
+		a.key_desc AS "keyDesc",
+		a.master_file_id AS "masterFileId",
+		a.upload_session AS "uploadSession",
+		a.file_name AS "fileName",
+		a.file_loc AS "fileLoc",
+		a.upload_time AS "uploadTime",
+		a.content_type AS "contentType",
+		a.file_size AS "fileSize",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="ctlAttachJoins">
+	</sql>
+	
+	<select id="findList" resultType="CtlAttachfile">
+		SELECT 
+			<include refid="ctlAttachfileColumns"/>
+		FROM 
+		    ctl_attachfile a
+		WHERE
+		    1=1
+		    <if test="masterFileId!=null and masterFileId!=''">
+		    AND a.master_file_id = #{masterFileId}
+		    </if>
+		    <if test="masterFileType!=null and masterFileType!=''">
+		    AND a.master_file_type like '%'||#{masterFileType}||'%'
+		    </if>
+		    <if test="fileName!=null and fileName!=''">
+		    AND a.file_name like '%'||#{fileName}||'%'
+		    </if>
+	</select>	
+	
+	<delete id="deleteAttachfiles">
+	DELETE FROM 
+	    ctl_attachfile 
+	WHERE
+	    id IN
+	    <foreach collection="list" item="item" open="(" close=")" separator=",">
+	        #{item}
+	    </foreach>    
+	</delete>
+	<delete id="deleteByMasterFileId">
+	DELETE FROM 
+	    ctl_attachfile 
+	WHERE
+	    master_file_id = #{masterFileId} 
+	</delete>
+	<insert id="saveAttachfiles">
+    INSERT ALL 
+        <foreach collection="list" item="item">
+        INTO ctl_attachfile(
+                       id,master_file_type,key_desc,master_file_id,upload_session,
+		               file_name,file_loc,upload_time,content_type,file_size,
+		               version,updated_dt,updated_by,created_dt,created_by,remarks)
+	    VALUES(
+	        #{item.id},#{item.masterFileType},#{item.keyDesc},#{item.masterFileId},#{item.uploadSession},
+	    	#{item.fileName},#{item.fileLoc},#{item.uploadTime},#{item.contentType},#{item.fileSize},
+	    	#{item.version},#{item.updatedDt},#{item.updatedBy},#{item.createdDt},#{item.createdBy},#{item.remarks})
+	    </foreach>
+        select * from dual
+    </insert>
+    
+</mapper>

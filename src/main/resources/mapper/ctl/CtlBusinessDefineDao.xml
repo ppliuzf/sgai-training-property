@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlBusinessDefineDao">
+    
+	<sql id="ctlBusinessDefineColumns">
+		a.id AS "id",
+		a.busi_code AS "busiCode",
+		a.busi_name AS "busiName",
+		a.busi_ioc AS "busiIoc",
+		a.banner_img AS "bannerImg",
+		a.back_img AS "backImg",
+		a.display_order AS "displayOrder",
+		a.busi_desc AS "busiDesc",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="ctlBusinessDefineJoins">
+	</sql>
+    
+	<select id="get" resultType="CtlBusinessDefine">
+		SELECT 
+			<include refid="ctlBusinessDefineColumns"/>
+		FROM ctl_business_define a
+		<include refid="ctlBusinessDefineJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlBusinessDefine">
+		SELECT 
+			<include refid="ctlBusinessDefineColumns"/>
+		FROM ctl_business_define a
+		<include refid="ctlBusinessDefineJoins"/>
+		<where>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sql}
+			</if>	 
+			<if test="busiName != null and busiName != ''">
+				AND a.busi_name like '%${busiName}%'
+			</if>
+			<if test="busiCode != null and busiCode != ''">
+				AND a.busi_code = #{busiCode}
+				
+			</if>
+			<if test="displayOrder != null and displayOrder != ''">
+				AND a.display_order =#{displayOrder}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+		</where>
+		ORDER BY a.updated_dt DESC
+	</select>
+	
+	<select id="findAllList" resultType="CtlBusinessDefine">
+		SELECT 
+			<include refid="ctlBusinessDefineColumns"/>
+		FROM ctl_business_define a
+		<include refid="ctlBusinessDefineJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<select id="findBusiList" resultType="CtlBusinessDefine">
+		SELECT
+			d.BUSI_CODE,d.BUSI_NAME,c.com_code
+		FROM
+			(
+				SELECT
+				    A .BUSI_CODE,
+			        b.COM_CODE
+				FROM
+					CTL_BUSINESS_DEFINE A
+				LEFT JOIN CTL_COMP_BUSI b ON A.BUSI_CODE = b.BUSI_CODE
+			) c
+		INNER JOIN CTL_BUSINESS_DEFINE d ON c.BUSI_CODE = D .BUSI_CODE
+		WHERE
+			c.COM_CODE IS NULL
+		OR c.COM_CODE = #{remarks}
+	</select>
+	
+	
+	
+	<insert id="insert">
+		INSERT INTO ctl_business_define(
+			id,
+			busi_code,
+			busi_name,
+			busi_ioc,
+			banner_img,
+			back_img,
+			display_order,
+			busi_desc,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{busiCode},
+			#{busiName},
+			#{busiIoc},
+			#{bannerImg},
+			#{backImg},
+			#{displayOrder},
+			#{busiDesc},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_business_define SET 	
+			busi_code = #{busiCode},
+			busi_name = #{busiName},
+			busi_ioc = #{busiIoc},
+			banner_img = #{bannerImg},
+			back_img = #{backImg},
+			display_order = #{displayOrder},
+			busi_desc = #{busiDesc},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_business_define
+		WHERE id = #{id}
+	</update>
+</mapper>

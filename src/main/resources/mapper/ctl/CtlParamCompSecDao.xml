@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlParamCompSecDao">
+    
+	<sql id="CtlParamCompSecColumns">
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.sbs_code AS "sbsCode",
+		a.para_code AS "paraCode",
+		a.para_value AS "paraValue",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="CtlParamCompSecJoins">
+	</sql>
+    
+	<select id="get" resultType="CtlParamCompSec">
+		SELECT 
+			<include refid="CtlParamCompSecColumns"/>
+		FROM ctl_param_comp a
+		<include refid="CtlParamCompSecJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlParamCompSec">
+		SELECT 
+			<include refid="CtlParamCompSecColumns"/>
+		FROM ctl_param_comp a
+		<include refid="CtlParamCompSecJoins"/>
+		<where>
+			
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code LIKE 
+					<if test="dbName == 'oracle'">'%'||#{comCode}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{comCode}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{comCode},'%')</if>
+			</if>
+			<if test="sbsCode != null and sbsCode != ''">
+				AND a.sbs_code = #{sbsCode}
+			</if>
+			<if test="paraCode != null and paraCode != ''">
+				AND a.para_code = #{paraCode}
+			</if>
+			<if test="paraValue != null and paraValue != ''">
+				AND a.para_value = #{paraValue}
+			</if>
+			<if test="beginCreatedDt != null and endCreatedDt != null and beginCreatedDt != '' and endCreatedDt != ''">
+				AND a.created_dt BETWEEN #{beginCreatedDt} AND #{endCreatedDt}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CtlParamCompSec">
+		SELECT 
+			<include refid="CtlParamCompSecColumns"/>
+		FROM ctl_param_comp a
+		<include refid="CtlParamCompSecJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<select id="getModuList"  resultType="java.util.Map" >
+	   SELECT
+            sbs_code as id,
+	        sbs_name as name,
+	        '0' as plevel,
+            '0' as pid
+        FROM
+            ctl_modu
+	</select>	
+	
+	<insert id="insert">
+		INSERT INTO ctl_param_comp(
+			id,
+			com_code,
+			sbs_code,
+			para_code,
+			para_value,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{comCode},
+			#{sbsCode},
+			#{paraCode},
+			#{paraValue},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_param_comp SET 	
+			com_code = #{comCode},
+			sbs_code = #{sbsCode},
+			para_code = #{paraCode},
+			para_value = #{paraValue},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_param_comp
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

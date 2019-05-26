@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ruag.dao.RuagOptimizedRecordDao">
+    
+	<sql id="ruagOptimizedRecordColumns">
+		a.id AS "id",
+		a.mdoel_template_id AS "mdoelTemplateId",
+		a.model_template_name AS "modelTemplateName",
+		a.optimization_time AS "optimizationTime",
+		a.user_code AS "userCode",
+		a.user_name AS "userName",
+		a.optimization_method AS "optimizationMethod",
+		a.arg1 AS "arg1",
+		a.arg2 AS "arg2",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+	
+	<sql id="ruagOptimizedRecordJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.ruag.entity.RuagOptimizedRecord">
+		SELECT 
+			<include refid="ruagOptimizedRecordColumns"/>
+		FROM ruag_optimized_record a
+		<include refid="ruagOptimizedRecordJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.ruag.entity.RuagOptimizedRecord">
+		SELECT 
+			<include refid="ruagOptimizedRecordColumns"/>
+		FROM ruag_optimized_record a
+		<include refid="ruagOptimizedRecordJoins"/>
+		<where>
+			
+			<if test="mdoelTemplateId != null and mdoelTemplateId != ''">
+				AND a.mdoel_template_id = #{mdoelTemplateId}
+			</if>
+			<if test="modelTemplateName != null and modelTemplateName != ''">
+				AND a.model_template_name = #{modelTemplateName}
+			</if>
+			<if test="optimizationTime != null and optimizationTime != ''">
+				AND a.optimization_time = #{optimizationTime}
+			</if>
+			<if test="userCode != null and userCode != ''">
+				AND a.user_code = #{userCode}
+			</if>
+			<if test="userName != null and userName != ''">
+				AND a.user_name = #{userName}
+			</if>
+			<if test="optimizationMethod != null and optimizationMethod != ''">
+				AND a.optimization_method = #{optimizationMethod}
+			</if>
+			<if test="arg1 != null and arg1 != ''">
+				AND a.arg1 = #{arg1}
+			</if>
+			<if test="arg2 != null and arg2 != ''">
+				AND a.arg2 = #{arg2}
+			</if>
+		</where>
+		order by a.optimization_time desc
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.ruag.entity.RuagOptimizedRecord">
+		SELECT 
+			<include refid="ruagOptimizedRecordColumns"/>
+		FROM ruag_optimized_record a
+		<include refid="ruagOptimizedRecordJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ruag_optimized_record(
+			id,
+			mdoel_template_id,
+			model_template_name,
+			optimization_time,
+			user_code,
+			user_name,
+			optimization_method,
+			arg1,
+			arg2,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{mdoelTemplateId},
+			#{modelTemplateName},
+			#{optimizationTime},
+			#{userCode},
+			#{userName},
+			#{optimizationMethod},
+			#{arg1},
+			#{arg2},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ruag_optimized_record SET 	
+			mdoel_template_id = #{mdoelTemplateId},
+			model_template_name = #{modelTemplateName},
+			optimization_time = #{optimizationTime},
+			user_code = #{userCode},
+			user_name = #{userName},
+			optimization_method = #{optimizationMethod},
+			arg1 = #{arg1},
+			arg2 = #{arg2},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ruag_optimized_record
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.mdm.dao.MdmSupplierInfoDao">
+    
+	<sql id="mdmSupplierInfoColumns">
+		a.id AS "id",
+		a.supplier_no AS "supplierNo",
+		a.supplier_name AS "supplierName",
+		a.reg_address AS "regAddress",
+		a.low_person AS "lowPerson",
+		a.low_person_carid AS "lowPersonCarid",
+		a.com_type AS "comType",
+		a.org_code AS "orgCode",
+		a.tax_no AS "taxNo",
+		a.open_bank AS "openBank",
+		a.open_bank_code AS "openBankCode",
+		a.account_no AS "accountNo",
+		a.zip_code AS "zipCode",
+		a.office_address AS "officeAddress",
+		a.e_mail AS "eMail",
+		a.supply_prod AS "supplyProd",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag",
+		a.province AS "province",
+		a.assessment_level AS "assessmentLevel",
+		a.contact_phone AS "contactPhone",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+	
+	<sql id="mdmSupplierInfoJoins">
+	</sql>
+    
+	<select id="getSuppByCode" resultType="com.sgai.property.mdm.entity.MdmSupplierInfo">
+		SELECT 
+			<include refid="mdmSupplierInfoColumns"/>
+		FROM mdm_supplier_info a
+		<include refid="mdmSupplierInfoJoins"/>
+		<where>
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="supplierNo != null and supplierNo != ''">
+				AND a.supplier_no = #{supplierNo}
+			</if>
+		</where>
+	</select>
+	
+		<select id="get" resultType="com.sgai.property.mdm.entity.MdmSupplierInfo">
+		SELECT 
+			<include refid="mdmSupplierInfoColumns"/>
+		FROM mdm_supplier_info a
+		<include refid="mdmSupplierInfoJoins"/>
+		
+		WHERE	 a.id = #{id}
+		
+	
+	
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.mdm.entity.MdmSupplierInfo">
+		SELECT 
+			<include refid="mdmSupplierInfoColumns"/>
+		FROM mdm_supplier_info a
+		<include refid="mdmSupplierInfoJoins"/>
+		<where>
+			<!-- a.del_flag = #{DEL_FLAG_NORMAL} -->
+				<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="comType != null and comType != ''">
+				AND a.com_type like '%'||#{comType}||'%'
+			</if>
+			<if test="supplierName != null and supplierName != ''">
+				AND a.supplier_name like '%'||#{supplierName}||'%'
+			</if>
+            <!-- <if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+			   and ${sqlMap.sql}
+			</if> -->
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.mdm.entity.MdmSupplierInfo">
+		SELECT 
+			<include refid="mdmSupplierInfoColumns"/>
+		FROM mdm_supplier_info a
+		<include refid="mdmSupplierInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mdm_supplier_info(
+			id,
+			supplier_no,
+			supplier_name,
+			reg_address,
+			low_person,
+			low_person_carid,
+			com_type,
+			org_code,
+			tax_no,
+			open_bank,
+			open_bank_code,
+			account_no,
+			zip_code,
+			office_address,
+			e_mail,
+			supply_prod,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag,
+			province,
+			assessment_level,
+			contact_phone,
+			com_code,
+			modu_code
+			
+		) VALUES (
+			#{id},
+			#{supplierNo},
+			#{supplierName},
+			#{regAddress},
+			#{lowPerson},
+			#{lowPersonCarid},
+			#{comType},
+			#{orgCode},
+			#{taxNo},
+			#{openBank},
+			#{openBankCode},
+			#{accountNo},
+			#{zipCode},
+			#{officeAddress},
+			#{eMail},
+			#{supplyProd},
+			#{createdBy},
+			#{createdDt},
+			#{updatedBy},
+			#{updatedDt},
+			#{remarks},
+			#{delFlag},
+			#{province},
+			#{assessmentLevel},
+			#{contactPhone},
+			#{comCode},
+			#{moduCode}
+			
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mdm_supplier_info SET 	
+			supplier_no = #{supplierNo},
+			supplier_name = #{supplierName},
+			reg_address = #{regAddress},
+			low_person = #{lowPerson},
+			low_person_carid = #{lowPersonCarid},
+			com_type = #{comType},
+			org_code = #{orgCode},
+			tax_no = #{taxNo},
+			open_bank = #{openBank},
+			open_bank_code = #{openBankCode},
+			account_no = #{accountNo},
+			zip_code = #{zipCode},
+			office_address = #{officeAddress},
+			e_mail = #{eMail},
+			supply_prod = #{supplyProd},
+			update_by = #{updatedBy},
+			update_date = #{updatedDt},
+			remarks = #{remarks},
+			province=#{province},
+			assessment_level=#{assessmentLevel},
+			contact_phone=#{contactPhone},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		delete from mdm_supplier_info
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

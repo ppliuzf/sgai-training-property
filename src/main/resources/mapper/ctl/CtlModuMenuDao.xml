@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlModuMenuDao">
+    
+	<sql id="ctlModuMenuColumns">
+		a.id AS "id",
+		a.modu_code AS "moduCode",
+		a.com_code AS "comCode",
+		a.menu_code AS "menuCode",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="ctlModuMenuJoins">
+	</sql>
+    
+	<select id="get" resultType="CtlModuMenu">
+		SELECT 
+			<include refid="ctlModuMenuColumns"/>
+		FROM ctl_modu_menu a
+		<include refid="ctlModuMenuJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlModuMenu">
+		SELECT 
+			<include refid="ctlModuMenuColumns"/>
+		FROM ctl_modu_menu a
+		<include refid="ctlModuMenuJoins"/>
+		<where>
+			
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="menuCode != null and menuCode != ''">
+				AND a.menu_code = #{menuCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CtlModuMenu">
+		SELECT 
+			<include refid="ctlModuMenuColumns"/>
+		FROM ctl_modu_menu a
+		<include refid="ctlModuMenuJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="getMenuListOwn" resultType="com.sgai.property.ctl.dto.FunctionDto">
+	    SELECT
+		menu_code menuCode ,
+		parent_menu_code parentMenuCode,
+		menu_name menuName
+	    FROM
+	        ctl_menu a
+	    INNER JOIN
+	        ctl_modu_menu b
+	        ON a.enabled_flag='Y'
+	        <choose>
+                <when test='category!=null and category=="R"'>
+	            AND b.category='R'
+                </when>
+                <when test='category!=null and category=="U"'>
+	            AND b.category='U'
+                </when>
+                <otherwise>
+                AND 1!=1
+                </otherwise>
+            </choose>
+	        AND a.menu_code=b.menu_code
+	        AND b.corr_code=#{corrCode}
+	        AND b.modu_code=#{moduCode}
+	        AND b.com_code=#{comCode}
+	    ORDER BY 
+	        a.parent_menu_code ASC,
+	        a.display_order ASC,
+	        a.menu_code ASC
+	</select>
+	<insert id="insert">
+		INSERT INTO ctl_modu_menu(
+			id,
+			modu_code,
+			com_code,
+			menu_code,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{moduCode},
+			#{comCode},
+			#{menuCode},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_modu_menu SET 	
+			modu_code = #{moduCode},
+			com_code = #{comCode},
+			menu_code = #{menuCode},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_modu_menu
+		WHERE id = #{id}
+	</update>
+	<update id="deleteByCode">
+		DELETE FROM ctl_modu_menu A
+		WHERE A.COM_CODE=#{comCode} AND A.MODU_CODE=#{moduCode}
+	</update>
+	
+</mapper>

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ruag.dao.RuagModelCalendarDao">
+
+	<sql id="ruagModelCalendarColumns">
+		a.id AS "id",
+		a.cur_date AS "curDate",
+		a.model_id AS "modelId",
+		a.model_name AS "modelName",
+		a.model_status AS "modelStatus",
+		a.control_code AS "controlCode",
+		a.control_type AS "controlType",
+		a.model_degree AS "modelDegree",
+		a.time_end AS "timeEnd",
+		a.time_start AS "timeStart",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.change_flag AS"changeFlag",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+
+	<sql id="ruagModelCalendarJoins">
+	</sql>
+
+	<select id="get" resultType="com.sgai.property.ruag.entity.RuagModelCalendar">
+		SELECT
+			<include refid="ruagModelCalendarColumns"/>
+		FROM ruag_model_calendar a
+		<include refid="ruagModelCalendarJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="com.sgai.property.ruag.entity.RuagModelCalendar">
+		SELECT
+			 <include refid="ruagModelCalendarColumns"/>
+		FROM ruag_model_calendar a
+		<!-- <include refid="ruagModelCalendarJoins"/> -->
+		<where>
+		    <if test="sqlMap != null">
+				 ${sqlMap.sql}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="curDate != null">
+				AND a.cur_date=#{curDate}
+			</if>
+			<if test="modelId != null and modelId != ''">
+				AND a.model_id =#{modelId}
+			</if>
+			<if test="modelName != null and modelName != ''">
+				AND a.model_name =#{modelName}
+			</if>
+			<if test="modelStatus != null and modelStatus != ''">
+				AND a.model_status =#{modelStatus}
+			</if>
+			<if test="controlCode != null and controlCode != ''">
+				AND a.control_code =#{controlCode}
+			</if>
+			<if test="controlType != null and controlType != ''">
+				AND a.control_type =#{controlType}
+			</if>
+			<if test="modelDegree != null and modelDegree != ''">
+				AND a.model_degree =#{modelDegree}
+			</if>
+			<if test="timeEnd != null and timeEnd != ''">
+				AND a.time_end =#{timeEnd}
+			</if>
+			<if test="timeStart != null and timeStart != ''">
+				AND a.time_start =#{timeStart}
+			</if>
+		</where>
+		 ORDER BY a.created_dt DESC ,a.control_code
+	</select>
+
+	<select id="findAllList" resultType="com.sgai.property.ruag.entity.RuagModelCalendar">
+		SELECT
+			<include refid="ruagModelCalendarColumns"/>
+		FROM ruag_model_calendar a
+		<include refid="ruagModelCalendarJoins"/>
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findAllOfList" resultType="com.sgai.property.ruag.entity.RuagModelCalendar">
+		SELECT
+			<include refid="ruagModelCalendarColumns"/>
+		FROM ruag_model_calendar a
+		<include refid="ruagModelCalendarJoins"/>
+		<where>
+			 <if test="sqlMap != null">
+				 ${sqlMap.sql}
+			</if>
+			<if test="curDate != null">
+				AND a.cur_date=#{curDate}
+			</if>
+			<if test="modelId != null and modelId != ''">
+				AND a.model_id =#{modelId}
+			</if>
+			<if test="modelName != null and modelName != ''">
+				AND a.model_name =#{modelName}
+			</if>
+			<if test="modelStatus != null and modelStatus != ''">
+				AND a.model_status =#{modelStatus}
+			</if>
+			<if test="controlCode != null and controlCode != ''">
+				AND a.control_code =#{controlCode}
+			</if>
+			<if test="controlType != null and controlType != ''">
+				AND a.control_type =#{controlType}
+			</if>
+			<if test="modelDegree != null and modelDegree != ''">
+				AND a.model_degree =#{modelDegree}
+			</if>
+			<if test="timeEnd != null and timeEnd != ''">
+				AND a.time_end =#{timeEnd}
+			</if>
+			<if test="timeStart != null and timeStart != ''">
+				AND a.time_start =#{timeStart}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findListByDate" resultType="com.sgai.property.ruag.entity.RuagModelCalendar">
+		SELECT
+			*
+		FROM
+			RUAG_MODEL_CALENDAR A
+		WHERE
+		 	a.com_code = #{comCode}
+		<if test="moduCode != null and moduCode!= ''">
+				AND a.modu_code =#{moduCode}
+		</if>
+		<if test="moduCode == null and moduCode== ''">
+				AND a.modu_code is null
+		</if>
+		AND	A .MODEL_ID = #{modelId}
+			AND (
+			A .CUR_DATE BETWEEN str_to_date (
+		    #{startTime},
+			'%Y/%m/%d'
+			)
+			AND str_to_date (
+			#{endTime},
+			'%Y/%m/%d'
+			)
+		)
+	</select>
+	<select id="findListTodayAndDate" resultType="com.sgai.property.ruag.entity.RuagModelCalendar">
+		SELECT
+			*
+		FROM
+			RUAG_MODEL_CALENDAR A
+		WHERE
+			a.com_code = #{comCode}
+		<if test="moduCode != null and moduCode!= ''">
+				AND a.modu_code =#{moduCode}
+		</if>
+		<if test="moduCode == null and moduCode== ''">
+				AND a.modu_code is null
+		</if>
+		AND	A .MODEL_ID = #{modelId}
+			AND (
+			A .CUR_DATE >= str_to_date (
+		    #{today},
+			'yyyy-mm-dd'
+			)
+		)
+	</select>
+	<select id="findListTodayAndTime" resultType="com.sgai.property.ruag.entity.RuagModelCalendar">
+		SELECT
+			*
+		FROM
+			RUAG_MODEL_CALENDAR A
+		WHERE
+			a.com_code = #{comCode}
+		<if test="moduCode != null and moduCode!= ''">
+				AND a.modu_code =#{moduCode}
+		</if>
+		<if test="moduCode == null and moduCode== ''">
+				AND a.modu_code is null
+		</if>
+		AND	A .MODEL_ID = #{modelId}
+			AND (
+			str_to_date (
+		    #{dayTime},
+			'%Y-%m-%d %H:%i:%s'
+			)>=str_to_date (
+		    #{nowTime},
+			'%Y-%m-%d %H:%i:%s'
+			)
+		)
+	</select>
+	<select id="findTimeBySE" resultType="com.sgai.property.ruag.entity.RuagModelCalendar">
+		SELECT
+			*
+		FROM
+			RUAG_MODEL_CALENDAR A
+		WHERE
+			a.com_code = #{comCode}
+		<if test="moduCode != null and moduCode!= ''">
+				AND a.modu_code =#{moduCode}
+		</if>
+		<if test="moduCode == null and moduCode== ''">
+				AND a.modu_code is null
+		</if>
+		AND	A .CUR_DATE = str_to_date (#{date}, '%Y-%m-%d')
+		AND A .CONTROL_CODE = 'time'
+	 	AND A.MODEL_ID!=#{modelId}
+		AND A.MODEL_STATUS!='2'
+		AND((
+		    A .TIME_START BETWEEN #{timeStart}
+		AND #{timeEnd}
+			)
+		OR (
+			A .TIME_END BETWEEN #{timeStart}
+		AND  #{timeEnd}
+		))
+	</select>
+	<select id="findTodayAndTomorrow" resultType="com.sgai.property.ruag.entity.RuagModelCalendar">
+		SELECT
+			*
+		FROM
+			RUAG_MODEL_CALENDAR A
+		WHERE
+<!-- 			a.com_code = #{comCode}
+		<if test="moduCode != null and moduCode!= ''">
+				AND a.modu_code =#{moduCode}
+		</if>
+		<if test="moduCode == null and moduCode== ''">
+				AND a.modu_code is null
+		</if>
+ -->			A.model_status='1'
+		AND
+			(A .CUR_DATE = str_to_date (#{today}, '%Y-%m-%d')
+		OR  A .CUR_DATE = str_to_date (#{tomorrow}, '%Y-%m-%d'))
+		ORDER BY A.CONTROL_CODE
+	</select>
+	<insert id="insert">
+		INSERT INTO ruag_model_calendar(
+			id,
+			cur_date,
+			model_id,
+			model_name,
+			model_status,
+			control_code,
+			control_type,
+			model_degree,
+			time_end,
+			time_start,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			change_flag,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{curDate},
+			#{modelId},
+			#{modelName},
+			#{modelStatus},
+			#{controlCode},
+			#{controlType},
+			#{modelDegree},
+			#{timeEnd},
+			#{timeStart},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{changeFlag},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE ruag_model_calendar SET
+			cur_date = #{curDate},
+			model_id = #{modelId},
+			model_name = #{modelName},
+			model_status = #{modelStatus},
+			control_code = #{controlCode},
+			control_type = #{controlType},
+			model_degree = #{modelDegree},
+			time_end = #{timeEnd},
+			time_start = #{timeStart},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			change_flag=#{changeFlag},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		DELETE FROM ruag_model_calendar
+		WHERE id = #{id}
+	</update>
+	<update id="deleteByModelId">
+		DELETE FROM ruag_model_calendar
+		WHERE model_id = #{modelId}
+	</update>
+</mapper>

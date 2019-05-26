@@ -1,0 +1,967 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.meeting.dao.IMaininfoDao">
+    <resultMap id="BaseResultMap" type="com.sgai.property.meeting.entity.Maininfo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="create_ei_id" property="createEiId" jdbcType="VARCHAR"/>
+        <result column="mi_remind_min" property="miRemindMin" jdbcType="BIGINT"/>
+        <result column="updated_dt" property="updatedDt" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="mi_is_week_meeting" property="miIsWeekMeeting" jdbcType="BIGINT"/>
+        <result column="mi_mt_date" property="miMtDate" jdbcType="BIGINT"/>
+        <result column="compere_ei_name" property="compereEiName" jdbcType="VARCHAR"/>
+        <result column="mi_mt_content" property="miMtContent" jdbcType="VARCHAR"/>
+        <result column="mi_mt_time_seg" property="miMtTimeSeg" jdbcType="VARCHAR"/>
+        <result column="com_id" property="comId" jdbcType="BIGINT"/>
+        <result column="create_ei_name" property="createEiName" jdbcType="VARCHAR"/>
+        <result column="mi_is_remind" property="miIsRemind" jdbcType="BIGINT"/>
+        <result column="created_dt" property="createdDt" jdbcType="VARCHAR"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="BIGINT"/>
+        <result column="mi_status" property="miStatus" jdbcType="BIGINT"/>
+        <result column="mi_repeat_num" property="miRepeatNum" jdbcType="BIGINT"/>
+        <result column="mi_mt_subject" property="miMtSubject" jdbcType="VARCHAR"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="BIGINT"/>
+        <result column="rr_id" property="rrId" jdbcType="VARCHAR"/>
+        <result column="is_delete" property="isDelete" jdbcType="BIGINT"/>
+        <result column="compere_ei_id" property="compereEiId" jdbcType="VARCHAR"/>
+        <result column="mi_start_time" property="miStartTime" jdbcType="VARCHAR"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+	  <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+    <resultMap id="MeetingsListDto" type="com.sgai.property.meeting.vo.MeetingsListDto">
+        <result column="ID" property="id" jdbcType="VARCHAR"/>
+        <result column="mi_mt_subject" property="miMtSubject" jdbcType="VARCHAR"/>
+        <result column="itrMtBeginTime" property="itrMtBeginTime" jdbcType="INTEGER"/>
+        <result column="itrMtEndTime" property="itrMtEndTime" jdbcType="INTEGER"/>
+        <result column="compere_ei_name" property="compereEiName" jdbcType="VARCHAR"/>
+        <result column="mi_status" property="miStatus" jdbcType="TINYINT"/>
+        <result column="create_ei_id" property="createEiId" jdbcType="BIGINT"/>
+        <result column="create_ei_name" property="createEiName" jdbcType="VARCHAR"/>
+        <result column="miStatusCn" property="miStatusCn" jdbcType="VARCHAR"/>
+        <result column="rpPositionName" property="rpPositionName" jdbcType="VARCHAR"/>
+        <result column="roomName" property="roomName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="CurrtDaysStatusDto" type="com.sgai.property.meeting.vo.CurrtDaysStatusDto">
+        <result column="date" property="date" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="TimeSegStatusDto" type="com.sgai.property.meeting.vo.TimeSegStatusDto">
+        <result column="bookTimes" property="bookTimes" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="findMeetingsByCurrtDate" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_maininfo where mi_mt_date =#{currtDate} and is_delete = 0
+    </select>
+
+    <select id="findMeetingsByCurrtDateNoStart" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_maininfo where mi_mt_date =#{currtDate} and mi_status = 1 and is_delete = 0
+    </select>
+
+
+    <select id="getCount2"  parameterType="com.sgai.property.meeting.entity.Maininfo"  resultType="java.lang.Long">
+        select count(1) from mt_room_resource rr where not EXISTS (select 1 from mt_maininfo mi where mi.rr_id = rr.id and
+        mi.mi_status IN(1,2)
+        and  mi.is_delete = 0
+        and mi.mi_mt_date = #{miMtDate}
+        <!-- and to_number(substr(mi.mi_mt_time_seg,0,INSTR(mi.mi_mt_time_seg,',', 1, 1)-1)) >= #{beginTime}
+        and to_number(substr(mi.mi_mt_time_seg,INSTR(mi.mi_mt_time_seg,',',-1)+1)) <![CDATA[<=]]> #{endTime} -->
+        )
+        and rr.is_delete = 0
+        and rr.rr_room_state = 1
+        order by rr.create_time desc
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+    </select>
+
+    <select id="selectMeetingRoomPC" parameterType="com.sgai.property.meeting.entity.Maininfo" resultType="com.sgai.property.meeting.entity.RoomResource">
+        select * from mt_room_resource rr where not EXISTS (select 1 from mt_maininfo mi where mi.rr_id = rr.id and
+        mi.mi_status IN(1,2)
+        and  mi.is_delete = 0
+        and mi.mi_mt_date = #{miMtDate}
+        )
+        and rr.is_delete = 0
+        and rr.rr_room_state = 1
+        order by rr.create_time desc
+    </select>
+
+
+    <select id="selectMeetingRoom" resultMap="BaseResultMap">
+        SELECT mi.* FROM
+        mt_maininfo mi
+        WHERE mi.mi_status IN(1,2)
+        and mi.is_delete = 0
+        AND mi.mi_mt_date = #{currtDate}
+        <!-- AND mi.mi_mt_time_seg like CONCAT('%',#{timeSeg},'%') -->
+        <if test="rrId != null">
+            and mi.rr_id=#{rrId}
+        </if>
+    </select>
+
+    <select id="confirmTimeSeg" resultMap="BaseResultMap">
+        SELECT mi.* FROM
+        mt_maininfo mi
+        WHERE mi.mi_status IN(1,2)
+        and mi.is_delete = 0
+        AND mi.mi_mt_date = #{currtDate}
+        <!-- and splitTimeSeg(#{timeSeg},mi.mi_mt_time_seg) > 0
+        AND mi.mi_mt_time_seg like CONCAT('%',#{timeSeg},'%') -->
+        <if test="rrId != null">
+            and mi.rr_id=#{rrId}
+        </if>
+    </select>
+    <select id="isExistsRoom" resultType="com.sgai.property.meeting.entity.RoomResource">
+        select * from mt_room_resource rr where not EXISTS (select 1 from mt_maininfo mi where mi.rr_id = rr.id and
+        mi.mi_status IN(1,2)
+        and  mi.is_delete = 0
+        AND mi.mi_mt_date = #{currtDate}
+        )
+        and rr.is_delete = 0
+        and rr.rr_room_state = 1
+        and EXISTS(select 1 from mt_room_position rp where
+        rr.rp_id = rp.id and rp.is_delete = 0 )
+    </select>
+
+    <select id="getTimeSegStatus" resultMap="TimeSegStatusDto">
+        SELECT mi.mi_mt_time_seg as bookTimes FROM
+        mt_maininfo mi
+        WHERE mi.mi_status IN(1,2)
+        <if test="createEiId != null">
+            and mi.create_ei_id != #{createEiId}
+        </if>
+        and mi.is_delete = 0
+        AND mi.mi_mt_date = #{currtDate}
+        and mi.rr_id=#{rrId}
+    </select>
+    <select id="getCurrtWeekStatus" resultMap="CurrtDaysStatusDto">
+        select a.mi_mt_date as currtDate,a.status as status
+        from (
+        SELECT DISTINCT
+        mi.mi_mt_date,
+        (case WHEN (mi.mi_status = 1 or mi.mi_status = 2) then '1' else '2' end ) as status
+        FROM
+        mt_maininfo mi
+        WHERE
+        (
+        mi.create_ei_id = #{createEiId} or mi.compere_ei_id = #{createEiId} )
+
+        AND mi.is_delete = 0
+        AND mi.mi_mt_date in
+        <foreach collection="currtDays" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        UNION
+        SELECT
+        DISTINCT
+        mi.mi_mt_date,
+        (case WHEN (mi.mi_status = 1 or mi.mi_status = 2) then '1' else '2' end ) as status
+        FROM
+        mt_inviter mt_inviter ,
+        mt_maininfo mi
+        WHERE mt_inviter.mi_id = mi.ID
+        AND mi.is_delete = 0
+        and mt_inviter.is_delete = 0
+        AND mt_inviter.inviter_ei_id = #{createEiId}
+
+        AND mi.mi_mt_date IN
+        <foreach collection="currtDays" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        ) a
+    </select>
+
+	<select id="getAllMeetingsListByRrId" resultMap="MeetingsListDto">
+        SELECT DISTINCT
+        a.miId,
+        a.mi_mt_subject mi_mt_subject,
+        a.compere_ei_name,
+        a.mi_status,
+        a.itrMtBeginTime,
+        a.itrMtEndTime,
+        (CASE a.mi_status
+        WHEN 1 THEN
+        '未开始'
+        when 2 then '进行中' when 3 then '已结束' when 4 then '已逾期' ELSE
+        '已取消'
+        END
+        ) as miStatusCn,
+        a.create_ei_id,
+        a.create_ei_name,
+        a.rp_position_name rpPositionName,
+        a.rr_room_name roomName
+        FROM
+        (
+        SELECT
+        mi.ID miId,
+        mi.mi_mt_subject mi_mt_subject,
+        mi.compere_ei_name,
+        mi.mi_status,
+        <!-- substring_index(mi.mi_mt_time_seg,',',1) itrMtBeginTime, -->
+        substr(mi.mi_mt_time_seg,0,INSTR(mi.mi_mt_time_seg,',', 1, 1)-1) itrMtBeginTime,
+        substr(mi.mi_mt_time_seg,INSTR(mi.mi_mt_time_seg,',',-1)+1) itrMtEndTime,
+        <!-- substring_index(mi.mi_mt_time_seg,',',-1) itrMtEndTime, -->
+        mi.create_ei_id,
+        mi.create_ei_name,
+        rp.rp_position_name,
+        rr.rr_room_name
+        FROM
+        mt_maininfo mi,mt_room_position rp,mt_room_resource rr
+        WHERE mi.rr_id = rr.id and rr.rp_id = rp.id and rr.id = #{rrId}
+        AND mi.is_delete = 0
+        AND mi.mi_mt_date = #{currtDate}
+        ) a
+        ORDER BY to_number(a.itrMtBeginTime) ASC
+    </select>
+
+
+    <select id="getAllMeetingsList" resultMap="MeetingsListDto">
+        SELECT DISTINCT
+        a.miId,
+        a.mi_mt_subject mi_mt_subject,
+        a.compere_ei_name,
+        a.mi_status,
+        a.itrMtBeginTime,
+        a.itrMtEndTime,
+        (CASE a.mi_status
+        WHEN 1 THEN
+        '未开始'
+        when 2 then '进行中' when 3 then '已结束' when 4 then '已逾期' ELSE
+        '已取消'
+        END
+        ) as miStatusCn,
+        a.create_ei_id,
+        a.create_ei_name,
+        a.rp_position_name rpPositionName,
+        a.rr_room_name roomName
+        FROM
+        (
+        SELECT
+        mi.ID miId,
+        mi.mi_mt_subject mi_mt_subject,
+        mi.compere_ei_name,
+        mi.mi_status,
+        <!-- substring_index(mi.mi_mt_time_seg,',',1) itrMtBeginTime, -->
+        substr(mi.mi_mt_time_seg,0,INSTR(mi.mi_mt_time_seg,',', 1, 1)-1) itrMtBeginTime,
+        substr(mi.mi_mt_time_seg,INSTR(mi.mi_mt_time_seg,',',-1)+1) itrMtEndTime,
+        <!-- substring_index(mi.mi_mt_time_seg,',',-1) itrMtEndTime, -->
+        mi.create_ei_id,
+        mi.create_ei_name,
+        rp.rp_position_name,
+        rr.rr_room_name
+        FROM
+        mt_maininfo mi,mt_room_position rp,mt_room_resource rr
+        WHERE mi.rr_id = rr.id and rr.rp_id = rp.id and
+        (
+        mi.create_ei_id = #{createEiId} or mi.compere_ei_id = #{createEiId} )
+
+        AND mi.is_delete = 0
+        AND mi.mi_mt_date = #{currtDate}
+        UNION ALL
+        SELECT
+        mi.ID miId,
+        mi.mi_mt_subject mi_mt_subject,
+        mi.compere_ei_name,
+        mi.mi_status,
+        <!-- substring_index(mi.mi_mt_time_seg,',',1) itrMtBeginTime,
+        substring_index(mi.mi_mt_time_seg,',',-1) itrMtEndTime, -->
+        substr(mi.mi_mt_time_seg,0,INSTR(mi.mi_mt_time_seg,',', 1, 1)-1) itrMtBeginTime,
+        substr(mi.mi_mt_time_seg,INSTR(mi.mi_mt_time_seg,',',-1)+1) itrMtEndTime,
+        mi.create_ei_id,
+        mi.create_ei_name,
+        rp.rp_position_name,
+        rr.rr_room_name
+        FROM
+        mt_inviter mt_inviter, mt_room_position rp,mt_room_resource rr,
+        mt_maininfo mi
+        WHERE mi.rr_id = rr.id and rr.rp_id = rp.id and
+        mt_inviter.mi_id = mi.ID
+        AND mi.is_delete = 0
+        AND mt_inviter.is_delete = 0
+        AND mt_inviter.inviter_ei_id = #{createEiId}
+        AND mi.mi_mt_date = #{currtDate}
+        ) a
+        ORDER BY to_number(a.itrMtBeginTime) ASC
+    </select>
+
+
+
+
+
+    <sql id="baseColumns">
+       create_ei_id
+       ,mi_remind_min
+       ,updated_dt
+       ,create_time
+       ,mi_is_week_meeting
+       ,mi_mt_date
+       ,compere_ei_name
+       ,mi_mt_content
+       ,mi_mt_time_seg
+       ,com_id
+       ,create_ei_name
+       ,mi_is_remind
+       ,created_dt
+       ,updated_by
+       ,version
+       ,mi_status
+       ,mi_repeat_num
+       ,mi_mt_subject
+       ,id
+       ,created_by
+       ,update_time
+       ,rr_id
+       ,is_delete
+       ,compere_ei_id
+       ,mi_start_time
+       ,remarks
+       ,com_code
+       ,modu_code
+    </sql>
+
+    <sql id="whereSql">
+        <trim prefixOverrides="AND | OR">
+        <if test="comCode != null">
+			 and com_code=#{comCode}
+		 </if>
+		 <if test="moduCode != null">
+			 and modu_code=#{moduCode}
+		 </if>
+            <if test="createEiId != null">
+                and create_ei_id=#{createEiId}
+            </if>
+            <if test="miRemindMin != null">
+                and mi_remind_min=#{miRemindMin}
+            </if>
+            <if test="updatedDt != null">
+                and updated_dt=#{updatedDt}
+            </if>
+            <if test="createTime != null">
+                and create_time=#{createTime}
+            </if>
+            <if test="miIsWeekMeeting != null">
+                and mi_is_week_meeting=#{miIsWeekMeeting}
+            </if>
+            <if test="miMtDate != null">
+                and mi_mt_date=#{miMtDate}
+            </if>
+            <if test="compereEiName != null">
+                and compere_ei_name=#{compereEiName}
+            </if>
+            <if test="miMtContent != null">
+                and mi_mt_content=#{miMtContent}
+            </if>
+            <if test="miMtTimeSeg != null">
+                and mi_mt_time_seg=#{miMtTimeSeg}
+            </if>
+            <if test="comId != null">
+                and com_id=#{comId}
+            </if>
+            <if test="createEiName != null">
+                and create_ei_name=#{createEiName}
+            </if>
+            <if test="miIsRemind != null">
+                and mi_is_remind=#{miIsRemind}
+            </if>
+            <if test="createdDt != null">
+                and created_dt=#{createdDt}
+            </if>
+            <if test="updatedBy != null">
+                and updated_by=#{updatedBy}
+            </if>
+            <if test="version != null">
+                and version=#{version}
+            </if>
+            <if test="miStatus != null">
+                and mi_status=#{miStatus}
+            </if>
+            <if test="miRepeatNum != null">
+                and mi_repeat_num=#{miRepeatNum}
+            </if>
+            <if test="miMtSubject != null">
+                and mi_mt_subject=#{miMtSubject}
+            </if>
+            <if test="id != null">
+                and id=#{id}
+            </if>
+            <if test="createdBy != null">
+                and created_by=#{createdBy}
+            </if>
+            <if test="updateTime != null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="rrId != null">
+                and rr_id=#{rrId}
+            </if>
+            <if test="isDelete != null">
+                and is_delete=#{isDelete}
+            </if>
+            <if test="compereEiId != null">
+                and compere_ei_id=#{compereEiId}
+            </if>
+            <if test="miStartTime != null">
+                and mi_start_time=#{miStartTime}
+            </if>
+            <if test="remarks != null">
+                and remarks=#{remarks}
+            </if>
+        </trim>
+    </sql>
+
+    <select id="getById" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from MT_MAININFO where id =#{id}
+    </select>
+
+    <select id="getByIds" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from MT_MAININFO where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="getByListId">
+        select
+        <include refid="baseColumns"/>
+        from MT_MAININFO where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.meeting.entity.Maininfo">
+        select
+        <include refid="baseColumns"/>
+        from
+        MT_MAININFO where
+        <include refid="whereSql"/>
+        limit 0,1
+    </select>
+
+    <select id="findAllList" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from MT_MAININFO
+    </select>
+
+    <select id="findList" parameterType="com.sgai.property.meeting.entity.Maininfo" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from MT_MAININFO where
+        <include refid="whereSql"/>
+
+    </select>
+
+    <select id="getCount" parameterType="com.sgai.property.meeting.entity.Maininfo" resultType="java.lang.Integer">
+        select count(1) from MT_MAININFO where
+        <include refid="whereSql"/>
+    </select>
+
+    <insert id="insert" parameterType="com.sgai.property.meeting.entity.Maininfo">
+        insert into MT_MAININFO
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="comCode != null">
+				 com_code,
+			 </if>
+			 <if test="moduCode != null">
+				 modu_code,
+			 </if>
+            <if test="createEiId != null">
+                create_ei_id,
+            </if>
+            <if test="miRemindMin != null">
+                mi_remind_min,
+            </if>
+            <if test="updatedDt != null">
+                updated_dt,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="miIsWeekMeeting != null">
+                mi_is_week_meeting,
+            </if>
+            <if test="miMtDate != null">
+                mi_mt_date,
+            </if>
+            <if test="compereEiName != null">
+                compere_ei_name,
+            </if>
+            <if test="miMtContent != null">
+                mi_mt_content,
+            </if>
+            <if test="miMtTimeSeg != null">
+                mi_mt_time_seg,
+            </if>
+            <if test="comId != null">
+                com_id,
+            </if>
+            <if test="createEiName != null">
+                create_ei_name,
+            </if>
+            <if test="miIsRemind != null">
+                mi_is_remind,
+            </if>
+            <if test="createdDt != null">
+                created_dt,
+            </if>
+            <if test="updatedBy != null">
+                updated_by,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="miStatus != null">
+                mi_status,
+            </if>
+            <if test="miRepeatNum != null">
+                mi_repeat_num,
+            </if>
+            <if test="miMtSubject != null">
+                mi_mt_subject,
+            </if>
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="rrId != null">
+                rr_id,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="compereEiId != null">
+                compere_ei_id,
+            </if>
+            <if test="miStartTime != null">
+                mi_start_time,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="comCode != null">
+				 #{comCode},
+			 </if>
+			 <if test="moduCode != null">
+				 #{moduCode},
+			 </if>
+            <if test="createEiId != null">
+                #{createEiId},
+            </if>
+            <if test="miRemindMin != null">
+                #{miRemindMin},
+            </if>
+            <if test="updatedDt != null">
+                #{updatedDt},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="miIsWeekMeeting != null">
+                #{miIsWeekMeeting},
+            </if>
+            <if test="miMtDate != null">
+                #{miMtDate},
+            </if>
+            <if test="compereEiName != null">
+                #{compereEiName},
+            </if>
+            <if test="miMtContent != null">
+                #{miMtContent},
+            </if>
+            <if test="miMtTimeSeg != null">
+                #{miMtTimeSeg},
+            </if>
+            <if test="comId != null">
+                #{comId},
+            </if>
+            <if test="createEiName != null">
+                #{createEiName},
+            </if>
+            <if test="miIsRemind != null">
+                #{miIsRemind},
+            </if>
+            <if test="createdDt != null">
+                #{createdDt},
+            </if>
+            <if test="updatedBy != null">
+                #{updatedBy},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="miStatus != null">
+                #{miStatus},
+            </if>
+            <if test="miRepeatNum != null">
+                #{miRepeatNum},
+            </if>
+            <if test="miMtSubject != null">
+                #{miMtSubject},
+            </if>
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="rrId != null">
+                #{rrId},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>
+            <if test="compereEiId != null">
+                #{compereEiId},
+            </if>
+            <if test="miStartTime != null">
+                #{miStartTime},
+            </if>
+            <if test="remarks != null">
+                #{remarks},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.sgai.property.meeting.entity.Maininfo">
+        update MT_MAININFO set
+        <trim suffixOverrides=",">
+         <if test="comCode != null">
+					 com_code=#{comCode},
+				 </if>
+				 <if test="moduCode != null">
+					 modu_code=#{moduCode},
+				 </if>
+            <if test="createEiId != null">
+                create_ei_id=#{createEiId},
+            </if>
+            <if test="miRemindMin != null">
+                mi_remind_min=#{miRemindMin},
+            </if>
+            <if test="updatedDt != null">
+                updated_dt=#{updatedDt},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="miIsWeekMeeting != null">
+                mi_is_week_meeting=#{miIsWeekMeeting},
+            </if>
+            <if test="miMtDate != null">
+                mi_mt_date=#{miMtDate},
+            </if>
+            <if test="compereEiName != null">
+                compere_ei_name=#{compereEiName},
+            </if>
+            <if test="miMtContent != null">
+                mi_mt_content=#{miMtContent},
+            </if>
+            <if test="miMtTimeSeg != null">
+                mi_mt_time_seg=#{miMtTimeSeg},
+            </if>
+            <if test="comId != null">
+                com_id=#{comId},
+            </if>
+            <if test="createEiName != null">
+                create_ei_name=#{createEiName},
+            </if>
+            <if test="miIsRemind != null">
+                mi_is_remind=#{miIsRemind},
+            </if>
+            <if test="createdDt != null">
+                created_dt=#{createdDt},
+            </if>
+            <if test="updatedBy != null">
+                updated_by=#{updatedBy},
+            </if>
+            <if test="version != null">
+                version=#{version},
+            </if>
+            <if test="miStatus != null">
+                mi_status=#{miStatus},
+            </if>
+            <if test="miRepeatNum != null">
+                mi_repeat_num=#{miRepeatNum},
+            </if>
+            <if test="miMtSubject != null">
+                mi_mt_subject=#{miMtSubject},
+            </if>
+            <if test="createdBy != null">
+                created_by=#{createdBy},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+            <if test="rrId != null">
+                rr_id=#{rrId},
+            </if>
+            <if test="isDelete != null">
+                is_delete=#{isDelete},
+            </if>
+            <if test="compereEiId != null">
+                compere_ei_id=#{compereEiId},
+            </if>
+            <if test="miStartTime != null">
+                mi_start_time=#{miStartTime},
+            </if>
+            <if test="remarks != null">
+                remarks=#{remarks},
+            </if>
+            <if test="miEndTime != null">
+                mi_end_timeend=#{miEndTime},
+            </if>
+        </trim>
+        where id =#{id}
+    </update>
+
+    <update id="updateByIds" parameterType="com.sgai.property.meeting.entity.Maininfo">
+        update MT_MAININFO set
+        <trim suffixOverrides=",">
+        <if test="entity.comCode != null">
+					 com_code=#{entity.comCode},
+				 </if>
+				 <if test="entity.moduCode != null">
+					 modu_code=#{entity.moduCode},
+				 </if>
+            <if test="entity.createEiId != null">
+                create_ei_id = #{entity.createEiId},
+            </if>
+            <if test="entity.miRemindMin != null">
+                mi_remind_min = #{entity.miRemindMin},
+            </if>
+            <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+            </if>
+            <if test="entity.createTime != null">
+                create_time = #{entity.createTime},
+            </if>
+            <if test="entity.miIsWeekMeeting != null">
+                mi_is_week_meeting = #{entity.miIsWeekMeeting},
+            </if>
+            <if test="entity.miMtDate != null">
+                mi_mt_date = #{entity.miMtDate},
+            </if>
+            <if test="entity.compereEiName != null">
+                compere_ei_name = #{entity.compereEiName},
+            </if>
+            <if test="entity.miMtContent != null">
+                mi_mt_content = #{entity.miMtContent},
+            </if>
+            <if test="entity.miMtTimeSeg != null">
+                mi_mt_time_seg = #{entity.miMtTimeSeg},
+            </if>
+            <if test="entity.comId != null">
+                com_id = #{entity.comId},
+            </if>
+            <if test="entity.createEiName != null">
+                create_ei_name = #{entity.createEiName},
+            </if>
+            <if test="entity.miIsRemind != null">
+                mi_is_remind = #{entity.miIsRemind},
+            </if>
+            <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+            </if>
+            <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+            </if>
+            <if test="entity.version != null">
+                version = #{entity.version},
+            </if>
+            <if test="entity.miStatus != null">
+                mi_status = #{entity.miStatus},
+            </if>
+            <if test="entity.miRepeatNum != null">
+                mi_repeat_num = #{entity.miRepeatNum},
+            </if>
+            <if test="entity.miMtSubject != null">
+                mi_mt_subject = #{entity.miMtSubject},
+            </if>
+            <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+            </if>
+            <if test="entity.updateTime != null">
+                update_time = #{entity.updateTime},
+            </if>
+            <if test="entity.rrId != null">
+                rr_id = #{entity.rrId},
+            </if>
+            <if test="entity.isDelete != null">
+                is_delete = #{entity.isDelete},
+            </if>
+            <if test="entity.compereEiId != null">
+                compere_ei_id = #{entity.compereEiId},
+            </if>
+            <if test="entity.miStartTime != null">
+                mi_start_time = #{entity.miStartTime},
+            </if>
+            <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+            </if>
+        </trim>
+        where id in
+        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+
+    <delete id="deleteById">
+      delete from MT_MAININFO where id =#{id}
+   </delete>
+
+    <delete id="deleteByIds">
+        delete from MT_MAININFO where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByListId">
+        delete from MT_MAININFO where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="delete" parameterType="com.sgai.property.meeting.entity.Maininfo">
+        delete from MT_MAININFO where
+        <include refid="whereSql"/>
+    </delete>
+
+    <resultMap id="MyReserveRoomVo" type="com.sgai.property.meeting.vo.MyReserveRoomVo">
+        <result column="ID" property="id" jdbcType="VARCHAR"/>
+        <result column="rr_Id" property="rrId" jdbcType="VARCHAR"/>
+        <result column="MI_STATUS" property="miStatus" jdbcType="VARCHAR"/><!-- 会议状态 -->
+        <result column="mi_mt_date" property="miMtDate" jdbcType="BIGINT"/><!-- 会议时间 天 -->
+        <result column="mi_mt_time_seg" property="miMtTimeSeg" jdbcType="VARCHAR"/><!--时间段-->
+        <result column="rr_room_name" property="rrRoomName" jdbcType="VARCHAR"/><!-- 会议室名称 -->
+       <!-- <result column="rd_room_device" property="rdRoomDevice" jdbcType="VARCHAR"/>--><!--设备-->
+        <result column="rr_room_peoples" property="rrRoomPeoples" jdbcType="VARCHAR"/><!--容纳人数-->
+        <result column="rr_room_pic_main" property="rrRoomPicMain" jdbcType="VARCHAR"/><!--图片url-->
+        <result column="rr_room_position" property="rrRoomPosition" jdbcType="VARCHAR"/><!--会议室位置-->
+        <result column="create_ei_name" property="createEiName" jdbcType="VARCHAR"/><!--会议室预定人-->
+    </resultMap>
+    <select id="getMyReserve" parameterType="com.sgai.property.meeting.vo.MyReserveRoomDto" resultMap="MyReserveRoomVo">
+      select ma.create_ei_name create_ei_name,ma.create_ei_id create_ei_id,
+        ma.id  ID ,ma.rr_id rr_Id, ma.mi_status  MI_STATUS , ma.mi_mt_date  mi_mt_date, ma.mi_mt_time_seg  mi_mt_time_seg,
+        rr.rr_room_name  rr_room_name , rr.rr_room_peoples  rr_room_peoples,
+        rr.rr_room_pic_main  rr_room_pic_main , rr.rr_room_position  rr_room_position
+        from
+        mt_maininfo ma  inner join  mt_room_resource rr on	(ma.rr_id = rr.id)
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="createEiName != null">
+                and ma.create_ei_name  like '%${createEiName}%'
+            </if>
+
+            <if test="createBy != null">
+                and ma.create_ei_id = #{createBy}
+            </if>
+            <if test="rrRoomName != null">
+                and rr.rr_Room_Name  like '%#{rrRoomName}%'
+            </if>
+            <if test="miStatus != null">
+                and ma.mi_status = #{miStatus}
+            </if>
+            <if test="startTime != null">
+                and <![CDATA[ ma.CREATE_TIME >=  #{startTime}]]>
+            </if>
+            <if test="endTime != null">
+                and <![CDATA[  ma.CREATE_TIME <= #{endTime} ]]>
+            </if>
+        </trim>
+        ORDER BY ma.mi_status ASC,ma.id
+    </select>
+
+
+    <!--获取预定会议信息列表-->
+    <select id="getReserveDetail" parameterType = "java.util.Map" resultMap="MyReserveRoomVo">
+        select mi_mt_subject,mi_mt_content,create_ei_name,create_ei_id,
+        id,rr_Id,mi_status ,mi_mt_date,mi_mt_time_seg
+        from
+        mt_maininfo
+        where 1=1
+        <trim suffixOverrides=",">
+            <if test="rrId != null">
+                and rr_id=#{rrId}
+            </if>
+            <if test="comCode != null">
+                and com_code=#{comCode}
+            </if>
+            <if test="moduCode != null">
+                and modu_code=#{moduCode}
+            </if>
+            <if test="startTime != null">
+                and <![CDATA[DATE_FORMAT(mi_start_time,'YYYY-MM-DD HH24:MI:SS') >=  #{startTime}]]>
+            </if>
+            <if test="endTime != null">
+                and <![CDATA[DATE_FORMAT(mi_end_timeend,'YYYY-MM-DD HH24:MI:SS') <= #{endTime} ]]>
+            </if>
+        </trim>
+    </select>
+
+
+    <select id="getReserve" parameterType = "com.sgai.property.meeting.vo.MyReserveRoomDto" resultMap="MyReserveRoomVo">
+        select ma.create_ei_name create_ei_name,
+        ma.id  ID ,ma.rr_id rr_Id, ma.mi_status  MI_STATUS , ma.mi_mt_date  mi_mt_date, ma.mi_mt_time_seg  mi_mt_time_seg,
+        rr.rr_room_name  rr_room_name , rr.rr_room_peoples  rr_room_peoples,
+        rr.rr_room_pic_main  rr_room_pic_main , rr.rr_room_position  rr_room_position
+        from
+        mt_maininfo ma  inner join  mt_room_resource rr on	(ma.rr_id = rr.id)
+        where  (ma.mi_status =1  OR ma.mi_status=2)
+        <trim suffixOverrides=",">
+
+            <if test="createEiName != null">
+                and ma.create_ei_name  like '%${createEiName}%' escape '/'
+            </if>
+            <if test="createBy != null">
+                and ma.create_ei_id =#{createBy}
+            </if>
+            <if test="rrRoomName != null">
+                and rr.rr_Room_Name  like '%${rrRoomName}%' escape '/'
+            </if>
+            <if test="miStatus != null">
+                and ma.mi_status = #{miStatus}
+            </if>
+            <if test="startTime != null">
+                and
+                TO_NUMBER(cast(ma.mi_start_time AS DATE )-  TO_DATE('1970-01-01 8:0:0', 'YYYY/MM/DD HH24:MI:SS')) * 24 * 60 * 60 * 1000
+                >= #{startTime}
+            </if>
+            <if test="endTime != null">
+                and
+                TO_NUMBER(cast(ma.mi_end_timeend AS DATE )-  TO_DATE('1970-01-01 8:0:0', 'YYYY/MM/DD HH24:MI:SS')) * 24 * 60 * 60 * 1000
+                &lt;= #{endTime}
+            </if>
+            <if test="createBy != null">
+                and  ma.CREATED_BY = #{createBy}
+            </if>
+
+        </trim>
+        ORDER BY ma.mi_start_time ASC
+
+    </select>
+</mapper>

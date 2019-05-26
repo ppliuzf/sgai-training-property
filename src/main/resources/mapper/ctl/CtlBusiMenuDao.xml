@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlBusiMenuDao">
+    
+	<sql id="ctlBusiMenuColumns">
+		a.id AS "id",
+		a.busi_code AS "busiCode",
+		a.menu_code AS "menuCode",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.define_name AS "defineName",
+		a.define_sort AS "defineSort",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+	
+	<sql id="ctlBusiMenuJoins">
+	</sql>
+    
+	<select id="get" resultType="CtlBusiMenu">
+		SELECT 
+			<include refid="ctlBusiMenuColumns"/>
+		FROM ctl_busi_menu a
+		<include refid="ctlBusiMenuJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getBusiMenuByMenuCode" resultType="CtlBusiMenu">
+		SELECT 
+			<include refid="ctlBusiMenuColumns"/>
+		FROM ctl_busi_menu a
+		<include refid="ctlBusiMenuJoins"/>
+		<where>
+			<if test="busiCode != null and busiCode != ''">
+				AND a.busi_code = #{busiCode}
+			</if>
+			<if test="menuCode != null and menuCode != ''">
+				AND a.menu_code = #{menuCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="comCode == null or comCode == ''">
+				AND a.com_code = '0000'
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+					AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+	</select>
+	
+	<select id="findList" resultType="CtlBusiMenu">
+		SELECT 
+			<include refid="ctlBusiMenuColumns"/>
+		FROM ctl_busi_menu a
+		<include refid="ctlBusiMenuJoins"/>
+		<where>
+			
+			<if test="busiCode != null and busiCode != ''">
+				AND a.busi_code = #{busiCode}
+			</if>
+			<if test="menuCode != null and menuCode != ''">
+				AND a.menu_code = #{menuCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+					AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CtlBusiMenu">
+		SELECT 
+			<include refid="ctlBusiMenuColumns"/>
+		FROM ctl_busi_menu a
+		<include refid="ctlBusiMenuJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<select id="getBusiList" resultType="CtlBusiMenu">
+	    SELECT
+	        busi_code AS "busiCode",
+	        busi_name AS "busiName"
+	    FROM
+	        ctl_business_define
+	    WHERE
+	        1=1
+	        <if test="busiCode!=null and busiCode!=''">
+	        AND busi_code like '%'||#{busiCode}||'%'
+	        </if>
+	        <if test="busiName!=null and busiName!=''">
+	        AND busi_name like '%'||#{busiName}||'%'
+	        </if>
+	    ORDER BY
+	        busi_code ASC
+	</select>
+	
+	<select id="getMenuListAll" resultType="com.sgai.property.ctl.dto.FunctionDto">
+	    SELECT 
+	        a.menu_code	menuCode,
+	        a.parent_menu_code	parentMenuCode,
+	        a.menu_name menuName
+	    FROM
+	        ctl_menu a
+	    LEFT JOIN 
+	        ctl_prog b
+	    ON
+	        a.prog_code=b.prog_code
+	    WHERE
+	        a.enabled_flag='Y'
+	    AND (b.PROG_LEVEL !='S'
+	    OR  b.PROG_LEVEL is NULL)
+	    ORDER BY 
+	        a.parent_menu_code ASC,
+	        a.display_order ASC,
+	        a.menu_code ASC
+	</select>
+	
+	
+	<select id="getMenuListOwn" resultType="com.sgai.property.ctl.dto.FunctionDto">
+	    SELECT
+			menu_code menuCode ,
+			parent_menu_code parentMenuCode,
+			menu_name menuName
+	    FROM
+	        ctl_menu a
+	    INNER JOIN
+	        ctl_busi_menu b
+	        ON a.enabled_flag='Y'
+	        AND a.menu_code=b.menu_code
+	        AND b.busi_code=#{busiCode}
+	    WHERE b.com_code = '0000'
+	    ORDER BY 
+	        a.parent_menu_code ASC,
+	        a.display_order ASC,
+	        a.menu_code ASC
+	</select>
+	<select id="getEmptyMenu" resultType="String">
+	    SELECT
+			*
+		FROM
+		(
+			SELECT
+				A .parent_menu_code
+			FROM
+				ctl_menu A
+			LEFT JOIN ctl_prog b ON A .prog_code = b.prog_code
+			WHERE
+				A .enabled_flag = 'Y'
+			AND b.PROG_LEVEL = 'S'
+		)
+	MINUS
+		SELECT
+			*
+		FROM
+			(
+				SELECT
+					A .parent_menu_code
+				FROM
+					ctl_menu A
+				LEFT JOIN ctl_prog b ON A .prog_code = b.prog_code
+				WHERE
+					A .enabled_flag = 'Y'
+				AND b.PROG_LEVEL != 'S'
+			)
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ctl_busi_menu(
+			id,
+			busi_code,
+			menu_code,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			define_name,
+			define_sort,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{busiCode},
+			#{menuCode},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{defineName},
+			#{defineSort},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_busi_menu SET 	
+			busi_code = #{busiCode},
+			menu_code = #{menuCode},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			define_name = #{defineName},
+			define_sort = #{defineSort},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_busi_menu
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteMenuTreeByBusiCode">
+	    DELETE FROM 
+	        ctl_busi_menu
+	    WHERE
+	        busi_code=#{busiCode}
+	        AND com_code = '0000'
+	</delete>
+	
+	
+</mapper>

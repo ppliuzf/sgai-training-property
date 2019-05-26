@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.mdm.dao.MdmRoomInfoDao">
+    
+	<sql id="mdmRoomInfoColumns">
+		a.id AS "id",
+		a.room_code AS "roomCode",
+		a.room_name AS "roomName",
+		a.building_code AS "buildingCode",
+		a.buliding_name AS "bulidingName",
+		a.room_area AS "roomArea",
+		a.spat_property AS "spatProperty",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.room_property  AS "roomProperty",
+		a.com_code AS "comCode"
+	</sql>
+	
+	<sql id="mdmRoomInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.mdm.entity.MdmRoomInfo">
+		SELECT 
+			<include refid="mdmRoomInfoColumns"/>
+		FROM mdm_room_info a
+		<include refid="mdmRoomInfoJoins"/>
+		WHERE a.id = #{id}		AND a.com_code = #{comCode}
+		
+		
+	</select>
+	
+	<select id="getByCode" resultType="com.sgai.property.mdm.entity.MdmRoomInfo">
+		SELECT 
+			<include refid="mdmRoomInfoColumns"/>
+		FROM mdm_room_info a
+		<include refid="mdmRoomInfoJoins"/>
+		WHERE a.room_code = #{arg0} AND a.com_code = #{arg1}
+		
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.mdm.entity.MdmRoomInfo">
+		SELECT 
+			<include refid="mdmRoomInfoColumns"/>
+		FROM mdm_room_info a
+		<include refid="mdmRoomInfoJoins"/>
+		<where>
+			a.enabled_flag = 'Y'
+			<if test="roomCode != null and roomCode != ''">
+				AND a.room_code = #{roomCode}
+			</if>
+			<if test="roomName != null and roomName != ''">
+				AND a.room_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{roomName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{roomName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{roomName},'%')</if>
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.mdm.entity.MdmRoomInfo">
+		SELECT 
+			<include refid="mdmRoomInfoColumns"/>
+		FROM mdm_room_info a
+		<include refid="mdmRoomInfoJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mdm_room_info(
+			id,
+			room_code,
+			room_name,
+			building_code,
+			buliding_name,
+			room_area,
+			spat_property,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			room_property,
+			com_code 
+		) VALUES (
+			#{id},
+			#{roomCode},
+			#{roomName},
+			#{buildingCode},
+			#{bulidingName},
+			#{roomArea},
+			#{spatProperty},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{roomProperty},
+			#{comCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mdm_room_info SET 	
+			room_code = #{roomCode},
+			room_name = #{roomName},
+			building_code = #{buildingCode},
+			buliding_name = #{bulidingName},
+			room_area = #{roomArea},
+			spat_property = #{spatProperty},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			room_property = #{roomProperty},
+			com_Code = #{comCode}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- <update id="delete">
+		DELETE FROM mdm_room_info
+		WHERE id = #{id}
+	</update> -->
+	
+	<update id="delete">
+		UPDATE mdm_room_info SET 
+		    enabled_flag='N'
+		WHERE 
+		    room_code = #{roomCode}
+		    <if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+	</update>
+	
+	
+</mapper>

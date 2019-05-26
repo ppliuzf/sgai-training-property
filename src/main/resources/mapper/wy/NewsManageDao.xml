@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.NewsManageDao">
+    
+	<sql id="newsManageColumns">
+		a.id AS "id",
+		a.news_title AS "newsTitle",
+		a.news_abstract AS "newsAbstract",
+		a.publish_date AS "publishDate",
+		a.news_type AS "newsType",
+		a.news_status AS "newsStatus",
+		a.news_content AS "newsContent",
+		a.news_publish_id AS "newsPublishId",
+		a.news_publish_name	AS "newsPublishName",
+		a.news_check_yes_or_no AS "newsCheckYesOrNo",
+		a.checker_name AS "checkerName",
+		a.checker_id AS "checkerId",
+		a.cause AS "cause",
+		a.check_date AS "checkDate",
+		a.CHECK_STATUS as "checkStatus",
+		a.EMERGENCY_STATUS as "emergencyStatus",
+		a.range as "range",
+		a.RECEPT_NAME AS "receptName",
+		a.RECEPT_ID AS "receptId",
+		a.COVER as "cover"
+	</sql>
+	
+	<select id="findList" resultType="com.sgai.property.wy.entity.NewsManage">
+		SELECT 
+			<include refid="newsManageColumns"/>
+		FROM WY_CUS_NEWS_CENTRE a
+		
+		<where>
+			
+			<if test="newsTitle != null and newsTitle != ''">
+				AND a.news_title like '%'||#{newsTitle}||'%'
+			</if>
+			<if test="newsType != null and newsType != ''">
+				AND a.news_type = #{newsType}
+			</if>
+			<if test="publishDate != null">
+				AND	STR_TO_DATE(DATE_FORMAT(a.publish_date,'%y-%m-%d'),'%y-%m-%d') = #{publishDate}
+			</if>
+			<if test="newsStatus != null and newsStatus != ''">
+				AND (a.news_status = #{newsStatus} OR A.CHECK_STATUS=#{newsStatus})
+			</if>
+			<if test="newsCheckYesOrNo != null and newsCheckYesOrNo != ''">
+				AND a.news_check_yes_or_no = #{newsCheckYesOrNo}
+			</if>
+			<if test="checkerId != null and checkerId != ''">
+				AND a.checker_id = #{checkerId}
+			</if>
+			<if test="emergencyStatus != null and emergencyStatus != ''">
+				AND a.EMERGENCY_STATUS = #{emergencyStatus}
+			</if>
+			<if test="receptId != null and receptId != ''">
+				AND ((a.RECEPT_ID like '%'||#{receptId}||'%') or (a.RECEPT_ID is null))
+			</if>
+			<if test="type == 2">
+				AND a.CHECK_STATUS != '未提交'
+			</if>
+			<if test="newsPublishId != null and newsPublishId != ''">
+				AND a.NEWS_PUBLISH_ID = #{newsPublishId}
+			</if>
+		</where>
+		ORDER BY a.publish_date DESC
+	</select>
+	<update id="delete">
+		DELETE FROM WY_CUS_NEWS_CENTRE
+		WHERE ID = #{id}
+	</update>
+	
+	<insert id="insert">
+		INSERT INTO WY_CUS_NEWS_CENTRE(
+			id,
+			news_title,
+			news_abstract,
+			publish_date,
+			news_type,
+			news_status,
+			news_content,
+			news_publish_id,
+			news_publish_name,
+			news_check_yes_or_no,
+			checker_name,
+			checker_id,
+			cause,
+			check_date,
+			CHECK_STATUS,
+			RANGE,
+			EMERGENCY_STATUS,
+			RECEPT_NAME,
+			RECEPT_ID,
+			COVER
+		) VALUES (
+			#{id},
+			#{newsTitle},
+			#{newsAbstract},
+			#{publishDate},
+			#{newsType},
+			#{newsStatus},
+			#{newsContent},
+			#{newsPublishId},
+			#{newsPublishName},
+			#{newsCheckYesOrNo},
+			#{checkerName},
+			#{checkerId},
+			#{cause},
+			#{checkDate},
+			#{checkStatus},
+			#{range},
+			#{emergencyStatus},
+			#{receptName},
+			#{receptId},
+			#{cover}
+			
+		)
+	</insert>
+	
+	<insert id="insertCauseHistory">
+	INSERT INTO WY_CUS_NEWS_CAUSE_HISTORY(
+	ID,
+	NEWS_ID,
+	CHECKER_ID,
+	CAUSE,
+	CHECK_DATE,
+	CHECK_STATUS
+	)VALUES(
+	#{historyId},
+	#{id},
+	#{checkerId},
+	#{cause},
+	#{checkDate},
+	#{checkStatus}
+	)
+	</insert>
+	
+		<select id="getHistoryList" resultType="com.sgai.property.wy.entity.NewsManage">
+		SELECT 
+			a.CAUSE as cause, a.CHECK_DATE as checkDate ,a.CHECK_STATUS as checkStatus,b.LASTNAME checkerName
+		FROM WY_CUS_NEWS_CAUSE_HISTORY a
+		left join CTL_EMP b
+		on a.CHECKER_ID=b.EMP_CODE
+	    where a.NEWS_ID=#{id}	
+	</select>
+	
+	
+	<select id="get" resultType="com.sgai.property.wy.entity.NewsManage">
+		SELECT 
+			<include refid="newsManageColumns"/>
+		FROM WY_CUS_NEWS_CENTRE a
+		WHERE a.id = #{id}
+	</select>
+	
+	<update id="update">
+		UPDATE WY_CUS_NEWS_CENTRE SET 	
+			NEWS_TITLE = #{newsTitle},
+			NEWS_ABSTRACT = #{newsAbstract},
+			PUBLISH_DATE = #{publishDate},
+			NEWS_TYPE = #{newsType},
+			NEWS_STATUS = #{newsStatus},
+			NEWS_CONTENT = #{newsContent},
+			NEWS_PUBLISH_ID = #{newsPublishId},
+			NEWS_PUBLISH_NAME = #{newsPublishName},
+			NEWS_CHECK_YES_OR_NO = #{newsCheckYesOrNo},
+			CHECKER_NAME = #{checkerName},
+			CHECKER_ID = #{checkerId},
+			CAUSE = #{cause},
+			check_date=#{checkDate},
+			CHECK_STATUS=#{checkStatus},
+			RANGE=#{range},
+			EMERGENCY_STATUS=#{emergencyStatus},
+			RECEPT_NAME=#{receptName},
+			RECEPT_ID=#{receptId},
+			COVER=#{cover}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="upNewsStatus">
+		UPDATE WY_CUS_NEWS_CENTRE
+			<set>
+			  <if test="newsStatus != null and newsStatus != ''">NEWS_STATUS = #{newsStatus},</if>
+			  <if test="checkStatus != null and checkStatus != ''">CHECK_STATUS = #{checkStatus},</if>
+			  <if test="cause != null and cause != ''">CAUSE = #{cause},</if>
+			  <if test="checkerId != null and checkerId != ''">CHECKER_ID = #{checkerId},</if>
+			  <if test="checkerName != null and checkerName != ''">CHECKER_NAME = #{checkerName},</if>
+			  <if test="checkDate != null ">CHECK_DATE = #{checkDate},</if>
+ 			
+ 			</set>
+		WHERE id = #{id}
+	</update>
+	
+	<select id="getWorkloadList" resultType="com.sgai.property.wy.entity.NewsManage">
+		SELECT 
+			A.EMP_CODE checkerId,A.LASTNAME checkerName,A.DEPT_NAME newsPublishName
+		FROM CTL_EMP a
+		WHERE a.COM_CODE ='dongaowuye'
+		<if test="checkerName != null and checkerName != ''">
+		AND a.LASTNAME like '%'||#{checkerName}||'%'
+		</if>
+	</select>
+	
+	<select id="findCode"  resultType="com.sgai.property.wy.entity.NewsManage">
+		SELECT
+		 a.corr_code as "cover"
+		FROM ctl_user a
+		
+		WHERE a.user_code = #{cover} and a.enabled_flag='Y'
+
+	</select>
+	
+	
+</mapper>

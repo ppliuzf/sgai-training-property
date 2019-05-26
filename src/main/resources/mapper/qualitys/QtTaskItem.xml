@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.quality.dao.IQtTaskItemDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.quality.entity.QtTaskItem" >
+	     <id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+         <result column="group_id" property="groupId" jdbcType="BIGINT" />
+         <result column="ti_inuput_result" property="tiInuputResult" jdbcType="VARCHAR" />
+         <result column="ti_is_input" property="tiIsInput" jdbcType="BIGINT" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="group_sort" property="groupSort" jdbcType="BIGINT" />
+         <result column="ti_check_id" property="tiCheckId" jdbcType="VARCHAR" />
+         <result column="ti_options" property="tiOptions" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="BIGINT" />
+         <result column="ti_finsh_unit" property="tiFinshUnit" jdbcType="BIGINT" />
+         <result column="ti_status" property="tiStatus" jdbcType="BIGINT" />
+         <result column="ti_max" property="tiMax" jdbcType="BIGINT" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="ti_check_time" property="tiCheckTime" jdbcType="BIGINT" />
+         <result column="ti_standard" property="tiStandard" jdbcType="VARCHAR" />
+         <result column="ti_unit" property="tiUnit" jdbcType="VARCHAR" />
+         <result column="hti_id" property="htiId" jdbcType="VARCHAR" />
+         <result column="ti_name" property="tiName" jdbcType="VARCHAR" />
+         <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+         <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+         <result column="ti_limit_time" property="tiLimitTime" jdbcType="BIGINT" />
+         <result column="ti_standard_option" property="tiStandardOption" jdbcType="VARCHAR" />
+
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="valid" property="valid" jdbcType="BIGINT" />
+         <result column="ti_has_defect" property="tiHasDefect" jdbcType="BIGINT" />
+         <result column="ti_remark" property="tiRemark" jdbcType="VARCHAR" />
+         <result column="ti_is_submit" property="tiIsSubmit" jdbcType="BIGINT" />
+         <result column="ti_min" property="tiMin" jdbcType="BIGINT" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="ti_check_name" property="tiCheckName" jdbcType="VARCHAR" />
+         <result column="tt_id" property="ttId" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       created_dt
+       ,group_id
+       ,ti_inuput_result
+       ,ti_is_input
+       ,created_by
+       ,group_sort
+       ,ti_check_id
+       ,ti_options
+       ,create_time
+       ,ti_finsh_unit
+       ,ti_status
+       ,ti_max
+       ,version
+       ,ti_check_time
+       ,ti_standard
+       ,ti_unit
+       ,hti_id
+       ,ti_name
+       ,updated_dt
+       ,update_time
+       ,ti_limit_time
+       ,ti_standard_option
+       ,id
+       ,remarks
+       ,valid
+       ,ti_has_defect
+       ,ti_remark
+       ,ti_is_submit
+       ,ti_min
+       ,updated_by
+       ,ti_check_name
+       ,tt_id
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="groupId != null">
+			and group_id=#{groupId}
+		 </if> 
+       <if test="tiInuputResult != null">
+			and ti_inuput_result=#{tiInuputResult}
+		 </if> 
+       <if test="tiIsInput != null">
+			and ti_is_input=#{tiIsInput}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="groupSort != null">
+			and group_sort=#{groupSort}
+		 </if> 
+       <if test="tiCheckId != null">
+			and ti_check_id=#{tiCheckId}
+		 </if> 
+       <if test="tiOptions != null">
+			and ti_options=#{tiOptions}
+		 </if> 
+       <if test="createTime != null">
+			and create_time=#{createTime}
+		 </if> 
+       <if test="tiFinshUnit != null">
+			and ti_finsh_unit=#{tiFinshUnit}
+		 </if> 
+       <if test="tiStatus != null">
+			and ti_status=#{tiStatus}
+		 </if> 
+       <if test="tiMax != null">
+			and ti_max=#{tiMax}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="tiCheckTime != null">
+			and ti_check_time=#{tiCheckTime}
+		 </if> 
+       <if test="tiStandard != null">
+			and ti_standard=#{tiStandard}
+		 </if> 
+       <if test="tiUnit != null">
+			and ti_unit=#{tiUnit}
+		 </if> 
+       <if test="htiId != null">
+			and hti_id=#{htiId}
+		 </if> 
+       <if test="tiName != null">
+			and ti_name=#{tiName}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="updateTime != null">
+			and update_time=#{updateTime}
+		 </if> 
+       <if test="tiLimitTime != null">
+			and ti_limit_time=#{tiLimitTime}
+		 </if> 
+       <if test="tiStandardOption != null">
+			and ti_standard_option=#{tiStandardOption}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="valid != null">
+			and valid=#{valid}
+		 </if> 
+       <if test="tiHasDefect != null">
+			and ti_has_defect=#{tiHasDefect}
+		 </if> 
+       <if test="tiRemark != null">
+			and ti_remark=#{tiRemark}
+		 </if> 
+       <if test="tiIsSubmit != null">
+			and ti_is_submit=#{tiIsSubmit}
+		 </if> 
+       <if test="tiMin != null">
+			and ti_min=#{tiMin}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="tiCheckName != null">
+			and ti_check_name=#{tiCheckName}
+		 </if> 
+       <if test="ttId != null">
+			and tt_id=#{ttId}
+		 </if> 
+      </trim>
+  </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from qt_task_item  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_task_item  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from qt_task_item  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.quality.entity.QtTaskItem">
+		select <include refid="baseColumns"/> from
+       qt_task_item  where   <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_task_item
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.quality.entity.QtTaskItem" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_task_item where   <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.quality.entity.QtTaskItem" resultType="java.lang.Integer">
+           select count(1) from qt_task_item where   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.quality.entity.QtTaskItem">
+      insert into qt_task_item 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="groupId != null">
+				   group_id,
+			 </if> 
+          <if test="tiInuputResult != null">
+				   ti_inuput_result,
+			 </if> 
+          <if test="tiIsInput != null">
+				   ti_is_input,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="groupSort != null">
+				   group_sort,
+			 </if> 
+          <if test="tiCheckId != null">
+				   ti_check_id,
+			 </if> 
+          <if test="tiOptions != null">
+				   ti_options,
+			 </if> 
+          <if test="createTime != null">
+				   create_time,
+			 </if> 
+          <if test="tiFinshUnit != null">
+				   ti_finsh_unit,
+			 </if> 
+          <if test="tiStatus != null">
+				   ti_status,
+			 </if> 
+          <if test="tiMax != null">
+				   ti_max,
+			 </if> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="tiCheckTime != null">
+				   ti_check_time,
+			 </if> 
+          <if test="tiStandard != null">
+				   ti_standard,
+			 </if> 
+          <if test="tiUnit != null">
+				   ti_unit,
+			 </if> 
+          <if test="htiId != null">
+				   hti_id,
+			 </if> 
+          <if test="tiName != null">
+				   ti_name,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="updateTime != null">
+				   update_time,
+			 </if> 
+          <if test="tiLimitTime != null">
+				   ti_limit_time,
+			 </if> 
+          <if test="tiStandardOption != null">
+				   ti_standard_option,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+          <if test="valid != null">
+				   valid,
+			 </if> 
+          <if test="tiHasDefect != null">
+				   ti_has_defect,
+			 </if> 
+          <if test="tiRemark != null">
+				   ti_remark,
+			 </if> 
+          <if test="tiIsSubmit != null">
+				   ti_is_submit,
+			 </if> 
+          <if test="tiMin != null">
+				   ti_min,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="tiCheckName != null">
+				   ti_check_name,
+			 </if> 
+          <if test="ttId != null">
+				   tt_id,
+			 </if> 
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="groupId != null">
+				#{groupId},
+			  </if>
+			  <if test="tiInuputResult != null">
+				#{tiInuputResult},
+			  </if>
+			  <if test="tiIsInput != null">
+				#{tiIsInput},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="groupSort != null">
+				#{groupSort},
+			  </if>
+			  <if test="tiCheckId != null">
+				#{tiCheckId},
+			  </if>
+			  <if test="tiOptions != null">
+				#{tiOptions},
+			  </if>
+			  <if test="createTime != null">
+				#{createTime},
+			  </if>
+			  <if test="tiFinshUnit != null">
+				#{tiFinshUnit},
+			  </if>
+			  <if test="tiStatus != null">
+				#{tiStatus},
+			  </if>
+			  <if test="tiMax != null">
+				#{tiMax},
+			  </if>
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="tiCheckTime != null">
+				#{tiCheckTime},
+			  </if>
+			  <if test="tiStandard != null">
+				#{tiStandard},
+			  </if>
+			  <if test="tiUnit != null">
+				#{tiUnit},
+			  </if>
+			  <if test="htiId != null">
+				#{htiId},
+			  </if>
+			  <if test="tiName != null">
+				#{tiName},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="updateTime != null">
+				#{updateTime},
+			  </if>
+			  <if test="tiLimitTime != null">
+				#{tiLimitTime},
+			  </if>
+			  <if test="tiStandardOption != null">
+				#{tiStandardOption},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			  <if test="valid != null">
+				#{valid},
+			  </if>
+			  <if test="tiHasDefect != null">
+				#{tiHasDefect},
+			  </if>
+			  <if test="tiRemark != null">
+				#{tiRemark},
+			  </if>
+			  <if test="tiIsSubmit != null">
+				#{tiIsSubmit},
+			  </if>
+			  <if test="tiMin != null">
+				#{tiMin},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="tiCheckName != null">
+				#{tiCheckName},
+			  </if>
+			  <if test="ttId != null">
+				#{ttId},
+			  </if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.quality.entity.QtTaskItem">
+	   update qt_task_item  set
+	    <trim suffixOverrides="," >
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="groupId != null">
+					 group_id=#{groupId},
+				  </if>
+				  <if test="tiInuputResult != null">
+					 ti_inuput_result=#{tiInuputResult},
+				  </if>
+				  <if test="tiIsInput != null">
+					 ti_is_input=#{tiIsInput},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="groupSort != null">
+					 group_sort=#{groupSort},
+				  </if>
+				  <if test="tiCheckId != null">
+					 ti_check_id=#{tiCheckId},
+				  </if>
+				  <if test="tiOptions != null">
+					 ti_options=#{tiOptions},
+				  </if>
+				  <if test="createTime != null">
+					 create_time=#{createTime},
+				  </if>
+				  <if test="tiFinshUnit != null">
+					 ti_finsh_unit=#{tiFinshUnit},
+				  </if>
+				  <if test="tiStatus != null">
+					 ti_status=#{tiStatus},
+				  </if>
+				  <if test="tiMax != null">
+					 ti_max=#{tiMax},
+				  </if>
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="tiCheckTime != null">
+					 ti_check_time=#{tiCheckTime},
+				  </if>
+				  <if test="tiStandard != null">
+					 ti_standard=#{tiStandard},
+				  </if>
+				  <if test="tiUnit != null">
+					 ti_unit=#{tiUnit},
+				  </if>
+				  <if test="htiId != null">
+					 hti_id=#{htiId},
+				  </if>
+				  <if test="tiName != null">
+					 ti_name=#{tiName},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="updateTime != null">
+					 update_time=#{updateTime},
+				  </if>
+				  <if test="tiLimitTime != null">
+					 ti_limit_time=#{tiLimitTime},
+				  </if>
+				  <if test="tiStandardOption != null">
+					 ti_standard_option=#{tiStandardOption},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				  <if test="valid != null">
+					 valid=#{valid},
+				  </if>
+				  <if test="tiHasDefect != null">
+					 ti_has_defect=#{tiHasDefect},
+				  </if>
+				  <if test="tiRemark != null">
+					 ti_remark=#{tiRemark},
+				  </if>
+				  <if test="tiIsSubmit != null">
+					 ti_is_submit=#{tiIsSubmit},
+				  </if>
+				  <if test="tiMin != null">
+					 ti_min=#{tiMin},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="tiCheckName != null">
+					 ti_check_name=#{tiCheckName},
+				  </if>
+				  <if test="ttId != null">
+					 tt_id=#{ttId},
+				  </if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.quality.entity.QtTaskItem">
+        update qt_task_item  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.groupId != null">
+                group_id = #{entity.groupId},
+				  </if>
+				  <if test="entity.tiInuputResult != null">
+                ti_inuput_result = #{entity.tiInuputResult},
+				  </if>
+				  <if test="entity.tiIsInput != null">
+                ti_is_input = #{entity.tiIsInput},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.groupSort != null">
+                group_sort = #{entity.groupSort},
+				  </if>
+				  <if test="entity.tiCheckId != null">
+                ti_check_id = #{entity.tiCheckId},
+				  </if>
+				  <if test="entity.tiOptions != null">
+                ti_options = #{entity.tiOptions},
+				  </if>
+				  <if test="entity.createTime != null">
+                create_time = #{entity.createTime},
+				  </if>
+				  <if test="entity.tiFinshUnit != null">
+                ti_finsh_unit = #{entity.tiFinshUnit},
+				  </if>
+				  <if test="entity.tiStatus != null">
+                ti_status = #{entity.tiStatus},
+				  </if>
+				  <if test="entity.tiMax != null">
+                ti_max = #{entity.tiMax},
+				  </if>
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.tiCheckTime != null">
+                ti_check_time = #{entity.tiCheckTime},
+				  </if>
+				  <if test="entity.tiStandard != null">
+                ti_standard = #{entity.tiStandard},
+				  </if>
+				  <if test="entity.tiUnit != null">
+                ti_unit = #{entity.tiUnit},
+				  </if>
+				  <if test="entity.htiId != null">
+                hti_id = #{entity.htiId},
+				  </if>
+				  <if test="entity.tiName != null">
+                ti_name = #{entity.tiName},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.updateTime != null">
+                update_time = #{entity.updateTime},
+				  </if>
+				  <if test="entity.tiLimitTime != null">
+                ti_limit_time = #{entity.tiLimitTime},
+				  </if>
+				  <if test="entity.tiStandardOption != null">
+                ti_standard_option = #{entity.tiStandardOption},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+				  <if test="entity.valid != null">
+                valid = #{entity.valid},
+				  </if>
+				  <if test="entity.tiHasDefect != null">
+                ti_has_defect = #{entity.tiHasDefect},
+				  </if>
+				  <if test="entity.tiRemark != null">
+                ti_remark = #{entity.tiRemark},
+				  </if>
+				  <if test="entity.tiIsSubmit != null">
+                ti_is_submit = #{entity.tiIsSubmit},
+				  </if>
+				  <if test="entity.tiMin != null">
+                ti_min = #{entity.tiMin},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.tiCheckName != null">
+                ti_check_name = #{entity.tiCheckName},
+				  </if>
+				  <if test="entity.ttId != null">
+                tt_id = #{entity.ttId},
+				  </if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from qt_task_item where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from qt_task_item where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from qt_task_item where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.quality.entity.QtTaskItem">
+      delete from qt_task_item where   <include refid="whereSql"/> 
+   </delete>
+
+	<!-- 批量插入 -->
+	<insert id="insertByBatch" useGeneratedKeys="true" parameterType="java.util.List">
+		insert into qt_task_item (id,ti_name,tt_id,hti_id,ti_options,ti_standard_option,
+		ti_max,ti_min,ti_unit,ti_is_input,ti_standard,ti_limit_time,
+		ti_finsh_unit,group_sort,group_id,create_time)
+		<foreach close=")" collection="list" item="item" index="index" open="(" separator="union">
+			select
+			#{item.id},
+			#{item.tiName},
+			#{item.ttId},
+			#{item.htiId},#{item.tiOptions},
+			#{item.tiStandardOption},
+			#{item.tiMax},
+			#{item.tiMin},#{item.tiUnit},
+			#{item.tiIsInput},
+			#{item.tiStandard},
+			#{item.tiLimitTime},
+			#{item.tiFinshUnit},#{item.groupSort},
+			#{item.groupId},#{item.createTime}
+			from dual
+		</foreach >
+	</insert>
+</mapper>

@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.purchase.dao.IMatApplyDetailExtDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.purchase.entity.MatApplyDetail" >
+  		<id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="apply_reason" property="applyReason" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="apply_emp_id" property="applyEmpId" jdbcType="BIGINT" />
+         <result column="apply_date" property="applyDate" jdbcType="TIMESTAMP" />
+         <result column="approve_option" property="approveOption" jdbcType="VARCHAR" />
+         <result column="updated_dt" property="updatedDt" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="VARCHAR" />
+         <result column="approve_date" property="approveDate" jdbcType="TIMESTAMP" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="apply_emp_name" property="applyEmpName" jdbcType="VARCHAR" />
+         <result column="apply_dept_name" property="applyDeptName" jdbcType="VARCHAR" />
+         <result column="mat_stat" property="matStat" jdbcType="BIGINT" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="supply_date" property="supplyDate" jdbcType="TIMESTAMP" />
+         <result column="apply_no" property="applyNo" jdbcType="VARCHAR" />
+         <result column="approve_emp_id" property="approveEmpId" jdbcType="VARCHAR" />
+         <result column="approve_emp_name" property="approveEmpName" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       apply_reason
+       ,version
+       ,apply_emp_id
+       ,apply_date
+       ,approve_option
+       ,updated_dt
+       ,created_dt
+       ,approve_date
+       ,created_by
+       ,id
+       ,apply_emp_name
+       ,apply_dept_name
+       ,mat_stat
+       ,updated_by
+       ,remarks
+       ,supply_date
+       ,apply_no
+       ,approve_emp_id
+       ,approve_emp_name
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="applyReason != null">
+			and apply_reason=#{applyReason}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="applyEmpId != null">
+			and apply_emp_id=#{applyEmpId}
+		 </if> 
+       <if test="applyDate != null">
+			and apply_date=#{applyDate}
+		 </if> 
+       <if test="approveOption != null">
+			and approve_option=#{approveOption}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="approveDate != null">
+			and approve_date=#{approveDate}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="applyEmpName != null">
+			and apply_emp_name=#{applyEmpName}
+		 </if> 
+       <if test="applyDeptName != null">
+			and apply_dept_name=#{applyDeptName}
+		 </if> 
+       <if test="matStat != null">
+			and mat_stat=#{matStat}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="supplyDate != null">
+			and supply_date=#{supplyDate}
+		 </if> 
+       <if test="applyNo != null">
+			and apply_no=#{applyNo}
+		 </if> 
+       <if test="approveEmpId != null">
+			and approve_emp_id=#{approveEmpId}
+		 </if> 
+       <if test="approveEmpName != null">
+			and approve_emp_name=#{approveEmpName}
+		 </if> 
+      </trim>
+  </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from PURCHASE_MAT_APPLY_DETAIL  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from PURCHASE_MAT_APPLY_DETAIL  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from PURCHASE_MAT_APPLY_DETAIL  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.purchase.entity.MatApplyDetail">
+		select <include refid="baseColumns"/> from
+       PURCHASE_MAT_APPLY_DETAIL  where   <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from PURCHASE_MAT_APPLY_DETAIL
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.purchase.entity.MatApplyDetail" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from PURCHASE_MAT_APPLY_DETAIL where   <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.purchase.entity.MatApplyDetail" resultType="java.lang.Integer">
+           select count(1) from PURCHASE_MAT_APPLY_DETAIL where   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.purchase.entity.MatApplyDetail">
+      insert into PURCHASE_MAT_APPLY_DETAIL 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="applyReason != null">
+				   apply_reason,
+			 </if> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="applyEmpId != null">
+				   apply_emp_id,
+			 </if> 
+          <if test="applyDate != null">
+				   apply_date,
+			 </if> 
+          <if test="approveOption != null">
+				   approve_option,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="approveDate != null">
+				   approve_date,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="applyEmpName != null">
+				   apply_emp_name,
+			 </if> 
+          <if test="applyDeptName != null">
+				   apply_dept_name,
+			 </if> 
+          <if test="matStat != null">
+				   mat_stat,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+          <if test="supplyDate != null">
+				   supply_date,
+			 </if> 
+          <if test="applyNo != null">
+				   apply_no,
+			 </if> 
+          <if test="approveEmpId != null">
+				   approve_emp_id,
+			 </if> 
+          <if test="approveEmpName != null">
+				   approve_emp_name,
+			 </if> 
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="applyReason != null">
+				#{applyReason},
+			  </if>
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="applyEmpId != null">
+				#{applyEmpId},
+			  </if>
+			  <if test="applyDate != null">
+				#{applyDate},
+			  </if>
+			  <if test="approveOption != null">
+				#{approveOption},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="approveDate != null">
+				#{approveDate},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="applyEmpName != null">
+				#{applyEmpName},
+			  </if>
+			  <if test="applyDeptName != null">
+				#{applyDeptName},
+			  </if>
+			  <if test="matStat != null">
+				#{matStat},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			  <if test="supplyDate != null">
+				#{supplyDate},
+			  </if>
+			  <if test="applyNo != null">
+				#{applyNo},
+			  </if>
+			  <if test="approveEmpId != null">
+				#{approveEmpId},
+			  </if>
+			  <if test="approveEmpName != null">
+				#{approveEmpName},
+			  </if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.purchase.entity.MatApplyDetail">
+	   update PURCHASE_MAT_APPLY_DETAIL  set
+	    <trim suffixOverrides="," >
+				  <if test="applyReason != null">
+					 apply_reason=#{applyReason},
+				  </if>
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="applyEmpId != null">
+					 apply_emp_id=#{applyEmpId},
+				  </if>
+				  <if test="applyDate != null">
+					 apply_date=#{applyDate},
+				  </if>
+				  <if test="approveOption != null">
+					 approve_option=#{approveOption},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="approveDate != null">
+					 approve_date=#{approveDate},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="applyEmpName != null">
+					 apply_emp_name=#{applyEmpName},
+				  </if>
+				  <if test="applyDeptName != null">
+					 apply_dept_name=#{applyDeptName},
+				  </if>
+				  <if test="matStat != null">
+					 mat_stat=#{matStat},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				  <if test="supplyDate != null">
+					 supply_date=#{supplyDate},
+				  </if>
+				  <if test="applyNo != null">
+					 apply_no=#{applyNo},
+				  </if>
+				  <if test="approveEmpId != null">
+					 approve_emp_id=#{approveEmpId},
+				  </if>
+				  <if test="approveEmpName != null">
+					 approve_emp_name=#{approveEmpName},
+				  </if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.purchase.entity.MatApplyDetail">
+        update PURCHASE_MAT_APPLY_DETAIL  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.applyReason != null">
+                apply_reason = #{entity.applyReason},
+				  </if>
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.applyEmpId != null">
+                apply_emp_id = #{entity.applyEmpId},
+				  </if>
+				  <if test="entity.applyDate != null">
+                apply_date = #{entity.applyDate},
+				  </if>
+				  <if test="entity.approveOption != null">
+                approve_option = #{entity.approveOption},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.approveDate != null">
+                approve_date = #{entity.approveDate},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.applyEmpName != null">
+                apply_emp_name = #{entity.applyEmpName},
+				  </if>
+				  <if test="entity.applyDeptName != null">
+                apply_dept_name = #{entity.applyDeptName},
+				  </if>
+				  <if test="entity.matStat != null">
+                mat_stat = #{entity.matStat},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+				  <if test="entity.supplyDate != null">
+                supply_date = #{entity.supplyDate},
+				  </if>
+				  <if test="entity.applyNo != null">
+                apply_no = #{entity.applyNo},
+				  </if>
+				  <if test="entity.approveEmpId != null">
+                approve_emp_id = #{entity.approveEmpId},
+				  </if>
+				  <if test="entity.approveEmpName != null">
+                approve_emp_name = #{entity.approveEmpName},
+				  </if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from PURCHASE_MAT_APPLY_DETAIL where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from PURCHASE_MAT_APPLY_DETAIL where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from PURCHASE_MAT_APPLY_DETAIL where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.purchase.entity.MatApplyDetail">
+      delete from PURCHASE_MAT_APPLY_DETAIL where   <include refid="whereSql"/> 
+   </delete>
+</mapper>

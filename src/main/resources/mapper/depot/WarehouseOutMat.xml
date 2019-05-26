@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.depot.dao.IWarehouseOutMatDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.depot.entity.WarehouseOutMat" >
+  		<id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="mat_neet_num" property="matNeetNum" jdbcType="BIGINT" />
+         <result column="mat_name" property="matName" jdbcType="VARCHAR" />
+         <result column="mat_spec" property="matSpec" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+         <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+         <result column="wh_id" property="whId" jdbcType="VARCHAR" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="wh_out_id" property="whOutId" jdbcType="VARCHAR" />
+         <result column="mat_real_num" property="matRealNum" jdbcType="BIGINT" />
+         <result column="mat_type_code" property="matTypeCode" jdbcType="VARCHAR" />
+         <result column="mat_type_id" property="matTypeId" jdbcType="VARCHAR" />
+	  <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+	  <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       version
+       ,mat_neet_num
+       ,mat_name
+       ,mat_spec
+       ,created_dt
+       ,updated_dt
+       ,wh_id
+       ,created_by
+       ,remarks
+       ,updated_by
+       ,id
+       ,wh_out_id
+       ,mat_real_num
+       ,mat_type_code
+       ,mat_type_id
+       ,com_code
+      ,modu_code
+  </sql>
+  
+  <sql id="whereSql">
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="matNeetNum != null">
+			and mat_neet_num=#{matNeetNum}
+		 </if> 
+       <if test="matName != null">
+			and mat_name=#{matName}
+		 </if> 
+       <if test="matSpec != null">
+			and mat_spec=#{matSpec}
+		 </if> 
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="whId != null">
+			and wh_id=#{whId}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="whOutId != null">
+			and wh_out_id=#{whOutId}
+		 </if> 
+       <if test="matRealNum != null">
+			and mat_real_num=#{matRealNum}
+		 </if> 
+       <if test="matTypeCode != null">
+			and mat_type_code=#{matTypeCode}
+		 </if> 
+       <if test="matTypeId != null">
+			and mat_type_id=#{matTypeId}
+		 </if>
+	  <if test = "comCode != null and comCode != ''" >
+		  AND com_code = #{comCode}
+	  </if >
+	  <if test = "moduCode != null and moduCode != ''" >
+		  AND modu_code = #{moduCode}
+	  </if >
+	  <if test = "moduCode == null or moduCode == ''" >
+		  AND modu_code IS NULL
+	  </if >
+   </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from DEPOT_WAREHOUSE_OUT_MAT  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from DEPOT_WAREHOUSE_OUT_MAT  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from DEPOT_WAREHOUSE_OUT_MAT  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.depot.entity.WarehouseOutMat">
+		select <include refid="baseColumns"/> from
+       DEPOT_WAREHOUSE_OUT_MAT  where  1 = 1    <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from DEPOT_WAREHOUSE_OUT_MAT
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.depot.entity.WarehouseOutMat" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from DEPOT_WAREHOUSE_OUT_MAT where  1 = 1    <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.depot.entity.WarehouseOutMat" resultType="java.lang.Integer">
+           select count(1) from DEPOT_WAREHOUSE_OUT_MAT where   1 = 1   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.depot.entity.WarehouseOutMat">
+      insert into DEPOT_WAREHOUSE_OUT_MAT 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="matNeetNum != null">
+				   mat_neet_num,
+			 </if> 
+          <if test="matName != null">
+				   mat_name,
+			 </if> 
+          <if test="matSpec != null">
+				   mat_spec,
+			 </if> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="whId != null">
+				   wh_id,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="whOutId != null">
+				   wh_out_id,
+			 </if> 
+          <if test="matRealNum != null">
+				   mat_real_num,
+			 </if> 
+          <if test="matTypeCode != null">
+				   mat_type_code,
+			 </if> 
+          <if test="matTypeId != null">
+				   mat_type_id,
+			 </if>
+			<if test="comCode != null">
+				com_code,
+			</if>
+			<if test="moduCode != null">
+				modu_code,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="matNeetNum != null">
+				#{matNeetNum},
+			  </if>
+			  <if test="matName != null">
+				#{matName},
+			  </if>
+			  <if test="matSpec != null">
+				#{matSpec},
+			  </if>
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="whId != null">
+				#{whId},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="whOutId != null">
+				#{whOutId},
+			  </if>
+			  <if test="matRealNum != null">
+				#{matRealNum},
+			  </if>
+			  <if test="matTypeCode != null">
+				#{matTypeCode},
+			  </if>
+			  <if test="matTypeId != null">
+				#{matTypeId},
+			  </if>
+			<if test="comCode != null">
+				#{comCode},
+			</if>
+			<if test="moduCode != null">
+				#{moduCode},
+			</if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.depot.entity.WarehouseOutMat">
+	   update DEPOT_WAREHOUSE_OUT_MAT  set
+	    <trim suffixOverrides="," >
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="matNeetNum != null">
+					 mat_neet_num=#{matNeetNum},
+				  </if>
+				  <if test="matName != null">
+					 mat_name=#{matName},
+				  </if>
+				  <if test="matSpec != null">
+					 mat_spec=#{matSpec},
+				  </if>
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="whId != null">
+					 wh_id=#{whId},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="whOutId != null">
+					 wh_out_id=#{whOutId},
+				  </if>
+				  <if test="matRealNum != null">
+					 mat_real_num=#{matRealNum},
+				  </if>
+				  <if test="matTypeCode != null">
+					 mat_type_code=#{matTypeCode},
+				  </if>
+				  <if test="matTypeId != null">
+					 mat_type_id=#{matTypeId},
+				  </if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.depot.entity.WarehouseOutMat">
+        update DEPOT_WAREHOUSE_OUT_MAT  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.matNeetNum != null">
+                mat_neet_num = #{entity.matNeetNum},
+				  </if>
+				  <if test="entity.matName != null">
+                mat_name = #{entity.matName},
+				  </if>
+				  <if test="entity.matSpec != null">
+                mat_spec = #{entity.matSpec},
+				  </if>
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.whId != null">
+                wh_id = #{entity.whId},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.whOutId != null">
+                wh_out_id = #{entity.whOutId},
+				  </if>
+				  <if test="entity.matRealNum != null">
+                mat_real_num = #{entity.matRealNum},
+				  </if>
+				  <if test="entity.matTypeCode != null">
+                mat_type_code = #{entity.matTypeCode},
+				  </if>
+				  <if test="entity.matTypeId != null">
+                mat_type_id = #{entity.matTypeId},
+				  </if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from DEPOT_WAREHOUSE_OUT_MAT where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from DEPOT_WAREHOUSE_OUT_MAT where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from DEPOT_WAREHOUSE_OUT_MAT where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.depot.entity.WarehouseOutMat">
+      delete from DEPOT_WAREHOUSE_OUT_MAT where 1 = 1  <include refid="whereSql"/>
+   </delete>
+   
+</mapper>

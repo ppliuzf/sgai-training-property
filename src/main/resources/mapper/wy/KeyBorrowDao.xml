@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.KeyBorrowDao">
+
+	<sql id="keyBorrowColumns">
+		a.id AS "id",
+		a.borrow_manager AS "borrowManager",
+		a.borrow_date AS "borrowDate",
+		a.dept_codes AS "deptCodes",
+		a.dept_name AS "deptName",
+		a.borrower AS "borrower",
+		a.amount AS "amount",
+		a.borrow_time AS "borrowTime",
+		a.regain_time AS "regainTime",
+		a.watch AS "watch",
+		a.remark AS "remark",
+		a.phone AS "phone",
+		a.manager AS "manager",
+		a.goods_classify AS "goodsClassify",
+		a.position AS "position",
+		a.purpose AS "purpose",
+		a.regain_dept AS "regainDept",
+		a.regain_amount AS "regainAmount",
+		a.position_code AS "positionCode"
+	</sql>
+
+	<select id="findList" resultType="com.sgai.property.wy.entity.KeyBorrow">
+		SELECT
+			<include refid="keyBorrowColumns"/>
+		FROM WY_CUS_KEY_BORROW a
+
+		<where>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				AND	${sqlMap.sql}
+			</if>
+			<if test="borrowTimeFrom != null">
+				AND a.borrow_time &gt;= #{borrowTimeFrom}
+			</if>
+			<if test="borrowTimeTo != null">
+				AND a.borrow_time &lt;= #{borrowTimeTo}
+			</if>
+			<if test="watch != null and watch != ''">
+				AND a.watch like  '%'||#{watch}||'%'
+			</if>
+			<if test="borrower != null and borrower != ''">
+				AND a.borrower  like  '%'||#{borrower}||'%'
+			</if>
+			<if test="deptName != null and deptName != ''">
+				AND a.dept_name = #{deptName}
+			</if>
+			<if test="goodsClassify != null and goodsClassify != ''">
+				AND a.goods_classify = #{goodsClassify}
+			</if>
+			<!--AND SUBSTRING_INDEX(a.position_code, '-', -1) in(select cr.space_code from ctl_user_space_relation cr where
+			cr.user_code = #{loginUserCode})-->
+		</where>
+	</select>
+	<update id="delete">
+		DELETE FROM WY_CUS_KEY_BORROW
+		WHERE ID = #{id}
+	</update>
+
+	<insert id="insert">
+		INSERT INTO WY_CUS_KEY_BORROW(
+			id,
+			borrow_manager,
+			borrow_date,
+			dept_codes,
+			dept_name,
+			borrower,
+			amount,
+			borrow_time,
+			regain_time,
+			watch,
+			remark,
+			phone,
+			manager,
+			goods_classify,
+			position,
+			purpose,
+			regain_dept,
+			regain_amount,
+			COM_CODE,
+			dept_code,
+			position_code,
+			created_by
+		) VALUES (
+			#{id},
+			#{borrowManager},
+			#{borrowDate},
+			#{deptCodes},
+			#{deptName},
+			#{borrower},
+			#{amount},
+			#{borrowTime},
+			#{regainTime},
+			#{watch},
+			#{remark},
+			#{phone},
+			#{manager},
+			#{goodsClassify},
+			#{position},
+			#{purpose},
+			#{regainDept},
+			#{regainAmount},
+			#{comCode},
+			#{deptCode},
+			#{positionCode},
+			#{createdBy}
+		)
+	</insert>
+
+	<select id="get" resultType="com.sgai.property.wy.entity.KeyBorrow">
+		SELECT
+			<include refid="keyBorrowColumns"/>
+		FROM WY_CUS_KEY_BORROW a
+		WHERE a.id = #{id}
+	</select>
+
+	<update id="update">
+		UPDATE WY_CUS_KEY_BORROW SET
+			BORROW_MANAGER = #{borrowManager},
+			BORROW_DATE = #{borrowDate},
+			dept_codes = #{deptCodes},
+			DEPT_NAME = #{deptName},
+			BORROWER = #{borrower},
+			AMOUNT = #{amount},
+			BORROW_TIME = #{borrowTime},
+			REGAIN_TIME = #{regainTime},
+			WATCH = #{watch},
+			REMARK = #{remark},
+			PHONE = #{phone},
+			MANAGER = #{manager},
+			POSITION = #{position},
+			GOODS_CLASSIFY = #{goodsClassify},
+			PURPOSE = #{purpose},
+			REGAIN_DEPT = #{regainDept},
+			REGAIN_AMOUNT = #{regainAmount},
+			POSITION_CODE = #{positionCode}
+		WHERE id = #{id}
+	</update>
+
+</mapper>

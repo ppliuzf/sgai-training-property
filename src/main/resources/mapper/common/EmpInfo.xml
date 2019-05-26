@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.commonService.dao.IEmpInfoDao">
+	<resultMap id="BaseResultMap"
+		type="com.sgai.property.commonService.entity.EmpInfo">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="origin_em_id" property="eiId" jdbcType="BIGINT" />
+		<result column="origin_em_id" property="originEmId" jdbcType="BIGINT" />
+		<result column="org_id" property="orgId" jdbcType="BIGINT" />
+		<result column="org_name" property="orgName" jdbcType="VARCHAR" />
+		<result column="dept_id" property="deptId" jdbcType="BIGINT" />
+		<result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+		<result column="position_id" property="positionId" jdbcType="BIGINT" />
+		<result column="position_name" property="positionName" jdbcType="VARCHAR" />
+		<result column="ei_email" property="eiEmail" jdbcType="VARCHAR" />
+		<result column="ei_emp_no" property="eiEmpNo" jdbcType="VARCHAR" />
+		<result column="ei_emp_name" property="eiEmpName" jdbcType="VARCHAR" />
+		<result column="ei_head_picture" property="eiHeadPicture" jdbcType="VARCHAR" />
+		<result column="ei_emp_phone" property="eiEmpPhone" jdbcType="VARCHAR" />
+		<result column="toon_user_id" property="toonUserId" jdbcType="BIGINT" />
+		<result column="feed_id" property="feedId" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="BIGINT" />
+		<result column="update_time" property="updateTime" jdbcType="BIGINT" />
+		<result column="VERSION" property="version" jdbcType="BIGINT"/>
+		<result column="UPDATED_DT" property="updatedDt" jdbcType="TIMESTAMP"/>
+		<result column="UPDATED_BY" property="updatedBy" jdbcType="VARCHAR"/>
+		<result column="CREATED_DT" property="createdDt" jdbcType="TIMESTAMP"/>
+		<result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR"/>
+		<result column="REMARKS" property="remarks" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<sql id="baseColumns">
+		id
+		,origin_em_id
+		,org_id
+		,org_name
+		,dept_id
+		,dept_name
+		,position_id
+		,position_name
+		,ei_email
+		,ei_emp_no
+		,ei_emp_name
+		,ei_head_picture
+		,ei_emp_phone
+		,toon_user_id
+		,feed_id
+		,create_time
+		,update_time
+		,VERSION,UPDATED_DT,UPDATED_BY,CREATED_DT,CREATED_BY,REMARKS
+	</sql>
+
+	<sql id="whereSql">
+		<trim  prefixOverrides="AND | OR">
+			<if test="originEmId != null">
+				and origin_em_id=#{originEmId}
+			</if>
+			<if test="orgId != null">
+				and org_id=#{orgId}
+			</if>
+			<if test="orgName != null">
+				and org_name=#{orgName}
+			</if>
+			<if test="deptId != null">
+				and dept_id=#{deptId}
+			</if>
+			<if test="deptName != null">
+				and dept_name=#{deptName}
+			</if>
+			<if test="positionId != null">
+				and position_id=#{positionId}
+			</if>
+			<if test="positionName != null">
+				and position_name=#{positionName}
+			</if>
+			<if test="eiEmail != null">
+				and ei_email=#{eiEmail}
+			</if>
+			<if test="eiEmpName != null">
+				and ei_emp_name=#{eiEmpName}
+			</if>
+			<if test="eiHeadPicture != null">
+				and ei_head_picture=#{eiHeadPicture}
+			</if>
+			<if test="eiEmpPhone != null">
+				and ei_emp_phone=#{eiEmpPhone}
+			</if>
+			<if test="toonUserId != null">
+				and toon_user_id=#{toonUserId}
+			</if>
+			<if test="feedId != null">
+				and feed_id=#{feedId}
+			</if>
+			<if test="updateTime != null">
+				and update_time=#{updateTime}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from comm_emp_info  where id =#{id}
+	</select>
+
+	<select id="getByListId" resultMap="BaseResultMap">
+       select <include refid="baseColumns"/> from comm_emp_info  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</select>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.commonService.entity.EmpInfo">
+		select <include refid="baseColumns"/> from
+		comm_emp_info  where   <include refid="whereSql"/>
+	</select> 
+
+	<select id="findList"  parameterType="com.sgai.property.commonService.entity.EmpInfo" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/> from comm_emp_info where   <include refid="whereSql"/>
+		<if test="page !=null and page.orderBy != null and page.orderBy != ''">
+			ORDER BY ${page.orderBy}
+		</if>
+	</select>
+
+	<select id="searchEmpInfoList"  parameterType="com.sgai.property.commonService.entity.EmpInfo" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/> from comm_emp_info where
+		<if test="eiEmpName != null">
+			 ei_emp_name  LIKE '%'||#{eiEmpName}||'%'
+		</if>
+		<if test="orgId != null">
+			and org_id=#{orgId}
+		</if>
+		<if test="page !=null and page.orderBy != null and page.orderBy != ''">
+			ORDER BY ${page.orderBy}
+		</if>
+	</select>
+	
+	<insert id="insertEmpInfoBatch" parameterType="java.util.List">
+		insert into comm_emp_info
+		(
+		    id,origin_em_id, org_id, org_name, dept_id,
+			dept_name, position_id, position_name, ei_email,ei_emp_no,
+			ei_emp_name, ei_head_picture, ei_emp_phone, toon_user_id, 
+			feed_id, create_time, update_time 
+		)
+		<foreach close=")" collection="list" item="emp" index="index" open="(" separator="union">
+			select
+			#{emp.id},#{emp.originEmId}, #{emp.orgId}, #{emp.orgName}, #{emp.deptId},
+			#{emp.deptName}, #{emp.positionId}, #{emp.positionName}, #{emp.eiEmail}, #{emp.eiEmpNo},
+			#{emp.eiEmpName}, #{emp.eiHeadPicture}, #{emp.eiEmpPhone}, #{emp.toonUserId},
+			#{emp.feedId}, #{emp.createTime}, #{emp.updateTime}
+			from dual
+		</foreach >
+	</insert>
+	<update id="updateEmpInfo" 
+		parameterType="com.sgai.property.commonService.entity.EmpInfo">
+		update comm_emp_info
+		<set>
+			<if test="id != null">
+				id=#{id},
+			</if> 
+			<if test="originEmId != null">
+				origin_em_id=#{originEmId},
+			</if> 
+			<if test="orgId != null">
+				org_id=#{orgId},
+			</if> 
+			<if test="orgName != null">
+				org_name=#{orgName},
+			</if> 
+			<if test="deptId != null">
+				dept_id=#{deptId},
+			</if> 
+			<if test="deptName != null">
+				dept_name=#{deptName},
+			</if> 
+			<if test="positionId != null">
+				position_id=#{positionId},
+			</if> 
+			<if test="positionName != null">
+				position_name=#{positionName},
+			</if>
+			<if test="eiEmail != null">
+				ei_email=#{eiEmail},
+			</if>
+			<if test="eiEmpName != null">
+				ei_emp_name=#{eiEmpName},
+			</if> 
+			<if test="eiHeadPicture != null">
+				ei_head_picture=#{eiHeadPicture},
+			</if> 
+			<if test="eiEmpPhone != null">
+				ei_emp_phone=#{eiEmpPhone},
+			</if> 
+			<if test="toonUserId != null">
+				toon_user_id=#{toonUserId},
+			</if> 
+			<if test="feedId != null">
+				feed_id=#{feedId},
+			</if> 
+			<if test="updateTime != null">
+				update_time=#{updateTime},
+			</if> 
+		</set>
+		where ei_emp_no = #{eiEmpNo} 
+ 	</update>
+
+	<delete id="deleteByListId">
+		delete from comm_emp_info where id in
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+</mapper>

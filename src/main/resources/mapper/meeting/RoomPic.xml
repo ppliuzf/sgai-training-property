@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.meeting.dao.IRoomPicDao">
+    <resultMap id="BaseResultMap" type="com.sgai.property.meeting.entity.RoomPic">
+        <!-- com.sgai.property.meeting.entity.RoomPic -->
+        <id column="ID" property="id" jdbcType="VARCHAR"/>
+        <result column="rp_room_pic_url" property="rpRoomPicUrl" jdbcType="VARCHAR"/>
+        <result column="rp_room_pic_name" property="rpRoomPicName" jdbcType="VARCHAR"/>
+        <result column="is_room_pic_main" property="isRoomPicMain" jdbcType="TINYINT"/>
+        <result column="com_id" property="comId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="update_time" property="updateTime" jdbcType="BIGINT"/>
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT"/>
+        <result column="VERSION" property="version" jdbcType="BIGINT"/>
+        <result column="UPDATED_DT" property="updatedDt" jdbcType="TIMESTAMP"/>
+        <result column="UPDATED_BY" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="CREATED_DT" property="createdDt" jdbcType="TIMESTAMP"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="REMARKS" property="remarks" jdbcType="VARCHAR"/>
+        <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+	  <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="baseColumns">
+       ID
+       ,ID
+       ,rp_room_pic_url
+       ,rp_room_pic_name
+       ,is_room_pic_main
+       ,com_id
+       ,create_time
+       ,update_time
+       ,is_delete
+       ,VERSION,UPDATED_DT,UPDATED_BY,CREATED_DT,CREATED_BY,REMARKS
+       ,com_code
+       ,modu_code
+  </sql>
+
+    <sql id="whereSql">
+        <trim prefixOverrides="AND | OR">
+        <if test="comCode != null">
+			 and com_code=#{comCode}
+		 </if>
+		 <if test="moduCode != null">
+			 and modu_code=#{moduCode}
+		 </if>
+            <if test="id != null">
+                and ID=#{id}
+            </if>
+            <if test="id != null">
+                and ID=#{id}
+            </if>
+            <if test="rpRoomPicUrl != null">
+                and rp_room_pic_url=#{rpRoomPicUrl}
+            </if>
+            <if test="rpRoomPicName != null">
+                and rp_room_pic_name=#{rpRoomPicName}
+            </if>
+            <if test="isRoomPicMain != null">
+                and is_room_pic_main=#{isRoomPicMain}
+            </if>
+            <if test="comId != null">
+                and com_id=#{comId}
+            </if>
+            <if test="createTime != null">
+                and create_time=#{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="isDelete != null">
+                and is_delete=#{isDelete}
+            </if>
+            <!-- ,VERSION,UPDATED_DT,UPDATED_BY,CREATED_DT,CREATED_BY,REMARKS -->
+            <if test="version != null">
+                and VERSION=#{version}
+            </if>
+            <if test="updatedDt != null">
+                and UPDATED_DT=#{updatedDt}
+            </if>
+            <if test="updatedBy != null">
+                and UPDATED_BY=#{updatedBy}
+            </if>
+            <if test="createdDt != null">
+                and CREATED_DT=#{createdDt}
+            </if>
+            <if test="createdBy != null">
+                and CREATED_BY=#{createdBy}
+            </if>
+            <if test="remarks != null">
+                and REMARKS=#{remarks}
+            </if>
+        </trim>
+    </sql>
+
+    <select id="getById" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_room_pic where ID =#{id}
+    </select>
+
+    <select id="getByIds" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_room_pic where ID in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="getByListId">
+        select
+        <include refid="baseColumns"/>
+        from mt_room_pic where ID in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.meeting.entity.RoomPic">
+        select
+        <include refid="baseColumns"/>
+        from
+        mt_room_pic where
+        <include refid="whereSql"/>
+
+    </select>
+
+    <select id="findAllList" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_room_pic
+    </select>
+
+
+    <select id="findList" parameterType="com.sgai.property.meeting.entity.RoomPic" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_room_pic where
+        <include refid="whereSql"/>
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+    </select>
+
+    <select id="getCount" parameterType="com.sgai.property.meeting.entity.RoomPic" resultType="java.lang.Integer">
+        select count(1) from mt_room_pic where
+        <include refid="whereSql"/>
+    </select>
+
+    <insert id="insert"
+            parameterType="com.sgai.property.meeting.entity.RoomPic">
+        insert into mt_room_pic
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+             <if test="comCode != null">
+				 com_code,
+			 </if>
+			 <if test="moduCode != null">
+				 modu_code,
+			 </if>
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="rpRoomPicUrl != null">
+                rp_room_pic_url,
+            </if>
+            <if test="rpRoomPicName != null">
+                rp_room_pic_name,
+            </if>
+            <if test="isRoomPicMain != null">
+                is_room_pic_main,
+            </if>
+            <if test="comId != null">
+                com_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <!-- ,VERSION,UPDATED_DT,UPDATED_BY,CREATED_DT,CREATED_BY,REMARKS -->
+            <if test="version != null">
+                VERSION,
+            </if>
+            <if test="updatedDt != null">
+                UPDATED_DT,
+            </if>
+            <if test="updatedBy != null">
+                UPDATED_BY,
+            </if>
+            <if test="createdDt != null">
+                CREATED_DT,
+            </if>
+            <if test="createdBy != null">
+                CREATED_BY,
+            </if>
+            <if test="remarks != null">
+                REMARKS,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="comCode != null">
+				 #{comCode},
+			 </if>
+			 <if test="moduCode != null">
+				 #{moduCode},
+			 </if>
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="rpRoomPicUrl != null">
+                #{rpRoomPicUrl},
+            </if>
+            <if test="rpRoomPicName != null">
+                #{rpRoomPicName},
+            </if>
+            <if test="isRoomPicMain != null">
+                #{isRoomPicMain},
+            </if>
+            <if test="comId != null">
+                #{comId},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>
+            <!-- ,VERSION,UPDATED_DT,UPDATED_BY,CREATED_DT,CREATED_BY,REMARKS -->
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="updatedDt != null">
+                #{updatedDt},
+            </if>
+            <if test="updatedBy != null">
+                #{updatedBy},
+            </if>
+            <if test="createdDt != null">
+                #{createdDt},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="remarks != null">
+                #{remarks},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.sgai.property.meeting.entity.RoomPic">
+        update mt_room_pic set
+        <trim suffixOverrides=",">
+         <if test="comCode != null">
+					 com_code=#{comCode},
+				 </if>
+				 <if test="moduCode != null">
+					 modu_code=#{moduCode},
+				 </if>
+            <if test="id != null">
+                ID=#{id},
+            </if>
+            <if test="rpRoomPicUrl != null">
+                rp_room_pic_url=#{rpRoomPicUrl},
+            </if>
+            <if test="rpRoomPicName != null">
+                rp_room_pic_name=#{rpRoomPicName},
+            </if>
+            <if test="isRoomPicMain != null">
+                is_room_pic_main=#{isRoomPicMain},
+            </if>
+            <if test="comId != null">
+                com_id=#{comId},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+            <if test="isDelete != null">
+                is_delete=#{isDelete},
+            </if>
+            <!-- ,VERSION,UPDATED_DT,UPDATED_BY,CREATED_DT,CREATED_BY,REMARKS -->
+            <if test="version != null">
+                and VERSION=#{version},
+            </if>
+            <if test="updatedDt != null">
+                and UPDATED_DT=#{updatedDt},
+            </if>
+            <if test="updatedBy != null">
+                and UPDATED_BY=#{updatedBy},
+            </if>
+            <if test="createdDt != null">
+                and CREATED_DT=#{createdDt},
+            </if>
+            <if test="createdBy != null">
+                and CREATED_BY=#{createdBy},
+            </if>
+            <if test="remarks != null">
+                and REMARKS=#{remarks},
+            </if>
+        </trim>
+        where ID =#{id}
+    </update>
+
+    <update id="updateByIds" parameterType="com.sgai.property.meeting.entity.RoomPic">
+        update mt_room_pic set
+        <trim suffixOverrides=",">
+        	<if test="entity.comCode != null">
+					 com_code=#{entity.comCode},
+				 </if>
+				 <if test="entity.moduCode != null">
+					 modu_code=#{entity.moduCode},
+				 </if>
+            <if test="entity.id != null">
+                ID = #{entity.id},
+            </if>
+            <if test="entity.rpRoomPicUrl != null">
+                rp_room_pic_url = #{entity.rpRoomPicUrl},
+            </if>
+            <if test="entity.rpRoomPicName != null">
+                rp_room_pic_name = #{entity.rpRoomPicName},
+            </if>
+            <if test="entity.isRoomPicMain != null">
+                is_room_pic_main = #{entity.isRoomPicMain},
+            </if>
+            <if test="entity.comId != null">
+                com_id = #{entity.comId},
+            </if>
+            <if test="entity.createTime != null">
+                create_time = #{entity.createTime},
+            </if>
+            <if test="entity.updateTime != null">
+                update_time = #{entity.updateTime},
+            </if>
+            <if test="entity.isDelete != null">
+                is_delete = #{entity.isDelete},
+            </if>
+            <!-- ,VERSION,UPDATED_DT,UPDATED_BY,CREATED_DT,CREATED_BY,REMARKS -->
+            <if test="entity.version != null">
+                and VERSION=#{entity.version},
+            </if>
+            <if test="entity.updatedDt != null">
+                and UPDATED_DT=#{entity.updatedDt},
+            </if>
+            <if test="entity.updatedBy != null">
+                and UPDATED_BY=#{entity.updatedBy},
+            </if>
+            <if test="entity.createdDt != null">
+                and CREATED_DT=#{entity.createdDt},
+            </if>
+            <if test="entity.createdBy != null">
+                and CREATED_BY=#{entity.createdBy},
+            </if>
+            <if test="entity.remarks != null">
+                and REMARKS=#{entity.remarks},
+            </if>
+        </trim>
+        where ID in
+        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+
+    <delete id="deleteById">
+      delete from mt_room_pic where ID =#{id}
+   </delete>
+
+    <delete id="deleteByIds">
+        delete from mt_room_pic where ID in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByListId">
+        delete from mt_room_pic where ID in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="delete" parameterType="com.sgai.property.meeting.entity.RoomPic">
+        delete from mt_room_pic where
+        <include refid="whereSql"/>
+    </delete>
+
+</mapper>

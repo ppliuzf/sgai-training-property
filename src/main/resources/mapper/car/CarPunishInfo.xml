@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.car.dao.ICarPunishInfoDao">
+    <resultMap id="BaseResultMap" type="com.sgai.property.car.entity.CarPunishInfo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="punish_user_name" property="punishUserName" jdbcType="VARCHAR"/>
+        <result column="punish_content" property="punishContent" jdbcType="VARCHAR"/>
+        <result column="punish_desc" property="punishDesc" jdbcType="VARCHAR"/>
+        <result column="is_delete" property="isDelete" jdbcType="BIGINT"/>
+        <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP"/>
+        <result column="punish_time" property="punishTime" jdbcType="BIGINT"/>
+        <result column="punish_user_id" property="punishUserId" jdbcType="VARCHAR"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="BIGINT"/>
+        <result column="punish_type" property="punishType" jdbcType="VARCHAR"/>
+        <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP"/>
+        <result column="punish_user_phone_num" property="punishUserPhoneNum" jdbcType="VARCHAR"/>
+        <result column="car_id" property="carId" jdbcType="VARCHAR"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+        <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="baseColumns">
+       punish_user_name
+       ,punish_content
+       ,punish_desc
+       ,is_delete
+       ,created_dt
+       ,punish_time
+       ,punish_user_id
+       ,created_by
+       ,id
+       ,version
+       ,punish_type
+       ,updated_dt
+       ,punish_user_phone_num
+       ,car_id
+       ,updated_by
+       ,remarks
+       ,com_code
+       ,modu_code
+  </sql>
+
+    <sql id="whereSql">
+        <trim prefixOverrides="AND | OR">
+            <if test="punishUserName != null">
+                and punish_user_name=#{punishUserName}
+            </if>
+            <if test="punishContent != null">
+                and punish_content=#{punishContent}
+            </if>
+            <if test="punishDesc != null">
+                and punish_desc=#{punishDesc}
+            </if>
+            <if test="isDelete != null">
+                and is_delete=#{isDelete}
+            </if>
+            <if test="createdDt != null">
+                and created_dt=#{createdDt}
+            </if>
+            <if test="punishTime != null">
+                and punish_time=#{punishTime}
+            </if>
+            <if test="punishUserId != null">
+                and punish_user_id=#{punishUserId}
+            </if>
+            <if test="createdBy != null">
+                and created_by=#{createdBy}
+            </if>
+            <if test="id != null">
+                and id=#{id}
+            </if>
+            <if test="version != null">
+                and version=#{version}
+            </if>
+            <if test="punishType != null">
+                and punish_type=#{punishType}
+            </if>
+            <if test="updatedDt != null">
+                and updated_dt=#{updatedDt}
+            </if>
+            <if test="punishUserPhoneNum != null">
+                and punish_user_phone_num=#{punishUserPhoneNum}
+            </if>
+            <if test="carId != null">
+                and car_id=#{carId}
+            </if>
+            <if test="updatedBy != null">
+                and updated_by=#{updatedBy}
+            </if>
+            <if test="remarks != null">
+                and remarks=#{remarks}
+            </if>
+            <if test="comCode != null and comCode != ''">
+                AND com_code = #{comCode}
+            </if>
+            <if test="moduCode != null and moduCode != ''">
+                AND modu_code = #{moduCode}
+            </if>
+            <if test="moduCode == null or moduCode == ''">
+                AND modu_code is null
+            </if>
+        </trim>
+    </sql>
+
+    <select id="getById" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CAR_PUNISH_INFO where id =#{id}
+    </select>
+
+    <select id="getByIds" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CAR_PUNISH_INFO where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="getByListId">
+        select
+        <include refid="baseColumns"/>
+        from CAR_PUNISH_INFO where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.car.entity.CarPunishInfo">
+        select
+        <include refid="baseColumns"/>
+        from
+        CAR_PUNISH_INFO where
+        <include refid="whereSql"/>
+    </select>
+
+    <select id="findAllList" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CAR_PUNISH_INFO
+    </select>
+
+    <select id="findList" parameterType="com.sgai.property.car.entity.CarPunishInfo" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CAR_PUNISH_INFO where
+        <include refid="whereSql"/>
+        ORDER BY updated_dt desc
+    </select>
+
+    <select id="getCount" parameterType="com.sgai.property.car.entity.CarPunishInfo" resultType="java.lang.Integer">
+        select count(1) from CAR_PUNISH_INFO where
+        <include refid="whereSql"/>
+    </select>
+
+    <insert id="insert" parameterType="com.sgai.property.car.entity.CarPunishInfo">
+        insert into CAR_PUNISH_INFO
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="punishUserName != null">
+                punish_user_name,
+            </if>
+            <if test="punishContent != null">
+                punish_content,
+            </if>
+            <if test="punishDesc != null">
+                punish_desc,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="createdDt != null">
+                created_dt,
+            </if>
+            <if test="punishTime != null">
+                punish_time,
+            </if>
+            <if test="punishUserId != null">
+                punish_user_id,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="id != null">
+                id,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="punishType != null">
+                punish_type,
+            </if>
+            <if test="updatedDt != null">
+                updated_dt,
+            </if>
+            <if test="punishUserPhoneNum != null">
+                punish_user_phone_num,
+            </if>
+            <if test="carId != null">
+                car_id,
+            </if>
+            <if test="updatedBy != null">
+                updated_by,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+            <if test="comCode != null">
+                com_code,
+            </if>
+            <if test="moduCode != null">
+                modu_code,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="punishUserName != null">
+                #{punishUserName},
+            </if>
+            <if test="punishContent != null">
+                #{punishContent},
+            </if>
+            <if test="punishDesc != null">
+                #{punishDesc},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>
+            <if test="createdDt != null">
+                #{createdDt},
+            </if>
+            <if test="punishTime != null">
+                #{punishTime},
+            </if>
+            <if test="punishUserId != null">
+                #{punishUserId},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="punishType != null">
+                #{punishType},
+            </if>
+            <if test="updatedDt != null">
+                #{updatedDt},
+            </if>
+            <if test="punishUserPhoneNum != null">
+                #{punishUserPhoneNum},
+            </if>
+            <if test="carId != null">
+                #{carId},
+            </if>
+            <if test="updatedBy != null">
+                #{updatedBy},
+            </if>
+            <if test="remarks != null">
+                #{remarks},
+            </if>
+            <if test="comCode != null">
+                #{comCode},
+            </if>
+            <if test="moduCode != null">
+                #{moduCode},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.sgai.property.car.entity.CarPunishInfo">
+        update CAR_PUNISH_INFO set
+        <trim suffixOverrides=",">
+            <if test="punishUserName != null">
+                punish_user_name=#{punishUserName},
+            </if>
+            <if test="punishContent != null">
+                punish_content=#{punishContent},
+            </if>
+            <if test="punishDesc != null">
+                punish_desc=#{punishDesc},
+            </if>
+            <if test="isDelete != null">
+                is_delete=#{isDelete},
+            </if>
+            <if test="createdDt != null">
+                created_dt=#{createdDt},
+            </if>
+            <if test="punishTime != null">
+                punish_time=#{punishTime},
+            </if>
+            <if test="punishUserId != null">
+                punish_user_id=#{punishUserId},
+            </if>
+            <if test="createdBy != null">
+                created_by=#{createdBy},
+            </if>
+            <if test="version != null">
+                version=#{version},
+            </if>
+            <if test="punishType != null">
+                punish_type=#{punishType},
+            </if>
+            <if test="updatedDt != null">
+                updated_dt=#{updatedDt},
+            </if>
+            <if test="punishUserPhoneNum != null">
+                punish_user_phone_num=#{punishUserPhoneNum},
+            </if>
+            <if test="carId != null">
+                car_id=#{carId},
+            </if>
+            <if test="updatedBy != null">
+                updated_by=#{updatedBy},
+            </if>
+            <if test="remarks != null">
+                remarks=#{remarks},
+            </if>
+        </trim>
+        where id =#{id}
+    </update>
+
+    <update id="updateByIds" parameterType="com.sgai.property.car.entity.CarPunishInfo">
+        update CAR_PUNISH_INFO set
+        <trim suffixOverrides=",">
+            <if test="entity.punishUserName != null">
+                punish_user_name = #{entity.punishUserName},
+            </if>
+            <if test="entity.punishContent != null">
+                punish_content = #{entity.punishContent},
+            </if>
+            <if test="entity.punishDesc != null">
+                punish_desc = #{entity.punishDesc},
+            </if>
+            <if test="entity.isDelete != null">
+                is_delete = #{entity.isDelete},
+            </if>
+            <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+            </if>
+            <if test="entity.punishTime != null">
+                punish_time = #{entity.punishTime},
+            </if>
+            <if test="entity.punishUserId != null">
+                punish_user_id = #{entity.punishUserId},
+            </if>
+            <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+            </if>
+            <if test="entity.version != null">
+                version = #{entity.version},
+            </if>
+            <if test="entity.punishType != null">
+                punish_type = #{entity.punishType},
+            </if>
+            <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+            </if>
+            <if test="entity.punishUserPhoneNum != null">
+                punish_user_phone_num = #{entity.punishUserPhoneNum},
+            </if>
+            <if test="entity.carId != null">
+                car_id = #{entity.carId},
+            </if>
+            <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+            </if>
+            <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+            </if>
+        </trim>
+        where id in
+        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+
+    <delete id="deleteById">
+      delete from CAR_PUNISH_INFO where id =#{id}
+   </delete>
+
+    <delete id="deleteByIds">
+        delete from CAR_PUNISH_INFO where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByListId">
+        delete from CAR_PUNISH_INFO where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="delete" parameterType="com.sgai.property.car.entity.CarPunishInfo">
+        delete from CAR_PUNISH_INFO where
+        <include refid="whereSql"/>
+    </delete>
+
+</mapper>

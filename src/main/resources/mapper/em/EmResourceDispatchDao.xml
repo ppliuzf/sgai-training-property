@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.em.dao.EmResourceDispatchDao">
+    
+	<sql id="emResourceDispatchColumns">
+		a.instance_id AS "instanceId",
+		a.em_code AS "emCode",
+		a.em_type AS "emType",
+		a.group_leader AS "groupLeader",
+		a.group_leader2 AS "groupLeader2",
+		a.members AS "members",
+		a.group_leader_name AS "groupLeaderName",
+		a.group_leader2_name AS "groupLeader2Name",
+		a.members_name AS "membersName",
+		a.emergency_specialist AS "specialist",
+		a.emergency_specialist_name AS "specialistName",
+		a.end_flag AS "endFlag",
+		a.id AS "id",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="emResourceDispatchJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.em.entity.EmResourceDispatch">
+		SELECT 
+			<include refid="emResourceDispatchColumns"/>
+		FROM em_resource_dispatch a
+		<include refid="emResourceDispatchJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getResourceDispatch" resultType="com.sgai.property.em.entity.EmResourceDispatch">
+		SELECT 
+			<include refid="emResourceDispatchColumns"/>
+		FROM em_resource_dispatch a
+		<include refid="emResourceDispatchJoins"/>
+		<where>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.em.entity.EmResourceDispatch">
+		SELECT 
+			<include refid="emResourceDispatchColumns"/>
+		FROM em_resource_dispatch a
+		<include refid="emResourceDispatchJoins"/>
+		<where>
+			<if test="instanceId != null and instanceId != ''">
+				AND a.instance_id = #{instanceId}
+			</if>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+			<if test="emType != null and emType != ''">
+				AND a.em_type = #{emType}
+			</if>
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.em.entity.EmResourceDispatch">
+		SELECT 
+			<include refid="emResourceDispatchColumns"/>
+		FROM em_resource_dispatch a
+		<include refid="emResourceDispatchJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO em_resource_dispatch(
+			instance_id,
+			em_code,
+			em_type,
+			grouP_leader,
+			grouP_leader2,
+			members,
+			group_leader_name,
+			group_leader2_name,
+			members_name,
+			emergency_specialist,
+			emergency_specialist_name,
+			end_flag,
+			id,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{instanceId},
+			#{emCode},
+			#{emType},
+			#{groupLeader},
+			#{groupLeader2},
+			#{members},
+			#{groupLeaderName},
+			#{groupLeader2Name},
+			#{membersName},
+			#{specialist},
+			#{specialistName},
+			#{endFlag},
+			#{id},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE em_resource_dispatch SET 	
+			instance_id = #{instanceId},
+			em_code = #{emCode},
+			em_type = #{emType},
+			grouP_leader = #{groupLeader},
+			grouP_leader2 = #{groupLeader2},
+			members = #{members},
+			group_leader_name = #{groupLeaderName},
+			group_leader2_name = #{groupLeader2Name},
+			members_name = #{membersName},
+			emergency_specialist = #{specialist},
+			emergency_specialist_name = #{specialistName},
+			end_flag = #{endFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM em_resource_dispatch
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

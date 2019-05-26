@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.quality.dao.IQtDefectAttachmentDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.quality.entity.QtDefectAttachment" >
+	      <id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="business_id" property="businessId" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+         <result column="da_type" property="daType" jdbcType="VARCHAR" />
+         <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="da_source" property="daSource" jdbcType="BIGINT" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="da_create_time" property="daCreateTime" jdbcType="BIGINT" />
+         <result column="da_url" property="daUrl" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       created_dt
+       ,created_by
+       ,business_id
+       ,version
+       ,updated_dt
+       ,da_type
+       ,update_time
+       ,remarks
+       ,id
+       ,da_source
+       ,updated_by
+       ,da_create_time
+       ,da_url
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="businessId != null">
+			and business_id=#{businessId}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="daType != null">
+			and da_type=#{daType}
+		 </if> 
+       <if test="updateTime != null">
+			and update_time=#{updateTime}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="daSource != null">
+			and da_source=#{daSource}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="daCreateTime != null">
+			and da_create_time=#{daCreateTime}
+		 </if> 
+       <if test="daUrl != null">
+			and da_url=#{daUrl}
+		 </if> 
+      </trim>
+  </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from qt_defect_attachment  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_defect_attachment  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from qt_defect_attachment  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.quality.entity.QtDefectAttachment">
+		select <include refid="baseColumns"/> from
+       qt_defect_attachment  where   <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_defect_attachment
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.quality.entity.QtDefectAttachment" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_defect_attachment where   <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.quality.entity.QtDefectAttachment" resultType="java.lang.Integer">
+           select count(1) from qt_defect_attachment where   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.quality.entity.QtDefectAttachment">
+      insert into qt_defect_attachment 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="businessId != null">
+				   business_id,
+			 </if> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="daType != null">
+				   da_type,
+			 </if> 
+          <if test="updateTime != null">
+				   update_time,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="daSource != null">
+				   da_source,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="daCreateTime != null">
+				   da_create_time,
+			 </if> 
+          <if test="daUrl != null">
+				   da_url,
+			 </if> 
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="businessId != null">
+				#{businessId},
+			  </if>
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="daType != null">
+				#{daType},
+			  </if>
+			  <if test="updateTime != null">
+				#{updateTime},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="daSource != null">
+				#{daSource},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="daCreateTime != null">
+				#{daCreateTime},
+			  </if>
+			  <if test="daUrl != null">
+				#{daUrl},
+			  </if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.quality.entity.QtDefectAttachment">
+	   update qt_defect_attachment  set
+	    <trim suffixOverrides="," >
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="businessId != null">
+					 business_id=#{businessId},
+				  </if>
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="daType != null">
+					 da_type=#{daType},
+				  </if>
+				  <if test="updateTime != null">
+					 update_time=#{updateTime},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				  <if test="daSource != null">
+					 da_source=#{daSource},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="daCreateTime != null">
+					 da_create_time=#{daCreateTime},
+				  </if>
+				  <if test="daUrl != null">
+					 da_url=#{daUrl},
+				  </if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.quality.entity.QtDefectAttachment">
+        update qt_defect_attachment  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.businessId != null">
+                business_id = #{entity.businessId},
+				  </if>
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.daType != null">
+                da_type = #{entity.daType},
+				  </if>
+				  <if test="entity.updateTime != null">
+                update_time = #{entity.updateTime},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+				  <if test="entity.daSource != null">
+                da_source = #{entity.daSource},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.daCreateTime != null">
+                da_create_time = #{entity.daCreateTime},
+				  </if>
+				  <if test="entity.daUrl != null">
+                da_url = #{entity.daUrl},
+				  </if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from qt_defect_attachment where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from qt_defect_attachment where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from qt_defect_attachment where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.quality.entity.QtDefectAttachment">
+      delete from qt_defect_attachment where   <include refid="whereSql"/> 
+   </delete>
+
+
+	<insert id="batchInsert" parameterType="List">
+		insert into qt_defect_attachment (id,
+		da_source
+		,business_id
+		,da_url
+		,da_create_time
+		)
+		<foreach close=")" collection="list" item="item" index="index" open="(" separator="union">
+			select
+			#{item.id} ,
+			#{item.daSource} ,
+			#{item.businessId} ,
+			#{item.daUrl} ,
+			#{item.daCreateTime}
+			from dual
+		</foreach >
+	</insert>
+   
+</mapper>

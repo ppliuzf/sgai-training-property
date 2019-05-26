@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ruag.dao.RuagDeviceCalendarInstctionDao">
+
+	<sql id="ruagDeviceCalendarInstctionColumns">
+		a.id AS "id",
+		a.dci_date AS "dciDate",
+		a.model_id AS "modelId",
+		a.model_name AS "modelName",
+		a.model_degree AS "modelDegree",
+		a.control_code AS "controlCode",
+		a.control_type AS "controlType",
+		a.space_code AS "spaceCode",
+		a.space_name AS "spaceName",
+		a.prof_code AS "profCode",
+		a.prof_name AS "profName",
+		a.device_code AS "deviceCode",
+		a.device_name AS "deviceName",
+		a.parameter_id AS "parameterId",
+		a.parameter_name AS "parameterName",
+		a.parameter_value AS "parameterValue",
+		a.time_point AS "timePoint",
+		a.effective_status1 AS "effectiveStatus1",
+		a.instruction_status AS "instructionStatus",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.class_code AS "classCode",
+		a.class_name AS "className",
+		a.calendar_id AS "calendarId",
+		a.compare_obj AS "compareObj",
+		a.com_code AS "comCode",
+		a.modu_code AS "modCode"
+	</sql>
+
+	<sql id="ruagDeviceCalendarInstctionJoins">
+	</sql>
+
+	<select id="get" resultType="com.sgai.property.ruag.entity.RuagDeviceCalendarInstction">
+		SELECT
+			<include refid="ruagDeviceCalendarInstctionColumns"/>
+		FROM ruag_device_calendar_instction a
+		<include refid="ruagDeviceCalendarInstctionJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="com.sgai.property.ruag.entity.RuagDeviceCalendarInstction">
+		SELECT
+			<include refid="ruagDeviceCalendarInstctionColumns"/>
+		FROM ruag_device_calendar_instction a
+		<include refid="ruagDeviceCalendarInstctionJoins"/>
+		<where>
+		    <if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sqlMap}
+			</if>
+			<if test="modelName != null and modelName != ''">
+				AND a.model_name like '%${modelName}%'
+			</if>
+			<if test="deviceName != null and deviceName != ''">
+				AND a.device_name like '%${deviceName}%'
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND a.space_name like '%${spaceName}%'
+			</if>
+			<if test="dciDate != null ">
+			    AND a.dci_date=#{dciDate}
+			</if>
+			<if test="modelId != null and modelId != ''">
+				AND a.model_id =#{modelId}
+			</if>
+			<if test="controlCode != null and controlCode != ''">
+				AND a.control_code =#{controlCode}
+			</if>
+			<if test="spaceCode != null and spaceCode != ''">
+				AND a.space_code =#{spaceCode}
+			</if>
+			<if test="profCode != null and profCode != ''">
+				AND a.prof_code =#{profCode}
+			</if>
+			<if test="deviceCode != null and deviceCode != ''">
+				AND a.device_code = #{deviceCode}
+			</if>
+			<if test="classCode != null and classCode != ''">
+				AND a.class_code =#{classCode}
+			</if>
+			<if test="parameterId != null and parameterId != ''">
+				AND a.parameter_id =#{parameterId}
+			</if>
+			<if test="parameterValue != null and parameterValue != ''">
+				AND a.parameter_value =#{parameterValue}
+			</if>
+			<if test="effectiveStatus1 != null and effectiveStatus1 != ''">
+				AND a.effective_status1 =#{effectiveStatus1}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag =#{enabledFlag}
+			</if>
+			<if test="instructionStatus != null">
+				AND a.instruction_status =#{instructionStatus}
+			</if>
+			<if test="calendarId != null and calendarId != ''">
+				AND a.calendar_id =#{calendarId}
+			</if>
+			<if test="timePoint != null and timePoint != ''">
+				AND a.time_point =#{timePoint}
+			</if>
+			<if test="compareObj != null and compareObj != ''">
+				AND a.compare_obj =#{compareObj}
+			</if>
+			<if test="comCode != null and comCode!= ''">
+				AND a.com_code =#{comCode}
+			</if>
+			<if test="moduCode != null and moduCode!= ''">
+				AND a.modu_code =#{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		      ORDER BY updated_dt DESC
+	<!-- 	<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose> -->
+	</select>
+	<select id="findAllOfList" resultType="com.sgai.property.ruag.entity.RuagDeviceCalendarInstction">
+		SELECT
+			<include refid="ruagDeviceCalendarInstctionColumns"/>
+		FROM ruag_device_calendar_instction a
+		<include refid="ruagDeviceCalendarInstctionJoins"/>
+		<where>
+		    <if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sql}
+			</if>
+			<if test="modelName != null and modelName != ''">
+				AND a.model_name like '%${modelName}%'
+			</if>
+			<if test="deviceName != null and deviceName != ''">
+				AND a.device_name like '%${deviceName}%'
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND a.space_name like '%${spaceName}%'
+			</if>
+			<if test="dciDate != null ">
+			    AND a.dci_date=#{dciDate}
+			</if>
+			<if test="modelId != null and modelId != ''">
+				AND a.model_id =#{modelId}
+			</if>
+			<if test="controlCode != null and controlCode != ''">
+				AND a.control_code =#{controlCode}
+			</if>
+			<if test="spaceCode != null and spaceCode != ''">
+				AND a.space_code =#{spaceCode}
+			</if>
+			<if test="profCode != null and profCode != ''">
+				AND a.prof_code =#{profCode}
+			</if>
+			<if test="deviceCode != null and deviceCode != ''">
+				AND a.device_code like '%${deviceCode}%'
+			</if>
+			<if test="classCode != null and classCode != ''">
+				AND a.class_code =#{classCode}
+			</if>
+			<if test="parameterId != null and parameterId != ''">
+				AND a.parameter_id =#{parameterId}
+			</if>
+			<if test="parameterValue != null and parameterValue != ''">
+				AND a.parameter_value =#{parameterValue}
+			</if>
+			<if test="effectiveStatus1 != null and effectiveStatus1 != ''">
+				AND a.effective_status1 =#{effectiveStatus1}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag =#{enabledFlag}
+			</if>
+			<if test="instructionStatus != null">
+				AND a.instruction_status =#{instructionStatus}
+			</if>
+			<if test="calendarId != null and calendarId != ''">
+				AND a.calendar_id =#{calendarId}
+			</if>
+			<if test="timePoint != null and timePoint != ''">
+				AND a.time_point =#{timePoint}
+			</if>
+			<if test="compareObj != null and compareObj != ''">
+				AND a.compare_obj =#{compareObj}
+			</if>
+		</where>
+		      ORDER BY updated_dt DESC
+	<!-- 	<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose> -->
+	</select>
+	<select id="findAllList" resultType="com.sgai.property.ruag.entity.RuagDeviceCalendarInstction">
+		SELECT
+			<include refid="ruagDeviceCalendarInstctionColumns"/>
+		FROM ruag_device_calendar_instction a
+		<include refid="ruagDeviceCalendarInstctionJoins"/>
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findInsAfterToday" resultType="com.sgai.property.ruag.entity.RuagDeviceCalendarInstction">
+		SELECT
+			*
+		FROM
+			RUAG_DEVICE_CALENDAR_INSTCTION A
+		WHERE
+			A .DCI_DATE > SYSDATE
+			AND A .INSTRUCTION_STATUS = '0'
+			AND A .MODEL_ID = #{modelId}
+			AND A .COM_CODE = #{comCode}
+			<if test="moduCode != null and moduCode!= ''">
+				AND a.modu_code =#{moduCode}
+			</if>
+			<if test="moduCode == null and moduCode== ''">
+				AND a.modu_code is null
+			</if>
+	</select>
+	<select id="findInsLatest" resultType="com.sgai.property.ruag.entity.RuagDeviceCalendarInstction">
+		SELECT
+			*
+		FROM
+			RUAG_DEVICE_CALENDAR_INSTCTION A
+		WHERE
+		    A .TIME_POINT = #{startTime}
+		AND A .DCI_DATE = str_to_date(#{today},'%Y-%m-%d')
+		AND a.effective_status1 ='1'
+		AND A .INSTRUCTION_STATUS = '0'
+
+	</select>
+	<select id="findRecentTime" resultType="String">
+		SELECT
+			MIN(A .TIME_POINT)
+		FROM
+			RUAG_DEVICE_CALENDAR_INSTCTION A
+		WHERE
+	  		A .EFFECTIVE_STATUS1 = '1'
+		AND A .INSTRUCTION_STATUS = 0
+		AND A .DCI_DATE =  str_to_date(DATE_FORMAT(CURRENT_DATE,'%Y-%m-%d'),'%Y-%m-%d')
+		AND A .TIME_POINT > DATE_FORMAT(CURRENT_DATE,'hh24:mi')
+	</select>
+	<insert id="insert">
+		INSERT INTO ruag_device_calendar_instction(
+			id,
+			dci_date,
+			model_id,
+			model_name,
+			model_degree,
+			control_code,
+			control_type,
+			space_code,
+			space_name,
+			prof_code,
+			prof_name,
+			device_code,
+			device_name,
+			parameter_id,
+			parameter_name,
+			parameter_value,
+			time_point,
+			effective_status1,
+			instruction_status,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			class_code,
+			class_name,
+			calendar_id,
+			compare_obj,
+			com_code,
+			modu_code
+
+		) VALUES (
+			#{id},
+			#{dciDate},
+			#{modelId},
+			#{modelName},
+			#{modelDegree},
+			#{controlCode},
+			#{controlType},
+			#{spaceCode},
+			#{spaceName},
+			#{profCode},
+			#{profName},
+			#{deviceCode},
+			#{deviceName},
+			#{parameterId},
+			#{parameterName},
+			#{parameterValue},
+			#{timePoint},
+			#{effectiveStatus1},
+			#{instructionStatus},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{classCode},
+			#{className},
+			#{calendarId},
+			#{compareObj},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE ruag_device_calendar_instction SET
+			dci_date = #{dciDate},
+			model_id = #{modelId},
+			model_name = #{modelName},
+			model_degree = #{modelDegree},
+			control_code = #{controlCode},
+			control_type = #{controlType},
+			space_code = #{spaceCode},
+			space_name = #{spaceName},
+			prof_code = #{profCode},
+			prof_name = #{profName},
+			device_code = #{deviceCode},
+			device_name = #{deviceName},
+			parameter_id = #{parameterId},
+			parameter_name = #{parameterName},
+			parameter_value = #{parameterValue},
+			time_point = #{timePoint},
+			effective_status1 = #{effectiveStatus1},
+			instruction_status = #{instructionStatus},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			class_code=#{classCode},
+			class_name=#{className},
+			calendar_id=#{calendarId},
+			compare_obj=#{compareObj},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		DELETE FROM ruag_device_calendar_instction
+		WHERE id = #{id}
+	</update>
+	<update id="deleteByDate">
+		DELETE FROM ruag_device_calendar_instction
+		WHERE COM_CODE = #{comCode}
+		<if test="moduCode != null and moduCode!= ''">
+				AND modu_code =#{moduCode}
+		</if>
+		<if test="moduCode == null and moduCode== ''">
+				AND modu_code is null
+		</if>
+		AND model_id = #{modelId} and  DCI_DATE
+		BETWEEN
+		 str_to_date(#{start},'%Y-%m-%d')
+		AND
+		 str_to_date(#{end},'%Y-%m-%d')
+	</update>
+
+</mapper>

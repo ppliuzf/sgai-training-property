@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlModuDao">
+    
+	<sql id="ctlModuColumns">
+		a.id AS "id",
+		a.sbs_code AS "sbsCode",
+		a.sbs_name AS "sbsName",
+		a.sbs_url AS "sbsUrl",
+		a.display_order AS "displayOrder",
+		a.enabled_flag AS "enabledFlag",
+		a.sbs_desc AS "sbsDesc",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+	    a.com_code AS "comCode"
+	</sql>
+	
+	<sql id="ctlModuJoins">
+	</sql>
+    
+	<select id="get" resultType="CtlModu">
+		SELECT 
+			<include refid="ctlModuColumns"/>
+		FROM ctl_modu a
+		<include refid="ctlModuJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="checkModu" resultType="CtlModu">
+		SELECT 1 FROM ctl_modu a
+		WHERE a.sbs_code = #{sbsCode} OR a.display_order = #{displayOrder}
+	</select>
+	
+	<select id="findList" resultType="CtlModu">
+		SELECT 
+			<include refid="ctlModuColumns"/>
+		FROM ctl_modu a
+		<include refid="ctlModuJoins"/>
+		<where>
+			<if test="sbsCode != null and sbsCode != ''">
+				AND a.sbs_code like '%'|| #{sbsCode} || '%'
+			</if>
+			<if test="sbsName != null and sbsName != ''">
+				AND a.sbs_name like '%'|| #{sbsName} || '%'
+			</if>
+			<if test="displayOrder != null and displayOrder != ''">
+				AND a.display_order = #{displayOrder}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+		</where>
+		<choose>
+			<otherwise>
+			</otherwise>
+		</choose>
+		ORDER BY created_dt DESC
+	</select>
+	
+	<select id="findAllList" resultType="CtlModu">
+		SELECT 
+			<include refid="ctlModuColumns"/>
+		FROM ctl_modu a
+		<include refid="ctlModuJoins"/>
+		<where>
+		</where>		
+		<choose>
+		<!-- <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when> -->
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ctl_modu(
+			id,
+			sbs_code,
+			sbs_name,
+			sbs_url,
+			display_order,
+			enabled_flag,
+			sbs_desc,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code
+		) VALUES (
+			#{id},
+			#{sbsCode},
+			#{sbsName},
+			#{sbsUrl},
+			#{displayOrder},
+			#{enabledFlag},
+			#{sbsDesc},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_modu SET 	
+			<!-- sbs_code = #{sbsCode}, -->
+			sbs_name = #{sbsName},
+			sbs_url = #{sbsUrl},
+			display_order = #{displayOrder},
+			enabled_flag = #{enabledFlag},
+			sbs_desc = #{sbsDesc},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			com_code = #{comCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_modu
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

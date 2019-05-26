@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.SysFileDao">
+
+    <sql id="SysFileSelect">
+        SELECT
+            id            id,
+            UPLOAD_TIME   uploadTime,
+            SOURCE_TYPE   sourceType,
+            SOURCE_KEY    sourceKey,
+            URL_PATH      urlPath,
+            REAL_PATH     realPath,
+            FILE_NAME     fileName,
+            FILE_TYPE     fileType,
+            FILE_SIZE     fileSize,
+            UPLOAD_PEOPLE uploadPeople
+        FROM
+            WY_SYS_FILE w
+    </sql>
+    <select id="findList" resultType="com.sgai.property.wy.entity.SysFile"
+            parameterType="com.sgai.property.wy.entity.SysFile">
+        <include refid="SysFileSelect"></include>
+        <where>
+            <if test="beginTime !=null">
+                AND w.UPLOAD_TIME>=#{beginTime}
+            </if>
+            <if test="endTime !=null">
+                AND #{endTime}>w.UPLOAD_TIME
+            </if>
+            <if test="fileName!=null and fileName!=''">
+                AND w.file_name LIKE CONCAT( CONCAT ( '%', #{fileName} ) ,'%')
+            </if>
+            <if test="uploadPeople!=null and uploadPeople!=''">
+                 AND w.upload_people LIKE CONCAT( CONCAT ( '%', #{uploadPeople} ) ,'%')
+            </if>
+            <if test="sourceType!=null and sourceType!=''">
+                 AND w.source_type =#{sourceType}
+            </if>
+            <if test="sourceKey!=null and sourceKey!=''">
+                 AND w.source_key =#{sourceKey}
+            </if>
+        </where>
+        order by w.UPLOAD_TIME desc
+    </select>
+    <update id="delete">
+        DELETE FROM WY_SYS_FILE
+        WHERE ID = #{id}
+    </update>
+
+    <insert id="insert">
+        INSERT INTO WY_SYS_FILE (
+            id,
+            UPLOAD_TIME,
+            SOURCE_TYPE,
+            SOURCE_KEY,
+            URL_PATH,
+            REAL_PATH,
+            FILE_NAME,
+            FILE_TYPE,
+            FILE_SIZE,
+            UPLOAD_PEOPLE
+        ) VALUES (
+            #{id},
+            #{uploadTime},
+            #{sourceType},
+            #{sourceKey},
+            #{urlPath},
+            #{realPath},
+            #{fileName},
+            #{fileType},
+            #{fileSize},
+            #{uploadPeople}
+        )
+    </insert>
+
+    <select id="get" resultType="com.sgai.property.wy.entity.SysFile">
+        <include refid="SysFileSelect"/>
+        WHERE w.id = #{id}
+    </select>
+
+    <update id="update">
+        UPDATE WY_SYS_FILE
+        SET
+            id            = #{id},
+            UPLOAD_TIME   = #{uploadTime},
+            SOURCE_TYPE   = #{sourceType},
+            SOURCE_KEY    = #{sourceKey},
+            URL_PATH      = #{urlPath},
+            REAL_PATH     = #{realPath},
+            FILE_NAME     = #{fileName},
+            FILE_TYPE     = #{fileType},
+            FILE_SIZE     = #{fileSize},
+            UPLOAD_PEOPLE = #{uploadPeople}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

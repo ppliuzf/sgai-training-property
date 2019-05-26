@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.mdm.dao.MdmAttributeDao">
+    
+	<sql id="mdmDevicesAttrColumns">
+		a.id AS "id",
+		a.devices_code AS "devicesCode",
+		a.attr_name AS "attrName",
+		a.attr_value AS "attrValue",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+	
+
+    
+    
+    <select id="getAttribute" resultType="com.sgai.property.mdm.dto.MdmDevicesUseInfoVo">
+		SELECT * FROM (SELECT a.*,b.DEVICES_NAME from MDM_ATTRIBUTE a LEFT JOIN MDM_DEVICES_USE_INFO b  on a.DEVICES_CODE=b.DEVICES_CODE )aa
+         where AA.id=#{id}
+	</select>
+    
+    
+	
+	<select id="findList" resultType="com.sgai.property.mdm.entity.MdmAttribute">
+		SELECT
+			<include refid="mdmDevicesAttrColumns"/>
+		FROM mdm_attribute a
+		<where>
+			<if test="devicesCode != null and devicesCode != ''">
+				AND a.devices_code = #{devicesCode}
+			</if>
+			<if test="attrName != null and attrName != ''">
+				AND a.attr_name = #{attrName}
+			</if>
+			<if test="attrValue != null and attrValue != ''">
+				AND a.attr_value = #{attrValue}
+			</if>
+			<if test="createdDt != null and createdDt != ''">
+				AND a.created_dt = #{createdDt}
+			</if>
+			<if test="createdBy != null and createdBy != ''">
+				AND a.created_by = #{createdBy}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+
+
+
+	<select id="findAllList" resultType="com.sgai.property.mdm.entity.MdmAttribute">
+		SELECT 
+			<include refid="mdmDevicesAttrColumns"/>
+		FROM mdm_attribute a
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mdm_attribute(
+			id,
+			devices_code,
+			attr_name,
+			attr_value,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{devicesCode},
+			#{attrName},
+			#{attrValue},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{comCode},
+			#{moduCode}
+			
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mdm_attribute SET 	
+			devices_code = #{devicesCode},
+			attr_name = #{attrName},
+			attr_value = #{attrValue},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM mdm_attribute
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

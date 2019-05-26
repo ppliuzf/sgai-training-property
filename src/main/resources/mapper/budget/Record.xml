@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.budget.dao.IRecordDao">
+	<resultMap id="BaseResultMap" type="com.sgai.property.budget.entity.Record">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="updated_dt" property="updatedDt" jdbcType="VARCHAR" />
+		<result column="template_name" property="templateName"
+			jdbcType="VARCHAR" />
+		<result column="year" property="year" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="BIGINT" />
+		<result column="state" property="state" jdbcType="BIGINT" />
+		<result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+		<result column="is_delete" property="isDelete" jdbcType="BIGINT" />
+		<result column="approver_id" property="approverId" jdbcType="VARCHAR" />
+		<result column="created_dt" property="createdDt" jdbcType="VARCHAR" />
+		<result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+		<result column="version" property="version" jdbcType="BIGINT" />
+		<result column="creator_ei_id" property="creatorEiId" jdbcType="VARCHAR" />
+		<result column="template_id" property="templateId" jdbcType="VARCHAR" />
+		<result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="BIGINT" />
+		<result column="type_name" property="typeName" jdbcType="VARCHAR" />
+		<result column="approver_name" property="approverName"
+			jdbcType="VARCHAR" />
+		<result column="cycle" property="cycle" jdbcType="BIGINT" />
+		<result column="record_name" property="recordName" jdbcType="VARCHAR" />
+		<result column="approval_reason" property="approvalReason"
+			jdbcType="VARCHAR" />
+		<result column="type_id" property="typeId" jdbcType="VARCHAR" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="org_id" property="orgId" jdbcType="VARCHAR" />
+		<result column="approval_time" property="approvalTime"
+			jdbcType="BIGINT" />
+		<result column="creator_ei_emp_name" property="creatorEiEmpName"
+			jdbcType="VARCHAR" />
+		<result column="dept_id" property="deptId" jdbcType="VARCHAR" />
+
+		<result column="COM_CODE" property="comCode" jdbcType="VARCHAR" />
+		<result column="MODU_CODE" property="moduCode" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="baseColumns">
+		updated_dt
+		,template_name
+		,year
+		,create_time
+		,state
+		,dept_name
+		,is_delete
+		,approver_id
+		,created_dt
+		,updated_by
+		,version
+		,creator_ei_id
+		,template_id
+		,created_by
+		,update_time
+		,type_name
+		,approver_name
+		,cycle
+		,record_name
+		,approval_reason
+		,type_id
+		,id
+		,remarks
+		,org_id
+		,approval_time
+		,creator_ei_emp_name
+		,dept_id
+		,COM_CODE
+		,MODU_CODE
+	</sql>
+
+	<sql id="whereSql">
+		<trim prefixOverrides="AND | OR">
+			<if test="updatedDt != null">
+				and updated_dt=#{updatedDt}
+			</if>
+			<if test="templateName != null">
+				and template_name=#{templateName}
+			</if>
+			<if test="year != null">
+				and year=#{year}
+			</if>
+			<if test="createTime != null">
+				and create_time=#{createTime}
+			</if>
+			<if test="state != null">
+				and state=#{state}
+			</if>
+			<if test="deptName != null">
+				and dept_name=#{deptName}
+			</if>
+			<if test="isDelete != null">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="approverId != null">
+				and approver_id=#{approverId}
+			</if>
+			<if test="createdDt != null">
+				and created_dt=#{createdDt}
+			</if>
+			<if test="updatedBy != null">
+				and updated_by=#{updatedBy}
+			</if>
+			<if test="version != null">
+				and version=#{version}
+			</if>
+			<if test="creatorEiId != null">
+				and creator_ei_id=#{creatorEiId}
+			</if>
+			<if test="templateId != null">
+				and template_id=#{templateId}
+			</if>
+			<if test="createdBy != null">
+				and created_by=#{createdBy}
+			</if>
+			<if test="updateTime != null">
+				and update_time=#{updateTime}
+			</if>
+			<if test="typeName != null">
+				and type_name=#{typeName}
+			</if>
+			<if test="approverName != null">
+				and approver_name=#{approverName}
+			</if>
+			<if test="cycle != null">
+				and cycle=#{cycle}
+			</if>
+			<if test="recordName != null">
+				and record_name=#{recordName}
+			</if>
+			<if test="approvalReason != null">
+				and approval_reason=#{approvalReason}
+			</if>
+			<if test="typeId != null">
+				and type_id=#{typeId}
+			</if>
+			<if test="id != null">
+				and id=#{id}
+			</if>
+			<if test="remarks != null">
+				and remarks=#{remarks}
+			</if>
+			<if test="orgId != null">
+				and org_id=#{orgId}
+			</if>
+			<if test="approvalTime != null">
+				and approval_time=#{approvalTime}
+			</if>
+			<if test="creatorEiEmpName != null">
+				and creator_ei_emp_name=#{creatorEiEmpName}
+			</if>
+			<if test="deptId != null">
+				and dept_id=#{deptId}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND modu_code is null
+			</if>
+		</trim>
+	</sql>
+
+	<select id="getById" resultMap="BaseResultMap">
+		select
+		<include refid="baseColumns" />
+		from YS_RECORD where id =#{id}
+	</select>
+
+	<select id="getByIds" resultMap="BaseResultMap">
+		select
+		<include refid="baseColumns" />
+		from YS_RECORD where id in
+		<foreach collection="array" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
+
+	<delete id="getByListId">
+		select
+		<include refid="baseColumns" />
+		from YS_RECORD where id in
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap"
+		parameterType="com.sgai.property.budget.entity.Record">
+		select
+		<include refid="baseColumns" />
+		from
+		YS_RECORD where
+		<include refid="whereSql" />
+	</select>
+
+	<select id="findAllList" resultMap="BaseResultMap">
+		select
+		<include refid="baseColumns" />
+		from YS_RECORD
+	</select>
+
+	<select id="findList" parameterType="com.sgai.property.budget.entity.Record"
+		resultMap="BaseResultMap">
+		select
+		<include refid="baseColumns" />
+		from YS_RECORD where
+		<include refid="whereSql" />
+		<if test="page !=null and page.orderBy != null and page.orderBy != ''">
+			ORDER BY ${page.orderBy}
+		</if>
+	</select>
+
+	<select id="getCount" parameterType="com.sgai.property.budget.entity.Record"
+		resultType="java.lang.Integer">
+		select count(1) from YS_RECORD where
+		<include refid="whereSql" />
+	</select>
+
+	<insert id="insert" parameterType="com.sgai.property.budget.entity.Record">
+		insert into YS_RECORD
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="updatedDt != null">
+				updated_dt,
+			</if>
+			<if test="templateName != null">
+				template_name,
+			</if>
+			<if test="year != null">
+				year,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="deptName != null">
+				dept_name,
+			</if>
+			<if test="isDelete != null">
+				is_delete,
+			</if>
+			<if test="approverId != null">
+				approver_id,
+			</if>
+			<if test="createdDt != null">
+				created_dt,
+			</if>
+			<if test="updatedBy != null">
+				updated_by,
+			</if>
+			<if test="version != null">
+				version,
+			</if>
+			<if test="creatorEiId != null">
+				creator_ei_id,
+			</if>
+			<if test="templateId != null">
+				template_id,
+			</if>
+			<if test="createdBy != null">
+				created_by,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="typeName != null">
+				type_name,
+			</if>
+			<if test="approverName != null">
+				approver_name,
+			</if>
+			<if test="cycle != null">
+				cycle,
+			</if>
+			<if test="recordName != null">
+				record_name,
+			</if>
+			<if test="approvalReason != null">
+				approval_reason,
+			</if>
+			<if test="typeId != null">
+				type_id,
+			</if>
+			<if test="id != null">
+				id,
+			</if>
+			<if test="remarks != null">
+				remarks,
+			</if>
+			<if test="orgId != null">
+				org_id,
+			</if>
+			<if test="approvalTime != null">
+				approval_time,
+			</if>
+			<if test="creatorEiEmpName != null">
+				creator_ei_emp_name,
+			</if>
+			<if test="deptId != null">
+				dept_id,
+			</if>
+			<if test="comCode != null and comCode != ''">
+				COM_CODE,
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				MODU_CODE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="updatedDt != null">
+				#{updatedDt},
+			</if>
+			<if test="templateName != null">
+				#{templateName},
+			</if>
+			<if test="year != null">
+				#{year},
+			</if>
+			<if test="createTime != null">
+				#{createTime},
+			</if>
+			<if test="state != null">
+				#{state},
+			</if>
+			<if test="deptName != null">
+				#{deptName},
+			</if>
+			<if test="isDelete != null">
+				#{isDelete},
+			</if>
+			<if test="approverId != null">
+				#{approverId},
+			</if>
+			<if test="createdDt != null">
+				#{createdDt},
+			</if>
+			<if test="updatedBy != null">
+				#{updatedBy},
+			</if>
+			<if test="version != null">
+				#{version},
+			</if>
+			<if test="creatorEiId != null">
+				#{creatorEiId},
+			</if>
+			<if test="templateId != null">
+				#{templateId},
+			</if>
+			<if test="createdBy != null">
+				#{createdBy},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime},
+			</if>
+			<if test="typeName != null">
+				#{typeName},
+			</if>
+			<if test="approverName != null">
+				#{approverName},
+			</if>
+			<if test="cycle != null">
+				#{cycle},
+			</if>
+			<if test="recordName != null">
+				#{recordName},
+			</if>
+			<if test="approvalReason != null">
+				#{approvalReason},
+			</if>
+			<if test="typeId != null">
+				#{typeId},
+			</if>
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="remarks != null">
+				#{remarks},
+			</if>
+			<if test="orgId != null">
+				#{orgId},
+			</if>
+			<if test="approvalTime != null">
+				#{approvalTime},
+			</if>
+			<if test="creatorEiEmpName != null">
+				#{creatorEiEmpName},
+			</if>
+			<if test="deptId != null">
+				#{deptId},
+			</if>
+
+
+			<if test="comCode != null and comCode != ''">
+				#{comCode},
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				#{moduCode},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateById" parameterType="com.sgai.property.budget.entity.Record">
+		update YS_RECORD set
+		<trim suffixOverrides=",">
+			<if test="updatedDt != null">
+				updated_dt=#{updatedDt},
+			</if>
+			<if test="templateName != null">
+				template_name=#{templateName},
+			</if>
+			<if test="year != null">
+				year=#{year},
+			</if>
+			<if test="createTime != null">
+				create_time=#{createTime},
+			</if>
+			<if test="state != null">
+				state=#{state},
+			</if>
+			<if test="deptName != null">
+				dept_name=#{deptName},
+			</if>
+			<if test="isDelete != null">
+				is_delete=#{isDelete},
+			</if>
+			<if test="approverId != null">
+				approver_id=#{approverId},
+			</if>
+			<if test="createdDt != null">
+				created_dt=#{createdDt},
+			</if>
+			<if test="updatedBy != null">
+				updated_by=#{updatedBy},
+			</if>
+			<if test="version != null">
+				version=#{version},
+			</if>
+			<if test="creatorEiId != null">
+				creator_ei_id=#{creatorEiId},
+			</if>
+			<if test="templateId != null">
+				template_id=#{templateId},
+			</if>
+			<if test="createdBy != null">
+				created_by=#{createdBy},
+			</if>
+			<if test="updateTime != null">
+				update_time=#{updateTime},
+			</if>
+			<if test="typeName != null">
+				type_name=#{typeName},
+			</if>
+			<if test="approverName != null">
+				approver_name=#{approverName},
+			</if>
+			<if test="cycle != null">
+				cycle=#{cycle},
+			</if>
+			<if test="recordName != null">
+				record_name=#{recordName},
+			</if>
+			<if test="approvalReason != null">
+				approval_reason=#{approvalReason},
+			</if>
+			<if test="typeId != null">
+				type_id=#{typeId},
+			</if>
+			<if test="remarks != null">
+				remarks=#{remarks},
+			</if>
+			<if test="orgId != null">
+				org_id=#{orgId},
+			</if>
+			<if test="approvalTime != null">
+				approval_time=#{approvalTime},
+			</if>
+			<if test="creatorEiEmpName != null">
+				creator_ei_emp_name=#{creatorEiEmpName},
+			</if>
+			<if test="deptId != null">
+				dept_id=#{deptId},
+			</if>
+		</trim>
+		where id =#{id}
+	</update>
+
+	<update id="updateByIds" parameterType="com.sgai.property.budget.entity.Record">
+		update YS_RECORD set
+		<trim suffixOverrides=",">
+			<if test="entity.updatedDt != null">
+				updated_dt = #{entity.updatedDt},
+			</if>
+			<if test="entity.templateName != null">
+				template_name = #{entity.templateName},
+			</if>
+			<if test="entity.year != null">
+				year = #{entity.year},
+			</if>
+			<if test="entity.createTime != null">
+				create_time = #{entity.createTime},
+			</if>
+			<if test="entity.state != null">
+				state = #{entity.state},
+			</if>
+			<if test="entity.deptName != null">
+				dept_name = #{entity.deptName},
+			</if>
+			<if test="entity.isDelete != null">
+				is_delete = #{entity.isDelete},
+			</if>
+			<if test="entity.approverId != null">
+				approver_id = #{entity.approverId},
+			</if>
+			<if test="entity.createdDt != null">
+				created_dt = #{entity.createdDt},
+			</if>
+			<if test="entity.updatedBy != null">
+				updated_by = #{entity.updatedBy},
+			</if>
+			<if test="entity.version != null">
+				version = #{entity.version},
+			</if>
+			<if test="entity.creatorEiId != null">
+				creator_ei_id = #{entity.creatorEiId},
+			</if>
+			<if test="entity.templateId != null">
+				template_id = #{entity.templateId},
+			</if>
+			<if test="entity.createdBy != null">
+				created_by = #{entity.createdBy},
+			</if>
+			<if test="entity.updateTime != null">
+				update_time = #{entity.updateTime},
+			</if>
+			<if test="entity.typeName != null">
+				type_name = #{entity.typeName},
+			</if>
+			<if test="entity.approverName != null">
+				approver_name = #{entity.approverName},
+			</if>
+			<if test="entity.cycle != null">
+				cycle = #{entity.cycle},
+			</if>
+			<if test="entity.recordName != null">
+				record_name = #{entity.recordName},
+			</if>
+			<if test="entity.approvalReason != null">
+				approval_reason = #{entity.approvalReason},
+			</if>
+			<if test="entity.typeId != null">
+				type_id = #{entity.typeId},
+			</if>
+			<if test="entity.remarks != null">
+				remarks = #{entity.remarks},
+			</if>
+			<if test="entity.orgId != null">
+				org_id = #{entity.orgId},
+			</if>
+			<if test="entity.approvalTime != null">
+				approval_time = #{entity.approvalTime},
+			</if>
+			<if test="entity.creatorEiEmpName != null">
+				creator_ei_emp_name = #{entity.creatorEiEmpName},
+			</if>
+			<if test="entity.deptId != null">
+				dept_id = #{entity.deptId},
+			</if>
+		</trim>
+		where id in
+		<foreach collection="ids" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</update>
+
+
+	<delete id="deleteById">
+		delete from YS_RECORD where id =#{id}
+	</delete>
+
+	<delete id="deleteByIds">
+		delete from YS_RECORD where id in
+		<foreach collection="array" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<delete id="deleteByListId">
+		delete from YS_RECORD where id in
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<delete id="delete" parameterType="com.sgai.property.budget.entity.Record">
+		delete from YS_RECORD where
+		<include refid="whereSql" />
+	</delete>
+
+</mapper>

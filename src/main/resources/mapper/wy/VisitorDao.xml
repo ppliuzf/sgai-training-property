@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.VisitorDao">
+   
+	<sql id="visitorColumns">
+		v.id id,
+		v.v_date visitorDate,
+		v.v_name visitorName,
+		v.v_type visitorType,
+		v.id_card idCard,
+		v.com_name comName,
+		v.phone phone,
+		v.person_num personNum,
+		v.v_meet visitorMeet,
+		v.dept_name deptName,
+		v.toer_persons toerPersons,
+		v.begin_time beginTime,
+		v.end_time endTime,
+		v.DISPLAY display,
+		v.remarks remarks
+	</sql>
+	
+	<select id="findList" resultType="com.sgai.property.wy.entity.Visitor">
+		SELECT <include refid="visitorColumns"/> FROM VEG_VISITOR_RECORD v
+		<where>
+			AND DISPLAY = 'Y'
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				AND ${sqlMap.sql} 
+			</if>
+			<if test="beginTime != null">
+				AND v.begin_time>=#{beginTime}
+			</if>
+			<if test="endTime != null">
+				AND #{endTime}>v.begin_time
+			</if>
+			<if test="visitorName != null and visitorName != ''">
+				AND v.v_name like '%'||#{visitorName}||'%'
+			</if>
+			<if test="phone != null and phone != ''">
+				AND v.phone  like '%'||#{phone}||'%'
+			</if>
+			<if test="deptName != null and deptName != ''">
+				AND v.dept_name like '%'||#{deptName}||'%'
+			</if>
+		</where>
+		ORDER BY v.begin_time DESC
+	</select>
+	
+	<select id="get" resultType="com.sgai.property.wy.entity.Visitor">
+		SELECT 
+			<include refid="visitorColumns"/>
+		FROM VEG_VISITOR_RECORD v
+		WHERE v.id = #{id}
+	</select>
+	
+	<update id="delete">
+		DELETE FROM VEG_VISITOR_RECORD
+		WHERE ID = #{id}
+	</update>
+	
+	<delete id="batchDelete">
+	    DELETE FROM
+	        VEG_VISITOR_RECORD
+	    WHERE
+	        id in
+	        <foreach collection="list" item="item" open="(" close=")" separator=",">
+	            #{item}
+	        </foreach>
+	</delete>
+	
+	<insert id="insert">
+		INSERT INTO VEG_VISITOR_RECORD(
+			id,
+			v_date,
+			v_name,
+			id_card,
+			com_name,
+			phone,
+			person_num,
+			dept_name,
+			v_meet,
+			v_type,
+			toer_persons,
+			begin_time,
+			end_time,
+			DISPLAY,
+			COM_CODE,
+			DEPT_CODE,
+			remarks
+		) VALUES (
+			#{id},
+			#{visitorDate},
+			#{visitorName},
+			#{idCard},
+			#{comName},
+			#{phone},
+			#{personNum},
+			#{deptName},
+			#{visitorMeet},
+			#{visitorType},
+			#{toerPersons},
+			#{beginTime},
+			#{endTime},
+			#{display},
+			#{comCode},
+			#{deptCode},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE VEG_VISITOR_RECORD SET 	
+			v_date = #{visitorDate},
+			v_name = #{visitorName},
+			id_card = #{idCard},
+			com_name = #{comName},
+			phone = #{phone},
+			person_num = #{personNum},
+			dept_name = #{deptName},
+			v_meet = #{visitorMeet},
+			v_type = #{visitorType},
+			toer_persons = #{toerPersons},
+			begin_time = #{beginTime},
+			end_time = #{endTime},
+			display = #{display},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ruag.dao.RuagCalendarWorkModelDao">
+    
+	<sql id="ruagCalendarWorkModelColumns">
+		a.id AS "id",
+		a.model_calendar_id AS "modelCalendarId",
+		a.work_model_id AS "workModelId",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode",
+	</sql>
+	
+	<sql id="ruagCalendarWorkModelJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.ruag.entity.RuagCalendarWorkModel">
+		SELECT 
+			<include refid="ruagCalendarWorkModelColumns"/>
+		FROM ruag_calendar_work_model a
+		<include refid="ruagCalendarWorkModelJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.ruag.entity.RuagCalendarWorkModel">
+		SELECT 
+			<include refid="ruagCalendarWorkModelColumns"/>
+		FROM ruag_calendar_work_model a
+		<include refid="ruagCalendarWorkModelJoins"/>
+		<where>
+			
+			<if test="modelCalendarId != null and modelCalendarId != ''">
+				AND a.model_calendar_id = #{modelCalendarId}
+			</if>
+			<if test="workModelId != null and workModelId != ''">
+				AND a.work_model_id = #{workModelId}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		ORDER BY updated_dt DESC
+		<!-- <choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose> -->
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.ruag.entity.RuagCalendarWorkModel">
+		SELECT 
+			<include refid="ruagCalendarWorkModelColumns"/>
+		FROM ruag_calendar_work_model a
+		<include refid="ruagCalendarWorkModelJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findAllOfList" resultType="com.sgai.property.ruag.entity.RuagCalendarWorkModel">
+		SELECT 
+			<include refid="ruagCalendarWorkModelColumns"/>
+		FROM ruag_calendar_work_model a
+		<include refid="ruagCalendarWorkModelJoins"/>
+		<where>
+			<if test="modelCalendarId != null and modelCalendarId != ''">
+				AND a.model_calendar_id = #{modelCalendarId}
+			</if>
+			<if test="workModelId != null and workModelId != ''">
+				AND a.work_model_id = #{workModelId}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+		</where>
+		ORDER BY updated_dt DESC		
+	</select>
+	<insert id="insert">
+		INSERT INTO ruag_calendar_work_model(
+			id,
+			model_calendar_id,
+			work_model_id,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{modelCalendarId},
+			#{workModelId},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ruag_calendar_work_model SET 	
+			model_calendar_id = #{modelCalendarId},
+			work_model_id = #{workModelId},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ruag_calendar_work_model
+		WHERE id = #{id}
+	</update>
+	<update id="deleteByCalendarId">
+		DELETE FROM ruag_calendar_work_model
+		WHERE model_calendar_id = #{calendarId}
+	</update>
+</mapper>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlLogDao">
+	<sql id="ctlLogColumns">
+		a.id AS "id",
+		a.session_id AS "sessionId",
+		a.com_code AS "comCode",
+		a.com_name AS "comName",
+		a.user_code AS "userCode",
+		a.user_name AS "userName",
+		a.user_type AS "userType",
+		a.corr_code AS "corrCode",
+		a.corr_name AS "corrName",
+		to_char(a.login_time,'yyyy-MM-dd hh24:mi:ss') AS "loginTime",
+		a.login_ip AS "loginIp",
+		a.online_flag AS "onlineFlag",
+		a.online_time AS "onlineTime",
+		to_char(a.logout_time,'yyyy-MM-dd hh24:mi:ss') AS "logoutTime",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="ctlLogJoins">
+	</sql>
+    
+	<select id="get" resultType="CtlLog">
+		SELECT 
+			<include refid="ctlLogColumns"/>
+		FROM ctl_log a
+		<include refid="ctlLogJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlLog">
+		SELECT 
+			<include refid="ctlLogColumns"/>
+		FROM ctl_log a
+		<include refid="ctlLogJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="userCode != null and userCode != ''">
+				AND a.user_code = #{userCode}
+			</if>
+			<if test="onlineFlag != null and onlineFlag != ''">
+				AND a.online_flag = #{onlineFlag}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			    ORDER BY a.login_time desc
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findLogDetail" resultType="java.util.HashMap">
+		SELECT 
+		b.session_id AS "sessionId",
+		b.com_code AS "comCode",
+		b.user_name AS "userName",
+		to_char(a.login_time,'yyyy-MM-dd hh24:mi:ss') AS "loginTime",
+		b.run_time AS "runTime",
+		b.request_url AS "requestUrl",
+		b.class_method AS "classMethod",
+		b.request_type AS "requestType"
+		FROM ctl_log a
+		inner join ctl_log_prog b on a.session_id = b.session_id
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+				AND b.com_code = #{comCode}
+			</if>
+		</where>
+		ORDER BY a.LOGIN_TIME DESC
+	</select>
+	
+	<select id="findAllList" resultType="CtlLog">
+		SELECT 
+			<include refid="ctlLogColumns"/>
+		FROM ctl_log a
+		<include refid="ctlLogJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ctl_log(
+			id,
+			session_id,
+			com_code,
+			com_name,
+			user_code,
+			user_name,
+			user_type,
+			corr_code,
+			corr_name,
+			login_time,
+			login_ip,
+			online_flag,
+			online_time,
+			logout_time,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{sessionId},
+			#{comCode},
+			#{comName},
+			#{userCode},
+			#{userName},
+			#{userType},
+			#{corrCode},
+			#{corrName},
+			#{loginTime},
+			#{loginIp},
+			#{onlineFlag},
+			#{onlineTime},
+			#{logoutTime},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_log SET 	
+			session_id = #{sessionId},
+			com_code = #{comCode},
+			com_name = #{comName},
+			user_code = #{userCode},
+			user_name = #{userName},
+			user_type = #{userType},
+			corr_code = #{corrCode},
+			corr_name = #{corrName},
+			login_time = #{loginTime},
+			login_ip = #{loginIp},
+			online_flag = #{onlineFlag},
+			online_time = #{onlineTime},
+			logout_time = #{logoutTime},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_log
+		WHERE id = #{id}
+	</update>
+	
+	<select id="getComList" resultType="java.util.HashMap">
+		select cc.com_code as "comCode",
+			   cc.com_name as "comName"
+		from ctl_comp cc
+		where cc.enabled_flag = 'Y'
+	</select>
+	
+	<select id="getComFromUserList" resultType="java.util.HashMap">
+		select cu.user_code as "userCode", 
+			   cu.user_name as "userName"
+  		  from ctl_user cu
+         where cu.enabled_flag = 'Y'
+           and cu.com_code = #{comCode} 
+	</select>
+	
+</mapper>

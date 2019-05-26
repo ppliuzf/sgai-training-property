@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.mdm.dao.MdmSpaceInfoDao">
+    
+    <select id="getAreaInfo"  resultType="com.sgai.property.mdm.entity.MdmSpaceInfo" >
+       SELECT 
+       a.id AS "id",
+		a.area_code AS "spaceNodeCode",
+		a.area_name AS "spaceNodeName",
+		a.area_use AS "spaceNodeUse",
+		a.area_type AS "spaceNodeType",
+		a.area_level AS "spaceNodeLevel",
+		a.plan_char AS "spaceNodePlanChar",
+		a.plan_year AS "spaceNodePlanYear",
+		a.start_date AS "spaceNodeStartDate",
+		a.end_date AS "spaceNodeEndDate",
+		b.node_type AS "spaceNodeType",
+		b.PARENT_CODE  AS "spaceParentNodeCode",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.area_property  AS "spaceNodeProperty",
+		a.com_code AS "comCode"
+       FROM  
+          mdm_area_struct a
+           LEFT JOIN  MDM_SPACE_TREE  b on  b.NODE_CODE = a.area_code
+       where 
+          a.area_code=#{arg0} AND  a.com_code = #{arg1} AND b.enabled_flag = 'Y'
+    </select>
+    
+     <select id="getParkInfo"  resultType="com.sgai.property.mdm.entity.MdmSpaceInfo" >
+       SELECT 
+        a.id AS "id",
+		a.park_code AS "spaceNodeCode",
+		a.park_name AS "spaceNodeName",
+		a.park_desc AS "spaceNodeDesc",
+		a.view_imge AS "viewImge",
+		a.plan_char AS "spaceNodePlanChar",
+		a.plan_year AS "spaceNodePlanYear",
+		a.start_date AS "spaceNodeStartDate",
+		a.end_date AS "spaceNodeEndDate",
+		a.longi_tude AS "longiTude",
+		a.lati_tude AS "latiTude",
+		b.node_type AS "spaceNodeType",
+		b.PARENT_CODE  AS "spaceParentNodeCode",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.park_property  AS "spaceNodeProperty",
+		a.com_code AS "comCode"
+		
+       FROM  
+          mdm_park_info a
+          LEFT JOIN  MDM_SPACE_TREE  b on  b.NODE_CODE = a.park_code
+       where 
+          a.park_code=#{arg0} AND a.com_code = #{arg1} AND  b.com_code = #{arg1} AND b.enabled_flag = 'Y'
+    </select>
+    
+     <select id="getBuildInfo"  resultType="com.sgai.property.mdm.entity.MdmSpaceInfo" >
+       SELECT 
+        a.id AS "id",
+		a.building_code AS "spaceNodeCode",
+		a.building_name AS "spaceNodeName",
+		a.build_area AS "spaceNodeBuildArea",
+		a.use_desc AS "spaceNodeUse",
+		a.start_date AS "spaceNodeStartDate",
+		a.end_date AS "spaceNodeEndDate",
+		a.floor_count  AS "spaceNodeFloorCount",
+		a.longi_tude AS "longiTude",
+		a.lati_tude AS "latiTude",
+		b.node_type AS "spaceNodeType",
+		b.PARENT_CODE  AS "spaceParentNodeCode",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.build_property  AS "spaceNodeProperty",
+		a.com_code AS "comCode"
+       FROM  
+          mdm_build_info a
+          LEFT JOIN  MDM_SPACE_TREE  b on  b.NODE_CODE = a.BUILDING_CODE
+       where 
+          a.building_code=#{arg0} AND a.com_code = #{arg1} AND  b.com_code = #{arg1}  AND b.enabled_flag = 'Y'
+    </select>
+    
+    
+   <select id="getFloorInfo"  resultType="com.sgai.property.mdm.entity.MdmSpaceInfo" >
+       SELECT 
+       a.id AS "id",
+        a.area_code AS "spaceGrantParentNodeCode",
+		a.floor_code AS "spaceNodeCode",
+		a.floor_name AS "spaceNodeName",
+		a.floor_desc AS "spaceNodeDesc",
+		b.node_type AS "spaceNodeType",
+		b.PARENT_CODE  AS "spaceParentNodeCode",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.floor_property AS "spaceNodeProperty",
+		a.com_code AS "comCode"
+		
+       FROM  
+          mdm_floor_info a
+          LEFT JOIN  MDM_SPACE_TREE  b on  b.NODE_CODE = a.FLOOR_CODE
+       where 
+          a.floor_code=#{arg0}  AND a.com_code = #{arg1} AND b.com_code = #{arg1} AND b.enabled_flag = 'Y'
+    </select>
+    
+    
+    <select id="getRoomInfo"  resultType="com.sgai.property.mdm.entity.MdmSpaceInfo" >
+       SELECT 
+       a.id AS "id",
+		a.room_code AS "spaceNodeCode",
+		a.room_name AS "spaceNodeName",
+		a.room_area AS "spaceNodeBuildArea",
+		a.spat_property  AS "spaceNodeUse",
+		b.node_type AS "spaceNodeType",
+		b.PARENT_CODE  AS "spaceParentNodeCode",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.room_property  AS "spaceNodeProperty",
+		a.com_code AS "comCode"
+		
+       FROM  
+          mdm_room_info a
+          LEFT JOIN  MDM_SPACE_TREE  b on  b.NODE_CODE = a.room_code
+       where 
+          a.room_code=#{arg0} AND a.com_code = #{arg1} AND b.com_code =#{arg1} AND b.enabled_flag = 'Y'
+    </select>
+    
+</mapper>

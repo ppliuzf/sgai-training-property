@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.CarManageDao">
+    
+	<sql id="carManageColumns">
+		a.id AS "id",
+		a.member_id AS "memberId",
+		a.member_name AS "memberName",
+		a.car_number AS "carNumber",
+		a.car_color AS "carColor",
+		a.car_model AS "carModel",
+		a.preserve_person_id AS "preservePersonId",
+		a.preserve_person_name AS "preservePersonName",
+		a.remark AS "remark",
+		a.member_id_card AS "memberIdCard",
+		a.load_number AS "loadNumber",
+		a.car_type AS "carType"
+	</sql>
+	
+	<select id="findList" resultType="com.sgai.property.wy.entity.CarManage">
+		SELECT 
+			<include refid="carManageColumns"/>
+		FROM WY_CUS_CAR a
+		
+		<where>
+			
+			<if test="memberId != null and memberId !=''">
+				AND a.member_id=#{memberId}
+			</if>
+			<if test="memberName != null and memberName !=''">
+				AND a.member_name=#{memberName}
+			</if>
+			<if test="carColor != null and carColor != ''">
+				AND a.car_color = #{carColor}
+			</if>
+			<if test="carNumber != null and carNumber != ''">
+				AND a.car_number = #{carNumber}
+			</if>
+			<if test="carModel != null and carModel != ''">
+				AND a.car_model LIKE CONCAT( CONCAT ( '%', #{carModel} ) ,'%')
+			</if>
+			
+		</where>
+	</select>
+	<update id="delete">
+		DELETE FROM WY_CUS_CAR
+		WHERE ID = #{id}
+	</update>
+	
+	<insert id="insert">
+		INSERT INTO WY_CUS_CAR(
+			id,
+			member_id,
+			member_name,
+			car_number,
+			car_color,
+			car_model,
+			preserve_person_id,
+			preserve_person_name,
+			remark,
+			member_id_card,
+			load_number,
+			car_type
+		) VALUES (
+			#{id},
+			#{memberId},
+			#{memberName},
+			#{carNumber},
+			#{carColor},
+			#{carModel},
+			#{preservePersonId},
+			#{preservePersonName},
+			#{remark},
+			#{memberIdCard},
+			#{loadNumber},
+			#{carType}
+		)
+	</insert>
+	
+	<select id="get" resultType="com.sgai.property.wy.entity.CarManage">
+		SELECT 
+			<include refid="carManageColumns"/>
+		FROM WY_CUS_CAR a
+		<where>
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="carNumber != null and carNumber != ''">
+				AND a.car_number = #{carNumber}
+			</if>
+		</where>	
+	</select>
+	
+	<update id="update">
+		UPDATE WY_CUS_CAR SET 	
+			MEMBER_ID = #{memberId},
+			MEMBER_NAME = #{memberName},
+			CAR_NUMBER = #{carNumber},
+			CAR_COLOR = #{carColor},
+			CAR_MODEL = #{carModel},
+			PRESERVE_PERSON_ID = #{preservePersonId},
+			PRESERVE_PERSON_NAME = #{preservePersonName},
+			REMARK = #{remark},
+			MEMBER_ID_CARD = #{memberIdCard},
+			LOAD_NUMBER = #{loadNumber},
+			CAR_TYPE = #{carType}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

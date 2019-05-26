@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.em.dao.EmInfoReleaseDao">
+    
+	<sql id="emInfoReleaseColumns">
+		a.instance_id AS "instanceId",
+		a.em_code AS "emCode",
+		a.em_type AS "emType",
+		a.release_content AS "releaseContent",
+		a.release_ AS "release",
+		a.release_time AS "releaseTime",
+		a.end_flag AS "endFlag",
+		a.id AS "id",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="emInfoReleaseJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.em.entity.EmInfoRelease">
+		SELECT 
+			<include refid="emInfoReleaseColumns"/>
+		FROM em_info_release a
+		<include refid="emInfoReleaseJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.em.entity.EmInfoRelease">
+		SELECT 
+			<include refid="emInfoReleaseColumns"/>
+		FROM em_info_release a
+		<include refid="emInfoReleaseJoins"/>
+		<where>
+			
+			<if test="instanceId != null and instanceId != ''">
+				AND a.instance_id = #{instanceId}
+			</if>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+			<if test="emType != null and emType != ''">
+				AND a.em_type = #{emType}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.em.entity.EmInfoRelease">
+		SELECT 
+			<include refid="emInfoReleaseColumns"/>
+		FROM em_info_release a
+		<include refid="emInfoReleaseJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO em_info_release(
+			instance_id,
+			em_code,
+			em_type,
+			release_content,
+			release_,
+			release_time,
+			end_flag,
+			id,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{instanceId},
+			#{emCode},
+			#{emType},
+			#{releaseContent},
+			#{release},
+			#{releaseTime},
+			#{endFlag},
+			#{id},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE em_info_release SET 	
+			instance_id = #{instanceId},
+			em_code = #{emCode},
+			em_type = #{emType},
+			release_content = #{releaseContent},
+			release_ = #{release},
+			release_time = #{releaseTime},
+			end_flag = #{endFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM em_info_release
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

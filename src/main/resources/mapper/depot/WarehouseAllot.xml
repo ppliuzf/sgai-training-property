@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.depot.dao.IWarehouseAllotDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.depot.entity.WarehouseAllot" >
+  		<id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="allot_emp_id" property="allotEmpId" jdbcType="BIGINT" />
+         <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+         <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+         <result column="wh_allot_stat" property="whAllotStat" jdbcType="BIGINT" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="allot_reason" property="allotReason" jdbcType="VARCHAR" />
+         <result column="allot_no" property="allotNo" jdbcType="VARCHAR" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="allot_datetime" property="allotDatetime" jdbcType="TIMESTAMP" />
+         <result column="allot_emp_name" property="allotEmpName" jdbcType="VARCHAR" />
+         <result column="allot_dept_name" property="allotDeptName" jdbcType="VARCHAR" />
+         <result column="allot_name" property="allotName" jdbcType="VARCHAR" />
+	  <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+	  <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+	  <result column="has_order" property="hasOrder" jdbcType="BIGINT" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       version
+       ,allot_emp_id
+       ,created_dt
+       ,updated_dt
+       ,wh_allot_stat
+       ,created_by
+       ,allot_reason
+       ,allot_no
+       ,remarks
+       ,updated_by
+       ,allot_datetime
+       ,allot_emp_name
+       ,id
+       ,allot_dept_name
+       ,allot_name
+        ,com_code
+      ,modu_code
+      ,has_order
+  </sql>
+  
+  <sql id="whereSql">
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="allotEmpId != null">
+			and allot_emp_id=#{allotEmpId}
+		 </if> 
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="whAllotStat != null">
+			and wh_allot_stat=#{whAllotStat}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="allotReason != null">
+			and allot_reason=#{allotReason}
+		 </if> 
+       <if test="allotNo != null">
+			and allot_no=#{allotNo}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="allotDatetime != null">
+			and allot_datetime=#{allotDatetime}
+		 </if> 
+       <if test="allotEmpName != null">
+			and allot_emp_name=#{allotEmpName}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="allotDeptName != null">
+			and allot_dept_name=#{allotDeptName}
+		 </if> 
+       <if test="allotName != null">
+			and allot_name=#{allotName}
+		 </if>
+	  <if test = "comCode != null and comCode != ''" >
+		  AND com_code = #{comCode}
+	  </if >
+	  <if test = "moduCode != null and moduCode != ''" >
+		  AND modu_code = #{moduCode}
+	  </if >
+	  <if test = "moduCode == null or moduCode == ''" >
+		  AND modu_code IS NULL
+	  </if >
+	  <if test="hasOrder != null">
+		  and has_order=#{hasOrder}
+	  </if>
+   </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from DEPOT_WAREHOUSE_ALLOT  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from DEPOT_WAREHOUSE_ALLOT  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from DEPOT_WAREHOUSE_ALLOT  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.depot.entity.WarehouseAllot">
+		select <include refid="baseColumns"/> from
+       DEPOT_WAREHOUSE_ALLOT  where  1 = 1    <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from DEPOT_WAREHOUSE_ALLOT
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.depot.entity.WarehouseAllot" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from DEPOT_WAREHOUSE_ALLOT where  1 = 1    <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.depot.entity.WarehouseAllot" resultType="java.lang.Integer">
+           select count(1) from DEPOT_WAREHOUSE_ALLOT where   1 = 1   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.depot.entity.WarehouseAllot">
+      insert into DEPOT_WAREHOUSE_ALLOT 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="allotEmpId != null">
+				   allot_emp_id,
+			 </if> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="whAllotStat != null">
+				   wh_allot_stat,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="allotReason != null">
+				   allot_reason,
+			 </if> 
+          <if test="allotNo != null">
+				   allot_no,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="allotDatetime != null">
+				   allot_datetime,
+			 </if> 
+          <if test="allotEmpName != null">
+				   allot_emp_name,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="allotDeptName != null">
+				   allot_dept_name,
+			 </if> 
+          <if test="allotName != null">
+				   allot_name,
+			 </if>
+			<if test="comCode != null">
+				com_code,
+			</if>
+			<if test="moduCode != null">
+				modu_code,
+			</if>
+			<if test="hasOrder != null">
+				has_order,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="allotEmpId != null">
+				#{allotEmpId},
+			  </if>
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="whAllotStat != null">
+				#{whAllotStat},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="allotReason != null">
+				#{allotReason},
+			  </if>
+			  <if test="allotNo != null">
+				#{allotNo},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="allotDatetime != null">
+				#{allotDatetime},
+			  </if>
+			  <if test="allotEmpName != null">
+				#{allotEmpName},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="allotDeptName != null">
+				#{allotDeptName},
+			  </if>
+			  <if test="allotName != null">
+				#{allotName},
+			  </if>
+			<if test="comCode != null">
+				#{comCode},
+			</if>
+			<if test="moduCode != null">
+				#{moduCode},
+			</if>
+			<if test="hasOrder != null">
+				#{hasOrder},
+			</if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.depot.entity.WarehouseAllot">
+	   update DEPOT_WAREHOUSE_ALLOT  set
+	    <trim suffixOverrides="," >
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="allotEmpId != null">
+					 allot_emp_id=#{allotEmpId},
+				  </if>
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="whAllotStat != null">
+					 wh_allot_stat=#{whAllotStat},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="allotReason != null">
+					 allot_reason=#{allotReason},
+				  </if>
+				  <if test="allotNo != null">
+					 allot_no=#{allotNo},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="allotDatetime != null">
+					 allot_datetime=#{allotDatetime},
+				  </if>
+				  <if test="allotEmpName != null">
+					 allot_emp_name=#{allotEmpName},
+				  </if>
+				  <if test="allotDeptName != null">
+					 allot_dept_name=#{allotDeptName},
+				  </if>
+				  <if test="allotName != null">
+					 allot_name=#{allotName},
+				  </if>
+			<if test="hasOrder != null">
+				has_order=#{hasOrder},
+			</if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.depot.entity.WarehouseAllot">
+        update DEPOT_WAREHOUSE_ALLOT  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.allotEmpId != null">
+                allot_emp_id = #{entity.allotEmpId},
+				  </if>
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.whAllotStat != null">
+                wh_allot_stat = #{entity.whAllotStat},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.allotReason != null">
+                allot_reason = #{entity.allotReason},
+				  </if>
+				  <if test="entity.allotNo != null">
+                allot_no = #{entity.allotNo},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.allotDatetime != null">
+                allot_datetime = #{entity.allotDatetime},
+				  </if>
+				  <if test="entity.allotEmpName != null">
+                allot_emp_name = #{entity.allotEmpName},
+				  </if>
+				  <if test="entity.allotDeptName != null">
+                allot_dept_name = #{entity.allotDeptName},
+				  </if>
+				  <if test="entity.allotName != null">
+                allot_name = #{entity.allotName},
+				  </if>
+			<if test="entity.hasOrder != null">
+				has_order = #{entity.hasOrder},
+			</if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from DEPOT_WAREHOUSE_ALLOT where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from DEPOT_WAREHOUSE_ALLOT where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from DEPOT_WAREHOUSE_ALLOT where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.depot.entity.WarehouseAllot">
+      delete from DEPOT_WAREHOUSE_ALLOT where 1 = 1  <include refid="whereSql"/>
+   </delete>
+</mapper>

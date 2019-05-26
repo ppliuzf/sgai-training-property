@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.mdm.dao.MdmFloorInfoDao">
+    
+	<sql id="mdmFloorInfoColumns">
+		a.id AS "id",
+		a.area_code AS "areaCode",
+		a.building_code AS "buildingCode",
+		a.floor_code AS "floorCode",
+		a.floor_name AS "floorName",
+		a.floor_desc AS "floorDesc",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.floor_property  AS "floorProperty",
+		a.com_code AS "comCode"
+	</sql>
+	
+	<sql id="mdmFloorInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.mdm.entity.MdmFloorInfo">
+		SELECT 
+			<include refid="mdmFloorInfoColumns"/>
+		FROM mdm_floor_info a
+		<include refid="mdmFloorInfoJoins"/>
+		WHERE a.id = #{id} 				AND a.com_code = #{comCode}
+		
+		
+	</select>
+	
+	<select id="getByCode" resultType="com.sgai.property.mdm.entity.MdmFloorInfo">
+		SELECT 
+			<include refid="mdmFloorInfoColumns"/>
+		FROM mdm_floor_info a
+		<include refid="mdmFloorInfoJoins"/>
+		WHERE a.floor_code = #{arg0}	AND  a.com_code = #{arg1}
+		
+		<!-- <if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+		</if> -->
+	</select>
+	
+	<select id="getFloorList" resultType="java.lang.String">
+		SELECT FlOOR_NAME FROM mdm_floor_info 
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+		</if>
+		</where>
+	</select>
+	
+	
+	<select id="findList" resultType="com.sgai.property.mdm.entity.MdmFloorInfo">
+		SELECT 
+			<include refid="mdmFloorInfoColumns"/>
+		FROM mdm_floor_info a
+		<include refid="mdmFloorInfoJoins"/>
+		<where>
+			a.enabled_flag = 'Y'
+			<if test="areaCode != null and areaCode != ''">
+				AND a.area_code = #{areaCode}
+			</if>
+			<if test="buildingCode != null and buildingCode != ''">
+				AND a.building_code = #{buildingCode}
+			</if>
+			<if test="floorName != null and floorName != ''">
+				AND a.floor_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{floorName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{floorName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{floorName},'%')</if>
+			</if>
+			 <if test="comCode != null and comCode != ''">
+				AND a.com_code=#{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if> 
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+		</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.mdm.entity.MdmFloorInfo">
+		SELECT 
+			<include refid="mdmFloorInfoColumns"/>
+		FROM mdm_floor_info a
+		<include refid="mdmFloorInfoJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+		</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mdm_floor_info(
+			id,
+			area_code,
+			building_code,
+			floor_code,
+			floor_name,
+			floor_desc,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			floor_property,
+			com_code
+		) VALUES (
+			#{id},
+			#{areaCode},
+			#{buildingCode},
+			#{floorCode},
+			#{floorName},
+			#{floorDesc},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{floorProperty},
+			#{comCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mdm_floor_info SET 	
+			area_code = #{areaCode},
+			building_code = #{buildingCode},
+			floor_code = #{floorCode},
+			floor_name = #{floorName},
+			floor_desc = #{floorDesc},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			floor_property = #{floorProperty},
+ 			com_code = #{comCode}
+ 		WHERE id = #{id}
+	</update>
+	
+	<!-- <update id="delete">
+		DELETE FROM mdm_floor_info
+		WHERE id = #{id}
+	</update> -->
+	
+	<update id="delete">
+		UPDATE mdm_floor_info SET 
+		    enabled_flag='N'
+		WHERE 
+		    floor_code = #{floorCode}
+		     <if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+	</update>
+	
+</mapper>

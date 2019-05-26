@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.PaperConfirmDao">
+<sql id="receptColumns">
+		v.ID id,
+		v.SUB_ID subId,
+		v.CREATE_DATE createTime,
+		v.RECEPT_USER_ID receptUserId,
+		v.REC_NUMBER recNumber
+	</sql>
+	<select id="findList" resultType="com.sgai.property.wy.entity.PaperConfirm">
+		SELECT <include refid="receptColumns"/> 
+		FROM WY_CUS_MAGAZINE_RECEPT v
+		where v.SUB_ID=#{subId}
+    </select>
+   <insert id="insert">
+		INSERT INTO WY_CUS_MAGAZINE_RECEPT(
+			id,
+			SUB_ID,
+			CREATE_DATE,
+			RECEPT_USER_ID,
+			REC_NUMBER
+		) VALUES (
+			#{id},
+			#{subId},
+			#{createTime},
+			#{receptUserId},
+			#{recNumber}
+		)
+	</insert>
+	<select id="getPaperConfirmById" resultType="com.sgai.property.wy.entity.PaperConfirm">
+		SELECT <include refid="receptColumns"/> 
+		FROM WY_CUS_MAGAZINE_RECEPT v
+		where v.SUB_ID=#{subId}
+    </select>
+</mapper>

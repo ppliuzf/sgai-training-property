@@ -1,0 +1,690 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.quality.dao.IQtPlanItemDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.quality.entity.QtPlanItem" >
+	     <id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+         <result column="post_id" property="postId" jdbcType="VARCHAR" />
+         <result column="pi_name" property="piName" jdbcType="VARCHAR" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="BIGINT" />
+         <result column="group_sort" property="groupSort" jdbcType="BIGINT" />
+         <result column="create_ei_id" property="createEiId" jdbcType="BIGINT" />
+         <result column="pi_rectification_requirements" property="piRectificationRequirements" jdbcType="VARCHAR" />
+         <result column="tp_id" property="tpId" jdbcType="VARCHAR" />
+         <result column="create_name" property="createName" jdbcType="VARCHAR" />
+         <result column="pi_finsh_unit" property="piFinshUnit" jdbcType="BIGINT" />
+         <result column="pi_unit" property="piUnit" jdbcType="VARCHAR" />
+         <result column="pi_min" property="piMin" jdbcType="BIGINT" />
+         <result column="pi_max" property="piMax" jdbcType="BIGINT" />
+         <result column="ti_id" property="tiId" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="pc_name" property="pcName" jdbcType="VARCHAR" />
+         <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+         <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+         <result column="pi_standard" property="piStandard" jdbcType="VARCHAR" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="valid" property="valid" jdbcType="BIGINT" />
+         <result column="post_name" property="postName" jdbcType="VARCHAR" />
+         <result column="group_id" property="groupId" jdbcType="VARCHAR" />
+         <result column="pi_limit_time" property="piLimitTime" jdbcType="BIGINT" />
+         <result column="pi_standard_option" property="piStandardOption" jdbcType="VARCHAR" />
+         <result column="pi_options" property="piOptions" jdbcType="VARCHAR" />
+         <result column="pc_id" property="pcId" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="pi_is_input" property="piIsInput" jdbcType="BIGINT" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       created_dt
+       ,post_id
+       ,pi_name
+       ,created_by
+       ,create_time
+       ,group_sort
+       ,create_ei_id
+       ,pi_rectification_requirements
+       ,tp_id
+       ,create_name
+       ,pi_finsh_unit
+       ,pi_unit
+       ,pi_min
+       ,pi_max
+       ,ti_id
+       ,version
+       ,pc_name
+       ,updated_dt
+       ,update_time
+       ,pi_standard
+       ,id
+       ,remarks
+       ,valid
+       ,post_name
+       ,group_id
+       ,pi_limit_time
+       ,pi_standard_option
+       ,pi_options
+       ,pc_id
+       ,updated_by
+       ,pi_is_input
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="postId != null">
+			and post_id=#{postId}
+		 </if> 
+       <if test="piName != null">
+			and pi_name=#{piName}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="createTime != null">
+			and create_time=#{createTime}
+		 </if> 
+       <if test="groupSort != null">
+			and group_sort=#{groupSort}
+		 </if> 
+       <if test="createEiId != null">
+			and create_ei_id=#{createEiId}
+		 </if> 
+       <if test="piRectificationRequirements != null">
+			and pi_rectification_requirements=#{piRectificationRequirements}
+		 </if> 
+       <if test="tpId != null">
+			and tp_id=#{tpId}
+		 </if> 
+       <if test="createName != null">
+			and create_name=#{createName}
+		 </if> 
+       <if test="piFinshUnit != null">
+			and pi_finsh_unit=#{piFinshUnit}
+		 </if> 
+       <if test="piUnit != null">
+			and pi_unit=#{piUnit}
+		 </if> 
+       <if test="piMin != null">
+			and pi_min=#{piMin}
+		 </if> 
+       <if test="piMax != null">
+			and pi_max=#{piMax}
+		 </if> 
+       <if test="tiId != null">
+			and ti_id=#{tiId}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="pcName != null">
+			and pc_name=#{pcName}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="updateTime != null">
+			and update_time=#{updateTime}
+		 </if> 
+       <if test="piStandard != null">
+			and pi_standard=#{piStandard}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="valid != null">
+			and valid=#{valid}
+		 </if> 
+       <if test="postName != null">
+			and post_name=#{postName}
+		 </if> 
+       <if test="groupId != null">
+			and group_id=#{groupId}
+		 </if> 
+       <if test="piLimitTime != null">
+			and pi_limit_time=#{piLimitTime}
+		 </if> 
+       <if test="piStandardOption != null">
+			and pi_standard_option=#{piStandardOption}
+		 </if> 
+       <if test="piOptions != null">
+			and pi_options=#{piOptions}
+		 </if> 
+       <if test="pcId != null">
+			and pc_id=#{pcId}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="piIsInput != null">
+			and pi_is_input=#{piIsInput}
+		 </if> 
+      </trim>
+  </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from qt_plan_item  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_plan_item  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from qt_plan_item  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.quality.entity.QtPlanItem">
+		select <include refid="baseColumns"/> from
+       qt_plan_item  where   <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_plan_item
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.quality.entity.QtPlanItem" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_plan_item where   <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+
+	<select id="findListByTemplateId"  parameterType="com.sgai.property.quality.entity.QtPlanItem" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/> from qt_plan_item where   <include refid="whereSql"/>
+
+	</select>
+
+
+	 <select id="getCount"  parameterType="com.sgai.property.quality.entity.QtPlanItem" resultType="java.lang.Integer">
+           select count(1) from qt_plan_item where   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.quality.entity.QtPlanItem">
+      insert into qt_plan_item 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="postId != null">
+				   post_id,
+			 </if> 
+          <if test="piName != null">
+				   pi_name,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="createTime != null">
+				   create_time,
+			 </if> 
+          <if test="groupSort != null">
+				   group_sort,
+			 </if> 
+          <if test="createEiId != null">
+				   create_ei_id,
+			 </if> 
+          <if test="piRectificationRequirements != null">
+				   pi_rectification_requirements,
+			 </if> 
+          <if test="tpId != null">
+				   tp_id,
+			 </if> 
+          <if test="createName != null">
+				   create_name,
+			 </if> 
+          <if test="piFinshUnit != null">
+				   pi_finsh_unit,
+			 </if> 
+          <if test="piUnit != null">
+				   pi_unit,
+			 </if> 
+          <if test="piMin != null">
+				   pi_min,
+			 </if> 
+          <if test="piMax != null">
+				   pi_max,
+			 </if> 
+          <if test="tiId != null">
+				   ti_id,
+			 </if> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="pcName != null">
+				   pc_name,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="updateTime != null">
+				   update_time,
+			 </if> 
+          <if test="piStandard != null">
+				   pi_standard,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+          <if test="valid != null">
+				   valid,
+			 </if> 
+          <if test="postName != null">
+				   post_name,
+			 </if> 
+          <if test="groupId != null">
+				   group_id,
+			 </if> 
+          <if test="piLimitTime != null">
+				   pi_limit_time,
+			 </if> 
+          <if test="piStandardOption != null">
+				   pi_standard_option,
+			 </if> 
+          <if test="piOptions != null">
+				   pi_options,
+			 </if> 
+          <if test="pcId != null">
+				   pc_id,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="piIsInput != null">
+				   pi_is_input,
+			 </if> 
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="postId != null">
+				#{postId},
+			  </if>
+			  <if test="piName != null">
+				#{piName},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="createTime != null">
+				#{createTime},
+			  </if>
+			  <if test="groupSort != null">
+				#{groupSort},
+			  </if>
+			  <if test="createEiId != null">
+				#{createEiId},
+			  </if>
+			  <if test="piRectificationRequirements != null">
+				#{piRectificationRequirements},
+			  </if>
+			  <if test="tpId != null">
+				#{tpId},
+			  </if>
+			  <if test="createName != null">
+				#{createName},
+			  </if>
+			  <if test="piFinshUnit != null">
+				#{piFinshUnit},
+			  </if>
+			  <if test="piUnit != null">
+				#{piUnit},
+			  </if>
+			  <if test="piMin != null">
+				#{piMin},
+			  </if>
+			  <if test="piMax != null">
+				#{piMax},
+			  </if>
+			  <if test="tiId != null">
+				#{tiId},
+			  </if>
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="pcName != null">
+				#{pcName},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="updateTime != null">
+				#{updateTime},
+			  </if>
+			  <if test="piStandard != null">
+				#{piStandard},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			  <if test="valid != null">
+				#{valid},
+			  </if>
+			  <if test="postName != null">
+				#{postName},
+			  </if>
+			  <if test="groupId != null">
+				#{groupId},
+			  </if>
+			  <if test="piLimitTime != null">
+				#{piLimitTime},
+			  </if>
+			  <if test="piStandardOption != null">
+				#{piStandardOption},
+			  </if>
+			  <if test="piOptions != null">
+				#{piOptions},
+			  </if>
+			  <if test="pcId != null">
+				#{pcId},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="piIsInput != null">
+				#{piIsInput},
+			  </if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.quality.entity.QtPlanItem">
+	   update qt_plan_item  set
+	    <trim suffixOverrides="," >
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="postId != null">
+					 post_id=#{postId},
+				  </if>
+				  <if test="piName != null">
+					 pi_name=#{piName},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="createTime != null">
+					 create_time=#{createTime},
+				  </if>
+				  <if test="groupSort != null">
+					 group_sort=#{groupSort},
+				  </if>
+				  <if test="createEiId != null">
+					 create_ei_id=#{createEiId},
+				  </if>
+				  <if test="piRectificationRequirements != null">
+					 pi_rectification_requirements=#{piRectificationRequirements},
+				  </if>
+				  <if test="tpId != null">
+					 tp_id=#{tpId},
+				  </if>
+				  <if test="createName != null">
+					 create_name=#{createName},
+				  </if>
+				  <if test="piFinshUnit != null">
+					 pi_finsh_unit=#{piFinshUnit},
+				  </if>
+				  <if test="piUnit != null">
+					 pi_unit=#{piUnit},
+				  </if>
+				  <if test="piMin != null">
+					 pi_min=#{piMin},
+				  </if>
+				  <if test="piMax != null">
+					 pi_max=#{piMax},
+				  </if>
+				  <if test="tiId != null">
+					 ti_id=#{tiId},
+				  </if>
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="pcName != null">
+					 pc_name=#{pcName},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="updateTime != null">
+					 update_time=#{updateTime},
+				  </if>
+				  <if test="piStandard != null">
+					 pi_standard=#{piStandard},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				  <if test="valid != null">
+					 valid=#{valid},
+				  </if>
+				  <if test="postName != null">
+					 post_name=#{postName},
+				  </if>
+				  <if test="groupId != null">
+					 group_id=#{groupId},
+				  </if>
+				  <if test="piLimitTime != null">
+					 pi_limit_time=#{piLimitTime},
+				  </if>
+				  <if test="piStandardOption != null">
+					 pi_standard_option=#{piStandardOption},
+				  </if>
+				  <if test="piOptions != null">
+					 pi_options=#{piOptions},
+				  </if>
+				  <if test="pcId != null">
+					 pc_id=#{pcId},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="piIsInput != null">
+					 pi_is_input=#{piIsInput},
+				  </if>
+		  </trim>
+		 where id =#{id}
+	</update>
+	<!-- 这个有问题吧 -->
+	 <update id="updateByIds" parameterType="com.sgai.property.quality.entity.QtPlanItem">
+        update qt_plan_item  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.postId != null">
+                post_id = #{entity.postId},
+				  </if>
+				  <if test="entity.piName != null">
+                pi_name = #{entity.piName},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.createTime != null">
+                create_time = #{entity.createTime},
+				  </if>
+				  <if test="entity.groupSort != null">
+                group_sort = #{entity.groupSort},
+				  </if>
+				  <if test="entity.createEiId != null">
+                create_ei_id = #{entity.createEiId},
+				  </if>
+				  <if test="entity.piRectificationRequirements != null">
+                pi_rectification_requirements = #{entity.piRectificationRequirements},
+				  </if>
+				  <if test="entity.tpId != null">
+                tp_id = #{entity.tpId},
+				  </if>
+				  <if test="entity.createName != null">
+                create_name = #{entity.createName},
+				  </if>
+				  <if test="entity.piFinshUnit != null">
+                pi_finsh_unit = #{entity.piFinshUnit},
+				  </if>
+				  <if test="entity.piUnit != null">
+                pi_unit = #{entity.piUnit},
+				  </if>
+				  <if test="entity.piMin != null">
+                pi_min = #{entity.piMin},
+				  </if>
+				  <if test="entity.piMax != null">
+                pi_max = #{entity.piMax},
+				  </if>
+				  <if test="entity.tiId != null">
+                ti_id = #{entity.tiId},
+				  </if>
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.pcName != null">
+                pc_name = #{entity.pcName},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.updateTime != null">
+                update_time = #{entity.updateTime},
+				  </if>
+				  <if test="entity.piStandard != null">
+                pi_standard = #{entity.piStandard},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+				  <if test="entity.valid != null">
+                valid = #{entity.valid},
+				  </if>
+				  <if test="entity.postName != null">
+                post_name = #{entity.postName},
+				  </if>
+				  <if test="entity.groupId != null">
+                group_id = #{entity.groupId},
+				  </if>
+				  <if test="entity.piLimitTime != null">
+                pi_limit_time = #{entity.piLimitTime},
+				  </if>
+				  <if test="entity.piStandardOption != null">
+                pi_standard_option = #{entity.piStandardOption},
+				  </if>
+				  <if test="entity.piOptions != null">
+                pi_options = #{entity.piOptions},
+				  </if>
+				  <if test="entity.pcId != null">
+                pc_id = #{entity.pcId},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.piIsInput != null">
+                pi_is_input = #{entity.piIsInput},
+				  </if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from qt_plan_item where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from qt_plan_item where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from qt_plan_item where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.quality.entity.QtPlanItem">
+      delete from qt_plan_item where   <include refid="whereSql"/> 
+   </delete>
+
+	<select id="getMaxSort" parameterType="com.sgai.property.quality.entity.QtPlanItem" resultType="java.lang.Integer">
+		select max(group_sort) from qt_plan_item where 1=1
+		<if test="tpId != null">
+			and tp_id =#{tpId}
+		</if>
+		<if test="groupId != null">
+			and group_id =#{groupId}
+		</if>
+	</select>
+	
+	
+	
+	<select id="getByTiIds" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/> from qt_plan_item  where 1=1
+ 		<if test="tpId != null">
+			and tp_id =#{tpId}
+		</if> 
+		and ti_id in
+	    <foreach collection="tiIds" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+	
+	<insert id="insertBatch" parameterType="java.util.List"> 
+		insert into qt_plan_item ( <include refid="baseColumns" /> ) values 
+		<foreach collection="list" item="item" index="index" separator=","> 
+		   (#{item.createdDt},
+			#{item.postId},
+			#{item.piName},
+			#{item.createdBy},
+			#{item.createTime},
+			#{item.groupSort},
+			#{item.createEiId},
+			#{item.piRectificationRequirements},
+			#{item.tpId},
+			#{item.createName},
+			#{item.piFinshUnit},
+			#{item.piUnit},
+			#{item.piMin},
+			#{item.piMax},
+			#{item.tiId},
+			#{item.version},
+			#{item.pcName},
+			#{item.updatedDt},
+			#{item.updateTime},
+			#{item.piStandard},
+			#{item.id},
+			#{item.remarks},
+			#{item.valid},
+			#{item.postName},
+			#{item.groupId},
+			#{item.piLimitTime},
+			#{item.piStandardOption},
+			#{item.piOptions},
+			#{item.pcId},
+			#{item.updatedBy},
+			#{item.piIsInput}
+			) 
+		</foreach>
+    </insert>
+</mapper>

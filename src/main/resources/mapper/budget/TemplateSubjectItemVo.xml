@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.budget.dao.ITemplateSubjectItemDaoVo">
+	<resultMap id="BaseResultMap"
+		type="com.sgai.property.budget.entity.TemplateSubjectItem">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="updated_dt" property="updatedDt" jdbcType="VARCHAR" />
+		<result column="template_name" property="templateName"
+			jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="BIGINT" />
+		<result column="sub_long_name" property="subLongName" jdbcType="VARCHAR" />
+		<result column="sub_name" property="subName" jdbcType="VARCHAR" />
+		<result column="item_id" property="itemId" jdbcType="VARCHAR" />
+		<result column="created_dt" property="createdDt" jdbcType="VARCHAR" />
+		<result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+		<result column="version" property="version" jdbcType="BIGINT" />
+		<result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="BIGINT" />
+		<result column="item_order" property="itemOrder" jdbcType="BIGINT" />
+		<result column="item_name" property="itemName" jdbcType="VARCHAR" />
+		<result column="sub_code" property="subCode" jdbcType="VARCHAR" />
+		<result column="sub_id" property="subId" jdbcType="VARCHAR" />
+		<result column="template_id" property="templateId" jdbcType="VARCHAR" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+
+		<result column="COM_CODE" property="comCode" jdbcType="VARCHAR" />
+		<result column="MODU_CODE" property="moduCode" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="baseColumns">
+		updated_dt
+		,template_name
+		,create_time
+		,sub_long_name
+		,sub_name
+		,item_id
+		,created_dt
+		,updated_by
+		,version
+		,created_by
+		,update_time
+		,item_order
+		,id
+		,item_name
+		,sub_code
+		,sub_id
+		,template_id
+		,remarks
+		,COM_CODE
+		,MODU_CODE
+	</sql>
+
+	<sql id="whereSql">
+		<trim prefixOverrides="AND | OR">
+			<if test="updatedDt != null">
+				and updated_dt=#{updatedDt}
+			</if>
+			<if test="templateName != null">
+				and template_name=#{templateName}
+			</if>
+			<if test="createTime != null">
+				and create_time=#{createTime}
+			</if>
+			<if test="subLongName != null">
+				and sub_long_name=#{subLongName}
+			</if>
+			<if test="subName != null">
+				and sub_name=#{subName}
+			</if>
+			<if test="itemId != null">
+				and item_id=#{itemId}
+			</if>
+			<if test="createdDt != null">
+				and created_dt=#{createdDt}
+			</if>
+			<if test="updatedBy != null">
+				and updated_by=#{updatedBy}
+			</if>
+			<if test="version != null">
+				and version=#{version}
+			</if>
+			<if test="createdBy != null">
+				and created_by=#{createdBy}
+			</if>
+			<if test="updateTime != null">
+				and update_time=#{updateTime}
+			</if>
+			<if test="itemOrder != null">
+				and item_order=#{itemOrder}
+			</if>
+			<if test="id != null">
+				and id=#{id}
+			</if>
+			<if test="itemName != null">
+				and item_name=#{itemName}
+			</if>
+			<if test="subCode != null">
+				and sub_code=#{subCode}
+			</if>
+			<if test="subId != null">
+				and sub_id=#{subId}
+			</if>
+			<if test="templateId != null">
+				and template_id=#{templateId}
+			</if>
+			<if test="remarks != null">
+				and remarks=#{remarks}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND modu_code is null
+			</if>
+		</trim>
+	</sql>
+
+	<select id="getTemplateIds" resultType="String">
+		select
+		DISTINCT TEMPLATE_ID
+		from
+		YS_TEMPLATE_SUBJECT_ITEM
+	</select>
+
+</mapper>

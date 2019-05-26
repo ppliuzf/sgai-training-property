@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.purchase.dao.IPlanDetailDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.purchase.entity.PlanDetail" >
+  		<id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="mat_name" property="matName" jdbcType="VARCHAR" />
+         <result column="mat_spec" property="matSpec" jdbcType="VARCHAR" />
+         <result column="buy_count" property="buyCount" jdbcType="BIGINT" />
+         <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="mat_type_id" property="matTypeId" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="task_id" property="taskId" jdbcType="VARCHAR" />
+         <result column="apply_count" property="applyCount" jdbcType="BIGINT" />
+         <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+         <result column="mat_type_code" property="matTypeCode" jdbcType="VARCHAR" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       mat_name
+       ,mat_spec
+       ,buy_count
+       ,created_dt
+       ,version
+       ,created_by
+       ,mat_type_id
+       ,id
+       ,updated_by
+       ,task_id
+       ,apply_count
+       ,updated_dt
+       ,mat_type_code
+       ,remarks
+  </sql>
+  
+  <sql id="whereSql">
+       <if test="matName != null">
+			and mat_name=#{matName}
+		 </if> 
+       <if test="matSpec != null">
+			and mat_spec=#{matSpec}
+		 </if> 
+       <if test="buyCount != null">
+			and buy_count=#{buyCount}
+		 </if> 
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="matTypeId != null">
+			and mat_type_id=#{matTypeId}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="taskId != null">
+			and task_id=#{taskId}
+		 </if> 
+       <if test="applyCount != null">
+			and apply_count=#{applyCount}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="matTypeCode != null">
+			and mat_type_code=#{matTypeCode}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+   </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from PURCHASE_PLAN_DETAIL  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from PURCHASE_PLAN_DETAIL  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from PURCHASE_PLAN_DETAIL  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.purchase.entity.PlanDetail">
+		select <include refid="baseColumns"/> from
+       PURCHASE_PLAN_DETAIL  where  1 = 1    <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from PURCHASE_PLAN_DETAIL
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.purchase.entity.PlanDetail" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from PURCHASE_PLAN_DETAIL where  1 = 1    <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.purchase.entity.PlanDetail" resultType="java.lang.Integer">
+           select count(1) from PURCHASE_PLAN_DETAIL where   1 = 1   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.purchase.entity.PlanDetail">
+      insert into PURCHASE_PLAN_DETAIL 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="matName != null">
+				   mat_name,
+			 </if> 
+          <if test="matSpec != null">
+				   mat_spec,
+			 </if> 
+          <if test="buyCount != null">
+				   buy_count,
+			 </if> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="matTypeId != null">
+				   mat_type_id,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="taskId != null">
+				   task_id,
+			 </if> 
+          <if test="applyCount != null">
+				   apply_count,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="matTypeCode != null">
+				   mat_type_code,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="matName != null">
+				#{matName},
+			  </if>
+			  <if test="matSpec != null">
+				#{matSpec},
+			  </if>
+			  <if test="buyCount != null">
+				#{buyCount},
+			  </if>
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="matTypeId != null">
+				#{matTypeId},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="taskId != null">
+				#{taskId},
+			  </if>
+			  <if test="applyCount != null">
+				#{applyCount},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="matTypeCode != null">
+				#{matTypeCode},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.purchase.entity.PlanDetail">
+	   update PURCHASE_PLAN_DETAIL  set
+	    <trim suffixOverrides="," >
+				  <if test="matName != null">
+					 mat_name=#{matName},
+				  </if>
+				  <if test="matSpec != null">
+					 mat_spec=#{matSpec},
+				  </if>
+				  <if test="buyCount != null">
+					 buy_count=#{buyCount},
+				  </if>
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="matTypeId != null">
+					 mat_type_id=#{matTypeId},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="taskId != null">
+					 task_id=#{taskId},
+				  </if>
+				  <if test="applyCount != null">
+					 apply_count=#{applyCount},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="matTypeCode != null">
+					 mat_type_code=#{matTypeCode},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.purchase.entity.PlanDetail">
+        update PURCHASE_PLAN_DETAIL  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.matName != null">
+                mat_name = #{entity.matName},
+				  </if>
+				  <if test="entity.matSpec != null">
+                mat_spec = #{entity.matSpec},
+				  </if>
+				  <if test="entity.buyCount != null">
+                buy_count = #{entity.buyCount},
+				  </if>
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.matTypeId != null">
+                mat_type_id = #{entity.matTypeId},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.taskId != null">
+                task_id = #{entity.taskId},
+				  </if>
+				  <if test="entity.applyCount != null">
+                apply_count = #{entity.applyCount},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.matTypeCode != null">
+                mat_type_code = #{entity.matTypeCode},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from PURCHASE_PLAN_DETAIL where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from PURCHASE_PLAN_DETAIL where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from PURCHASE_PLAN_DETAIL where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.purchase.entity.PlanDetail">
+      delete from PURCHASE_PLAN_DETAIL where 1 = 1  <include refid="whereSql"/>
+   </delete>
+   
+</mapper>

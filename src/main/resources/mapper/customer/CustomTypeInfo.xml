@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.customer.dao.ICustomTypeInfoDao">
+    <resultMap id="BaseResultMap" type="com.sgai.property.customer.entity.CustomTypeInfo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="updated_dt" property="updatedDt" jdbcType="VARCHAR"/>
+        <result column="type_class" property="typeClass" jdbcType="BIGINT"/>
+        <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="type_status" property="typeStatus" jdbcType="BIGINT"/>
+        <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR"/>
+        <result column="created_dt" property="createdDt" jdbcType="VARCHAR"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="BIGINT"/>
+        <result column="com_id" property="comId" jdbcType="VARCHAR"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="BIGINT"/>
+        <result column="type_desc" property="typeDesc" jdbcType="VARCHAR"/>
+        <result column="ct_is_delete" property="ctIsDelete" jdbcType="BIGINT"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+	  <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="baseColumns">
+       id
+       ,updated_dt
+       ,type_class
+       ,type_name
+       ,create_time
+       ,type_status
+       ,update_user_name
+       ,created_dt
+       ,updated_by
+       ,version
+       ,com_id
+       ,created_by
+       ,update_user_id
+       ,update_time
+       ,type_desc
+       ,ct_is_delete
+       ,remarks
+       ,com_code
+       ,modu_code
+    </sql>
+
+    <sql id="whereSql">
+        <trim prefixOverrides="AND | OR">
+        <if test="comCode != null">
+			 and com_code=#{comCode}
+		 </if>
+		 <if test="moduCode != null">
+			 and modu_code=#{moduCode}
+		 </if>
+            <if test="updatedDt != null">
+                and updated_dt=#{updatedDt}
+            </if>
+            <if test="typeClass != null">
+                and type_class=#{typeClass}
+            </if>
+            <if test="typeName != null">
+                and type_name=#{typeName}
+            </if>
+            <if test="createTime != null">
+                and create_time=#{createTime}
+            </if>
+            <if test="typeStatus != null">
+                and type_status=#{typeStatus}
+            </if>
+            <if test="updateUserName != null">
+                and update_user_name=#{updateUserName}
+            </if>
+            <if test="id != null">
+                and id=#{id}
+            </if>
+            <if test="createdDt != null">
+                and created_dt=#{createdDt}
+            </if>
+            <if test="updatedBy != null">
+                and updated_by=#{updatedBy}
+            </if>
+            <if test="version != null">
+                and version=#{version}
+            </if>
+            <if test="comId != null">
+                and com_id=#{comId}
+            </if>
+            <if test="createdBy != null">
+                and created_by=#{createdBy}
+            </if>
+            <if test="updateUserId != null">
+                and update_user_id=#{updateUserId}
+            </if>
+            <if test="updateTime != null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="typeDesc != null">
+                and type_desc=#{typeDesc}
+            </if>
+            <if test="ctIsDelete != null">
+                and ct_is_delete=#{ctIsDelete}
+            </if>
+            <if test="remarks != null">
+                and remarks=#{remarks}
+            </if>
+        </trim>
+    </sql>
+
+    <select id="getById" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CR_CUSTOM_TYPE_INFO where id =#{id}
+    </select>
+
+    <select id="getByIds" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CR_CUSTOM_TYPE_INFO where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="getByListId">
+        select
+        <include refid="baseColumns"/>
+        from CR_CUSTOM_TYPE_INFO where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.customer.entity.CustomTypeInfo">
+        select
+        <include refid="baseColumns"/>
+        from
+        CR_CUSTOM_TYPE_INFO where
+        <include refid="whereSql"/>
+        limit 0,1
+    </select>
+
+    <select id="findAllList" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CR_CUSTOM_TYPE_INFO
+    </select>
+
+    <select id="findList" parameterType="com.sgai.property.customer.entity.CustomTypeInfo" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CR_CUSTOM_TYPE_INFO where
+        <include refid="whereSql"/>
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+    </select>
+
+    <select id="getCount" parameterType="com.sgai.property.customer.entity.CustomTypeInfo"
+            resultType="java.lang.Integer">
+        select count(1) from CR_CUSTOM_TYPE_INFO where
+        <include refid="whereSql"/>
+    </select>
+
+    <insert id="insert" parameterType="com.sgai.property.customer.entity.CustomTypeInfo">
+        insert into CR_CUSTOM_TYPE_INFO
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="comCode != null">
+				 com_code,
+			 </if>
+			 <if test="moduCode != null">
+				 modu_code,
+			 </if>
+            <if test="updatedDt != null">
+                updated_dt,
+            </if>
+            <if test="typeClass != null">
+                type_class,
+            </if>
+            <if test="typeName != null">
+                type_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="typeStatus != null">
+                type_status,
+            </if>
+            <if test="updateUserName != null">
+                update_user_name,
+            </if>
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createdDt != null">
+                created_dt,
+            </if>
+            <if test="updatedBy != null">
+                updated_by,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="comId != null">
+                com_id,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="updateUserId != null">
+                update_user_id,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="typeDesc != null">
+                type_desc,
+            </if>
+            <if test="ctIsDelete != null">
+                ct_is_delete,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="comCode != null">
+				 #{comCode},
+			 </if>
+			 <if test="moduCode != null">
+				 #{moduCode},
+			 </if>
+            <if test="updatedDt != null">
+                #{updatedDt},
+            </if>
+            <if test="typeClass != null">
+                #{typeClass},
+            </if>
+            <if test="typeName != null">
+                #{typeName},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="typeStatus != null">
+                #{typeStatus},
+            </if>
+            <if test="updateUserName != null">
+                #{updateUserName},
+            </if>
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="createdDt != null">
+                #{createdDt},
+            </if>
+            <if test="updatedBy != null">
+                #{updatedBy},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="comId != null">
+                #{comId},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="typeDesc != null">
+                #{typeDesc},
+            </if>
+            <if test="ctIsDelete != null">
+                #{ctIsDelete},
+            </if>
+            <if test="remarks != null">
+                #{remarks},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.sgai.property.customer.entity.CustomTypeInfo">
+        update CR_CUSTOM_TYPE_INFO set
+        <trim suffixOverrides=",">
+        <if test="comCode != null">
+					 com_code=#{comCode},
+				 </if>
+				 <if test="moduCode != null">
+					 modu_code=#{moduCode},
+				 </if>
+            <if test="updatedDt != null">
+                updated_dt=#{updatedDt},
+            </if>
+            <if test="typeClass != null">
+                type_class=#{typeClass},
+            </if>
+            <if test="typeName != null">
+                type_name=#{typeName},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="typeStatus != null">
+                type_status=#{typeStatus},
+            </if>
+            <if test="updateUserName != null">
+                update_user_name=#{updateUserName},
+            </if>
+            <if test="createdDt != null">
+                created_dt=#{createdDt},
+            </if>
+            <if test="updatedBy != null">
+                updated_by=#{updatedBy},
+            </if>
+            <if test="version != null">
+                version=#{version},
+            </if>
+            <if test="comId != null">
+                com_id=#{comId},
+            </if>
+            <if test="createdBy != null">
+                created_by=#{createdBy},
+            </if>
+            <if test="updateUserId != null">
+                update_user_id=#{updateUserId},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+            <if test="typeDesc != null">
+                type_desc=#{typeDesc},
+            </if>
+            <if test="ctIsDelete != null">
+                ct_is_delete=#{ctIsDelete},
+            </if>
+            <if test="remarks != null">
+                remarks=#{remarks},
+            </if>
+        </trim>
+        where id =#{id}
+    </update>
+
+    <update id="updateByIds" parameterType="com.sgai.property.customer.entity.CustomTypeInfo">
+        update CR_CUSTOM_TYPE_INFO set
+        <trim suffixOverrides=",">
+        <if test="entity.comCode != null">
+					 com_code=#{entity.comCode},
+				 </if>
+				 <if test="entity.moduCode != null">
+					 modu_code=#{entity.moduCode},
+				 </if>
+            <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+            </if>
+            <if test="entity.typeClass != null">
+                type_class = #{entity.typeClass},
+            </if>
+            <if test="entity.typeName != null">
+                type_name = #{entity.typeName},
+            </if>
+            <if test="entity.createTime != null">
+                create_time = #{entity.createTime},
+            </if>
+            <if test="entity.typeStatus != null">
+                type_status = #{entity.typeStatus},
+            </if>
+            <if test="entity.updateUserName != null">
+                update_user_name = #{entity.updateUserName},
+            </if>
+            <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+            </if>
+            <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+            </if>
+            <if test="entity.version != null">
+                version = #{entity.version},
+            </if>
+            <if test="entity.comId != null">
+                com_id = #{entity.comId},
+            </if>
+            <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+            </if>
+            <if test="entity.updateUserId != null">
+                update_user_id = #{entity.updateUserId},
+            </if>
+            <if test="entity.updateTime != null">
+                update_time = #{entity.updateTime},
+            </if>
+            <if test="entity.typeDesc != null">
+                type_desc = #{entity.typeDesc},
+            </if>
+            <if test="entity.ctIsDelete != null">
+                ct_is_delete = #{entity.ctIsDelete},
+            </if>
+            <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+            </if>
+        </trim>
+        where id in
+        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+
+    <delete id="deleteById">
+      delete from CR_CUSTOM_TYPE_INFO where id =#{id}
+   </delete>
+
+    <delete id="deleteByIds">
+        delete from CR_CUSTOM_TYPE_INFO where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByListId">
+        delete from CR_CUSTOM_TYPE_INFO where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="delete" parameterType="com.sgai.property.customer.entity.CustomTypeInfo">
+        delete from CR_CUSTOM_TYPE_INFO where
+        <include refid="whereSql"/>
+    </delete>
+
+    <select id="findAllListByTypeClass" parameterType="com.sgai.property.customer.entity.CustomTypeInfo" resultMap="BaseResultMap">
+        select <include refid="baseColumns"/> from cr_custom_type_info
+        WHERE type_class = ${typeClass}
+        AND com_code=#{comCode}
+        AND ct_is_delete = 0
+        ORDER BY TYPE_STATUS,UPDATED_DT desc
+    </select>
+</mapper>

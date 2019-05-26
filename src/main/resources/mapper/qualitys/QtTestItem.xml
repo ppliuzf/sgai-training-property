@@ -1,0 +1,811 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.quality.dao.IQtTestItemDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.quality.entity.QtTestItem" >
+	     <id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+         <result column="ti_post_name" property="tiPostName" jdbcType="VARCHAR" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="valid" property="valid" jdbcType="BIGINT" />
+         <result column="create_time" property="createTime" jdbcType="BIGINT" />
+         <result column="create_ei_id" property="createEiId" jdbcType="BIGINT" />
+         <result column="ti_max" property="tiMax" jdbcType="BIGINT" />
+         <result column="ti_options" property="tiOptions" jdbcType="VARCHAR" />
+         <result column="ti_post_id" property="tiPostId" jdbcType="BIGINT" />
+         <result column="ti_limit_time" property="tiLimitTime" jdbcType="BIGINT" />
+         <result column="ti_is_input" property="tiIsInput" jdbcType="BIGINT" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="com_id" property="comId" jdbcType="BIGINT" />
+         <result column="create_ei_name" property="createEiName" jdbcType="VARCHAR" />
+         <result column="ti_unit" property="tiUnit" jdbcType="VARCHAR" />
+         <result column="ti_standard" property="tiStandard" jdbcType="VARCHAR" />
+         <result column="pc_name" property="pcName" jdbcType="VARCHAR" />
+         <result column="ti_name" property="tiName" jdbcType="VARCHAR" />
+         <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+         <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+         <result column="ti_standard_option" property="tiStandardOption" jdbcType="VARCHAR" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="ti_rectification_requirements" property="tiRectificationRequirements" jdbcType="VARCHAR" />
+         <result column="ti_min" property="tiMin" jdbcType="BIGINT" />
+         <result column="pc_id" property="pcId" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="ti_finsh_unit" property="tiFinshUnit" jdbcType="BIGINT" />
+         <result column="ti_status" property="tiStatus" jdbcType="BIGINT" />
+         
+         <result column="ti_is_submit" property="tiIsSubmit" jdbcType="BIGINT" />
+         <result column="ti_has_defect" property="tiHasDefect" jdbcType="BIGINT" />
+         <result column="ti_input_result" property="tiInputResult" jdbcType="VARCHAR" />
+         <result column="ti_check_time" property="tiCheckTime" jdbcType="BIGINT" />
+         <result column="ti_executor_name" property="tiExecutorName" jdbcType="VARCHAR" />        
+         <result column="ti_executor_id" property="tiExecutorId" jdbcType="VARCHAR" /> 
+         <result column="ti_duty_emp_ids" property="tiDutyEmpIds" jdbcType="VARCHAR" />
+	  <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+	  <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+	  <result column="type_flag" property="typeFlag" jdbcType="BIGINT" />
+         
+         
+  </resultMap>
+	<resultMap id="TestItemVoMap" type="com.sgai.property.quality.vo.TestItemVo" >
+		<id column="id" property="tiId" jdbcType="VARCHAR" />
+		<result column="ti_name" property="tiName" jdbcType="VARCHAR" />
+		<result column="pc_id" property="pcId" jdbcType="VARCHAR" />
+		<result column="pc_name" property="pcName" jdbcType="VARCHAR" />
+		<result column="ti_standard" property="tiStandard" jdbcType="VARCHAR" />
+		<result column="ti_is_input" property="tiIsInput" jdbcType="TINYINT" />
+		<result column="create_ei_name" property="createEiName" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="BIGINT" />
+		<result column="valid" property="valid" jdbcType="TINYINT" />
+		<result column="type_flag" property="typeFlag" jdbcType="BIGINT" />
+	</resultMap>
+  <sql id="baseColumns">
+       created_dt
+       ,ti_post_name
+       ,created_by
+       ,valid
+       ,create_time
+       ,create_ei_id
+       ,ti_max
+       ,ti_options
+       ,ti_post_id
+       ,ti_limit_time
+       ,ti_is_input
+       ,version
+       ,com_id
+       ,create_ei_name
+       ,ti_unit
+       ,ti_standard
+       ,pc_name
+       ,ti_name
+       ,updated_dt
+       ,update_time
+       ,ti_standard_option
+       ,id
+       ,remarks
+       ,ti_rectification_requirements
+       ,ti_min
+       ,pc_id
+       ,updated_by
+       ,ti_finsh_unit
+       ,ti_status
+       ,ti_is_submit
+       ,ti_has_defect
+       ,ti_input_result
+       ,ti_check_time
+       ,ti_executor_name
+       ,ti_executor_id
+       ,ti_duty_emp_ids
+       ,com_code
+       ,modu_code
+       ,type_flag
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="tiPostName != null">
+			and ti_post_name=#{tiPostName}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="valid != null">
+			and valid=#{valid}
+		 </if> 
+       <if test="createTime != null">
+			and create_time=#{createTime}
+		 </if> 
+       <if test="createEiId != null">
+			and create_ei_id=#{createEiId}
+		 </if> 
+       <if test="tiMax != null">
+			and ti_max=#{tiMax}
+		 </if> 
+       <if test="tiOptions != null">
+			and ti_options=#{tiOptions}
+		 </if> 
+       <if test="tiPostId != null">
+			and ti_post_id=#{tiPostId}
+		 </if> 
+       <if test="tiLimitTime != null">
+			and ti_limit_time=#{tiLimitTime}
+		 </if> 
+       <if test="tiIsInput != null">
+			and ti_is_input=#{tiIsInput}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="comId != null">
+			and com_id=#{comId}
+		 </if> 
+       <if test="createEiName != null">
+			and create_ei_name=#{createEiName}
+		 </if> 
+       <if test="tiUnit != null">
+			and ti_unit=#{tiUnit}
+		 </if> 
+       <if test="tiStandard != null">
+			and ti_standard=#{tiStandard}
+		 </if> 
+       <if test="pcName != null">
+			and pc_name=#{pcName}
+		 </if> 
+       <if test="tiName != null">
+			and ti_name=#{tiName}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="updateTime != null">
+			and update_time=#{updateTime}
+		 </if> 
+       <if test="tiStandardOption != null">
+			and ti_standard_option=#{tiStandardOption}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="tiRectificationRequirements != null">
+			and ti_rectification_requirements=#{tiRectificationRequirements}
+		 </if> 
+       <if test="tiMin != null">
+			and ti_min=#{tiMin}
+		 </if> 
+       <if test="pcId != null">
+			and pc_id=#{pcId}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="tiFinshUnit != null">
+			and ti_finsh_unit=#{tiFinshUnit}
+		 </if> 
+		 <if test="tiStatus != null">
+			and ti_status=#{tiStatus}
+		 </if> 
+		 <if test="tiIsSubmit != null">
+			and ti_is_submit=#{tiIsSubmit}
+		 </if> 
+		 <if test="tiHasDefect != null">
+			and ti_has_defect=#{tiHasDefect}
+		 </if> 
+		 <if test="tiInputResult != null">
+			and ti_input_result=#{tiInputResult}
+		 </if> 
+		 <if test="tiCheckTime != null">
+			and ti_check_time=#{tiCheckTime}
+		 </if> 		 		 		 		 
+		 <if test="tiExecutorName != null">
+			and ti_executor_name=#{tiExecutorName}
+		 </if> 
+		 <if test="tiExecutorId != null">
+			and ti_executor_id=#{tiExecutorId}
+		 </if> 	
+		 <if test="tiDutyEmpIds != null">
+			and ti_duty_emp_ids=#{tiDutyEmpIds}
+		 </if>
+		 <if test="comCode != null">
+			 and com_code=#{comCode}
+		 </if>
+		 <if test="moduCode != null">
+			 and modu_code=#{moduCode}
+		 </if>
+		 <if test="typeFlag != null">
+			 and type_flag=#{typeFlag}
+		 </if>
+		 		 	 		
+      </trim>
+  </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from qt_test_item  where id =#{id}
+	</select>
+
+	<select id="getByObj" resultMap="BaseResultMap" parameterType="com.sgai.property.quality.entity.QtTestItem">
+		select <include refid="baseColumns"/>
+		from qt_test_item  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_test_item  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<select id="getByListId" resultMap="BaseResultMap">
+       select <include refid="baseColumns"/> from qt_test_item  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</select>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.quality.entity.QtTestItem">
+		select <include refid="baseColumns"/> from
+       qt_test_item  where   <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_test_item
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.quality.entity.QtTestItem" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_test_item where   <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if> <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+		ORDER BY ${page.orderBy}
+	</if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.quality.entity.QtTestItem" resultType="java.lang.Integer">
+           select count(1) from qt_test_item where   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.quality.entity.QtTestItem">
+      insert into qt_test_item 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="tiPostName != null">
+				   ti_post_name,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="valid != null">
+				   valid,
+			 </if> 
+          <if test="createTime != null">
+				   create_time,
+			 </if> 
+          <if test="createEiId != null">
+				   create_ei_id,
+			 </if> 
+          <if test="tiMax != null">
+				   ti_max,
+			 </if> 
+          <if test="tiOptions != null">
+				   ti_options,
+			 </if> 
+          <if test="tiPostId != null">
+				   ti_post_id,
+			 </if> 
+          <if test="tiLimitTime != null">
+				   ti_limit_time,
+			 </if> 
+          <if test="tiIsInput != null">
+				   ti_is_input,
+			 </if> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="comId != null">
+				   com_id,
+			 </if> 
+          <if test="createEiName != null">
+				   create_ei_name,
+			 </if> 
+          <if test="tiUnit != null">
+				   ti_unit,
+			 </if> 
+          <if test="tiStandard != null">
+				   ti_standard,
+			 </if> 
+          <if test="pcName != null">
+				   pc_name,
+			 </if> 
+          <if test="tiName != null">
+				   ti_name,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="updateTime != null">
+				   update_time,
+			 </if> 
+          <if test="tiStandardOption != null">
+				   ti_standard_option,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+          <if test="tiRectificationRequirements != null">
+				   ti_rectification_requirements,
+			 </if> 
+          <if test="tiMin != null">
+				   ti_min,
+			 </if> 
+          <if test="pcId != null">
+				   pc_id,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="tiFinshUnit != null">
+				   ti_finsh_unit,
+			 </if> 
+          <if test="tiStatus != null">
+				   ti_status,
+			 </if>
+          <if test="tiIsSubmit != null">
+				   ti_is_submit,
+			 </if>
+          <if test="tiHasDefect != null">
+				   ti_has_defect,
+			 </if>
+          <if test="tiInputResult != null">
+				   ti_input_result,
+			 </if>
+          <if test="tiCheckTime != null">
+				   ti_check_time,
+			 </if>	
+          <if test="tiExecutorName != null">
+				   ti_executor_name,
+			 </if>	
+          <if test="tiExecutorId != null">
+				   ti_executor_id,
+			 </if>	
+          <if test="tiDutyEmpIds != null">
+				   ti_duty_emp_ids,
+			 </if>
+			<if test="comCode != null">
+				com_code,
+			</if>
+			<if test="moduCode != null">
+				modu_code,
+			</if>
+			<if test="typeFlag != null">
+				type_flag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="tiPostName != null">
+				#{tiPostName},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="valid != null">
+				#{valid},
+			  </if>
+			  <if test="createTime != null">
+				#{createTime},
+			  </if>
+			  <if test="createEiId != null">
+				#{createEiId},
+			  </if>
+			  <if test="tiMax != null">
+				#{tiMax},
+			  </if>
+			  <if test="tiOptions != null">
+				#{tiOptions},
+			  </if>
+			  <if test="tiPostId != null">
+				#{tiPostId},
+			  </if>
+			  <if test="tiLimitTime != null">
+				#{tiLimitTime},
+			  </if>
+			  <if test="tiIsInput != null">
+				#{tiIsInput},
+			  </if>
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="comId != null">
+				#{comId},
+			  </if>
+			  <if test="createEiName != null">
+				#{createEiName},
+			  </if>
+			  <if test="tiUnit != null">
+				#{tiUnit},
+			  </if>
+			  <if test="tiStandard != null">
+				#{tiStandard},
+			  </if>
+			  <if test="pcName != null">
+				#{pcName},
+			  </if>
+			  <if test="tiName != null">
+				#{tiName},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="updateTime != null">
+				#{updateTime},
+			  </if>
+			  <if test="tiStandardOption != null">
+				#{tiStandardOption},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			  <if test="tiRectificationRequirements != null">
+				#{tiRectificationRequirements},
+			  </if>
+			  <if test="tiMin != null">
+				#{tiMin},
+			  </if>
+			  <if test="pcId != null">
+				#{pcId},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="tiFinshUnit != null">
+				#{tiFinshUnit},
+			  </if>
+			  <if test="tiStatus != null">
+				#{tiStatus},
+			  </if>
+			  <if test="tiIsSubmit != null">
+				#{tiIsSubmit},
+			  </if>	
+			  <if test="tiHasDefect != null">
+				#{tiHasDefect},
+			  </if>	
+			  <if test="tiInputResult != null">
+				#{tiInputResult},
+			  </if>	
+			  <if test="tiCheckTime != null">
+				#{tiCheckTime},
+			  </if>	
+			  <if test="tiExecutorName != null">
+				#{tiExecutorName},
+			  </if>	
+			  <if test="tiExecutorId != null">
+				#{tiExecutorId},
+			  </if>	
+			  <if test="tiDutyEmpIds != null">
+				#{tiDutyEmpIds},
+			  </if>
+			<if test="comCode != null">
+				#{comCode},
+			</if>
+			<if test="moduCode != null">
+				#{moduCode},
+			</if>
+			<if test="typeFlag != null">
+				#{typeFlag},
+			</if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.quality.entity.QtTestItem">
+	   update qt_test_item  set
+	    <trim suffixOverrides="," >
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="tiPostName != null">
+					 ti_post_name=#{tiPostName},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="valid != null">
+					 valid=#{valid},
+				  </if>
+				  <if test="createTime != null">
+					 create_time=#{createTime},
+				  </if>
+				  <if test="createEiId != null">
+					 create_ei_id=#{createEiId},
+				  </if>
+				  <if test="tiMax != null">
+					 ti_max=#{tiMax},
+				  </if>
+				  <if test="tiOptions != null">
+					 ti_options=#{tiOptions},
+				  </if>
+				  <if test="tiPostId != null">
+					 ti_post_id=#{tiPostId},
+				  </if>
+				  <if test="tiLimitTime != null">
+					 ti_limit_time=#{tiLimitTime},
+				  </if>
+				  <if test="tiIsInput != null">
+					 ti_is_input=#{tiIsInput},
+				  </if>
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="comId != null">
+					 com_id=#{comId},
+				  </if>
+				  <if test="createEiName != null">
+					 create_ei_name=#{createEiName},
+				  </if>
+				  <if test="tiUnit != null">
+					 ti_unit=#{tiUnit},
+				  </if>
+				  <if test="tiStandard != null">
+					 ti_standard=#{tiStandard},
+				  </if>
+				  <if test="pcName != null">
+					 pc_name=#{pcName},
+				  </if>
+				  <if test="tiName != null">
+					 ti_name=#{tiName},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="updateTime != null">
+					 update_time=#{updateTime},
+				  </if>
+				  <if test="tiStandardOption != null">
+					 ti_standard_option=#{tiStandardOption},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				  <if test="tiRectificationRequirements != null">
+					 ti_rectification_requirements=#{tiRectificationRequirements},
+				  </if>
+				  <if test="tiMin != null">
+					 ti_min=#{tiMin},
+				  </if>
+				  <if test="pcId != null">
+					 pc_id=#{pcId},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="tiFinshUnit != null">
+					 ti_finsh_unit=#{tiFinshUnit},
+				  </if>
+				  <if test="tiStatus != null">
+					 ti_status=#{tiStatus},
+				  </if>				  
+				  <if test="tiIsSubmit != null">
+					 ti_is_submit=#{tiIsSubmit},
+				  </if>
+				  <if test="tiHasDefect != null">
+					 ti_has_defect=#{tiHasDefect},
+				  </if>
+				  <if test="tiInputResult != null">
+					 ti_input_result=#{tiInputResult},
+				  </if>
+				  <if test="tiCheckTime != null">
+					 ti_check_time=#{tiCheckTime},
+				  </if>		
+				  <if test="tiExecutorName != null">
+					 ti_executor_name=#{tiExecutorName},
+				  </if>	
+				  <if test="tiExecutorId != null">
+					 ti_executor_id=#{tiExecutorId},
+				  </if>		
+				  <if test="tiDutyEmpIds != null">
+					 ti_duty_emp_ids=#{tiDutyEmpIds},
+				  </if>
+			<if test="comCode != null">
+				com_code=#{comCode},
+			</if>
+			<if test="moduCode != null">
+				modu_code=#{moduCode},
+			</if>
+			<if test="typeFlag != null">
+				type_flag=#{typeFlag},
+			</if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.quality.entity.QtTestItem">
+        update qt_test_item  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.tiPostName != null">
+                ti_post_name = #{entity.tiPostName},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.valid != null">
+                valid = #{entity.valid},
+				  </if>
+				  <if test="entity.createTime != null">
+                create_time = #{entity.createTime},
+				  </if>
+				  <if test="entity.createEiId != null">
+                create_ei_id = #{entity.createEiId},
+				  </if>
+				  <if test="entity.tiMax != null">
+                ti_max = #{entity.tiMax},
+				  </if>
+				  <if test="entity.tiOptions != null">
+                ti_options = #{entity.tiOptions},
+				  </if>
+				  <if test="entity.tiPostId != null">
+                ti_post_id = #{entity.tiPostId},
+				  </if>
+				  <if test="entity.tiLimitTime != null">
+                ti_limit_time = #{entity.tiLimitTime},
+				  </if>
+				  <if test="entity.tiIsInput != null">
+                ti_is_input = #{entity.tiIsInput},
+				  </if>
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.comId != null">
+                com_id = #{entity.comId},
+				  </if>
+				  <if test="entity.createEiName != null">
+                create_ei_name = #{entity.createEiName},
+				  </if>
+				  <if test="entity.tiUnit != null">
+                ti_unit = #{entity.tiUnit},
+				  </if>
+				  <if test="entity.tiStandard != null">
+                ti_standard = #{entity.tiStandard},
+				  </if>
+				  <if test="entity.pcName != null">
+                pc_name = #{entity.pcName},
+				  </if>
+				  <if test="entity.tiName != null">
+                ti_name = #{entity.tiName},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.updateTime != null">
+                update_time = #{entity.updateTime},
+				  </if>
+				  <if test="entity.tiStandardOption != null">
+                ti_standard_option = #{entity.tiStandardOption},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+				  <if test="entity.tiRectificationRequirements != null">
+                ti_rectification_requirements = #{entity.tiRectificationRequirements},
+				  </if>
+				  <if test="entity.tiMin != null">
+                ti_min = #{entity.tiMin},
+				  </if>
+				  <if test="entity.pcId != null">
+                pc_id = #{entity.pcId},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.tiFinshUnit != null">
+                ti_finsh_unit = #{entity.tiFinshUnit},
+				  </if>
+				  <if test="entity.tiStatus != null">
+                ti_status = #{entity.tiStatus},
+				  </if>
+				  <if test="entity.tiIsSubmit != null">
+                ti_is_submit = #{entity.tiIsSubmit},
+				  </if>	
+				  <if test="entity.tiHasDefect != null">
+                ti_has_defect = #{entity.tiHasDefect},
+				  </if>	
+				  <if test="entity.tiInputResult != null">
+                ti_input_result = #{entity.tiInputResult},
+				  </if>	
+				  <if test="entity.tiCheckTime != null">
+                ti_check_time = #{entity.tiCheckTime},
+				  </if>		
+				  <if test="entity.tiExecutorName != null">
+                ti_executor_name = #{entity.tiExecutorName},
+				  </if>	
+				  <if test="entity.tiExecutorId != null">
+                ti_executor_id = #{entity.tiExecutorId},
+				  </if>	
+				  <if test="entity.tiDutyEmpIds != null">
+                ti_duty_emp_ids = #{entity.tiDutyEmpIds},
+				  </if>
+			<if test="entity.comCode != null">
+				com_code=#{entity.comCode},
+			</if>
+			<if test="entity.moduCode != null">
+				modu_code=#{entity.moduCode},
+			</if>
+			<if test="entity.typeFlag != null">
+				type_flag=#{entity.typeFlag},
+			</if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from qt_test_item where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from qt_test_item where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from qt_test_item where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.quality.entity.QtTestItem">
+      delete from qt_test_item where   <include refid="whereSql"/> 
+   </delete>
+
+	<select id="listTestItem"  parameterType="com.sgai.property.quality.vo.TestItemVo" resultMap="TestItemVoMap">
+		select <include refid="baseColumns"/> from qt_test_item where 1=1
+		<if test="itemName != null and itemName !='' ">
+			and ti_name like '%'||#{itemName}||'%'
+		</if>
+		<if test="startDate != null or startDate == 0">
+			and create_time &gt;= #{startDate}
+		</if>
+		<if test="endDate != null">
+			and create_time &lt;= #{endDate}
+		</if>
+		<!--<if test="comId != null and comId !=''">
+			and com_id = #{comId}
+		</if>-->
+		<if test="comCode != null and comCode!=''">
+			and com_code=#{comCode}
+		</if>
+		<if test="pcId != null or pcId ==0 ">
+			and pc_id = #{pcId}
+		</if>
+		<if test="valid == 0 or valid ==1 ">
+			and valid = #{valid}
+		</if>
+		<if test="typeFlag != null">
+			and type_flag=#{typeFlag}
+		</if>
+		<if test="page !=null and page.orderBy != null and page.orderBy != ''">
+			ORDER BY ${page.orderBy}
+		</if>
+	</select>
+</mapper>

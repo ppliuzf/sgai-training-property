@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.customer.dao.ISurveyUserAnswerDao">
+    <resultMap id="BaseResultMap" type="com.sgai.property.customer.entity.SurveyUserAnswer">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="sa_type" property="saType" jdbcType="BIGINT"/>
+        <result column="created_dt" property="createdDt" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="BIGINT"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="sa_content" property="saContent" jdbcType="VARCHAR"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="sm_id" property="smId" jdbcType="VARCHAR"/>
+        <result column="sa_answer_time" property="saAnswerTime" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="user_phone" property="userPhone" jdbcType="VARCHAR"/>
+        <result column="updated_dt" property="updatedDt" jdbcType="VARCHAR"/>
+        <result column="sq_id" property="sqId" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="is_delete" property="isDelete" jdbcType="BIGINT"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="feed_id" property="feedId" jdbcType="VARCHAR"/>
+        <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+	  <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+	  <result column="SOURCE" property="source" jdbcType="VARCHAR"/>
+        <result column="IP" property="ip" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="baseColumns">
+       sa_type
+       ,id
+       ,created_dt
+       ,version
+       ,created_by
+       ,sa_content
+       ,updated_by
+       ,sm_id
+       ,sa_answer_time
+       ,user_name
+       ,user_phone
+       ,updated_dt
+       ,sq_id
+       ,user_id
+       ,is_delete
+       ,remarks
+       ,feed_id
+       ,com_code
+       ,modu_code
+       ,source
+       ,ip
+    </sql>
+
+    <sql id="whereSql">
+        <trim prefixOverrides="AND | OR">
+        <if test="comCode != null">
+			 and com_code=#{comCode}
+		 </if>
+		 <if test="moduCode != null">
+			 and modu_code=#{moduCode}
+		 </if>
+            <if test="saType != null">
+                and sa_type=#{saType}
+            </if>
+            <if test="id != null">
+                and id=#{id}
+            </if>
+            <if test="createdDt != null">
+                and created_dt=#{createdDt}
+            </if>
+            <if test="version != null">
+                and version=#{version}
+            </if>
+            <if test="createdBy != null">
+                and created_by=#{createdBy}
+            </if>
+            <if test="saContent != null">
+                and sa_content=#{saContent}
+            </if>
+            <if test="updatedBy != null">
+                and updated_by=#{updatedBy}
+            </if>
+            <if test="smId != null">
+                and sm_id=#{smId}
+            </if>
+            <if test="saAnswerTime != null">
+                and sa_answer_time=#{saAnswerTime}
+            </if>
+            <if test="userName != null">
+                and user_name=#{userName}
+            </if>
+            <if test="userPhone != null">
+                and user_phone=#{userPhone}
+            </if>
+            <if test="updatedDt != null">
+                and updated_dt=#{updatedDt}
+            </if>
+            <if test="sqId != null">
+                and sq_id=#{sqId}
+            </if>
+            <if test="userId != null">
+                and user_id=#{userId}
+            </if>
+            <if test="isDelete != null">
+                and is_delete=#{isDelete}
+            </if>
+            <if test="remarks != null">
+                and remarks=#{remarks}
+            </if>
+            <if test="feedId != null">
+                and feed_id=#{feedId}
+            </if>
+        </trim>
+    </sql>
+
+    <select id="getById" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CR_SURVEY_USER_ANSWER where id =#{id}
+    </select>
+
+    <select id="getByIds" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CR_SURVEY_USER_ANSWER where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="getByListId">
+        select
+        <include refid="baseColumns"/>
+        from CR_SURVEY_USER_ANSWER where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.customer.entity.SurveyUserAnswer">
+        select
+        <include refid="baseColumns"/>
+        from
+        CR_SURVEY_USER_ANSWER where
+        <include refid="whereSql"/>
+        limit 0,1
+    </select>
+
+    <select id="findAllList" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CR_SURVEY_USER_ANSWER
+    </select>
+
+    <select id="findList" parameterType="com.sgai.property.customer.entity.SurveyUserAnswer" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CR_SURVEY_USER_ANSWER where
+        <include refid="whereSql"/>
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+    </select>
+
+    <select id="getCount" parameterType="com.sgai.property.customer.entity.SurveyUserAnswer"
+            resultType="java.lang.Integer">
+        select count(1) from CR_SURVEY_USER_ANSWER where
+        <include refid="whereSql"/>
+    </select>
+
+    <insert id="insert" parameterType="com.sgai.property.customer.entity.SurveyUserAnswer">
+        insert into CR_SURVEY_USER_ANSWER
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="source != null">
+				 SOURCE,
+			 </if>
+			 <if test="ip != null">
+				 ip,
+			 </if>
+         <if test="comCode != null">
+				 com_code,
+			 </if>
+			 <if test="moduCode != null">
+				 modu_code,
+			 </if>
+            <if test="saType != null">
+                sa_type,
+            </if>
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createdDt != null">
+                created_dt,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="saContent != null">
+                sa_content,
+            </if>
+            <if test="updatedBy != null">
+                updated_by,
+            </if>
+            <if test="smId != null">
+                sm_id,
+            </if>
+            <if test="saAnswerTime != null">
+                sa_answer_time,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="userPhone != null">
+                user_phone,
+            </if>
+            <if test="updatedDt != null">
+                updated_dt,
+            </if>
+            <if test="sqId != null">
+                sq_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+            <if test="feedId != null">
+                feed_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="source != null">
+				 #{source},
+			 </if>
+			 <if test="ip != null">
+				 #{ip},
+			 </if>
+        	<if test="comCode != null">
+				 #{comCode},
+			 </if>
+			 <if test="moduCode != null">
+				 #{moduCode},
+			 </if>
+            <if test="saType != null">
+                #{saType},
+            </if>
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="createdDt != null">
+                #{createdDt},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="saContent != null">
+                #{saContent},
+            </if>
+            <if test="updatedBy != null">
+                #{updatedBy},
+            </if>
+            <if test="smId != null">
+                #{smId},
+            </if>
+            <if test="saAnswerTime != null">
+                #{saAnswerTime},
+            </if>
+            <if test="userName != null">
+                #{userName},
+            </if>
+            <if test="userPhone != null">
+                #{userPhone},
+            </if>
+            <if test="updatedDt != null">
+                #{updatedDt},
+            </if>
+            <if test="sqId != null">
+                #{sqId},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>
+            <if test="remarks != null">
+                #{remarks},
+            </if>
+            <if test="feedId != null">
+                #{feedId},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.sgai.property.customer.entity.SurveyUserAnswer">
+        update CR_SURVEY_USER_ANSWER set
+        <trim suffixOverrides=",">
+        <if test="source != null">
+					 source=#{source},
+				 </if>
+				 <if test="ip != null">
+					 ip=#{ip},
+				 </if>
+        <if test="comCode != null">
+					 com_code=#{comCode},
+				 </if>
+				 <if test="moduCode != null">
+					 modu_code=#{moduCode},
+				 </if>
+            <if test="saType != null">
+                sa_type=#{saType},
+            </if>
+            <if test="createdDt != null">
+                created_dt=#{createdDt},
+            </if>
+            <if test="version != null">
+                version=#{version},
+            </if>
+            <if test="createdBy != null">
+                created_by=#{createdBy},
+            </if>
+            <if test="saContent != null">
+                sa_content=#{saContent},
+            </if>
+            <if test="updatedBy != null">
+                updated_by=#{updatedBy},
+            </if>
+            <if test="smId != null">
+                sm_id=#{smId},
+            </if>
+            <if test="saAnswerTime != null">
+                sa_answer_time=#{saAnswerTime},
+            </if>
+            <if test="userName != null">
+                user_name=#{userName},
+            </if>
+            <if test="userPhone != null">
+                user_phone=#{userPhone},
+            </if>
+            <if test="updatedDt != null">
+                updated_dt=#{updatedDt},
+            </if>
+            <if test="sqId != null">
+                sq_id=#{sqId},
+            </if>
+            <if test="userId != null">
+                user_id=#{userId},
+            </if>
+            <if test="isDelete != null">
+                is_delete=#{isDelete},
+            </if>
+            <if test="remarks != null">
+                remarks=#{remarks},
+            </if>
+            <if test="feedId != null">
+                feed_id=#{feedId},
+            </if>
+        </trim>
+        where id =#{id}
+    </update>
+
+    <update id="updateByIds" parameterType="com.sgai.property.customer.entity.SurveyUserAnswer">
+        update CR_SURVEY_USER_ANSWER set
+        <trim suffixOverrides=",">
+        <if test="entity.comCode != null">
+					 com_code=#{entity.comCode},
+				 </if>
+				 <if test="entity.moduCode != null">
+					 modu_code=#{entity.moduCode},
+				 </if>
+            <if test="entity.saType != null">
+                sa_type = #{entity.saType},
+            </if>
+            <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+            </if>
+            <if test="entity.version != null">
+                version = #{entity.version},
+            </if>
+            <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+            </if>
+            <if test="entity.saContent != null">
+                sa_content = #{entity.saContent},
+            </if>
+            <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+            </if>
+            <if test="entity.smId != null">
+                sm_id = #{entity.smId},
+            </if>
+            <if test="entity.saAnswerTime != null">
+                sa_answer_time = #{entity.saAnswerTime},
+            </if>
+            <if test="entity.userName != null">
+                user_name = #{entity.userName},
+            </if>
+            <if test="entity.userPhone != null">
+                user_phone = #{entity.userPhone},
+            </if>
+            <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+            </if>
+            <if test="entity.sqId != null">
+                sq_id = #{entity.sqId},
+            </if>
+            <if test="entity.userId != null">
+                user_id = #{entity.userId},
+            </if>
+            <if test="entity.isDelete != null">
+                is_delete = #{entity.isDelete},
+            </if>
+            <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+            </if>
+            <if test="entity.feedId != null">
+                feed_id = #{entity.feedId},
+            </if>
+        </trim>
+        where id in
+        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+
+    <delete id="deleteById">
+      delete from CR_SURVEY_USER_ANSWER where id =#{id}
+   </delete>
+
+    <delete id="deleteByIds">
+        delete from CR_SURVEY_USER_ANSWER where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByListId">
+        delete from CR_SURVEY_USER_ANSWER where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="delete" parameterType="com.sgai.property.customer.entity.SurveyUserAnswer">
+        delete from CR_SURVEY_USER_ANSWER where
+        <include refid="whereSql"/>
+    </delete>
+
+</mapper>

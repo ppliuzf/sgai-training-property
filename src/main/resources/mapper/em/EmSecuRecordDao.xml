@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.em.dao.EmSecuRecordDao">
+    
+	<sql id="emSecuRecordColumns">
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.em_code AS "emCode",
+		a.report_person AS "reportPerson",
+		a.telphone AS "telphone",
+		a.address AS "address",
+		a.report_datetime AS "reportDatetime",
+		a.report_content AS "reportContent",
+		a.states AS "states",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.em_type AS "emType",
+		a.em_category AS "emCategory",
+		a.modu_code AS "moduCode",
+		a.user_code AS "userCode",
+		a.user_name AS "userName"
+	</sql>
+	
+	<sql id="emSecuRecordJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.em.entity.EmSecuRecord">
+		SELECT 
+			<include refid="emSecuRecordColumns"/>
+		FROM em_secu_record a
+		<include refid="emSecuRecordJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getEmSecuRecord" resultType="com.sgai.property.em.dto.EmSecuRecordVo">
+		SELECT 
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.em_code AS "emCode",
+		b.pr_name AS "reportPerson",
+		a.telphone AS "telphone",
+		a.address AS "address",
+		a.report_datetime AS "reportDatetime",
+		a.report_content AS "reportContent",
+		a.states AS "states",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.em_type AS "emType",
+		a.em_category AS "emCategory",
+		a.modu_code AS "moduCode",
+		a.user_code AS "userCode",
+		a.user_name AS "userName"
+		FROM em_secu_record a
+		LEFT JOIN CR_PERSONAL_RECORD_INFO b
+		ON a.report_person = b.id
+		<where>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+	</select>
+	
+	<select id="getEmSecuRecords" resultType="com.sgai.property.em.entity.EmSecuRecord">
+		SELECT 
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.em_code AS "emCode",
+		a.report_person AS "reportPerson",
+		a.telphone AS "telphone",
+		a.address AS "address",
+		a.report_datetime AS "reportDatetime",
+		a.report_content AS "reportContent",
+		a.states AS "states",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.em_type AS "emType",
+		a.em_category AS "emCategory",
+		a.modu_code AS "moduCode",
+		a.user_code AS "userCode",
+		a.user_name AS "userName"
+		FROM em_secu_record a
+		<where>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.em.entity.EmSecuRecord">
+		SELECT 
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.em_code AS "emCode",
+		b.pr_name AS "reportPerson",
+		a.telphone AS "telphone",
+		a.address AS "address",
+		a.report_datetime AS "reportDatetime",
+		a.report_content AS "reportContent",
+		a.states AS "states",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.em_type AS "emType",
+		a.em_category AS "emCategory",
+		a.modu_code AS "moduCode",
+		a.user_code AS "userCode",
+		a.user_name AS "userName"
+		FROM em_secu_record a
+		LEFT JOIN CR_PERSONAL_RECORD_INFO b
+		ON a.report_person = b.id
+		<where>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sqlMap}
+			</if> 
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+			<if test="reportPerson != null and reportPerson != ''">
+				AND a.report_person = #{reportPerson}
+			</if>
+			<if test="telphone != null and telphone != ''">
+				AND a.telphone = #{telphone}
+			</if>
+			<if test="address != null and address != ''">
+				AND a.address = #{address}
+			</if>
+			<if test="reportDatetime != null and reportDatetime != ''">
+				AND a.report_datetime = #{reportDatetime}
+			</if>
+			<if test="reportContent != null and reportContent != ''">
+				AND a.report_content = #{reportContent}
+			</if>
+			<if test="states != null and states != ''">
+				AND a.states = #{states}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy} DESC
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findSecuRecordList" resultType="com.sgai.property.em.entity.EmSecuRecord">
+		SELECT 
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.em_code AS "emCode",
+		b.pr_name AS "reportPerson",
+		a.telphone AS "telphone",
+		a.address AS "address",
+		a.report_datetime AS "reportDatetime",
+		a.report_content AS "reportContent",
+		a.states AS "states",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.em_type AS "emType",
+		a.em_category AS "emCategory",
+		a.modu_code AS "moduCode",
+		a.user_code AS "userCode",
+		a.user_name AS "userName"
+		FROM em_secu_record a
+		LEFT JOIN CR_PERSONAL_RECORD_INFO b
+		ON a.report_person = b.id
+		<where>
+			a.states IN ('1','2','0')
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sqlMap}
+			</if> 
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+			<if test="reportPerson != null and reportPerson != ''">
+				AND a.report_person = #{reportPerson}
+			</if>
+			<if test="telphone != null and telphone != ''">
+				AND a.telphone = #{telphone}
+			</if>
+			<if test="address != null and address != ''">
+				AND a.address = #{address}
+			</if>
+			<if test="reportContent != null and reportContent != ''">
+				AND a.report_content = #{reportContent}
+			</if>
+			<if test="states != null and states != ''">
+				AND a.states = #{states}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy} DESC
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findNextCodeEmSecuRecord" resultType="com.sgai.property.em.entity.EmSecuRecord">
+		select 'AB'||nvl(trim(to_char(to_number(substr(max(t.em_code),instr(max(t.em_code),'AB')+2))+1,'0000')),'0001') as emCode
+    	from em_secu_record t
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.em.entity.EmSecuRecord">
+		SELECT 
+			<include refid="emSecuRecordColumns"/>
+		FROM em_secu_record a
+		<include refid="emSecuRecordJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy} desc
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO em_secu_record(
+			id,
+			com_code,
+			em_code,
+			report_person,
+			telphone,
+			address,
+			report_datetime,
+			report_content,
+			states,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			em_type,
+			em_category,
+			modu_code,
+			user_code,
+			user_name
+		) VALUES (
+			#{id},
+			#{comCode},
+			#{emCode},
+			#{reportPerson},
+			#{telphone},
+			#{address},
+			#{reportDatetime},
+			#{reportContent},
+			#{states},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{emType},
+			#{emCategory},
+			#{moduCode},
+			#{userCode},
+			#{userName}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE em_secu_record SET 	
+			com_code = #{comCode},
+			em_code = #{emCode},
+			report_person = #{reportPerson},
+			telphone = #{telphone},
+			address = #{address},
+			report_datetime = #{reportDatetime},
+			report_content = #{reportContent},
+			states = #{states},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			em_type = #{emType},
+			em_category = #{emCategory},
+			modu_code = #{moduCode},
+			user_code = #{userCode},
+			user_name = #{userName}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM em_secu_record
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

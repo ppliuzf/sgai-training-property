@@ -1,0 +1,1516 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.RepairInformationDao">
+    <resultMap id="RepairResultMap" type="com.sgai.property.wy.entity.RepairInformation">
+        <id property="id" column="id"/>
+        <result property="orderNumber" column="order_number"/>
+        <result property="repairPeopleId" column="repair_people_id"></result>
+        <result property="repairPeopleName" column="repair_people_name"/>
+        <result property="repairPhone" column="repair_phone"/>
+        <result property="repairAddress" column="repair_address"/>
+        <result property="detailAddress" column="detail_address"/>
+        <result property="incidentRank" column="incident_rank"/>
+        <result property="emergenciesType" column="emergencies_type"/>
+        <result property="repairType" column="repair_type"/>
+        <result property="appointmentTime" column="appointment_time"/>
+        <result property="repairEquipment" column="repair_equipment"/>
+        <result property="faultDescription" column="fault_description"/>
+        <result property="repairStatus" column="repair_status"/>
+        <result property="repairDetailAddress" column="repair_detail_address"/>
+        <result property="maintainPerson" column="maintain_person"/>
+        <result property="consumableMoney" column="consumable_money"/>
+        <result property="maintainMoney" column="maintain_money"/>
+        <result property="acceptPerson" column="accept_person"/>
+        <result property="repairEquipmentIds" column="repair_equipment_ids"/>
+        <result property="repairAddressCode" column="repair_address_code"/>
+        <result property="remake" column="remake"/>
+        <result property="maintainPersonId" column="maintain_person_id"/>
+        <result property="incidentSource" column="incident_source"/>
+        <result property="appointmentTimeGo" column="appointment_time_go"/>
+        <result property="complainId" column="complain_id"/>
+        <result property="repairTypeCode" column="repair_type_code"/>
+        <result property="maintainPersonTelepno" column="maintain_person_telepno"/>
+        <result property="maintainShowUpDate" column="maintain_show_up_date"/>
+        <result property="pictNames" column="img_names"/>
+
+        <!-- <collection property="repairRecords" column="id" javaType="ArrayList"
+            ofType="com.sgai.property.wy.entity.RepairRecord"> <result column="repair_log"
+            property="repairLog"/> <result column="present_date" property="presentDate"/>
+            <result column="repair_id" property="repairId"/> <result column="appraise_norm"
+            property="appraiseNorm"/> <result column="maintain_person_id" property="maintainPersonId"/>
+            <result column="maintain_person_name" property="maintainPersonName"/> <result
+            column="cause" property="cause"/> </collection> -->
+
+        <!-- <collection property="repairRecords" column="id" javaType="ArrayList"
+            select="selectRepairRecord"> </collection> -->
+    </resultMap>
+
+    <sql id="repairInformationColumns">
+        a.id AS "id",
+		a.order_number AS "orderNumber",
+		a.repair_people_id AS "repairPeopleId",
+		a.repair_people_name AS
+		"repairPeopleName",
+		a.repair_phone AS "repairPhone",
+		a.repair_address AS
+		"repairAddress",
+		a.detail_address AS "detailAddress",
+		a.incident_rank AS
+		"incidentRank",
+		a.emergencies_type AS "emergenciesType",
+		a.repair_type
+		AS "repairType",
+		a.appointment_time AS "appointmentTime",
+		a.repair_equipment AS "repairEquipment",
+		a.fault_description AS
+		"faultDescription",
+		a.repair_status AS "repairStatus",
+		a.repair_detail_address AS "repairDetailAddress",
+		a.maintain_person AS
+		"maintainPerson",
+		a.consumable_money AS "consumableMoney",
+		a.maintain_money AS "maintainMoney",
+		a.accept_person AS "acceptPerson",
+		a.repair_equipment_ids AS "repairEquipmentIds",
+		a.repair_address_code
+		AS "repairAddressCode",
+		a.remark AS "remark",
+		a.maintain_person_id AS
+		"maintainPersonId",
+		a.incident_source AS "incidentSource",
+		a.appointment_time_go AS "appointmentTimeGo",
+		a.repair_type_code AS
+		"repairTypeCode",
+		a.maintain_person_telepno AS "maintainPersonTelepno",
+		a.maintain_show_up_date AS "maintainShowUpDate",
+		a.img_names as
+		"pictNames"
+    </sql>
+
+    <select id="findList" resultMap="RepairResultMap">
+        SELECT
+        a.*
+        FROM WY_EVT_REPAIR_INFORMATION a
+        <where>
+
+            <if test="orderNumber != null and orderNumber != ''">
+                AND a.order_number LIKE CONCAT( CONCAT ( '%',
+                #{orderNumber} ) ,'%')
+            </if>
+            <if test="repairPeopleName != null and repairPeopleName != ''">
+                AND a.repair_people_name LIKE CONCAT( CONCAT ( '%',
+                #{repairPeopleName}
+                ) ,'%')
+            </if>
+            <if test="repairPeopleId != null and repairPeopleId != ''">
+                AND a.repair_people_id = #{repairPeopleId}
+            </if>
+            <if test="repairStatus != null and repairStatus != ''">
+                AND a.repair_status = #{repairStatus}
+            </if>
+            <if test="repairAddress != null and repairAddress != ''">
+                AND a.repair_address LIKE CONCAT(CONCAT('%',
+                #{repairAddress}), '%')
+            </if>
+            <if test="incidentRank != null and incidentRank != ''">
+                AND a.incident_rank = #{incidentRank}
+            </if>
+            <if test="incidentSource != null and incidentSource != ''">
+                AND a.incident_source = #{incidentSource}
+            </if>
+            <if test="repairPhone != null and repairPhone != ''">
+                AND a.repair_phone = #{repairPhone}
+            </if>
+            <if test="createdDt !=null">
+                AND
+                STR_TO_DATE(DATE_FORMAT(a.created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{createdDt}
+            </if>
+            <if test="updatedDt !=null">
+                AND
+                STR_TO_DATE(DATE_FORMAT(a.created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{updatedDt}
+            </if>
+            <if test="startTime != null">
+                AND a.CREATED_DT &gt;=#{startTime}
+            </if>
+            <if test="endTime != null">
+                AND a.CREATED_DT &lt;=#{endTime}
+            </if>
+        </where>
+        order by a.order_number desc
+    </select>
+
+    <select id="findCheckList" resultMap="RepairResultMap">
+        SELECT
+        a.*
+        FROM WY_EVT_REPAIR_INFORMATION a
+        <where>
+
+            <if test="orderNumber != null and orderNumber != ''">
+                AND a.order_number LIKE CONCAT( CONCAT ( '%',
+                #{orderNumber} ) ,'%')
+            </if>
+            <if test="repairPeopleName != null and repairPeopleName != ''">
+                AND a.repair_people_name LIKE CONCAT( CONCAT ( '%',
+                #{repairPeopleName}
+                ) ,'%')
+            </if>
+            <if test="repairPeopleId != null and repairPeopleId != ''">
+                AND a.repair_people_id = #{repairPeopleId}
+            </if>
+            <if test="repairStatus != null and repairStatus != ''">
+                AND a.repair_status = #{repairStatus}
+            </if>
+            <if test="repairAddress != null and repairAddress != ''">
+                AND a.repair_address LIKE CONCAT(CONCAT('%',
+                #{repairAddress}), '%')
+            </if>
+            <if test="incidentRank != null and incidentRank != ''">
+                AND a.incident_rank = #{incidentRank}
+            </if>
+            <if test="incidentSource != null and incidentSource != ''">
+                AND a.incident_source = #{incidentSource}
+            </if>
+            <if test="repairPhone != null and repairPhone != ''">
+                AND a.repair_phone = #{repairPhone}
+            </if>
+            <if test="createdDt !=null">
+                AND
+                STR_TO_DATE(DATE_FORMAT(a.created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{createdDt}
+            </if>
+            <if test="updatedDt !=null">
+                AND
+                STR_TO_DATE(DATE_FORMAT(a.created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{updatedDt}
+            </if>
+            <if test="startTime != null">
+                AND a.CREATED_DT &gt;=#{startTime}
+            </if>
+            <if test="endTime != null">
+                AND a.CREATED_DT &lt;=#{endTime}
+            </if>
+
+        </where>
+        order by a.order_number desc
+    </select>
+
+    <select id="findPageByToday" resultMap="RepairResultMap">
+        SELECT
+        DISTINCT a.id,
+        a.order_number,
+        a.repair_people_id,
+        a.repair_people_name,
+        a.repair_phone,
+        a.repair_address,
+        a.detail_address,
+        a.incident_rank,
+        a.emergencies_type,
+        a.repair_type,
+        a.appointment_time,
+        a.repair_equipment,
+        a.fault_description,
+        a.repair_status,
+        a.repair_detail_address,
+        a.maintain_person,
+        a.consumable_money,
+        a.maintain_money,
+        a.accept_person,
+        a.repair_equipment_ids,
+        a.repair_address_code,
+        a.remark,
+        a.maintain_person_id,
+        a.incident_source,
+        a.appointment_time_go,
+        a.repair_type_code,
+        a.maintain_person_telepno,
+        a.maintain_show_up_date
+        FROM WY_EVT_REPAIR_INFORMATION a LEFT JOIN WY_EVT_REPAIR_RECORD b
+        ON
+        a.ID = b.REPAIR_ID
+
+        <where>
+
+            <if test="orderNumber != null and orderNumber != ''">
+                AND a.order_number LIKE CONCAT( CONCAT ( '%',
+                #{orderNumber} ) ,'%')
+            </if>
+            <if test="repairPeopleName != null and repairPeopleName != ''">
+                AND a.repair_people_name LIKE CONCAT( CONCAT ( '%',
+                #{repairPeopleName}
+                ) ,'%')
+            </if>
+            <if test="repairPeopleId != null and repairPeopleId != ''">
+                AND a.repair_people_id = #{repairPeopleId}
+            </if>
+            <if test="repairStatus != null and repairStatus != ''">
+                AND a.repair_status = #{repairStatus}
+            </if>
+            <if test="repairAddress != null and repairAddress != ''">
+                AND a.repair_address LIKE CONCAT(CONCAT('%',
+                #{repairAddress}), '%')
+            </if>
+            <if test="incidentRank != null and incidentRank != ''">
+                AND a.incident_rank = #{incidentRank}
+            </if>
+            <if test="repairPhone != null and repairPhone != ''">
+                AND a.repair_phone = #{repairPhone}
+            </if>
+            <if test="repairNowToday != null">
+                AND DATE_FORMAT(b.present_date,'%y-%m-%d')
+                = DATE_FORMAT(#{repairNowToday},'%y-%m-%d')
+            </if>
+
+        </where>
+        order by a.order_number desc
+    </select>
+
+
+    <select id="selectRepairRecord" parameterType="String"
+            resultType="com.sgai.property.wy.entity.RepairRecord">
+        SELECT repair_log   AS repairLog,
+               present_date AS presentDate
+        FROM WY_EVT_REPAIR_RECORD
+        WHERE REPAIR_ID = #{id}
+    </select>
+    <update id="delete">
+        DELETE
+        FROM WY_EVT_REPAIR_INFORMATION
+        WHERE ID = #{id}
+    </update>
+
+    <insert id="insert">
+        INSERT INTO WY_EVT_REPAIR_INFORMATION (id,
+                                               order_number,
+                                               repair_people_id,
+                                               repair_people_name,
+                                               repair_phone,
+                                               repair_address,
+                                               detail_address,
+                                               incident_rank,
+                                               emergencies_type,
+                                               repair_type,
+                                               appointment_time,
+                                               repair_equipment,
+                                               fault_description,
+                                               repair_status,
+                                               repair_detail_address,
+                                               maintain_person,
+                                               consumable_money,
+                                               maintain_money,
+                                               accept_person,
+                                               repair_equipment_ids,
+                                               repair_address_code,
+                                               remark,
+                                               incident_source,
+                                               appointment_time_go,
+                                               repair_type_code,
+                                               img_names,
+                                               created_dt,
+                                               created_by)
+        VALUES (#{id},
+                #{orderNumber},
+                #{repairPeopleId},
+                #{repairPeopleName},
+                #{repairPhone},
+                #{repairAddress},
+                #{detailAddress},
+                #{incidentRank},
+                #{emergenciesType},
+                #{repairType},
+                #{appointmentTime},
+                #{repairEquipment},
+                #{faultDescription},
+                #{repairStatus},
+                #{repairDetailAddress},
+                #{maintainPerson},
+                #{consumableMoney},
+                #{maintainMoney},
+                #{acceptPerson},
+                #{repairEquipmentIds},
+                #{repairAddressCode},
+                #{remark},
+                #{incidentSource},
+                #{appointmentTimeGo},
+                #{repairTypeCode},
+                #{pictNames},
+                #{createdDt},
+                #{createdBy})
+    </insert>
+
+    <select id="get" resultMap="RepairResultMap">
+        SELECT *
+        FROM WY_EVT_REPAIR_INFORMATION a
+        WHERE a.id = #{id}
+    </select>
+    <insert id="updateComplainId">
+        UPDATE WY_EVT_REPAIR_INFORMATION
+        SET COMPLAIN_ID =
+                #{param2}
+        WHERE ID = #{param1}
+    </insert>
+    <update id="updateRepairStatus">
+        UPDATE WY_EVT_REPAIR_INFORMATION
+        <trim prefix="set" suffixOverrides=",">
+            <if test="repairStatus != null and repairStatus != ''">REPAIR_STATUS = #{repairStatus},</if>
+            <if test="maintainPerson != null and maintainPerson != ''">MAINTAIN_PERSON = #{maintainPerson},</if>
+            <if test="maintainPersonId != null and maintainPersonId != ''">MAINTAIN_PERSON_ID = #{maintainPersonId},
+            </if>
+            <if test="planMaintainDate != null">PLAN_MAINTAIN_DATE = #{planMaintainDate},</if>
+            <if test="appointDate != null">APPOINT_DATE = #{appointDate},</if>
+            <if test="acceptPerson != null and acceptPerson != ''">ACCEPT_PERSON = #{acceptPerson},</if>
+            <if test="consumableMoney != null and consumableMoney != ''">CONSUMABLE_MONEY=#{consumableMoney},</if>
+            <if test="maintainMoney != null and maintainMoney != ''">MAINTAIN_MONEY=#{maintainMoney},</if>
+            <if test="maintainPersonTelepno != null and maintainPersonTelepno != ''">
+                MAINTAIN_PERSON_TELEPNO=#{maintainPersonTelepno},
+            </if>
+            <if test="maintainShowUpDate != null ">MAINTAIN_SHOW_UP_DATE=#{maintainShowUpDate},</if>
+            <if test="updatedDt != null ">updated_dt=#{updatedDt}</if>
+        </trim>
+        WHERE id = #{id}
+
+
+    </update>
+
+    <update id="update">
+        UPDATE WY_EVT_REPAIR_INFORMATION
+        SET order_number          =
+                #{orderNumber},
+            repair_people_id      = #{repairPeopleId},
+            repair_people_name    = #{repairPeopleName},
+            repair_phone          =
+                #{repairPhone},
+            repair_address        = #{repairAddress},
+            detail_address        =
+                #{detailAddress},
+            incident_rank         = #{incidentRank},
+            emergencies_type      =
+                #{emergenciesType},
+            repair_type           = #{repairType},
+            appointment_time      =
+                #{appointmentTime},
+            repair_equipment      = #{repairEquipment},
+            fault_description     = #{faultDescription},
+            repair_status         =
+                #{repairStatus},
+            repair_detail_address = #{repairDetailAddress},
+            repair_equipment_ids  = #{repairEquipmentIds},
+            repair_address_code   =
+                #{repairAddressCode},
+            remark                = #{remark},
+            incident_source       =
+                #{incidentSource},
+            appointment_time_go   = #{appointmentTimeGo},
+            repair_type_code      = #{repairTypeCode}
+
+        WHERE id = #{id}
+    </update>
+
+    <insert id="saveEquip">
+        INSERT INTO WY_EVT_REPAIR_EQUIPMENT (repair_id,
+                                             equipment_id)
+        VALUES (#{repairId},
+                #{equipmentId})
+    </insert>
+    <delete id="deleteEquipment" parameterType="com.sgai.property.wy.entity.RepairInformation">
+        DELETE
+        FROM WY_EVT_REPAIR_EQUIPMENT
+        WHERE repair_id = #{id}
+    </delete>
+
+    <select id="findWorkList" resultType="com.sgai.property.wy.dto.MaintainInformationDto">
+        SELECT
+        distinct
+        (A . ID) aid,
+        A .personName personName,
+        A.telepno,
+        P.workDates,
+        P .maintainId AS workload
+        FROM
+        (select
+        E.id,E.real_name personName ,E.phone telepno from auth_user_role D ,auth_user E where
+        D.user_id = E.id) A
+        LEFT JOIN (
+        SELECT
+        B.MAINTAIN_PERSON_ID AS maintainId,
+        GROUP_CONCAT(DATE_FORMAT(B.PLAN_MAINTAIN_DATE,'%y-%m-%d %H:%m')) AS workDates
+        FROM
+        WY_EVT_REPAIR_INFORMATION B
+        where B.REPAIR_STATUS IN ('4','5','6') AND
+        STR_TO_DATE(DATE_FORMAT(B.PLAN_MAINTAIN_DATE,'%y-%m-%d'),'%y-%m-%d') = #{appointDate}
+        GROUP BY
+        B.MAINTAIN_PERSON_ID
+        ) P ON P .maintainId = A . ID
+        <where>
+
+            <if test="personName != null and personName != ''">
+                AND A.personName like concat('%',#{personName},'%')
+            </if>
+
+        </where>
+    </select>
+
+    <select id="findName" resultType="com.sgai.property.wy.entity.Member">
+        select CHINESE_NAME chineseName,ID id,REPAIR_ADDRESS repairAddress
+        from WY_CUS_MEMBER
+        <where>
+            <if test="chineseName != null  and chineseName !='' ">
+                CHINESE_NAME like CONCAT('%',#{chineseName},'%')
+            </if>
+        </where>
+    </select>
+
+    <update id="manageChargeback">
+        UPDATE WY_EVT_REPAIR_INFORMATION
+        SET REPAIR_STATUS      =
+                #{repairStatus},
+            MAINTAIN_PERSON_ID = #{maintainPersonId},
+            MAINTAIN_PERSON    = #{maintainPerson},
+            APPOINT_DATE       = #{appointDate},
+            PLAN_MAINTAIN_DATE = #{planMaintainDate}
+        WHERE id = #{id}
+
+
+    </update>
+
+    <select id="getTypeByCode" resultType="com.sgai.property.wy.entity.RepairInformationType">
+        select *
+        from WY_EVT_REPAIR_TYPE a
+        WHERE a.parent_code = #{pCode}
+    </select>
+
+    <select id="findById" resultType="com.sgai.property.wy.entity.RepairInformationType">
+        select *
+        from WY_EVT_REPAIR_TYPE a
+        WHERE a.type_id = #{typeId}
+    </select>
+    <select id="findByName" resultType="com.sgai.property.wy.entity.RepairInformationType">
+        select *
+        from WY_EVT_REPAIR_TYPE a
+        WHERE a.type_code = #{typeCode}
+    </select>
+
+
+    <select id="getTypeList" resultType="com.sgai.property.wy.entity.RepairInformationType">
+        select A.TYPE_ID AS typeId,a.type_code as typeCode,a.parent_code as
+        parentCode,b.type_code as parentName from WY_EVT_REPAIR_TYPE a
+        left
+        join WY_EVT_REPAIR_TYPE b
+        on a.parent_code=b.type_id
+        <where>
+            <if test="typeCode != null  and typeCode !='' ">
+                AND a.type_code like CONCAT('%',#{typeCode},'%')
+            </if>
+            <if test="parentName != null  and parentName !='' ">
+                AND b.type_code like CONCAT('%',#{parentName},'%')
+            </if>
+            <!-- <if test="parentCode != null and parentCode !='' "> <if test="parentCode
+                ==0 "> AND a.parent_code =#{parentCode} </if> <if test="parentCode ==1 ">
+                AND a.parent_code !=0 </if> </if> -->
+            <if test="parentCode != null  and parentCode !='' ">
+                AND a.parent_code =#{parentCode}
+            </if>
+        </where>
+    </select>
+
+    <select id="getTypeTotal" resultType="int">
+        select count(*)
+        from WY_EVT_REPAIR_TYPE a
+    </select>
+
+
+    <insert id="saveType" parameterType="com.sgai.property.wy.entity.RepairInformationType">
+        INSERT INTO WY_EVT_REPAIR_TYPE
+        VALUES (#{typeId},
+                #{typeCode},
+                #{parentCode})
+    </insert>
+    <delete id="deleteType">
+        delete
+        from WY_EVT_REPAIR_TYPE
+        where type_id = #{typeId}
+    </delete>
+
+    <update id="editType">
+        update WY_EVT_REPAIR_TYPE
+        set type_code=#{typeCode}
+        where type_id = #{typeId}
+
+    </update>
+
+
+    <select id="findRepairList" resultMap="RepairResultMap">
+        SELECT
+        *
+        FROM WY_EVT_REPAIR_INFORMATION a
+
+        <where>
+            <if test="repairStatus != null and repairStatus != ''">
+                AND a.repair_status = #{repairStatus}
+            </if>
+        </where>
+        order by a.order_number desc
+    </select>
+
+    <select id="selectByGroup" resultType="com.sgai.property.wy.entity.RepairInformationDto">
+        <if test="type!=1">
+            select c.a type,c.b createTime,count(*) count from (select DATE_FORMAT(CREATED_DT,'%d') a,
+            DATE_FORMAT(CREATED_DT,'%Y-%m-%d') b
+            from WY_EVT_REPAIR_INFORMATION
+            <where>
+                <if test="startTime != null">
+                    AND CREATED_DT &gt;=#{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND CREATED_DT &lt;=#{endTime}
+                </if>
+            </where>
+            ) c
+            GROUP BY c.a
+        </if>
+        <if test="type==1">
+            select c.a type,c.b createTime,count(*) count from (select
+            DATE_FORMAT(e.COMPLAIN_TIME,'%d') a,
+            DATE_FORMAT(e.COMPLAIN_TIME,'%Y-%m-%d') b
+            from WY_EVT_REPAIR_INFORMATION d
+            ,WY_CUS_COMPLAIN e
+            <where>
+                d.id=e.SOURCE_KEY and d.COMPLAIN_ID is not null
+                <if test="startTime != null">
+                    AND e.COMPLAIN_TIME &gt;=#{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND e.COMPLAIN_TIME &lt;=#{endTime}
+                </if>
+            </where>
+            ) c
+            GROUP BY c.a
+
+        </if>
+    </select>
+
+    <select id="selectComplainList" resultType="com.sgai.property.wy.entity.RepairInformationDto">
+        <if test="type!=1">
+            select d.count from (select (b.COMPLAIN_TIME -
+            (STR_TO_DATE(DATE_FORMAT(a.CREATED_DT,'%y-%m-%d %H:%i:%s'),'%y-%m-%d %H:%i:%s'))) count
+            from WY_EVT_REPAIR_INFORMATION a LEFT JOIN
+            WY_CUS_COMPLAIN b
+            on a.id=b.SOURCE_KEY
+            <where>
+                <if test="startTime != null">
+                    AND b.COMPLAIN_TIME &gt;=#{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND b.COMPLAIN_TIME &lt;=#{endTime}
+                </if>
+            </where>
+            ) d where d.count is not null
+        </if>
+        <if test="type==1">
+            select d.count from (select (a.REPLY_TIME -
+            (STR_TO_DATE(DATE_FORMAT(a.COMPLAIN_TIME,'%y-%m-%d %H:%i:%s'),'%y-%m-%d %H:%i:%s'))) count
+            from WY_CUS_COMPLAIN a
+            <where>
+                <if test="startTime != null">
+                    AND a.REPLY_TIME &gt;=#{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND a.REPLY_TIME &lt;=#{endTime}
+                </if>
+                and a.COMPLAIN_STATUS='1'
+            </where>
+            ) d where d.count is not null
+        </if>
+    </select>
+
+    <select id="selectAgainList" resultType="com.sgai.property.wy.entity.RepairInformationDto">
+        select c.REPAIR_ADDRESS_CODE repairAddressCode,c.REPAIR_TYPE_CODE
+        repairTypeCode,c.CREATED_DT createTime from WY_EVT_REPAIR_INFORMATION
+        c ,(SELECT A.REPAIR_ADDRESS_CODE,A.REPAIR_TYPE_CODE
+        FROM
+        WY_EVT_REPAIR_INFORMATION A
+        <where>
+            <if test="startTime != null">
+                AND a.CREATED_DT &gt;=#{startTime}
+            </if>
+            <if test="endTime != null">
+                AND a.CREATED_DT &lt;=#{endTime}
+            </if>
+        </where>
+        GROUP BY A.REPAIR_ADDRESS_CODE ,A.REPAIR_TYPE_CODE
+        having count(*)>=2)
+        b
+        where c.REPAIR_ADDRESS_CODE=b.REPAIR_ADDRESS_CODE and
+        c.REPAIR_TYPE_CODE=b.REPAIR_TYPE_CODE
+        <if test="startTime != null">
+            AND c.CREATED_DT &gt;=#{startTime}
+        </if>
+        <if test="endTime != null">
+            AND c.CREATED_DT &lt;=#{endTime}
+        </if>
+        ORDER BY c.CREATED_DT desc
+
+    </select>
+
+    <select id="selectOnlyList" resultType="com.sgai.property.wy.entity.RepairInformationDto">
+        SELECT A.REPAIR_ADDRESS_CODE repairAddressCode,A.REPAIR_TYPE_CODE
+        repairTypeCode
+        FROM WY_EVT_REPAIR_INFORMATION A
+        <where>
+            <if test="startTime != null">
+                AND a.CREATED_DT &gt;=#{startTime}
+            </if>
+            <if test="endTime != null">
+                AND a.CREATED_DT &lt;=#{endTime}
+            </if>
+        </where>
+        GROUP BY A.REPAIR_ADDRESS_CODE ,A.REPAIR_TYPE_CODE
+        having count(*)>=2
+    </select>
+
+    <select id="getRepairTargetList" resultType="com.sgai.property.wy.entity.RepairTargetDto">
+        <!-- 报修工单数 -->
+        <if test="type==1">
+            select * from (select c.name name, c.count count from
+            (select b.name ,count(*) count from
+            (select
+            substr(a.REPAIR_ADDRESS,1,INSTR(a.REPAIR_ADDRESS,'-')-1)
+            name from
+            WY_EVT_REPAIR_INFORMATION a) b
+            group by b.name)c
+            ORDER BY c.count
+            desc)d
+            limit 0,10
+        </if>
+        <!-- 报修业主数 -->
+        <if test="type==2">
+            select * from (select * from (select c.name,count(*) count
+            from (select b.NAME name,b.PEOPLENAME peopleName from (select
+            substr(a.REPAIR_ADDRESS,1,INSTR(a.REPAIR_ADDRESS,'-')-1)
+            name,a.REPAIR_PEOPLE_NAME peopleName
+            from WY_EVT_REPAIR_INFORMATION
+            a)b
+            group by b.NAME,b.PEOPLENAME)c
+            group by c.name)d
+            ORDER BY d.count
+            desc)e
+            limit 0,10
+        </if>
+        <!-- 报修率 -->
+        <if test="type==3">
+            select * from (select * from (select
+            c.name,ROUND((count(*)/(select
+            count(*) from MDM_SPACE_TREE a where
+            a.NODE_TYPE='ROOM'))*100,2)
+            count from (select
+            substr(b.REPAIRADRESS,1,INSTR(b.REPAIRADRESS,'-')-1) name from
+            (select a.REPAIR_ADDRESS repairAdress from WY_EVT_REPAIR_INFORMATION
+            a
+            group by a.REPAIR_ADDRESS) b) c
+            GROUP BY c.name)d ORDER BY d.count
+            desc) e
+            limit 0,10
+        </if>
+        <!-- 全部业主平均每块区域报修条数 -->
+        <if test="type==4">
+            select b.name ,count(*) count from
+            (select
+            substr(a.REPAIR_ADDRESS_CODE,1,INSTR(a.REPAIR_ADDRESS_CODE,'-')-1)
+            name from
+            WY_EVT_REPAIR_INFORMATION a) b
+            group by b.name
+        </if>
+
+        <!-- 报修业主平均每块区域报修条数 -->
+        <if test="type==5">
+            select * from (select x.name ,x.count from (select
+            z.name,z.count/y.count
+            count from (select * from (select c.name name,
+            c.count count from
+            (select b.name ,count(*) count from
+            (select
+            substr(a.REPAIR_ADDRESS,1,INSTR(a.REPAIR_ADDRESS,'-')-1)
+            name from
+            WY_EVT_REPAIR_INFORMATION a) b
+            group by b.name)c
+            ORDER BY c.count
+            desc)d)z
+            LEFT JOIN
+            ( select * from (select * from (select
+            c.name,count(*) count
+            from
+            (select b.NAME name,b.PEOPLENAME peopleName
+            from (select
+            substr(a.REPAIR_ADDRESS,1,INSTR(a.REPAIR_ADDRESS,'-')-1)
+            name,a.REPAIR_PEOPLE_NAME peopleName
+            from WY_EVT_REPAIR_INFORMATION
+            a)b
+            group by b.NAME,b.PEOPLENAME)c
+            group by c.name)d
+            ORDER BY d.count
+            desc)e
+            )y on z.name=y.name)x
+            ORDER BY x.count desc)w
+            limit 0,10
+        </if>
+
+
+    </select>
+
+    <select id="getEveryBuildCount" resultType="int">
+        select count(*)
+        from MDM_SPACE_TREE b
+        where b.PARENT_CODE in
+              (select a.NODE_CODE
+               from MDM_SPACE_TREE a
+               where a.parent_code = #{name})
+    </select>
+
+    <select id="getEveryBuildName" resultType="com.sgai.property.wy.entity.RepairTargetDto">
+        select a.NODE_NAME
+                   name
+        from MDM_SPACE_TREE a
+        where a.NODE_CODE = #{name}
+    </select>
+
+    <select id="getNumList" resultType="com.sgai.property.wy.entity.RepairTargetDto">
+        <if test="type2!=1">
+            select a.UPDATED_DT presentDate,a.CREATED_DT createDate from
+            WY_EVT_REPAIR_INFORMATION a
+            where
+            (a.REPAIR_STATUS ='10'
+            <if test="type==7">
+                or a.REPAIR_STATUS='13'
+            </if>
+            )
+            AND A.id
+            in (
+            SELECT a.id FROM WY_EVT_REPAIR_INFORMATION a WHERE
+            <if test="count==1">
+                a.repair_address
+            </if>
+            <if test="count==2">
+                a.repair_type
+            </if>
+            like CONCAT('%',#{name},'%')
+            )
+            <if test="startTime != null">
+                AND a.UPDATED_DT &gt;=#{startTime}
+            </if>
+            <if test="endTime != null">
+                AND a.UPDATED_DT &lt;=#{endTime}
+            </if>
+        </if>
+
+        <if test="type2==1">
+            <if test="type==7">
+                select a.UPDATED_DT presentDate,a.CREATED_DT createDate from
+                WY_EVT_REPAIR_INFORMATION a
+                where
+                a.REPAIR_STATUS='13'
+                AND A.id
+                in (
+                SELECT a.id FROM WY_EVT_REPAIR_INFORMATION a WHERE
+                <if test="count==1">
+                    a.repair_address
+                </if>
+                <if test="count==2">
+                    a.repair_type
+                </if>
+                like CONCAT('%',#{name},'%')
+                )
+                <if test="startTime != null">
+                    AND a.UPDATED_DT &gt;=#{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND a.UPDATED_DT &lt;=#{endTime}
+                </if>
+                and a.COMPLAIN_ID is not null
+            </if>
+
+
+            <if test="type==6">
+                select a.REPLY_TIME presentDate,a.COMPLAIN_TIME createDate from
+                WY_CUS_COMPLAIN a
+                where
+                a.COMPLAIN_STATUS='1'
+                AND A.SOURCE_KEY
+                in (
+                SELECT a.id FROM WY_EVT_REPAIR_INFORMATION a WHERE
+                <if test="count==1">
+                    a.repair_address
+                </if>
+                <if test="count==2">
+                    a.repair_type
+                </if>
+                like CONCAT('%',#{name},'%')
+                and a.COMPLAIN_ID is not null
+                )
+                <if test="startTime != null">
+                    AND a.REPLY_TIME &gt;=#{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND a.REPLY_TIME &lt;=#{endTime}
+                </if>
+            </if>
+        </if>
+    </select>
+
+    <select id="getComplainNum" resultType="int">
+        select count(*)
+        from(select * from WY_CUS_COMPLAIN c
+        where c.SOURCE_KEY
+        in (
+        SELECT a.id
+        FROM WY_EVT_REPAIR_INFORMATION a WHERE
+        <if test="type==1">
+            a.repair_address
+        </if>
+        <if test="type==2">
+            a.repair_type
+        </if>
+        LIKE
+        CONCAT( CONCAT ( '%',
+        #{name} ) ,'%')
+        <if test="startTime != null">
+            AND c.COMPLAIN_TIME &gt;=#{startTime}
+        </if>
+        <if test="endTime != null">
+            AND c.COMPLAIN_TIME &lt;=#{endTime}
+        </if>
+        )
+    </select>
+
+
+    <select id="getRepairPartList" resultType="com.sgai.property.wy.entity.RepairCategoryDto">
+        <!-- 报修工单数 -->
+        <if test="type==1">
+            select * from (select e.count,f.TYPE_CODE name,f.parent_code
+            parentCode,r.type_code parentName from(select * from (select c.name
+            name, c.count count from
+            (select b.name ,count(*) count from
+            (select
+            substr(a.REPAIR_TYPE_CODE,INSTR(a.REPAIR_TYPE_CODE,'-')+1)
+            name
+            from
+            WY_EVT_REPAIR_INFORMATION a
+            <if test="type2==1">
+                left join wy_cus_complain z
+                on a.COMPLAIN_ID=z.id
+            </if>
+            <where>
+                <if test="type2!=1">
+                    <if test="startTime != null">
+                        AND a.CREATED_DT &gt;=#{startTime}
+                    </if>
+                    <if test="endTime != null">
+                        AND a.CREATED_DT &lt;=#{endTime}
+                    </if>
+                </if>
+                <if test="type2==1">
+                    <if test="startTime != null">
+                        AND z.COMPLAIN_time &gt;=#{startTime}
+                    </if>
+                    <if test="endTime != null">
+                        AND z.COMPLAIN_time &lt;=#{endTime}
+                    </if>
+                    and a.COMPLAIN_ID is not null
+                </if>
+            </where>
+            ) b
+            group by b.name)c
+            ORDER BY c.count
+            desc)d
+            <if test="type1!=1">
+                limit 0,10
+            </if>
+            ) e
+            LEFT JOIN WY_EVT_REPAIR_TYPE f
+            on e.name=f.TYPE_ID
+            LEFT JOIN WY_EVT_REPAIR_TYPE r
+            on f.parent_code=r.type_id
+            ) zz
+            ORDER BY zz.count
+            desc
+        </if>
+        <!-- 报修业主数 -->
+        <if test="type==2">
+            select * from (select g.count,f.TYPE_CODE name,f.parent_code
+            parentCode,r.type_code parentName from (select * from (select * from
+            (select c.name,count(*)
+            count
+            from (select b.NAME name,b.PEOPLENAME
+            peopleName from (select
+            substr(a.REPAIR_TYPE_CODE,INSTR(a.REPAIR_TYPE_CODE,'-')+1)
+            name,a.REPAIR_PEOPLE_NAME peopleName
+            from WY_EVT_REPAIR_INFORMATION
+            a
+            <if test="type2==1">
+                left join wy_cus_complain z
+                on a.COMPLAIN_ID=z.id
+            </if>
+            <where>
+                <if test="type2!=1">
+                    <if test="startTime != null">
+                        AND a.CREATED_DT &gt;=#{startTime}
+                    </if>
+                    <if test="endTime != null">
+                        AND a.CREATED_DT &lt;=#{endTime}
+                    </if>
+                </if>
+                <if test="type2==1">
+                    <if test="startTime != null">
+                        AND z.COMPLAIN_time &gt;=#{startTime}
+                    </if>
+                    <if test="endTime != null">
+                        AND z.COMPLAIN_time &lt;=#{endTime}
+                    </if>
+                    and a.COMPLAIN_ID is not null
+                </if>
+            </where>
+            )b
+            group by b.NAME,b.PEOPLENAME)c
+            group by c.name)d
+            ORDER BY d.count
+            desc)e
+            <if test="type1!=1">
+                limit 0,10
+            </if>
+            ) g LEFT JOIN WY_EVT_REPAIR_TYPE f
+            on
+            g.name=f.TYPE_ID
+            LEFT JOIN WY_EVT_REPAIR_TYPE r
+            on f.parent_code=r.type_id
+            ) zz
+            ORDER BY zz.count
+            desc
+        </if>
+        <!-- 报修率 -->
+        <if test="type==3">
+            select * from (select g.count,f.TYPE_CODE name,r.type_code parentName from (select * from
+            (select * from
+            (select
+            c.name,ROUND((count(*)/
+            <if test="type2!=1">
+                (select
+                count(*) from
+                MDM_SPACE_TREE
+                a where
+                a.NODE_TYPE='ROOM')
+            </if>
+            <if test="type2==1">
+                (
+                select count(*) from
+                WY_EVT_REPAIR_INFORMATION
+                )
+            </if>
+            )*100,2)
+            count from (select
+            substr(b.REPAIRADRESS,INSTR(b.REPAIRADRESS,'-')+1) name from
+            (select a.REPAIR_TYPE_CODE repairAdress from
+            WY_EVT_REPAIR_INFORMATION
+            a
+            <if test="type2==1">
+                left join wy_cus_complain z
+                on a.COMPLAIN_ID=z.id
+            </if>
+            <where>
+                <if test="type2!=1">
+                    <if test="startTime != null">
+                        AND a.CREATED_DT &gt;=#{startTime}
+                    </if>
+                    <if test="endTime != null">
+                        AND a.CREATED_DT &lt;=#{endTime}
+                    </if>
+                </if>
+                <if test="type2==1">
+                    <if test="startTime != null">
+                        AND z.COMPLAIN_time &gt;=#{startTime}
+                    </if>
+                    <if test="endTime != null">
+                        AND z.COMPLAIN_time &lt;=#{endTime}
+                    </if>
+                    and a.COMPLAIN_ID is not null
+                </if>
+            </where>
+            group by a.REPAIR_TYPE_CODE) b) c
+            GROUP BY
+            c.name)d ORDER BY d.count
+            desc) e
+            limit 0,10) g LEFT JOIN
+            WY_EVT_REPAIR_TYPE f
+            on
+            g.name=f.TYPE_ID
+            LEFT JOIN WY_EVT_REPAIR_TYPE r
+            on f.parent_code=r.type_id
+            ) zz
+            ORDER BY zz.count
+            desc
+
+        </if>
+        <!-- 全部业主平均每块区域报修条数 -->
+        <if test="type==4">
+            select g.count,f.TYPE_CODE name1,g.name ,r.TYPE_CODE parentName from (select b.name ,count(*)
+            count from
+            (select
+            substr(a.REPAIR_TYPE_CODE,INSTR(a.REPAIR_TYPE_CODE,'-')+1)
+            name
+            from
+            WY_EVT_REPAIR_INFORMATION a
+            <if test="type2==1">
+                left join wy_cus_complain z
+                on a.COMPLAIN_ID=z.id
+            </if>
+            <where>
+                <if test="type2!=1">
+                    <if test="startTime != null">
+                        AND a.CREATED_DT &gt;=#{startTime}
+                    </if>
+                    <if test="endTime != null">
+                        AND a.CREATED_DT &lt;=#{endTime}
+                    </if>
+                </if>
+                <if test="type2==1">
+                    <if test="startTime != null">
+                        AND z.COMPLAIN_time &gt;=#{startTime}
+                    </if>
+                    <if test="endTime != null">
+                        AND z.COMPLAIN_time &lt;=#{endTime}
+                    </if>
+                    and a.COMPLAIN_ID is not null
+                </if>
+            </where>
+            ) b
+            group by b.name) g LEFT JOIN WY_EVT_REPAIR_TYPE f
+            on
+            g.name=f.TYPE_ID
+            LEFT JOIN WY_EVT_REPAIR_TYPE r
+            on f.parent_code=r.type_id
+        </if>
+        <!-- 报修业主平均每块区域报修条数 -->
+        <if test="type==5">
+            select * from (select g.count,f.TYPE_CODE name,r.TYPE_CODE parentName from (select * from
+            (select x.name
+            ,x.count from (
+            select z.name,z.count/y.count count from
+            (select * from
+            (select c.name name,
+            c.count count from
+            (select b.name
+            ,count(*) count
+            from
+            (select
+            substr(a.REPAIR_TYPE_CODE,INSTR(a.REPAIR_TYPE_CODE,'-')+1)
+            name
+            from
+            WY_EVT_REPAIR_INFORMATION a
+            <where>
+                <if test="startTime != null">
+                    AND a.CREATED_DT &gt;=#{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND a.CREATED_DT &lt;=#{endTime}
+                </if>
+            </where>
+            ) b
+            group by b.name)c
+            ORDER BY c.count
+            desc)d)z
+            LEFT JOIN
+            ( select * from
+            (select * from (select
+            c.name,count(*) count
+            from
+            (select b.NAME
+            name,b.PEOPLENAME peopleName
+            from (select
+            substr(a.REPAIR_TYPE_CODE,INSTR(a.REPAIR_TYPE_CODE,'-')+1)
+            name,a.REPAIR_PEOPLE_NAME peopleName
+            from WY_EVT_REPAIR_INFORMATION
+            a
+            <where>
+                <if test="startTime != null">
+                    AND a.CREATED_DT &gt;=#{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND a.CREATED_DT &lt;=#{endTime}
+                </if>
+            </where>
+            )b
+            group by b.NAME,b.PEOPLENAME)c
+            group by c.name)d
+            ORDER BY d.count
+            desc)e
+            )y
+            on z.name=y.name)x
+            ORDER BY x.count desc)w
+            limit 0,10)g LEFT
+            JOIN WY_EVT_REPAIR_TYPE f
+            on
+            g.name=f.TYPE_ID
+            LEFT JOIN WY_EVT_REPAIR_TYPE r
+            on f.parent_code=r.type_id
+            ) zz
+            ORDER BY zz.count
+            desc
+        </if>
+        <if test="type==9">
+            select g.count,f.TYPE_CODE name,f.parent_code
+            parentCode,r.type_code parentName from(select
+            b.name
+            ,count(DISTINCT(b.code)) count from ( select
+            substr(a.REPAIR_TYPE_CODE,INSTR(a.REPAIR_TYPE_CODE,'-')+1)
+            name
+            ，substr(a.REPAIR_ADDRESS_CODE,1,INSTR(a.REPAIR_ADDRESS_CODE,'-')-1)
+            code from
+            WY_EVT_REPAIR_INFORMATION a
+            left join wy_cus_complain z
+            on
+            a.COMPLAIN_ID=z.id
+            <where>
+                <if test="startTime != null">
+                    AND z.COMPLAIN_time &gt;=#{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND z.COMPLAIN_time &lt;=#{endTime}
+                </if>
+                and a.COMPLAIN_ID is not null
+            </where>
+            )b
+            GROUP BY b.name)g LEFT
+            JOIN WY_EVT_REPAIR_TYPE f
+            on
+            g.name=f.TYPE_ID
+            LEFT JOIN WY_EVT_REPAIR_TYPE r
+            on f.parent_code=r.type_id
+        </if>
+
+    </select>
+
+    <select id="getRepairClassList" resultType="com.sgai.property.wy.entity.RepairCategoryDto">
+        <!-- 报修工单数 -->
+        <if test="type==1">
+            select * from (select e.count,f.TYPE_CODE name,f.type_id typeId from
+            (select * from (select c.name
+            name, c.count count from
+            (select b.name
+            ,count(*) count from
+            (select
+            substr(a.REPAIR_TYPE_CODE,1,INSTR(a.REPAIR_TYPE_CODE,'-')-1)
+            name from
+            WY_EVT_REPAIR_INFORMATION a
+            <if test="type2==1">
+                left join wy_cus_complain z
+                on a.COMPLAIN_ID=z.id
+            </if>
+            <where>
+                <if test="type2!=1">
+                    <if test="startTime != null">
+                        AND a.CREATED_DT &gt;=#{startTime}
+                    </if>
+                    <if test="endTime != null">
+                        AND a.CREATED_DT &lt;=#{endTime}
+                    </if>
+                </if>
+                <if test="type2==1">
+                    <if test="startTime != null">
+                        AND z.COMPLAIN_time &gt;=#{startTime}
+                    </if>
+                    <if test="endTime != null">
+                        AND z.COMPLAIN_time &lt;=#{endTime}
+                    </if>
+                    and a.COMPLAIN_ID is not null
+                </if>
+            </where>
+            ) b
+            group by b.name)c
+            ORDER BY c.count
+            desc)d
+            <if test="type1!=1">
+                limit 0,10
+            </if>
+            ) e
+            LEFT JOIN WY_EVT_REPAIR_TYPE f
+            on e.name=f.TYPE_ID) zz ORDER BY zz.count
+            desc
+        </if>
+        <!-- 报修业主数 -->
+        <if test="type==2">
+            select * from (select g.count,f.TYPE_CODE name,f.type_id typeId from
+            (select * from (select * from
+            (select c.name,count(*) count
+            from
+            (select b.NAME name,b.PEOPLENAME
+            peopleName from (select
+            substr(a.REPAIR_TYPE_CODE,1,INSTR(a.REPAIR_TYPE_CODE,'-')-1)
+            name,a.REPAIR_PEOPLE_NAME peopleName
+            from WY_EVT_REPAIR_INFORMATION
+            a
+            <if test="type2==1">
+                left join wy_cus_complain z
+                on a.COMPLAIN_ID=z.id
+            </if>
+            <where>
+                <if test="type2!=1">
+                    <if test="startTime != null">
+                        AND a.CREATED_DT &gt;=#{startTime}
+                    </if>
+                    <if test="endTime != null">
+                        AND a.CREATED_DT &lt;=#{endTime}
+                    </if>
+                </if>
+                <if test="type2==1">
+                    <if test="startTime != null">
+                        AND z.COMPLAIN_time &gt;=#{startTime}
+                    </if>
+                    <if test="endTime != null">
+                        AND z.COMPLAIN_time &lt;=#{endTime}
+                    </if>
+                    and a.COMPLAIN_ID is not null
+                </if>
+            </where>
+            )b
+            group by b.NAME,b.PEOPLENAME)c
+            group by c.name)d
+            ORDER BY d.count
+            desc)e
+            <if test="type1!=1">
+                limit 0,10
+            </if>
+            ) g LEFT JOIN WY_EVT_REPAIR_TYPE f
+            on
+            g.name=f.TYPE_ID) zz ORDER BY zz.count
+            desc
+        </if>
+        <!-- 报修率 -->
+        <if test="type==3">
+            select * from (select g.count,f.TYPE_CODE name from (select * from
+            (select * from
+            (select
+            c.name,ROUND((count(*)/
+            <if test="type2!=1">
+                (select
+                count(*) from
+                MDM_SPACE_TREE
+                a where
+                a.NODE_TYPE='ROOM')
+            </if>
+            <if test="type2==1">
+                (
+                select count(*) from
+                WY_EVT_REPAIR_INFORMATION
+                )
+            </if>
+            )*100,2)
+            count from (select
+            substr(b.REPAIRADRESS,1,INSTR(b.REPAIRADRESS,'-')-1) name from
+            (select a.REPAIR_TYPE_CODE repairAdress from
+            WY_EVT_REPAIR_INFORMATION
+            a
+            <if test="type2==1">
+                left join wy_cus_complain z
+                on a.COMPLAIN_ID=z.id
+            </if>
+            <where>
+                <if test="type2!=1">
+                    <if test="startTime != null">
+                        AND a.CREATED_DT &gt;=#{startTime}
+                    </if>
+                    <if test="endTime != null">
+                        AND a.CREATED_DT &lt;=#{endTime}
+                    </if>
+                </if>
+                <if test="type2==1">
+                    <if test="startTime != null">
+                        AND z.COMPLAIN_time &gt;=#{startTime}
+                    </if>
+                    <if test="endTime != null">
+                        AND z.COMPLAIN_time &lt;=#{endTime}
+                    </if>
+                    and a.COMPLAIN_ID is not null
+                </if>
+            </where>
+            group by a.REPAIR_TYPE_CODE) b) c
+            GROUP BY c.name)d ORDER BY d.count
+            desc) e
+            limit 0,10) g LEFT JOIN WY_EVT_REPAIR_TYPE f
+            on
+            g.name=f.TYPE_ID) zz ORDER BY zz.count
+            desc
+        </if>
+        <!-- 全部业主平均每块区域报修条数 -->
+        <if test="type==4">
+            select g.count,f.TYPE_CODE name1,g.name from (select b.name ,count(*)
+            count from
+            (select
+            substr(a.REPAIR_TYPE_CODE,1,INSTR(a.REPAIR_TYPE_CODE,'-')-1)
+            name from
+            WY_EVT_REPAIR_INFORMATION a
+            <if test="type2==1">
+                left join wy_cus_complain z
+                on a.COMPLAIN_ID=z.id
+            </if>
+            <where>
+                <if test="type2!=1">
+                    <if test="startTime != null">
+                        AND a.CREATED_DT &gt;=#{startTime}
+                    </if>
+                    <if test="endTime != null">
+                        AND a.CREATED_DT &lt;=#{endTime}
+                    </if>
+                </if>
+                <if test="type2==1">
+                    <if test="startTime != null">
+                        AND z.COMPLAIN_time &gt;=#{startTime}
+                    </if>
+                    <if test="endTime != null">
+                        AND z.COMPLAIN_time &lt;=#{endTime}
+                    </if>
+                    and a.COMPLAIN_ID is not null
+                </if>
+            </where>
+            ) b
+            group by b.name) g LEFT JOIN WY_EVT_REPAIR_TYPE f
+            on
+            g.name=f.TYPE_ID
+        </if>
+        <!-- 报修业主平均每块区域报修条数 -->
+        <if test="type==5">
+            select * from (select g.count,f.TYPE_CODE name from (select * from
+            (select x.name
+            ,x.count from (
+            select z.name,z.count/y.count count from
+            (select * from
+            (select c.name name,
+            c.count count from
+            (select b.name
+            ,count(*) count
+            from
+            (select
+            substr(a.REPAIR_TYPE_CODE,1,INSTR(a.REPAIR_TYPE_CODE,'-')-1)
+            name from
+            WY_EVT_REPAIR_INFORMATION a
+            <where>
+                <if test="startTime != null">
+                    AND a.CREATED_DT &gt;=#{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND a.CREATED_DT &lt;=#{endTime}
+                </if>
+            </where>
+            ) b
+            group by b.name)c
+            ORDER BY c.count
+            desc)d)z
+            LEFT JOIN
+            ( select * from
+            (select * from (select
+            c.name,count(*) count
+            from
+            (select b.NAME
+            name,b.PEOPLENAME peopleName
+            from (select
+            substr(a.REPAIR_TYPE_CODE,1,INSTR(a.REPAIR_TYPE_CODE,'-')-1)
+            name,a.REPAIR_PEOPLE_NAME peopleName
+            from WY_EVT_REPAIR_INFORMATION
+            a
+            <where>
+                <if test="startTime != null">
+                    AND a.CREATED_DT &gt;=#{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND a.CREATED_DT &lt;=#{endTime}
+                </if>
+            </where>
+            )b
+            group by b.NAME,b.PEOPLENAME)c
+            group by c.name)d
+            ORDER BY d.count
+            desc)e
+            )y
+            on z.name=y.name)x
+            ORDER BY x.count desc)w
+            limit 0,10)g LEFT
+            JOIN WY_EVT_REPAIR_TYPE f
+            on
+            g.name=f.TYPE_ID) zz ORDER BY zz.count
+            desc
+        </if>
+        <if test="type==9">
+            select g.count,f.TYPE_CODE name,f.type_id typeId from(select b.name
+            ,count(DISTINCT(b.code)) count from ( select
+            substr(a.REPAIR_TYPE_CODE,1,INSTR(a.REPAIR_TYPE_CODE,'-')-1)
+            name
+            ，substr(a.REPAIR_ADDRESS_CODE,1,INSTR(a.REPAIR_ADDRESS_CODE,'-')-1)
+            code from
+            WY_EVT_REPAIR_INFORMATION a
+            left join wy_cus_complain z
+            on
+            a.COMPLAIN_ID=z.id
+            <where>
+                <if test="startTime != null">
+                    AND z.COMPLAIN_time &gt;=#{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND z.COMPLAIN_time &lt;=#{endTime}
+                </if>
+                and a.COMPLAIN_ID is not null
+            </where>
+            )b
+            GROUP BY b.name)g LEFT
+            JOIN WY_EVT_REPAIR_TYPE f
+            on
+            g.name=f.TYPE_ID
+        </if>
+
+    </select>
+
+    <select id="getEveryCategoryCount" resultType="int">
+        <if test="type==1">
+            select count(*) from (select DISTINCT(b.REPAIR_ADDRESS_CODE) from
+            (select a.REPAIR_ADDRESS_CODE from WY_EVT_REPAIR_INFORMATION a where
+            substr(a.REPAIR_TYPE_CODE,INSTR(a.REPAIR_TYPE_CODE,'-',-1)+1)=#{name}
+            <if test="type2!=1">
+                <if test="startTime != null">
+                    AND a.CREATED_DT &gt;=#{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND a.CREATED_DT &lt;=#{endTime}
+                </if>
+            </if>
+            <if test="type2==1">
+                <if test="startTime != null">
+                    AND z.COMPLAIN_time &gt;=#{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND z.COMPLAIN_time &lt;=#{endTime}
+                </if>
+                and a.COMPLAIN_ID is not null
+            </if>
+            )b)
+        </if>
+        <if test="type==2">
+            select count(*) from (select DISTINCT(b.REPAIR_ADDRESS_CODE) from
+            (select a.REPAIR_ADDRESS_CODE from WY_EVT_REPAIR_INFORMATION a where
+            substr(a.REPAIR_TYPE_CODE,1,INSTR(a.REPAIR_TYPE_CODE,'-')-1)=#{name}
+            <if test="type2!=1">
+                <if test="startTime != null">
+                    AND a.CREATED_DT &gt;=#{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND a.CREATED_DT &lt;=#{endTime}
+                </if>
+            </if>
+            <if test="type2==1">
+                <if test="startTime != null">
+                    AND z.COMPLAIN_time &gt;=#{startTime}
+                </if>
+                <if test="endTime != null">
+                    AND z.COMPLAIN_time &lt;=#{endTime}
+                </if>
+                and a.COMPLAIN_ID is not null
+            </if>
+            )b)
+        </if>
+
+    </select>
+
+
+</mapper>

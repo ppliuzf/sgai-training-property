@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.customer.dao.ICustomCardInfoDao">
+    <resultMap id="BaseResultMap" type="com.sgai.property.customer.entity.CustomCardInfo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="ccn_id" property="ccnId" jdbcType="VARCHAR"/>
+        <result column="updated_dt" property="updatedDt" jdbcType="VARCHAR"/>
+        <result column="cc_certificate_no" property="ccCertificateNo" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="cc_certificate_name" property="ccCertificateName" jdbcType="VARCHAR"/>
+        <result column="update_user_name" property="updateUserName" jdbcType="VARCHAR"/>
+        <result column="created_dt" property="createdDt" jdbcType="VARCHAR"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="BIGINT"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="BIGINT"/>
+        <result column="ccn_name" property="ccnName" jdbcType="VARCHAR"/>
+        <result column="cc_is_delete" property="ccIsDelete" jdbcType="BIGINT"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="pr_id" property="prId" jdbcType="VARCHAR"/>
+        <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+	  <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="baseColumns">
+       ccn_id
+       ,updated_dt
+       ,cc_certificate_no
+       ,create_time
+       ,cc_certificate_name
+       ,update_user_name
+       ,created_dt
+       ,updated_by
+       ,version
+       ,created_by
+       ,update_user_id
+       ,update_time
+       ,ccn_name
+       ,cc_is_delete
+       ,remarks
+       ,pr_id
+       ,id
+       ,com_code
+       ,modu_code
+    </sql>
+
+    <sql id="whereSql">
+        <trim prefixOverrides="AND | OR">
+        <if test="comCode != null">
+			 and com_code=#{comCode}
+		 </if>
+		 <if test="moduCode != null">
+			 and modu_code=#{moduCode}
+		 </if>
+       <if test="ccnId != null">
+			and ccn_id=#{ccnId}
+		 </if>
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if>
+       <if test="ccCertificateNo != null">
+			and cc_certificate_no=#{ccCertificateNo}
+		 </if>
+       <if test="createTime != null">
+			and create_time=#{createTime}
+		 </if>
+       <if test="ccCertificateName != null">
+			and cc_certificate_name=#{ccCertificateName}
+		 </if>
+       <if test="updateUserName != null">
+			and update_user_name=#{updateUserName}
+		 </if>
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if>
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if>
+       <if test="version != null">
+			and version=#{version}
+		 </if>
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if>
+       <if test="updateUserId != null">
+			and update_user_id=#{updateUserId}
+		 </if>
+       <if test="updateTime != null">
+			and update_time=#{updateTime}
+		 </if>
+       <if test="ccnName != null">
+			and ccn_name=#{ccnName}
+		 </if>
+       <if test="ccIsDelete != null">
+			and cc_is_delete=#{ccIsDelete}
+		 </if>
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if>
+       <if test="prId != null">
+			and pr_id=#{prId}
+		 </if>
+       <if test="id != null">
+			and id=#{id}
+		 </if>
+      </trim>
+  </sql>
+
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from CR_CUSTOM_CARD_INFO  where id =#{id}
+	</select>
+
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from CR_CUSTOM_CARD_INFO  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from CR_CUSTOM_CARD_INFO  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.customer.entity.CustomCardInfo">
+        select <include refid="baseColumns"/> from
+        CR_CUSTOM_CARD_INFO  where   <include refid="whereSql"/>
+        limit 0,1
+	</select>
+
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from CR_CUSTOM_CARD_INFO
+	</select>
+
+	<select id="findList"  parameterType="com.sgai.property.customer.entity.CustomCardInfo" resultMap="BaseResultMap">
+        select <include refid="baseColumns"/> from CR_CUSTOM_CARD_INFO where   <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.customer.entity.CustomCardInfo" resultType="java.lang.Integer">
+        select count(1) from CR_CUSTOM_CARD_INFO where   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.customer.entity.CustomCardInfo">
+        insert into CR_CUSTOM_CARD_INFO
+            <trim prefix="(" suffix=")" suffixOverrides=",">
+	            <if test="comCode != null">
+				 com_code,
+			 </if>
+			 <if test="moduCode != null">
+				 modu_code,
+			 </if>
+                <if test="ccnId != null">
+                ccn_id,
+                </if>
+                <if test="updatedDt != null">
+                updated_dt,
+                </if>
+                <if test="ccCertificateNo != null">
+                cc_certificate_no,
+                </if>
+                <if test="createTime != null">
+                create_time,
+                </if>
+                <if test="ccCertificateName != null">
+                cc_certificate_name,
+                </if>
+                <if test="updateUserName != null">
+                update_user_name,
+                </if>
+                <if test="createdDt != null">
+                created_dt,
+                </if>
+                <if test="updatedBy != null">
+                updated_by,
+                </if>
+                <if test="version != null">
+                version,
+                </if>
+                <if test="createdBy != null">
+                created_by,
+                </if>
+                <if test="updateUserId != null">
+                update_user_id,
+                </if>
+                <if test="updateTime != null">
+                update_time,
+                </if>
+                <if test="ccnName != null">
+                ccn_name,
+                </if>
+                <if test="ccIsDelete != null">
+                cc_is_delete,
+                </if>
+                <if test="remarks != null">
+                remarks,
+                </if>
+                <if test="prId != null">
+                pr_id,
+                </if>
+                <if test="id != null">
+                id,
+                </if>
+            </trim>
+            <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="comCode != null">
+				 #{comCode},
+			 </if>
+			 <if test="moduCode != null">
+				 #{moduCode},
+			 </if>
+                <if test="ccnId != null">
+                #{ccnId},
+			  </if>
+                <if test="updatedDt != null">
+                #{updatedDt},
+			  </if>
+                <if test="ccCertificateNo != null">
+                #{ccCertificateNo},
+			  </if>
+                <if test="createTime != null">
+                #{createTime},
+			  </if>
+                <if test="ccCertificateName != null">
+                #{ccCertificateName},
+			  </if>
+                <if test="updateUserName != null">
+                #{updateUserName},
+			  </if>
+                <if test="createdDt != null">
+                #{createdDt},
+			  </if>
+                <if test="updatedBy != null">
+                #{updatedBy},
+			  </if>
+                <if test="version != null">
+                #{version},
+			  </if>
+                <if test="createdBy != null">
+                #{createdBy},
+			  </if>
+                <if test="updateUserId != null">
+                #{updateUserId},
+			  </if>
+                <if test="updateTime != null">
+                #{updateTime},
+			  </if>
+                <if test="ccnName != null">
+                #{ccnName},
+			  </if>
+                <if test="ccIsDelete != null">
+                #{ccIsDelete},
+			  </if>
+                <if test="remarks != null">
+                #{remarks},
+			  </if>
+                <if test="prId != null">
+                #{prId},
+			  </if>
+                <if test="id != null">
+                #{id},
+			  </if>
+		</trim>
+   </insert>
+
+   <update id="updateById" parameterType="com.sgai.property.customer.entity.CustomCardInfo">
+                update CR_CUSTOM_CARD_INFO set
+                    <trim suffixOverrides=",">
+                    <if test="comCode != null">
+					 com_code=#{comCode},
+				 </if>
+				 <if test="moduCode != null">
+					 modu_code=#{moduCode},
+				 </if>
+                        <if test="ccnId != null">
+                        ccn_id=#{ccnId},
+				  </if>
+                        <if test="updatedDt != null">
+                        updated_dt=#{updatedDt},
+				  </if>
+                        <if test="ccCertificateNo != null">
+                        cc_certificate_no=#{ccCertificateNo},
+				  </if>
+                        <if test="createTime != null">
+                        create_time=#{createTime},
+				  </if>
+                        <if test="ccCertificateName != null">
+                        cc_certificate_name=#{ccCertificateName},
+				  </if>
+                        <if test="updateUserName != null">
+                        update_user_name=#{updateUserName},
+				  </if>
+                        <if test="createdDt != null">
+                        created_dt=#{createdDt},
+				  </if>
+                        <if test="updatedBy != null">
+                        updated_by=#{updatedBy},
+				  </if>
+                        <if test="version != null">
+                        version=#{version},
+				  </if>
+                        <if test="createdBy != null">
+                        created_by=#{createdBy},
+				  </if>
+                        <if test="updateUserId != null">
+                        update_user_id=#{updateUserId},
+				  </if>
+                        <if test="updateTime != null">
+                        update_time=#{updateTime},
+				  </if>
+                        <if test="ccnName != null">
+                        ccn_name=#{ccnName},
+				  </if>
+                        <if test="ccIsDelete != null">
+                        cc_is_delete=#{ccIsDelete},
+				  </if>
+                        <if test="remarks != null">
+                        remarks=#{remarks},
+				  </if>
+                        <if test="prId != null">
+                        pr_id=#{prId},
+				  </if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.customer.entity.CustomCardInfo">
+                        update CR_CUSTOM_CARD_INFO  set
+	    <trim suffixOverrides="," >
+			    <if test="entity.comCode != null">
+					 com_code=#{entity.comCode},
+				 </if>
+				 <if test="entity.moduCode != null">
+					 modu_code=#{entity.moduCode},
+				 </if>
+				  <if test="entity.ccnId != null">
+                        ccn_id = #{entity.ccnId},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                        updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.ccCertificateNo != null">
+                        cc_certificate_no = #{entity.ccCertificateNo},
+				  </if>
+				  <if test="entity.createTime != null">
+                        create_time = #{entity.createTime},
+				  </if>
+				  <if test="entity.ccCertificateName != null">
+                        cc_certificate_name = #{entity.ccCertificateName},
+				  </if>
+				  <if test="entity.updateUserName != null">
+                        update_user_name = #{entity.updateUserName},
+				  </if>
+				  <if test="entity.createdDt != null">
+                        created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                        updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.version != null">
+                        version = #{entity.version},
+				  </if>
+				  <if test="entity.createdBy != null">
+                        created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.updateUserId != null">
+                        update_user_id = #{entity.updateUserId},
+				  </if>
+				  <if test="entity.updateTime != null">
+                        update_time = #{entity.updateTime},
+				  </if>
+				  <if test="entity.ccnName != null">
+                        ccn_name = #{entity.ccnName},
+				  </if>
+				  <if test="entity.ccIsDelete != null">
+                        cc_is_delete = #{entity.ccIsDelete},
+				  </if>
+				  <if test="entity.remarks != null">
+                        remarks = #{entity.remarks},
+				  </if>
+				  <if test="entity.prId != null">
+                        pr_id = #{entity.prId},
+				  </if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+
+
+	<delete id="deleteById">
+      delete from CR_CUSTOM_CARD_INFO where id =#{id}
+   </delete>
+
+    <delete id="deleteByIds">
+      delete from CR_CUSTOM_CARD_INFO where id in
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from CR_CUSTOM_CARD_INFO where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+
+   <delete id="delete" parameterType="com.sgai.property.customer.entity.CustomCardInfo">
+delete from CR_CUSTOM_CARD_INFO where   <include refid="whereSql"/>
+   </delete>
+
+    <select id="getByPrId" resultMap="BaseResultMap">
+        select <include refid="baseColumns"/>
+        from CR_CUSTOM_CARD_INFO  where pr_id =#{prId} and cc_is_delete = 0
+    </select>
+
+    <delete id="deleteByPrId">
+        delete from CR_CUSTOM_CARD_INFO where pr_id =#{prId}
+    </delete>
+</mapper>

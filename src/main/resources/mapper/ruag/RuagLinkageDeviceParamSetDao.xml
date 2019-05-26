@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ruag.dao.RuagLinkageDeviceParamSetDao">
+
+    <sql id="ruagLinkageDeviceParamSetColumns">
+        a.id AS "id",
+		a.linkage_rule_id AS "linkageRuleId",
+		a.master_id AS "masterId",
+		a.master_name AS "masterName",
+		a.device_class_code AS "deviceClassCode",
+		a.device_code AS "deviceCode",
+		a.parameter_id AS "parameterId",
+		a.parameter_value AS "parameterValue",
+		a.time_point AS "timePoint",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode",
+		a.front_next_flag as "frontNextFlag",
+        a.switch_flag as "switchFlag"
+    </sql>
+
+    <sql id="ruagLinkageDeviceParamSetJoins">
+    </sql>
+
+    <select id="get" resultType="com.sgai.property.ruag.entity.RuagLinkageDeviceParamSet">
+        SELECT
+        <include refid="ruagLinkageDeviceParamSetColumns"/>
+        FROM ruag_linkage_device_param_set a
+        <include refid="ruagLinkageDeviceParamSetJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="com.sgai.property.ruag.entity.RuagLinkageDeviceParamSet">
+        SELECT
+        <include refid="ruagLinkageDeviceParamSetColumns"/>
+        FROM ruag_linkage_device_param_set a
+        <include refid="ruagLinkageDeviceParamSetJoins"/>
+        <where>
+            <if test="comCode != null and comCode != ''">
+                AND a.com_code = #{comCode}
+            </if>
+            <if test="moduCode != null and moduCode != ''">
+                AND a.modu_code = #{moduCode}
+            </if>
+            <if test="moduCode == null or moduCode == ''">
+                AND a.modu_code is null
+            </if>
+            <if test="deviceCode != null and deviceCode != ''">
+                AND a.device_code =#{deviceCode}
+            </if>
+            <if test="parameterId != null and parameterId != ''">
+                AND a.parameter_id = #{parameterId}
+            </if>
+            <if test="masterId != null and masterId != ''">
+                AND a.master_id = #{masterId}
+            </if>
+            <if test="linkageRuleId != null and linkageRuleId != ''">
+                AND a.linkage_rule_id = #{linkageRuleId}
+            </if>
+            <if test="frontNextFlag != null and frontNextFlag != ''">
+                AND a.front_next_flag = #{frontNextFlag}
+            </if>
+        </where>
+        ORDER BY updated_dt DESC
+        <!-- <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose> -->
+    </select>
+    <select id="findAllOfList" resultType="com.sgai.property.ruag.entity.RuagLinkageDeviceParamSet">
+        SELECT
+        <include refid="ruagLinkageDeviceParamSetColumns"/>
+        FROM ruag_linkage_device_param_set a
+        <include refid="ruagLinkageDeviceParamSetJoins"/>
+        <where>
+            <if test="deviceCode != null and deviceCode != ''">
+                AND a.device_code =#{deviceCode}
+            </if>
+            <if test="parameterId != null and parameterId != ''">
+                AND a.parameter_id = #{parameterId}
+            </if>
+            <if test="masterId != null and masterId != ''">
+                AND a.master_id = #{masterId}
+            </if>
+            <if test="linkageRuleId != null and linkageRuleId != ''">
+                AND a.linkage_rule_id = #{linkageRuleId}
+            </if>
+        </where>
+        ORDER BY updated_dt DESC
+        <!-- <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose> -->
+    </select>
+    <select id="findAllList" resultType="com.sgai.property.ruag.entity.RuagLinkageDeviceParamSet">
+        SELECT
+        <include refid="ruagLinkageDeviceParamSetColumns"/>
+        FROM ruag_linkage_device_param_set a
+        <include refid="ruagLinkageDeviceParamSetJoins"/>
+        <where>
+
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO ruag_linkage_device_param_set(id,
+                                                  linkage_rule_id,
+                                                  master_id,
+                                                  master_name,
+                                                  device_code,
+                                                  parameter_id,
+                                                  parameter_value,
+                                                  time_point,
+                                                  enabled_flag,
+                                                  version,
+                                                  updated_dt,
+                                                  updated_by,
+                                                  created_dt,
+                                                  created_by,
+                                                  remarks,
+                                                  com_code,
+                                                  modu_code,
+                                                  front_next_flag,
+                                                  switch_flag)
+        VALUES (#{id},
+                #{linkageRuleId},
+                #{masterId},
+                #{masterName},
+                #{deviceCode},
+                #{parameterId},
+                #{parameterValue},
+                #{timePoint},
+                #{enabledFlag},
+                #{version},
+                #{updatedDt},
+                #{updatedBy},
+                #{createdDt},
+                #{createdBy},
+                #{remarks},
+                #{comCode},
+                #{moduCode},
+                #{frontNextFlag},
+                #{switchFlag})
+    </insert>
+
+    <update id="update">
+        UPDATE ruag_linkage_device_param_set
+        SET linkage_rule_id = #{linkageRuleId},
+            master_id       = #{masterId},
+            master_name     = #{masterName},
+            device_code     = #{deviceCode},
+            parameter_id    = #{parameterId},
+            parameter_value = #{parameterValue},
+            time_point      = #{timePoint},
+            enabled_flag    = #{enabledFlag},
+            version         = #{version},
+            updated_dt      = #{updatedDt},
+            updated_by      = #{updatedBy},
+            created_dt      = #{createdDt},
+            created_by      = #{createdBy},
+            remarks         = #{remarks},
+            com_code        = #{comCode},
+            modu_code       = #{moduCode},
+            front_next_flag = #{frontNextFlag}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        DELETE
+        FROM ruag_linkage_device_param_set
+        WHERE id = #{id}
+    </update>
+    <update id="deleteByMasterId">
+        DELETE
+        FROM ruag_linkage_device_param_set
+        WHERE master_id = #{masterId}
+    </update>
+</mapper>

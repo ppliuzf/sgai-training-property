@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.quality.dao.IQtDictGeneralDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.quality.entity.QtDictGeneral" >
+	  <id column="id" property="id" jdbcType="VARCHAR" />
+	     <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+         <result column="dg_update_time" property="dgUpdateTime" jdbcType="BIGINT" />
+         <result column="dg_create_time" property="dgCreateTime" jdbcType="BIGINT" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="dg_code" property="dgCode" jdbcType="VARCHAR" />
+         <result column="dg_description" property="dgDescription" jdbcType="VARCHAR" />
+         <result column="dg_key" property="dgKey" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="dg_is_delete" property="dgIsDelete" jdbcType="BIGINT" />
+         <result column="dg_value" property="dgValue" jdbcType="VARCHAR" />
+         <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="dg_is_enabled" property="dgIsEnabled" jdbcType="BIGINT" />
+         <result column="dg_type" property="dgType" jdbcType="BIGINT" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="dg_sort" property="dgSort" jdbcType="BIGINT" />
+	  <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+	  <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       created_dt
+       ,dg_update_time
+       ,dg_create_time
+       ,created_by
+       ,dg_code
+       ,dg_description
+       ,dg_key
+       ,version
+       ,dg_is_delete
+       ,dg_value
+       ,updated_dt
+       ,remarks
+       ,dg_is_enabled
+       ,dg_type
+       ,updated_by
+       ,dg_sort
+       ,id
+       ,com_code
+       ,modu_code
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="dgUpdateTime != null">
+			and dg_update_time=#{dgUpdateTime}
+		 </if> 
+       <if test="dgCreateTime != null">
+			and dg_create_time=#{dgCreateTime}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="dgCode != null">
+			and dg_code=#{dgCode}
+		 </if> 
+       <if test="dgDescription != null">
+			and dg_description=#{dgDescription}
+		 </if> 
+       <if test="dgKey != null">
+			and dg_key=#{dgKey}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="dgIsDelete != null">
+			and dg_is_delete=#{dgIsDelete}
+		 </if> 
+       <if test="dgValue != null">
+			and dg_value=#{dgValue}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="dgIsEnabled != null">
+			and dg_is_enabled=#{dgIsEnabled}
+		 </if> 
+       <if test="dgType != null">
+			and dg_type=#{dgType}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="dgSort != null">
+			and dg_sort=#{dgSort}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if>
+		 <if test="comCode != null">
+			 and com_code=#{comCode}
+		 </if>
+		 <if test="moduCode != null">
+			 and modu_code=#{moduCode}
+		 </if>
+
+	 </trim>
+  </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from qt_dict_general  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_dict_general  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from qt_dict_general  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.quality.entity.QtDictGeneral">
+		select <include refid="baseColumns"/> from
+       qt_dict_general  where   <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_dict_general
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.quality.entity.QtDictGeneral" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_dict_general where   <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.quality.entity.QtDictGeneral" resultType="java.lang.Integer">
+           select count(1) from qt_dict_general where   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.quality.entity.QtDictGeneral">
+      insert into qt_dict_general 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="dgUpdateTime != null">
+				   dg_update_time,
+			 </if> 
+          <if test="dgCreateTime != null">
+				   dg_create_time,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="dgCode != null">
+				   dg_code,
+			 </if> 
+          <if test="dgDescription != null">
+				   dg_description,
+			 </if> 
+          <if test="dgKey != null">
+				   dg_key,
+			 </if> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="dgIsDelete != null">
+				   dg_is_delete,
+			 </if> 
+          <if test="dgValue != null">
+				   dg_value,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+          <if test="dgIsEnabled != null">
+				   dg_is_enabled,
+			 </if> 
+          <if test="dgType != null">
+				   dg_type,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="dgSort != null">
+				   dg_sort,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if>
+			<if test="comCode != null">
+				com_code,
+			</if>
+			<if test="moduCode != null">
+				modu_code,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="dgUpdateTime != null">
+				#{dgUpdateTime},
+			  </if>
+			  <if test="dgCreateTime != null">
+				#{dgCreateTime},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="dgCode != null">
+				#{dgCode},
+			  </if>
+			  <if test="dgDescription != null">
+				#{dgDescription},
+			  </if>
+			  <if test="dgKey != null">
+				#{dgKey},
+			  </if>
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="dgIsDelete != null">
+				#{dgIsDelete},
+			  </if>
+			  <if test="dgValue != null">
+				#{dgValue},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			  <if test="dgIsEnabled != null">
+				#{dgIsEnabled},
+			  </if>
+			  <if test="dgType != null">
+				#{dgType},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="dgSort != null">
+				#{dgSort},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			<if test="comCode != null">
+				#{comCode},
+			</if>
+			<if test="moduCode != null">
+				#{moduCode},
+			</if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.quality.entity.QtDictGeneral">
+	   update qt_dict_general  set
+	    <trim suffixOverrides="," >
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="dgUpdateTime != null">
+					 dg_update_time=#{dgUpdateTime},
+				  </if>
+				  <if test="dgCreateTime != null">
+					 dg_create_time=#{dgCreateTime},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="dgCode != null">
+					 dg_code=#{dgCode},
+				  </if>
+				  <if test="dgDescription != null">
+					 dg_description=#{dgDescription},
+				  </if>
+				  <if test="dgKey != null">
+					 dg_key=#{dgKey},
+				  </if>
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="dgIsDelete != null">
+					 dg_is_delete=#{dgIsDelete},
+				  </if>
+				  <if test="dgValue != null">
+					 dg_value=#{dgValue},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				  <if test="dgIsEnabled != null">
+					 dg_is_enabled=#{dgIsEnabled},
+				  </if>
+				  <if test="dgType != null">
+					 dg_type=#{dgType},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="dgSort != null">
+					 dg_sort=#{dgSort},
+				  </if>
+			<if test="comCode != null">
+				com_code=#{comCode},
+			</if>
+			<if test="moduCode != null">
+				modu_code=#{moduCode},
+			</if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.quality.entity.QtDictGeneral">
+        update qt_dict_general  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.dgUpdateTime != null">
+                dg_update_time = #{entity.dgUpdateTime},
+				  </if>
+				  <if test="entity.dgCreateTime != null">
+                dg_create_time = #{entity.dgCreateTime},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.dgCode != null">
+                dg_code = #{entity.dgCode},
+				  </if>
+				  <if test="entity.dgDescription != null">
+                dg_description = #{entity.dgDescription},
+				  </if>
+				  <if test="entity.dgKey != null">
+                dg_key = #{entity.dgKey},
+				  </if>
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.dgIsDelete != null">
+                dg_is_delete = #{entity.dgIsDelete},
+				  </if>
+				  <if test="entity.dgValue != null">
+                dg_value = #{entity.dgValue},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+				  <if test="entity.dgIsEnabled != null">
+                dg_is_enabled = #{entity.dgIsEnabled},
+				  </if>
+				  <if test="entity.dgType != null">
+                dg_type = #{entity.dgType},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.dgSort != null">
+                dg_sort = #{entity.dgSort},
+				  </if>
+			<if test="entity.comCode != null">
+				com_code=#{entity.comCode},
+			</if>
+			<if test="entity.moduCode != null">
+				modu_code=#{entity.moduCode},
+			</if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from qt_dict_general where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from qt_dict_general where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from qt_dict_general where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.quality.entity.QtDictGeneral">
+      delete from qt_dict_general where   <include refid="whereSql"/> 
+   </delete>
+   
+</mapper>

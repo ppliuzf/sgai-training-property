@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.alm.dao.AlmLevelInfoDao">
+    
+	<sql id="almLevelInfoColumns">
+		a.id AS "id",
+		a.level_code AS "levelCode",
+		a.level_name AS "levelName",
+		a.level_desc AS "levelDesc",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="almLevelInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.alm.entity.AlmLevelInfo">
+		SELECT 
+			<include refid="almLevelInfoColumns"/>
+		FROM alm_level_info a
+		<include refid="almLevelInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.alm.entity.AlmLevelInfo">
+		SELECT 
+			<include refid="almLevelInfoColumns"/>
+		FROM alm_level_info a
+		<include refid="almLevelInfoJoins"/>
+		<where>
+			
+			<if test="levelCode != null and levelCode != ''">
+				AND a.level_code = #{levelCode}
+			</if>
+			<if test="levelName != null and levelName != ''">
+				AND a.level_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{levelName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{levelName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{levelName},'%')</if>
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.alm.entity.AlmLevelInfo">
+		SELECT 
+			<include refid="almLevelInfoColumns"/>
+		FROM alm_level_info a
+		<include refid="almLevelInfoJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO alm_level_info(
+			id,
+			level_code,
+			level_name,
+			level_desc,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{levelCode},
+			#{levelName},
+			#{levelDesc},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE alm_level_info SET 	
+			level_code = #{levelCode},
+			level_name = #{levelName},
+			level_desc = #{levelDesc},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM alm_level_info
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

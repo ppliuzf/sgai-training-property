@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlCodeTypeDao">
+    
+	<sql id="ctlCodeTypeColumns">
+		a.id AS "id",
+		a.code_type AS "codeType",
+		a.code_type_name AS "codeTypeName",
+		a.gc_flag AS "gcFlag",
+		a.enabled_flag AS "enabledFlag",
+		a.sys_flag AS "sysFlag",
+		a.remark AS "remark",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="ctlCodeTypeJoins">
+	</sql>
+	
+    <select id="getCodeType" resultType="String">
+		SELECT code_type
+		FROM ctl_code_type
+	</select>
+	
+	<select id="get" resultType="CtlCodeType">
+		SELECT 
+			<include refid="ctlCodeTypeColumns"/>
+		FROM ctl_code_type a
+		<include refid="ctlCodeTypeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlCodeType">
+		SELECT 
+			<include refid="ctlCodeTypeColumns"/>
+		FROM ctl_code_type a
+		<include refid="ctlCodeTypeJoins"/>
+		<where>
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="codeType != null and codeType != ''">
+				AND a.code_type like  '%'||#{codeType}||'%'
+			</if>
+			<if test="codeTypeName != null and codeTypeName != ''">
+				AND a.code_type_name like  '%'||#{codeTypeName}||'%'
+			</if>
+			<if test="gcFlag != null and gcFlag != ''">
+				AND a.gc_flag = #{gcFlag}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="sysFlag != null and sysFlag != ''">
+				AND a.sys_flag = #{sysFlag}
+			</if>
+			<if test="remark != null and remark != ''">
+				AND a.remark = #{remark}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CtlCodeType">
+		SELECT 
+			<include refid="ctlCodeTypeColumns"/>
+		FROM ctl_code_type a
+		<include refid="ctlCodeTypeJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ctl_code_type(
+			id,
+			code_type,
+			code_type_name,
+			gc_flag,
+			enabled_flag,
+			sys_flag,
+			remark,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{codeType},
+			#{codeTypeName},
+			#{gcFlag},
+			#{enabledFlag},
+			#{sysFlag},
+			#{remark},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_code_type SET 	
+			code_type =#{codeType},
+			code_type_name = #{codeTypeName},
+			enabled_flag = #{enabledFlag},
+			sys_flag = #{sysFlag},
+			remark = #{remark}
+
+		WHERE id=#{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_code_type
+		WHERE id=#{id}
+	</update>
+	
+</mapper>

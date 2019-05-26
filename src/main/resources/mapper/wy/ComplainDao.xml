@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.ComplainDao">
+
+	<sql id="complainselect">
+		SELECT
+		w.ID id,
+		w.source_Key sourceKey,
+		w.complainer_Name complainerName,
+		w.complain_Title complainTitle,
+		w.complain_Content complainContent,
+		w.complainer_Phone complainerPhone,
+		w.complain_Reply complainReply,
+		w.replyer_Name replyerName,
+		w.reply_Time replyTime,
+		w.complain_Time complainTime,
+		w.complain_Status complainStatus,
+		w.REPLY_TYPE replyType,
+		w.SOURCE_NUM sourceNum
+		FROM
+		WY_CUS_COMPLAIN w
+	</sql>
+	<select id="findList" resultType="com.sgai.property.wy.entity.Complain"
+		parameterType="com.sgai.property.wy.entity.Complain">
+		<include refid="complainselect" />
+		<where>
+			<if test="complainerName!=null and complainerName!=''">
+				AND w.complainer_Name Like CONCAT( CONCAT ( '%', #{complainerName} )
+				,'%')
+			</if>
+			<if test="incidentSource!=null and incidentSource!=''">
+				AND w.INCIDENT_SOURCE = #{incidentSource}
+			</if>
+			<if test="complainStatus!=null and complainStatus!=''">
+				AND w.complain_Status = #{complainStatus}
+			</if>
+			<if test="startTime != null">
+				AND w.COMPLAIN_TIME &gt;=#{startTime}
+			</if>
+			<if test="endTime != null">
+				AND w.COMPLAIN_TIME &lt;=#{endTime}
+			</if>
+		</where>
+		order by w.complain_Time desc
+	</select>
+	<update id="delete">
+		DELETE FROM WY_CUS_COMPLAIN
+		WHERE ID = #{id}
+	</update>
+
+	<insert id="insert">
+		INSERT INTO WY_CUS_COMPLAIN (
+		ID,
+		source_Key,
+		complainer_Name,
+		complain_Title,
+		complain_Content,
+		complainer_Phone,
+		complain_Reply,
+		replyer_Name,
+		complain_Time,
+		reply_Time,
+		complain_Status,
+		REPLY_TYPE,
+		SOURCE_NUM,
+		INCIDENT_SOURCE
+		) VALUES (
+		#{id},
+		#{sourceKey},
+		#{complainerName},
+		#{complainTitle},
+		#{complainContent},
+		#{complainerPhone},
+		#{complainReply},
+		#{replyerName},
+		#{complainTime},
+		#{replyTime},
+		#{complainStatus},
+		#{replyType},
+		#{sourceNum},
+		#{incidentSource}
+		)
+	</insert>
+
+	<select id="get" resultType="com.sgai.property.wy.entity.Complain">
+		<include refid="complainselect" />
+		WHERE w.id = #{id}
+	</select>
+
+	<update id="update">
+		UPDATE WY_CUS_COMPLAIN
+		SET
+		ID = #{id},
+		source_Key = #{sourceKey},
+		COMPLAINER_NAME = #{complainerName},
+		complain_Title = #{complainTitle},
+		complain_Content = #{complainContent},
+		complainer_Phone = #{complainerPhone},
+		complain_Reply = #{complainReply},
+		replyer_Name = #{replyerName},
+		reply_Time = #{replyTime},
+		complain_Time = #{complainTime},
+		complain_Status = #{complainStatus},
+		REPLY_TYPE = #{replyType}
+		WHERE ID = #{id}
+	</update>
+
+</mapper>

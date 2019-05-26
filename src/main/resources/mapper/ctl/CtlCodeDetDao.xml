@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlCodeDetDao">
+
+	<sql id="ctlCodeDetColumns">
+		a.id AS "id",
+		a.code_type AS "codeType",
+		a.com_code AS "comCode",
+		a.code_code AS "codeCode",
+		a.code_name AS "codeName",
+		a.display_order AS "displayOrder",
+		a.sys_flag AS "sysFlag",
+		a.enabled_flag AS "enabledFlag",
+		a.base_desc AS "baseDesc",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+
+	<sql id="ctlCodeDetJoins">
+	</sql>
+
+    <select id="getCodeType" resultType="String">
+		SELECT code_type
+		FROM ctl_code_det
+	</select>
+
+	<select id="get" resultType="CtlCodeDet">
+		SELECT
+			<include refid="ctlCodeDetColumns"/>
+		FROM ctl_code_det a
+		<include refid="ctlCodeDetJoins"/>
+	    where a.id = #{id}
+	</select>
+	<select id="getCodeDet" resultType="CtlCodeDet">
+		SELECT
+			<include refid="ctlCodeDetColumns"/>
+		FROM ctl_code_det a
+		<include refid="ctlCodeDetJoins"/>
+		<where>
+		<if test="id != null and id != ''">
+				AND a.id = #{id}
+		</if>
+		<if test="codeName != null and codeName != ''">
+				AND a.code_name = #{codeName}
+		</if>
+		<if test="codeType != null and codeType != ''">
+				AND a.code_type = #{codeType}
+		</if>
+		<if test="codeCode != null and codeCode != ''">
+				AND a.code_code = #{codeCode}
+		</if>
+		</where>
+	</select>
+	<select id="findList" resultType="CtlCodeDet">
+		SELECT
+			<include refid="ctlCodeDetColumns"/>
+		FROM ctl_code_det a
+		<include refid="ctlCodeDetJoins"/>
+		<where>
+
+			<if test="codeType != null and codeType != ''">
+				AND a.code_type = #{codeType}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="codeCode != null and codeCode != ''">
+				AND a.code_code = #{codeCode}
+			</if>
+			<if test="codeName != null and codeName != ''">
+				AND a.code_name = #{codeName}
+			</if>
+			<if test="sysFlag != null and sysFlag != ''">
+				AND a.sys_flag = #{sysFlag}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList" resultType="CtlCodeDet">
+		SELECT
+			<include refid="ctlCodeDetColumns"/>
+		FROM ctl_code_det a
+		<include refid="ctlCodeDetJoins"/>
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+
+	<select id="findCodeDetForSpace"  resultType="CtlCodeDet">
+
+		SELECT
+			<include refid="ctlCodeDetColumns"/>
+		FROM
+			CTL_CODE_DET A
+		WHERE
+			A .CODE_TYPE = #{codeType}
+		AND A .DISPLAY_ORDER > (
+			SELECT
+				b.DISPLAY_ORDER
+			FROM
+				CTL_CODE_DET b
+			WHERE
+				b.code_code = (
+					SELECT
+						c.NODE_TYPE
+					FROM
+						MDM_SPACE_TREE c
+					WHERE
+						c.node_code = #{nodeCode}
+		        )
+		)
+		ORDER BY
+			DISPLAY_ORDER ASC
+		limit 1,1
+
+	</select>
+
+
+	<insert id="insert">
+		INSERT INTO ctl_code_det(
+			id,
+			code_type,
+			com_code,
+			code_code,
+			code_name,
+			display_order,
+			sys_flag,
+			enabled_flag,
+			base_desc,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{codeType},
+			#{comCode},
+			#{codeCode},
+			#{codeName},
+			#{displayOrder},
+			#{sysFlag},
+			#{enabledFlag},
+			#{baseDesc},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE ctl_code_det SET
+			code_code=#{codeCode},
+			code_name = #{codeName},
+			display_order = #{displayOrder},
+			sys_flag = #{sysFlag},
+			enabled_flag = #{enabledFlag},
+			base_desc = #{baseDesc}
+
+		WHERE id=#{id}
+	</update>
+
+	<update id="delete">
+		DELETE FROM ctl_code_det
+		<where>
+		id=#{id}
+		</where>
+
+	</update>
+
+	<select id="getCodeInfoList" resultType="java.util.Map">
+	    SELECT
+	        code_code,
+	        code_name
+	    FROM
+	        ctl_code_det
+	    WHERE
+	        code_type=#{codeType}
+	</select>
+</mapper>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.mdm.dao.MdmMatClassDao">
+    
+	<sql id="mdmMatClassColumns">
+		a.id AS "id",
+		a.mat_type_code AS "matTypeCode",
+		a.mat_type_name AS "matTypeName",
+		a.mat_type_desc AS "matTypeDesc",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+	
+	<sql id="mdmMatClassJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.mdm.entity.MdmMatClass">
+		SELECT 
+			<include refid="mdmMatClassColumns"/>
+		FROM mdm_mat_class a
+		<include refid="mdmMatClassJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.mdm.entity.MdmMatClass">
+		SELECT 
+			a.id AS "id",
+			a.mat_type_code AS "matTypeCode",
+			a.mat_type_name AS "matTypeName",
+			a.REMARKS AS "remarks"
+		FROM mdm_mat_class a
+		<where>
+			a.enabled_flag = 'Y'
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="matTypeCode != null and matTypeCode != ''">
+				AND a.mat_type_code like '%'|| #{matTypeCode} || '%'
+			</if>
+			<if test="matTypeName != null and matTypeName != ''">
+				AND a.mat_type_name like '%'|| #{matTypeName} || '%'
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy} DESC
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findRepeatList" resultType="com.sgai.property.mdm.entity.MdmMatClass">
+		SELECT 
+			a.id AS "id",
+			a.mat_type_code AS "matTypeCode",
+			a.mat_type_name AS "matTypeName"
+		FROM mdm_mat_class a
+		<where>
+			a.enabled_flag = 'Y'
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="matTypeCode != null and matTypeCode != ''">
+				AND a.mat_type_code = #{matTypeCode}
+			</if>
+			<if test="matTypeName != null and matTypeName != ''">
+				AND a.mat_type_name = #{matTypeName} 
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.mdm.entity.MdmMatClass">
+		SELECT 
+			<include refid="mdmMatClassColumns"/>
+		FROM mdm_mat_class a
+		<include refid="mdmMatClassJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mdm_mat_class(
+			id,
+			mat_type_code,
+			mat_type_name,
+			mat_type_desc,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{matTypeCode},
+			#{matTypeName},
+			#{matTypeDesc},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mdm_mat_class SET 	
+			mat_type_code = #{matTypeCode},
+			mat_type_name = #{matTypeName},
+			mat_type_desc = #{matTypeDesc},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM mdm_mat_class
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.MemberDao">
+    
+	<sql id="memberColumns">
+		a.id AS "id",
+		a.enroll_time AS "enrollTime",
+		a.phone_number AS "phoneNumber",
+		a.chinese_name AS "chineseName",
+		a.contact_way AS "contactWay",
+		a.type AS "type",
+		a.status AS "status",
+		a.dept_name AS "deptName",
+		a.dept_code AS "deptCode",
+		a.email AS "email",
+		a.date_of_birth AS "dateOfBirth",
+		a.finish_school AS "finishSchool",
+		a.position AS "position",
+		a.remark AS "remark",
+		a.repair_address AS "repairAddress",
+		a.repair_address_code AS "repairAddressCode",
+		a.member_rank_id AS "memberRankId",
+		a.member_rank_name	AS "memberRankName",
+		a.member_code AS "memberCode"
+	</sql>
+	<select id="findList" resultType="com.sgai.property.wy.entity.Member">
+		SELECT 
+			<include refid="memberColumns"/>
+		FROM WY_CUS_MEMBER a
+		<where>
+			
+			<if test="enrollTime != null">
+				AND	STR_TO_DATE(DATE_FORMAT(a.enroll_time,'%y-%m-%d'),'%y-%m-%d') = #{enrollTime}
+			</if>
+			<if test="chineseName != null and chineseName != ''">
+				AND a.chinese_name like '%'||#{chineseName}||'%'
+			</if>
+			
+		</where>
+		
+	</select>
+	<update id="delete">
+		DELETE FROM WY_CUS_MEMBER
+		WHERE ID = #{id}
+	</update>
+	
+	<insert id="insert">
+		INSERT INTO WY_CUS_MEMBER(
+			id,
+			enroll_time,
+			phone_number,
+			chinese_name,
+			contact_way,
+			type,
+			status,
+			dept_name,
+			dept_code,
+			email,
+			date_of_birth,
+			finish_school,
+			position,
+			remark,
+			repair_address,
+			repair_address_code,
+			member_rank_id,
+			member_rank_name,
+			member_code
+		) VALUES (
+			#{id},
+			#{enrollTime},
+			#{phoneNumber},
+			#{chineseName},
+			#{contactWay},
+			#{type},
+			#{status},
+			#{deptName},
+			#{deptCode},
+			#{email},
+			#{dateOfBirth},
+			#{finishSchool},
+			#{position},
+			#{remark},
+			#{repairAddress},
+			#{repairAddressCode},
+			#{memberRankId},
+			#{memberRankName},
+			#{memberCode}
+		)
+	</insert>
+	
+	<select id="get" resultType="com.sgai.property.wy.entity.Member">
+		SELECT 
+			<include refid="memberColumns"/>
+		FROM WY_CUS_MEMBER a
+		<where>
+			
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="phoneNumber != null and phoneNumber != ''">
+				AND a.phone_number = #{phoneNumber}
+			</if>
+			<if test="chineseName != null and chineseName != ''">
+				AND a.chinese_name = #{chineseName}
+			</if>
+			
+		</where>
+	</select>
+	
+	<update id="update">
+		UPDATE WY_CUS_MEMBER SET 	
+			ENROLL_TIME = #{enrollTime},
+			PHONE_NUMBER = #{phoneNumber},
+			CHINESE_NAME = #{chineseName},
+			CONTACT_WAY = #{contactWay},
+			TYPE = #{type},
+			STATUS = #{status},
+			DEPT_NAME = #{deptName},
+			DEPT_CODE = #{deptCode},
+			EMAIL = #{email},
+			DATE_OF_BIRTH = #{dateOfBirth},
+			FINISH_SCHOOL = #{finishSchool},
+			POSITION = #{position},
+			REMARK = #{remark},
+			REPAIR_ADDRESS = #{repairAddress},
+			REPAIR_ADDRESS_CODE = #{repairAddressCode},
+			MEMBER_RANK_ID = #{memberRankId},
+			MEMBER_RANK_NAME = #{memberRankName},
+			MEMBER_CODE = #{memberCode}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlRoleDao">
+    
+	<sql id="ctlRoleColumns">
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode",
+		a.role_code AS "roleCode",
+		a.profession AS "profession",
+		a.role_type AS "roleType",
+		a.role_desc AS "roleDesc",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="ctlRoleJoins">
+	</sql>
+    
+	<select id="get" resultType="CtlRole">
+		SELECT 
+			<include refid="ctlRoleColumns"/>
+		FROM ctl_role a
+		<include refid="ctlRoleJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlRole">
+		SELECT 
+			<include refid="ctlRoleColumns"/>
+		FROM ctl_role a
+		<include refid="ctlRoleJoins"/>
+		<where>
+			
+			<if test="roleCode != null and roleCode != ''">
+				AND a.role_code LIKE 
+					<if test="dbName == 'oracle'">'%'||#{roleCode}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{roleCode}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{roleCode},'%')</if>
+			</if>
+			<if test="roleDesc != null and roleDesc != ''">
+				AND a.role_desc like '%'||#{roleDesc}||'%'
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findListAdd" resultType="CtlRole">
+		SELECT 
+			<include refid="ctlRoleColumns"/>
+		FROM ctl_role a
+		<include refid="ctlRoleJoins"/>
+		<where>
+			
+			<if test="roleCode != null and roleCode != ''">
+				AND a.role_code =#{roleCode}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findAllList" resultType="CtlRole">
+		SELECT 
+			<include refid="ctlRoleColumns"/>
+		FROM ctl_role a
+		<include refid="ctlRoleJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy} DESC
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findRoleForEventByDeptCode" resultType="CtlRole">
+	    SELECT
+			<include refid="ctlRoleColumns"/>
+		FROM
+			CTL_ROLE A
+		<where>
+			A.com_code = #{comCode}
+			<if test="moduCode != null and moduCode != ''">
+				AND A.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND A.modu_code is null
+			</if>
+		</where>
+			<!-- A .PROFESSION IN (
+				SELECT
+					t.PROFESSION
+				FROM
+					CTL_DEPT T
+				WHERE
+					T .dept_code IN (
+						SELECT
+							B .DEPT_CODE
+						FROM
+							CTL_DEPT B
+						WHERE
+							B .DEPT_SEQ LIKE '%'||#{deptCode}||'%'  or B.DEPT_CODE=#{deptCode}
+					)
+			) -->
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ctl_role(
+			id,
+			com_code,
+			modu_code,
+			role_code,
+			profession,
+			role_type,
+			role_desc,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{comCode},
+			#{moduCode},
+			#{roleCode},
+			#{profession},
+			#{roleType},
+			#{roleDesc},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_role SET 	
+			com_code = #{comCode},
+			modu_code = #{moduCode},
+			role_code = #{roleCode},
+			profession = #{profession},
+			role_type = #{roleType},
+			role_desc = #{roleDesc},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_role
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlDelCheckDao">
+    
+	<sql id="ctlDelCheckColumns">
+		a.id AS "id",
+		a.sbs_code AS "sbsCode",
+		a.opr_table_name AS "oprTableName",
+		a.table_name AS "tableName",
+		a.opr_column_name AS "oprColumnName",
+		a.column_name AS "columnName",
+		a.opr_column_com_code AS "oprColumnComCode",
+		a.column_com_code AS "columnComCode",
+		a.prompt_desc AS "promptDesc",
+		a.valid_flag AS "validFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="ctlDelCheckJoins">
+	</sql>
+    
+	<select id="get" resultType="CtlDelCheck">
+		SELECT 
+			<include refid="ctlDelCheckColumns"/>
+		FROM ctl_del_check a
+		<include refid="ctlDelCheckJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="checkDelCheck" resultType="CtlDelCheck">
+		SELECT 1 FROM ctl_del_check a
+		WHERE a.sbs_code = #{sbsCode}
+		AND a.opr_table_name = #{oprTableName}
+		AND a.table_name = #{tableName}
+		AND a.opr_column_name = #{oprColumnName}
+		AND a.column_name = #{columnName}
+		AND a.opr_column_com_code = #{oprColumnComCode}
+		AND a.column_com_code = #{columnComCode}
+	</select>
+	
+	<select id="findList" resultType="CtlDelCheck">
+		SELECT 
+			<include refid="ctlDelCheckColumns"/>
+		FROM ctl_del_check a
+		<include refid="ctlDelCheckJoins"/>
+		<where>
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="sbsCode != null and sbsCode != ''">
+				AND a.sbs_code = #{sbsCode}
+			</if>
+			<if test="oprTableName != null and oprTableName != ''">
+				AND a.opr_table_name = #{oprTableName}
+			</if>
+			<if test="tableName != null and tableName != ''">
+				AND a.table_name = #{tableName}
+			</if>
+			<if test="oprColumnName != null and oprColumnName != ''">
+				AND a.opr_column_name = #{oprColumnName}
+			</if>
+			<if test="columnName != null and columnName != ''">
+				AND a.column_name = #{columnName}
+			</if>
+			<if test="oprColumnComCode != null and oprColumnComCode != ''">
+				AND a.opr_column_com_code = #{oprColumnComCode}
+			</if>
+			<if test="columnComCode != null and columnComCode != ''">
+				AND a.column_com_code = #{columnComCode}
+			</if>
+			<if test="promptDesc != null and promptDesc != ''">
+				AND a.prompt_desc = #{promptDesc}
+			</if>
+			<if test="validFlag != null and validFlag != ''">
+				AND a.valid_flag = #{validFlag}
+			</if>
+			<if test="version != null and version != ''">
+				AND a.version = #{version}
+			</if>
+			<if test="updatedDt != null and updatedDt != ''">
+				AND a.updated_dt = #{updatedDt}
+			</if>
+			<if test="updatedBy != null and updatedBy != ''">
+				AND a.updated_by = #{updatedBy}
+			</if>
+			<if test="createdDt != null and createdDt != ''">
+				AND a.created_dt = #{createdDt}
+			</if>
+			<if test="createdBy != null and createdBy != ''">
+				AND a.created_by = #{createdBy}
+			</if>
+			<if test="remarks != null and remarks != ''">
+				AND a.remarks = #{remarks}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CtlDelCheck">
+		SELECT 
+			<include refid="ctlDelCheckColumns"/>
+		FROM ctl_del_check a
+		<include refid="ctlDelCheckJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ctl_del_check(
+			id,
+			sbs_code,
+			opr_table_name,
+			table_name,
+			opr_column_name,
+			column_name,
+			opr_column_com_code,
+			column_com_code,
+			prompt_desc,
+			valid_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{sbsCode},
+			#{oprTableName},
+			#{tableName},
+			#{oprColumnName},
+			#{columnName},
+			#{oprColumnComCode},
+			#{columnComCode},
+			#{promptDesc},
+			#{validFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_del_check SET 	
+			sbs_code = #{sbsCode},
+			opr_table_name = #{oprTableName},
+			table_name = #{tableName},
+			opr_column_name = #{oprColumnName},
+			column_name = #{columnName},
+			opr_column_com_code = #{oprColumnComCode},
+			column_com_code = #{columnComCode},
+			prompt_desc = #{promptDesc},
+			valid_flag = #{validFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_del_check
+		WHERE id = #{id}
+	</update>
+	
+
+	<select id="oprTableNameExist" resultType="java.lang.Integer">
+	
+	SELECT case when count(*) is null then 0 else count(*) end as counts
+		FROM ctl_del_check a
+		where a.valid_flag = 'Y'
+		and a.opr_table_name = #{oprTableName}
+		
+	</select>
+	
+	<select id="findRelatList" resultType="java.util.HashMap">
+		SELECT 
+		a.opr_table_name AS "oprTableName",
+		a.table_name AS "tableName",
+		a.opr_column_name AS "oprColumnName",
+		a.opr_column_com_code AS "oprColumnComCode",
+		a.column_com_code AS "columnComCode",
+		a.column_name AS "columnName",
+		a.prompt_desc AS "promptDesc"
+		FROM ctl_del_check a
+		where a.valid_flag = 'Y'
+		and lower(a.opr_table_name) = lower(#{oprTableName})		
+	</select>
+	
+	<select id="tableRecordExist" resultType="java.lang.String">
+		SELECT case when min(a.id) = '' then null else min(a.id) end as minId
+		FROM ${oprTableName} a,${tableName} b
+		where a.${oprColumnName} = b.${columnName}
+		and a.${oprColumnComCode} = b.${columnComCode}
+		and a.id in (${idList})
+	</select>
+	
+</mapper>

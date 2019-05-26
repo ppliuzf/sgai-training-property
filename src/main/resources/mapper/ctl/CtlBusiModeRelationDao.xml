@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlBusiModeRelationDao">
+    
+	<sql id="ctlBusiModeRelationColumns">
+		a.id AS "id",
+		a.busi_code AS "busiCode",
+		a.busi_name AS "busiName",
+		a.sbs_code AS "sbsCode",
+		a.sbs_name AS "sbsName",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="ctlBusiModeRelationJoins">
+	</sql>
+    
+	<select id="get" resultType="CtlBusiModeRelation">
+		SELECT 
+			<include refid="ctlBusiModeRelationColumns"/>
+		FROM ctl_busi_mode_relation a
+		<include refid="ctlBusiModeRelationJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlBusiModeRelation">
+		SELECT 
+			<include refid="ctlBusiModeRelationColumns"/>
+		FROM ctl_busi_mode_relation a
+		<include refid="ctlBusiModeRelationJoins"/>
+		<where>
+			
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="busiCode != null and busiCode != ''">
+				AND a.busi_code = #{busiCode}
+			</if>
+			<if test="busiName != null and busiName != ''">
+				AND a.busi_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{busiName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{busiName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{busiName},'%')</if>
+			</if>
+			<if test="sbsCode != null and sbsCode != ''">
+				AND a.sbs_code = #{sbsCode}
+			</if>
+			<if test="sbsName != null and sbsName != ''">
+				AND a.sbs_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{sbsName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{sbsName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{sbsName},'%')</if>
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CtlBusiModeRelation">
+		SELECT 
+			<include refid="ctlBusiModeRelationColumns"/>
+		FROM ctl_busi_mode_relation a
+		<include refid="ctlBusiModeRelationJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ctl_busi_mode_relation(
+			id,
+			busi_code,
+			busi_name,
+			sbs_code,
+			sbs_name,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{busiCode},
+			#{busiName},
+			#{sbsCode},
+			#{sbsName},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_busi_mode_relation SET 	
+			busi_code = #{busiCode},
+			busi_name = #{busiName},
+			sbs_code = #{sbsCode},
+			sbs_name = #{sbsName},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_busi_mode_relation
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

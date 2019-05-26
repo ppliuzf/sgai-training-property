@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.mdm.dao.MdmEmTypeDetailDao">
+    
+	<sql id="mdmEmTypeDetailColumns">
+		a.id AS "id",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.em_type_detail_code AS "emTypeDetailCode",
+		a.em_type_detail_name AS "emTypeDetailName",
+		a.em_type_code AS "emTypeCode",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+	
+	<sql id="mdmEmTypeDetailJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.mdm.entity.MdmEmTypeDetail">
+		SELECT 
+			<include refid="mdmEmTypeDetailColumns"/>
+		FROM mdm_em_type_detail a
+		<include refid="mdmEmTypeDetailJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.mdm.entity.MdmEmTypeDetail">
+		SELECT 
+			<include refid="mdmEmTypeDetailColumns"/>
+			,b.em_type_name AS "emTypeName"
+		FROM mdm_em_type_detail a
+		<include refid="mdmEmTypeDetailJoins"/>
+		INNER JOIN mdm_em_type b on a.em_type_code=b.em_type_code
+		<where>
+			
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="emTypeDetailCode != null and emTypeDetailCode != ''">
+				AND a.em_type_detail_code = #{emTypeDetailCode}
+			</if>
+			<if test="emTypeDetailName != null and emTypeDetailName != ''">
+				AND a.em_type_detail_name LIKE '%'||#{emTypeDetailName}||'%'
+
+			</if>
+			<if test="emTypeCode != null and emTypeCode != ''">
+				AND a.em_type_code = #{emTypeCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+		<select id="getListEmType" resultType="com.sgai.property.mdm.entity.MdmEmTypeDetail">
+		SELECT 
+			em_type_name AS "emTypeName",
+			em_type_code AS "emTypeCode"
+		FROM mdm_em_type 
+		<where>
+		enabled_flag = #{enabledFlag}
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.mdm.entity.MdmEmTypeDetail">
+		SELECT 
+			<include refid="mdmEmTypeDetailColumns"/>
+		FROM mdm_em_type_detail a
+		<include refid="mdmEmTypeDetailJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mdm_em_type_detail(
+			id,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			em_type_detail_code,
+			em_type_detail_name,
+			em_type_code,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{emTypeDetailCode},
+			#{emTypeDetailName},
+			#{emTypeCode},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mdm_em_type_detail SET 	
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			em_type_detail_code = #{emTypeDetailCode},
+			em_type_detail_name = #{emTypeDetailName},
+			em_type_code = #{emTypeCode},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM mdm_em_type_detail
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

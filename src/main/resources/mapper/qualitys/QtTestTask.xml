@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.quality.dao.IQtTestTaskDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.quality.entity.QtTestTask" >
+	     <id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+         <result column="t_id" property="tId" jdbcType="VARCHAR" />
+         <result column="tp_name" property="tpName" jdbcType="VARCHAR" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="BIGINT" />
+         <result column="tt_icon" property="ttIcon" jdbcType="VARCHAR" />
+         <result column="tt_submit_id" property="ttSubmitId" jdbcType="BIGINT" />
+         <result column="tt_status" property="ttStatus" jdbcType="BIGINT" />
+         <result column="create_ei_id" property="createEiId" jdbcType="BIGINT" />
+         <result column="tt_submit_time" property="ttSubmitTime" jdbcType="BIGINT" />
+         <result column="tt_submit_name" property="ttSubmitName" jdbcType="VARCHAR" />
+         <result column="tt_finish_time" property="ttFinishTime" jdbcType="BIGINT" />
+         <result column="create_name" property="createName" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="com_id" property="comId" jdbcType="BIGINT" />
+         <result column="o_id" property="oId" jdbcType="VARCHAR" />
+         <result column="pc_name" property="pcName" jdbcType="VARCHAR" />
+         <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+         <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+         <result column="tt_check_id" property="ttCheckId" jdbcType="BIGINT" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="valid" property="valid" jdbcType="BIGINT" />
+         <result column="ar_id" property="arId" jdbcType="VARCHAR" />
+         <result column="tt_obj_name" property="ttObjName" jdbcType="VARCHAR" />
+         <result column="tt_check_time" property="ttCheckTime" jdbcType="BIGINT" />
+         <result column="tt_start_time" property="ttStartTime" jdbcType="BIGINT" />
+         <result column="pc_id" property="pcId" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="tt_check_name" property="ttCheckName" jdbcType="VARCHAR" />
+         <result column="tp_id" property="tpId" jdbcType="VARCHAR" />
+         <result column="tt_name" property="ttName" jdbcType="VARCHAR" />
+  </resultMap>
+	<resultMap id="TaskResultVoMap" type="com.sgai.property.quality.vo.TaskResultVo" >
+		<id column="id" property="ttId" jdbcType="BIGINT" />
+		<result column="tt_name" property="ttName" jdbcType="VARCHAR" />
+		<result column="pc_id" property="pcId" jdbcType="VARCHAR" />
+		<result column="pc_name" property="pcName" jdbcType="VARCHAR" />
+		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+		<result column="tt_status" property="ttStatus" jdbcType="TINYINT" />
+		<result column="tt_submit_name" property="ttSubmitName" jdbcType="VARCHAR" />
+		<result column="tt_submit_time" property="ttSubmitTime" jdbcType="BIGINT" />
+		<result column="create_time" property="createTime" jdbcType="BIGINT" />
+	</resultMap>
+  <sql id="baseColumns">
+       created_dt
+       ,t_id
+       ,tp_name
+       ,created_by
+       ,create_time
+       ,tt_icon
+       ,tt_submit_id
+       ,tt_status
+       ,create_ei_id
+       ,tt_submit_time
+       ,tt_submit_name
+       ,tt_finish_time
+       ,create_name
+       ,version
+       ,com_id
+       ,o_id
+       ,pc_name
+       ,id
+       ,updated_dt
+       ,update_time
+       ,tt_check_id
+       ,remarks
+       ,valid
+       ,ar_id
+       ,tt_obj_name
+       ,tt_check_time
+       ,tt_start_time
+       ,pc_id
+       ,updated_by
+       ,tt_check_name
+       ,tp_id
+       ,tt_name
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="tId != null">
+			and t_id=#{tId}
+		 </if> 
+       <if test="tpName != null">
+			and tp_name=#{tpName}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="createTime != null">
+			and create_time=#{createTime}
+		 </if> 
+       <if test="ttIcon != null">
+			and tt_icon=#{ttIcon}
+		 </if> 
+       <if test="ttSubmitId != null">
+			and tt_submit_id=#{ttSubmitId}
+		 </if> 
+       <if test="ttStatus != null">
+			and tt_status=#{ttStatus}
+		 </if> 
+       <if test="createEiId != null">
+			and create_ei_id=#{createEiId}
+		 </if> 
+       <if test="ttSubmitTime != null">
+			and tt_submit_time=#{ttSubmitTime}
+		 </if> 
+       <if test="ttSubmitName != null">
+			and tt_submit_name=#{ttSubmitName}
+		 </if> 
+       <if test="ttFinishTime != null">
+			and tt_finish_time=#{ttFinishTime}
+		 </if> 
+       <if test="createName != null">
+			and create_name=#{createName}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="comId != null">
+			and com_id=#{comId}
+		 </if> 
+       <if test="oId != null">
+			and o_id=#{oId}
+		 </if> 
+       <if test="pcName != null">
+			and pc_name=#{pcName}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="updateTime != null">
+			and update_time=#{updateTime}
+		 </if> 
+       <if test="ttCheckId != null">
+			and tt_check_id=#{ttCheckId}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="valid != null">
+			and valid=#{valid}
+		 </if> 
+       <if test="arId != null">
+			and ar_id=#{arId}
+		 </if> 
+       <if test="ttObjName != null">
+			and tt_obj_name=#{ttObjName}
+		 </if> 
+       <if test="ttCheckTime != null">
+			and tt_check_time=#{ttCheckTime}
+		 </if> 
+       <if test="ttStartTime != null">
+			and tt_start_time=#{ttStartTime}
+		 </if> 
+       <if test="pcId != null">
+			and pc_id=#{pcId}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="ttCheckName != null">
+			and tt_check_name=#{ttCheckName}
+		 </if> 
+       <if test="tpId != null">
+			and tp_id=#{tpId}
+		 </if> 
+       <!--<if test="ttName != null">-->
+			<!--and tt_name=#{ttName}-->
+		 <!--</if>-->
+		 <if test="ttName != null and ttName !='' ">
+			 and tt_name like '%'||#{ttName}||'%'
+		 </if>
+      </trim>
+  </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from qt_test_task  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_test_task  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from qt_test_task  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.quality.entity.QtTestTask">
+		select <include refid="baseColumns"/> from
+       qt_test_task  where   <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_test_task
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.quality.entity.QtTestTask" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_test_task where   <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.quality.entity.QtTestTask" resultType="java.lang.Integer">
+           select count(1) from qt_test_task where   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.quality.entity.QtTestTask">
+      insert into qt_test_task 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="tId != null">
+				   t_id,
+			 </if> 
+          <if test="tpName != null">
+				   tp_name,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="createTime != null">
+				   create_time,
+			 </if> 
+          <if test="ttIcon != null">
+				   tt_icon,
+			 </if> 
+          <if test="ttSubmitId != null">
+				   tt_submit_id,
+			 </if> 
+          <if test="ttStatus != null">
+				   tt_status,
+			 </if> 
+          <if test="createEiId != null">
+				   create_ei_id,
+			 </if> 
+          <if test="ttSubmitTime != null">
+				   tt_submit_time,
+			 </if> 
+          <if test="ttSubmitName != null">
+				   tt_submit_name,
+			 </if> 
+          <if test="ttFinishTime != null">
+				   tt_finish_time,
+			 </if> 
+          <if test="createName != null">
+				   create_name,
+			 </if> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="comId != null">
+				   com_id,
+			 </if> 
+          <if test="oId != null">
+				   o_id,
+			 </if> 
+          <if test="pcName != null">
+				   pc_name,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="updateTime != null">
+				   update_time,
+			 </if> 
+          <if test="ttCheckId != null">
+				   tt_check_id,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+          <if test="valid != null">
+				   valid,
+			 </if> 
+          <if test="arId != null">
+				   ar_id,
+			 </if> 
+          <if test="ttObjName != null">
+				   tt_obj_name,
+			 </if> 
+          <if test="ttCheckTime != null">
+				   tt_check_time,
+			 </if> 
+          <if test="ttStartTime != null">
+				   tt_start_time,
+			 </if> 
+          <if test="pcId != null">
+				   pc_id,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="ttCheckName != null">
+				   tt_check_name,
+			 </if> 
+          <if test="tpId != null">
+				   tp_id,
+			 </if> 
+          <if test="ttName != null">
+				   tt_name,
+			 </if> 
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="tId != null">
+				#{tId},
+			  </if>
+			  <if test="tpName != null">
+				#{tpName},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="createTime != null">
+				#{createTime},
+			  </if>
+			  <if test="ttIcon != null">
+				#{ttIcon},
+			  </if>
+			  <if test="ttSubmitId != null">
+				#{ttSubmitId},
+			  </if>
+			  <if test="ttStatus != null">
+				#{ttStatus},
+			  </if>
+			  <if test="createEiId != null">
+				#{createEiId},
+			  </if>
+			  <if test="ttSubmitTime != null">
+				#{ttSubmitTime},
+			  </if>
+			  <if test="ttSubmitName != null">
+				#{ttSubmitName},
+			  </if>
+			  <if test="ttFinishTime != null">
+				#{ttFinishTime},
+			  </if>
+			  <if test="createName != null">
+				#{createName},
+			  </if>
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="comId != null">
+				#{comId},
+			  </if>
+			  <if test="oId != null">
+				#{oId},
+			  </if>
+			  <if test="pcName != null">
+				#{pcName},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="updateTime != null">
+				#{updateTime},
+			  </if>
+			  <if test="ttCheckId != null">
+				#{ttCheckId},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			  <if test="valid != null">
+				#{valid},
+			  </if>
+			  <if test="arId != null">
+				#{arId},
+			  </if>
+			  <if test="ttObjName != null">
+				#{ttObjName},
+			  </if>
+			  <if test="ttCheckTime != null">
+				#{ttCheckTime},
+			  </if>
+			  <if test="ttStartTime != null">
+				#{ttStartTime},
+			  </if>
+			  <if test="pcId != null">
+				#{pcId},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="ttCheckName != null">
+				#{ttCheckName},
+			  </if>
+			  <if test="tpId != null">
+				#{tpId},
+			  </if>
+			  <if test="ttName != null">
+				#{ttName},
+			  </if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.quality.entity.QtTestTask">
+	   update qt_test_task  set
+	    <trim suffixOverrides="," >
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="tId != null">
+					 t_id=#{tId},
+				  </if>
+				  <if test="tpName != null">
+					 tp_name=#{tpName},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="createTime != null">
+					 create_time=#{createTime},
+				  </if>
+				  <if test="ttIcon != null">
+					 tt_icon=#{ttIcon},
+				  </if>
+				  <if test="ttSubmitId != null">
+					 tt_submit_id=#{ttSubmitId},
+				  </if>
+				  <if test="ttStatus != null">
+					 tt_status=#{ttStatus},
+				  </if>
+				  <if test="createEiId != null">
+					 create_ei_id=#{createEiId},
+				  </if>
+				  <if test="ttSubmitTime != null">
+					 tt_submit_time=#{ttSubmitTime},
+				  </if>
+				  <if test="ttSubmitName != null">
+					 tt_submit_name=#{ttSubmitName},
+				  </if>
+				  <if test="ttFinishTime != null">
+					 tt_finish_time=#{ttFinishTime},
+				  </if>
+				  <if test="createName != null">
+					 create_name=#{createName},
+				  </if>
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="comId != null">
+					 com_id=#{comId},
+				  </if>
+				  <if test="oId != null">
+					 o_id=#{oId},
+				  </if>
+				  <if test="pcName != null">
+					 pc_name=#{pcName},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="updateTime != null">
+					 update_time=#{updateTime},
+				  </if>
+				  <if test="ttCheckId != null">
+					 tt_check_id=#{ttCheckId},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				  <if test="valid != null">
+					 valid=#{valid},
+				  </if>
+				  <if test="arId != null">
+					 ar_id=#{arId},
+				  </if>
+				  <if test="ttObjName != null">
+					 tt_obj_name=#{ttObjName},
+				  </if>
+				  <if test="ttCheckTime != null">
+					 tt_check_time=#{ttCheckTime},
+				  </if>
+				  <if test="ttStartTime != null">
+					 tt_start_time=#{ttStartTime},
+				  </if>
+				  <if test="pcId != null">
+					 pc_id=#{pcId},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="ttCheckName != null">
+					 tt_check_name=#{ttCheckName},
+				  </if>
+				  <if test="tpId != null">
+					 tp_id=#{tpId},
+				  </if>
+				  <if test="ttName != null">
+					 tt_name=#{ttName},
+				  </if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.quality.entity.QtTestTask">
+        update qt_test_task  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.tId != null">
+                t_id = #{entity.tId},
+				  </if>
+				  <if test="entity.tpName != null">
+                tp_name = #{entity.tpName},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.createTime != null">
+                create_time = #{entity.createTime},
+				  </if>
+				  <if test="entity.ttIcon != null">
+                tt_icon = #{entity.ttIcon},
+				  </if>
+				  <if test="entity.ttSubmitId != null">
+                tt_submit_id = #{entity.ttSubmitId},
+				  </if>
+				  <if test="entity.ttStatus != null">
+                tt_status = #{entity.ttStatus},
+				  </if>
+				  <if test="entity.createEiId != null">
+                create_ei_id = #{entity.createEiId},
+				  </if>
+				  <if test="entity.ttSubmitTime != null">
+                tt_submit_time = #{entity.ttSubmitTime},
+				  </if>
+				  <if test="entity.ttSubmitName != null">
+                tt_submit_name = #{entity.ttSubmitName},
+				  </if>
+				  <if test="entity.ttFinishTime != null">
+                tt_finish_time = #{entity.ttFinishTime},
+				  </if>
+				  <if test="entity.createName != null">
+                create_name = #{entity.createName},
+				  </if>
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.comId != null">
+                com_id = #{entity.comId},
+				  </if>
+				  <if test="entity.oId != null">
+                o_id = #{entity.oId},
+				  </if>
+				  <if test="entity.pcName != null">
+                pc_name = #{entity.pcName},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.updateTime != null">
+                update_time = #{entity.updateTime},
+				  </if>
+				  <if test="entity.ttCheckId != null">
+                tt_check_id = #{entity.ttCheckId},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+				  <if test="entity.valid != null">
+                valid = #{entity.valid},
+				  </if>
+				  <if test="entity.arId != null">
+                ar_id = #{entity.arId},
+				  </if>
+				  <if test="entity.ttObjName != null">
+                tt_obj_name = #{entity.ttObjName},
+				  </if>
+				  <if test="entity.ttCheckTime != null">
+                tt_check_time = #{entity.ttCheckTime},
+				  </if>
+				  <if test="entity.ttStartTime != null">
+                tt_start_time = #{entity.ttStartTime},
+				  </if>
+				  <if test="entity.pcId != null">
+                pc_id = #{entity.pcId},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.ttCheckName != null">
+                tt_check_name = #{entity.ttCheckName},
+				  </if>
+				  <if test="entity.tpId != null">
+                tp_id = #{entity.tpId},
+				  </if>
+				  <if test="entity.ttName != null">
+                tt_name = #{entity.ttName},
+				  </if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from qt_test_task where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from qt_test_task where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from qt_test_task where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.quality.entity.QtTestTask">
+      delete from qt_test_task where   <include refid="whereSql"/> 
+   </delete>
+
+	<update id="updateByStatus" parameterType="Map">
+		update qt_test_task  set
+		<trim suffixOverrides="," >
+			<if test="ttName != null">
+				tt_name=#{ttName},
+			</if>
+			<if test="tpId != null">
+				tp_id=#{tpId},
+			</if>
+			<if test="tpName != null">
+				tp_name=#{tpName},
+			</if>
+			<if test="pcId != null">
+				pc_id=#{pcId},
+			</if>
+			<if test="pcName != null">
+				pc_name=#{pcName},
+			</if>
+			<if test="ttObjName != null">
+				tt_obj_name=#{ttObjName},
+			</if>
+			<if test="oId != null">
+				o_id=#{oId},
+			</if>
+			<if test="tId != null">
+				t_id=#{tId},
+			</if>
+			<if test="createEiId != null">
+				create_ei_id=#{createEiId},
+			</if>
+			<if test="createName != null">
+				create_name=#{createName},
+			</if>
+			<if test="ttStatus != null">
+				tt_status=#{ttStatus},
+			</if>
+			<if test="ttStartTime != null">
+				tt_start_time=#{ttStartTime},
+			</if>
+			<if test="ttFinishTime != null">
+				tt_finish_time=#{ttFinishTime},
+			</if>
+			<if test="ttSubmitId != null">
+				tt_submit_id=#{ttSubmitId},
+			</if>
+			<if test="arId != null">
+				ar_id=#{arId},
+			</if>
+			<if test="ttSubmitName != null">
+				tt_submit_name=#{ttSubmitName},
+			</if>
+			<if test="ttSubmitTime != null">
+				tt_submit_time=#{ttSubmitTime},
+			</if>
+			<if test="ttCheckId != null">
+				tt_check_id=#{ttCheckId},
+			</if>
+			<if test="ttCheckName != null">
+				tt_check_name=#{ttCheckName},
+			</if>
+			<if test="ttCheckTime != null">
+				tt_check_time=#{ttCheckTime},
+			</if>
+			<if test="ttIcon != null">
+				tt_icon=#{ttIcon},
+			</if>
+			<if test="createTime != null">
+				create_time=#{createTime},
+			</if>
+			<if test="updateTime != null">
+				update_time=#{updateTime},
+			</if>
+			<if test="comId != null">
+				com_id=#{comId},
+			</if>
+			<if test="valid != null">
+				valid=#{valid},
+			</if>
+		</trim>
+		where id =#{id}
+		and tt_status =#{oldStatus}
+	</update>
+
+	<select id="listTaskResult"  parameterType="com.sgai.property.quality.vo.TaskResultVo" resultMap="TaskResultVoMap">
+		select <include refid="baseColumns"/> from qt_test_task where 1=1
+		<if test="ttName != null and ttName !='' ">
+			and tt_name like '%'||#{ttName}||'%'
+		</if>
+		<if test="startDate != null or startDate == 0">
+			and create_time &gt;= #{startDate}
+		</if>
+		<if test="endDate != null">
+			and create_time &lt;= #{endDate}
+		</if>
+		<if test="comId != null and comId !=''">
+			and com_id = #{comId}
+		</if>
+		<if test="pcId != null or pcId ==0 ">
+			and pc_id = #{pcId}
+		</if>
+		<if test="valid == 0 or valid ==1 ">
+			and valid = #{valid}
+		</if>
+		<if test="page !=null and page.orderBy != null and page.orderBy != ''">
+			ORDER BY ${page.orderBy}
+		</if>
+	</select>
+
+
+	<update id="updateStatusByTime" parameterType="Long">
+			update qt_test_task  set TT_STATUS=1 WHERE TT_START_TIME &lt;= #{currentTimestamp} and  TT_STATUS=0
+	</update>
+
+</mapper>

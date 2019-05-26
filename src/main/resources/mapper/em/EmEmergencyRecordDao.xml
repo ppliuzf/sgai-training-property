@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.em.dao.EmEmergencyRecordDao">
+    
+	<sql id="emEmergencyRecordColumns">
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.em_code AS "emCode",
+		a.em_type AS "emType",
+		a.em_grade AS "emGrade",
+		a.report_person AS "reportPerson",
+		a.telphone AS "telphone",
+		a.address AS "address",
+		a.report_datetime AS "reportDatetime",
+		a.report_content AS "reportContent",
+		a.states AS "states",
+		a.operator AS "operator",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="emEmergencyRecordJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.em.entity.EmEmergencyRecord">
+		SELECT 
+			<include refid="emEmergencyRecordColumns"/>
+		FROM em_emergency_record a
+		<include refid="emEmergencyRecordJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getEmEmergencyRecord" resultType="com.sgai.property.em.entity.EmEmergencyRecord">
+		SELECT 
+			<include refid="emEmergencyRecordColumns"/>
+		FROM em_emergency_record a
+		<where>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findSkanList" resultType="com.sgai.property.em.entity.EmEmergencyRecord">
+		SELECT * FROM em_emergency_record  WHERE  states IN('2','3')
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getEmergencyCountByTime"  resultType="java.util.Map">
+    
+	    SELECT
+			COUNT (A .EM_GRADE) AS countMap
+		FROM
+			EM_EMERGENCY_RECORD A
+		<where>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sql}
+			</if>	
+		</where>
+		
+		GROUP BY
+			EM_GRADE
+		ORDER BY
+			EM_GRADE ASC;
+    </select>
+	
+	
+	
+	
+	<select id="findMainList" resultType="com.sgai.property.em.entity.EmEmergencyRecord">
+		SELECT * FROM em_emergency_record  WHERE  states NOT IN('2','3')
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<select id="findList" resultType="com.sgai.property.em.entity.EmEmergencyRecord">
+		SELECT 
+			<include refid="emEmergencyRecordColumns"/>
+		FROM em_emergency_record a
+		<include refid="emEmergencyRecordJoins"/>
+		<where>
+			AND a.states = #{states}
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+			<if test="emType != null and emType != ''">
+				AND a.em_type = #{emType}
+			</if>
+			<if test="emGrade != null and emGrade != ''">
+				AND a.em_grade = #{emGrade}
+			</if>
+			<if test="reportPerson != null and reportPerson != ''">
+				AND a.report_person = #{reportPerson}
+			</if>
+			<if test="telphone != null and telphone != ''">
+				AND a.telphone = #{telphone}
+			</if>
+			<if test="address != null and address != ''">
+				AND a.address = #{address}
+			</if>
+			<if test="reportDatetime != null and reportDatetime != ''">
+				AND a.report_datetime = #{reportDatetime}
+			</if>
+			<if test="reportContent != null and reportContent != ''">
+				AND a.report_content = #{reportContent}
+			</if>
+			<if test="states != null and states != ''">
+				AND a.states = #{states}
+			</if>
+			<if test="operator != null and operator != ''">
+				AND a.operator = #{operator}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findNextCodeEmEmergencyRecord" resultType="com.sgai.property.em.entity.EmEmergencyRecord">
+		select 'YJ'||nvl(trim(to_char(to_number(substr(max(t.em_code),instr(max(t.em_code),'YJ')+2))+1,'0000')),'0001') as emCode
+    	from em_emergency_record t
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.em.entity.EmEmergencyRecord">
+		SELECT 
+			<include refid="emEmergencyRecordColumns"/>
+		FROM em_emergency_record a
+		<include refid="emEmergencyRecordJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO em_emergency_record(
+			id,
+			com_code,
+			em_code,
+			em_type,
+			em_grade,
+			report_person,
+			telphone,
+			address,
+			report_datetime,
+			report_content,
+			states,
+			operator,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{comCode},
+			#{emCode},
+			#{emType},
+			#{emGrade},
+			#{reportPerson},
+			#{telphone},
+			#{address},
+			#{reportDatetime},
+			#{reportContent},
+			#{states},
+			#{operator},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE em_emergency_record SET 	
+			com_code = #{comCode},
+			em_code = #{emCode},
+			em_type = #{emType},
+			em_grade = #{emGrade},
+			report_person = #{reportPerson},
+			telphone = #{telphone},
+			address = #{address},
+			report_datetime = #{reportDatetime},
+			report_content = #{reportContent},
+			states = #{states},
+			operator = #{operator},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM em_emergency_record
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

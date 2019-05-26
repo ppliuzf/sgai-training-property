@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.mdm.dao.MdmBrandInfoDao">
+    
+	<sql id="mdmBrandInfoColumns">
+		a.id AS "id",
+		a.brand_code AS "brandCode",
+		a.brand_name AS "brandName",
+		a.brand_desc AS "brandDesc",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+	
+	<sql id="mdmBrandInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.mdm.entity.MdmBrandInfo">
+		SELECT 
+			<include refid="mdmBrandInfoColumns"/>
+		FROM mdm_brand_info a
+		<include refid="mdmBrandInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.mdm.entity.MdmBrandInfo">
+		SELECT 
+			<include refid="mdmBrandInfoColumns"/>
+		FROM mdm_brand_info a
+		<include refid="mdmBrandInfoJoins"/>
+		<where>
+			
+			<if test="brandCode != null and brandCode != ''">
+				AND a.brand_code = #{brandCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="brandName != null and brandName != ''">
+				AND a.brand_name like '%${brandName}%'
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="createdDt != null and createdDt != ''">
+				AND a.created_dt = #{createdDt}
+			</if>
+			<if test="createdBy != null and createdBy != ''">
+				AND a.created_by = #{createdBy}
+			</if>
+		</where>
+		ORDER BY CREATED_BY DESC
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.mdm.entity.MdmBrandInfo">
+		SELECT 
+			<include refid="mdmBrandInfoColumns"/>
+		FROM mdm_brand_info a
+		<include refid="mdmBrandInfoJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mdm_brand_info(
+			id,
+			brand_code,
+			brand_name,
+			brand_desc,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{brandCode},
+			#{brandName},
+			#{brandDesc},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mdm_brand_info SET 	
+			brand_code = #{brandCode},
+			brand_name = #{brandName},
+			brand_desc = #{brandDesc},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM mdm_brand_info
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

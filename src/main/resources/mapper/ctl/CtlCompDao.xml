@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlCompDao">
+    
+	<sql id="ctlCompColumns">
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.com_name AS "comName",
+		a.dummy_flag AS "dummyFlag",
+		a.enabled_flag AS "enabledFlag",
+		a.com_name_abbr AS "comNameAbbr",
+		a.com_addr AS "comAddr",
+		a.zip AS "zip",
+		a.tel AS "tel",
+		a.fax AS "fax",
+		a.email AS "email",
+		a.url AS "url",
+		a.bank AS "bank",
+		a.acct AS "acct",
+		a.lp AS "lp",
+		a.com_resp AS "comResp",
+		a.remark AS "remark",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		b.BUSI_CODE  as "busiCode"
+	</sql>
+	
+	<sql id="ctlCompJoins">
+	  LEFT JOIN   CTL_COMP_BUSI  b on  a.COM_CODE = b.COM_CODE
+	</sql>
+    
+	<select id="get" resultType="CtlComp">
+		SELECT 
+			<include refid="ctlCompColumns"/>
+		FROM ctl_comp a
+		<include refid="ctlCompJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getComp" resultType="CtlComp">
+		SELECT 
+			<include refid="ctlCompColumns"/>
+		FROM ctl_comp a
+		<include refid="ctlCompJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findList" resultType="CtlComp">
+		SELECT 
+			<include refid="ctlCompColumns"/>
+		FROM ctl_comp a
+		<include refid="ctlCompJoins"/>
+		<where>
+			<if test="comName != null and comName != ''">
+				AND a.com_name like '%${comName}%'
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+		</where>
+		ORDER BY a.updated_dt DESC,a.CREATED_DT DESC
+	</select>
+	
+	<select id="findAllList" resultType="CtlComp">
+		SELECT 
+			<include refid="ctlCompColumns"/>
+		FROM ctl_comp a
+		<include refid="ctlCompJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code like '%${comCode}%'
+			</if>
+			<if test="comName != null and comName != ''">
+				AND a.com_name like '%${comName}%'
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ctl_comp(
+			id,
+			com_code,
+			com_name,
+			dummy_flag,
+			enabled_flag,
+			com_name_abbr,
+			com_addr,
+			zip,
+			tel,
+			fax,
+			email,
+			url,
+			bank,
+			acct,
+			lp,
+			com_resp,
+			remark,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{comCode},
+			#{comName},
+			#{dummyFlag},
+			#{enabledFlag},
+			#{comNameAbbr},
+			#{comAddr},
+			#{zip},
+			#{tel},
+			#{fax},
+			#{email},
+			#{url},
+			#{bank},
+			#{acct},
+			#{lp},
+			#{comResp},
+			#{remark},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_comp SET 	
+			com_code = #{comCode},
+			com_name = #{comName},
+			dummy_flag = #{dummyFlag},
+			enabled_flag = #{enabledFlag},
+			com_name_abbr = #{comNameAbbr},
+			com_addr = #{comAddr},
+			zip = #{zip},
+			tel = #{tel},
+			fax = #{fax},
+			email = #{email},
+			url = #{url},
+			bank = #{bank},
+			acct = #{acct},
+			lp = #{lp},
+			com_resp = #{comResp},
+			remark = #{remark},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_comp
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

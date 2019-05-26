@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.mdm.dao.MdmDevicesModelDao">
+    
+	<sql id="mdmDevicesModelColumns">
+		a.id AS "id",
+		a.brand_code AS "brandCode",
+		a.brand_name AS "brandName",
+		a.model_code AS "modelCode",
+		a.devices_model AS "devicesModel",
+		a.power_requ AS "powerRequ",
+		a.voltage AS "voltage",
+		a.power AS "power",
+		a.consumption AS "consumption",
+		a.run_time AS "runTime",
+		a.service_life AS "serviceLife",
+		a.class_code AS "classCode",
+		a.class_name AS "className",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		com_code AS "comCode",
+		modu_code AS "moduCode"
+	</sql>
+	
+	<sql id="mdmDevicesModelJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.mdm.entity.MdmDevicesModel">
+		SELECT 
+			A .*, 
+			b.prof_name AS "className"
+			FROM mdm_devices_model A
+			LEFT   JOIN MDM_DEVICE_CLASS b ON A .CLASS_CODE = b.CLASS_CODE AND A.COM_CODE = B.COM_CODE
+			<where>
+				A .CLASS_CODE = (
+					SELECT
+					CLASS_CODE
+				FROM
+			mdm_devices_model A
+					WHERE
+					A. ID = #{id}
+			) 		 AND A.ID = #{id}
+			
+			</where>			
+
+	</select>
+	<select id="getDevicesModelVo" resultType="com.sgai.property.mdm.dto.MdmDevicesModelVo">
+		SELECT 
+		A.id AS "id",
+		A.brand_code AS "brandCode",
+		A.brand_name AS "brandName",
+		A.model_code AS "modelCode",
+		A.devices_model AS "devicesModel",
+		A.power_requ AS "powerRequ",
+		A.voltage AS "voltage",
+		A.power AS "power",
+		A.consumption AS "consumption",
+		A.run_time AS "runTime",
+		A.service_life AS "serviceLife",
+		A.class_code AS "classCode",
+		A.class_name AS "className",
+		A.enabled_flag AS "enabledFlag",
+		B.prof_name AS "profName",
+		B.PROF_CODE AS "profcode"
+		
+		FROM mdm_devices_model A
+		LEFT   JOIN MDM_DEVICE_CLASS B ON A .CLASS_CODE = B.CLASS_CODE AND A.COM_CODE = B.COM_CODE
+			<where>
+				A .CLASS_CODE = (
+					SELECT
+					CLASS_CODE
+				FROM
+			mdm_devices_model A
+					WHERE
+					A. ID = #{id}
+			) 		 AND A.ID = #{id}
+			
+			</where>			
+
+	</select>
+	<select id="getDevicesModel" resultType="com.sgai.property.mdm.entity.MdmDevicesModel">
+		SELECT 
+			<include refid="mdmDevicesModelColumns"/>
+		FROM mdm_devices_model a
+		<include refid="mdmDevicesModelJoins"/>
+		<where>
+			<if test="modelCode != null and modelCode != ''">
+				AND a.model_code = #{modelCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.mdm.entity.MdmDevicesModel">
+		SELECT 
+			<include refid="mdmDevicesModelColumns"/>
+		FROM mdm_devices_model a
+		<include refid="mdmDevicesModelJoins"/>
+		<where>
+			
+			<if test="brandCode != null and brandCode != ''">
+				AND a.brand_code = #{brandCode}
+			</if>
+			<if test="brandName != null and brandName != ''">
+				AND a.brand_name like '%${brandName}%'
+			</if>
+			<if test="modelCode != null and modelCode != ''">
+				AND a.model_code = #{modelCode}
+			</if>
+			<if test="devicesModel != null and devicesModel != ''">
+				AND a.devices_model like '%${devicesModel}%'
+			</if>
+			<if test="classCode != null and classCode != ''">
+				AND a.class_code = #{classCode}
+			</if>
+			<if test="className != null and className != ''">
+				AND a.class_name like '%${className}%'
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="createdDt != null and createdDt != ''">
+				AND a.created_dt = #{createdDt}
+			</if>
+			<if test="createdBy != null and createdBy != ''">
+				AND a.created_by = #{createdBy}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		ORDER BY UPDATED_DT DESC
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.mdm.entity.MdmDevicesModel">
+		SELECT 
+			<include refid="mdmDevicesModelColumns"/>
+		FROM mdm_devices_model a
+		<include refid="mdmDevicesModelJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mdm_devices_model(
+			id,
+			brand_code,
+			brand_name,
+			model_code,
+			devices_model,
+			power_requ,
+			voltage,
+			power,
+			consumption,
+			run_time,
+			service_life,
+			class_code,
+			class_name,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{brandCode},
+			#{brandName},
+			#{modelCode},
+			#{devicesModel},
+			#{powerRequ},
+			#{voltage},
+			#{power},
+			#{consumption},
+			#{runTime},
+			#{serviceLife},
+			#{classCode},
+			#{className},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mdm_devices_model SET 	
+			brand_code = #{brandCode},
+			brand_name = #{brandName},
+			model_code = #{modelCode},
+			devices_model = #{devicesModel},
+			power_requ = #{powerRequ},
+			voltage = #{voltage},
+			power = #{power},
+			consumption = #{consumption},
+			run_time = #{runTime},
+			service_life = #{serviceLife},
+			class_code = #{classCode},
+			class_name = #{className},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM mdm_devices_model
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,1047 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.car.dao.ICarUserRelationInfoDao">
+    <resultMap id="BaseResultMap" type="com.sgai.property.car.entity.CarUserRelationInfo">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="ri_apply_name" property="riApplyName" jdbcType="VARCHAR"/>
+        <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP"/>
+        <result column="ri_audit_id" property="riAuditId" jdbcType="VARCHAR"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="ri_is_delete" property="riIsDelete" jdbcType="BIGINT"/>
+        <result column="ri_user_phone" property="riUserPhone" jdbcType="VARCHAR"/>
+        <result column="ri_audit_name" property="riAuditName" jdbcType="VARCHAR"/>
+        <result column="ri_apply_id" property="riApplyId" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="BIGINT"/>
+        <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP"/>
+        <result column="ri_use_purpose" property="riUsePurpose" jdbcType="VARCHAR"/>
+        <result column="ri_car_id" property="riCarId" jdbcType="VARCHAR"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="ri_use_times" property="riUseTimes" jdbcType="VARCHAR"/>
+        <result column="ri_use_end" property="riUseEnd" jdbcType="BIGINT"/>
+        <result column="ri_audit_time" property="riAuditTime" jdbcType="BIGINT"/>
+        <result column="ri_audit_name1" property="riAuditName1" jdbcType="VARCHAR"/>
+        <result column="ri_use_start" property="riUseStart" jdbcType="BIGINT"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="ri_audit_status" property="riAuditStatus" jdbcType="BIGINT"/>
+        <result column="ri_user_name" property="riUserName" jdbcType="VARCHAR"/>
+        <result column="journey_amount" property="journeyAmount" jdbcType="VARCHAR"/>
+        <result column="end_journey" property="endJourney" jdbcType="VARCHAR"/>
+        <result column="start_journey" property="startJourney" jdbcType="VARCHAR"/>
+        <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+        <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+		<result column="last_journey" property="lastJourney" jdbcType="BIGINT" />
+    </resultMap>
+
+    <sql id="baseColumnsName">
+		curi.ri_apply_name
+		,curi.created_dt
+		,curi.ri_audit_id
+		,curi.created_by
+		,curi.ri_is_delete
+		,curi.ri_user_phone
+		,curi.ri_audit_name
+		,curi.ri_apply_id
+		,curi.version
+		,curi.updated_dt
+		,curi.ri_use_purpose
+		,curi.ri_car_id
+		,curi.id
+		,curi.remarks
+		,curi.ri_use_times
+		,curi.ri_use_end
+		,curi.ri_audit_name1
+		,curi.ri_use_start
+		,curi.updated_by
+		,curi.ri_audit_status
+		,curi.ri_user_name
+		,curi.ri_audit_time
+		,curi.journey_amount
+        ,curi.end_journey
+        ,curi.start_journey
+        ,curi.last_journey
+	</sql>
+    <sql id="baseColumnsNameUnionCar">
+		curi.ri_apply_name
+		,curi.created_dt
+		,curi.ri_audit_id
+		,curi.created_by
+		,curi.ri_is_delete
+		,curi.ri_user_phone
+		,curi.ri_audit_name
+		,curi.ri_apply_id
+		,curi.version
+		,curi.updated_dt
+		,curi.ri_use_purpose
+		,curi.ri_car_id
+		,curi.id
+		,curi.remarks
+		,curi.ri_use_times
+		,curi.ri_use_end
+		,curi.ri_audit_name1
+		,curi.ri_use_start
+		,curi.updated_by
+		,curi.ri_audit_status
+		,curi.ri_user_name
+		,curi.ri_audit_time
+		,curi.journey_amount
+        ,curi.end_journey
+        ,curi.start_journey
+        ,curi.last_journey
+		,ci.ci_brand
+		,ci.ci_number
+		,ci.ci_department_id
+		,ci.ci_department
+		,ci.ci_owner_name
+		,ci.ci_owner_phone
+		,ci.ci_displacement
+		,ci.ci_engine_number
+		,ci.ci_color
+		,ci.ci_box_type_id
+		,ci.ci_box_type_name
+		,ci.ci_load_number
+		,ci.ci_buy_date
+		,ci.ci_model
+		,ci.ci_type_id
+		,ci.ci_type_name
+		,ci.ci_image
+	</sql>
+
+    <sql id="baseColumns">
+       ri_apply_name
+       ,created_dt
+       ,ri_audit_id
+       ,created_by
+       ,ri_is_delete
+       ,ri_user_phone
+       ,ri_audit_name
+       ,ri_apply_id
+       ,version
+       ,updated_dt
+       ,ri_use_purpose
+       ,ri_car_id
+       ,id
+       ,remarks
+       ,ri_use_times
+       ,ri_use_end
+       ,ri_audit_name1
+       ,ri_use_start
+       ,updated_by
+       ,ri_audit_status
+       ,ri_user_name
+       ,ri_audit_time
+       ,com_code
+       ,modu_code
+       ,journey_amount
+       ,end_journey
+       ,start_journey
+       ,last_journey
+  </sql>
+
+    <sql id="whereSql">
+        <trim prefixOverrides="AND | OR">
+            <if test="riApplyName != null">
+                and ri_apply_name=#{riApplyName}
+            </if>
+            <if test="createdDt != null">
+                and created_dt=#{createdDt}
+            </if>
+            <if test="riAuditId != null">
+                and ri_audit_id=#{riAuditId}
+            </if>
+            <if test="createdBy != null">
+                and created_by=#{createdBy}
+            </if>
+            <if test="riIsDelete != null">
+                and ri_is_delete=#{riIsDelete}
+            </if>
+            <if test="riUserPhone != null">
+                and ri_user_phone=#{riUserPhone}
+            </if>
+            <if test="riAuditName != null">
+                and ri_audit_name=#{riAuditName}
+            </if>
+            <if test="riApplyId != null">
+                and ri_apply_id=#{riApplyId}
+            </if>
+            <if test="version != null">
+                and version=#{version}
+            </if>
+            <if test="updatedDt != null">
+                and updated_dt=#{updatedDt}
+            </if>
+            <if test="riUsePurpose != null">
+                and ri_use_purpose=#{riUsePurpose}
+            </if>
+            <if test="riCarId != null">
+                and ri_car_id=#{riCarId}
+            </if>
+            <if test="id != null">
+                and id=#{id}
+            </if>
+            <if test="remarks != null">
+                and remarks=#{remarks}
+            </if>
+            <if test="riUseTimes != null">
+                and ri_use_times=#{riUseTimes}
+            </if>
+            <if test="riUseEnd != null">
+                and ri_use_end=#{riUseEnd}
+            </if>
+            <if test="riAuditName1 != null">
+                and ri_audit_name1=#{riAuditName1}
+            </if>
+            <if test="riUseStart != null">
+                and ri_use_start=#{riUseStart}
+            </if>
+            <if test="updatedBy != null">
+                and updated_by=#{updatedBy}
+            </if>
+            <if test="riAuditStatus != null">
+                and ri_audit_status=#{riAuditStatus}
+            </if>
+            <if test="riUserName != null">
+                and ri_user_name=#{riUserName}
+            </if>
+            <if test="comCode != null and comCode != ''">
+                AND com_code = #{comCode}
+            </if>
+            <if test="moduCode != null and moduCode != ''">
+                AND modu_code = #{moduCode}
+            </if>
+            <if test="moduCode == null or moduCode == ''">
+                AND modu_code is null
+            </if>
+
+			<if test="journeyAmount != null">
+				and journey_amount=#{journeyAmount}
+			</if>
+			<if test="endJourney != null">
+				and end_journey=#{endJourney}
+			</if>
+			<if test="startJourney != null">
+				and start_journey=#{startJourney}
+			</if>
+			<if test="lastJourney != null">
+				and last_journey=#{lastJourney}
+			</if>
+        </trim>
+    </sql>
+    <sql id="whereSql2">
+        <trim prefixOverrides="AND | OR">
+            <if test="riApplyName != null">
+                and curi.ri_apply_name=#{riApplyName}
+            </if>
+            <if test="createdDt != null">
+                and curi.created_dt=#{createdDt}
+            </if>
+            <if test="riAuditId != null">
+                and curi.ri_audit_id=#{riAuditId}
+            </if>
+            <if test="createdBy != null">
+                and curi.created_by=#{createdBy}
+            </if>
+            <if test="riIsDelete != null">
+                and curi.ri_is_delete=#{riIsDelete}
+            </if>
+            <if test="riUserPhone != null">
+                and curi.ri_user_phone=#{riUserPhone}
+            </if>
+            <if test="riAuditName != null">
+                and curi.ri_audit_name=#{riAuditName}
+            </if>
+            <if test="riApplyId != null">
+                and curi.ri_apply_id=#{riApplyId}
+            </if>
+            <if test="version != null">
+                and curi.version=#{version}
+            </if>
+            <if test="updatedDt != null">
+                and curi.updated_dt=#{updatedDt}
+            </if>
+            <if test="riUsePurpose != null">
+                and curi.ri_use_purpose=#{riUsePurpose}
+            </if>
+            <if test="riCarId != null">
+                and curi.ri_car_id=#{riCarId}
+            </if>
+            <if test="id != null">
+                and curi.id=#{id}
+            </if>
+            <if test="remarks != null">
+                and curi.remarks=#{remarks}
+            </if>
+            <if test="riUseTimes != null">
+                and curi.ri_use_times=#{riUseTimes}
+            </if>
+            <if test="riUseEnd != null">
+                and curi.ri_use_end=#{riUseEnd}
+            </if>
+            <if test="riAuditName1 != null">
+                and curi.ri_audit_name1=#{riAuditName1}
+            </if>
+            <if test="riUseStart != null">
+                and curi.ri_use_start=#{riUseStart}
+            </if>
+            <if test="updatedBy != null">
+                and curi.updated_by=#{updatedBy}
+            </if>
+            <if test="riAuditStatus != null">
+                and curi.ri_audit_status=#{riAuditStatus}
+            </if>
+            <if test="riUserName != null">
+                and curi.ri_user_name=#{riUserName}
+            </if>
+            <if test="ciNumber != null">
+                and ci.ci_number LIKE '%'||#{ciNumber}||'%'
+            </if>
+
+			<if test="journeyAmount != null">
+				and curi.journey_amount=#{journeyAmount}
+			</if>
+			<if test="endJourney != null">
+				and curi.end_journey=#{endJourney}
+			</if>
+			<if test="startJourney != null">
+				and curi.start_journey=#{startJourney}
+			</if>
+			<if test="lastJourney != null">
+				and curi.last_journey=#{lastJourney}
+			</if>
+        </trim>
+    </sql>
+    <sql id="whereSql3">
+        <trim prefixOverrides="AND | OR">
+            <if test="riApplyName != null">
+                and curi.ri_apply_name=#{riApplyName}
+            </if>
+
+            <if test="riAuditId != null">
+                and curi.ri_audit_id=#{riAuditId}
+            </if>
+            <if test="riUserPhone != null">
+                and curi.ri_user_phone=#{riUserPhone}
+            </if>
+            <if test="riAuditName != null">
+                and curi.ri_audit_name=#{riAuditName}
+            </if>
+            <if test="riApplyId != null">
+                and curi.ri_apply_id=#{riApplyId}
+            </if>
+
+            <if test="riUsePurpose != null">
+                and curi.ri_use_purpose=#{riUsePurpose}
+            </if>
+            <if test="riCarId != null">
+                and curi.ri_car_id=#{riCarId}
+            </if>
+            <if test="id != null">
+                and curi.id=#{id}
+            </if>
+            <if test="riAuditName1 != null">
+                and curi.ri_audit_name1=#{riAuditName1}
+            </if>
+            <if test="riUseStart != null">
+                and curi.ri_use_start between #{riUseStart} and #{riUseEnd}
+            </if>
+            <if test="riAuditStatus != null">
+                and curi.ri_audit_status=#{riAuditStatus}
+            </if>
+            <if test='riUserName != null and riUserName != "" '>
+                and curi.ri_user_name LIKE '%'||#{riUserName}||'%'
+            </if>
+            <if test="ciNumber != null">
+                and ci.ci_number LIKE '%'||#{ciNumber}||'%'
+            </if>
+            <if test="comCode != null and comCode != ''">
+                AND curi.com_code = #{comCode}
+            </if>
+            <if test="moduCode != null and moduCode != ''">
+                AND curi.modu_code = #{moduCode}
+            </if>
+            <if test="moduCode == null or moduCode == ''">
+                AND curi.modu_code is null
+            </if>
+			<if test="journeyAmount != null">
+				and curi.journey_amount=#{journeyAmount}
+			</if>
+			<if test="endJourney != null">
+				and curi.end_journey=#{endJourney}
+			</if>
+			<if test="startJourney != null">
+				and curi.start_journey=#{startJourney}
+			</if>
+			<if test="lastJourney != null">
+				and curi.last_journey=#{lastJourney}
+			</if>
+        </trim>
+    </sql>
+    <select id="getById" resultMap="BaseResultMap">
+        select
+        DISTINCT
+        <include refid="baseColumns"/>
+        from CAR_USER_RELATION_INFO where id =#{id}
+    </select>
+
+    <select id="getByIds" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CAR_USER_RELATION_INFO where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="getByListId">
+        select
+        <include refid="baseColumns"/>
+        from CAR_USER_RELATION_INFO where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+
+    <!--查询时间段内是否有预约信息-->
+    <select id="findRelation" parameterType="com.sgai.property.car.entity.CarUserRelationInfo" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CAR_USER_RELATION_INFO
+        <where>
+            <if test="riCarId != null">
+                and ri_car_id=#{riCarId}
+            </if>
+            and ri_is_delete = 0
+            and ( (#{riUseStart} >= ri_use_start and ri_use_end > #{riUseEnd} ) OR (#{riUseStart} >= ri_use_start and
+            ri_use_end = 0))
+            and ri_audit_status != 3
+            <if test="comCode != null and comCode != ''">
+                AND com_code = #{comCode}
+            </if>
+            <if test="moduCode != null and moduCode != ''">
+                AND modu_code = #{moduCode}
+            </if>
+            <if test="moduCode == null or moduCode == ''">
+                AND modu_code is null
+            </if>
+        </where>
+    </select>
+    <select id="findAllList" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CAR_USER_RELATION_INFO
+    </select>
+    <!--我的审核 PC端 现在是默认查询 所有的预约记录-->
+    <select id="findListPageByAuditStatus" parameterType="com.sgai.property.car.vo.CarUserRelationInfoVo"
+            resultType="com.sgai.property.car.vo.CarUserRelationInfoVo">
+        select<include refid="baseColumnsName"/>,ci.ci_number,ci.ci_department,ci.ci_image from CAR_USER_RELATION_INFO
+        curi
+        LEFT JOIN CAR_INFO ci
+        ON ci.id=curi.ri_car_id
+        <!--AND curi.ri_is_delete = 0
+        AND ci.ci_is_delete = 0-->
+        AND ci.ci_status = 0
+        <where>
+            <if test="ciNumber != null">
+                and ci.ci_number LIKE '%'||#{ciNumber}||'%'
+            </if>
+            <if test="riIsDelete != null">
+                and curi.ri_is_delete=#{riIsDelete}
+            </if>
+            <if test="comCode != null and comCode != ''">
+                AND curi.com_code = #{comCode}
+            </if>
+            <if test="moduCode != null and moduCode != ''">
+                AND curi.modu_code = #{moduCode}
+            </if>
+            <if test="moduCode == null or moduCode == ''">
+                AND curi.modu_code is null
+            </if>
+        </where>
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy} desc
+        </if>
+    </select>
+    <!--我的审核app端-->
+    <select id="findListPageByAuditStatusForApp" parameterType="com.sgai.property.car.vo.CarUserRelationInfoVo"
+            resultType="com.sgai.property.car.vo.CarUserRelationInfoVo">
+        select
+        <include refid="baseColumnsNameUnionCar"/>
+        from CAR_USER_RELATION_INFO curi
+        LEFT JOIN CAR_INFO ci
+        ON ci.id=curi.ri_car_id
+        <where>
+
+            <if test="riAuditStatus == 0">
+                and curi.ri_audit_status =1
+            </if>
+            <if test="riAuditStatus == 1">
+                and curi.ri_audit_status in(2,3,4,5)
+            </if>
+            <if test="condition != null">
+                and ci.ci_number LIKE '%'||#{condition}||'%'
+            </if>
+            <if test="comCode != null and comCode != ''">
+                AND curi.com_code = #{comCode}
+            </if>
+            <if test="moduCode != null and moduCode != ''">
+                AND curi.modu_code = #{moduCode}
+            </if>
+            <if test="moduCode == null or moduCode == ''">
+                AND curi.modu_code is null
+            </if>
+
+            AND curi.ri_is_delete = 0
+        </where>
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy} desc
+        </if>
+
+    </select>
+
+    <select id="findListNew" parameterType="com.sgai.property.car.entity.CarUserRelationInfo" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CAR_USER_RELATION_INFO
+        <where>
+            <if test="riIsDelete != null">
+                and ri_is_delete=#{riIsDelete}
+            </if>
+            <if test="riCarId != null">
+                and ri_car_id=#{riCarId}
+            </if>
+            and ri_audit_status in(2,4,5)
+        </where>
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy} desc
+        </if>
+    </select>
+    <select id="findList" parameterType="com.sgai.property.car.entity.CarUserRelationInfo" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CAR_USER_RELATION_INFO
+        <where>
+            <include refid="whereSql"/>
+        </where>
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy} desc
+        </if>
+    </select>
+    <select id="findListInnerCarInfo" parameterType="com.sgai.property.car.vo.CarUserRelationInfoVo"
+            resultType="com.sgai.property.car.vo.CarUserRelationInfoVo">
+        select
+        <include refid="baseColumnsNameUnionCar"/>
+        from CAR_USER_RELATION_INFO curi
+        LEFT JOIN CAR_INFO ci
+        ON curi.ri_car_id = ci.id
+        AND ci.ci_status=0
+        <where>
+            <include refid="whereSql3"/>
+            and curi.ri_is_delete=0
+        </where>
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy} desc
+        </if>
+    </select>
+    <!--我的预约 APP端-->
+    <select id="findListInnerCarInfoForAPP" parameterType="com.sgai.property.car.vo.CarUserRelationInfoVo"
+            resultType="com.sgai.property.car.vo.CarUserRelationInfoVo">
+        select
+        <include refid="baseColumnsNameUnionCar"/>
+        from CAR_USER_RELATION_INFO curi
+        LEFT JOIN CAR_INFO ci
+        ON curi.ri_car_id = ci.id
+        AND ci.ci_status=0
+        <where>
+
+            <if test="riAuditId != null">
+                and curi.ri_audit_id=#{riAuditId}
+            </if>
+
+            <if test="riApplyId != null">
+                and curi.ri_apply_id=#{riApplyId}
+            </if>
+
+            <if test="riCarId != null">
+                and curi.ri_car_id=#{riCarId}
+            </if>
+            <if test="id != null">
+                and curi.id=#{id}
+            </if>
+
+            <if test="riAuditStatus == 1">
+                and curi.ri_audit_status=#{riAuditStatus}
+            </if>
+            <if test="riAuditStatus == 2">
+                and curi.ri_audit_status=#{riAuditStatus}
+            </if>
+            <if test="riAuditStatus == 3">
+                and curi.ri_audit_status=#{riAuditStatus}
+            </if>
+            <if test="riAuditStatus == 4">
+                and curi.ri_audit_status in(4,5)
+            </if>
+            <if test="ciNumber != null">
+                and ci.ci_number LIKE '%'||#{ciNumber}||'%'
+            </if>
+            <if test="riIsDelete != null">
+                and curi.ri_is_delete=#{riIsDelete}
+            </if>
+            <if test="condition != null">
+                and ci.ci_number LIKE '%'||#{condition}||'%'
+            </if>
+            <if test="comCode != null and comCode != ''">
+                AND curi.com_code = #{comCode}
+            </if>
+            <if test="moduCode != null and moduCode != ''">
+                AND curi.modu_code = #{moduCode}
+            </if>
+            <if test="moduCode == null or moduCode == ''">
+                AND curi.modu_code is null
+            </if>
+
+			<if test="journeyAmount != null">
+				and curi.journey_amount=#{journeyAmount}
+			</if>
+			<if test="endJourney != null">
+				and curi.end_journey=#{endJourney}
+			</if>
+			<if test="startJourney != null">
+				and curi.start_journey=#{startJourney}
+			</if>
+			<if test="lastJourney != null">
+				and curi.last_journey=#{lastJourney}
+			</if>
+        </where>
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy} desc
+        </if>
+    </select>
+    <!--pc/app端的我的预约和我的审核详情-->
+    <select id="detailCarUserRelationInfo" parameterType="java.lang.String"
+            resultType="com.sgai.property.car.vo.CarUserRelationInfoVo">
+        select
+        <include refid="baseColumnsNameUnionCar"/>
+        from CAR_USER_RELATION_INFO curi
+        LEFT JOIN CAR_INFO ci
+        ON curi.ri_car_id = ci.id
+        <where>
+            and curi.id=#{id}
+        </where>
+    </select>
+    <!--我已提交状态的预约申请个数-->
+    <select id="getApplyCount" parameterType="com.sgai.property.car.entity.CarUserRelationInfo"
+            resultType="java.lang.Integer">
+        select count(1) from CAR_USER_RELATION_INFO
+        <where>
+            AND ri_audit_status in (1,2,3,4,5)
+
+            AND ri_apply_id=#{riApplyId}
+
+            <if test="comCode != null and comCode != ''">
+                AND com_code = #{comCode}
+            </if>
+            <if test="moduCode != null and moduCode != ''">
+                AND modu_code = #{moduCode}
+            </if>
+            <if test="moduCode == null or moduCode == ''">
+                AND modu_code is null
+            </if>
+        </where>
+    </select>
+    <!--需要我审核的预约申请个数-->
+    <select id="getAuditCount" parameterType="com.sgai.property.car.entity.CarUserRelationInfo"
+            resultType="java.lang.Integer">
+        select count(1) from CAR_USER_RELATION_INFO
+        <where>
+            AND ri_audit_status=1
+            AND ri_is_delete=0
+            <if test="comCode != null and comCode != ''">
+                AND com_code = #{comCode}
+            </if>
+            <if test="moduCode != null and moduCode != ''">
+                AND modu_code = #{moduCode}
+            </if>
+            <if test="moduCode == null or moduCode == ''">
+                AND modu_code is null
+            </if>
+        </where>
+    </select>
+    <insert id="insert" parameterType="com.sgai.property.car.entity.CarUserRelationInfo">
+        insert into CAR_USER_RELATION_INFO
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="riApplyName != null">
+                ri_apply_name,
+            </if>
+            <if test="createdDt != null">
+                created_dt,
+            </if>
+            <if test="riAuditId != null">
+                ri_audit_id,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="riIsDelete != null">
+                ri_is_delete,
+            </if>
+            <if test="riUserPhone != null">
+                ri_user_phone,
+            </if>
+            <if test="riAuditName != null">
+                ri_audit_name,
+            </if>
+            <if test="riApplyId != null">
+                ri_apply_id,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="updatedDt != null">
+                updated_dt,
+            </if>
+            <if test="riUsePurpose != null">
+                ri_use_purpose,
+            </if>
+            <if test="riCarId != null">
+                ri_car_id,
+            </if>
+            <if test="id != null">
+                id,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+            <if test="riUseTimes != null">
+                ri_use_times,
+            </if>
+            <if test="riUseEnd != null">
+                ri_use_end,
+            </if>
+            <if test="riAuditName1 != null">
+                ri_audit_name1,
+            </if>
+            <if test="riUseStart != null">
+                ri_use_start,
+            </if>
+            <if test="updatedBy != null">
+                updated_by,
+            </if>
+            <if test="riAuditStatus != null">
+                ri_audit_status,
+            </if>
+            <if test="riUserName != null">
+                ri_user_name,
+            </if>
+            <if test="riAuditTime != null">
+                ri_audit_time,
+            </if>
+            <if test="comCode != null">
+                com_code,
+            </if>
+            <if test="moduCode != null">
+                modu_code,
+            </if>
+
+			<if test="journeyAmount != null">
+				journey_amount,
+			</if>
+			<if test="endJourney != null">
+				end_journey,
+			</if>
+			<if test="startJourney != null">
+				start_journey,
+			</if>
+			<if test="lastJourney != null">
+				last_journey,
+			</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="riApplyName != null">
+                #{riApplyName},
+            </if>
+            <if test="createdDt != null">
+                #{createdDt},
+            </if>
+            <if test="riAuditId != null">
+                #{riAuditId},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="riIsDelete != null">
+                #{riIsDelete},
+            </if>
+            <if test="riUserPhone != null">
+                #{riUserPhone},
+            </if>
+            <if test="riAuditName != null">
+                #{riAuditName},
+            </if>
+            <if test="riApplyId != null">
+                #{riApplyId},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="updatedDt != null">
+                #{updatedDt},
+            </if>
+            <if test="riUsePurpose != null">
+                #{riUsePurpose},
+            </if>
+            <if test="riCarId != null">
+                #{riCarId},
+            </if>
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="remarks != null">
+                #{remarks},
+            </if>
+            <if test="riUseTimes != null">
+                #{riUseTimes},
+            </if>
+            <if test="riUseEnd != null">
+                #{riUseEnd},
+            </if>
+            <if test="riAuditName1 != null">
+                #{riAuditName1},
+            </if>
+            <if test="riUseStart != null">
+                #{riUseStart},
+            </if>
+            <if test="updatedBy != null">
+                #{updatedBy},
+            </if>
+            <if test="riAuditStatus != null">
+                #{riAuditStatus},
+            </if>
+            <if test="riUserName != null">
+                #{riUserName},
+            </if>
+            <if test="riAuditTime != null">
+                #{riAuditTime},
+            </if>
+            <if test="comCode != null">
+                #{comCode},
+            </if>
+            <if test="moduCode != null">
+                #{moduCode},
+            </if>
+
+			<if test="journeyAmount != null">
+				#{journeyAmount},
+			</if>
+			<if test="endJourney != null">
+				#{endJourney},
+			</if>
+			<if test="startJourney != null">
+				#{startJourney},
+			</if>
+			<if test="lastJourney != null">
+			#{lastJourney},
+			</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.sgai.property.car.entity.CarUserRelationInfo">
+        update CAR_USER_RELATION_INFO set
+        <trim suffixOverrides=",">
+            <if test="riApplyName != null">
+                ri_apply_name=#{riApplyName},
+            </if>
+            <if test="createdDt != null">
+                created_dt=#{createdDt},
+            </if>
+            <if test="riAuditId != null">
+                ri_audit_id=#{riAuditId},
+            </if>
+            <if test="createdBy != null">
+                created_by=#{createdBy},
+            </if>
+            <if test="riIsDelete != null">
+                ri_is_delete=#{riIsDelete},
+            </if>
+            <if test="riUserPhone != null">
+                ri_user_phone=#{riUserPhone},
+            </if>
+            <if test="riAuditName != null">
+                ri_audit_name=#{riAuditName},
+            </if>
+            <if test="riApplyId != null">
+                ri_apply_id=#{riApplyId},
+            </if>
+            <if test="version != null">
+                version=#{version},
+            </if>
+            <if test="updatedDt != null">
+                updated_dt=#{updatedDt},
+            </if>
+            <if test="riUsePurpose != null">
+                ri_use_purpose=#{riUsePurpose},
+            </if>
+            <if test="riCarId != null">
+                ri_car_id=#{riCarId},
+            </if>
+            <if test="remarks != null">
+                remarks=#{remarks},
+            </if>
+            <if test="riUseTimes != null">
+                ri_use_times=#{riUseTimes},
+            </if>
+            <if test="riUseEnd != null">
+                ri_use_end=#{riUseEnd},
+            </if>
+            <if test="riAuditTime != null">
+                ri_audit_time=#{riAuditTime},
+            </if>
+            <if test="riAuditName1 != null">
+                ri_audit_name1=#{riAuditName1},
+            </if>
+            <if test="riUseStart != null">
+                ri_use_start=#{riUseStart},
+            </if>
+            <if test="updatedBy != null">
+                updated_by=#{updatedBy},
+            </if>
+            <if test="riAuditStatus != null">
+                ri_audit_status=#{riAuditStatus},
+            </if>
+            <if test="riUserName != null">
+                ri_user_name=#{riUserName},
+            </if>
+
+			<if test="journeyAmount != null">
+				 journey_amount=#{journeyAmount},
+			</if>
+			<if test="endJourney != null">
+				 end_journey=#{endJourney},
+			</if>
+			<if test="startJourney != null">
+				 start_journey=#{startJourney},
+			</if>
+			<if test="lastJourney != null">
+				 last_journey=#{lastJourney},
+			</if>
+        </trim>
+        where id =#{id}
+    </update>
+
+    <update id="updateByIds" parameterType="com.sgai.property.car.entity.CarUserRelationInfo">
+        update CAR_USER_RELATION_INFO set
+        <trim suffixOverrides=",">
+            <if test="entity.riApplyName != null">
+                ri_apply_name = #{entity.riApplyName},
+            </if>
+            <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+            </if>
+            <if test="entity.riAuditId != null">
+                ri_audit_id = #{entity.riAuditId},
+            </if>
+            <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+            </if>
+            <if test="entity.riIsDelete != null">
+                ri_is_delete = #{entity.riIsDelete},
+            </if>
+            <if test="entity.riUserPhone != null">
+                ri_user_phone = #{entity.riUserPhone},
+            </if>
+            <if test="entity.riAuditName != null">
+                ri_audit_name = #{entity.riAuditName},
+            </if>
+            <if test="entity.riApplyId != null">
+                ri_apply_id = #{entity.riApplyId},
+            </if>
+            <if test="entity.version != null">
+                version = #{entity.version},
+            </if>
+            <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+            </if>
+            <if test="entity.riUsePurpose != null">
+                ri_use_purpose = #{entity.riUsePurpose},
+            </if>
+            <if test="entity.riCarId != null">
+                ri_car_id = #{entity.riCarId},
+            </if>
+            <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+            </if>
+            <if test="entity.riUseTimes != null">
+                ri_use_times = #{entity.riUseTimes},
+            </if>
+            <if test="entity.riUseEnd != null">
+                ri_use_end = #{entity.riUseEnd},
+            </if>
+            <if test="entity.riAuditName1 != null">
+                ri_audit_name1 = #{entity.riAuditName1},
+            </if>
+            <if test="entity.riUseStart != null">
+                ri_use_start = #{entity.riUseStart},
+            </if>
+            <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+            </if>
+            <if test="entity.riAuditStatus != null">
+                ri_audit_status = #{entity.riAuditStatus},
+            </if>
+            <if test="entity.riUserName != null">
+                ri_user_name = #{entity.riUserName},
+            </if>
+            <if test="entity.riAuditTime != null">
+                ri_audit_time=#{riAuditTime},
+            </if>
+
+			<if test="entity.journeyAmount != null">
+				journey_amount=#{journeyAmount},
+			</if>
+			<if test="entity.endJourney != null">
+				end_journey=#{endJourney},
+			</if>
+			<if test="entity.startJourney != null">
+				start_journey=#{startJourney},
+			</if>
+			<if test="entity.lastJourney != null">
+				last_journey=#{lastJourney},
+			</if>
+        </trim>
+        where id in
+        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+
+    <update id="deleteById">
+      delete from CAR_USER_RELATION_INFO where id =#{id}
+   </update>
+
+    <delete id="deleteByIds">
+        delete from CAR_USER_RELATION_INFO where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByListId">
+        delete from CAR_USER_RELATION_INFO where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="delete" parameterType="com.sgai.property.car.entity.CarUserRelationInfo">
+        delete from CAR_USER_RELATION_INFO where
+        <include refid="whereSql"/>
+    </delete>
+
+
+    <select id="getRelationInfoByCarId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select  <include refid="baseColumns"/>
+        from CAR_USER_RELATION_INFO
+        where RI_CAR_ID = #{carId} <![CDATA[ and rownum <= 1  ]]>
+        order by UPDATED_DT desc
+    </select>
+</mapper>

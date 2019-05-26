@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.mdm.dao.MdmSuppDeviceClassRelationDao">
+
+	<sql id="mdmSuppDeviceClassRelationColumns">
+		a.id AS "id",
+		a.supplier_no AS "supplierNo",
+		a.model_code AS
+		"modelCode",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+
+	<sql id="mdmSuppDeviceClassRelationJoins">
+	</sql>
+
+	<select id="get" resultType="com.sgai.property.mdm.entity.MdmSuppDeviceClassRelation">
+		SELECT
+		<include refid="mdmSuppDeviceClassRelationColumns" />
+		FROM mdm_supp_device_class_relation a
+		<include refid="mdmSuppDeviceClassRelationJoins" />
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="com.sgai.property.mdm.entity.MdmSuppDeviceClassRelation">
+		SELECT
+		b.id AS "id",
+		a.brand_name AS "brandName",
+		a.model_code AS
+		"modelCode",
+		a.devices_model AS "deviceModel",
+		a.power_requ AS
+		"powerRequ",
+		a.voltage AS "voltage",
+		a.power AS "power",
+		a.consumption AS
+		"consumption",
+		a.run_time AS "runTime",
+		a.service_life AS "serviceLife",
+		a.class_name AS "className"
+		FROM mdm_devices_model a INNER JOIN
+		mdm_supp_device_class_relation b ON a.model_code=b.model_code AND
+		b.supplier_no=#{supplierNo}
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		<include refid="mdmSuppDeviceClassRelationJoins" />
+
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<!-- yangyz -->
+	<select id="findListByModelCode" resultType="com.sgai.property.mdm.entity.MdmSuppDeviceClassRelation">
+		SELECT ID,
+		SUPPLIER_NO,
+		MODEL_CODE,
+		COM_CODE,
+		DEPT_CODE,
+		MODU_CODE
+		FROM 
+		mdm_supp_device_class_relation 
+		<where>
+			<if test="moduCode != null and moduCode != ''">
+				AND MODU_CODE = #{moduCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND  COM_CODE = #{comCode}
+			</if>
+			<if test="modelCode != null and modelCode != ''">
+				AND  MODEL_CODE = #{modelCode}
+			</if>
+		</where>
+		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+		</choose>
+	</select>
+
+	<select id="findRestPage" resultType="com.sgai.property.mdm.entity.MdmSuppDeviceClassRelation">
+		SELECT
+		brand_name AS "brandName",
+		model_code AS "modelCode",
+		devices_model AS "deviceModel",
+		power_requ AS "powerRequ",
+		voltage AS
+		"voltage",
+		power AS "power",
+		consumption AS "consumption",
+		run_time AS
+		"runTime",
+		service_life AS "serviceLife",
+		class_name AS "className"
+		FROM
+		mdm_devices_model a
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		and NOT EXISTS(SELECT model_code FROM mdm_supp_device_class_relation b
+		WHERE a.model_code=b.model_code AND b.supplier_no=#{supplierNo})
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList" resultType="com.sgai.property.mdm.entity.MdmSuppDeviceClassRelation">
+		SELECT
+		<include refid="mdmSuppDeviceClassRelationColumns" />
+		FROM mdm_supp_device_class_relation a
+		<include refid="mdmSuppDeviceClassRelationJoins" />
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert">
+		INSERT INTO mdm_supp_device_class_relation(
+		id,
+		supplier_no,
+		model_code,
+		com_code,
+		modu_code
+		) VALUES (
+		#{id},
+		#{supplierNo},
+		#{modelCode},
+		#{comCode},
+		#{moduCode}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE mdm_supp_device_class_relation SET
+		supplier_no
+		= #{supplierNo},
+		model_code = #{modelCode},
+		com_code = #{comCode},
+		modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		DELETE FROM mdm_supp_device_class_relation
+		WHERE id =
+		#{id}
+	</update>
+
+</mapper>

@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.em.dao.EmRepairListDao">
+    
+	<sql id="emRepairListColumns">
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.em_code AS "emCode",
+		a.em_type AS "emType",
+		a.em_title AS "emTitle",
+		a.repair_person AS "repairPerson",
+		a.telphone AS "telphone",
+		a.address AS "address",
+		a.repair_date AS "repairDate",
+		a.repair_content AS "repairContent",
+		a.repair_desc AS "repairDesc",
+		a.repair_from AS "repairFrom",
+		a.from_num AS "fromNum",
+		a.states AS "states",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.user_code AS "userCode",
+		a.user_name AS "userName",
+		a.repair_type AS "repairType",
+		a.repair_photo AS "repairPhoto",
+		a.modu_code AS "moduCode"
+	</sql>
+	
+	<sql id="emRepairListJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.em.entity.EmRepairList">
+		SELECT 
+			<include refid="emRepairListColumns"/>
+		FROM em_repair_list a
+		<include refid="emRepairListJoins"/>
+		where  a.id = #{id}
+	</select>
+	<select id="getByCode" resultType="com.sgai.property.em.dto.EmRepairListVo">
+		SELECT 
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.em_code AS "emCode",
+		a.em_type AS "emType",
+		a.em_title AS "emTitle",
+		b.pr_name AS "repairPerson",
+		a.telphone AS "telphone",
+		a.address AS "address",
+		a.repair_date AS "repairDate",
+		a.repair_content AS "repairContent",
+		a.repair_desc AS "repairDesc",
+		a.repair_from AS "repairFrom",
+		a.from_num AS "fromNum",
+		a.states AS "states",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.user_code AS "userCode",
+		a.user_name AS "userName",
+		a.repair_type AS "repairType",
+		a.repair_photo AS "repairPhoto",
+		a.modu_code AS "moduCode"
+		FROM em_repair_list a
+		LEFT JOIN CR_PERSONAL_RECORD_INFO b
+		ON a.repair_person = b.id
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getRepairDetail" resultType="com.sgai.property.em.entity.EmRepairList">
+		SELECT 
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.em_code AS "emCode",
+		a.em_type AS "emType",
+		a.em_title AS "emTitle",
+		a.repair_person AS "repairPerson",
+		a.telphone AS "telphone",
+		a.address AS "address",
+		a.repair_date AS "repairDate",
+		a.repair_content AS "repairContent",
+		a.repair_desc AS "repairDesc",
+		a.repair_from AS "repairFrom",
+		a.from_num AS "fromNum",
+		a.states AS "states",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.user_code AS "userCode",
+		a.user_name AS "userName",
+		a.repair_type AS "repairType",
+		a.repair_photo AS "repairPhoto",
+		a.modu_code AS "moduCode"
+		FROM em_repair_list a
+		LEFT JOIN CR_PERSONAL_RECORD_INFO b
+		ON a.repair_person = b.id
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+		</where>
+	</select>
+	<select id="findList" resultType="com.sgai.property.em.entity.EmRepairList">
+		SELECT 
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.em_code AS "emCode",
+		a.em_type AS "emType",
+		a.em_title AS "emTitle",
+		b.pr_name AS "repairPerson",
+		a.telphone AS "telphone",
+		a.address AS "address",
+		a.repair_date AS "repairDate",
+		a.repair_content AS "repairContent",
+		a.repair_desc AS "repairDesc",
+		a.repair_from AS "repairFrom",
+		a.from_num AS "fromNum",
+		a.states AS "states",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.user_code AS "userCode",
+		a.user_name AS "userName",
+		a.repair_type AS "repairType",
+		a.repair_photo AS "repairPhoto",
+		a.modu_code AS "moduCode"
+		FROM em_repair_list a
+		LEFT JOIN CR_PERSONAL_RECORD_INFO b
+		ON a.repair_person = b.id
+		<where>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sqlMap}
+			</if> 
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+			<if test="emType != null and emType != ''">
+				AND a.em_type = #{emType}
+			</if>
+			<if test="emTitle != null and emTitle != ''">
+				AND a.em_title = #{emTitle}
+			</if>
+			<if test="repairPerson != null and repairPerson != ''">
+				AND a.repair_person = #{repairPerson}
+			</if>
+			<if test="telphone != null and telphone != ''">
+				AND a.telphone = #{telphone}
+			</if>
+			<if test="address != null and address != ''">
+				AND a.address = #{address}
+			</if>
+			<if test="repairDate != null and repairDate != ''">
+				AND a.repair_date = #{repairDate}
+			</if>
+			<if test="repairContent != null and repairContent != ''">
+				AND a.repair_content = #{repairContent}
+			</if>
+			<if test="repairDesc != null and repairDesc != ''">
+				AND a.repair_desc = #{repairDesc}
+			</if>
+			<if test="repairFrom != null and repairFrom != ''">
+				AND a.repair_from = #{repairFrom}
+			</if>
+			<if test="fromNum != null and fromNum != ''">
+				AND a.from_num = #{fromNum}
+			</if>
+			<if test="states != null and states != ''">
+				AND a.states = #{states}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="userCode != null and userCode != ''">
+				AND a.user_code = #{userCode}
+			</if>
+			<if test="repairType != null and repairType != ''">
+				AND a.repair_type = #{repairType}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy} DESC
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findRepairList" resultType="com.sgai.property.em.entity.EmRepairList">
+		SELECT 
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.em_code AS "emCode",
+		a.em_type AS "emType",
+		a.em_title AS "emTitle",
+		b.pr_name AS "repairPerson",
+		a.telphone AS "telphone",
+		a.address AS "address",
+		a.repair_date AS "repairDate",
+		a.repair_content AS "repairContent",
+		a.repair_desc AS "repairDesc",
+		a.repair_from AS "repairFrom",
+		a.from_num AS "fromNum",
+		a.states AS "states",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.user_code AS "userCode",
+		a.user_name AS "userName",
+		a.repair_type AS "repairType",
+		a.repair_photo AS "repairPhoto",
+		a.modu_code AS "moduCode"
+		FROM em_repair_list a
+		LEFT JOIN CR_PERSONAL_RECORD_INFO b
+		ON a.repair_person = b.id
+		<include refid="emRepairListJoins"/>
+		<where>
+			a.states IN ('1','2','0')
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sqlMap}
+			</if> 
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+			<if test="emType != null and emType != ''">
+				AND a.em_type = #{emType}
+			</if>
+			<if test="emTitle != null and emTitle != ''">
+				AND a.em_title = #{emTitle}
+			</if>
+			<if test="repairPerson != null and repairPerson != ''">
+				AND a.repair_person like '%${repairPerson}%'
+			</if>
+			<if test="telphone != null and telphone != ''">
+				AND a.telphone = #{telphone}
+			</if>
+			<if test="address != null and address != ''">
+				AND a.address = #{address}
+			</if>
+			<if test="repairContent != null and repairContent != ''">
+				AND a.repair_content = #{repairContent}
+			</if>
+			<if test="repairDesc != null and repairDesc != ''">
+				AND a.repair_desc = #{repairDesc}
+			</if>
+			<if test="repairFrom != null and repairFrom != ''">
+				AND a.repair_from = #{repairFrom}
+			</if>
+			<if test="fromNum != null and fromNum != ''">
+				AND a.from_num = #{fromNum}
+			</if>
+			<if test="states != null and states != ''">
+				AND a.states = #{states}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="userCode != null and userCode != ''">
+				AND a.user_code = #{userCode}
+			</if>
+			<if test="repairType != null and repairType != ''">
+				AND a.repair_type = #{repairType}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy} DESC
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findNextCodeEmRepairList" resultType="com.sgai.property.em.entity.EmRepairList">
+		select 'XL'||nvl(trim(to_char(to_number(substr(max(t.em_code),instr(max(t.em_code),'XL')+2))+1,'0000')),'0001') as emCode
+    	from em_repair_list t
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.em.entity.EmRepairList">
+		SELECT 
+			<include refid="emRepairListColumns"/>
+		FROM em_repair_list a
+		<include refid="emRepairListJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy} desc
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO em_repair_list(
+			id,
+			com_code,
+			em_code,
+			em_type,
+			em_title,
+			repair_person,
+			telphone,
+			address,
+			repair_date,
+			repair_content,
+			repair_desc,
+			repair_from,
+			from_num,
+			states,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			user_code,
+			user_name,
+			repair_type,
+			repair_photo,
+			modu_code
+		) VALUES (
+			#{id},
+			#{comCode},
+			#{emCode},
+			#{emType},
+			#{emTitle},
+			#{repairPerson},
+			#{telphone},
+			#{address},
+			#{repairDate},
+			#{repairContent},
+			#{repairDesc},
+			#{repairFrom},
+			#{fromNum},
+			#{states},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{userCode},
+			#{userName},
+			#{repairType},
+			#{repairPhoto},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE em_repair_list SET 	
+			com_code = #{comCode},
+			em_code = #{emCode},
+			em_type = #{emType},
+			em_title = #{emTitle},
+			repair_person = #{repairPerson},
+			telphone = #{telphone},
+			address = #{address},
+			repair_date = #{repairDate},
+			repair_content = #{repairContent},
+			repair_desc = #{repairDesc},
+			repair_from = #{repairFrom},
+			from_num = #{fromNum},
+			states = #{states},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			user_code=#{userCode},
+			user_name = #{userName},
+			repair_type=#{repairType},
+			repair_photo=#{repairPhoto},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM em_repair_list
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

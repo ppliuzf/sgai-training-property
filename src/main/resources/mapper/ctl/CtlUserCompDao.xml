@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlUserCompDao">
+    
+	<sql id="ctlUserCompColumns">
+		a.id AS "id",
+		a.user_code AS "userCode",
+		a.com_code AS "comCode",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="ctlUserCompJoins">
+	</sql>
+    
+	<select id="get" resultType="CtlUserComp">
+		SELECT 
+			<include refid="ctlUserCompColumns"/>
+		FROM ctl_user_comp a
+		<include refid="ctlUserCompJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlUserComp">
+		SELECT 
+			<include refid="ctlUserCompColumns"/>
+		FROM ctl_user_comp a
+		<include refid="ctlUserCompJoins"/>
+		<where>
+			
+			<if test="userCode != null and userCode != ''">
+				AND a.user_code = #{userCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CtlUserComp">
+		SELECT 
+			<include refid="ctlUserCompColumns"/>
+		FROM ctl_user_comp a
+		<include refid="ctlUserCompJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findLackList" resultType="CtlComp">
+	SELECT
+	d.COM_CODE,d.COM_NAME,c.USER_CODE AS REMARKS
+FROM
+	(
+		SELECT
+			A .COM_CODE,
+			b.USER_CODE
+		FROM
+			ctl_comp A
+		LEFT JOIN CTL_USER_COMP b ON A .COM_CODE = b.COM_CODE
+	) c
+INNER JOIN CTL_COMP d ON c.COM_CODE=d.COM_CODE
+WHERE
+	c.USER_CODE IS NULL
+OR c.USER_CODE = #{remarks}
+	</select>
+	<insert id="insert">
+		INSERT INTO ctl_user_comp(
+			id,
+			user_code,
+			com_code,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{userCode},
+			#{comCode},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_user_comp SET 	
+			user_code = #{userCode},
+			com_code = #{comCode},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_user_comp
+		WHERE  user_code = #{userCode}
+	</update>
+	
+</mapper>

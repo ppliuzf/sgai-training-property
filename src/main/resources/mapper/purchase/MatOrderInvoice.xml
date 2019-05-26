@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.purchase.dao.IMatOrderInvoiceDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.purchase.entity.MatOrderInvoice" >
+  		<id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+         <result column="invoice_name" property="invoiceName" jdbcType="VARCHAR" />
+         <result column="invoice_site" property="invoiceSite" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="tallage_number" property="tallageNumber" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="invoice_money" property="invoiceMoney" jdbcType="VARCHAR" />
+         <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+         <result column="invoice_phone" property="invoicePhone" jdbcType="VARCHAR" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       order_id
+       ,created_dt
+       ,invoice_name
+       ,invoice_site
+       ,version
+       ,created_by
+       ,id
+       ,tallage_number
+       ,updated_by
+       ,invoice_money
+       ,updated_dt
+       ,invoice_phone
+       ,remarks
+  </sql>
+  
+  <sql id="whereSql">
+       <if test="orderId != null">
+			and order_id=#{orderId}
+		 </if> 
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="invoiceName != null">
+			and invoice_name=#{invoiceName}
+		 </if> 
+       <if test="invoiceSite != null">
+			and invoice_site=#{invoiceSite}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="tallageNumber != null">
+			and tallage_number=#{tallageNumber}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="invoiceMoney != null">
+			and invoice_money=#{invoiceMoney}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="invoicePhone != null">
+			and invoice_phone=#{invoicePhone}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+   </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from PURCHASE_MAT_ORDER_INVOICE  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from PURCHASE_MAT_ORDER_INVOICE  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from PURCHASE_MAT_ORDER_INVOICE  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.purchase.entity.MatOrderInvoice">
+		select <include refid="baseColumns"/> from
+       PURCHASE_MAT_ORDER_INVOICE  where  1 = 1    <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from PURCHASE_MAT_ORDER_INVOICE
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.purchase.entity.MatOrderInvoice" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from PURCHASE_MAT_ORDER_INVOICE where  1 = 1    <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.purchase.entity.MatOrderInvoice" resultType="java.lang.Integer">
+           select count(1) from PURCHASE_MAT_ORDER_INVOICE where   1 = 1   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.purchase.entity.MatOrderInvoice">
+      insert into PURCHASE_MAT_ORDER_INVOICE 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="orderId != null">
+				   order_id,
+			 </if> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="invoiceName != null">
+				   invoice_name,
+			 </if> 
+          <if test="invoiceSite != null">
+				   invoice_site,
+			 </if> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="tallageNumber != null">
+				   tallage_number,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="invoiceMoney != null">
+				   invoice_money,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="invoicePhone != null">
+				   invoice_phone,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="orderId != null">
+				#{orderId},
+			  </if>
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="invoiceName != null">
+				#{invoiceName},
+			  </if>
+			  <if test="invoiceSite != null">
+				#{invoiceSite},
+			  </if>
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="tallageNumber != null">
+				#{tallageNumber},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="invoiceMoney != null">
+				#{invoiceMoney},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="invoicePhone != null">
+				#{invoicePhone},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.purchase.entity.MatOrderInvoice">
+	   update PURCHASE_MAT_ORDER_INVOICE  set
+	    <trim suffixOverrides="," >
+				  <if test="orderId != null">
+					 order_id=#{orderId},
+				  </if>
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="invoiceName != null">
+					 invoice_name=#{invoiceName},
+				  </if>
+				  <if test="invoiceSite != null">
+					 invoice_site=#{invoiceSite},
+				  </if>
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="tallageNumber != null">
+					 tallage_number=#{tallageNumber},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="invoiceMoney != null">
+					 invoice_money=#{invoiceMoney},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="invoicePhone != null">
+					 invoice_phone=#{invoicePhone},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.purchase.entity.MatOrderInvoice">
+        update PURCHASE_MAT_ORDER_INVOICE  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.orderId != null">
+                order_id = #{entity.orderId},
+				  </if>
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.invoiceName != null">
+                invoice_name = #{entity.invoiceName},
+				  </if>
+				  <if test="entity.invoiceSite != null">
+                invoice_site = #{entity.invoiceSite},
+				  </if>
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.tallageNumber != null">
+                tallage_number = #{entity.tallageNumber},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.invoiceMoney != null">
+                invoice_money = #{entity.invoiceMoney},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.invoicePhone != null">
+                invoice_phone = #{entity.invoicePhone},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from PURCHASE_MAT_ORDER_INVOICE where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from PURCHASE_MAT_ORDER_INVOICE where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from PURCHASE_MAT_ORDER_INVOICE where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.purchase.entity.MatOrderInvoice">
+      delete from PURCHASE_MAT_ORDER_INVOICE where 1 = 1  <include refid="whereSql"/>
+   </delete>
+   
+</mapper>

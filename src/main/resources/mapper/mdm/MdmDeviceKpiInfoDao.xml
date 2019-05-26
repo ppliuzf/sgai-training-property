@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.mdm.dao.MdmDeviceKpiInfoDao">
+    
+	<sql id="mdmDeviceKpiInfoColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.path AS "path",
+		a.prof_code AS "profCode",
+		a.space_code AS "spaceCode",
+		a.class_code AS "classCode",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode",
+		a.enabled_flag AS "enabledFlag"
+	</sql>
+	
+	<sql id="mdmDeviceKpiInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.mdm.entity.MdmDeviceKpiInfo">
+		SELECT 
+			<include refid="mdmDeviceKpiInfoColumns"/>
+		FROM mdm_device_kpi_info a
+		<include refid="mdmDeviceKpiInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.mdm.entity.MdmDeviceKpiInfo">
+		SELECT 
+			<include refid="mdmDeviceKpiInfoColumns"/>
+		FROM mdm_device_kpi_info a
+		<include refid="mdmDeviceKpiInfoJoins"/>
+		<where>
+			
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="path != null and path != ''">
+				AND a.path = #{path}
+			</if>
+			<if test="profCode != null and profCode != ''">
+				AND a.prof_code = #{profCode}
+			</if>
+			<if test="spaceCode != null and spaceCode != ''">
+				AND a.space_code = #{spaceCode}
+			</if>
+			<if test="classCode != null and classCode != ''">
+				AND a.class_code = #{classCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findPaths" resultType="String">
+		SELECT 
+			a.path
+		FROM mdm_device_kpi_info a
+		WHERE
+		 A.com_code = #{comCode}
+		<if test="profCode != null and profCode != ''">
+				AND a.prof_code = #{profCode}
+		</if>
+		<if test="spaceCode != null and spaceCode != ''">
+				AND a.space_code = #{spaceCode}
+		</if>
+		<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+		</if>
+		<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+		</if>
+	</select>
+	<select id="findAllList" resultType="com.sgai.property.mdm.entity.MdmDeviceKpiInfo">
+		SELECT 
+			<include refid="mdmDeviceKpiInfoColumns"/>
+		FROM mdm_device_kpi_info a
+		<include refid="mdmDeviceKpiInfoJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mdm_device_kpi_info(
+			id,
+			name,
+			path,
+			prof_code,
+			space_code,
+			class_code,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code,
+			modu_code,
+			enabled_flag
+		) VALUES (
+			#{id},
+			#{name},
+			#{path},
+			#{profCode},
+			#{spaceCode},
+			#{classCode},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode},
+			#{moduCode},
+			#{enabledFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mdm_device_kpi_info SET 	
+			name = #{name},
+			path = #{path},
+			prof_code = #{profCode},
+			space_code = #{spaceCode},
+			class_code = #{classCode},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			com_code = #{comCode},
+			modu_code = #{moduCode},
+			enabled_flag = #{enabledFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM mdm_device_kpi_info
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

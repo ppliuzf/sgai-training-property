@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.mdm.dao.MdmDeviceParameterDao">
+    
+	<sql id="mdmDeviceParameterColumns">
+		a.id AS "id",
+		a.device_prof_code AS "deviceProfCode",
+		a.device_prof_name AS "deviceProfName",
+		a.device_class_code AS "deviceClassCode",
+		a.device_class_name AS "deviceClassName",
+		a.param_code AS "paramCode",
+		a.param_name AS "paramName",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.com_code AS comCode,
+		a.modu_code AS moduCode,
+		a.switch_flag AS switchFlag
+	</sql>
+	
+	<sql id="mdmDeviceParameterJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.mdm.entity.MdmDeviceParameter">
+		SELECT
+			<include refid="mdmDeviceParameterColumns"/>
+		FROM mdm_device_parameter a
+		<include refid="mdmDeviceParameterJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="com.sgai.property.mdm.entity.MdmDeviceParameter">
+		SELECT
+			<include refid="mdmDeviceParameterColumns"/>
+		FROM mdm_device_parameter a
+		<include refid="mdmDeviceParameterJoins"/>
+		<where>
+			<if test="deviceProfCode != null and deviceProfCode != ''">
+				AND a.device_prof_code = #{deviceProfCode}
+			</if>
+			<if test="deviceProfName != null and deviceProfName != ''">
+				AND a.device_prof_name = #{deviceProfName}
+			</if>
+			 <if test="deviceClassCode != null and deviceClassCode != ''">
+				AND a.device_class_code = #{deviceClassCode}
+			</if>
+			<if test="deviceClassName != null and deviceClassName != ''">
+				AND a.device_class_name = #{deviceClassName}
+			</if>
+			<if test="paramCode != null and paramCode != ''">
+				AND a.param_code = #{paramCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="paramName != null and paramName != ''">
+				AND a.param_name = #{paramName}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList" resultType="com.sgai.property.mdm.entity.MdmDeviceParameter">
+		SELECT 
+			<include refid="mdmDeviceParameterColumns"/>
+		FROM mdm_device_parameter a
+		<include refid="mdmDeviceParameterJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mdm_device_parameter(
+			id,
+			device_prof_code,
+			device_prof_name,
+			device_class_code,
+			device_class_name,
+			param_code,
+			param_name,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code,
+			modu_code,
+			switch_flag
+		) VALUES (
+			#{id},
+			#{deviceProfCode},
+			#{deviceProfName},
+			#{deviceClassCode},
+			#{deviceClassName},
+			#{paramCode},
+			#{paramName},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode},
+			#{moduCode},
+			#{switchFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mdm_device_parameter SET
+			device_prof_code = #{deviceProfCode}, 
+			device_prof_name = #{deviceProfName},	
+			device_class_code = #{deviceClassCode},
+			device_class_name = #{deviceClassName},
+			param_code = #{paramCode},
+			param_name = #{paramName},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			switch_flag = #{switchFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM mdm_device_parameter
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

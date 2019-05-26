@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlLogProgDao">
+    
+	<sql id="ctlLogProgColumns">
+		a.id AS "id",
+		a.session_id AS "sessionId",
+		a.com_code AS "comCode",
+		a.com_name AS "comName",
+		a.user_code AS "userCode",
+		a.user_name AS "userName",
+		a.user_type AS "userType",
+		a.run_time AS "runTime",
+		a.remote_addr  AS "remoteAddr",
+		a.request_url AS "requestUrl",
+		a.class_method AS "classMethod",
+		a.request_type AS "requestType",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="ctlLogProgJoins">
+	
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.ctl.entity.CtlLogProg">
+		SELECT 
+			<include refid="ctlLogProgColumns"/>
+		FROM ctl_log_prog a
+		<include refid="ctlLogProgJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.ctl.entity.CtlLogProg">
+		SELECT 
+			<include refid="ctlLogProgColumns"/>
+		FROM ctl_log_prog a
+		<include refid="ctlLogProgJoins"/>
+		<where>
+			<if test="userCode != null and userCode != ''">
+				AND a.user_code LIKE 
+					<if test="dbName == 'oracle'">'%'||#{userCode}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{userCode}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{userCode},'%')</if>
+			</if>
+			
+			<if test="beginCreatedDt != null and endCreatedDt != null and beginCreatedDt != '' and endCreatedDt != ''">
+				AND a.created_dt BETWEEN (TO_DATE(#{beginCreatedDt},'yyyy-mm-dd hh24:mi:ss'))
+				  AND (TO_DATE (#{endCreatedDt},'yyyy-mm-dd hh24:mi:ss'))
+				  
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<select id="findAllList" resultType="com.sgai.property.ctl.entity.CtlLogProg">
+		SELECT 
+			<include refid="ctlLogProgColumns"/>
+		FROM ctl_log_prog a
+		<include refid="ctlLogProgJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ctl_log_prog(
+			id,
+			session_id,
+			com_code,
+			com_name,
+			user_code,
+			user_name,
+			user_type,
+			run_time,
+			remote_addr,
+		    request_url ,
+		    class_method ,
+		    request_type,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{sessionId},
+			#{comCode},
+			#{comName},
+			#{userCode},
+			#{userName},
+			#{userType},
+			#{runTime},
+			#{remoteAddr},
+			#{requestUrl},
+			#{classMethod},
+			#{requestType},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_log_prog SET 	
+			session_id = #{sessionId},
+			com_code = #{comCode},
+			com_name = #{comName},
+			user_code = #{userCode},
+			user_name = #{userName},
+			user_type = #{userType},
+			run_time = #{runTime},
+            remote_addr = #{remoteAddr},
+		    request_url = #{requestUrl},
+		    class_method = #{classMethod},
+		    request_type = #{requestType},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_log_prog
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.depot.dao.IWarehouseAllotImgDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.depot.entity.WarehouseAllotImg" >
+  		<id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="allot_img_url" property="allotImgUrl" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+         <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+         <result column="allot_id" property="allotId" jdbcType="VARCHAR" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+	  <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+	  <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       version
+       ,allot_img_url
+       ,created_dt
+       ,updated_dt
+       ,allot_id
+       ,created_by
+       ,remarks
+       ,updated_by
+       ,id
+        ,com_code
+      ,modu_code
+  </sql>
+  
+  <sql id="whereSql">
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="allotImgUrl != null">
+			and allot_img_url=#{allotImgUrl}
+		 </if> 
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="allotId != null">
+			and allot_id=#{allotId}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if>
+	  <if test = "comCode != null and comCode != ''" >
+		  AND com_code = #{comCode}
+	  </if >
+	  <if test = "moduCode != null and moduCode != ''" >
+		  AND modu_code = #{moduCode}
+	  </if >
+	  <if test = "moduCode == null or moduCode == ''" >
+		  AND modu_code IS NULL
+	  </if >
+   </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from DEPOT_WAREHOUSE_ALLOT_IMG  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from DEPOT_WAREHOUSE_ALLOT_IMG  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from DEPOT_WAREHOUSE_ALLOT_IMG  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.depot.entity.WarehouseAllotImg">
+		select <include refid="baseColumns"/> from
+       DEPOT_WAREHOUSE_ALLOT_IMG  where  1 = 1    <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from DEPOT_WAREHOUSE_ALLOT_IMG
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.depot.entity.WarehouseAllotImg" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from DEPOT_WAREHOUSE_ALLOT_IMG where  1 = 1    <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.depot.entity.WarehouseAllotImg" resultType="java.lang.Integer">
+           select count(1) from DEPOT_WAREHOUSE_ALLOT_IMG where   1 = 1   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.depot.entity.WarehouseAllotImg">
+      insert into DEPOT_WAREHOUSE_ALLOT_IMG 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="allotImgUrl != null">
+				   allot_img_url,
+			 </if> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="allotId != null">
+				   allot_id,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if>
+			<if test="comCode != null">
+				com_code,
+			</if>
+			<if test="moduCode != null">
+				modu_code,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="allotImgUrl != null">
+				#{allotImgUrl},
+			  </if>
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="allotId != null">
+				#{allotId},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			<if test="comCode != null">
+				#{comCode},
+			</if>
+			<if test="moduCode != null">
+				#{moduCode},
+			</if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.depot.entity.WarehouseAllotImg">
+	   update DEPOT_WAREHOUSE_ALLOT_IMG  set
+	    <trim suffixOverrides="," >
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="allotImgUrl != null">
+					 allot_img_url=#{allotImgUrl},
+				  </if>
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="allotId != null">
+					 allot_id=#{allotId},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.depot.entity.WarehouseAllotImg">
+        update DEPOT_WAREHOUSE_ALLOT_IMG  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.allotImgUrl != null">
+                allot_img_url = #{entity.allotImgUrl},
+				  </if>
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.allotId != null">
+                allot_id = #{entity.allotId},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from DEPOT_WAREHOUSE_ALLOT_IMG where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from DEPOT_WAREHOUSE_ALLOT_IMG where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from DEPOT_WAREHOUSE_ALLOT_IMG where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.depot.entity.WarehouseAllotImg">
+      delete from DEPOT_WAREHOUSE_ALLOT_IMG where 1 = 1  <include refid="whereSql"/>
+   </delete>
+   
+</mapper>

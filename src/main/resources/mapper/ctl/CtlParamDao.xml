@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlParamDao">
+    
+	<sql id="ctlParamColumns">
+		a.id AS "id",
+		a.sbs_code AS "sbsCode",
+		a.para_code AS "paraCode",
+		a.para_desc AS "paraDesc",
+		a.para_level AS "paraLevel",
+		a.para_datatype AS "paraDatatype",
+		a.defaule_value AS "defauleValue",
+		b.sbs_name AS "sbsName"
+	</sql>
+	
+	<sql id="ctlParamJoins">
+	 INNER JOIN ctl_modu b on a.sbs_code =b.sbs_code
+	</sql>
+    
+	<select id="get" resultType="CtlParam">
+		SELECT 
+			<include refid="ctlParamColumns"/>
+		FROM ctl_param a
+		<include refid="ctlParamJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getCodeType" resultType="String">
+		SELECT code_code
+		FROM ctl_code_det
+	</select>
+	
+	<select id="findList" resultType="CtlParam">
+		SELECT 
+			<include refid="ctlParamColumns"/>
+			
+		FROM ctl_param a INNER JOIN ctl_modu b on a.sbs_code=b.sbs_code
+		
+		<where>
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="sbsCode != null and sbsCode != ''">
+				AND b.sbs_code = #{sbsCode}
+			</if>
+			<if test="paraCode != null and paraCode != ''">
+				AND a.para_code = #{paraCode}
+			</if>
+			<if test="paraDesc != null and paraDesc != ''">
+				AND a.para_desc = #{paraDesc}
+			</if>
+			<if test="paraLevel != null and paraLevel != ''">
+				AND a.para_level = #{paraLevel}
+			</if>
+			<if test="paraDatatype != null and paraDatatype != ''">
+				AND a.para_datatype = #{paraDatatype}
+			</if>
+			<if test="defauleValue != null and defauleValue != ''">
+				AND a.defaule_value = #{defauleValue}
+			</if>
+			<if test="sbsName != null and sbsName != ''">
+				AND b.sbs_name = #{sbsName}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CtlParam">
+		SELECT 
+			<include refid="ctlParamColumns"/>
+		FROM ctl_param a
+		<include refid="ctlParamJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ctl_param(
+			id,
+			sbs_code,
+			para_code,
+			para_desc,
+			para_level,
+			para_datatype,
+			defaule_value
+		) VALUES (
+			#{id},
+			#{sbsCode},
+			#{paraCode},
+			#{paraDesc},
+			#{paraLevel},
+			#{paraDatatype},
+			#{defauleValue}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_param SET 	
+			sbs_code = #{sbsCode},
+			para_code = #{paraCode},
+			para_desc = #{paraDesc},
+			para_level = #{paraLevel},
+			para_datatype = #{paraDatatype},
+			defaule_value = #{defauleValue}
+		WHERE id=#{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_param
+		<where>
+				id=#{id}
+		</where>
+		
+	</update>
+	
+</mapper>

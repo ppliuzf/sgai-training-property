@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.purchase.dao.IPlanTaskDao">
+    <resultMap id="BaseResultMap" type="com.sgai.property.purchase.entity.PlanTask">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="task_dept" property="taskDept" jdbcType="VARCHAR"/>
+        <result column="task_need_status" property="taskNeedStatus" jdbcType="BIGINT"/>
+        <result column="plan_mat_stat" property="planMatStat" jdbcType="BIGINT"/>
+        <result column="task_plan_mat" property="taskPlanMat" jdbcType="BIGINT"/>
+        <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP"/>
+        <result column="task_no" property="taskNo" jdbcType="VARCHAR"/>
+        <result column="task_emp_name" property="taskEmpName" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="BIGINT"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="plan_id" property="planId" jdbcType="VARCHAR"/>
+        <result column="task_puchase_name" property="taskPuchaseName" jdbcType="VARCHAR"/>
+        <result column="task_date" property="taskDate" jdbcType="TIMESTAMP"/>
+        <result column="sort" property="sort" jdbcType="BIGINT"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP"/>
+        <result column="stage_id" property="stageId" jdbcType="VARCHAR"/>
+        <result column="task_emp_id" property="taskEmpId" jdbcType="VARCHAR"/>
+        <result column="task_purchase_date" property="taskPurchaseDate" jdbcType="TIMESTAMP"/>
+        <result column="task_end_date" property="taskEndDate" jdbcType="TIMESTAMP"/>
+        <result column="task_opinion" property="taskOpinion" jdbcType="VARCHAR"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+        <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="baseColumns">
+       task_dept
+       ,plan_mat_stat
+       ,task_plan_mat
+       ,task_need_status
+       ,created_dt
+       ,task_no
+       ,task_emp_name
+       ,version
+       ,created_by
+       ,plan_id
+       ,task_puchase_name
+       ,task_date
+       ,sort
+       ,updated_by
+       ,id
+       ,updated_dt
+       ,stage_id
+       ,task_emp_id
+       ,task_purchase_date
+       ,task_end_date
+       ,task_opinion
+       ,remarks
+        ,com_code
+      ,modu_code
+  </sql>
+
+    <sql id="whereSql">
+        <if test="taskDept != null">
+            and task_dept=#{taskDept}
+        </if>
+        <if test="planMatStat != null">
+            and plan_mat_stat=#{planMatStat}
+        </if>
+        <if test="taskPlanMat != null">
+            and task_plan_mat=#{taskPlanMat}
+        </if>
+        <if test="taskNeedStatus != null">
+            and task_need_status=#{taskNeedStatus}
+        </if>
+        <if test="createdDt != null">
+            and created_dt=#{createdDt}
+        </if>
+        <if test="taskNo != null">
+            and task_no=#{taskNo}
+        </if>
+        <if test="taskEmpName != null">
+            and task_emp_name=#{taskEmpName}
+        </if>
+        <if test="version != null">
+            and version=#{version}
+        </if>
+        <if test="createdBy != null">
+            and created_by=#{createdBy}
+        </if>
+        <if test="planId != null">
+            and plan_id=#{planId}
+        </if>
+        <if test="taskPuchaseName != null">
+            and task_puchase_name=#{taskPuchaseName}
+        </if>
+        <if test="taskDate != null">
+            and task_date=#{taskDate}
+        </if>
+        <if test="sort != null">
+            and sort=#{sort}
+        </if>
+        <if test="updatedBy != null">
+            and updated_by=#{updatedBy}
+        </if>
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="updatedDt != null">
+            and updated_dt=#{updatedDt}
+        </if>
+        <if test="stageId != null">
+            and stage_id=#{stageId}
+        </if>
+        <if test="taskEmpId != null">
+            and task_emp_id=#{taskEmpId}
+        </if>
+        <if test="taskPurchaseDate != null">
+            and task_purchase_date=#{taskPurchaseDate}
+        </if>
+        <if test="taskEndDate != null">
+            and task_end_date=#{taskEndDate}
+        </if>
+        <if test="taskOpinion != null">
+            and task_opinion=#{taskOpinion}
+        </if>
+        <if test="remarks != null">
+            and remarks=#{remarks}
+        </if>
+        <if test = "comCode != null and comCode != ''" >
+            AND com_code = #{comCode}
+        </if >
+        <if test = "moduCode != null and moduCode != ''" >
+            AND modu_code = #{moduCode}
+        </if >
+        <if test = "moduCode == null or moduCode == ''" >
+            AND modu_code IS NULL
+        </if >
+    </sql>
+
+
+
+    <!--findLists-->
+    <select id="findLists" parameterType="com.sgai.property.purchase.param.TaskParam" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from PURCHASE_PLAN_TASK
+        <where>
+            <if test="receiptArry != null ">
+                plan_id in
+                <foreach collection="receiptArry" item="item" index="index" open="('" close="')" separator="','">
+                    ${item}
+                </foreach>
+            </if>
+            <if test="taskEmpName != null">
+                and task_emp_name=#{taskEmpName}
+            </if>
+        </where>
+        ORDER BY TASK_NO DESC
+    </select>
+
+    <select id="getById" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from PURCHASE_PLAN_TASK where id =#{id}
+    </select>
+
+    <select id="getByIds" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from PURCHASE_PLAN_TASK where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="getByListId">
+        select
+        <include refid="baseColumns"/>
+        from PURCHASE_PLAN_TASK where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.purchase.entity.PlanTask">
+        select
+        <include refid="baseColumns"/>
+        from
+        PURCHASE_PLAN_TASK where 1 = 1
+        <include refid="whereSql"/>
+    </select>
+
+    <select id="findAllList" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from PURCHASE_PLAN_TASK
+    </select>
+
+    <select id="findList" parameterType="com.sgai.property.purchase.entity.PlanTask" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from PURCHASE_PLAN_TASK where 1 = 1
+            <if test="taskEmpName != null">
+                and task_emp_name  LIKE ${taskEmpName}
+            </if>
+            <if test = "comCode != null and comCode != ''" >
+                AND com_code = #{comCode}
+            </if >
+            <if test = "moduCode != null and moduCode != ''" >
+                AND modu_code = #{moduCode}
+            </if >
+            <if test = "moduCode == null or moduCode == ''" >
+                AND modu_code IS NULL
+            </if >
+        <if test="taskDept != null">
+            and task_dept=#{taskDept}
+        </if>
+        <if test="planMatStat != null">
+            and plan_mat_stat=#{planMatStat}
+        </if>
+        <if test="taskPlanMat != null">
+            and task_plan_mat=#{taskPlanMat}
+        </if>
+        <if test="taskNeedStatus != null">
+            and task_need_status=#{taskNeedStatus}
+        </if>
+        <if test="createdDt != null">
+            and created_dt=#{createdDt}
+        </if>
+        <if test="taskNo != null">
+            and task_no=#{taskNo}
+        </if>
+
+        <if test="version != null">
+            and version=#{version}
+        </if>
+        <if test="createdBy != null">
+            and created_by=#{createdBy}
+        </if>
+        <if test="planId != null">
+            and plan_id=#{planId}
+        </if>
+        <if test="taskPuchaseName != null">
+            and task_puchase_name=#{taskPuchaseName}
+        </if>
+        <if test="taskDate != null">
+            and task_date=#{taskDate}
+        </if>
+        <if test="sort != null">
+            and sort=#{sort}
+        </if>
+        <if test="updatedBy != null">
+            and updated_by=#{updatedBy}
+        </if>
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="updatedDt != null">
+            and updated_dt=#{updatedDt}
+        </if>
+        <if test="stageId != null">
+            and stage_id=#{stageId}
+        </if>
+        <if test="taskEmpId != null">
+            and task_emp_id=#{taskEmpId}
+        </if>
+        <if test="taskPurchaseDate != null">
+            and task_purchase_date=#{taskPurchaseDate}
+        </if>
+        <if test="taskEndDate != null">
+            and task_end_date=#{taskEndDate}
+        </if>
+        <if test="taskOpinion != null">
+            and task_opinion=#{taskOpinion}
+        </if>
+        <if test="remarks != null">
+            and remarks=#{remarks}
+        </if>
+
+
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+    </select>
+
+    <select id="getCount" parameterType="com.sgai.property.purchase.entity.PlanTask" resultType="java.lang.Integer">
+        select count(1) from PURCHASE_PLAN_TASK where 1 = 1
+        <include refid="whereSql"/>
+    </select>
+
+    <insert id="insert" parameterType="com.sgai.property.purchase.entity.PlanTask">
+        insert into PURCHASE_PLAN_TASK
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="taskDept != null">
+                task_dept,
+            </if>
+            <if test="taskNeedStatus != null">
+                task_need_status,
+            </if>
+            <if test="createdDt != null">
+                created_dt,
+            </if>
+            <if test="taskNo != null">
+                task_no,
+            </if>
+            <if test="taskEmpName != null">
+                task_emp_name,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="planId != null">
+                plan_id,
+            </if>
+            <if test="taskPuchaseName != null">
+                task_puchase_name,
+            </if>
+            <if test="taskDate != null">
+                task_date,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="updatedBy != null">
+                updated_by,
+            </if>
+            <if test="id != null">
+                id,
+            </if>
+            <if test="updatedDt != null">
+                updated_dt,
+            </if>
+            <if test="stageId != null">
+                stage_id,
+            </if>
+            <if test="taskEmpId != null">
+                task_emp_id,
+            </if>
+            <if test="taskPurchaseDate != null">
+                task_purchase_date,
+            </if>
+            <if test="taskEndDate != null">
+                task_end_date,
+            </if>
+            <if test="taskOpinion != null">
+                task_opinion,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+            <if test="planMatStat != null">
+                plan_mat_stat,
+            </if>
+            <if test="taskPlanMat != null">
+                task_plan_mat,
+            </if>
+            <if test="comCode != null">
+                com_code,
+            </if>
+            <if test="moduCode != null">
+                modu_code,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="taskDept != null">
+                #{taskDept},
+            </if>
+            <if test="taskNeedStatus != null">
+                #{taskNeedStatus},
+            </if>
+            <if test="createdDt != null">
+                #{createdDt},
+            </if>
+            <if test="taskNo != null">
+                #{taskNo},
+            </if>
+            <if test="taskEmpName != null">
+                #{taskEmpName},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="planId != null">
+                #{planId},
+            </if>
+            <if test="taskPuchaseName != null">
+                #{taskPuchaseName},
+            </if>
+            <if test="taskDate != null">
+                #{taskDate},
+            </if>
+            <if test="sort != null">
+                #{sort},
+            </if>
+            <if test="updatedBy != null">
+                #{updatedBy},
+            </if>
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="updatedDt != null">
+                #{updatedDt},
+            </if>
+            <if test="stageId != null">
+                #{stageId},
+            </if>
+            <if test="taskEmpId != null">
+                #{taskEmpId},
+            </if>
+            <if test="taskPurchaseDate != null">
+                #{taskPurchaseDate},
+            </if>
+            <if test="taskEndDate != null">
+                #{taskEndDate},
+            </if>
+            <if test="taskOpinion != null">
+                #{taskOpinion},
+            </if>
+            <if test="remarks != null">
+                #{remarks},
+            </if>
+            <if test="planMatStat != null">
+                #{planMatStat},
+            </if>
+            <if test="taskPlanMat != null">
+                #{taskPlanMat},
+            </if>
+            <if test="comCode != null">
+                #{comCode},
+            </if>
+            <if test="moduCode != null">
+                #{moduCode},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.sgai.property.purchase.entity.PlanTask">
+        update PURCHASE_PLAN_TASK set
+        <trim suffixOverrides=",">
+            <if test="taskDept != null">
+                task_dept=#{taskDept},
+            </if>
+            <if test="taskNeedStatus != null">
+                task_need_status=#{taskNeedStatus},
+            </if>
+            <if test="createdDt != null">
+                created_dt=#{createdDt},
+            </if>
+            <if test="taskNo != null">
+                task_no=#{taskNo},
+            </if>
+            <if test="taskEmpName != null">
+                task_emp_name=#{taskEmpName},
+            </if>
+            <if test="version != null">
+                version=#{version},
+            </if>
+            <if test="createdBy != null">
+                created_by=#{createdBy},
+            </if>
+            <if test="planId != null">
+                plan_id=#{planId},
+            </if>
+            <if test="taskPuchaseName != null">
+                task_puchase_name=#{taskPuchaseName},
+            </if>
+            <if test="taskDate != null">
+                task_date=#{taskDate},
+            </if>
+            <if test="sort != null">
+                sort=#{sort},
+            </if>
+            <if test="updatedBy != null">
+                updated_by=#{updatedBy},
+            </if>
+            <if test="updatedDt != null">
+                updated_dt=#{updatedDt},
+            </if>
+            <if test="stageId != null">
+                stage_id=#{stageId},
+            </if>
+            <if test="taskEmpId != null">
+                task_emp_id=#{taskEmpId},
+            </if>
+            <if test="taskPurchaseDate != null">
+                task_purchase_date=#{taskPurchaseDate},
+            </if>
+            <if test="taskEndDate != null">
+                task_end_date=#{taskEndDate},
+            </if>
+            <if test="taskOpinion != null">
+                task_opinion=#{taskOpinion},
+            </if>
+            <if test="remarks != null">
+                remarks=#{remarks},
+            </if>
+            <if test="planMatStat != null">
+                plan_mat_stat=#{planMatStat},
+            </if>
+            <if test="taskPlanMat != null">
+                task_plan_mat=#{taskPlanMat},
+            </if>
+        </trim>
+        where id =#{id}
+    </update>
+
+    <update id="updateByIds" parameterType="com.sgai.property.purchase.entity.PlanTask">
+        update PURCHASE_PLAN_TASK set
+        <trim suffixOverrides=",">
+            <if test="entity.taskDept != null">
+                task_dept = #{entity.taskDept},
+            </if>
+            <if test="entity.taskNeedStatus != null">
+                task_need_status = #{entity.taskNeedStatus},
+            </if>
+            <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+            </if>
+            <if test="entity.taskNo != null">
+                task_no = #{entity.taskNo},
+            </if>
+            <if test="entity.taskEmpName != null">
+                task_emp_name = #{entity.taskEmpName},
+            </if>
+            <if test="entity.version != null">
+                version = #{entity.version},
+            </if>
+            <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+            </if>
+            <if test="entity.planId != null">
+                plan_id = #{entity.planId},
+            </if>
+            <if test="entity.taskPuchaseName != null">
+                task_puchase_name = #{entity.taskPuchaseName},
+            </if>
+            <if test="entity.taskDate != null">
+                task_date = #{entity.taskDate},
+            </if>
+            <if test="entity.sort != null">
+                sort = #{entity.sort},
+            </if>
+            <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+            </if>
+            <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+            </if>
+            <if test="entity.stageId != null">
+                stage_id = #{entity.stageId},
+            </if>
+            <if test="entity.taskEmpId != null">
+                task_emp_id = #{entity.taskEmpId},
+            </if>
+            <if test="entity.taskPurchaseDate != null">
+                task_purchase_date = #{entity.taskPurchaseDate},
+            </if>
+            <if test="entity.taskEndDate != null">
+                task_end_date = #{entity.taskEndDate},
+            </if>
+            <if test="entity.taskOpinion != null">
+                task_opinion = #{entity.taskOpinion},
+            </if>
+            <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+            </if>
+        </trim>
+        where id in
+        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+
+    <delete id="deleteById">
+      delete from PURCHASE_PLAN_TASK where id =#{id}
+   </delete>
+
+    <delete id="deleteByIds">
+        delete from PURCHASE_PLAN_TASK where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByListId">
+        delete from PURCHASE_PLAN_TASK where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="delete" parameterType="com.sgai.property.purchase.entity.PlanTask">
+        delete from PURCHASE_PLAN_TASK where 1 = 1
+        <include refid="whereSql"/>
+    </delete>
+
+</mapper>

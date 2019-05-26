@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlComBusiRelationDao">
+    
+	<sql id="ctlComBusiRelationColumns">
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.com_name AS "comName",
+		a.busi_code AS "busiCode",
+		a.busi_name AS "busiName",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="ctlComBusiRelationJoins">
+	</sql>
+    
+	<select id="get" resultType="CtlComBusiRelation">
+		SELECT 
+			<include refid="ctlComBusiRelationColumns"/>
+		FROM ctl_com_busi_relation a
+		<include refid="ctlComBusiRelationJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlComBusiRelation">
+		SELECT 
+			<include refid="ctlComBusiRelationColumns"/>
+		FROM ctl_com_busi_relation a
+		<include refid="ctlComBusiRelationJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CtlComBusiRelation">
+		SELECT 
+			<include refid="ctlComBusiRelationColumns"/>
+		FROM ctl_com_busi_relation a
+		<include refid="ctlComBusiRelationJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="getBusiListByCom" resultType="CtlBusinessDefine">
+	    SELECT 
+	       a.*
+	    FROM
+	       ctl_business_define a
+	    INNER JOIN
+	        ctl_com_busi_relation m
+	    ON 
+	        a.busi_code=m.busi_code
+	        AND m.com_code=#{comCode}
+	    WHERE
+	        a.enabled_flag='Y'
+	</select>
+		<select id="getBusiListLack" resultType="CtlBusinessDefine">
+	      SELECT
+	*
+FROM
+	(
+		SELECT
+			ROWNUM AS rowno,
+			A .*
+		FROM
+			CTL_BUSINESS_DEFINE A
+		WHERE
+			BUSI_CODE NOT IN (
+				SELECT
+					BUSI_CODE
+				FROM
+					CTL_COM_BUSI_RELATION
+				WHERE
+					COM_CODE = #{comCode}
+			)
+		AND ROWNUM &lt;= #{endNum}
+	) T
+WHERE
+	 T .rowno &gt;= #{startNum}
+	</select>
+	<select id="getAllBusiList" resultType="CtlBusinessDefine">
+	    SELECT 
+	        a.busi_code,
+	        a.busi_name
+	    FROM
+	       ctl_business_define a
+	    WHERE
+	        a.enabled_flag='Y'
+	</select>
+	<select id="getMenuByBusi" resultType="java.util.Map">
+		SELECT
+			a.MENU_CODE,
+			a.PARENT_MENU_CODE,
+			a.MENU_LEVEL,
+			s.PROG_PATH
+		FROM
+			ctl_menu A
+			left join ctl_prog s on a.PROG_CODE = s.PROG_CODE
+		WHERE
+			A .PROG_CODE IN (
+		SELECT
+			D .PROG_CODE
+		FROM
+			CTL_PROG D
+		WHERE
+			D .SBS_CODE IN (
+		SELECT
+			c.SBS_CODE
+		FROM
+			CTL_BUSI_MODE_RELATION c
+		WHERE
+			c.BUSI_CODE = #{busiCode}
+			)
+			)
+	</select>
+	<insert id="insert">
+		INSERT INTO ctl_com_busi_relation(
+			id,
+			com_code,
+			com_name,
+			busi_code,
+			busi_name,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{comCode},
+			#{comName},
+			#{busiCode},
+			#{busiName},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_com_busi_relation SET 	
+			com_code = #{comCode},
+			com_name = #{comName},
+			busi_code = #{busiCode},
+			busi_name = #{busiName},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_com_busi_relation
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteBusiTree">
+	    DELETE FROM 
+	        ctl_com_busi_relation
+	    WHERE
+	        com_code=#{comCode}
+	</delete>
+</mapper>

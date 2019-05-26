@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.em.dao.EmAssignDao">
+    
+	<sql id="emAssignColumns">
+		a.id AS "id",
+		a.instance_id AS "instanceId",
+		a.em_code AS "emCode",
+		a.em_type AS "emType",
+		a.proc_person AS "procPerson",
+		a.assign_datetime AS "assignDatetime",
+		a.assign_desc AS "assignDesc",
+		a.enabled_flag AS "enabledFlag",
+		a.end_flag AS "endFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.assign_person AS "assignPerson",
+		a.com_code AS "comCode",
+		a.modu_code AS "moducode"
+	</sql>
+	
+	<sql id="emAssignJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.em.entity.EmAssign">
+		SELECT
+			<include refid="emAssignColumns"/>
+		FROM em_assign a
+		<include refid="emAssignJoins"/>
+		where 1=1
+		<where>
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="instanceId != null and instanceId != ''">
+				AND a.instance_id = #{instanceId}
+			</if>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+			<if test="emType != null and emType != ''">
+				AND a.em_type = #{emType}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+	</select>
+
+	<select id="getAssignByCode" resultType="com.sgai.property.em.entity.EmAssign">
+		SELECT
+		a.id AS "id",
+		a.instance_id AS "instanceId",
+		a.em_code AS "emCode",
+		a.em_type AS "emType",
+		b.USER_NAME AS "procPerson",
+		a.assign_datetime AS "assignDatetime",
+		a.assign_desc AS "assignDesc",
+		a.enabled_flag AS "enabledFlag",
+		a.end_flag AS "endFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.assign_person AS "assignPerson",
+		a.com_code AS "comCode",
+		a.modu_code AS "moducode"
+		FROM em_assign a
+		LEFT JOIN CTL_USER b ON a.PROC_PERSON = b.USER_CODE AND a.COM_CODE = b.COM_CODE
+		<where>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+			<if test="emType != null and emType != ''">
+				AND a.em_type = #{emType}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+	</select>
+
+	<select id="findList" resultType="com.sgai.property.em.entity.EmAssign">
+		SELECT
+			<include refid="emAssignColumns"/>
+		FROM em_assign a
+		<include refid="emAssignJoins"/>
+		where 1=1
+		<where>
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="instanceId != null and instanceId != ''">
+				AND a.instance_id = #{instanceId}
+			</if>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+			<if test="emType != null and emType != ''">
+				AND a.em_type = #{emType}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList" resultType="com.sgai.property.em.entity.EmAssign">
+		SELECT 
+			<include refid="emAssignColumns"/>
+		FROM em_assign a
+		<include refid="emAssignJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO em_assign(
+			id,
+			instance_id,
+			em_code,
+			em_type,
+			proc_person,
+			assign_datetime,
+			assign_desc,
+			enabled_flag,
+			end_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			assign_person,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{instanceId},
+			#{emCode},
+			#{emType},
+			#{procPerson},
+			#{assignDatetime},
+			#{assignDesc},
+			#{enabledFlag},
+			#{endFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{assignPerson},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE em_assign SET 	
+			instance_id = #{instanceId},
+			em_code = #{emCode},
+			em_type = #{emType},
+			proc_person = #{procPerson},
+			assign_datetime = #{assignDatetime},
+			assign_desc = #{assignDesc},
+			enabled_flag = #{enabledFlag},
+			end_flag = #{endFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			assign_person = #{assignPerson},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM em_assign
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

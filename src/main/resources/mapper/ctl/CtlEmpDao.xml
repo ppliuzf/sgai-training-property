@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlEmpDao">
+
+    <sql id="ctlEmpColumns">
+        a.id AS "id",
+		a.emp_code AS "empCode",
+		a.com_code AS "comCode",
+		a.dept_code AS "deptCode",
+		a.dept_Name AS "deptName",
+		a.emp_class AS "empClass",
+		a.lastname AS "lastname",
+		a.firstname AS "firstname",
+		a.address1 AS "address1",
+		a.address2 AS "address2",
+		a.address3 AS "address3",
+		a.cityname AS "cityname",
+		a.zip AS "zip",
+		a.telepno1 AS "telepno1",
+		a.telepno2 AS "telepno2",
+		a.telepno3 AS "telepno3",
+		a.birthdt AS "birthdt",
+		a.sex AS "sex",
+		a.jobclass_no AS "jobclassNo",
+		a.defaproj AS "defaproj",
+		a.marriage AS "marriage",
+		a.id_card AS "idCard",
+		a.tectitle_no AS "tectitleNo",
+		a.empstatus AS "empstatus",
+		a.employdt AS "employdt",
+		a.termindt AS "termindt",
+		a.email AS "email",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.modu_code AS "moduCode"
+    </sql>
+
+    <sql id="ctlEmpJoins">
+    </sql>
+
+    <select id="get" resultType="CtlEmp">
+        SELECT
+        <include refid="ctlEmpColumns"/>
+        FROM ctl_emp a
+        <include refid="ctlEmpJoins"/>
+        WHERE a.id = #{id}
+    </select>
+    <select id="getByCode" resultType="CtlEmp">
+        SELECT
+        <include refid="ctlEmpColumns"/>
+        FROM ctl_emp a
+        WHERE a.emp_code = #{code}
+    </select>
+
+
+    <select id="getEmpByComCodeAndEmpCode" resultType="CtlEmp">
+        SELECT
+        <include refid="ctlEmpColumns"/>
+        FROM ctl_emp a
+        <include refid="ctlEmpJoins"/>
+        WHERE a.emp_code =#{arg0} and
+        a.com_code = #{arg1}
+    </select>
+
+
+    <select id="findList" resultType="CtlEmp">
+        SELECT
+        <include refid="ctlEmpColumns"/>
+        FROM ctl_emp a
+        <include refid="ctlEmpJoins"/>
+        <where>
+
+            <if test="empCode != null and empCode != ''">
+                AND a.emp_code = #{empCode}
+            </if>
+            <if test="comCode != null and comCode != ''">
+                AND a.com_code = #{comCode}
+            </if>
+            <if test="deptCode != null and deptCode != ''">
+                AND a.dept_code = #{deptCode}
+            </if>
+            <if test="lastname != null and lastname != ''">
+                AND a.lastname like '%${lastname}%'
+            </if>
+            <if test="enabledFlag != null and enabledFlag != ''">
+                AND a.enabled_flag = #{enabledFlag}
+            </if>
+            <if test="moduCode != null and moduCode != ''">
+                AND a.modu_code = #{moduCode}
+            </if>
+            <if test="moduCode == null or moduCode == ''">
+                AND a.modu_code is null
+            </if>
+
+        </where>
+        ORDER BY a.updated_dt,a.created_dt DESC
+    </select>
+
+    <select id="findEmpList" resultType="CtlEmp">
+        SELECT
+        <include refid="ctlEmpColumns"/>
+        FROM ctl_emp a
+        <include refid="ctlEmpJoins"/>
+        <where>
+
+            <if test="empCode != null and empCode != ''">
+                AND a.emp_code = #{empCode}
+            </if>
+            <if test="comCode != null and comCode != ''">
+                AND a.com_code = #{comCode}
+            </if>
+            <if test="deptCode != null and deptCode != ''">
+                AND a.dept_code = #{deptCode}
+            </if>
+            <if test="lastname != null and lastname != ''">
+                AND a.lastname like '%${lastname}%'
+            </if>
+            <if test="enabledFlag != null and enabledFlag != ''">
+                AND a.enabled_flag = #{enabledFlag}
+            </if>
+
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findEmpAllList" resultType="CtlEmp">
+        SELECT
+        <include refid="ctlEmpColumns"/>
+        FROM ctl_emp a
+        <include refid="ctlEmpJoins"/>
+        <where>
+
+            <if test="idCard != null and idCard != ''">
+                AND a.id_card = #{idCard}
+            </if>
+
+        </where>
+    </select>
+
+    <select id="findLackList" resultType="CtlEmp">
+        SELECT
+        *
+        FROM
+        CTL_EMP A
+        <where>
+            <!--NOT EXISTS (
+               SELECT
+                   E .*
+               FROM
+                   CTL_EMP E
+               INNER JOIN CTL_USER U ON E .EMP_CODE = U .CORR_CODE
+               WHERE
+                   A .EMP_CODE = E .EMP_CODE
+               <if test="comCode != null and comCode != ''">
+               AND a.com_code = #{comCode}
+               </if>
+               <if test="moduCode != null and moduCode != ''">
+               AND a.modu_code = #{moduCode}
+               </if>
+               <if test="moduCode == null or moduCode == ''">
+               AND a.modu_code is null
+               </if>
+           )-->
+            <if test="comCode != null and comCode != ''">
+                AND a.com_code = #{comCode}
+            </if>
+            <if test="lastname != null and lastname != ''">
+                AND a.lastname like concat('%',#{lastname},'%')
+            </if>
+        </where>
+    </select>
+    <select id="findAllList" resultType="CtlEmp">
+        SELECT
+        <include refid="ctlEmpColumns"/>
+        FROM ctl_emp a
+        <include refid="ctlEmpJoins"/>
+        <where>
+            <if test="comCode != null and comCode != ''">
+                AND a.com_code = #{comCode}
+            </if>
+            <if test="moduCode != null and moduCode != ''">
+                AND a.modu_code = #{moduCode}
+            </if>
+            <if test="moduCode == null or moduCode == ''">
+                AND a.modu_code is null
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
+
+
+    <insert id="insert">
+        INSERT INTO ctl_emp(id,
+                            emp_code,
+                            com_code,
+                            dept_code,
+                            dept_name,
+                            emp_class,
+                            lastname,
+                            firstname,
+                            address1,
+                            address2,
+                            address3,
+                            cityname,
+                            zip,
+                            telepno1,
+                            telepno2,
+                            telepno3,
+                            birthdt,
+                            sex,
+                            jobclass_no,
+                            defaproj,
+                            marriage,
+                            id_card,
+                            tectitle_no,
+                            empstatus,
+                            employdt,
+                            termindt,
+                            email,
+                            enabled_flag,
+                            version,
+                            updated_dt,
+                            updated_by,
+                            created_dt,
+                            created_by,
+                            remarks,
+                            modu_code)
+        VALUES (#{id},
+                #{empCode},
+                #{comCode},
+                #{deptCode},
+                #{deptName},
+                #{empClass},
+                #{lastname},
+                #{firstname},
+                #{address1},
+                #{address2},
+                #{address3},
+                #{cityname},
+                #{zip},
+                #{telepno1},
+                #{telepno2},
+                #{telepno3},
+                #{birthdt},
+                #{sex},
+                #{jobclassNo},
+                #{defaproj},
+                #{marriage},
+                #{idCard},
+                #{tectitleNo},
+                #{empstatus},
+                #{employdt},
+                #{termindt},
+                #{email},
+                #{enabledFlag},
+                #{version},
+                #{updatedDt},
+                #{updatedBy},
+                #{createdDt},
+                #{createdBy},
+                #{remarks},
+                #{moduCode})
+    </insert>
+
+    <update id="update">
+        UPDATE ctl_emp
+        SET emp_code     = #{empCode},
+            com_code     = #{comCode},
+            dept_code    = #{deptCode},
+            dept_name    = #{deptName},
+            emp_class    = #{empClass},
+            lastname     = #{lastname},
+            firstname    = #{firstname},
+            address1     = #{address1},
+            address2     = #{address2},
+            address3     = #{address3},
+            cityname     = #{cityname},
+            zip          = #{zip},
+            telepno1     = #{telepno1},
+            telepno2     = #{telepno2},
+            telepno3     = #{telepno3},
+            birthdt      = #{birthdt},
+            sex          = #{sex},
+            jobclass_no  = #{jobclassNo},
+            defaproj     = #{defaproj},
+            marriage     = #{marriage},
+            id_card      = #{idCard},
+            tectitle_no  = #{tectitleNo},
+            empstatus    = #{empstatus},
+            employdt     = #{employdt},
+            termindt     = #{termindt},
+            email        = #{email},
+            enabled_flag = #{enabledFlag},
+            version      = #{version},
+            updated_dt   = #{updatedDt},
+            updated_by   = #{updatedBy},
+            created_dt   = #{createdDt},
+            created_by   = #{createdBy},
+            remarks      = #{remarks},
+            modu_code    = #{moduCode}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        DELETE
+        FROM ctl_emp
+        WHERE id = #{id}
+    </update>
+
+</mapper>

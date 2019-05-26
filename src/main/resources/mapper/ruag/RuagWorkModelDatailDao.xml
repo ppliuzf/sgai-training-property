@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ruag.dao.RuagWorkModelDatailDao">
+
+	<sql id="ruagWorkModelDatailColumns">
+		a.id AS "id",
+		a.model_template_id AS "modelTemplateId",
+		a.work_mode_name AS "workModeName",
+		a.prof_code AS "profCode",
+		a.prof_name AS "profName",
+		a.device_code AS "deviceCode",
+		a.device_name AS "deviceName",
+		a.space_code AS "spaceCode",
+		a.space_name AS "spaceName",
+		a.oper AS "oper",
+		a.open_time AS "openTime",
+		a.close_time AS "closeTime",
+		a.offset_time_kind AS "offsetTimeKind",
+		a.offset_time AS "offsetTime",
+		a.compare_point AS "comparePoint",
+		a.status AS "status",
+		a.time_start AS "timeStart",
+		a.time_end AS "timeEnd",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.class_code AS "classCode",
+		a.class_name AS "className",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+
+	<sql id="ruagWorkModelDatailJoins">
+	</sql>
+
+	<select id="get" resultType="com.sgai.property.ruag.entity.RuagWorkModelDatail">
+		SELECT
+			<include refid="ruagWorkModelDatailColumns"/>
+		FROM ruag_work_model_datail a
+		<include refid="ruagWorkModelDatailJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findDevicesById" resultType="com.sgai.property.ruag.entity.RuagWorkModelDatail">
+		SELECT b.* from  RUAG_MODEL_TEMPLATE a LEFT JOIN RUAG_WORK_MODEL_DATAIL b on a.id=b.model_template_id  where a.id=#{id}
+
+
+	</select>
+
+
+
+	<select id="getListByIds" resultType="com.sgai.property.ruag.entity.RuagWorkModelDatail">
+		SELECT
+			<include refid="ruagWorkModelDatailColumns"/>
+		FROM ruag_work_model_datail a
+		<where>
+		     <if test="modelTemplateId != null and modelTemplateId != ''">
+				AND a.model_template_id in ${modelTemplateId}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code  is null
+			</if>
+			<if test="profCode != null and profCode != ''">
+				AND a.prof_code =#{profCode}
+			</if>
+			<if test="deviceCode != null and deviceCode != ''">
+				AND a.device_code =#{deviceCode}
+			</if>
+			<if test="deviceName != null and deviceName != ''">
+				AND a.device_name like '%${deviceName}%'
+			</if>
+			<if test="profName != null and profName != ''">
+				AND a.prof_name like '%${profName}%'
+			</if>
+		</where>
+		   ORDER BY updated_dt DESC
+	</select>
+
+
+	<select id="getListGroupByProfCode" resultType="com.sgai.property.ruag.entity.RuagWorkModelDatail">
+		SELECT
+			prof_code as "profCode"
+		FROM ruag_work_model_datail a
+		<where>
+		     <if test="modelTemplateId != null and modelTemplateId != ''">
+				AND a.model_template_id in ${modelTemplateId}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code  is null
+			</if>
+		</where>
+		group by a.prof_code
+	</select>
+
+
+	<select id="findList" resultType="com.sgai.property.ruag.entity.RuagWorkModelDatail">
+		SELECT
+			<include refid="ruagWorkModelDatailColumns"/>
+		FROM ruag_work_model_datail a
+		<include refid="ruagWorkModelDatailJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code  is null
+			</if>
+			<if test="workModeName != null and workModeName != ''">
+				AND a.work_mode_name like '%${workModeName}%'
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND a.space_name like '%${spaceName}%'
+			</if>
+			<if test="modelTemplateId != null and modelTemplateId != ''">
+				AND a.model_template_id =#{modelTemplateId}
+			</if>
+			<if test="profCode != null and profCode != ''">
+				AND a.prof_code =#{profCode}
+			</if>
+			<if test="spaceCode != null and spaceCode != ''">
+				AND a.space_code =#{spaceCode}
+			</if>
+			<if test="classCode != null and classCode != ''">
+				AND a.class_code =#{classCode}
+			</if>
+			<if test="deviceCode != null and deviceCode != ''">
+				AND a.device_code =#{deviceCode}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status =#{status}
+			</if>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sql}
+			</if>
+		</where>
+		   ORDER BY updated_dt DESC
+		<!-- <choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose> -->
+	</select>
+	<select id="findAllOfList" resultType="com.sgai.property.ruag.entity.RuagWorkModelDatail">
+		SELECT
+			<include refid="ruagWorkModelDatailColumns"/>
+		FROM ruag_work_model_datail a
+		<include refid="ruagWorkModelDatailJoins"/>
+		<where>
+			<if test="workModeName != null and workModeName != ''">
+				AND a.work_mode_name like '%${workModeName}%'
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND a.space_name like '%${spaceName}%'
+			</if>
+			<if test="modelTemplateId != null and modelTemplateId != ''">
+				AND a.model_template_id =#{modelTemplateId}
+			</if>
+			<if test="profCode != null and profCode != ''">
+				AND a.prof_code =#{profCode}
+			</if>
+			<if test="spaceCode != null and spaceCode != ''">
+				AND a.space_code =#{spaceCode}
+			</if>
+			<if test="classCode != null and classCode != ''">
+				AND a.class_code =#{classCode}
+			</if>
+			<if test="deviceCode != null and deviceCode != ''">
+				AND a.device_code =#{deviceCode}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status =#{status}
+			</if>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sql}
+			</if>
+		</where>
+		   ORDER BY updated_dt DESC
+		<!-- <choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose> -->
+	</select>
+	<select id="findAllList" resultType="com.sgai.property.ruag.entity.RuagWorkModelDatail">
+		SELECT
+			<include refid="ruagWorkModelDatailColumns"/>
+		FROM ruag_work_model_datail a
+		<include refid="ruagWorkModelDatailJoins"/>
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findDatilByDay" resultType="com.sgai.property.ruag.entity.RuagWorkModelDatail">
+		SELECT DISTINCT
+			A .DEVICE_CODE,
+			A .CLASS_CODE,
+			A .SPACE_CODE,
+			A .PROF_CODE,
+			A .MODEL_TEMPLATE_ID
+		FROM
+			RUAG_WORK_MODEL_DATAIL A
+		INNER JOIN RUAG_DEVICE_CALENDAR_INSTCTION D ON A .MODEL_TEMPLATE_ID = D .MODEL_ID
+		WHERE
+		    a.com_code = #{comCode}
+		<if test="moduCode != null and moduCode!= ''">
+				AND a.modu_code =#{moduCode}
+		</if>
+		<if test="moduCode == null and moduCode== ''">
+				AND a.modu_code is null
+		</if>
+		AND	A .MODEL_TEMPLATE_ID = #{modelTemplateId}
+		AND D.DCI_DATE = str_to_date(#{date},'%Y-%m-%d')
+	</select>
+	<select id="findOwnModels" resultType="com.sgai.property.ruag.entity.RuagWorkModelDatail">
+		SELECT
+			*
+		FROM
+			RUAG_WORK_MODEL_DATAIL A
+			INNER JOIN RUAG_CALENDAR_WORK_MODEL b ON A ."ID" = b.WORK_MODEL_ID
+			AND b.MODEL_CALENDAR_ID = #{modelCalendarId}
+			AND b.com_code = #{comCode}
+			<if test="moduCode != null and moduCode!= ''">
+				AND a.modu_code =#{moduCode}
+		</if>
+		<if test="moduCode == null and moduCode== ''">
+				AND a.modu_code is null
+		</if>
+	</select>
+	<select id="findDevicesCodes" resultType="String">
+		SELECT
+  			a.DEVICE_CODE
+		FROM
+			RUAG_WORK_MODEL_DATAIL a
+		WHERE a.MODEL_TEMPLATE_ID=#{modelTemplateId}
+		AND a.com_code = #{comCode}
+		<if test="moduCode != null and moduCode!= ''">
+				AND a.modu_code =#{moduCode}
+		</if>
+		<if test="moduCode == null and moduCode== ''">
+				AND a.modu_code is null
+		</if>
+	</select>
+	<insert id="insert">
+		INSERT INTO ruag_work_model_datail(
+			id,
+			model_template_id,
+			work_mode_name,
+			prof_code,
+			prof_name,
+			device_code,
+			device_name,
+			space_code,
+			space_name,
+			oper,
+			open_time,
+			close_time,
+			offset_time_kind,
+			offset_time,
+			compare_point,
+			status,
+			time_start,
+			time_end,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			class_code,
+			class_name,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{modelTemplateId},
+			#{workModeName},
+			#{profCode},
+			#{profName},
+			#{deviceCode},
+			#{deviceName},
+			#{spaceCode},
+			#{spaceName},
+			#{oper},
+			#{openTime},
+			#{closeTime},
+			#{offsetTimeKind},
+			#{offsetTime},
+			#{comparePoint},
+			#{status},
+			#{timeStart},
+			#{timeEnd},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{classCode},
+			#{className},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE ruag_work_model_datail SET
+			model_template_id = #{modelTemplateId},
+			work_mode_name = #{workModeName},
+			prof_code = #{profCode},
+			prof_name = #{profName},
+			device_code = #{deviceCode},
+			device_name = #{deviceName},
+			space_code = #{spaceCode},
+			space_name = #{spaceName},
+			oper = #{oper},
+			open_time = #{openTime},
+			close_time = #{closeTime},
+			offset_time_kind = #{offsetTimeKind},
+			offset_time = #{offsetTime},
+			compare_point = #{comparePoint},
+			status = #{status},
+			time_start = #{timeStart},
+			time_end = #{timeEnd},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			class_code=#{classCode},
+			class_name=#{className},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		DELETE FROM ruag_work_model_datail
+		WHERE id = #{id}
+	</update>
+
+</mapper>

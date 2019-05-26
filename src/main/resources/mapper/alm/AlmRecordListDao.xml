@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.alm.dao.AlmRecordListDao">
+    
+	<sql id="almRecordListColumns">
+		a.id AS "id",
+		a.record_num AS "recordNum",
+		a.level_code AS "levelCode",
+		a.level_name AS "levelName",
+		a.alerm_type_code AS "alermTypeCode",
+		a.alerm_type_name AS "alermTypeName",
+		a.prof_code AS "profCode",
+		a.prof_name AS "profName",
+		a.devices_code AS "devicesCode",
+		a.devices_name AS "devicesName",
+		a.space_id AS "spaceId",
+		a.space_name AS "spaceName",
+		a.alarm_time AS "alarmTime",
+		a.process_time AS "processTime",
+		a.alarm_msg AS "alarmMsg",
+		a.states AS "states",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode",
+		a.em_code AS "emCode"
+	</sql>
+	
+	<sql id="almRecordListJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.alm.entity.AlmRecordList">
+		SELECT 
+			<include refid="almRecordListColumns"/>
+		FROM alm_record_list a
+		<include refid="almRecordListJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getAlarmListByUser" resultType="com.sgai.property.alm.entity.AlmRecordList">
+			 SELECT ALM.* ,equ.EQUIPMENT_CODE as equipmentCode,equ.EQUIPMENT_NAME as equipmentName from ALM_RECORD_LIST alm
+          LEFT JOIN MON_EQUIPMENT equ ON ALM.DEVICES_CODE=equ.EQUIPMENT_CODE
+	    <where>
+		   EQU.EQUIPMENT_CODE is not NULL
+		    <if test="profName != null and profName != ''">
+				AND alm.prof_name like '%${profName}%'
+			</if>
+		    <if test="alermTypeName != null and alermTypeName != ''">
+				AND alm.alerm_type_name like '%${alermTypeName}%'
+			</if>
+		   <if test="comCode != null and comCode != ''">
+				AND alm.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND alm.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND alm.modu_code is null
+			</if>
+		</where>
+		ORDER BY alm.states
+		<!-- <choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose> -->
+	</select>
+	
+	<select id="findIndexAlmForPage" resultType="com.sgai.property.alm.entity.AlmRecordList">
+	    SELECT 
+			<include refid="almRecordListColumns"/>
+		FROM alm_record_list a
+	    <where>
+		   a.states in ('10','20')
+		   <if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		 ORDER BY a.record_num DESC
+		<!-- <choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose> -->
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.alm.entity.AlmRecordList">
+		SELECT 
+			<include refid="almRecordListColumns"/>
+		FROM alm_record_list a
+		<include refid="almRecordListJoins"/>
+		<where>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				${sqlMap.sql}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="recordNum != null and recordNum != ''">
+				 and a.record_num = #{recordNum}
+			</if> 
+			<if test="levelCode != null and levelCode != ''">
+				AND a.level_code = #{levelCode}
+			</if>
+			<if test="levelName != null and levelName != ''">
+				AND a.level_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{levelName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{levelName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{levelName},'%')</if>
+			</if>
+			<if test="alermTypeCode != null and alermTypeCode != ''">
+				AND a.alerm_type_code = #{alermTypeCode}
+			</if>
+			<if test="alermTypeName != null and alermTypeName != ''">
+				AND a.alerm_type_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{alermTypeName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{alermTypeName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{alermTypeName},'%')</if>
+			</if>
+			<if test="profCode != null and profCode != ''">
+				AND a.prof_code = #{profCode}
+			</if>
+			<if test="profName != null and profName != ''">
+				AND a.prof_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{profName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{profName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{profName},'%')</if>
+			</if>
+			<if test="devicesCode != null and devicesCode != ''">
+				AND a.devices_code = #{devicesCode}
+			</if>
+			<if test="devicesName != null and devicesName != ''">
+				AND a.devices_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{devicesName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{devicesName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{devicesName},'%')</if>
+			</if>
+			<if test="spaceId != null and spaceId != ''">
+				AND a.space_id in (select DISTINCT NODE_CODE from MDM_SPACE_TREE WHERE com_code = #{comCode} start with NODE_CODE=#{spaceId} connect by prior NODE_CODE=PARENT_CODE) 
+			    <!-- AND a.space_id = #{spaceId} -->
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND a.space_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{spaceName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{spaceName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{spaceName},'%')</if>
+			</if>
+			<if test="alarmTime != null and alarmTime != ''">
+				AND a.alarm_time = #{alarmTime}
+			</if>
+			<if test="states != null and states != ''">
+				AND a.states = #{states}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="area !=null and area != ''">
+				AND a.SPACE_ID in (select NODE_CODE from MDM_SPACE_TREE WHERE com_code = #{comCode} start with NODE_CODE=#{area} connect by prior NODE_CODE=PARENT_CODE)
+			</if>
+			<!-- <if test="sqlMap.sql != null  and sqlMap.sql != ''" >
+				 AND ${sqlMap.sql}
+			</if> -->
+		</where>
+		 ORDER BY a.record_num DESC
+		<!-- <choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose> -->
+	</select>
+	
+	<select id="findCount" resultType="java.lang.Integer">
+		SELECT 
+			count(*)
+		FROM alm_record_list a
+		<where>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sqlMap}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="recordNum != null and recordNum != ''">
+				 and a.record_num = #{recordNum}
+			</if> 
+			<if test="levelCode != null and levelCode != ''">
+				AND a.level_code = #{levelCode}
+			</if>
+			<if test="levelName != null and levelName != ''">
+				AND a.level_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{levelName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{levelName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{levelName},'%')</if>
+			</if>
+			<if test="alermTypeCode != null and alermTypeCode != ''">
+				AND a.alerm_type_code = #{alermTypeCode}
+			</if>
+			<if test="alermTypeName != null and alermTypeName != ''">
+				AND a.alerm_type_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{alermTypeName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{alermTypeName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{alermTypeName},'%')</if>
+			</if>
+			<if test="profCode != null and profCode != ''">
+				AND a.prof_code = #{profCode}
+			</if>
+			<if test="profName != null and profName != ''">
+				AND a.prof_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{profName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{profName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{profName},'%')</if>
+			</if>
+			<if test="devicesCode != null and devicesCode != ''">
+				AND a.devices_code = #{devicesCode}
+			</if>
+			<if test="devicesName != null and devicesName != ''">
+				AND a.devices_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{devicesName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{devicesName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{devicesName},'%')</if>
+			</if>
+			<if test="spaceId != null and spaceId != ''">
+				AND a.space_id in (select NODE_CODE from MDM_SPACE_TREE WHERE com_code = #{comCode} start with NODE_CODE=#{spaceId} connect by prior NODE_CODE=PARENT_CODE)
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND a.space_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{spaceName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{spaceName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{spaceName},'%')</if>
+			</if>
+			<if test="alarmTime != null and alarmTime != ''">
+				AND a.alarm_time = #{alarmTime}
+			</if>
+			<if test="states != null and states != ''">
+				AND a.states = #{states}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="area !=null and area != ''">
+				AND a.SPACE_ID in (select NODE_CODE from MDM_SPACE_TREE WHERE com_code = #{comCode} start with NODE_CODE=#{area} connect by prior NODE_CODE=PARENT_CODE)
+			</if>
+		</where>
+	</select>
+	<select id = "almCountsByProf"  resultType="java.util.Map">
+			SELECT
+				PROF_CODE AS profCode,
+				COUNT( RECORD_NUM ) AS count
+			FROM
+				ALM_RECORD_LIST 
+			WHERE
+				CREATED_DT IS NOT NULL 
+			GROUP BY
+				PROF_CODE
+	</select>
+	
+	<select id="findListOrderByStates" resultType="com.sgai.property.alm.entity.AlmRecordList">
+		SELECT 
+			<include refid="almRecordListColumns"/>
+		FROM alm_record_list a
+		<include refid="almRecordListJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="recordNum != null and recordNum != ''">
+				 and a.record_num = #{recordNum}
+			</if> 
+			<if test="levelCode != null and levelCode != ''">
+				AND a.level_code = #{levelCode}
+			</if>
+			<if test="levelName != null and levelName != ''">
+				AND a.level_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{levelName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{levelName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{levelName},'%')</if>
+			</if>
+			<if test="alermTypeCode != null and alermTypeCode != ''">
+				AND a.alerm_type_code = #{alermTypeCode}
+			</if>
+			<if test="alermTypeName != null and alermTypeName != ''">
+				AND a.alerm_type_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{alermTypeName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{alermTypeName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{alermTypeName},'%')</if>
+			</if>
+			<if test="profCode != null and profCode != ''">
+				AND a.prof_code = #{profCode}
+			</if>
+			<if test="profName != null and profName != ''">
+				AND a.prof_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{profName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{profName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{profName},'%')</if>
+			</if>
+			<if test="devicesCode != null and devicesCode != ''">
+				AND a.devices_code = #{devicesCode}
+			</if>
+			<if test="devicesName != null and devicesName != ''">
+				AND a.devices_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{devicesName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{devicesName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{devicesName},'%')</if>
+			</if>
+			<if test="spaceId != null and spaceId != ''">
+				AND a.space_id = #{spaceId}
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND a.space_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{spaceName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{spaceName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{spaceName},'%')</if>
+			</if>
+			<if test="alarmTime != null and alarmTime != ''">
+				AND a.alarm_time = #{alarmTime}
+			</if>
+			<if test="states != null and states != ''">
+				AND a.states = #{states}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="area !=null and area != ''">
+				AND a.SPACE_ID in (select NODE_CODE from MDM_SPACE_TREE WHERE com_code = #{comCode} start with NODE_CODE=#{area} connect by prior NODE_CODE=PARENT_CODE)
+			</if>
+		</where>
+		 ORDER BY a.states
+		<!-- <choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose> -->
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.alm.entity.AlmRecordList">
+		SELECT 
+			<include refid="almRecordListColumns"/>
+		FROM alm_record_list a
+		<include refid="almRecordListJoins"/>
+		<where>
+		
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<insert id="insert">
+		INSERT INTO alm_record_list(
+			id,
+			record_num,
+			level_code,
+			level_name,
+			alerm_type_code,
+			alerm_type_name,
+			prof_code,
+			prof_name,
+			devices_code,
+			devices_name,
+			space_id,
+			space_name,
+			alarm_time,
+			process_time,
+			alarm_msg,
+			states,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code,
+			modu_code,
+			em_code
+		) VALUES (
+			#{id},
+			#{recordNum},
+			#{levelCode},
+			#{levelName},
+			#{alermTypeCode},
+			#{alermTypeName},
+			#{profCode},
+			#{profName},
+			#{devicesCode},
+			#{devicesName},
+			#{spaceId},
+			#{spaceName},
+			#{alarmTime},
+			#{processTime},
+			#{alarmMsg},
+			#{states},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode},
+			#{moduCode},
+			#{emCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE alm_record_list SET 	
+			record_num = #{recordNum},
+			level_code = #{levelCode},
+			level_name = #{levelName},
+			alerm_type_code = #{alermTypeCode},
+			alerm_type_name = #{alermTypeName},
+			prof_code = #{profCode},
+			prof_name = #{profName},
+			devices_code = #{devicesCode},
+			devices_name = #{devicesName},
+			space_id = #{spaceId},
+			space_name = #{spaceName},
+			alarm_time = #{alarmTime},
+			process_time = #{processTime},
+			alarm_msg = #{alarmMsg},
+			states = #{states},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			com_code = #{comCode},
+			modu_code = #{moduCode},
+			em_code = #{emCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM alm_record_list
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

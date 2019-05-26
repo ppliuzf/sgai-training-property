@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlCompBusiDao">
+    
+	<sql id="ctlCompBusiColumns">
+		a.id AS "id",
+		a.busi_code AS "busiCode",
+		a.com_code AS "comCode",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="ctlCompBusiJoins">
+	</sql>
+    
+	<select id="get" resultType="CtlCompBusi">
+		SELECT 
+			<include refid="ctlCompBusiColumns"/>
+		FROM ctl_comp_busi a
+		<include refid="ctlCompBusiJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlCompBusi">
+		SELECT 
+			<include refid="ctlCompBusiColumns"/>
+		FROM ctl_comp_busi a
+		<include refid="ctlCompBusiJoins"/>
+		<where>
+			
+			<if test="busiCode != null and busiCode != ''">
+				AND a.busi_code = #{busiCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CtlCompBusi">
+		SELECT 
+			<include refid="ctlCompBusiColumns"/>
+		FROM ctl_comp_busi a
+		<include refid="ctlCompBusiJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	
+	<insert id="insert">
+		INSERT INTO ctl_comp_busi(
+			id,
+			busi_code,
+			com_code,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{busiCode},
+			#{comCode},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_comp_busi SET 	
+			busi_code = #{busiCode},
+			com_code = #{comCode},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_comp_busi
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteByCompCode">
+	    DELETE
+	    	FROM ctl_comp_busi a
+	    WHERE
+	        a.com_code=#{comCode}
+	</delete>
+	
+</mapper>

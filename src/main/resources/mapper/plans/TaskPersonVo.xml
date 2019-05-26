@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.quality.dao.plan.ITaskPersonDaoVo" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.quality.entity.plan.TaskPerson" >
+           <id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="updated_dt" property="updatedDt" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="BIGINT" />
+         <result column="person_icon" property="personIcon" jdbcType="VARCHAR" />
+         <result column="person_type" property="personType" jdbcType="BIGINT" />
+         <result column="is_delete" property="isDelete" jdbcType="BIGINT" />
+         <result column="ei_emp_name" property="eiEmpName" jdbcType="VARCHAR" />
+         <result column="task_id" property="taskId" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+         <result column="toon_user_id" property="toonUserId" jdbcType="VARCHAR" />
+         <result column="ei_id" property="eiId" jdbcType="VARCHAR" />
+         <result column="bjtoon_code" property="bjtoonCode" jdbcType="VARCHAR" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="feed_id" property="feedId" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       updated_dt
+       ,create_time
+       ,person_icon
+       ,person_type
+       ,is_delete
+       ,ei_emp_name
+       ,task_id
+       ,id
+       ,created_dt
+       ,updated_by
+       ,version
+       ,created_by
+       ,update_time
+       ,toon_user_id
+       ,ei_id
+       ,bjtoon_code
+       ,remarks
+       ,feed_id
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="createTime != null">
+			and create_time=#{createTime}
+		 </if> 
+       <if test="personIcon != null">
+			and person_icon=#{personIcon}
+		 </if> 
+       <if test="personType != null">
+			and person_type=#{personType}
+		 </if> 
+       <if test="isDelete != null">
+			and is_delete=#{isDelete}
+		 </if> 
+       <if test="eiEmpName != null">
+			and ei_emp_name=#{eiEmpName}
+		 </if> 
+       <if test="taskId != null">
+			and task_id=#{taskId}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="updateTime != null">
+			and update_time=#{updateTime}
+		 </if> 
+       <if test="toonUserId != null">
+			and toon_user_id=#{toonUserId}
+		 </if> 
+       <if test="eiId != null">
+			and ei_id=#{eiId}
+		 </if> 
+       <if test="bjtoonCode != null">
+			and bjtoon_code=#{bjtoonCode}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="feedId != null">
+			and feed_id=#{feedId}
+		 </if> 
+      </trim>
+  </sql>
+  
+  	<select id="getTaskIdsByEiId" parameterType="com.sgai.property.quality.entity.plan.TaskPerson" resultType="String">
+		select TASK_ID from JH_TASK_PERSON 
+		<where>
+			<if test="eiId != null and eiId != '' ">
+				ei_id = #{eiId} 
+			</if>
+			<if test="personType != null and personType != '' ">
+				and PERSON_TYPE = #{personType}
+			</if>
+		</where>
+	</select>
+   
+</mapper>

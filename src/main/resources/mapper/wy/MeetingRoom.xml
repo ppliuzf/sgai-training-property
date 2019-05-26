@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.MeetingRoomDao">
+
+    <resultMap id="MeetingRoomMap" type="com.sgai.property.wy.entity.MeetingRoom">
+        <id column="id" property="id"/>
+        <result column="floor_Id" property="floorId"/>
+        <result column="meeting_Name" property="meetingName"/>
+        <result column="meeting_Address" property="meetingAddress"/>
+        <result column="meeting_Type" property="meetingType"/>
+        <result column="meeting_Service_Type" property="meetingServiceType"/>
+        <collection property="meetings" column="id" javaType="ArrayList"
+                    ofType="com.sgai.property.wy.entity.MeetingOrder">
+            <result column="beginTime" property="beginTime"/>
+            <result column="endTime" property="endTime"/>
+            <result column="meetingScale" property="meetingScale"/>
+        </collection>
+    </resultMap>
+    <sql id="meetingRoomSelect">
+        SELECT
+            id                   id,
+            floor_Id             floorId,
+            meeting_Name         meetingName,
+            meeting_Address      meetingAddress,
+            meeting_Type         meetingType,
+            meeting_Service_Type meetingServiceType
+        FROM
+            WY_CUS_MEET_ROOM w
+    </sql>
+    <select id="findList" resultMap="MeetingRoomMap" parameterType="com.sgai.property.wy.entity.MeetingRoom">
+        SELECT
+            w.*,
+            o.beginTime,
+            o.endTime,
+            o.meetingScale
+        FROM WY_CUS_MEET_ROOM w
+            LEFT JOIN (SELECT
+                           ord.id              id,
+                           ord.MEETING_ROOM_ID meetingRoomId,
+                           ord.BEGIN_TIME      beginTime,
+                           ord.END_TIME        endTime,
+                           ord.MEETING_SCALE   meetingScale
+                       FROM WY_CUS_MEET_ORDER ord
+                       WHERE DATE_FORMAT(ord.BEGIN_TIME,'%Y-%m-%d')  = #{searchTime} AND
+                             ord.SERVICE_TYPE = '预约'
+                       ORDER BY ord.BEGIN_TIME) o ON o.meetingRoomId = w.ID
+        WHERE w.FLOOR_ID = #{floorId}
+    </select>
+    <update id="delete">
+        DELETE FROM WY_CUS_MEET_ROOM
+        WHERE ID = #{id}
+    </update>
+
+    <insert id="insert">
+        INSERT INTO WY_CUS_MEET_ROOM (
+            ID,
+            floor_Id,
+            meeting_Name,
+            meeting_Address,
+            meeting_Type,
+            meeting_Service_Type
+        )
+        VALUES
+            (
+                #{id},
+                #{floorId},
+                #{meetingName},
+                #{meetingAddress},
+                #{meetingType},
+                #{meetingServiceType}
+            )
+    </insert>
+
+    <select id="get" resultType="com.sgai.property.wy.entity.MeetingRoom">
+        <include refid="meetingRoomSelect"/>
+        WHERE w.id = #{id}
+    </select>
+
+    <update id="update">
+        UPDATE WY_CUS_MEET_ROOM
+        SET ID                   = #{id},
+            floor_Id             = #{floorId},
+            meeting_Name         = #{meetingName},
+            meeting_Address      = #{meetingAddress},
+            meeting_Type         = #{meetingType},
+            meeting_Service_Type = #{meetingServiceType}
+        WHERE
+            ID = #{id}
+    </update>
+
+</mapper>

@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.quality.dao.plan.IPeriodPCDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.quality.entity.plan.Period" >
+           <id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="updated_dt" property="updatedDt" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="BIGINT" />
+         <result column="creator_ei_emp_name" property="creatorEiEmpName" jdbcType="VARCHAR" />
+         <result column="record_id" property="recordId" jdbcType="VARCHAR" />
+         <result column="is_delete" property="isDelete" jdbcType="BIGINT" />
+         <result column="type_id" property="typeId" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+         <result column="creator_ei_id" property="creatorEiId" jdbcType="VARCHAR" />
+         <result column="period_sort" property="periodSort" jdbcType="BIGINT" />
+         <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+         <result column="record_name" property="recordName" jdbcType="VARCHAR" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="period_name" property="periodName" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       updated_dt
+       ,id
+       ,create_time
+       ,creator_ei_emp_name
+       ,record_id
+       ,is_delete
+       ,type_id
+       ,created_dt
+       ,updated_by
+       ,version
+       ,created_by
+       ,update_time
+       ,creator_ei_id
+       ,period_sort
+       ,type_name
+       ,record_name
+       ,remarks
+       ,period_name
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="createTime != null">
+			and create_time=#{createTime}
+		 </if> 
+       <if test="creatorEiEmpName != null">
+			and creator_ei_emp_name=#{creatorEiEmpName}
+		 </if> 
+       <if test="recordId != null">
+			and record_id=#{recordId}
+		 </if> 
+       <if test="isDelete != null">
+			and is_delete=#{isDelete}
+		 </if> 
+       <if test="typeId != null">
+			and type_id=#{typeId}
+		 </if> 
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="updateTime != null">
+			and update_time=#{updateTime}
+		 </if> 
+       <if test="creatorEiId != null">
+			and creator_ei_id=#{creatorEiId}
+		 </if> 
+       <if test="periodSort != null">
+			and period_sort=#{periodSort}
+		 </if> 
+       <if test="typeName != null">
+			and type_name=#{typeName}
+		 </if> 
+       <if test="recordName != null">
+			and record_name=#{recordName}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="periodName != null">
+			and period_name=#{periodName}
+		 </if> 
+      </trim>
+  </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from JH_PERIOD  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from JH_PERIOD  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from JH_PERIOD  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.quality.entity.plan.Period">
+		select <include refid="baseColumns"/> from
+       JH_PERIOD  where   <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from JH_PERIOD
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.quality.entity.plan.Period" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from JH_PERIOD where   <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.quality.entity.plan.Period" resultType="java.lang.Integer">
+           select count(1) from JH_PERIOD where   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.quality.entity.plan.Period">
+      insert into JH_PERIOD 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="createTime != null">
+				   create_time,
+			 </if> 
+          <if test="creatorEiEmpName != null">
+				   creator_ei_emp_name,
+			 </if> 
+          <if test="recordId != null">
+				   record_id,
+			 </if> 
+          <if test="isDelete != null">
+				   is_delete,
+			 </if> 
+          <if test="typeId != null">
+				   type_id,
+			 </if> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="updateTime != null">
+				   update_time,
+			 </if> 
+          <if test="creatorEiId != null">
+				   creator_ei_id,
+			 </if> 
+          <if test="periodSort != null">
+				   period_sort,
+			 </if> 
+          <if test="typeName != null">
+				   type_name,
+			 </if> 
+          <if test="recordName != null">
+				   record_name,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+          <if test="periodName != null">
+				   period_name,
+			 </if> 
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="createTime != null">
+				#{createTime},
+			  </if>
+			  <if test="creatorEiEmpName != null">
+				#{creatorEiEmpName},
+			  </if>
+			  <if test="recordId != null">
+				#{recordId},
+			  </if>
+			  <if test="isDelete != null">
+				#{isDelete},
+			  </if>
+			  <if test="typeId != null">
+				#{typeId},
+			  </if>
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="updateTime != null">
+				#{updateTime},
+			  </if>
+			  <if test="creatorEiId != null">
+				#{creatorEiId},
+			  </if>
+			  <if test="periodSort != null">
+				#{periodSort},
+			  </if>
+			  <if test="typeName != null">
+				#{typeName},
+			  </if>
+			  <if test="recordName != null">
+				#{recordName},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			  <if test="periodName != null">
+				#{periodName},
+			  </if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.quality.entity.plan.Period">
+	   update JH_PERIOD  set
+	    <trim suffixOverrides="," >
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="createTime != null">
+					 create_time=#{createTime},
+				  </if>
+				  <if test="creatorEiEmpName != null">
+					 creator_ei_emp_name=#{creatorEiEmpName},
+				  </if>
+				  <if test="recordId != null">
+					 record_id=#{recordId},
+				  </if>
+				  <if test="isDelete != null">
+					 is_delete=#{isDelete},
+				  </if>
+				  <if test="typeId != null">
+					 type_id=#{typeId},
+				  </if>
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="updateTime != null">
+					 update_time=#{updateTime},
+				  </if>
+				  <if test="creatorEiId != null">
+					 creator_ei_id=#{creatorEiId},
+				  </if>
+				  <if test="periodSort != null">
+					 period_sort=#{periodSort},
+				  </if>
+				  <if test="typeName != null">
+					 type_name=#{typeName},
+				  </if>
+				  <if test="recordName != null">
+					 record_name=#{recordName},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				  <if test="periodName != null">
+					 period_name=#{periodName},
+				  </if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+<update id="update" parameterType="com.sgai.property.quality.entity.plan.Period">
+	   update JH_PERIOD  set
+	    <trim suffixOverrides="," >
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="createTime != null">
+					 create_time=#{createTime},
+				  </if>
+				  <if test="creatorEiEmpName != null">
+					 creator_ei_emp_name=#{creatorEiEmpName},
+				  </if>
+				  <if test="recordId != null">
+					 record_id=#{recordId},
+				  </if>
+				  <if test="isDelete != null">
+					 is_delete=#{isDelete},
+				  </if>
+				  <if test="typeId != null">
+					 type_id=#{typeId},
+				  </if>
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="updateTime != null">
+					 update_time=#{updateTime},
+				  </if>
+				  <if test="creatorEiId != null">
+					 creator_ei_id=#{creatorEiId},
+				  </if>
+				  <if test="periodSort != null">
+					 period_sort=#{periodSort},
+				  </if>
+				  <if test="typeName != null">
+					 type_name=#{typeName},
+				  </if>
+				  <if test="recordName != null">
+					 record_name=#{recordName},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				  <if test="periodName != null">
+					 period_name=#{periodName},
+				  </if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.quality.entity.plan.Period">
+        update JH_PERIOD  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.createTime != null">
+                create_time = #{entity.createTime},
+				  </if>
+				  <if test="entity.creatorEiEmpName != null">
+                creator_ei_emp_name = #{entity.creatorEiEmpName},
+				  </if>
+				  <if test="entity.recordId != null">
+                record_id = #{entity.recordId},
+				  </if>
+				  <if test="entity.isDelete != null">
+                is_delete = #{entity.isDelete},
+				  </if>
+				  <if test="entity.typeId != null">
+                type_id = #{entity.typeId},
+				  </if>
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.updateTime != null">
+                update_time = #{entity.updateTime},
+				  </if>
+				  <if test="entity.creatorEiId != null">
+                creator_ei_id = #{entity.creatorEiId},
+				  </if>
+				  <if test="entity.periodSort != null">
+                period_sort = #{entity.periodSort},
+				  </if>
+				  <if test="entity.typeName != null">
+                type_name = #{entity.typeName},
+				  </if>
+				  <if test="entity.recordName != null">
+                record_name = #{entity.recordName},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+				  <if test="entity.periodName != null">
+                period_name = #{entity.periodName},
+				  </if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from JH_PERIOD where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from JH_PERIOD where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from JH_PERIOD where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.quality.entity.plan.Period">
+      delete from JH_PERIOD where   <include refid="whereSql"/> 
+   </delete>
+   
+</mapper>

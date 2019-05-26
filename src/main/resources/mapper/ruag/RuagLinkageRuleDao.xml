@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ruag.dao.RuagLinkageRuleDao">
+    
+	<sql id="ruagLinkageRuleColumns">
+		a.space_code AS "spaceCode",
+		a.space_name AS "spaceName",
+		a.linkage_code AS "linkageCode",
+		a.linkage_name AS "linkageName",
+		a.linkage_desc AS "linkageDesc",
+		a.status AS "status",
+		a.id AS "id",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.rule_flag AS ruleFlag,
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+	
+	<sql id="ruagLinkageRuleJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.ruag.entity.RuagLinkageRule">
+		SELECT 
+			<include refid="ruagLinkageRuleColumns"/>
+		FROM ruag_linkage_rule a
+		<include refid="ruagLinkageRuleJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	<select id="getLinkageCode" resultType="com.sgai.property.ruag.entity.RuagLinkageRule">
+		SELECT 
+			<include refid="ruagLinkageRuleColumns"/>
+		FROM ruag_linkage_rule a
+		<include refid="ruagLinkageRuleJoins"/>
+		WHERE a.linkage_code = #{linkageCode}
+		AND a.com_code = #{comCode}
+		<if test="moduCode != null and moduCode!= ''">
+				AND a.modu_code =#{moduCode}
+		</if>
+		<if test="moduCode == null or moduCode== ''">
+				AND a.modu_code is null
+		</if>				
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.ruag.entity.RuagLinkageRule">
+		SELECT 
+			<include refid="ruagLinkageRuleColumns"/>
+		FROM ruag_linkage_rule a
+		<include refid="ruagLinkageRuleJoins"/>
+		<where>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sql}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND a.space_name = #{spaceName}
+			</if>
+			<if test="linkageName != null and linkageName != ''">
+				AND a.linkage_name like'%${linkageName}%'
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			
+		</where>
+			  ORDER BY updated_dt DESC
+	<!-- 	<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose> -->
+	</select>
+	<select id="findAllOfList" resultType="com.sgai.property.ruag.entity.RuagLinkageRule">
+		SELECT 
+			<include refid="ruagLinkageRuleColumns"/>
+		FROM ruag_linkage_rule a
+		<include refid="ruagLinkageRuleJoins"/>
+		<where>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sql}
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND a.space_name = #{spaceName}
+			</if>
+			<if test="linkageName != null and linkageName != ''">
+				AND a.linkage_name like'%${linkageName}%'
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			
+		</where>
+			  ORDER BY updated_dt DESC
+	<!-- 	<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose> -->
+	</select>
+	<select id="findAllList" resultType="com.sgai.property.ruag.entity.RuagLinkageRule">
+		SELECT 
+			<include refid="ruagLinkageRuleColumns"/>
+		FROM ruag_linkage_rule a
+		<include refid="ruagLinkageRuleJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findByName" resultType="com.sgai.property.ruag.entity.RuagLinkageRule">
+		SELECT 
+			*
+		FROM 
+		    ruag_linkage_rule a
+		WHERE 
+		 	a.com_code = #{comCode}
+		<if test="moduCode != null and moduCode!= ''">
+				AND a.modu_code =#{moduCode}
+		</if>
+		<if test="moduCode == null and moduCode== ''">
+				AND a.modu_code is null
+		</if>				
+		AND 
+		    a.linkage_name=#{linkageName} 
+		AND
+			a.enabled_flag=#{enabledFlag}
+	</select>
+	<insert id="insert">
+		INSERT INTO ruag_linkage_rule(
+			space_code,
+			space_name,
+			linkage_code,
+			linkage_name,
+			linkage_desc,
+			status,
+			id,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			rule_flag,
+			com_code,
+			modu_code
+		) VALUES (
+			#{spaceCode},
+			#{spaceName},
+			#{linkageCode},
+			#{linkageName},
+			#{linkageDesc},
+			#{status},
+			#{id},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{ruleFlag},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ruag_linkage_rule SET 	
+			space_code = #{spaceCode},
+			space_name = #{spaceName},
+			linkage_code = #{linkageCode},
+			linkage_name = #{linkageName},
+			linkage_desc = #{linkageDesc},
+			status = #{status},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			rule_flag=#{ruleFlag},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ruag_linkage_rule
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

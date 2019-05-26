@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ruag.dao.RuagModelDeviceParamerSetDao">
+    
+	<sql id="ruagModelDeviceParamerSetColumns">
+		a.id AS "id",
+		a.work_model_id AS "workModelId",
+		a.device_code AS "deviceCode",
+		a.parameter_id AS "parameterId",
+		a.parameter_value AS "parameterValue",
+		a.time_point AS "timePoint",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.parameter_name AS parameterName,
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+	
+	<sql id="ruagModelDeviceParamerSetJoins">
+	</sql>
+    
+    <select id="findDevicesById" resultType="com.sgai.property.ruag.entity.RuagModelDeviceParamerSet">
+		SELECT b.* from RUAG_WORK_MODEL_DATAIL a LEFT JOIN RUAG_MODEL_DEVICE_PARAMER_SET b on a.id=b.WORK_MODEl_ID  where a.id=#{id}
+	</select>
+    
+    
+	<select id="get" resultType="com.sgai.property.ruag.entity.RuagModelDeviceParamerSet">
+		SELECT 
+			<include refid="ruagModelDeviceParamerSetColumns"/>
+		FROM ruag_model_device_paramer_set a
+		<include refid="ruagModelDeviceParamerSetJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.ruag.entity.RuagModelDeviceParamerSet">
+		SELECT 
+			<include refid="ruagModelDeviceParamerSetColumns"/>
+		FROM ruag_model_device_paramer_set a
+		<include refid="ruagModelDeviceParamerSetJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>	 
+			<if test="parameterId != null and parameterId != ''">
+				AND a.parameter_id = #{parameterId}
+			</if>
+			<if test="workModelId != null and workModelId != ''">
+				AND a.work_model_id = #{workModelId}
+			</if>
+			<if test="deviceCode != null and deviceCode != ''">
+				AND a.device_code = #{deviceCode}
+			</if>
+			<if test="enabledFlag!= null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+		</where>
+		  ORDER BY created_dt DESC
+		<!-- <choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose> -->
+	</select>
+	<select id="findAllOfList" resultType="com.sgai.property.ruag.entity.RuagModelDeviceParamerSet">
+		SELECT 
+			<include refid="ruagModelDeviceParamerSetColumns"/>
+		FROM ruag_model_device_paramer_set a
+		<include refid="ruagModelDeviceParamerSetJoins"/>
+		<where>
+			<if test="parameterId != null and parameterId != ''">
+				AND a.parameter_id = #{parameterId}
+			</if>
+			<if test="workModelId != null and workModelId != ''">
+				AND a.work_model_id = #{workModelId}
+			</if>
+			<if test="deviceCode != null and deviceCode != ''">
+				AND a.device_code = #{deviceCode}
+			</if>
+			<if test="enabledFlag!= null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+		</where>
+		  ORDER BY created_dt DESC
+		<!-- <choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose> -->
+	</select>
+	<select id="findAllList" resultType="com.sgai.property.ruag.entity.RuagModelDeviceParamerSet">
+		SELECT 
+			<include refid="ruagModelDeviceParamerSetColumns"/>
+		FROM ruag_model_device_paramer_set a
+		<include refid="ruagModelDeviceParamerSetJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ruag_model_device_paramer_set(
+			id,
+			work_model_id,
+			device_code,
+			parameter_id,
+			parameter_value,
+			time_point,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+		    parameter_name,
+		    com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{workModelId},
+			#{deviceCode},
+			#{parameterId},
+			#{parameterValue},
+			#{timePoint},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{parameterName},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ruag_model_device_paramer_set SET 	
+			work_model_id = #{workModelId},
+			device_code = #{deviceCode},
+			parameter_id = #{parameterId},
+			parameter_value = #{parameterValue},
+			time_point = #{timePoint},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			parameter_name=#{parameterName},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ruag_model_device_paramer_set
+		WHERE id = #{id}
+	</update>
+	<update id="deleteByModelId">
+		DELETE FROM ruag_model_device_paramer_set
+		WHERE work_model_id = #{workModelId}
+		AND com_code = #{comCode}
+		<if test="moduCode != null and moduCode!= ''">
+				AND modu_code =#{moduCode}
+		</if>
+		<if test="moduCode == null and moduCode== ''">
+				AND modu_code is null
+		</if>				
+	</update>
+</mapper>

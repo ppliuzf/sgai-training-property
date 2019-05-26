@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.GoodsBorrowDao">
+    
+	<sql id="goodsBorrowColumns">
+		a.id AS "id",
+		a.borrow_date AS "borrowDate",
+		a.dept_codes AS "deptCodes",
+		a.dept_name AS "deptName",
+		a.borrower AS "borrower",
+		a.amount AS "amount",
+		a.borrow_time AS "borrowTime",
+		a.regain_time AS "regainTime",
+		a.watch AS "watch",
+		a.remark AS "remark",
+		a.phone AS "phone",
+		a.manager AS "manager",
+		a.goods_classify AS "goodsClassify",
+		a.item_name	AS "itemName"
+	</sql>
+	
+	<select id="findList" resultType="com.sgai.property.wy.entity.GoodsBorrow">
+		SELECT 
+			<include refid="goodsBorrowColumns"/>
+		FROM WY_CUS_GOODS_BORROW a
+		
+		<where>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				AND	${sqlMap.sql}
+			</if>
+			<if test="borrowTimeFrom != null">
+				AND a.borrow_time &gt;= #{borrowTimeFrom}
+			</if>
+			<if test="borrowTimeTo != null">
+				AND a.borrow_time &lt;= #{borrowTimeTo}
+			</if>
+			<if test="watch != null and watch != ''">
+				AND a.watch  like  '%'||#{watch}||'%'
+			</if>
+			<if test="borrower != null and borrower != ''">
+				AND a.borrower  like  '%'||#{borrower}||'%'
+			</if>
+			<if test="deptName != null and deptName != ''">
+				AND a.dept_Name = #{deptName}
+			</if>
+			<if test="goodsClassify != null and goodsClassify != ''">
+				AND a.goods_classify = #{goodsClassify}
+			</if>
+			
+		</where>
+	</select>
+	<update id="delete">
+		DELETE FROM WY_CUS_GOODS_BORROW
+		WHERE ID = #{id}
+	</update>
+	
+	<insert id="insert">
+		INSERT INTO WY_CUS_GOODS_BORROW(
+			id,
+			borrow_date,
+			dept_codes,
+			dept_name,
+			borrower,
+			amount,
+			borrow_time,
+			regain_time,
+			watch,
+			remark,
+			phone,
+			manager,
+			goods_classify,
+			COM_CODE,
+			dept_code,
+			item_name,
+			created_by
+		) VALUES (
+			#{id},
+			#{borrowDate},
+			#{deptCodes},
+			#{deptName},
+			#{borrower},
+			#{amount},
+			#{borrowTime},
+			#{regainTime},
+			#{watch},
+			#{remark},
+			#{phone},
+			#{manager},
+			#{goodsClassify},
+			#{comCode},
+			#{deptCode},
+			#{itemName},
+			#{createdBy}
+		)
+	</insert>
+	
+	<select id="get" resultType="com.sgai.property.wy.entity.GoodsBorrow">
+		SELECT 
+			<include refid="goodsBorrowColumns"/>
+		FROM WY_CUS_GOODS_BORROW a
+		WHERE a.id = #{id}
+	</select>
+	
+	<update id="update">
+		UPDATE WY_CUS_GOODS_BORROW SET 	
+			BORROW_DATE = #{borrowDate},
+			dept_codes = #{deptCodes},
+			DEPT_NAME = #{deptName},
+			BORROWER = #{borrower},
+			AMOUNT = #{amount},
+			BORROW_TIME = #{borrowTime},
+			REGAIN_TIME = #{regainTime},
+			WATCH = #{watch},
+			REMARK = #{remark},
+			PHONE = #{phone},
+			MANAGER = #{manager},
+			GOODS_CLASSIFY = #{goodsClassify},
+			ITEM_NAME = #{itemName}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

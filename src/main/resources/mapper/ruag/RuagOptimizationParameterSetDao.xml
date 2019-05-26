@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ruag.dao.RuagOptimizationParameterSetDao">
+
+	<sql id="ruagOptimizationParameterSetColumns">
+		a.id AS "id",
+		a.work_model_id AS "workModelId",
+		a.device_code AS "deviceCode",
+		a.parameter_id AS "parameterId",
+		a.parameter_value AS "parameterValue",
+		a.time_point AS "timePoint",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS
+		"updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.parameter_name AS
+		"parameterName",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode",
+		a.prof_code as "profCode"，
+		a.targets as "targets",
+		a.old_id as "oldId"
+	</sql>
+
+	<sql id="ruagOptimizationParameterSetJoins">
+	</sql>
+
+
+
+
+	<select id="findParameter" resultType="com.sgai.property.ruag.entity.RuagOptimizationParameterSet">
+		SELECT
+		a.CONTROL_CODE,c.* from RUAG_MODEL_TEMPLATE a LEFT JOIN
+		RUAG_WORK_MODEL_DATAIL b on a.id=b.model_template_id
+		LEFT JOIN RUAG_MODEL_DEVICE_PARAMER_SET c on b.id=c.work_model_id
+		where a.STATUS='1' and a.COM_CODE=#{comCode}
+
+	</select>
+
+
+
+	<select id="get" resultType="com.sgai.property.ruag.entity.RuagOptimizationParameterSet">
+		SELECT
+		<include refid="ruagOptimizationParameterSetColumns" />
+		FROM ruag_optimization_parameter_set a
+		<include refid="ruagOptimizationParameterSetJoins" />
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="com.sgai.property.ruag.entity.RuagOptimizationParameterSet">
+		SELECT
+		<include refid="ruagOptimizationParameterSetColumns" />
+		FROM ruag_optimization_parameter_set a
+		<include refid="ruagOptimizationParameterSetJoins" />
+		<where>
+
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="profCode != null and profCode != ''">
+				AND a.prof_code = #{profCode} and version='2'
+			</if>
+			<if test="workModelId != null and workModelId != ''">
+				AND a.work_model_id = #{workModelId}
+			</if>
+			<if test="deviceCode != null and deviceCode != ''">
+				AND a.device_code = #{deviceCode}
+			</if>
+			<if test="parameterId != null and parameterId != ''">
+				AND a.parameter_id = #{parameterId}
+			</if>
+			<if test="parameterValue != null and parameterValue != ''">
+				AND a.parameter_value = #{parameterValue}
+			</if>
+			<if test="timePoint != null and timePoint != ''">
+				AND a.time_point = #{timePoint}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="targets != null and targets != ''">
+				AND a.targets = #{targets}
+			</if>
+			<if test="workModelId != null and workModelId != ''">
+				AND a.WORK_MODEL_ID = #{workModelId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList" resultType="com.sgai.property.ruag.entity.RuagOptimizationParameterSet">
+		SELECT
+		<include refid="ruagOptimizationParameterSetColumns" />
+		FROM ruag_optimization_parameter_set a
+		<include refid="ruagOptimizationParameterSetJoins" />
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert">
+		INSERT INTO ruag_optimization_parameter_set(
+		id,
+		work_model_id,
+		device_code,
+		parameter_id,
+		parameter_value,
+		time_point,
+		enabled_flag,
+		version,
+		updated_dt,
+		updated_by,
+		created_dt,
+		created_by,
+		remarks,
+		parameter_name,
+		com_code,
+		modu_code,
+		prof_code,
+		old_id,
+		targets
+		) VALUES (
+		#{id},
+		#{workModelId},
+		#{deviceCode},
+		#{parameterId},
+		#{parameterValue},
+		#{timePoint},
+		#{enabledFlag},
+		#{version},
+		#{updatedDt},
+		#{updatedBy},
+		#{createdDt},
+		#{createdBy},
+		#{remarks},
+		#{parameterName},
+		#{comCode},
+		#{moduCode},
+		#{profCode},
+		#{oldId},
+		#{targets}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE ruag_optimization_parameter_set SET
+		work_model_id = #{workModelId},
+		device_code = #{deviceCode},
+		parameter_id = #{parameterId},
+		parameter_value = #{parameterValue},
+		time_point = #{timePoint},
+		enabled_flag = #{enabledFlag},
+		version = #{version},
+		updated_dt = #{updatedDt},
+		updated_by = #{updatedBy},
+		created_dt = #{createdDt},
+		created_by = #{createdBy},
+		remarks = #{remarks},
+		parameter_name = #{parameterName},
+		com_code = #{comCode},
+		modu_code = #{moduCode},
+		prof_code=#{profCode}
+		WHERE id = #{id}
+	</update>
+
+
+	<update id="updateRuagWorkModelDetail">
+		UPDATE RUAG_MODEL_DEVICE_PARAMER_SET a set
+		a.parameter_value=(SELECT b.parameter_value from
+		(SELECT * from RUAG_OPTIMIZATION_PARAMETER_SET where
+		work_model_id=#{workModelId} and targets=#{targets}) b where
+		a.id=b.old_id),
+		a.time_point=(SELECT b.time_point from
+		(SELECT * from RUAG_OPTIMIZATION_PARAMETER_SET where
+		work_model_id=#{workModelId} and targets=#{targets}) b where
+		a.id=b.old_id)
+		where a.WORK_MODEl_ID=#{workModelId}
+
+	</update>
+
+	<update id="delete">
+		DELETE FROM ruag_optimization_parameter_set
+		WHERE id =
+		#{id}
+	</update>
+
+	<update id="deleteAll">
+		DELETE FROM ruag_optimization_parameter_set
+	</update>
+
+</mapper>

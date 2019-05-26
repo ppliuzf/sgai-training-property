@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.em.dao.EmEmergencyStaffDao">
+    
+	<sql id="emEmergencyStaffColumns">
+		a.id AS "id",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.staff_code AS "staffCode",
+		a.staff_name AS "staffName",
+		a.type_code AS "typeCode",
+		a.staff_type AS "staffType",
+		a.contact_number AS "contactNumber",
+		a.graduate_school AS "graduateSchool",
+		a.work_experience AS "workExperience",
+		a.com_code AS "comCode"
+	</sql>
+	
+	<sql id="emEmergencyStaffJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.em.entity.EmEmergencyStaff">
+		SELECT 
+			<include refid="emEmergencyStaffColumns"/>
+		FROM em_emergency_staff a
+		<include refid="emEmergencyStaffJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.em.entity.EmEmergencyStaff">
+		SELECT 
+			<include refid="emEmergencyStaffColumns"/>
+		FROM em_emergency_staff a
+		<include refid="emEmergencyStaffJoins"/>
+		<where>
+			
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="staffCode != null and staffCode != ''">
+				AND a.staff_code = #{staffCode}
+			</if>
+			<if test="staffName != null and staffName != ''">
+				AND a.staff_name = #{staffName}
+			</if>
+			<if test="staffType != null and staffType != ''">
+				AND a.staff_type = #{staffType}
+			</if>
+			<if test="contactNumber != null and contactNumber != ''">
+				AND a.contact_number = #{contactNumber}
+			</if>
+			<if test="graduateSchool != null and graduateSchool != ''">
+				AND a.graduate_school = #{graduateSchool}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.em.entity.EmEmergencyStaff">
+		SELECT 
+			<include refid="emEmergencyStaffColumns"/>
+		FROM em_emergency_staff a
+		<include refid="emEmergencyStaffJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO em_emergency_staff(
+			id,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			staff_code,
+			staff_name,
+			type_code,
+			staff_type,
+			contact_number,
+			graduate_school,
+			work_experience,
+			com_code
+		) VALUES (
+			#{id},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{staffCode},
+			#{staffName},
+			#{typeCode},
+			#{staffType},
+			#{contactNumber},
+			#{graduateSchool},
+			#{workExperience},
+			#{comCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE em_emergency_staff SET 	
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			staff_code = #{staffCode},
+			staff_name = #{staffName},
+			type_code = #{typeCode},
+			staff_type = #{staffType},
+			contact_number = #{contactNumber},
+			graduate_school = #{graduateSchool},
+			work_experience = #{workExperience},
+			com_code = #{comCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM em_emergency_staff
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

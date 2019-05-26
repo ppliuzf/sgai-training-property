@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ruag.dao.RuagLinkaageFrontDeviceDao">
+
+	<sql id="ruagLinkaageFrontDeviceColumns">
+		a.id AS "id",
+		a.linkage_code AS "linkageCode",
+		a.linkage_name AS "linkageName",
+		a.prof_code AS "profCode",
+		a.prof_name AS "profName",
+		a.device_code AS "deviceCode",
+		a.device_name AS "deviceName",
+		a.space_code AS "spaceCode",
+		a.space_name AS "spaceName",
+		a.rule_set AS "ruleSet",
+		a.status AS "status",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.class_code AS "classCode",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+
+	<sql id="ruagLinkaageFrontDeviceJoins">
+	</sql>
+
+	<select id="get" resultType="com.sgai.property.ruag.entity.RuagLinkaageFrontDevice">
+		SELECT
+			<include refid="ruagLinkaageFrontDeviceColumns"/>
+		FROM ruag_linkaage_front_device a
+		<include refid="ruagLinkaageFrontDeviceJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="com.sgai.property.ruag.entity.RuagLinkaageFrontDevice">
+		SELECT
+			<include refid="ruagLinkaageFrontDeviceColumns"/>
+		FROM ruag_linkaage_front_device a
+		<include refid="ruagLinkaageFrontDeviceJoins"/>
+		<where>
+			<if test="linkageCode != null and linkageCode != ''">
+				AND a.linkage_code = #{linkageCode}
+			</if>
+			<if test="profName != null and profName != ''">
+				AND a.prof_name  like '%${profName}%'
+			</if>
+			<if test="deviceName != null and deviceName != ''">
+				AND a.device_name like '%${deviceName}%'
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND a.space_name like '%${spaceName}%'
+			</if>
+			<if test="classCode != null and classCode != ''">
+				AND a.class_code = #{classCode}
+			</if>
+			<if test="profCode != null and profCode != ''">
+				AND a.prof_code = #{profCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		   ORDER BY updated_dt DESC
+		<!-- <choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose> -->
+	</select>
+	<select id="findAllOfList" resultType="com.sgai.property.ruag.entity.RuagLinkaageFrontDevice">
+		SELECT
+			<include refid="ruagLinkaageFrontDeviceColumns"/>
+		FROM ruag_linkaage_front_device a
+		<include refid="ruagLinkaageFrontDeviceJoins"/>
+		<where>
+			<if test="linkageCode != null and linkageCode != ''">
+				AND a.linkage_code = #{linkageCode}
+			</if>
+			<if test="profName != null and profName != ''">
+				AND a.prof_name  like '%${profName}%'
+			</if>
+			<if test="deviceName != null and deviceName != ''">
+				AND a.device_name like '%${deviceName}%'
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND a.space_name like '%${spaceName}%'
+			</if>
+			<if test="classCode != null and classCode != ''">
+				AND a.class_code = #{classCode}
+			</if>
+			<if test="profCode != null and profCode != ''">
+				AND a.prof_code = #{profCode}
+			</if>
+		</where>
+		   ORDER BY updated_dt DESC
+		<!-- <choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose> -->
+	</select>
+	<select id="findAllList" resultType="com.sgai.property.ruag.entity.RuagLinkaageFrontDevice">
+		SELECT
+			<include refid="ruagLinkaageFrontDeviceColumns"/>
+		FROM ruag_linkaage_front_device a
+		<include refid="ruagLinkaageFrontDeviceJoins"/>
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findRules" resultType="java.util.Map">
+	SELECT DISTINCT
+		rlfd.LINKAGE_CODE,rlfd.COM_CODE,rlfd.MODU_CODE
+	FROM
+		RUAG_LINKAAGE_FRONT_DEVICE rlfd
+	where rlfd.DEVICE_CODE = #{path}
+	</select>
+	<select id="getPath" resultType="java.lang.String">
+	select path from MDM_DEVICES_USE_INFO a
+	<where>
+			<if test="devicesCode != null and devicesCode != ''">
+				AND a.devices_code = #{devicesCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+	</where>
+	</select>
+	<insert id="insert">
+		INSERT INTO ruag_linkaage_front_device(
+			id,
+			linkage_code,
+			linkage_name,
+			prof_code,
+			prof_name,
+			device_code,
+			device_name,
+			space_code,
+			space_name,
+			rule_set,
+			status,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			class_code,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{linkageCode},
+			#{linkageName},
+			#{profCode},
+			#{profName},
+			#{deviceCode},
+			#{deviceName},
+			#{spaceCode},
+			#{spaceName},
+			#{ruleSet},
+			#{status},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{classCode},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE ruag_linkaage_front_device SET
+			linkage_code = #{linkageCode},
+			linkage_name = #{linkageName},
+			prof_code = #{profCode},
+			prof_name = #{profName},
+			device_code = #{deviceCode},
+			device_name = #{deviceName},
+			space_code = #{spaceCode},
+			space_name = #{spaceName},
+			rule_set = #{ruleSet},
+			status = #{status},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			class_code = #{classCode},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		DELETE FROM ruag_linkaage_front_device
+		WHERE id = #{id}
+	</update>
+
+</mapper>

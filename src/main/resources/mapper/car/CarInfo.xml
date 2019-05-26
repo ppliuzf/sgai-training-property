@@ -1,0 +1,847 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.car.dao.ICarInfoDao">
+    <resultMap id="BaseResultMap" type="com.sgai.property.car.entity.CarInfo">
+        <result column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="ci_brand" property="ciBrand" jdbcType="VARCHAR"/>
+        <result column="ci_is_delete" property="ciIsDelete" jdbcType="BIGINT"/>
+        <result column="ci_status" property="ciStatus" jdbcType="BIGINT"/>
+        <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP"/>
+        <result column="ci_number" property="ciNumber" jdbcType="VARCHAR"/>
+        <result column="ci_department_id" property="ciDepartmentId" jdbcType="VARCHAR"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="ci_owner_name" property="ciOwnerName" jdbcType="VARCHAR"/>
+        <result column="ci_image" property="ciImage" jdbcType="VARCHAR"/>
+        <result column="ci_displacement" property="ciDisplacement" jdbcType="VARCHAR"/>
+        <result column="ci_remark" property="ciRemark" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="BIGINT"/>
+        <result column="ci_engine_number" property="ciEngineNumber" jdbcType="VARCHAR"/>
+        <result column="ci_color" property="ciColor" jdbcType="VARCHAR"/>
+        <result column="ci_box_type_id" property="ciBoxTypeId" jdbcType="VARCHAR"/>
+        <result column="ci_load_number" property="ciLoadNumber" jdbcType="BIGINT"/>
+        <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP"/>
+        <result column="ci_box_type_name" property="ciBoxTypeName" jdbcType="VARCHAR"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="ci_buy_date" property="ciBuyDate" jdbcType="BIGINT"/>
+        <result column="ci_department" property="ciDepartment" jdbcType="VARCHAR"/>
+        <result column="ci_model" property="ciModel" jdbcType="VARCHAR"/>
+        <result column="ci_type_id" property="ciTypeId" jdbcType="VARCHAR"/>
+        <result column="ci_type_name" property="ciTypeName" jdbcType="VARCHAR"/>
+        <result column="ci_owner_phone" property="ciOwnerPhone" jdbcType="BIGINT"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="journey_amount" property="journeyAmount" jdbcType="BIGINT"/>
+        <result column="last_journey_amount" property="lastJourneyAmount" jdbcType="BIGINT"/>
+        <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+        <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="baseColumns">
+       id
+       ,ci_brand
+       ,ci_is_delete
+       ,ci_status
+       ,created_dt
+       ,ci_number
+       ,ci_department_id
+       ,created_by
+       ,ci_owner_name
+       ,ci_image
+       ,ci_displacement
+       ,ci_remark
+       ,version
+       ,ci_engine_number
+       ,ci_color
+       ,ci_box_type_id
+       ,ci_load_number
+       ,updated_dt
+       ,ci_box_type_name
+       ,remarks
+       ,ci_buy_date
+       ,ci_department
+       ,ci_model
+       ,ci_type_id
+       ,ci_type_name
+       ,ci_owner_phone
+       ,updated_by
+       ,journey_amount
+       ,last_journey_amount
+       ,com_code
+       ,modu_code
+  </sql>
+    <sql id="baseColumnsName">
+		DISTINCT(ci.id)
+		,ci.ci_brand
+		,ci.ci_is_delete
+		,ci.ci_status
+		,ci.created_dt
+		,ci.ci_number
+		,ci.ci_department_id
+		,ci.created_by
+		,ci.ci_owner_name
+		,ci.ci_image
+		,ci.ci_displacement
+		,ci.ci_remark
+		,ci.version
+		,ci.ci_engine_number
+		,ci.ci_color
+		,ci.ci_box_type_id
+		,ci.ci_load_number
+		,ci.updated_dt
+		,ci.ci_box_type_name
+		,ci.remarks
+		,ci.ci_buy_date
+		,ci.ci_department
+		,ci.ci_model
+		,ci.ci_type_id
+		,ci.ci_type_name
+		,ci.ci_owner_phone
+		,ci.updated_by
+		,ci.journey_amount
+		,ci.last_journey_amount
+		,ci.com_code
+        ,ci.modu_code
+	</sql>
+
+    <sql id="whereSql">
+        <trim prefixOverrides="AND | OR">
+            <if test="id != null">
+                and id=#{id}
+            </if>
+            <if test="ciBrand != null">
+                and ci_brand=#{ciBrand}
+            </if>
+            <if test="ciIsDelete != null">
+                and ci_is_delete=#{ciIsDelete}
+            </if>
+            <if test="ciStatus != null">
+                and ci_status=#{ciStatus}
+            </if>
+            <if test="createdDt != null">
+                and created_dt=#{createdDt}
+            </if>
+            <if test="ciNumber != null">
+                and ci_number LIKE '%'||#{ciNumber}||'%'
+            </if>
+            <if test="ciDepartmentId != null">
+                and ci_department_id=#{ciDepartmentId}
+            </if>
+            <if test="createdBy != null">
+                and created_by=#{createdBy}
+            </if>
+            <if test="ciOwnerName != null">
+                and ci_owner_name=#{ciOwnerName}
+            </if>
+            <if test="ciImage != null">
+                and ci_image=#{ciImage}
+            </if>
+            <if test="ciDisplacement != null">
+                and ci_displacement=#{ciDisplacement}
+            </if>
+            <if test="ciRemark != null">
+                and ci_remark=#{ciRemark}
+            </if>
+            <if test="version != null">
+                and version=#{version}
+            </if>
+            <if test="ciEngineNumber != null">
+                and ci_engine_number=#{ciEngineNumber}
+            </if>
+            <if test="ciColor != null">
+                and ci_color=#{ciColor}
+            </if>
+            <if test="ciBoxTypeId != null">
+                and ci_box_type_id=#{ciBoxTypeId}
+            </if>
+            <if test="ciLoadNumber != null">
+                and ci_load_number=#{ciLoadNumber}
+            </if>
+            <if test="updatedDt != null">
+                and updated_dt=#{updatedDt}
+            </if>
+            <if test="ciBoxTypeName != null">
+                and ci_box_type_name=#{ciBoxTypeName}
+            </if>
+            <if test="remarks != null">
+                and remarks=#{remarks}
+            </if>
+            <if test="ciBuyDate != null">
+                and ci_buy_date=#{ciBuyDate}
+            </if>
+            <if test="ciDepartment != null">
+                and ci_department=#{ciDepartment}
+            </if>
+            <if test="ciModel != null">
+                and ci_model=#{ciModel}
+            </if>
+            <if test="ciTypeId != null">
+                and ci_type_id=#{ciTypeId}
+            </if>
+            <if test="ciTypeName != null">
+                and ci_type_name=#{ciTypeName}
+            </if>
+            <if test="ciOwnerPhone != null">
+                and ci_owner_phone=#{ciOwnerPhone}
+            </if>
+            <if test="updatedBy != null">
+                and updated_by=#{updatedBy}
+            </if>
+            <if test="journeyAmount != null">
+                and journey_amount = #{journeyAmount}
+            </if>
+            <if test="lastJourneyAmount != null">
+                and last_journey_amount = #{lastJourneyAmount}
+            </if>
+            <if test="comCode != null and comCode != ''">
+                AND com_code = #{comCode}
+            </if>
+            <if test="moduCode != null and moduCode != ''">
+                AND modu_code = #{moduCode}
+            </if>
+            <if test="moduCode == null or moduCode == ''">
+                AND modu_code is null
+            </if>
+        </trim>
+    </sql>
+    <sql id="whereSql2">
+        <trim prefixOverrides="AND | OR">
+            <if test="id != null">
+                and ci.id=#{id}
+            </if>
+            <if test="ciBrand != null">
+                and ci.ci_brand=#{ciBrand}
+            </if>
+            <if test="ciIsDelete != null">
+                and ci.ci_is_delete=#{ciIsDelete}
+            </if>
+            <if test="ciStatus != null">
+                and ci.ci_status=#{ciStatus}
+            </if>
+            <if test="createdDt != null">
+                and ci.created_dt=#{createdDt}
+            </if>
+            <if test="ciNumber != null">
+                and ci.ci_number LIKE '%'||#{ciNumber}||'%'
+            </if>
+            <if test="ciDepartmentId != null">
+                and ci.ci_department_id=#{ciDepartmentId}
+            </if>
+            <if test="createdBy != null">
+                and ci.created_by=#{createdBy}
+            </if>
+            <if test="ciOwnerName != null">
+                and ci.ci_owner_name=#{ciOwnerName}
+            </if>
+            <if test="ciImage != null">
+                and ci.ci_image=#{ciImage}
+            </if>
+            <if test="ciDisplacement != null">
+                and ci.ci_displacement=#{ciDisplacement}
+            </if>
+            <if test="ciRemark != null">
+                and ci.ci_remark=#{ciRemark}
+            </if>
+            <if test="version != null">
+                and ci.version=#{version}
+            </if>
+            <if test="ciEngineNumber != null">
+                and ci.ci_engine_number=#{ciEngineNumber}
+            </if>
+            <if test="ciColor != null">
+                and ci.ci_color=#{ciColor}
+            </if>
+            <if test="ciBoxTypeId != null">
+                and ci.ci_box_type_id=#{ciBoxTypeId}
+            </if>
+            <if test="ciLoadNumber != null">
+                and ci.ci_load_number=#{ciLoadNumber}
+            </if>
+            <if test="updatedDt != null">
+                and ci.updated_dt=#{updatedDt}
+            </if>
+            <if test="ciBoxTypeName != null">
+                and ci.ci_box_type_name=#{ciBoxTypeName}
+            </if>
+            <if test="remarks != null">
+                and ci.remarks=#{remarks}
+            </if>
+            <if test="ciBuyDate != null">
+                and ci.ci_buy_date=#{ciBuyDate}
+            </if>
+            <if test="ciDepartment != null">
+                and ci.ci_department=#{ciDepartment}
+            </if>
+            <if test="ciModel != null">
+                and ci.ci_model=#{ciModel}
+            </if>
+            <if test="ciTypeId != null">
+                and ci.ci_type_id=#{ciTypeId}
+            </if>
+            <if test="ciTypeName != null">
+                and ci.ci_type_name=#{ciTypeName}
+            </if>
+            <if test="ciOwnerPhone != null">
+                and ci.ci_owner_phone=#{ciOwnerPhone}
+            </if>
+            <if test="updatedBy != null">
+                and ci.updated_by=#{updatedBy}
+            </if>
+            <if test="journeyAmount != null">
+                and ci.journey_amount = #{journeyAmount}
+            </if>
+            <if test="lastJourneyAmount != null">
+                and ci.last_journey_amount = #{lastJourneyAmount}
+            </if>
+        </trim>
+    </sql>
+
+    <select id="getById" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CAR_INFO where id =#{id}
+    </select>
+
+    <select id="getByIds" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CAR_INFO where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="getByListId">
+        select
+        <include refid="baseColumns"/>
+        from CAR_INFO where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.car.entity.CarInfo">
+        select
+        <include refid="baseColumns"/>
+        from
+        CAR_INFO
+        <where>
+            <include refid="whereSql"/>
+        </where>
+    </select>
+
+    <select id="findAllList" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CAR_INFO
+    </select>
+    <!--查询可预约的车辆信息-->
+    <select id="findListForCar" parameterType="com.sgai.property.car.entity.CarInfo" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumnsName"/>
+        from CAR_INFO ci
+        <where>
+            and ci.id NOT IN (
+              select curi.ri_car_id from CAR_USER_RELATION_INFO curi
+              where(
+                ( #{riUseEnd} >= curi.ri_use_start and curi.ri_use_end > #{riUseEnd} and curi.ri_audit_status in (1,2,5)  and curi.ri_is_delete = 0) or
+                ( #{riUseEnd} >= curi.ri_use_start and curi.ri_use_end = 0 and curi.ri_audit_status in (1,2,5)  and curi.ri_is_delete = 0) or
+                ( curi.ri_audit_status in (1,2,5) and curi.ri_is_delete = 0)
+              )
+            )
+            <if test="ciDepartmentIds != null">
+                and ci.ci_department_id in
+                <foreach item="item" index="index" collection="ciDepartmentIds" open="(" separator="," close=")">
+                    '${item}'
+                </foreach>
+            </if>
+            and ci.ci_type_name ='公车'
+            and ci.ci_is_delete = 0
+            and ci.ci_status = 0
+            <if test='ciBoxTypeId != null and ciBoxTypeId != "" '>
+                and ci.ci_box_type_id = #{ciBoxTypeId}
+            </if>
+            <if test='ciLoadNumber != null and ciLoadNumber!= "" '>
+                and ci.ci_load_number = #{ciLoadNumber}
+            </if>
+            <if test='ciDisplacement != null and ciDisplacement != "" '>
+                and ci.ci_displacement like '%'||#{ciDisplacement}||'%'
+            </if>
+            <if test="comCode != null and comCode != ''">
+                AND ci.com_code = #{comCode}
+            </if>
+            <if test="moduCode != null and moduCode != ''">
+                AND ci.modu_code = #{moduCode}
+            </if>
+            <if test="moduCode == null or moduCode == ''">
+                AND ci.modu_code is null
+            </if>
+        </where>
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy} desc
+        </if>
+    </select>
+    <!--<select id="findListForCar2" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select <include refid="baseColumnsName"/>
+        from CAR_INFO ci
+        <where>
+            ci.ci_is_delete=0
+            and ci.ci_status=0
+            and ci.id NOT IN(select curi.ri_car_id from CAR_USER_RELATION_INFO curi where #{riUseEnd} >= curi.ri_use_start and curi.ri_is_delete=0 and curi.ri_audit_status != 3)
+            <if test="ciDepartmentId != null">
+                and ci.ci_department_id =#{ciDepartmentId}
+            </if>
+            and ci.ci_type_id=1
+        </where>
+    </select>-->
+    <select id="findList" parameterType="com.sgai.property.car.entity.CarInfo" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CAR_INFO where
+        <include refid="whereSql"/>
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy} desc
+        </if>
+    </select>
+
+    <select id="findByCustomer" parameterType="com.sgai.property.car.entity.CarInfo" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CAR_INFO
+        <where>
+            <if test="ciIsDelete != null">
+                and ci_is_delete=#{ciIsDelete}
+            </if>
+            <if test="ciOwnerName != null">
+                and ci_owner_name=#{ciOwnerName}
+            </if>
+            <if test="ciOwnerPhones != null">
+                and ci_owner_phone in
+                <foreach item="item" index="index" collection="ciOwnerPhones" open="(" separator="," close=")">
+                    '${item}'
+                </foreach>
+            </if>
+        </where>
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy} desc
+        </if>
+    </select>
+
+    <select id="getCount" parameterType="com.sgai.property.car.entity.CarInfo" resultType="java.lang.Integer">
+        select count(1) from CAR_INFO where
+        <include refid="whereSql"/>
+    </select>
+
+    <insert id="insert" parameterType="com.sgai.property.car.entity.CarInfo">
+        insert into CAR_INFO
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="ciBrand != null">
+                ci_brand,
+            </if>
+            <if test="ciIsDelete != null">
+                ci_is_delete,
+            </if>
+            <if test="ciStatus != null">
+                ci_status,
+            </if>
+            <if test="createdDt != null">
+                created_dt,
+            </if>
+            <if test="ciNumber != null">
+                ci_number,
+            </if>
+            <if test="ciDepartmentId != null">
+                ci_department_id,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="ciOwnerName != null">
+                ci_owner_name,
+            </if>
+            <if test="ciImage != null">
+                ci_image,
+            </if>
+            <if test="ciDisplacement != null">
+                ci_displacement,
+            </if>
+            <if test="ciRemark != null">
+                ci_remark,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="ciEngineNumber != null">
+                ci_engine_number,
+            </if>
+            <if test="ciColor != null">
+                ci_color,
+            </if>
+            <if test="ciBoxTypeId != null">
+                ci_box_type_id,
+            </if>
+            <if test="ciLoadNumber != null">
+                ci_load_number,
+            </if>
+            <if test="updatedDt != null">
+                updated_dt,
+            </if>
+            <if test="ciBoxTypeName != null">
+                ci_box_type_name,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+            <if test="ciBuyDate != null">
+                ci_buy_date,
+            </if>
+            <if test="ciDepartment != null">
+                ci_department,
+            </if>
+            <if test="ciModel != null">
+                ci_model,
+            </if>
+            <if test="ciTypeId != null">
+                ci_type_id,
+            </if>
+            <if test="ciTypeName != null">
+                ci_type_name,
+            </if>
+            <if test="ciOwnerPhone != null">
+                ci_owner_phone,
+            </if>
+            <if test="updatedBy != null">
+                updated_by,
+            </if>
+            <if test="journeyAmount != null">
+                journey_amount,
+            </if>
+            <if test="lastJourneyAmount != null">
+                last_journey_amount,
+            </if>
+            <if test="comCode != null">
+                com_code,
+            </if>
+            <if test="moduCode != null">
+                modu_code,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="ciBrand != null">
+                #{ciBrand},
+            </if>
+            <if test="ciIsDelete != null">
+                #{ciIsDelete},
+            </if>
+            <if test="ciStatus != null">
+                #{ciStatus},
+            </if>
+            <if test="createdDt != null">
+                #{createdDt},
+            </if>
+            <if test="ciNumber != null">
+                #{ciNumber},
+            </if>
+            <if test="ciDepartmentId != null">
+                #{ciDepartmentId},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="ciOwnerName != null">
+                #{ciOwnerName},
+            </if>
+            <if test="ciImage != null">
+                #{ciImage},
+            </if>
+            <if test="ciDisplacement != null">
+                #{ciDisplacement},
+            </if>
+            <if test="ciRemark != null">
+                #{ciRemark},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="ciEngineNumber != null">
+                #{ciEngineNumber},
+            </if>
+            <if test="ciColor != null">
+                #{ciColor},
+            </if>
+            <if test="ciBoxTypeId != null">
+                #{ciBoxTypeId},
+            </if>
+            <if test="ciLoadNumber != null">
+                #{ciLoadNumber},
+            </if>
+            <if test="updatedDt != null">
+                #{updatedDt},
+            </if>
+            <if test="ciBoxTypeName != null">
+                #{ciBoxTypeName},
+            </if>
+            <if test="remarks != null">
+                #{remarks},
+            </if>
+            <if test="ciBuyDate != null">
+                #{ciBuyDate},
+            </if>
+            <if test="ciDepartment != null">
+                #{ciDepartment},
+            </if>
+            <if test="ciModel != null">
+                #{ciModel},
+            </if>
+            <if test="ciTypeId != null">
+                #{ciTypeId},
+            </if>
+            <if test="ciTypeName != null">
+                #{ciTypeName},
+            </if>
+            <if test="ciOwnerPhone != null">
+                #{ciOwnerPhone},
+            </if>
+            <if test="updatedBy != null">
+                #{updatedBy},
+            </if>
+            <if test="journeyAmount != null">
+                #{journeyAmount},
+            </if>
+            <if test="lastJourneyAmount != null">
+                #{lastJourneyAmount},
+            </if>
+            <if test="comCode != null">
+                #{comCode},
+            </if>
+            <if test="moduCode != null">
+                #{moduCode},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.sgai.property.car.entity.CarInfo">
+        update CAR_INFO set
+        <trim suffixOverrides=",">
+            <if test="id != null">
+                id=#{id},
+            </if>
+            <if test="ciBrand != null">
+                ci_brand=#{ciBrand},
+            </if>
+            <if test="ciIsDelete != null">
+                ci_is_delete=#{ciIsDelete},
+            </if>
+            <if test="ciStatus != null">
+                ci_status=#{ciStatus},
+            </if>
+            <if test="createdDt != null">
+                created_dt=#{createdDt},
+            </if>
+            <if test="ciNumber != null">
+                ci_number=#{ciNumber},
+            </if>
+            <if test="ciDepartmentId != null">
+                ci_department_id=#{ciDepartmentId},
+            </if>
+            <if test="createdBy != null">
+                created_by=#{createdBy},
+            </if>
+            <if test="ciOwnerName != null">
+                ci_owner_name=#{ciOwnerName},
+            </if>
+            <if test="ciImage != null">
+                ci_image=#{ciImage},
+            </if>
+            <if test="ciDisplacement != null">
+                ci_displacement=#{ciDisplacement},
+            </if>
+            <if test="ciRemark != null">
+                ci_remark=#{ciRemark},
+            </if>
+            <if test="version != null">
+                version=#{version},
+            </if>
+            <if test="ciEngineNumber != null">
+                ci_engine_number=#{ciEngineNumber},
+            </if>
+            <if test="ciColor != null">
+                ci_color=#{ciColor},
+            </if>
+            <if test="ciBoxTypeId != null">
+                ci_box_type_id=#{ciBoxTypeId},
+            </if>
+            <if test="ciLoadNumber != null">
+                ci_load_number=#{ciLoadNumber},
+            </if>
+            <if test="updatedDt != null">
+                updated_dt=#{updatedDt},
+            </if>
+            <if test="ciBoxTypeName != null">
+                ci_box_type_name=#{ciBoxTypeName},
+            </if>
+            <if test="remarks != null">
+                remarks=#{remarks},
+            </if>
+            <if test="ciBuyDate != null">
+                ci_buy_date=#{ciBuyDate},
+            </if>
+            <if test="ciDepartment != null">
+                ci_department=#{ciDepartment},
+            </if>
+            <if test="ciModel != null">
+                ci_model=#{ciModel},
+            </if>
+            <if test="ciTypeId != null">
+                ci_type_id=#{ciTypeId},
+            </if>
+            <if test="ciTypeName != null">
+                ci_type_name=#{ciTypeName},
+            </if>
+            <if test="ciOwnerPhone != null">
+                ci_owner_phone=#{ciOwnerPhone},
+            </if>
+            <if test="updatedBy != null">
+                updated_by=#{updatedBy},
+            </if>
+            <if test="journeyAmount != null">
+                journey_amount=#{journeyAmount},
+            </if>
+            <if test="lastJourneyAmount != null">
+                last_journey_amount=#{lastJourneyAmount},
+            </if>
+        </trim>
+        where id =#{id}
+    </update>
+
+    <update id="deleteCarInfoById" parameterType="com.sgai.property.car.entity.CarInfo">
+		update CAR_INFO  set
+			ci_is_delete=1
+		where id =#{id}
+	</update>
+    <update id="updateByIds" parameterType="com.sgai.property.car.entity.CarInfo">
+        update CAR_INFO set
+        <trim suffixOverrides=",">
+            <if test="entity.id != null">
+                id = #{entity.id},
+            </if>
+            <if test="entity.ciBrand != null">
+                ci_brand = #{entity.ciBrand},
+            </if>
+            <if test="entity.ciIsDelete != null">
+                ci_is_delete = #{entity.ciIsDelete},
+            </if>
+            <if test="entity.ciStatus != null">
+                ci_status = #{entity.ciStatus},
+            </if>
+            <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+            </if>
+            <if test="entity.ciNumber != null">
+                ci_number = #{entity.ciNumber},
+            </if>
+            <if test="entity.ciDepartmentId != null">
+                ci_department_id = #{entity.ciDepartmentId},
+            </if>
+            <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+            </if>
+            <if test="entity.ciOwnerName != null">
+                ci_owner_name = #{entity.ciOwnerName},
+            </if>
+            <if test="entity.ciImage != null">
+                ci_image = #{entity.ciImage},
+            </if>
+            <if test="entity.ciDisplacement != null">
+                ci_displacement = #{entity.ciDisplacement},
+            </if>
+            <if test="entity.ciRemark != null">
+                ci_remark = #{entity.ciRemark},
+            </if>
+            <if test="entity.version != null">
+                version = #{entity.version},
+            </if>
+            <if test="entity.ciEngineNumber != null">
+                ci_engine_number = #{entity.ciEngineNumber},
+            </if>
+            <if test="entity.ciColor != null">
+                ci_color = #{entity.ciColor},
+            </if>
+            <if test="entity.ciBoxTypeId != null">
+                ci_box_type_id = #{entity.ciBoxTypeId},
+            </if>
+            <if test="entity.ciLoadNumber != null">
+                ci_load_number = #{entity.ciLoadNumber},
+            </if>
+            <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+            </if>
+            <if test="entity.ciBoxTypeName != null">
+                ci_box_type_name = #{entity.ciBoxTypeName},
+            </if>
+            <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+            </if>
+            <if test="entity.ciBuyDate != null">
+                ci_buy_date = #{entity.ciBuyDate},
+            </if>
+            <if test="entity.ciDepartment != null">
+                ci_department = #{entity.ciDepartment},
+            </if>
+            <if test="entity.ciModel != null">
+                ci_model = #{entity.ciModel},
+            </if>
+            <if test="entity.ciTypeId != null">
+                ci_type_id = #{entity.ciTypeId},
+            </if>
+            <if test="entity.ciTypeName != null">
+                ci_type_name = #{entity.ciTypeName},
+            </if>
+            <if test="entity.ciOwnerPhone != null">
+                ci_owner_phone = #{entity.ciOwnerPhone},
+            </if>
+            <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+            </if>
+            <if test="entity.journeyAmount != null">
+                journey_amount = #{entity.journeyAmount},
+            </if>
+            <if test="entity.lastJourneyAmount != null">
+                last_journey_amount = #{entity.lastJourneyAmount},
+            </if>
+        </trim>
+        where id in
+        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+
+    <delete id="deleteById">
+      delete from CAR_INFO where id =#{id}
+   </delete>
+
+    <delete id="deleteByIds">
+        delete from CAR_INFO where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByListId">
+        delete from CAR_INFO where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="delete" parameterType="com.sgai.property.car.entity.CarInfo">
+        delete from CAR_INFO where
+        <include refid="whereSql"/>
+    </delete>
+
+</mapper>

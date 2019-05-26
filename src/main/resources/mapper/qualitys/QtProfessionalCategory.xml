@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.quality.dao.IQtProfessionalCategoryDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.quality.entity.QtProfessionalCategory" >
+	     <id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="BIGINT" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="com_id" property="comId" jdbcType="BIGINT" />
+         <result column="pc_name" property="pcName" jdbcType="VARCHAR" />
+         <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+         <result column="create_name" property="createName" jdbcType="VARCHAR" />
+         <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+         <result column="as_type" property="asType" jdbcType="VARCHAR" />
+         <result column="pc_icon" property="pcIcon" jdbcType="VARCHAR" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="valid" property="valid" jdbcType="BIGINT" />
+         <result column="create_ei_id" property="createEiId" jdbcType="BIGINT" />
+         <result column="pc_desc" property="pcDesc" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="task_type" property="taskType" jdbcType="VARCHAR" />
+	  <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+	  <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+	  <result column="type_flag" property="typeFlag" jdbcType="BIGINT" />
+         
+  </resultMap>
+
+	<resultMap id="CategoryVoMap" type="com.sgai.property.quality.vo.CategoryVo" >
+		<id column="id" property="pcId" jdbcType="VARCHAR" />
+		<result column="pc_name" property="pcName" jdbcType="VARCHAR" />
+		<result column="pc_desc" property="pcDesc" jdbcType="VARCHAR" />
+		<result column="create_ei_id" property="createEiId" jdbcType="BIGINT" />
+		<result column="create_name" property="createName" jdbcType="VARCHAR" />
+		<result column="com_id" property="comId" jdbcType="BIGINT" />
+		<result column="pc_icon" property="pcIcon" jdbcType="VARCHAR" />
+		<result column="as_type" property="asType" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="BIGINT" />
+		<result column="update_time" property="updateTime" jdbcType="BIGINT" />
+		<result column="valid" property="valid" jdbcType="TINYINT" />
+		<result column="type_flag" property="typeFlag" jdbcType="BIGINT" />
+	</resultMap>
+
+  <sql id="baseColumns">
+       created_dt
+       ,created_by
+       ,create_time
+       ,version
+       ,com_id
+       ,pc_name
+       ,updated_dt
+       ,create_name
+       ,update_time
+       ,as_type
+       ,pc_icon
+       ,id
+       ,remarks
+       ,valid
+       ,create_ei_id
+       ,pc_desc
+       ,updated_by
+       ,task_type
+       ,com_code
+       ,modu_code
+       ,type_flag
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="createTime != null">
+			and create_time=#{createTime}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="comId != null">
+			and com_id=#{comId}
+		 </if> 
+       <if test="pcName != null">
+			and pc_name=#{pcName}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="createName != null">
+			and create_name=#{createName}
+		 </if> 
+       <if test="updateTime != null">
+			and update_time=#{updateTime}
+		 </if> 
+       <if test="asType != null">
+			and as_type=#{asType}
+		 </if> 
+       <if test="pcIcon != null">
+			and pc_icon=#{pcIcon}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="valid != null">
+			and valid=#{valid}
+		 </if> 
+       <if test="createEiId != null">
+			and create_ei_id=#{createEiId}
+		 </if> 
+       <if test="pcDesc != null">
+			and pc_desc=#{pcDesc}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if>
+       <if test="taskType != null">
+			and task_type=#{taskType}
+		 </if>
+		 <if test="comCode != null">
+			 and com_code=#{comCode}
+		 </if>
+		 <if test="moduCode != null">
+			 and modu_code=#{moduCode}
+		 </if>
+		 <if test="typeFlag != null">
+			 and type_flag=#{typeFlag}
+		 </if>
+		 
+      </trim>
+  </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from qt_professional_category  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_professional_category  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from qt_professional_category  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.quality.entity.QtProfessionalCategory">
+		select <include refid="baseColumns"/> from
+       qt_professional_category  where   <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_professional_category
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.quality.entity.QtProfessionalCategory" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_professional_category where   <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	<select id="findListByTypeName"  parameterType="com.sgai.property.quality.entity.QtProfessionalCategory" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/> from qt_professional_category where  valid = 0
+		<if test="taskType != null and taskType !=''">
+			and task_type=#{taskType}
+		</if>
+		<if test="typeFlag != null">
+			and type_flag=#{typeFlag}
+		</if>
+		<if test="comCode != null and comCode != ''">
+			and com_code=#{comCode}
+		</if>
+
+	</select>
+
+
+	 <select id="getCount"  parameterType="com.sgai.property.quality.entity.QtProfessionalCategory" resultType="java.lang.Integer">
+           select count(1) from qt_professional_category where   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.quality.entity.QtProfessionalCategory">
+      insert into qt_professional_category 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="createTime != null">
+				   create_time,
+			 </if> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="comId != null">
+				   com_id,
+			 </if> 
+          <if test="pcName != null">
+				   pc_name,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="createName != null">
+				   create_name,
+			 </if> 
+          <if test="updateTime != null">
+				   update_time,
+			 </if> 
+          <if test="asType != null">
+				   as_type,
+			 </if> 
+          <if test="pcIcon != null">
+				   pc_icon,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+          <if test="valid != null">
+				   valid,
+			 </if> 
+          <if test="createEiId != null">
+				   create_ei_id,
+			 </if> 
+          <if test="pcDesc != null">
+				   pc_desc,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if>
+      	  <if test="taskType != null">
+		 		   task_type,
+			 </if>
+			<if test="comCode != null">
+				com_code,
+			</if>
+			<if test="moduCode != null">
+				modu_code,
+			</if>
+			<if test="typeFlag != null">
+				 type_flag,
+			</if>
+			 
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="createTime != null">
+				#{createTime},
+			  </if>
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="comId != null">
+				#{comId},
+			  </if>
+			  <if test="pcName != null">
+				#{pcName},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="createName != null">
+				#{createName},
+			  </if>
+			  <if test="updateTime != null">
+				#{updateTime},
+			  </if>
+			  <if test="asType != null">
+				#{asType},
+			  </if>
+			  <if test="pcIcon != null">
+				#{pcIcon},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			  <if test="valid != null">
+				#{valid},
+			  </if>
+			  <if test="createEiId != null">
+				#{createEiId},
+			  </if>
+			  <if test="pcDesc != null">
+				#{pcDesc},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+      	  	  <if test="taskType != null">
+      	  	    #{taskType},
+			  </if>
+			<if test="comCode != null">
+				#{comCode},
+			</if>
+			<if test="moduCode != null">
+				#{moduCode},
+			</if>
+			<if test="typeFlag != null">
+				 #{typeFlag},
+			</if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.quality.entity.QtProfessionalCategory">
+	   update qt_professional_category  set
+	    <trim suffixOverrides="," >
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="createTime != null">
+					 create_time=#{createTime},
+				  </if>
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="comId != null">
+					 com_id=#{comId},
+				  </if>
+				  <if test="pcName != null">
+					 pc_name=#{pcName},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="createName != null">
+					 create_name=#{createName},
+				  </if>
+				  <if test="updateTime != null">
+					 update_time=#{updateTime},
+				  </if>
+				  <if test="asType != null">
+					 as_type=#{asType},
+				  </if>
+				  <if test="pcIcon != null">
+					 pc_icon=#{pcIcon},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				  <if test="valid != null">
+					 valid=#{valid},
+				  </if>
+				  <if test="createEiId != null">
+					 create_ei_id=#{createEiId},
+				  </if>
+				  <if test="pcDesc != null">
+					 pc_desc=#{pcDesc},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+      	  	      <if test="taskType != null">
+      	  	         task_type =#{taskType},
+		     	  </if>
+			<if test="comCode != null">
+				com_code=#{comCode},
+			</if>
+			<if test="moduCode != null">
+				modu_code=#{moduCode},
+			</if>
+			<if test="typeFlag != null">
+				 type_flag=#{typeFlag},
+			</if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.quality.entity.QtProfessionalCategory">
+        update qt_professional_category  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.createTime != null">
+                create_time = #{entity.createTime},
+				  </if>
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.comId != null">
+                com_id = #{entity.comId},
+				  </if>
+				  <if test="entity.pcName != null">
+                pc_name = #{entity.pcName},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.createName != null">
+                create_name = #{entity.createName},
+				  </if>
+				  <if test="entity.updateTime != null">
+                update_time = #{entity.updateTime},
+				  </if>
+				  <if test="entity.asType != null">
+                as_type = #{entity.asType},
+				  </if>
+				  <if test="entity.pcIcon != null">
+                pc_icon = #{entity.pcIcon},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+				  <if test="entity.valid != null">
+                valid = #{entity.valid},
+				  </if>
+				  <if test="entity.createEiId != null">
+                create_ei_id = #{entity.createEiId},
+				  </if>
+				  <if test="entity.pcDesc != null">
+                pc_desc = #{entity.pcDesc},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  
+      	  	      <if test="taskType != null">
+      	  	         task_type = #{taskType},
+		     	  </if>
+			<if test="entity.comCode != null">
+				com_code=#{entity.comCode},
+			</if>
+			<if test="entity.moduCode != null">
+				modu_code=#{entity.moduCode},
+			</if>
+			<if test="entity.typeFlag != null">
+				 type_flag=#{entity.typeFlag}
+			</if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from qt_professional_category where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from qt_professional_category where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from qt_professional_category where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.quality.entity.QtProfessionalCategory">
+      delete from qt_professional_category where   <include refid="whereSql"/> 
+   </delete>
+
+	<select id="listCategory"  parameterType="com.sgai.property.quality.vo.CategoryVo" resultMap="CategoryVoMap">
+		select <include refid="baseColumns"/> from qt_professional_category where 1=1
+
+		<if test="comId != null and comId !='' ">
+			and com_id = #{comId}
+		</if>
+		<if test="valid == 0 or valid ==1 ">
+			and valid = #{valid}
+		</if>
+		<if test="typeFlag != null">
+			and type_flag=#{typeFlag}
+		</if>
+		<if test="comCode != null and comCode != ''">
+			and com_code=#{comCode}
+		</if>
+		<if test="page !=null and page.orderBy != null and page.orderBy != ''">
+			ORDER BY ${page.orderBy}
+		</if>
+	</select>
+</mapper>

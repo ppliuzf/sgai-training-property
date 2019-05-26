@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.RepairInformationTaskDao">
+    
+	<sql id="taskColumns">
+		a.id AS "id",
+		a.task_name AS "taskName",
+		a.task_status AS "taskStatus"
+	</sql>
+	
+	<select id="findList" resultType="com.sgai.property.wy.entity.RepairInformationTask">
+		SELECT 
+			<include refid="taskColumns"/>
+		from wy_evt_repair_task a
+	</select>
+	
+	<update id="update">
+		UPDATE wy_evt_repair_task
+        <trim prefix="set" suffixOverrides=",">
+            <if test="taskName != null and taskName != ''">TASK_NAME = #{taskName},</if>
+            <if test="taskStatus != null and taskStatus != ''">TASK_STATUS = #{taskStatus},</if>
+        </trim>
+        WHERE id = #{id}
+	</update>
+	
+	<insert id="insert">
+		INSERT INTO wy_evt_repair_task(
+        	ID,
+        	TASK_NAME,
+        	TASK_STATUS
+        )VALUES(
+        	#{id},
+        	#{taskName},
+        	#{taskStatus}
+        )
+	</insert>
+	
+	<select id="getTaskList" resultType="com.sgai.property.wy.entity.RepairInformationTask">
+		SELECT 
+			<include refid="taskColumns"/>
+		FROM wy_evt_repair_task a
+	</select>
+	
+</mapper>

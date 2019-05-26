@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.quality.dao.plan.ITaskDaoVo" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.quality.entity.plan.Task" >
+           <id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="updated_dt" property="updatedDt" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="BIGINT" />
+         <result column="task_creator_ei_emp_name" property="taskCreatorEiEmpName" jdbcType="VARCHAR" />
+         <result column="record_id" property="recordId" jdbcType="VARCHAR" />
+         <result column="is_delete" property="isDelete" jdbcType="BIGINT" />
+         <result column="task_creator_ei_id" property="taskCreatorEiId" jdbcType="VARCHAR" />
+         <result column="task_appr_time" property="taskApprTime" jdbcType="BIGINT" />
+         <result column="task_appr_ei_id" property="taskApprEiId" jdbcType="VARCHAR" />
+         <result column="task_need_appr" property="taskNeedAppr" jdbcType="BIGINT" />
+         <result column="task_desc" property="taskDesc" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="task_creator_ei_emp_img" property="taskCreatorEiEmpImg" jdbcType="VARCHAR" />
+         <result column="task_sort" property="taskSort" jdbcType="BIGINT" />
+         <result column="task_end_time" property="taskEndTime" jdbcType="BIGINT" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+         <result column="task_appr_feed_id" property="taskApprFeedId" jdbcType="VARCHAR" />
+         <result column="task_appr_toon_user_id" property="taskApprToonUserId" jdbcType="VARCHAR" />
+         <result column="task_is_complete" property="taskIsComplete" jdbcType="BIGINT" />
+         <result column="task_name" property="taskName" jdbcType="VARCHAR" />
+         <result column="push_time" property="pushTime" jdbcType="BIGINT" />
+         <result column="task_type" property="taskType" jdbcType="BIGINT" />
+         <result column="record_name" property="recordName" jdbcType="VARCHAR" />
+         <result column="task_begin_time" property="taskBeginTime" jdbcType="BIGINT" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="task_appr_state" property="taskApprState" jdbcType="BIGINT" />
+         <result column="task_appr_ei_emp_name" property="taskApprEiEmpName" jdbcType="VARCHAR" />
+         <result column="task_result_time" property="taskResultTime" jdbcType="BIGINT" />
+         <result column="org_id" property="orgId" jdbcType="VARCHAR" />
+         <result column="period_name" property="periodName" jdbcType="VARCHAR" />
+         <result column="period_id" property="periodId" jdbcType="VARCHAR" />
+	  <result column="task_flag" property="taskFlag" jdbcType="BIGINT" />
+	  <result column="template_id" property="templateId" jdbcType="VARCHAR" />
+	  <result column="template_name" property="templateName" jdbcType="VARCHAR" />
+	  <result column="task_scope_type" property="taskScopeType" jdbcType="VARCHAR" />
+	  <result column="space_data" property="spaceData" jdbcType="VARCHAR" />
+	  <result column="materiel_data" property="materielData" jdbcType="VARCHAR" />
+	  <result column="equipment_data" property="equipmentData" jdbcType="VARCHAR" />
+	  <result column="supplier_data" property="supplierData" jdbcType="VARCHAR" />
+	  <result column="option_flag" property="optionFlag" jdbcType="VARCHAR" />
+	  <result column="task_day" property="taskDay" jdbcType="VARCHAR" />
+	  <result column="task_year" property="taskYear" jdbcType="VARCHAR" />
+	  <result column="begin_date" property="beginDate" jdbcType="VARCHAR" />
+	  <result column="end_date" property="endDate" jdbcType="VARCHAR" />
+	  <result column="begin_time" property="beginTime" jdbcType="VARCHAR" />
+	  <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+	  <result column="begin_month" property="beginMonth" jdbcType="VARCHAR" />
+	  <result column="end_month" property="endMonth" jdbcType="VARCHAR" />
+	  <result column="type_flag" property="typeFlag" jdbcType="BIGINT" />
+	  <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+	  <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       updated_dt
+       ,create_time
+       ,task_creator_ei_emp_name
+       ,record_id
+       ,is_delete
+       ,task_creator_ei_id
+       ,task_appr_time
+       ,task_appr_ei_id
+       ,task_need_appr
+       ,task_desc
+       ,id
+       ,created_dt
+       ,updated_by
+       ,version
+       ,task_creator_ei_emp_img
+       ,task_sort
+       ,task_end_time
+       ,created_by
+       ,update_time
+       ,task_appr_feed_id
+       ,task_appr_toon_user_id
+       ,task_is_complete
+       ,task_name
+       ,push_time
+       ,task_type
+       ,record_name
+       ,task_begin_time
+       ,remarks
+       ,task_appr_state
+       ,task_appr_ei_emp_name
+       ,task_result_time
+       ,org_id
+       ,period_name
+       ,period_id
+       ,task_flag
+       ,template_id
+       ,template_name
+      ,task_scope_type
+       ,space_data
+       ,materiel_data
+       ,equipment_data
+       ,supplier_data
+       ,option_flag
+       ,task_day
+       ,task_year
+       ,begin_date
+       ,end_date
+       ,begin_time
+       ,end_time
+       ,begin_month
+       ,end_month
+       ,type_flag
+       ,com_code
+       ,modu_code
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="createTime != null">
+			and create_time=#{createTime}
+		 </if> 
+       <if test="taskCreatorEiEmpName != null">
+			and task_creator_ei_emp_name=#{taskCreatorEiEmpName}
+		 </if> 
+       <if test="recordId != null">
+			and record_id=#{recordId}
+		 </if> 
+       <if test="isDelete != null">
+			and is_delete=#{isDelete}
+		 </if> 
+       <if test="taskCreatorEiId != null">
+			and task_creator_ei_id=#{taskCreatorEiId}
+		 </if> 
+       <if test="taskApprTime != null">
+			and task_appr_time=#{taskApprTime}
+		 </if> 
+       <if test="taskApprEiId != null">
+			and task_appr_ei_id=#{taskApprEiId}
+		 </if> 
+       <if test="taskNeedAppr != null">
+			and task_need_appr=#{taskNeedAppr}
+		 </if> 
+       <if test="taskDesc != null">
+			and task_desc=#{taskDesc}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="taskCreatorEiEmpImg != null">
+			and task_creator_ei_emp_img=#{taskCreatorEiEmpImg}
+		 </if> 
+       <if test="taskSort != null">
+			and task_sort=#{taskSort}
+		 </if> 
+       <if test="taskEndTime != null">
+			and task_end_time=#{taskEndTime}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="updateTime != null">
+			and update_time=#{updateTime}
+		 </if> 
+       <if test="taskApprFeedId != null">
+			and task_appr_feed_id=#{taskApprFeedId}
+		 </if> 
+       <if test="taskApprToonUserId != null">
+			and task_appr_toon_user_id=#{taskApprToonUserId}
+		 </if> 
+       <if test="taskIsComplete != null">
+			and task_is_complete=#{taskIsComplete}
+		 </if> 
+       <if test="taskName != null">
+			and task_name=#{taskName}
+		 </if> 
+       <if test="pushTime != null">
+			and push_time=#{pushTime}
+		 </if> 
+       <if test="taskType != null">
+			and task_type=#{taskType}
+		 </if> 
+       <if test="recordName != null">
+			and record_name=#{recordName}
+		 </if> 
+       <if test="taskBeginTime != null">
+			and task_begin_time=#{taskBeginTime}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="taskApprState != null">
+			and task_appr_state=#{taskApprState}
+		 </if> 
+       <if test="taskApprEiEmpName != null">
+			and task_appr_ei_emp_name=#{taskApprEiEmpName}
+		 </if> 
+       <if test="taskResultTime != null">
+			and task_result_time=#{taskResultTime}
+		 </if> 
+       <if test="orgId != null">
+			and org_id=#{orgId}
+		 </if> 
+       <if test="periodName != null">
+			and period_name=#{periodName}
+		 </if> 
+       <if test="periodId != null">
+			and period_id=#{periodId}
+		 </if>
+		 <if test="taskFlag != null">
+			 and task_flag=#{taskFlag}
+		 </if>
+		 <if test="templateId != null">
+			 and template_id=#{templateId}
+		 </if>
+		 <if test="templateName != null">
+			 and template_name=#{templateName}
+		 </if>
+		 <if test="taskScopeType != null">
+			 and task_scope_type=#{taskScopeType}
+		 </if>
+		 <if test="spaceData != null">
+			 and space_data=#{spaceData}
+		 </if>
+		 <if test="materielData != null">
+			 and materiel_data=#{materielData}
+		 </if>
+		 <if test="equipmentData != null">
+			 and equipment_data=#{equipmentData}
+		 </if>
+		 <if test="supplierData != null">
+			 and supplier_data=#{supplierData}
+		 </if>
+		 <if test="optionFlag != null">
+			 and option_flag=#{optionFlag}
+		 </if>
+		 <if test="taskDay != null">
+			 and task_day=#{taskDay}
+		 </if>
+		 <if test="taskYear != null">
+			 and task_year=#{taskYear}
+		 </if>
+		 <if test="beginDate != null">
+			 and begin_date=#{beginDate}
+		 </if>
+		 <if test="endDate != null">
+			 and end_date=#{endDate}
+		 </if>
+		 <if test="beginTime != null">
+			 and begin_time=#{beginTime}
+		 </if>
+		 <if test="endTime != null">
+			 and end_time=#{endTime}
+		 </if>
+		 <if test="beginMonth != null">
+			 and begin_month=#{beginMonth}
+		 </if>
+		 <if test="endMonth != null">
+			 and end_month=#{endMonth}
+		 </if>
+		 <if test="typeFlag != null">
+			 and type_flag=#{typeFlag}
+		 </if>
+		 <if test="comCode != null">
+			 and com_code=#{comCode}
+		 </if>
+		 <if test="moduCode != null">
+			 and modu_code=#{moduCode}
+		 </if>
+      </trim>
+  </sql>
+	
+	<select id="taskStateMonth" parameterType="map" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/> from JH_TASK 
+		<where>
+			<if test="startTime != null and startTime !='' ">
+				<![CDATA[ task_begin_time <= #{endTime} and task_begin_time >= #{startTime} ]]>
+			</if>
+			<if test="taskIds != null">
+				and id in 
+				<foreach collection="taskIds" index="index" item="item" open="(" separator="," close=")">
+					#{item}       
+				</foreach>  
+			</if>
+			<if test="taskFlag != null">
+				and task_Flag = #{taskFlag}
+			</if>
+			<if test="typeFlag != null">
+				and type_flag=#{typeFlag}
+			</if>
+			<if test="comCode != null">
+				and com_code=#{comCode}
+			</if>
+			<if test="isDelete != null and isDelete != '' ">
+				<![CDATA[ and is_delete <> #{isDelete} ]]>
+			</if>
+			
+		</where>
+		<!-- 查询已关联模板 -->
+		and  TEMPLATE_ID is not null ORDER BY create_time ASC 
+	</select>
+	
+	<select id="getRecordIds" parameterType="map" resultType="String">
+		select RECORD_ID from JH_TASK 
+		<where>
+			<if test="startTime != null and startTime !='' ">
+				<![CDATA[ task_begin_time >= #{startTime} ]]>
+			</if>
+			<if test="endTime != null and endTime !='' ">
+				<![CDATA[ and task_begin_time < #{endTime} ]]>
+			</if>
+			<if test="taskIds != null">
+				and id in 
+				<foreach collection="taskIds" index="index" item="item" open="(" separator="," close=")">
+					#{item}       
+				</foreach>  
+			</if>
+			<if test="byAppr != null and byAppr !='' ">
+				<![CDATA[ and task_result_time <> 0 and ( task_appr_state = 0 or task_appr_state = 1 or task_appr_state = 3 ) ]]>
+			</if>
+			<if test="isDelete != null and isDelete != '' ">
+				<![CDATA[ and is_delete <> #{isDelete} ]]>
+			</if>
+		</where>
+	</select>
+	
+	<select id="getTaskList" parameterType="map" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/> from JH_TASK 
+		<where>
+			<if test="startTime != null and startTime !='' ">
+				<![CDATA[ task_begin_time >= #{startTime} ]]>
+			</if>
+			<if test="endTime != null and endTime !='' ">
+				<![CDATA[ and task_begin_time < #{endTime} ]]>
+			</if>
+			<if test="taskIds != null">
+				and id in 
+				<foreach collection="taskIds" index="index" item="item" open="(" separator="," close=")">
+					#{item}       
+				</foreach>  
+			</if>
+			<if test="recordId != null ">
+				and RECORD_ID = #{recordId}
+			</if>
+			<if test="isByAppr != null ">
+				<![CDATA[ and task_result_time <> 0 and ( task_appr_state = 0 or task_appr_state = 1 or task_appr_state = 3 ) ]]>
+			</if>
+			<if test="isDelete != null and isDelete != '' ">
+				<![CDATA[ and is_delete <> #{isDelete} ]]>
+			</if>
+		</where>
+		ORDER BY create_time ASC 
+	</select>
+	
+</mapper>

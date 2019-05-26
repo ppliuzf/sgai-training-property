@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.quality.dao.plan.IRecordDaoVo" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.quality.entity.plan.Record" >
+           <id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="updated_dt" property="updatedDt" jdbcType="VARCHAR" />
+         <result column="application_scope_name" property="applicationScopeName" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="BIGINT" />
+         <result column="creator_ei_emp_name" property="creatorEiEmpName" jdbcType="VARCHAR" />
+         <result column="is_delete" property="isDelete" jdbcType="BIGINT" />
+         <result column="record_manager" property="recordManager" jdbcType="BIGINT" />
+         <result column="type_id" property="typeId" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="record_desc" property="recordDesc" jdbcType="VARCHAR" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+         <result column="post_name" property="postName" jdbcType="VARCHAR" />
+         <result column="application_scope_id" property="applicationScopeId" jdbcType="VARCHAR" />
+         <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+         <result column="record_name" property="recordName" jdbcType="VARCHAR" />
+         <result column="creator_ei_id" property="creatorEiId" jdbcType="VARCHAR" />
+         <result column="post_id" property="postId" jdbcType="VARCHAR" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="org_id" property="orgId" jdbcType="VARCHAR" />
+      <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+      <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       updated_dt
+       ,application_scope_name
+       ,create_time
+       ,creator_ei_emp_name
+       ,is_delete
+       ,record_manager
+       ,type_id
+       ,created_dt
+       ,updated_by
+       ,version
+       ,record_desc
+       ,created_by
+       ,update_time
+       ,post_name
+       ,application_scope_id
+       ,type_name
+       ,record_name
+       ,creator_ei_id
+       ,post_id
+       ,id
+       ,remarks
+       ,org_id
+       ,com_code
+       ,modu_code
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="applicationScopeName != null">
+			and application_scope_name=#{applicationScopeName}
+		 </if> 
+       <if test="createTime != null">
+			and create_time=#{createTime}
+		 </if> 
+       <if test="creatorEiEmpName != null">
+			and creator_ei_emp_name=#{creatorEiEmpName}
+		 </if> 
+       <if test="isDelete != null">
+			and is_delete=#{isDelete}
+		 </if> 
+       <if test="recordManager != null">
+			and record_manager=#{recordManager}
+		 </if> 
+       <if test="typeId != null">
+			and type_id=#{typeId}
+		 </if> 
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="recordDesc != null">
+			and record_desc=#{recordDesc}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="updateTime != null">
+			and update_time=#{updateTime}
+		 </if> 
+       <if test="postName != null">
+			and post_name=#{postName}
+		 </if> 
+       <if test="applicationScopeId != null">
+			and application_scope_id=#{applicationScopeId}
+		 </if> 
+       <if test="typeName != null">
+			and type_name=#{typeName}
+		 </if> 
+       <if test="recordName != null">
+			and record_name=#{recordName}
+		 </if> 
+       <if test="creatorEiId != null">
+			and creator_ei_id=#{creatorEiId}
+		 </if> 
+       <if test="postId != null">
+			and post_id=#{postId}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="orgId != null">
+			and org_id=#{orgId}
+		 </if>
+         <if test="comCode != null">
+             and com_code=#{comCode}
+         </if>
+         <if test="moduCode != null">
+             and modu_code=#{moduCode}
+         </if>
+      </trim>
+  </sql>
+  
+	<select id="taskDay"  parameterType="map" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from JH_RECORD 
+	    <where>
+			<if test="ids != null">
+				id in 
+				<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+					#{item}       
+				</foreach>  
+			</if>
+			<if test="isDelete != null and isDelete != '' ">
+				<![CDATA[ and is_delete <> #{isDelete} ]]>
+			</if>
+		</where>
+		ORDER BY create_time ASC 
+	</select>
+   
+</mapper>

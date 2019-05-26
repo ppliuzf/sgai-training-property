@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.mdm.dao.MdmSpaceTreeDao">
+
+	<sql id="mdmSpaceTreeColumns">
+		a.id AS "id",
+		a.node_code AS "spaceCode",
+		a.parent_code AS "parentCode",
+		a.node_name AS "spaceName",
+		a.node_type AS "nodeType",
+		a.node_table AS "nodeTable",
+		a.node_level AS "nodeLevel",
+		a.busi_id AS "busiId",
+		a.node_sequence AS "nodeSequence",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+
+	<sql id="mdmSpaceTreeJoins">
+	</sql>
+
+	<select id="get" resultType="com.sgai.property.mdm.entity.MdmSpaceTree">
+		SELECT
+			<include refid="mdmSpaceTreeColumns"/>
+		FROM mdm_space_tree a
+		<include refid="mdmSpaceTreeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="getSpaceByCode" resultType="com.sgai.property.mdm.entity.MdmSpaceTree">
+		SELECT
+		<include refid="mdmSpaceTreeColumns"/>
+		FROM mdm_space_tree a
+		<include refid="mdmSpaceTreeJoins"/>
+		WHERE a.node_code = #{spaceCode}
+	</select>
+
+	<select id="getByCode" resultType="com.sgai.property.mdm.entity.MdmSpaceTree">
+		SELECT
+			<include refid="mdmSpaceTreeColumns"/>
+		FROM mdm_space_tree a
+		<include refid="mdmSpaceTreeJoins"/>
+		<where>
+		a.node_code = #{spaceCode} and a.com_code = #{comCode} and a.ENABLED_FLAG='Y'
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+	</select>
+	<select id="getByCodeList" resultType="com.sgai.property.mdm.entity.MdmSpaceTree">
+		SELECT
+			<include refid="mdmSpaceTreeColumns"/>
+		FROM mdm_space_tree a
+		<include refid="mdmSpaceTreeJoins"/>
+		<where>
+		a.node_code = #{spaceCode} and a.com_code = #{comCode} and a.ENABLED_FLAG='Y'
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+	</select>
+
+	<select id="getByParentCode" resultType="com.sgai.property.mdm.entity.MdmSpaceTree">
+		SELECT
+			<include refid="mdmSpaceTreeColumns"/>
+		FROM mdm_space_tree a
+		<include refid="mdmSpaceTreeJoins"/>
+		<where>
+		a.parent_code = #{spaceCode} and a.com_code = #{comCode} and a.ENABLED_FLAG='Y'
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+	</select>
+
+	<select id="findList" resultType="com.sgai.property.mdm.entity.MdmSpaceTree">
+		SELECT
+			<include refid="mdmSpaceTreeColumns"/>
+		FROM mdm_space_tree a
+		<include refid="mdmSpaceTreeJoins"/>
+		<where>
+			<if test="spaceCode != null and spaceCode != ''">
+				AND a.node_code = #{spaceCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="parentCode != null and parentCode != ''">
+				AND a.parent_code = #{parentCode}
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND a.node_name LIKE
+					<if test="dbName == 'oracle'">'%'||#{spaceName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{spaceName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{spaceName},'%')</if>
+			</if>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList" resultType="com.sgai.property.mdm.entity.MdmSpaceTree">
+		SELECT
+			<include refid="mdmSpaceTreeColumns"/>
+		FROM mdm_space_tree a
+		<include refid="mdmSpaceTreeJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="getSpaceList" resultType="java.util.Map">
+	    SELECT
+	        NODE_CODE,
+	        PARENT_CODE,
+	        NODE_NAME
+	    FROM
+	        MDM_SPACE_TREE
+	    <where>
+	    enabled_flag='Y'
+	         <if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sqlMap}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND modu_code is null
+			</if>
+		</where>
+	    ORDER BY
+	        NODE_NAME  ASC
+	</select>
+
+
+	<select id="getSpaceFloorBuild" resultType="java.util.Map">
+	    SELECT
+	        NODE_CODE,
+	        PARENT_CODE,
+	        NODE_NAME
+	    FROM
+	        MDM_SPACE_TREE
+	    <where>
+	    enabled_flag='Y'
+	    AND  NODE_TYPE IN ('FLOOR','BUILD','AREA','ROOM')
+
+	         <if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sqlMap}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND modu_code is null
+			</if>
+		</where>
+	    ORDER BY
+	        NODE_NAME  ASC
+	</select>
+
+	<select id="getSpaceLack" resultType="java.util.Map">
+	    SELECT
+	        a.NODE_CODE,
+	        a.PARENT_CODE,
+	        a.NODE_NAME
+	    FROM
+	        MDM_SPACE_TREE a
+	    <where>
+	    a.enabled_flag='Y'
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+	    ORDER BY
+	        NODE_NAME  ASC
+	</select>
+
+	<select id="getUserProfLack" resultType="java.util.Map">
+	    SELECT
+	        a.PROF_CODE,
+	        a.PROF_NAME
+	    FROM
+	        MDM_DEVICE_PROF a
+	    <where>
+	    a.enabled_flag='Y' AND a.prof_code not in(
+	    	select  prof_code from ctl_user_prof_relation
+	    	where user_code = #{userId}
+	    )
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+	    ORDER BY
+	        PROF_NAME  ASC
+	</select>
+
+	<select id="getUserProfOwn" resultType="java.util.Map">
+	    SELECT
+	        a.PROF_CODE,
+	        a.PROF_NAME
+	    FROM
+	        MDM_DEVICE_PROF a
+	    <where>
+	    a.enabled_flag='Y' AND a.prof_code in(
+	    	select  prof_code from ctl_user_prof_relation
+	    	where user_code = #{userId}
+	    )
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+	    ORDER BY
+	        PROF_NAME  ASC
+	</select>
+
+	<select id="getSpaceOwn" resultType="java.util.Map">
+	    SELECT
+	        a.NODE_CODE,
+	        a.PARENT_CODE,
+	        a.NODE_NAME
+	    FROM
+	        MDM_SPACE_TREE a
+	    <where>
+	    a.enabled_flag='Y' AND a.node_code in(
+	    	select c.space_code from ctl_user_space_relation c
+	    	where c.user_code = #{userId}
+	    )
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+		</where>
+	    ORDER BY
+	        NODE_NAME  ASC
+	</select>
+
+	<insert id="saveSpaceTree">
+		INSERT INTO ctl_user_space_relation(
+			id,
+			space_code,
+			user_code
+		) VALUES (
+			#{id},
+			#{spaceCode},
+			#{userCode}
+		)
+	</insert>
+
+	<insert id="saveProfTree">
+		INSERT INTO ctl_user_prof_relation(
+			id,
+			prof_code,
+			user_code
+		) VALUES (
+			#{id},
+			#{profCode},
+			#{userCode}
+		)
+	</insert>
+
+	<insert id="insert">
+		INSERT INTO mdm_space_tree(
+			id,
+			node_code,
+			parent_code,
+			node_name,
+			node_type,
+			node_table,
+			node_level,
+			busi_id,
+			node_sequence,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{spaceCode},
+			#{parentCode},
+			#{spaceName},
+			#{nodeType},
+			#{nodeTable},
+			#{nodeLevel},
+			#{busiId},
+			#{nodeSequence},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE mdm_space_tree SET
+			node_code = #{spaceCode},
+			parent_code = #{parentCode},
+			node_name = #{spaceName},
+			node_type = #{nodeType},
+			node_table = #{nodeTable},
+			node_level = #{nodeLevel},
+			busi_id = #{busiId},
+			node_sequence = #{nodeSequence},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+
+<!-- 	<update id="delete">
+		DELETE FROM mdm_space_tree
+		WHERE id = #{id}
+	</update> -->
+
+	<update id="delete">
+		UPDATE mdm_space_tree SET
+		    enabled_flag='N'
+		WHERE
+		    node_code = #{spaceCode}
+	</update>
+
+	<update id="deleteSpaceByUser">
+		delete from
+			ctl_user_space_relation
+		WHERE
+		    user_code = #{userCode}
+	</update>
+
+	<update id="deleteProfByUser">
+		delete from
+			ctl_user_prof_relation
+		WHERE
+		    user_code = #{userCode}
+	</update>
+
+
+</mapper>

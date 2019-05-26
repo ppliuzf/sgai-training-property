@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlNoticeDao">
+    
+	<sql id="ctlNoticeColumns">
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode",
+		a.user_code AS "userCode",
+		a.notice_info AS "noticeInfo",
+		a.notice_time AS "noticeTime",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.read_flag AS "readFlag"
+	</sql>
+	
+	<sql id="ctlNoticeJoins">
+	</sql>
+    
+	<select id="get" resultType="CtlNotice">
+		SELECT 
+			<include refid="ctlNoticeColumns"/>
+		FROM ctl_notice a
+		<include refid="ctlNoticeJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlNotice">
+		SELECT 
+			<include refid="ctlNoticeColumns"/>
+		FROM ctl_notice a
+		<include refid="ctlNoticeJoins"/>
+		<where>
+			
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="userCode != null and userCode != ''">
+				AND a.user_code = #{userCode}
+			</if>
+			<if test="noticeTime != null and noticeTime != ''">
+				AND a.notice_time = #{noticeTime}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="readFlag != null and readFlag != ''">
+				AND a.read_flag = #{readFlag}
+			</if>
+		</where>
+		ORDER BY read_flag,created_dt desc
+		<!-- <choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose> -->
+	</select>
+	
+	<select id="findAllList" resultType="CtlNotice">
+		SELECT 
+			<include refid="ctlNoticeColumns"/>
+		FROM ctl_notice a
+		<include refid="ctlNoticeJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ctl_notice(
+			id,
+			com_code,
+			modu_code,
+			user_code,
+			notice_info,
+			notice_time,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			read_flag
+		) VALUES (
+			#{id},
+			#{comCode},
+			#{moduCode},
+			#{userCode},
+			#{noticeInfo},
+			#{noticeTime},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{readFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_notice SET 	
+			com_code = #{comCode},
+			modu_code = #{moduCode},
+			user_code = #{userCode},
+			notice_info = #{noticeInfo},
+			notice_time = #{noticeTime},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			read_flag = #{readFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_notice
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

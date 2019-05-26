@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.supplier.dao.IHtContractDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.supplier.entity.HtContract" >
+	  <id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="name" property="name" jdbcType="VARCHAR" />
+         <result column="type_id" property="typeId" jdbcType="VARCHAR" />
+         <result column="owner_name" property="ownerName" jdbcType="VARCHAR" />
+         <result column="second_party_name" property="secondPartyName" jdbcType="VARCHAR" />
+         <result column="effective_date" property="effectiveDate" jdbcType="BIGINT" />
+         <result column="description" property="description" jdbcType="VARCHAR" />
+         <result column="url_a" property="urlA" jdbcType="VARCHAR" />
+         <result column="url_b" property="urlB" jdbcType="VARCHAR" />
+         <result column="updated_dt" property="updatedDt" jdbcType="VARCHAR" />
+         <result column="feed_id" property="feedId" jdbcType="VARCHAR" />
+         <result column="sing_date" property="singDate" jdbcType="BIGINT" />
+         <result column="creater" property="creater" jdbcType="VARCHAR" />
+         <result column="com_name" property="comName" jdbcType="VARCHAR" />
+         <result column="no" property="no" jdbcType="VARCHAR" />
+         <result column="phone" property="phone" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="VARCHAR" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="toon_user_id" property="toonUserId" jdbcType="BIGINT" />
+         <result column="amount" property="amount" jdbcType="DOUBLE" />
+         <result column="com_id" property="comId" jdbcType="BIGINT" />
+         <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+         <result column="is_delete" property="isDelete" jdbcType="BIGINT" />
+         <result column="url_c" property="urlC" jdbcType="VARCHAR" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="status" property="status" jdbcType="BIGINT" />
+	     <result column="supplier_ids" property="supplierIds" jdbcType="VARCHAR" />
+         <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+         <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       name
+       ,type_id
+       ,owner_name
+       ,second_party_name
+       ,effective_date
+       ,description
+       ,url_a
+       ,url_b
+       ,updated_dt
+       ,id
+       ,feed_id
+       ,sing_date
+       ,creater
+       ,com_name
+       ,no
+       ,phone
+       ,version
+       ,updated_by
+       ,created_dt
+       ,created_by
+       ,toon_user_id
+       ,amount
+       ,com_id
+       ,type_name
+       ,is_delete
+       ,url_c
+       ,remarks
+       ,status
+       ,supplier_ids
+       ,com_code
+       ,modu_code
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="name != null">
+			and name=#{name}
+		 </if> 
+       <if test="typeId != null">
+			and type_id=#{typeId}
+		 </if> 
+       <if test="ownerName != null">
+			and owner_name=#{ownerName}
+		 </if> 
+       <if test="secondPartyName != null">
+			and second_party_name=#{secondPartyName}
+		 </if> 
+       <if test="effectiveDate != null">
+			and effective_date=#{effectiveDate}
+		 </if> 
+       <if test="description != null">
+			and description=#{description}
+		 </if> 
+       <if test="urlA != null">
+			and url_a=#{urlA}
+		 </if> 
+       <if test="urlB != null">
+			and url_b=#{urlB}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="feedId != null">
+			and feed_id=#{feedId}
+		 </if> 
+       <if test="singDate != null">
+			and sing_date=#{singDate}
+		 </if> 
+       <if test="creater != null">
+			and creater=#{creater}
+		 </if> 
+       <if test="comName != null">
+			and com_name=#{comName}
+		 </if> 
+       <if test="no != null">
+			and no=#{no}
+		 </if> 
+       <if test="phone != null">
+			and phone=#{phone}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="toonUserId != null">
+			and toon_user_id=#{toonUserId}
+		 </if> 
+       <if test="amount != null">
+			and amount=#{amount}
+		 </if> 
+       <if test="comId != null">
+			and com_id=#{comId}
+		 </if> 
+       <if test="typeName != null">
+			and type_name=#{typeName}
+		 </if> 
+       <if test="isDelete != null">
+			and is_delete=#{isDelete}
+		 </if> 
+       <if test="urlC != null">
+			and url_c=#{urlC}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="status != null">
+			and status=#{status}
+		 </if>
+		 <if test="supplierIds != null">
+			 and supplier_ids=#{supplierIds}
+		 </if>
+         <if test="comCode != null">
+             and com_code=#{comCode}
+         </if>
+         <if test="moduCode != null">
+             and modu_code=#{moduCode}
+         </if>
+	 </trim>
+  </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from HT_CONTRACT  where id =#{id}
+	</select>
+
+	<select id="findPageList"  parameterType="com.sgai.property.supplier.entity.HtContract" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from HT_CONTRACT where 1=1
+		<if test="supplierIds != null">
+			and SUPPLIER_IDS LIKE '%'||#{supplierIds}||'%'
+		</if>
+        <if test="comCode != null and comCode != ''">
+            AND com_code = #{comCode}
+        </if>
+        <if test="moduCode != null and moduCode != ''">
+            AND modu_code = #{moduCode}
+        </if>
+        <if test="moduCode == null or moduCode == ''">
+            AND modu_code is null
+        </if>
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.supplier.entity.HtContract" resultType="java.lang.Integer">
+           select count(1) from HT_CONTRACT where 1=1
+         <if test="supplierIds != null">
+             and SUPPLIER_IDS LIKE '%'||#{supplierIds}||'%'
+         </if>
+         <if test="comCode != null and comCode != ''">
+             AND com_code = #{comCode}
+         </if>
+         <if test="moduCode != null and moduCode != ''">
+             AND modu_code = #{moduCode}
+         </if>
+         <if test="moduCode == null or moduCode == ''">
+             AND modu_code is null
+         </if>
+     </select>
+
+
+</mapper>

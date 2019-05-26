@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.budget.dao.IInputDataDao">
+	<resultMap id="BaseResultMap" type="com.sgai.property.budget.entity.InputData">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="updated_dt" property="updatedDt" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="BIGINT" />
+		<result column="created_dt" property="createdDt" jdbcType="VARCHAR" />
+		<result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+		<result column="version" property="version" jdbcType="BIGINT" />
+		<result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+		<result column="update_time" property="updateTime" jdbcType="BIGINT" />
+		<result column="input_id" property="inputId" jdbcType="VARCHAR" />
+		<result column="expend" property="expend" jdbcType="VARCHAR" />
+		<result column="budget" property="budget" jdbcType="VARCHAR" />
+		<result column="surplus" property="surplus" jdbcType="VARCHAR" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="rsi_id" property="rsiId" jdbcType="VARCHAR" />
+
+		<result column="COM_CODE" property="comCode" jdbcType="VARCHAR" />
+		<result column="MODU_CODE" property="moduCode" jdbcType="VARCHAR" />
+
+
+	</resultMap>
+
+	<sql id="baseColumns">
+		updated_dt
+		,create_time
+		,created_dt
+		,updated_by
+		,version
+		,created_by
+		,update_time
+		,input_id
+		,expend
+		,budget
+		,id
+		,surplus
+		,remarks
+		,rsi_id
+		,COM_CODE
+		,MODU_CODE
+	</sql>
+
+	<sql id="whereSql">
+		<trim prefixOverrides="AND | OR">
+			<if test="updatedDt != null">
+				and updated_dt=#{updatedDt}
+			</if>
+			<if test="createTime != null">
+				and create_time=#{createTime}
+			</if>
+			<if test="createdDt != null">
+				and created_dt=#{createdDt}
+			</if>
+			<if test="updatedBy != null">
+				and updated_by=#{updatedBy}
+			</if>
+			<if test="version != null">
+				and version=#{version}
+			</if>
+			<if test="createdBy != null">
+				and created_by=#{createdBy}
+			</if>
+			<if test="updateTime != null">
+				and update_time=#{updateTime}
+			</if>
+			<if test="inputId != null">
+				and input_id=#{inputId}
+			</if>
+			<if test="expend != null">
+				and expend=#{expend}
+			</if>
+			<if test="budget != null">
+				and budget=#{budget}
+			</if>
+			<if test="id != null">
+				and id=#{id}
+			</if>
+			<if test="surplus != null">
+				and surplus=#{surplus}
+			</if>
+			<if test="remarks != null">
+				and remarks=#{remarks}
+			</if>
+			<if test="rsiId != null">
+				and rsi_id=#{rsiId}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND modu_code is null
+			</if>
+		</trim>
+	</sql>
+
+	<select id="getById" resultMap="BaseResultMap">
+		select
+		<include refid="baseColumns" />
+		from YS_INPUT_DATA where id =#{id}
+	</select>
+
+	<select id="getByIds" resultMap="BaseResultMap">
+		select
+		<include refid="baseColumns" />
+		from YS_INPUT_DATA where id in
+		<foreach collection="array" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
+
+	<delete id="getByListId">
+		select
+		<include refid="baseColumns" />
+		from YS_INPUT_DATA where id in
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap"
+		parameterType="com.sgai.property.budget.entity.InputData">
+		select
+		<include refid="baseColumns" />
+		from
+		YS_INPUT_DATA where
+		<include refid="whereSql" />
+	</select>
+
+	<select id="findAllList" resultMap="BaseResultMap">
+		select
+		<include refid="baseColumns" />
+		from YS_INPUT_DATA
+	</select>
+
+	<select id="findList" parameterType="com.sgai.property.budget.entity.InputData"
+		resultMap="BaseResultMap">
+		select
+		<include refid="baseColumns" />
+		from YS_INPUT_DATA where
+		<include refid="whereSql" />
+		<if test="page !=null and page.orderBy != null and page.orderBy != ''">
+			ORDER BY ${page.orderBy}
+		</if>
+	</select>
+
+	<select id="getCount" parameterType="com.sgai.property.budget.entity.InputData"
+		resultType="java.lang.Integer">
+		select count(1) from YS_INPUT_DATA where
+		<include refid="whereSql" />
+	</select>
+
+	<insert id="insert" parameterType="com.sgai.property.budget.entity.InputData">
+		insert into YS_INPUT_DATA
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="updatedDt != null">
+				updated_dt,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="createdDt != null">
+				created_dt,
+			</if>
+			<if test="updatedBy != null">
+				updated_by,
+			</if>
+			<if test="version != null">
+				version,
+			</if>
+			<if test="createdBy != null">
+				created_by,
+			</if>
+			<if test="updateTime != null">
+				update_time,
+			</if>
+			<if test="inputId != null">
+				input_id,
+			</if>
+			<if test="expend != null">
+				expend,
+			</if>
+			<if test="budget != null">
+				budget,
+			</if>
+			<if test="id != null">
+				id,
+			</if>
+			<if test="surplus != null">
+				surplus,
+			</if>
+			<if test="remarks != null">
+				remarks,
+			</if>
+			<if test="rsiId != null">
+				rsi_id,
+			</if>
+			<if test="comCode != null and comCode != ''">
+				COM_CODE,
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				MODU_CODE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="updatedDt != null">
+				#{updatedDt},
+			</if>
+			<if test="createTime != null">
+				#{createTime},
+			</if>
+			<if test="createdDt != null">
+				#{createdDt},
+			</if>
+			<if test="updatedBy != null">
+				#{updatedBy},
+			</if>
+			<if test="version != null">
+				#{version},
+			</if>
+			<if test="createdBy != null">
+				#{createdBy},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime},
+			</if>
+			<if test="inputId != null">
+				#{inputId},
+			</if>
+			<if test="expend != null">
+				#{expend},
+			</if>
+			<if test="budget != null">
+				#{budget},
+			</if>
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="surplus != null">
+				#{surplus},
+			</if>
+			<if test="remarks != null">
+				#{remarks},
+			</if>
+			<if test="rsiId != null">
+				#{rsiId},
+			</if>
+
+
+			<if test="comCode != null and comCode != ''">
+				#{comCode},
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				#{moduCode},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateById" parameterType="com.sgai.property.budget.entity.InputData">
+		update YS_INPUT_DATA set
+		<trim suffixOverrides=",">
+			<if test="updatedDt != null">
+				updated_dt=#{updatedDt},
+			</if>
+			<if test="createTime != null">
+				create_time=#{createTime},
+			</if>
+			<if test="createdDt != null">
+				created_dt=#{createdDt},
+			</if>
+			<if test="updatedBy != null">
+				updated_by=#{updatedBy},
+			</if>
+			<if test="version != null">
+				version=#{version},
+			</if>
+			<if test="createdBy != null">
+				created_by=#{createdBy},
+			</if>
+			<if test="updateTime != null">
+				update_time=#{updateTime},
+			</if>
+			<if test="inputId != null">
+				input_id=#{inputId},
+			</if>
+			<if test="expend != null">
+				expend=#{expend},
+			</if>
+			<if test="budget != null">
+				budget=#{budget},
+			</if>
+			<if test="surplus != null">
+				surplus=#{surplus},
+			</if>
+			<if test="remarks != null">
+				remarks=#{remarks},
+			</if>
+			<if test="rsiId != null">
+				rsi_id=#{rsiId},
+			</if>
+		</trim>
+		where id =#{id}
+	</update>
+
+	<update id="updateByIds" parameterType="com.sgai.property.budget.entity.InputData">
+		update YS_INPUT_DATA set
+		<trim suffixOverrides=",">
+			<if test="entity.updatedDt != null">
+				updated_dt = #{entity.updatedDt},
+			</if>
+			<if test="entity.createTime != null">
+				create_time = #{entity.createTime},
+			</if>
+			<if test="entity.createdDt != null">
+				created_dt = #{entity.createdDt},
+			</if>
+			<if test="entity.updatedBy != null">
+				updated_by = #{entity.updatedBy},
+			</if>
+			<if test="entity.version != null">
+				version = #{entity.version},
+			</if>
+			<if test="entity.createdBy != null">
+				created_by = #{entity.createdBy},
+			</if>
+			<if test="entity.updateTime != null">
+				update_time = #{entity.updateTime},
+			</if>
+			<if test="entity.inputId != null">
+				input_id = #{entity.inputId},
+			</if>
+			<if test="entity.expend != null">
+				expend = #{entity.expend},
+			</if>
+			<if test="entity.budget != null">
+				budget = #{entity.budget},
+			</if>
+			<if test="entity.surplus != null">
+				surplus = #{entity.surplus},
+			</if>
+			<if test="entity.remarks != null">
+				remarks = #{entity.remarks},
+			</if>
+			<if test="entity.rsiId != null">
+				rsi_id = #{entity.rsiId},
+			</if>
+		</trim>
+		where id in
+		<foreach collection="ids" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</update>
+
+
+	<delete id="deleteById">
+		delete from YS_INPUT_DATA where id =#{id}
+	</delete>
+
+	<delete id="deleteByIds">
+		delete from YS_INPUT_DATA where id in
+		<foreach collection="array" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<delete id="deleteByListId">
+		delete from YS_INPUT_DATA where id in
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+
+	<delete id="delete" parameterType="com.sgai.property.budget.entity.InputData">
+		delete from YS_INPUT_DATA where
+		<include refid="whereSql" />
+	</delete>
+
+</mapper>

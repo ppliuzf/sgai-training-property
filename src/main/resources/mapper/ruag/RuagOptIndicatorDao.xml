@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ruag.dao.RuagOptIndicatorDao">
+    
+	<sql id="ruagOptIndicatorColumns">
+		a.id AS "id",
+		a.model_template_id AS "modelTemplateId",
+		a.opt_indicator AS "optIndicator",
+		a.parameter_id AS "parameterId",
+		a.arg1 AS "arg1",
+		a.arg2 AS "arg2",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.parameter_name AS "parameterName",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+	
+	<sql id="ruagOptIndicatorJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.ruag.entity.RuagOptIndicator">
+		SELECT 
+			<include refid="ruagOptIndicatorColumns"/>
+		FROM ruag_opt_indicator a
+		<include refid="ruagOptIndicatorJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.ruag.entity.RuagOptIndicator">
+		SELECT 
+			<include refid="ruagOptIndicatorColumns"/>
+		FROM ruag_opt_indicator a
+		<include refid="ruagOptIndicatorJoins"/>
+		<where>
+			
+			<if test="modelTemplateId != null and modelTemplateId != ''">
+				AND a.model_template_id = #{modelTemplateId}
+			</if>
+			<if test="optIndicator != null and optIndicator != ''">
+				AND a.opt_indicator = #{optIndicator}
+			</if>
+			<if test="parameterId != null and parameterId != ''">
+				AND a.parameter_id = #{parameterId}
+			</if>
+			<if test="arg1 != null and arg1 != ''">
+				AND a.arg1 = #{arg1}
+			</if>
+			<if test="arg2 != null and arg2 != ''">
+				AND a.arg2 = #{arg2}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.ruag.entity.RuagOptIndicator">
+		SELECT 
+			<include refid="ruagOptIndicatorColumns"/>
+		FROM ruag_opt_indicator a
+		<include refid="ruagOptIndicatorJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ruag_opt_indicator(
+			id,
+			model_template_id,
+			opt_indicator,
+			parameter_id,
+			arg1,
+			arg2,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			parameter_name,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{modelTemplateId},
+			#{optIndicator},
+			#{parameterId},
+			#{arg1},
+			#{arg2},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{parameterName},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ruag_opt_indicator SET 	
+			model_template_id = #{modelTemplateId},
+			opt_indicator = #{optIndicator},
+			parameter_id = #{parameterId},
+			arg1 = #{arg1},
+			arg2 = #{arg2},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			parameter_name = #{parameterName},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ruag_opt_indicator
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

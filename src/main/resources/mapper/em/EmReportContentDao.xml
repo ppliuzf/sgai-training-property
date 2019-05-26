@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.em.dao.EmReportContentDao">
+    
+	<sql id="emReportContentColumns">
+		a.instance_id AS "instanceId",
+		a.em_code AS "emCode",
+		a.em_type AS "emType",
+		a.step_record_id AS "stepRecordId",
+		a.report_content AS "reportContent",
+		a.report_pic AS "reportPic",
+		a.report_video AS "reportVideo",
+		a.id AS "id",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="emReportContentJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.em.entity.EmReportContent">
+		SELECT 
+			<include refid="emReportContentColumns"/>
+		FROM em_report_content a
+		<include refid="emReportContentJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.em.entity.EmReportContent">
+		SELECT 
+			<include refid="emReportContentColumns"/>
+		FROM em_report_content a
+		<include refid="emReportContentJoins"/>
+		<where>
+			
+			<if test="instanceId != null and instanceId != ''">
+				AND a.instance_id = #{instanceId}
+			</if>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+			<if test="emType != null and emType != ''">
+				AND a.em_type = #{emType}
+			</if>
+			<if test="stepRecordId != null and stepRecordId != ''">
+				AND a.step_record_id = #{stepRecordId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.em.entity.EmReportContent">
+		SELECT 
+			<include refid="emReportContentColumns"/>
+		FROM em_report_content a
+		<include refid="emReportContentJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO em_report_content(
+			instance_id,
+			em_code,
+			em_type,
+			step_record_id,
+			report_content,
+			report_pic,
+			report_video,
+			id,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{instanceId},
+			#{emCode},
+			#{emType},
+			#{stepRecordId},
+			#{reportContent},
+			#{reportPic},
+			#{reportVideo},
+			#{id},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE em_report_content SET 	
+			instance_id = #{instanceId},
+			em_code = #{emCode},
+			em_type = #{emType},
+			step_record_id = #{stepRecordId},
+			report_content = #{reportContent},
+			report_pic = #{reportPic},
+			report_video = #{reportVideo},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM em_report_content
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

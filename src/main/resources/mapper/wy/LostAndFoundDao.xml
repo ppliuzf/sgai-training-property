@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.LostAndFoundDao">
+   
+	<sql id="lostAndFoundDaoColumns">
+		"id" "id",
+		PICKUP_TIME pickupTime,
+		PICKUP_PERSON pickupPerson,
+		ARTICELS articels,
+		DRAW_TIME drawTime,
+		HANDOVER handOver,
+		LEAD_PERSON leadPerson,
+		PHONE phone,
+		LOSER_NAME loserName,
+		DISPLAY display,
+		REMARKS remarks
+	</sql>
+	
+	<select id="findList" resultType="com.sgai.property.wy.entity.LostAndFound">
+		SELECT 
+			<include refid="lostAndFoundDaoColumns"/> 
+		FROM WY_CUS_LOST_AND_FOUND
+		<where>
+			AND DISPLAY = 'Y'
+			<if test="pickupTime != null">
+				AND PICKUP_TIME >= #{pickupTime}
+			</if>
+			<if test="drawTime != null">
+				AND #{drawTime} > PICKUP_TIME
+			</if>
+			<if test="handOver != null and handOver != ''">
+				AND HANDOVER  like '%'||#{handOver}||'%'
+			</if>
+			<if test="articels != null and articels != ''">
+				AND ARTICELS like '%'||#{articels}||'%'
+			</if>
+		</where>
+		ORDER BY PICKUP_TIME DESC
+	</select>
+	
+	<select id="get" resultType="com.sgai.property.wy.entity.LostAndFound">
+		SELECT 
+			<include refid="lostAndFoundDaoColumns"/>
+		FROM WY_CUS_LOST_AND_FOUND
+		WHERE "id" = #{id}
+	</select>
+	
+	<delete id="batchDelete">
+	    DELETE FROM
+	        WY_CUS_LOST_AND_FOUND
+	    WHERE
+	        "id" in
+	        <foreach collection="list" item="item" open="(" close=")" separator=",">
+	            #{item}
+	        </foreach>
+	</delete>
+	
+	<insert id="insert">
+		INSERT INTO WY_CUS_LOST_AND_FOUND(
+			"id",
+			PICKUP_TIME,
+			PICKUP_PERSON,
+			ARTICELS,
+			DRAW_TIME,
+			HANDOVER,
+			LEAD_PERSON,
+			PHONE,
+			LOSER_NAME,
+			DISPLAY,
+			REMARKS
+		) VALUES (
+			#{id},
+			#{pickupTime},
+			#{pickupPerson},
+			#{articels},
+			#{drawTime},
+			#{handOver},
+			#{leadPerson},
+			#{phone},
+			#{loserName},
+			#{display},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE WY_CUS_LOST_AND_FOUND SET 	
+			PICKUP_TIME = #{pickupTime},
+			PICKUP_PERSON = #{pickupPerson},
+			ARTICELS = #{articels},
+			DRAW_TIME = #{drawTime},
+			HANDOVER = #{handOver},
+			LEAD_PERSON = #{leadPerson},
+			PHONE = #{phone},
+			LOSER_NAME = #{loserName},
+			DISPLAY = #{display},
+			REMARKS = #{remarks}
+		WHERE "id" = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.quality.dao.IQtDefectOrderDetailDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.quality.entity.QtDefectOrderDetail" >
+	     <id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="od_executor_id" property="odExecutorId" jdbcType="VARCHAR" />
+         <result column="od_create_name" property="odCreateName" jdbcType="VARCHAR" />
+         <result column="od_create_icon" property="odCreateIcon" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+         <result column="od_title" property="odTitle" jdbcType="VARCHAR" />
+         <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+         <result column="od_executor_name" property="odExecutorName" jdbcType="VARCHAR" />
+         <result column="od_operation" property="odOperation" jdbcType="BIGINT" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="od_level" property="odLevel" jdbcType="BIGINT" />
+         <result column="od_finish_time" property="odFinishTime" jdbcType="BIGINT" />
+         <result column="od_create_id" property="odCreateId" jdbcType="VARCHAR" />
+         <result column="o_id" property="oId" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="od_content" property="odContent" jdbcType="VARCHAR" />
+         <result column="od_create_time" property="odCreateTime" jdbcType="BIGINT" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       created_dt
+       ,created_by
+       ,od_executor_id
+       ,od_create_name
+       ,od_create_icon
+       ,version
+       ,updated_dt
+       ,od_title
+       ,update_time
+       ,od_executor_name
+       ,od_operation
+       ,id
+       ,remarks
+       ,od_level
+       ,od_finish_time
+       ,od_create_id
+       ,o_id
+       ,updated_by
+       ,od_content
+       ,od_create_time
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="odExecutorId != null">
+			and od_executor_id=#{odExecutorId}
+		 </if> 
+       <if test="odCreateName != null">
+			and od_create_name=#{odCreateName}
+		 </if> 
+       <if test="odCreateIcon != null">
+			and od_create_icon=#{odCreateIcon}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="odTitle != null">
+			and od_title=#{odTitle}
+		 </if> 
+       <if test="updateTime != null">
+			and update_time=#{updateTime}
+		 </if> 
+       <if test="odExecutorName != null">
+			and od_executor_name=#{odExecutorName}
+		 </if> 
+       <if test="odOperation != null">
+			and od_operation=#{odOperation}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="odLevel != null">
+			and od_level=#{odLevel}
+		 </if> 
+       <if test="odFinishTime != null">
+			and od_finish_time=#{odFinishTime}
+		 </if> 
+       <if test="odCreateId != null">
+			and od_create_id=#{odCreateId}
+		 </if> 
+       <if test="oId != null">
+			and o_id=#{oId}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="odContent != null">
+			and od_content=#{odContent}
+		 </if> 
+       <if test="odCreateTime != null">
+			and od_create_time=#{odCreateTime}
+		 </if> 
+      </trim>
+  </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from qt_defect_order_detail  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_defect_order_detail  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from qt_defect_order_detail  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.quality.entity.QtDefectOrderDetail">
+		select <include refid="baseColumns"/> from
+       qt_defect_order_detail  where   <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_defect_order_detail
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.quality.entity.QtDefectOrderDetail" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_defect_order_detail where   <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.quality.entity.QtDefectOrderDetail" resultType="java.lang.Integer">
+           select count(1) from qt_defect_order_detail where   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.quality.entity.QtDefectOrderDetail">
+      insert into qt_defect_order_detail 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="odExecutorId != null">
+				   od_executor_id,
+			 </if> 
+          <if test="odCreateName != null">
+				   od_create_name,
+			 </if> 
+          <if test="odCreateIcon != null">
+				   od_create_icon,
+			 </if> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="odTitle != null">
+				   od_title,
+			 </if> 
+          <if test="updateTime != null">
+				   update_time,
+			 </if> 
+          <if test="odExecutorName != null">
+				   od_executor_name,
+			 </if> 
+          <if test="odOperation != null">
+				   od_operation,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+          <if test="odLevel != null">
+				   od_level,
+			 </if> 
+          <if test="odFinishTime != null">
+				   od_finish_time,
+			 </if> 
+          <if test="odCreateId != null">
+				   od_create_id,
+			 </if> 
+          <if test="oId != null">
+				   o_id,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="odContent != null">
+				   od_content,
+			 </if> 
+          <if test="odCreateTime != null">
+				   od_create_time,
+			 </if> 
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="odExecutorId != null">
+				#{odExecutorId},
+			  </if>
+			  <if test="odCreateName != null">
+				#{odCreateName},
+			  </if>
+			  <if test="odCreateIcon != null">
+				#{odCreateIcon},
+			  </if>
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="odTitle != null">
+				#{odTitle},
+			  </if>
+			  <if test="updateTime != null">
+				#{updateTime},
+			  </if>
+			  <if test="odExecutorName != null">
+				#{odExecutorName},
+			  </if>
+			  <if test="odOperation != null">
+				#{odOperation},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			  <if test="odLevel != null">
+				#{odLevel},
+			  </if>
+			  <if test="odFinishTime != null">
+				#{odFinishTime},
+			  </if>
+			  <if test="odCreateId != null">
+				#{odCreateId},
+			  </if>
+			  <if test="oId != null">
+				#{oId},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="odContent != null">
+				#{odContent},
+			  </if>
+			  <if test="odCreateTime != null">
+				#{odCreateTime},
+			  </if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.quality.entity.QtDefectOrderDetail">
+	   update qt_defect_order_detail  set
+	    <trim suffixOverrides="," >
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="odExecutorId != null">
+					 od_executor_id=#{odExecutorId},
+				  </if>
+				  <if test="odCreateName != null">
+					 od_create_name=#{odCreateName},
+				  </if>
+				  <if test="odCreateIcon != null">
+					 od_create_icon=#{odCreateIcon},
+				  </if>
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="odTitle != null">
+					 od_title=#{odTitle},
+				  </if>
+				  <if test="updateTime != null">
+					 update_time=#{updateTime},
+				  </if>
+				  <if test="odExecutorName != null">
+					 od_executor_name=#{odExecutorName},
+				  </if>
+				  <if test="odOperation != null">
+					 od_operation=#{odOperation},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				  <if test="odLevel != null">
+					 od_level=#{odLevel},
+				  </if>
+				  <if test="odFinishTime != null">
+					 od_finish_time=#{odFinishTime},
+				  </if>
+				  <if test="odCreateId != null">
+					 od_create_id=#{odCreateId},
+				  </if>
+				  <if test="oId != null">
+					 o_id=#{oId},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="odContent != null">
+					 od_content=#{odContent},
+				  </if>
+				  <if test="odCreateTime != null">
+					 od_create_time=#{odCreateTime},
+				  </if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.quality.entity.QtDefectOrderDetail">
+        update qt_defect_order_detail  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.odExecutorId != null">
+                od_executor_id = #{entity.odExecutorId},
+				  </if>
+				  <if test="entity.odCreateName != null">
+                od_create_name = #{entity.odCreateName},
+				  </if>
+				  <if test="entity.odCreateIcon != null">
+                od_create_icon = #{entity.odCreateIcon},
+				  </if>
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.odTitle != null">
+                od_title = #{entity.odTitle},
+				  </if>
+				  <if test="entity.updateTime != null">
+                update_time = #{entity.updateTime},
+				  </if>
+				  <if test="entity.odExecutorName != null">
+                od_executor_name = #{entity.odExecutorName},
+				  </if>
+				  <if test="entity.odOperation != null">
+                od_operation = #{entity.odOperation},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+				  <if test="entity.odLevel != null">
+                od_level = #{entity.odLevel},
+				  </if>
+				  <if test="entity.odFinishTime != null">
+                od_finish_time = #{entity.odFinishTime},
+				  </if>
+				  <if test="entity.odCreateId != null">
+                od_create_id = #{entity.odCreateId},
+				  </if>
+				  <if test="entity.oId != null">
+                o_id = #{entity.oId},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.odContent != null">
+                od_content = #{entity.odContent},
+				  </if>
+				  <if test="entity.odCreateTime != null">
+                od_create_time = #{entity.odCreateTime},
+				  </if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from qt_defect_order_detail where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from qt_defect_order_detail where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from qt_defect_order_detail where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.quality.entity.QtDefectOrderDetail">
+      delete from qt_defect_order_detail where   <include refid="whereSql"/> 
+   </delete>
+   
+</mapper>

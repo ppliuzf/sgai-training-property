@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.alm.dao.AlmRecordHisListDao">
+    
+	<sql id="almRecordHisListColumns">
+		a.id AS "id",
+		a.master_id AS "masterId",
+		a.record_num AS "recordNum",
+		a.level_code AS "levelCode",
+		a.level_name AS "levelName",
+		a.alerm_type_code AS "alermTypeCode",
+		a.alerm_type_name AS "alermTypeName",
+		a.prof_code AS "profCode",
+		a.prof_name AS "profName",
+		a.devices_code AS "devicesCode",
+		a.devices_name AS "devicesName",
+		a.space_id AS "spaceId",
+		a.space_name AS "spaceName",
+		a.alarm_time AS "alarmTime",
+		a.process_time AS "processTime",
+		a.alarm_msg AS "alarmMsg",
+		a.states AS "states",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+	
+	<sql id="almRecordHisListJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.alm.entity.AlmRecordHisList">
+		SELECT 
+			<include refid="almRecordHisListColumns"/>
+		FROM alm_record_his_list a
+		<include refid="almRecordHisListJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.alm.entity.AlmRecordHisList">
+		SELECT 
+			<include refid="almRecordHisListColumns"/>
+		FROM alm_record_his_list a
+		<include refid="almRecordHisListJoins"/>
+		<where>
+		    <if test="recordNum != null and recordNum != ''">
+				AND a.record_num = #{recordNum}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="masterId != null and masterId != ''">
+				AND a.master_id = #{masterId}
+			</if>
+			<if test="levelCode != null and levelCode != ''">
+				AND a.level_code = #{levelCode}
+			</if>
+			<if test="levelName != null and levelName != ''">
+				AND a.level_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{levelName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{levelName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{levelName},'%')</if>
+			</if>
+			<if test="alermTypeCode != null and alermTypeCode != ''">
+				AND a.alerm_type_code = #{alermTypeCode}
+			</if>
+			<if test="alermTypeName != null and alermTypeName != ''">
+				AND a.alerm_type_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{alermTypeName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{alermTypeName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{alermTypeName},'%')</if>
+			</if>
+			<if test="profCode != null and profCode != ''">
+				AND a.prof_code = #{profCode}
+			</if>
+			<if test="profName != null and profName != ''">
+				AND a.prof_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{profName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{profName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{profName},'%')</if>
+			</if>
+			<if test="devicesCode != null and devicesCode != ''">
+				AND a.devices_code = #{devicesCode}
+			</if>
+			<if test="devicesName != null and devicesName != ''">
+				AND a.devices_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{devicesName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{devicesName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{devicesName},'%')</if>
+			</if>
+			<if test="spaceId != null and spaceId != ''">
+				AND a.space_id LIKE 
+					<if test="dbName == 'oracle'">'%'||#{spaceId}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{spaceId}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{spaceId},'%')</if>
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND a.space_name = #{spaceName}
+			</if>
+			<if test="alarmTime != null and alarmTime != ''">
+				AND a.alarm_time = #{alarmTime}
+			</if>
+			<if test="states != null and states != ''">
+				AND a.states = #{states}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+		</where>
+		  ORDER BY a.record_num DESC, a.states
+		<!-- <choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose> -->
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.alm.entity.AlmRecordHisList">
+		SELECT 
+			<include refid="almRecordHisListColumns"/>
+		FROM alm_record_his_list a
+		<include refid="almRecordHisListJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO alm_record_his_list(
+			id,
+			master_id,
+			record_num,
+			level_code,
+			level_name,
+			alerm_type_code,
+			alerm_type_name,
+			prof_code,
+			prof_name,
+			devices_code,
+			devices_name,
+			space_id,
+			space_name,
+			alarm_time,
+			process_time,
+			alarm_msg,
+			states,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{masterId},
+			#{recordNum},
+			#{levelCode},
+			#{levelName},
+			#{alermTypeCode},
+			#{alermTypeName},
+			#{profCode},
+			#{profName},
+			#{devicesCode},
+			#{devicesName},
+			#{spaceId},
+			#{spaceName},
+			#{alarmTime},
+			#{processTime},
+			#{alarmMsg},
+			#{states},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE alm_record_his_list SET 	
+			master_id = #{masterId},
+			record_num = #{recordNum},
+			level_code = #{levelCode},
+			level_name = #{levelName},
+			alerm_type_code = #{alermTypeCode},
+			alerm_type_name = #{alermTypeName},
+			prof_code = #{profCode},
+			prof_name = #{profName},
+			devices_code = #{devicesCode},
+			devices_name = #{devicesName},
+			space_id = #{spaceId},
+			space_name = #{spaceName},
+			alarm_time = #{alarmTime},
+			process_time = #{processTime},
+			alarm_msg = #{alarmMsg},
+			states = #{states},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM alm_record_his_list
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

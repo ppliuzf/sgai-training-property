@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.MagazineInfoDao">
+
+	<sql id="magazineInfoColumns">
+		M.id id,
+		M.M_NAME magazineName,
+		M.M_NUMBER encoder,
+		M.PERSON_NAME personName,
+		M.CREATED_DATE createdDate,
+		M.DISPLAY display,
+		M.remarks remarks
+	</sql>
+
+	<select id="findList" resultType="com.sgai.property.wy.entity.MagazineInfo">
+		SELECT <include refid="magazineInfoColumns"/> FROM WY_CUS_MAGAZINE_INFO M
+		<where>
+			AND M.DISPLAY = 'Y'
+			<if test="magazineName != null and magazineName != ''">
+				AND M.M_NAME like concat('%',#{magazineName},'%')
+			</if>
+		</where>
+		ORDER BY M.CREATED_DATE DESC
+	</select>
+
+	<select id="get" resultType="com.sgai.property.wy.entity.MagazineInfo">
+		SELECT
+			<include refid="magazineInfoColumns"/>
+		FROM WY_CUS_MAGAZINE_INFO M
+		WHERE M.id = #{id}
+	</select>
+
+	<update id="delete">
+		DELETE FROM WY_CUS_MAGAZINE_INFO
+		WHERE ID = #{id}
+	</update>
+
+	<delete id="batchDelete">
+	    DELETE FROM
+	        WY_CUS_MAGAZINE_INFO
+	    WHERE
+	        id in
+	        <foreach collection="list" item="item" open="(" close=")" separator=",">
+	            #{item}
+	        </foreach>
+	</delete>
+
+	<insert id="insert">
+		INSERT INTO WY_CUS_MAGAZINE_INFO(
+			id,
+			M_NAME ,
+			M_NUMBER ,
+			PERSON_NAME ,
+			CREATED_DATE ,
+			DISPLAY,
+			REMARKS
+		) VALUES (
+			#{id},
+			#{magazineName},
+			#{encoder},
+			#{personName},
+			#{createdDate},
+			#{display},
+			#{remarks}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE WY_CUS_MAGAZINE_INFO SET
+			M_NAME = #{magazineName},
+			M_NUMBER = #{encoder},
+			PERSON_NAME = #{personName},
+			CREATED_DATE = #{createdDate},
+			DISPLAY = #{display},
+			REMARKS = #{remarks}
+		WHERE id = #{id}
+	</update>
+
+</mapper>

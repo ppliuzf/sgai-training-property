@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wf.dao.WfInstanceRecordDao">
+    
+	<sql id="wfInstanceRecordColumns">
+		a.instance_id AS "instanceId",
+		a.em_code AS "emCode",
+		a.em_type AS "emType",
+		a.step_seq AS "stepSeq",
+		a.step_code AS "stepCode",
+		a.step_name AS "stepName",
+		a.step_level AS "stepLevel",
+		a.step_type AS "stepType",
+		a.step_url AS "stepUrl",
+		a.step_stat AS "stepStat",
+		a.id AS "id",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.user_code AS "userCode",
+		a.user_name AS "userName",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+		
+	</sql>
+	
+	<sql id="wfInstanceRecordJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.wf.entity.WfInstanceRecord">
+		SELECT 
+			<include refid="wfInstanceRecordColumns"/>
+		FROM wf_instance_record a
+		<include refid="wfInstanceRecordJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getInstanceRecord" resultType="com.sgai.property.wf.entity.WfInstanceRecord">
+		SELECT 
+			<include refid="wfInstanceRecordColumns"/>
+		FROM wf_instance_record a
+		<include refid="wfInstanceRecordJoins"/>
+		<where>
+			<if test="instanceId != null and instanceId != ''">
+				AND a.instance_id = #{instanceId}
+			</if>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="emType != null and emType != ''">
+				AND a.em_type = #{emType}
+			</if>
+			<if test="stepCode != null and stepCode != ''">
+				AND a.step_code = #{stepCode}
+			</if>
+			<if test="stepName != null and stepName != ''">
+				AND a.step_name = #{stepName}
+			</if>
+			<if test="stepLevel != null and stepLevel != ''">
+				AND a.step_level = #{stepLevel}
+			</if>
+			<if test="stepType != null and stepType != ''">
+				AND a.step_type = #{stepType}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.wf.entity.WfInstanceRecord">
+		SELECT 
+			<include refid="wfInstanceRecordColumns"/>
+		FROM wf_instance_record a
+		<include refid="wfInstanceRecordJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+			<if test="emType != null and emType != ''">
+				AND a.em_type = #{emType}
+			</if>
+			<if test="stepCode != null and stepCode != ''">
+				AND a.step_code = #{stepCode}
+			</if>
+			<if test="stepName != null and stepName != ''">
+				AND a.step_name like '%${stepName}%'
+			</if>
+			<if test="stepLevel != null and stepLevel != ''">
+				AND a.step_level = #{stepLevel}
+			</if>
+			<if test="stepType != null and stepType != ''">
+				AND a.step_type = #{stepType}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="remarks != null and remarks != ''">
+				AND a.remarks = #{remarks}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findWfInstanceRecordList" resultType="com.sgai.property.wf.entity.WfInstanceRecord">
+		SELECT 
+			<include refid="wfInstanceRecordColumns"/>
+		FROM wf_instance_record a
+		<include refid="wfInstanceRecordJoins"/>
+		<where>
+			<if test="emCode != null and emCode != ''">
+				AND a.em_code = #{emCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		ORDER BY a.step_type
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.wf.entity.WfInstanceRecord">
+		SELECT 
+			<include refid="wfInstanceRecordColumns"/>
+		FROM wf_instance_record a
+		<include refid="wfInstanceRecordJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="getStepByUser" resultType="com.sgai.property.wf.entity.WfFlowDefine">
+	SELECT
+	*
+FROM
+	WF_FLOW_DEFINE c
+WHERE
+    c.FLOW_CODE=#{flowCode}
+AND 	
+	c.STEP_CODE IN (
+	SELECT DISTINCT
+	wur.STEP_CODE
+FROM
+	WF_USER_RIGHT wur
+WHERE
+	wur.CORR_CODE IN (
+		(
+			SELECT
+				A .ROLE_CODE
+			FROM
+				CTL_USER_ROLE A
+			WHERE
+				A .USER_CODE = #{userCode}
+		) ， #{userCode}
+	)
+	)AND c.STEP_NAME !='创建'
+	
+	</select>
+	
+	<select id="getStepssByUser" resultType="com.sgai.property.wf.entity.WfFlowDefine">
+	SELECT
+	*
+FROM
+	WF_FLOW_DEFINE c
+WHERE
+    c.FLOW_CODE=#{flowCode}
+AND 	
+	c.STEP_CODE IN (
+	SELECT DISTINCT
+	wur.STEP_CODE
+FROM
+	WF_USER_RIGHT wur
+WHERE
+	wur.CORR_CODE IN (
+		(
+			SELECT
+				A .ROLE_CODE
+			FROM
+				CTL_USER_ROLE A
+			WHERE
+				A .USER_CODE = #{userCode}
+		) ， #{userCode}
+	)
+	)AND c.STEP_NAME ='创建'
+	
+	</select>
+	<insert id="insert">
+		INSERT INTO wf_instance_record(
+			instance_id,
+			em_code,
+			em_type,
+			step_seq,
+			step_code,
+			step_name,
+			step_level,
+			step_type,
+			step_stat,
+			id,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			step_url,
+			user_code,
+			user_name,
+			com_code,
+			modu_code
+		) VALUES (
+			#{instanceId},
+			#{emCode},
+			#{emType},
+			#{stepSeq},
+			#{stepCode},
+			#{stepName},
+			#{stepLevel},
+			#{stepType},
+			#{stepStat},
+			#{id},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{stepUrl},
+			#{userCode},
+			#{userName},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE wf_instance_record SET 	
+			instance_id = #{instanceId},
+			em_code = #{emCode},
+			em_type = #{emType},
+			step_seq = #{stepSeq},
+			step_code = #{stepCode},
+			step_name = #{stepName},
+			step_level = #{stepLevel},
+			step_type = #{stepType},
+			step_stat = #{stepStat},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			step_url = #{stepUrl},
+			user_code = #{userCode},
+			user_name = #{userName},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM wf_instance_record
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

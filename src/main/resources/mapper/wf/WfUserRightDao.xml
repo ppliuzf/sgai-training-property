@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wf.dao.WfUserRightDao">
+    
+	<sql id="wfUserRightColumns">
+		a.corr_code AS "corrCode",
+		a.category AS "category",
+		a.step_code AS "stepCode",
+		a.id AS "id",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.com_code AS "comCode"
+	</sql>
+	
+	<sql id="wfUserRightJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.wf.entity.WfUserRight">
+		SELECT 
+			<include refid="wfUserRightColumns"/>
+		FROM wf_user_right a
+		<include refid="wfUserRightJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.wf.entity.WfUserRight">
+		SELECT 
+			<include refid="wfUserRightColumns"/>
+		FROM wf_user_right a
+		<include refid="wfUserRightJoins"/>
+		<where>
+			<if test="corrCode != null and corrCode != ''">
+				AND a.corr_code = #{corrCode}
+			</if>
+			<if test="category != null and category != ''">
+				AND a.category = #{category}
+			</if>
+			<if test="stepCode != null and stepCode != ''">
+				AND a.step_code = #{stepCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findLoginUserAuthority" resultType="com.sgai.property.wf.entity.WfUserRight">
+		SELECT 
+			<include refid="wfUserRightColumns"/>
+		FROM wf_user_right a
+		<include refid="wfUserRightJoins"/>
+		<where>
+			<if test="corrCode != null and corrCode != ''">
+				AND a.corr_code = #{corrCode}
+			</if>
+			<if test="category != null and category != ''">
+				AND a.category = #{category}
+			</if>
+			<if test="stepCode != null and stepCode != ''">
+				AND a.step_code = #{stepCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.wf.entity.WfUserRight">
+		SELECT 
+			<include refid="wfUserRightColumns"/>
+		FROM wf_user_right a
+		<include refid="wfUserRightJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="getFlowListByUR" resultType="com.sgai.property.wf.entity.WfFlowDefine">
+	    SELECT 
+	    	a.step_code,
+	    	a.step_name,
+	    	a.id,
+	    	a.flow_code,
+	    	a.step_pos
+	    FROM
+	       WF_FLOW_DEFINE a
+	    INNER JOIN
+	        WF_USER_RIGHT m
+	    ON 
+	        a.step_code=m.step_code
+	        AND m.corr_code=#{corrCode}
+	        and m.com_code=#{comCode}
+	    WHERE
+	        a.enabled_flag='Y'
+	</select>
+	<select id="getFlowListUnOwn" resultType="com.sgai.property.wf.entity.WfFlowDefine">
+		SELECT
+			A .*
+		FROM
+			WF_FLOW_DEFINE A
+		WHERE
+			STEP_CODE NOT IN (
+				SELECT
+					STEP_CODE
+				FROM
+					WF_USER_RIGHT
+				WHERE
+					CORR_CODE = #{corrCode}
+					and com_code=#{comCode}
+			)
+	</select>
+	<select id="getAllFlowList" resultType="com.sgai.property.wf.entity.WfFlowDefine" parameterType="java.lang.String">
+	    SELECT 
+	      a.STEP_CODE,
+	      a.STEP_NAME,
+	      a.ID
+	    FROM
+	       WF_FLOW_DEFINE a
+	    WHERE
+	        a.enabled_flag='Y'
+	        and a.com_code = #{comCode}
+	</select>
+	<select id="findLike" resultType="com.sgai.property.wf.entity.WfUserRight">
+	    SELECT 
+	     *
+	    FROM
+	       WF_USER_RIGHT a
+	    WHERE
+	    	a.step_code LIKE '%'||#{stepCode}||'%'
+	    AND
+	    	a.corr_code = #{corrCode}
+	    AND
+	        a.enabled_flag='Y'
+	    AND 
+	        a.com_code = #{comCode}
+	</select>
+	<insert id="insert">
+		INSERT INTO wf_user_right(
+			corr_code,
+			category,
+			step_code,
+			id,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code
+		) VALUES (
+			#{corrCode},
+			#{category},
+			#{stepCode},
+			#{id},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE wf_user_right SET 	
+			corr_code = #{corrCode},
+			category = #{category},
+			step_code = #{stepCode},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			com_code = #{comCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM wf_user_right
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteStepTree">
+	    DELETE FROM 
+	        WF_USER_RIGHT 
+	    WHERE
+	        corr_code=#{corrCode}
+	</delete>
+</mapper>

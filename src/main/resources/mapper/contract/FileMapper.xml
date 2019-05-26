@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.contract.dao.IFileDao" >
+    <resultMap id="BaseResultMap" type="com.sgai.property.contract.entity.HtFile" >
+        <id column="id" property="id" jdbcType="VARCHAR" />
+        <result column="file_name" property="fileName" jdbcType="VARCHAR" />
+        <result column="file_url" property="fileUrl" jdbcType="VARCHAR" />
+        <result column="updated_dt" property="updatedDt" jdbcType="VARCHAR" />
+        <result column="contract_id" property="contractId" jdbcType="VARCHAR" />
+        <result column="version" property="version" jdbcType="BIGINT" />
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+        <result column="created_dt" property="createdDt" jdbcType="VARCHAR" />
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+        <result column="is_delete" property="isDelete" jdbcType="BIGINT" />
+        <result column="mark" property="mark" jdbcType="BIGINT" />
+        <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="baseColumns">
+        file_name
+        ,file_url
+        ,updated_dt
+        ,id
+        ,contract_id
+        ,version
+        ,updated_by
+        ,created_dt
+        ,created_by
+        ,is_delete
+        ,mark
+        ,remarks
+    </sql>
+
+    <sql id="whereSql">
+        <trim  prefixOverrides="AND | OR">
+            <if test="fileName != null">
+                and file_name=#{fileName}
+            </if>
+            <if test="fileUrl != null">
+                and file_url=#{fileUrl}
+            </if>
+            <if test="updatedDt != null">
+                and updated_dt=#{updatedDt}
+            </if>
+            <if test="id != null">
+                and id=#{id}
+            </if>
+            <if test="contractId != null">
+                and contract_id=#{contractId}
+            </if>
+            <if test="version != null">
+                and version=#{version}
+            </if>
+            <if test="updatedBy != null">
+                and updated_by=#{updatedBy}
+            </if>
+            <if test="createdDt != null">
+                and created_dt=#{createdDt}
+            </if>
+            <if test="createdBy != null">
+                and created_by=#{createdBy}
+            </if>
+            <if test="isDelete != null">
+                and is_delete=#{isDelete}
+            </if>
+            <if test="mark != null">
+                and mark=#{mark}
+            </if>
+            <if test="remarks != null">
+                and remarks=#{remarks}
+            </if>
+        </trim>
+    </sql>
+
+    <select id="getFileListByNo" resultMap="BaseResultMap" parameterType="com.sgai.property.contract.entity.HtFile">
+        select <include refid="baseColumns"/> from
+        HT_FILE  where   <include refid="whereSql"/>
+    </select>
+
+    <insert id="save" parameterType="com.sgai.property.contract.entity.HtFile">
+        insert into HT_FILE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="updatedDt != null">
+                updated_dt,
+            </if>
+            <if test="fileUrl != null">
+                file_url,
+            </if>
+            <if test="fileName != null">
+                file_name,
+            </if>
+            <if test="createdDt != null">
+                created_dt,
+            </if>
+            <if test="updatedBy != null">
+                updated_by,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="contractId != null">
+                contract_id,
+            </if>
+            <if test="id != null">
+                id,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="mark != null">
+                 mark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="updatedDt != null">
+                #{updatedDt},
+            </if>
+            <if test="fileUrl != null">
+                #{fileUrl},
+            </if>
+            <if test="fileName != null">
+                #{fileName},
+            </if>
+            <if test="createdDt != null">
+                #{createdDt},
+            </if>
+            <if test="updatedBy != null">
+                #{updatedBy},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="contractId != null">
+                #{contractId},
+            </if>
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="remarks != null">
+                #{remarks},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>
+            <if test="mark != null">
+                #{mark},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.sgai.property.contract.entity.HtFile">
+        update HT_FILE  set
+        <trim suffixOverrides="," >
+            <if test="updatedDt != null">
+                updated_dt=#{updatedDt},
+            </if>
+            <if test="fileUrl != null">
+                file_url=#{fileUrl},
+            </if>
+            <if test="fileName != null">
+                file_name=#{fileName},
+            </if>
+            <if test="createdDt != null">
+                created_dt=#{createdDt},
+            </if>
+            <if test="updatedBy != null">
+                updated_by=#{updatedBy},
+            </if>
+            <if test="version != null">
+                version=#{version},
+            </if>
+            <if test="contractId != null">
+                contract_id=#{contractId},
+            </if>
+            <if test="createdBy != null">
+                created_by=#{createdBy},
+            </if>
+            <if test="remarks != null">
+                remarks=#{remarks},
+            </if>
+            <if test="isDelete != null">
+                is_delete=#{isDelete},
+            </if>
+            <if test="mark != null">
+                 mark=#{mark},
+            </if>
+        </trim>
+        where id =#{id}
+    </update>
+
+</mapper>

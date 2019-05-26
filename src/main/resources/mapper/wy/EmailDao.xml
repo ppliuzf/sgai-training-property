@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.EmailDao">
+
+    <sql id="emailselect">
+        SELECT
+            id                   ID,
+            send_time            sendTime,
+            department_id        departmentId,
+            department_name      departmentName,
+            resiver_id           resiverId,
+            resiver_name         resiverName,
+            phone                phone,
+            express_company_id   expressCompanyId,
+            express_company_name expressCompanyName,
+            express_number       expressNumber,
+            express_type         expressType,
+            receipt_time         receiptTime,
+            successor_name       successorName,
+            successor_Id         successorId,
+            signer_id            signerId,
+            signer_name          signerName,
+            remark               remark
+        FROM
+            WY_CUS_EMAIL w
+    </sql>
+    <select id="findList" resultType="com.sgai.property.wy.entity.Email"
+            parameterType="com.sgai.property.wy.entity.Email">
+        <include refid="emailselect"></include>
+        <where>
+            <if test="beginTime !=null">
+                AND w.send_time>=#{beginTime}
+            </if>
+            <if test="endTime !=null">
+                AND #{endTime}>w.send_time
+            </if>
+            <if test="resiverName !=null and resiverName!=''">
+                AND w.resiver_name LIKE CONCAT( CONCAT ( '%', #{resiverName} ) ,'%')
+            </if>
+            <if test="successorName !=null and successorName!=''">
+                AND w.successor_name LIKE CONCAT( CONCAT ( '%', #{successorName} ) ,'%')
+            </if>
+            <if test="departmentName !=null and departmentName!='' ">
+                AND w.department_name=#{departmentName}
+            </if>
+            <if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+                and ${sqlMap.sql}
+            </if>
+        </where>
+        order by w.create_dt desc
+    </select>
+    <update id="delete">
+        DELETE FROM WY_CUS_EMAIL
+        WHERE ID = #{id}
+    </update>
+
+    <insert id="insert">
+        INSERT INTO WY_CUS_EMAIL (
+            ID,
+            send_time,
+            department_id,
+            department_name,
+            resiver_id,
+            resiver_name,
+            phone,
+            express_company_id,
+            express_company_name,
+            express_number,
+            express_type,
+            receipt_time,
+            successor_name,
+            successor_Id,
+            signer_id,
+            signer_name,
+            remark,
+            CREATE_DT,
+            COM_CODE,
+            DEPT_CODE,
+            CREATED_BY
+        ) VALUES (
+            #{id},
+            #{sendTime},
+            #{departmentId},
+            #{departmentName},
+            #{resiverId},
+            #{resiverName},
+            #{phone},
+            #{expressCompanyId},
+            #{expressCompanyName},
+            #{expressNumber},
+            #{expressType},
+            #{receiptTime},
+            #{successorName},
+            #{successorId},
+            #{signerId},
+            #{signerName},
+            #{remark},
+            SYSDATE(),
+            #{comCode},
+            #{deptCode},
+            #{createdBy}
+        )
+    </insert>
+
+    <select id="get" resultType="com.sgai.property.wy.entity.Email">
+        <include refid="emailselect"/>
+        WHERE w.id = #{id}
+    </select>
+
+    <update id="update">
+        UPDATE WY_CUS_EMAIL
+        SET
+            id                   = #{id},
+            send_time            = #{sendTime},
+            department_id        = #{departmentId},
+            department_name      = #{departmentName},
+            resiver_id           = #{resiverId},
+            resiver_name         = #{resiverName},
+            phone                = #{phone},
+            express_company_id   = #{expressCompanyId},
+            express_company_name = #{expressCompanyName},
+            express_number       = #{expressNumber},
+            express_type         = #{expressType},
+            receipt_time         = #{receiptTime},
+            successor_name       = #{successorName},
+            successor_Id         = #{successorId},
+            signer_id            = #{signerId},
+            signer_name          = #{signerName},
+            remark               = #{remark}
+        WHERE id = #{id}
+    </update>
+
+</mapper>

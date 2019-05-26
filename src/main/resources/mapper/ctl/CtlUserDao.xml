@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlUserDao">
+    
+	<sql id="ctlUserColumns">
+		a.id AS "id",
+		a.user_code AS "userCode",
+		a.user_name AS "userName",
+		a.com_id AS "comId",
+		a.com_code AS "comCode",
+		b.dept_code AS "deptCode",
+		a.user_pass AS "userPass",
+		a.user_type AS "userType",
+		a.enabled_flag AS "enabledFlag",
+		a.status AS "status",
+		a.start_date AS "startDate",
+		a.end_date AS "endDate",
+		a.role_code AS "roleCode",
+		a.ip_limited_flag AS "ipLimitedFlag",
+		a.pn_limited_flag AS "pnLimitedFlag",
+		a.permit_num AS "permitNum",
+		a.corr_code AS "corrCode",
+		a.corr_name AS "corrName",
+		a.auth_mode AS "authMode",
+		a.menu_type AS "menuType",
+		a.color_type AS "colorType",
+		a.err_count AS "errCount",
+		a.lang AS "lang",
+		a.remarks AS "remarks",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks2 AS "remarks2",
+		a.modu_code AS "moduCode",
+		p.com_name AS "comName"
+	</sql>
+	
+	<sql id="ctlUserJoins">
+	     LEFT JOIN   CTL_COMP  p on a.COM_CODE = p.COM_CODE
+	     LEFT JOIN  CTL_EMP B ON B.emp_code = a.corr_code
+	</sql>
+    
+	<select id="get" resultType="CtlUser">
+		SELECT 
+			<include refid="ctlUserColumns"/>
+		FROM ctl_user a
+		<include refid="ctlUserJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlUser">
+		SELECT 
+			<include refid="ctlUserColumns"/>
+		FROM ctl_user a
+		<include refid="ctlUserJoins"/>
+		<where>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sql}
+			</if>	 
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="userType != null and userType != ''">
+				AND a.user_type = #{userType}
+			</if>
+			<if test="userCode != null and userCode != ''">
+				AND a.user_code like '%${userCode}%'
+			</if>
+			<if test="userName != null and userName != ''">
+				AND a.user_name like '%${userName}%'
+			</if>
+			<if test="corrCode != null and corrCode != ''">
+				AND a.corr_code = #{corrCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="userType != 'MO'">
+				<if test="moduCode != null and moduCode != ''">
+					AND a.modu_code = #{moduCode}
+				</if>
+				<if test="moduCode == null or moduCode == ''">
+					AND a.modu_code is null
+				</if>
+			</if>
+			
+		</where>
+		ORDER BY a.updated_dt desc
+		</select>
+		<select id="findGTList" resultType="CtlUser">
+		SELECT 
+			<include refid="ctlUserColumns"/>
+		FROM ctl_user a
+		<include refid="ctlUserJoins"/>
+		<where>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sql}
+			</if>	 
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="userType != null and userType != ''">
+				AND a.user_type = #{userType}
+			</if>
+			<if test="userCode != null and userCode != ''">
+				AND a.user_code = #{userCode}
+			</if> 
+			<if test="userName != null and userName != ''">
+				AND a.user_name like '%${userName}%'
+			</if>
+			<if test="corrCode != null and corrCode != ''">
+				AND a.corr_code = #{corrCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="userType != 'MO'">
+				<if test="moduCode != null and moduCode != ''">
+					AND a.modu_code = #{moduCode}
+				</if>
+				<if test="moduCode == null or moduCode == ''">
+					AND a.modu_code is null
+				</if>
+			</if>
+			
+		</where>
+		ORDER BY a.updated_dt desc
+		</select>
+		<select id="findMList" resultType="CtlUser">
+		SELECT 
+			<include refid="ctlUserColumns"/>
+		FROM ctl_user a
+		<include refid="ctlUserJoins"/>
+		<where>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				 ${sqlMap.sql}
+			</if>	 
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="userType != null and userType != ''">
+				AND a.user_type = #{userType}
+			</if>
+			<if test="userCode != null and userCode != ''">
+				AND a.user_code = #{userCode}
+			</if>
+			<if test="userName != null and userName != ''">
+				AND a.user_name like '%${userName}%'
+			</if>
+			<if test="corrCode != null and corrCode != ''">
+				AND a.corr_code = #{corrCode}
+			</if>
+		</where>
+		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findAllList" resultType="CtlUser">
+		SELECT 
+			<include refid="ctlUserColumns"/>
+		FROM ctl_user a
+		<include refid="ctlUserJoins"/>
+		<where>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="userType != null and userType != ''">
+				AND a.user_type = #{userType}
+			</if>
+			<if test="userCode != null and userCode != ''">
+				AND a.user_code = #{userCode}
+			</if>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findNextNodeUserList" resultType="CtlUser">
+		SELECT WUR.CORR_CODE as "usercode",cu.user_name
+			FROM WF_FLOW_DEFINE t1
+			inner join WF_USER_RIGHT wur on T1.STEP_CODE = wur.STEP_CODE and wur."CATEGORY" = 'U'
+			inner join CTL_USER cu on wur.corr_code = cu.user_code
+		<where>
+			<if test="flowCode != null and flowCode != ''">
+				AND T1.FLOW_CODE = #{flowCode}
+			</if>
+			<if test="stepPos != null and stepPos != ''">
+				AND t1.STEP_POS = #{stepPos}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND cu.com_code = #{comCode}
+			</if>
+			<if test="deptCode != null and deptCode != ''">
+				AND cu.dept_code = #{deptCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND cu.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND cu.modu_code is null
+			</if>
+		</where>
+			union
+			SELECT cu.user_code,cu.user_name
+			FROM WF_FLOW_DEFINE t1
+			inner join WF_USER_RIGHT wur on T1.STEP_CODE = wur.STEP_CODE and wur."CATEGORY" = 'R'
+			inner join CTL_USER_ROLE cur on wur.CORR_CODE = cur.role_code
+			inner join CTL_USER cu on cur.user_code = cu.user_code
+			<where>
+			<if test="flowCode != null and flowCode != ''">
+				AND T1.FLOW_CODE = #{flowCode}
+			</if>
+			<if test="stepPos != null and stepPos != ''">
+				AND t1.STEP_POS = #{stepPos}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND cu.com_code = #{comCode}
+			</if>
+			<if test="deptCode != null and deptCode != ''">
+				AND cu.dept_code = #{deptCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND cu.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND cu.modu_code is null
+			</if>
+		</where>
+	</select>
+	
+	<select id="getUserByLoginName"  resultType="CtlUser">
+	   SELECT 
+		*
+		FROM ctl_user a
+		WHERE a.user_code = #{userCode} and a.enabled_flag='Y'
+	  
+	</select>
+	<select id="getUserBytype"  resultType="CtlUser">
+	   SELECT 
+			<include refid="ctlUserColumns"/>
+		FROM ctl_user a
+		<include refid="ctlUserJoins"/>
+		WHERE a.user_type IN ('I','V')
+	  
+	</select>
+	
+	<select id="findUserForEventByDeptCode"  resultType="CtlUser">
+		SELECT
+	      a.id AS "id",
+		a.user_code AS "userCode",
+		a.user_name AS "userName",
+		a.com_id AS "comId",
+		a.com_code AS "comCode",
+		a.user_pass AS "userPass",
+		a.user_type AS "userType",
+		a.enabled_flag AS "enabledFlag",
+		a.status AS "status",
+		a.start_date AS "startDate",
+		a.end_date AS "endDate",
+		a.role_code AS "roleCode",
+		a.ip_limited_flag AS "ipLimitedFlag",
+		a.pn_limited_flag AS "pnLimitedFlag",
+		a.permit_num AS "permitNum",
+		a.corr_code AS "corrCode",
+		a.corr_name AS "corrName",
+		a.auth_mode AS "authMode",
+		a.menu_type AS "menuType",
+		a.color_type AS "colorType",
+		a.err_count AS "errCount",
+		a.lang AS "lang",
+		a.remarks AS "remarks",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks2 AS "remarks2",
+		a.modu_code AS "moduCode",
+		p.com_name AS "comName"
+		FROM
+			ctl_user A,
+			CTL_COMP P
+		<where>
+			A .COM_CODE = P .COM_CODE
+			AND A .enabled_flag = 'Y'
+			AND A.USER_TYPE != 'M'
+			AND A.com_code = #{comCode}
+			<if test="moduCode != null and moduCode != ''">
+				AND A.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND A.modu_code is null
+			</if>
+		</where>
+			
+		<!-- AND b.DEPT_CODE IN (
+			SELECT
+				t.DEPT_CODE
+			FROM
+				CTL_DEPT t
+			WHERE
+				t.DEPT_SEQ LIKE '%'||#{deptCode}||'%' or t.DEPT_CODE=#{deptCode}
+		    ) -->
+	</select>
+	
+	
+	
+	
+	
+	<insert id="insert">
+		INSERT INTO ctl_user(
+			id,
+			user_code,
+			user_name,
+			com_id,
+			com_code,
+			dept_code,
+			user_pass,
+			user_type,
+			enabled_flag,
+			status,
+			start_date,
+			end_date,
+			role_code,
+			ip_limited_flag,
+			pn_limited_flag,
+			permit_num,
+			corr_code,
+			corr_name,
+			auth_mode,
+			menu_type,
+			color_type,
+			err_count,
+			lang,
+			remarks,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks2,
+			modu_code
+		) VALUES (
+			#{id},
+			#{userCode},
+			#{userName},
+			#{comId},
+			#{comCode},
+			#{deptCode},
+			#{userPass},
+			#{userType},
+			#{enabledFlag},
+			#{status},
+			#{startDate},
+			#{endDate},
+			#{roleCode},
+			#{ipLimitedFlag},
+			#{pnLimitedFlag},
+			#{permitNum},
+			#{corrCode},
+			#{corrName},
+			#{authMode},
+			#{menuType},
+			#{colorType},
+			#{errCount},
+			#{lang},
+			#{remarks},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks2},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_user SET 	
+			user_code = #{userCode},
+			user_name = #{userName},
+			com_id = #{comId},
+			com_code = #{comCode},
+			dept_code = #{deptCode},
+			user_pass = #{userPass},
+			user_type = #{userType},
+			enabled_flag = #{enabledFlag},
+			status = #{status},
+			start_date = #{startDate},
+			end_date = #{endDate},
+			role_code = #{roleCode},
+			ip_limited_flag = #{ipLimitedFlag},
+			pn_limited_flag = #{pnLimitedFlag},
+			permit_num = #{permitNum},
+			corr_code = #{corrCode},
+			corr_name = #{corrName},
+			auth_mode = #{authMode},
+			menu_type = #{menuType},
+			color_type = #{colorType},
+			err_count = #{errCount},
+			lang = #{lang},
+			remarks = #{remarks},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks2 = #{remarks2},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_user
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

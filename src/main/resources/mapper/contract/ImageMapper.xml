@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.contract.dao.IImageDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.contract.entity.HtImage" >
+	  <id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="updated_dt" property="updatedDt" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="BIGINT" />
+         <result column="url_a" property="urlA" jdbcType="VARCHAR" />
+         <result column="url_c" property="urlC" jdbcType="VARCHAR" />
+         <result column="url_b" property="urlB" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+         <result column="contract_no" property="contractNo" jdbcType="VARCHAR" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="is_delete" property="isDelete" jdbcType="BIGINT" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       updated_dt
+       ,create_time
+       ,url_a
+       ,url_c
+       ,url_b
+       ,created_dt
+       ,updated_by
+       ,version
+       ,id
+       ,created_by
+       ,update_time
+       ,contract_no
+       ,remarks
+       ,is_delete
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="createTime != null">
+			and create_time=#{createTime}
+		 </if> 
+       <if test="urlA != null">
+			and url_a=#{urlA}
+		 </if> 
+       <if test="urlC != null">
+			and url_c=#{urlC}
+		 </if> 
+       <if test="urlB != null">
+			and url_b=#{urlB}
+		 </if> 
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="updateTime != null">
+			and update_time=#{updateTime}
+		 </if> 
+       <if test="contractNo != null">
+			and contract_no=#{contractNo}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="isDelete != null">
+			and is_delete=#{isDelete}
+		 </if> 
+      </trim>
+  </sql>
+
+	<select id="getImageByNo" resultMap="BaseResultMap" parameterType="com.sgai.property.contract.entity.HtImage">
+		select <include refid="baseColumns"/> from
+		HT_IMAGE  where   <include refid="whereSql"/>
+	</select>
+   
+</mapper>

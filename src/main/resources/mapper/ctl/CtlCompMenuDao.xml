@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlCompMenuDao">
+    
+	<sql id="ctlCompMenuColumns">
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.menu_code AS "menuCode",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="ctlCompMenuJoins">
+	</sql>
+    
+	<select id="get" resultType="CtlCompMenu">
+		SELECT 
+			<include refid="ctlCompMenuColumns"/>
+		FROM ctl_comp_menu a
+		<include refid="ctlCompMenuJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlCompMenu">
+		SELECT 
+			<include refid="ctlCompMenuColumns"/>
+		FROM ctl_comp_menu a
+		<include refid="ctlCompMenuJoins"/>
+		<where>
+			
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CtlCompMenu">
+		SELECT 
+			<include refid="ctlCompMenuColumns"/>
+		FROM ctl_comp_menu a
+		<include refid="ctlCompMenuJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ctl_comp_menu(
+			id,
+			com_code,
+			menu_code,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{comCode},
+			#{menuCode},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_comp_menu SET 	
+			com_code = #{comCode},
+			menu_code = #{menuCode},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_comp_menu
+		WHERE id = #{id}
+	</update>
+	
+	<select id="getCompList" resultType="CtlCompMenu">
+	    SELECT
+	        com_code AS "comCode",
+	        com_name AS "comName"
+	    FROM
+	        ctl_comp
+	    WHERE
+	        1=1
+	        <if test="comCode!=null and comCode!=''">
+	        AND com_code like '%'||#{comCode}||'%'
+	        </if>
+	        <if test="comName!=null and comName!=''">
+	        AND com_name like '%'||#{comName}||'%'
+	        </if>
+	    ORDER BY
+	        com_code ASC
+	</select>
+	
+	<select id="getMenuListAll" resultType="com.sgai.property.ctl.dto.FunctionDto">
+	    SELECT
+			menu_code menuCode ,
+			parent_menu_code parentMenuCode,
+			menu_name menuName
+	    FROM
+	        ctl_menu a
+	    LEFT JOIN 
+	        ctl_prog b
+	    ON
+	        a.prog_code=b.prog_code
+	    WHERE
+	        a.enabled_flag='Y'
+	    ORDER BY 
+	        a.parent_menu_code ASC,
+	        a.display_order ASC,
+	        a.menu_code ASC
+	</select>
+	
+	<select id="getMenuListOwn" resultType="com.sgai.property.ctl.dto.FunctionDto">
+	    SELECT
+			menu_code menuCode ,
+			parent_menu_code parentMenuCode,
+			menu_name menuName
+	    FROM
+	        ctl_menu a
+	    INNER JOIN
+	        ctl_comp_menu b
+	        ON a.enabled_flag='Y'
+	        AND a.menu_code=b.menu_code
+	        AND b.com_code=#{comCode}
+	    ORDER BY 
+	        a.parent_menu_code ASC,
+	        a.display_order ASC,
+	        a.menu_code ASC
+	</select>
+	
+	<delete id="deleteMenuTreeByComCode">
+	    DELETE FROM 
+	        ctl_comp_menu
+	    WHERE
+	        com_code=#{comCode}
+	</delete>
+	
+</mapper>

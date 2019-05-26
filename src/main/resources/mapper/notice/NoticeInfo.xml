@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.notice.dao.INoticeInfoDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.notice.entity.NoticeInfo" >
+	  <id column="id" property="id" jdbcType="VARCHAR" />
+	  <result column="info_title" property="infoTitle" jdbcType="VARCHAR" />
+	  <result column="info_receipt_flag" property="infoReceiptFlag" jdbcType="BIGINT" />
+	  <result column="updated_dt" property="updatedDt" jdbcType="VARCHAR" />
+	  <result column="info_label" property="infoLabel" jdbcType="VARCHAR" />
+	  <result column="info_cover" property="infoCover" jdbcType="VARCHAR" />
+	  <result column="info_is_top" property="infoIsTop" jdbcType="BIGINT" />
+	  <result column="info_top_time" property="infoTopTime" jdbcType="BIGINT" />
+	  <result column="info_time_publish" property="infoTimePublish" jdbcType="BIGINT" />
+	  <result column="approval_emp_id" property="approvalEmpId" jdbcType="VARCHAR" />
+	  <result column="approval_emp_name" property="approvalEmpName" jdbcType="VARCHAR" />
+	  <result column="info_org_id" property="infoOrgId" jdbcType="VARCHAR" />
+	  <result column="info_creator_type" property="infoCreatorType" jdbcType="BIGINT" />
+	  <result column="create_time" property="createTime" jdbcType="BIGINT" />
+	  <result column="info_approval_flag" property="infoApprovalFlag" jdbcType="BIGINT" />
+	  <result column="info_creator_id" property="infoCreatorId" jdbcType="VARCHAR" />
+	  <result column="info_org_name" property="infoOrgName" jdbcType="VARCHAR" />
+	  <result column="visibility_scope" property="visibilityScope" jdbcType="VARCHAR" />
+	  <result column="version" property="version" jdbcType="BIGINT" />
+	  <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+	  <result column="created_dt" property="createdDt" jdbcType="VARCHAR" />
+         <result column="approval_opinition" property="approvalOpinition" jdbcType="VARCHAR" />
+         <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="info_urgency" property="infoUrgency" jdbcType="BIGINT" />
+         <result column="init_approval_time" property="initApprovalTime" jdbcType="BIGINT" />
+         <result column="approval_time" property="approvalTime" jdbcType="BIGINT" />
+         <result column="info_summary" property="infoSummary" jdbcType="VARCHAR" />
+         <result column="info_picture" property="infoPicture" jdbcType="VARCHAR" />
+         <result column="publish_time" property="publishTime" jdbcType="BIGINT" />
+         <result column="retract_time" property="retractTime" jdbcType="BIGINT" />
+         <result column="info_creator_name" property="infoCreatorName" jdbcType="VARCHAR" />
+         <result column="info_scope_is_all" property="infoScopeIsAll" jdbcType="BIGINT" />
+         <result column="info_content" property="infoContent" jdbcType="VARCHAR" />
+         <result column="info_status" property="infoStatus" jdbcType="BIGINT" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+	  <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+	  <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       info_title
+       ,info_receipt_flag
+       ,updated_dt
+       ,info_label
+       ,info_cover
+       ,info_is_top
+       ,info_top_time
+       ,info_time_publish
+       ,approval_emp_id
+       ,approval_emp_name
+       ,info_org_id
+       ,info_creator_type
+       ,create_time
+       ,info_approval_flag
+       ,info_creator_id
+       ,info_org_name
+       ,visibility_scope
+       ,version
+       ,updated_by
+       ,created_dt
+       ,id
+       ,approval_opinition
+       ,update_time
+       ,created_by
+       ,info_urgency
+       ,init_approval_time
+       ,approval_time
+       ,info_summary
+       ,info_picture
+       ,publish_time
+       ,retract_time
+       ,info_creator_name
+       ,info_scope_is_all
+       ,info_content
+       ,info_status
+       ,remarks
+       ,com_code
+      ,modu_code
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="infoTitle != null">
+			and info_title=#{infoTitle}
+		 </if> 
+       <if test="infoReceiptFlag != null">
+			and info_receipt_flag=#{infoReceiptFlag}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="infoLabel != null">
+			and info_label=#{infoLabel}
+		 </if> 
+       <if test="infoCover != null">
+			and info_cover=#{infoCover}
+		 </if> 
+       <if test="infoIsTop != null">
+			and info_is_top=#{infoIsTop}
+		 </if> 
+       <if test="infoTopTime != null">
+			and info_top_time=#{infoTopTime}
+		 </if> 
+       <if test="infoTimePublish != null">
+			and info_time_publish=#{infoTimePublish}
+		 </if> 
+       <if test="approvalEmpId != null">
+			and approval_emp_id=#{approvalEmpId}
+		 </if> 
+       <if test="approvalEmpName != null">
+			and approval_emp_name=#{approvalEmpName}
+		 </if> 
+       <if test="infoOrgId != null">
+			and info_org_id=#{infoOrgId}
+		 </if> 
+       <if test="infoCreatorType != null">
+			and info_creator_type=#{infoCreatorType}
+		 </if> 
+       <if test="createTime != null">
+			and create_time=#{createTime}
+		 </if> 
+       <if test="infoApprovalFlag != null">
+			and info_approval_flag=#{infoApprovalFlag}
+		 </if> 
+       <if test="infoCreatorId != null">
+			and info_creator_id=#{infoCreatorId}
+		 </if> 
+       <if test="infoOrgName != null">
+			and info_org_name=#{infoOrgName}
+		 </if>
+		 <if test="visibilityScope != null">
+			and visibility_scope=#{visibilityScope}
+		 </if>
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="approvalOpinition != null">
+			and approval_opinition=#{approvalOpinition}
+		 </if> 
+       <if test="updateTime != null">
+			and update_time=#{updateTime}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="infoUrgency != null">
+			and info_urgency=#{infoUrgency}
+		 </if> 
+       <if test="initApprovalTime != null">
+			and init_approval_time=#{initApprovalTime}
+		 </if> 
+       <if test="approvalTime != null">
+			and approval_time=#{approvalTime}
+		 </if> 
+       <if test="infoSummary != null">
+			and info_summary=#{infoSummary}
+		 </if> 
+       <if test="infoPicture != null">
+			and info_picture=#{infoPicture}
+		 </if> 
+       <if test="publishTime != null">
+			and publish_time=#{publishTime}
+		 </if> 
+       <if test="retractTime != null">
+			and retract_time=#{retractTime}
+		 </if> 
+       <if test="infoCreatorName != null">
+			and info_creator_name=#{infoCreatorName}
+		 </if> 
+       <if test="infoScopeIsAll != null">
+			and info_scope_is_all=#{infoScopeIsAll}
+		 </if> 
+       <if test="infoContent != null">
+			and info_content=#{infoContent}
+		 </if> 
+       <if test="infoStatus != null">
+			and info_status=#{infoStatus}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if>
+		 <if test = "comCode != null and comCode != ''" >
+			 AND com_code = #{comCode}
+		 </if >
+		 <if test = "moduCode != null and moduCode != ''" >
+			 AND modu_code = #{moduCode}
+		 </if >
+		 <if test = "moduCode == null or moduCode == ''" >
+			 AND modu_code IS NULL
+		 </if >
+      </trim>
+  </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from NOTICE_INFO  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from NOTICE_INFO  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from NOTICE_INFO  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.notice.entity.NoticeInfo">
+		select <include refid="baseColumns"/> from
+       NOTICE_INFO  where   <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from NOTICE_INFO
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.notice.entity.NoticeInfo" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from NOTICE_INFO where   <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.notice.entity.NoticeInfo" resultType="java.lang.Integer">
+           select count(1) from NOTICE_INFO where   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.notice.entity.NoticeInfo">
+      insert into NOTICE_INFO 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="infoTitle != null">
+				   info_title,
+			 </if> 
+          <if test="infoReceiptFlag != null">
+				   info_receipt_flag,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="infoLabel != null">
+				   info_label,
+			 </if> 
+          <if test="infoCover != null">
+				   info_cover,
+			 </if> 
+          <if test="infoIsTop != null">
+				   info_is_top,
+			 </if> 
+          <if test="infoTopTime != null">
+				   info_top_time,
+			 </if> 
+          <if test="infoTimePublish != null">
+				   info_time_publish,
+			 </if> 
+          <if test="approvalEmpId != null">
+				   approval_emp_id,
+			 </if> 
+          <if test="approvalEmpName != null">
+				   approval_emp_name,
+			 </if> 
+          <if test="infoOrgId != null">
+				   info_org_id,
+			 </if> 
+          <if test="infoCreatorType != null">
+				   info_creator_type,
+			 </if> 
+          <if test="createTime != null">
+				   create_time,
+			 </if> 
+          <if test="infoApprovalFlag != null">
+				   info_approval_flag,
+			 </if> 
+          <if test="infoCreatorId != null">
+				   info_creator_id,
+			 </if> 
+          <if test="infoOrgName != null">
+				   info_org_name,
+			 </if>
+			<if test="visibilityScope != null">
+				visibility_scope,
+			 </if>
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="approvalOpinition != null">
+				   approval_opinition,
+			 </if> 
+          <if test="updateTime != null">
+				   update_time,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="infoUrgency != null">
+				   info_urgency,
+			 </if> 
+          <if test="initApprovalTime != null">
+				   init_approval_time,
+			 </if> 
+          <if test="approvalTime != null">
+				   approval_time,
+			 </if> 
+          <if test="infoSummary != null">
+				   info_summary,
+			 </if> 
+          <if test="infoPicture != null">
+				   info_picture,
+			 </if> 
+          <if test="publishTime != null">
+				   publish_time,
+			 </if> 
+          <if test="retractTime != null">
+				   retract_time,
+			 </if> 
+          <if test="infoCreatorName != null">
+				   info_creator_name,
+			 </if> 
+          <if test="infoScopeIsAll != null">
+				   info_scope_is_all,
+			 </if> 
+          <if test="infoContent != null">
+				   info_content,
+			 </if> 
+          <if test="infoStatus != null">
+				   info_status,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if>
+			<if test="comCode != null">
+				com_code,
+			</if>
+			<if test="moduCode != null">
+				modu_code,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="infoTitle != null">
+				#{infoTitle},
+			  </if>
+			  <if test="infoReceiptFlag != null">
+				#{infoReceiptFlag},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="infoLabel != null">
+				#{infoLabel},
+			  </if>
+			  <if test="infoCover != null">
+				#{infoCover},
+			  </if>
+			  <if test="infoIsTop != null">
+				#{infoIsTop},
+			  </if>
+			  <if test="infoTopTime != null">
+				#{infoTopTime},
+			  </if>
+			  <if test="infoTimePublish != null">
+				#{infoTimePublish},
+			  </if>
+			  <if test="approvalEmpId != null">
+				#{approvalEmpId},
+			  </if>
+			  <if test="approvalEmpName != null">
+				#{approvalEmpName},
+			  </if>
+			  <if test="infoOrgId != null">
+				#{infoOrgId},
+			  </if>
+			  <if test="infoCreatorType != null">
+				#{infoCreatorType},
+			  </if>
+			  <if test="createTime != null">
+				#{createTime},
+			  </if>
+			  <if test="infoApprovalFlag != null">
+				#{infoApprovalFlag},
+			  </if>
+			  <if test="infoCreatorId != null">
+				#{infoCreatorId},
+			  </if>
+			  <if test="infoOrgName != null">
+				#{infoOrgName},
+			  </if>
+			<if test="visibilityScope != null">
+				#{visibilityScope},
+			  </if>
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="approvalOpinition != null">
+				#{approvalOpinition},
+			  </if>
+			  <if test="updateTime != null">
+				#{updateTime},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="infoUrgency != null">
+				#{infoUrgency},
+			  </if>
+			  <if test="initApprovalTime != null">
+				#{initApprovalTime},
+			  </if>
+			  <if test="approvalTime != null">
+				#{approvalTime},
+			  </if>
+			  <if test="infoSummary != null">
+				#{infoSummary},
+			  </if>
+			  <if test="infoPicture != null">
+				#{infoPicture},
+			  </if>
+			  <if test="publishTime != null">
+				#{publishTime},
+			  </if>
+			  <if test="retractTime != null">
+				#{retractTime},
+			  </if>
+			  <if test="infoCreatorName != null">
+				#{infoCreatorName},
+			  </if>
+			  <if test="infoScopeIsAll != null">
+				#{infoScopeIsAll},
+			  </if>
+			  <if test="infoContent != null">
+				#{infoContent},
+			  </if>
+			  <if test="infoStatus != null">
+				#{infoStatus},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			<if test="comCode != null">
+				#{comCode},
+			</if>
+			<if test="moduCode != null">
+				#{moduCode},
+			</if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.notice.entity.NoticeInfo">
+	   update NOTICE_INFO  set
+	    <trim suffixOverrides="," >
+				  <if test="infoTitle != null">
+					 info_title=#{infoTitle},
+				  </if>
+				  <if test="infoReceiptFlag != null">
+					 info_receipt_flag=#{infoReceiptFlag},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="infoLabel != null">
+					 info_label=#{infoLabel},
+				  </if>
+				  <if test="infoCover != null">
+					 info_cover=#{infoCover},
+				  </if>
+				  <if test="infoIsTop != null">
+					 info_is_top=#{infoIsTop},
+				  </if>
+				  <if test="infoTopTime != null">
+					 info_top_time=#{infoTopTime},
+				  </if>
+				  <if test="infoTimePublish != null">
+					 info_time_publish=#{infoTimePublish},
+				  </if>
+				  <if test="approvalEmpId != null">
+					 approval_emp_id=#{approvalEmpId},
+				  </if>
+				  <if test="approvalEmpName != null">
+					 approval_emp_name=#{approvalEmpName},
+				  </if>
+				  <if test="infoOrgId != null">
+					 info_org_id=#{infoOrgId},
+				  </if>
+				  <if test="infoCreatorType != null">
+					 info_creator_type=#{infoCreatorType},
+				  </if>
+				  <if test="createTime != null">
+					 create_time=#{createTime},
+				  </if>
+				  <if test="infoApprovalFlag != null">
+					 info_approval_flag=#{infoApprovalFlag},
+				  </if>
+				  <if test="infoCreatorId != null">
+					 info_creator_id=#{infoCreatorId},
+				  </if>
+				  <if test="infoOrgName != null">
+					 info_org_name=#{infoOrgName},
+				  </if>
+			      <if test="visibilityScope != null">
+			         visibility_scope=#{visibilityScope},
+				  </if>
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="approvalOpinition != null">
+					 approval_opinition=#{approvalOpinition},
+				  </if>
+				  <if test="updateTime != null">
+					 update_time=#{updateTime},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="infoUrgency != null">
+					 info_urgency=#{infoUrgency},
+				  </if>
+				  <if test="initApprovalTime != null">
+					 init_approval_time=#{initApprovalTime},
+				  </if>
+				  <if test="approvalTime != null">
+					 approval_time=#{approvalTime},
+				  </if>
+				  <if test="infoSummary != null">
+					 info_summary=#{infoSummary},
+				  </if>
+				  <if test="infoPicture != null">
+					 info_picture=#{infoPicture},
+				  </if>
+				  <if test="publishTime != null">
+					 publish_time=#{publishTime},
+				  </if>
+				  <if test="retractTime != null">
+					 retract_time=#{retractTime},
+				  </if>
+				  <if test="infoCreatorName != null">
+					 info_creator_name=#{infoCreatorName},
+				  </if>
+				  <if test="infoScopeIsAll != null">
+					 info_scope_is_all=#{infoScopeIsAll},
+				  </if>
+				  <if test="infoContent != null">
+					 info_content=#{infoContent},
+				  </if>
+				  <if test="infoStatus != null">
+					 info_status=#{infoStatus},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.notice.entity.NoticeInfo">
+        update NOTICE_INFO  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.infoTitle != null">
+                info_title = #{entity.infoTitle},
+				  </if>
+				  <if test="entity.infoReceiptFlag != null">
+                info_receipt_flag = #{entity.infoReceiptFlag},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.infoLabel != null">
+                info_label = #{entity.infoLabel},
+				  </if>
+				  <if test="entity.infoCover != null">
+                info_cover = #{entity.infoCover},
+				  </if>
+				  <if test="entity.infoIsTop != null">
+                info_is_top = #{entity.infoIsTop},
+				  </if>
+				  <if test="entity.infoTopTime != null">
+                info_top_time = #{entity.infoTopTime},
+				  </if>
+				  <if test="entity.infoTimePublish != null">
+                info_time_publish = #{entity.infoTimePublish},
+				  </if>
+				  <if test="entity.approvalEmpId != null">
+                approval_emp_id = #{entity.approvalEmpId},
+				  </if>
+				  <if test="entity.approvalEmpName != null">
+                approval_emp_name = #{entity.approvalEmpName},
+				  </if>
+				  <if test="entity.infoOrgId != null">
+                info_org_id = #{entity.infoOrgId},
+				  </if>
+				  <if test="entity.infoCreatorType != null">
+                info_creator_type = #{entity.infoCreatorType},
+				  </if>
+				  <if test="entity.createTime != null">
+                create_time = #{entity.createTime},
+				  </if>
+				  <if test="entity.infoApprovalFlag != null">
+                info_approval_flag = #{entity.infoApprovalFlag},
+				  </if>
+				  <if test="entity.infoCreatorId != null">
+                info_creator_id = #{entity.infoCreatorId},
+				  </if>
+				  <if test="entity.infoOrgName != null">
+                info_org_name = #{entity.infoOrgName},
+				  </if>
+				 <if test="entity.visibilityScope != null">
+				visibility_cope = #{entity.visibilityScope},
+				  </if>
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.approvalOpinition != null">
+                approval_opinition = #{entity.approvalOpinition},
+				  </if>
+				  <if test="entity.updateTime != null">
+                update_time = #{entity.updateTime},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.infoUrgency != null">
+                info_urgency = #{entity.infoUrgency},
+				  </if>
+				  <if test="entity.initApprovalTime != null">
+                init_approval_time = #{entity.initApprovalTime},
+				  </if>
+				  <if test="entity.approvalTime != null">
+                approval_time = #{entity.approvalTime},
+				  </if>
+				  <if test="entity.infoSummary != null">
+                info_summary = #{entity.infoSummary},
+				  </if>
+				  <if test="entity.infoPicture != null">
+                info_picture = #{entity.infoPicture},
+				  </if>
+				  <if test="entity.publishTime != null">
+                publish_time = #{entity.publishTime},
+				  </if>
+				  <if test="entity.retractTime != null">
+                retract_time = #{entity.retractTime},
+				  </if>
+				  <if test="entity.infoCreatorName != null">
+                info_creator_name = #{entity.infoCreatorName},
+				  </if>
+				  <if test="entity.infoScopeIsAll != null">
+                info_scope_is_all = #{entity.infoScopeIsAll},
+				  </if>
+				  <if test="entity.infoContent != null">
+                info_content = #{entity.infoContent},
+				  </if>
+				  <if test="entity.infoStatus != null">
+                info_status = #{entity.infoStatus},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from NOTICE_INFO where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from NOTICE_INFO where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from NOTICE_INFO where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.notice.entity.NoticeInfo">
+      delete from NOTICE_INFO where   <include refid="whereSql"/> 
+   </delete>
+   
+</mapper>

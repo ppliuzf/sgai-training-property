@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.mdm.dao.MdmAreaStructDao">
+    
+	<sql id="mdmAreaStructColumns">
+		a.id AS "id",
+		a.area_code AS "areaCode",
+		a.area_name AS "areaName",
+		a.area_use AS "areaUse",
+		a.area_type AS "areaType",
+		a.area_level AS "areaLevel",
+		a.plan_char AS "planChar",
+		a.plan_year AS "planYear",
+		a.start_date AS "startDate",
+		a.end_date AS "endDate",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.area_property AS "areaProperty",
+		a.com_code AS "comCode"
+	</sql>
+	
+	<sql id="mdmAreaStructJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.mdm.entity.MdmAreaStruct">
+		SELECT
+			<include refid="mdmAreaStructColumns"/>
+		FROM mdm_area_struct a
+		<include refid="mdmAreaStructJoins"/>
+		WHERE a.id = #{id}
+		<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+		</if>
+	</select>
+
+	<select id="getByCode" resultType="com.sgai.property.mdm.entity.MdmAreaStruct">
+		SELECT
+			<include refid="mdmAreaStructColumns"/>
+		FROM mdm_area_struct a
+		<include refid="mdmAreaStructJoins"/>
+		WHERE a.area_code = #{arg0}	AND a.com_code = #{arg1}
+
+
+	</select>
+
+	<select id="findList" resultType="com.sgai.property.mdm.entity.MdmAreaStruct">
+		SELECT
+			<include refid="mdmAreaStructColumns"/>
+		FROM mdm_area_struct a
+		<include refid="mdmAreaStructJoins"/>
+		<where>
+			a.enabled_flag = 'Y'
+			<if test="areaCode != null and areaCode != ''">
+				AND a.area_code = #{areaCode}
+			</if>
+			<if test="areaName != null and areaName != ''">
+				AND a.area_name LIKE
+					<if test="dbName == 'oracle'">'%'||#{areaName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{areaName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{areaName},'%')</if>
+			</if>
+			<if test="areaUse != null and areaUse != ''">
+				AND a.area_use = #{areaUse}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+		</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAllList" resultType="com.sgai.property.mdm.entity.MdmAreaStruct">
+		SELECT 
+			<include refid="mdmAreaStructColumns"/>
+		FROM mdm_area_struct a
+		<include refid="mdmAreaStructJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mdm_area_struct(
+			id,
+			area_code,
+			area_name,
+			area_use,
+			area_type,
+			area_level,
+			plan_char,
+			plan_year,
+			start_date,
+			end_date,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			area_property,
+			com_code
+		) VALUES (
+			#{id},
+			#{areaCode},
+			#{areaName},
+			#{areaUse},
+			#{areaType},
+			#{areaLevel},
+			#{planChar},
+			#{planYear},
+			#{startDate},
+			#{endDate},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{areaProperty},
+			#{comCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mdm_area_struct SET 	
+			area_code = #{areaCode},
+			area_name = #{areaName},
+			area_use = #{areaUse},
+			area_type = #{areaType},
+			area_level = #{areaLevel},
+			plan_char = #{planChar},
+			plan_year = #{planYear},
+			start_date = #{startDate},
+			end_date = #{endDate},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			area_property = #{areaProperty},
+			com_code = #{comCode}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- <update id="delete">
+		DELETE FROM mdm_area_struct
+		WHERE id = #{id}
+	</update> -->
+	
+	<update id="delete">
+		UPDATE mdm_area_struct SET 
+		    enabled_flag='N'
+		WHERE 
+		    area_code = #{areaCode}
+		    <if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+		</if>
+	</update>
+	
+	
+</mapper>

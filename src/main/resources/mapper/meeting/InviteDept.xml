@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.meeting.dao.IInviteDeptDao"><!-- com.sgai.property.meeting.dao.IDictGeneralDao -->
+    <resultMap id="BaseResultMap" type="com.sgai.property.meeting.entity.InviteDept">
+        <!-- com.sgai.property.meeting.entity.InviteDept -->
+        <id column="ID" property="id" jdbcType="VARCHAR"/>
+        <result column="mi_id" property="miId" jdbcType="VARCHAR"/>
+        <result column="inviter_dept_id" property="inviterDeptId" jdbcType="VARCHAR"/>
+        <result column="inviter_dept_name" property="inviterDeptName" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="update_time" property="updateTime" jdbcType="BIGINT"/>
+        <result column="is_delete" property="isDelete" jdbcType="TINYINT"/>
+        <result column="node_tree" property="nodeTree" jdbcType="VARCHAR"/>
+
+        <result column="VERSION" property="version" jdbcType="BIGINT"/>
+        <result column="UPDATED_DT" property="updatedDt" jdbcType="TIMESTAMP"/>
+        <result column="UPDATED_BY" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="CREATED_DT" property="createdDt" jdbcType="TIMESTAMP"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="REMARKS" property="remarks" jdbcType="VARCHAR"/>
+        <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+	  <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="baseColumns">
+       ID
+       ,mi_id
+       ,inviter_dept_id
+       ,inviter_dept_name
+       ,create_time
+       ,update_time
+       ,is_delete
+       ,node_tree
+       ,VERSION,UPDATED_DT,UPDATED_BY,CREATED_DT,CREATED_BY,REMARKS
+       ,com_code
+       ,modu_code
+  </sql>
+
+    <sql id="whereSql">
+        <trim prefixOverrides="AND | OR">
+        <if test="comCode != null">
+			 and com_code=#{comCode}
+		 </if>
+		 <if test="moduCode != null">
+			 and modu_code=#{moduCode}
+		 </if>
+            <if test="id != null">
+                and ID=#{id}
+            </if>
+            <if test="miId != null">
+                and mi_id=#{miId}
+            </if>
+            <if test="inviterDeptId != null">
+                and inviter_dept_id=#{inviterDeptId}
+            </if>
+            <if test="inviterDeptName != null">
+                and inviter_dept_name=#{inviterDeptName}
+            </if>
+            <if test="createTime != null">
+                and create_time=#{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="isDelete != null">
+                and is_delete=#{isDelete}
+            </if>
+            <!-- ,VERSION,UPDATED_DT,UPDATED_BY,CREATED_DT,CREATED_BY,REMARKS -->
+            <if test="version != null">
+                and VERSION=#{version}
+            </if>
+            <if test="updatedDt != null">
+                and UPDATED_DT=#{updatedDt}
+            </if>
+            <if test="updatedBy != null">
+                and UPDATED_BY=#{updatedBy}
+            </if>
+            <if test="createdDt != null">
+                and CREATED_DT=#{createdDt}
+            </if>
+            <if test="createdBy != null">
+                and CREATED_BY=#{createdBy}
+            </if>
+            <if test="remarks != null">
+                and REMARKS=#{remarks}
+            </if>
+        </trim>
+    </sql>
+
+    <select id="getById" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_invite_dept where ID =#{id}
+    </select>
+
+    <select id="getByMiId" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_invite_dept where mi_id =#{miId}
+    </select>
+
+    <select id="getByIds" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_invite_dept where ID in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="getByListId">
+        select
+        <include refid="baseColumns"/>
+        from mt_invite_dept where ID in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.meeting.entity.InviteDept">
+        select
+        <include refid="baseColumns"/>
+        from
+        mt_invite_dept where
+        <include refid="whereSql"/>
+
+    </select>
+
+    <select id="findAllList" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_invite_dept
+    </select>
+
+    <select id="findList" parameterType="com.sgai.property.meeting.entity.InviteDept" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_invite_dept where
+        <include refid="whereSql"/>
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+    </select>
+
+    <select id="getCount" parameterType="com.sgai.property.meeting.entity.InviteDept"
+            resultType="java.lang.Integer">
+        select count(1) from mt_invite_dept where
+        <include refid="whereSql"/>
+    </select>
+
+    <insert id="insert"
+            parameterType="com.sgai.property.meeting.entity.InviteDept">
+        insert into mt_invite_dept
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="comCode != null">
+				 com_code,
+			 </if>
+			 <if test="moduCode != null">
+				 modu_code,
+			 </if>
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="miId != null">
+                mi_id,
+            </if>
+            <if test="inviterDeptId != null">
+                inviter_dept_id,
+            </if>
+            <if test="inviterDeptName != null">
+                inviter_dept_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="nodeTree != null">
+                node_tree,
+            </if>
+            <!-- ,VERSION,UPDATED_DT,UPDATED_BY,CREATED_DT,CREATED_BY,REMARKS -->
+            <if test="version != null">
+                VERSION,
+            </if>
+            <if test="updatedDt != null">
+                UPDATED_DT,
+            </if>
+            <if test="updatedBy != null">
+                UPDATED_BY,
+            </if>
+            <if test="createdDt != null">
+                CREATED_DT,
+            </if>
+            <if test="createdBy != null">
+                CREATED_BY,
+            </if>
+            <if test="remarks != null">
+                REMARKS,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="comCode != null">
+				 #{comCode},
+			 </if>
+			 <if test="moduCode != null">
+				 #{moduCode},
+			 </if>
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="miId != null">
+                #{miId},
+            </if>
+            <if test="inviterDeptId != null">
+                #{inviterDeptId},
+            </if>
+            <if test="inviterDeptName != null">
+                #{inviterDeptName},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>
+            <if test="nodeTree != null">
+                #{nodeTree},
+            </if>
+            <!-- ,VERSION,UPDATED_DT,UPDATED_BY,CREATED_DT,CREATED_BY,REMARKS -->
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="updatedDt != null">
+                #{updatedDt},
+            </if>
+            <if test="updatedBy != null">
+                #{updatedBy},
+            </if>
+            <if test="createdDt != null">
+                #{createdDt},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="remarks != null">
+                #{remarks},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.sgai.property.meeting.entity.InviteDept">
+        update mt_invite_dept set
+        <trim suffixOverrides=",">
+        <if test="comCode != null">
+					 com_code=#{comCode},
+				 </if>
+				 <if test="moduCode != null">
+					 modu_code=#{moduCode},
+				 </if>
+            <if test="miId != null">
+                mi_id=#{miId},
+            </if>
+            <if test="inviterDeptId != null">
+                inviter_dept_id=#{inviterDeptId},
+            </if>
+            <if test="inviterDeptName != null">
+                inviter_dept_name=#{inviterDeptName},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+            <if test="isDelete != null">
+                is_delete=#{isDelete},
+            </if>
+            <!-- ,VERSION,UPDATED_DT,UPDATED_BY,CREATED_DT,CREATED_BY,REMARKS -->
+            <if test="version != null">
+                and VERSION=#{version},
+            </if>
+            <if test="updatedDt != null">
+                and UPDATED_DT=#{updatedDt},
+            </if>
+            <if test="updatedBy != null">
+                and UPDATED_BY=#{updatedBy},
+            </if>
+            <if test="createdDt != null">
+                and CREATED_DT=#{createdDt},
+            </if>
+            <if test="createdBy != null">
+                and CREATED_BY=#{createdBy},
+            </if>
+            <if test="remarks != null">
+                and REMARKS=#{remarks},
+            </if>
+        </trim>
+        where ID =#{id}
+    </update>
+
+    <update id="updateByIds" parameterType="com.sgai.property.meeting.entity.InviteDept">
+        update mt_invite_dept set
+        <trim suffixOverrides=",">
+        <if test="entity.comCode != null">
+					 com_code=#{entity.comCode},
+				 </if>
+				 <if test="entity.moduCode != null">
+					 modu_code=#{entity.moduCode},
+				 </if>
+            <if test="entity.miId != null">
+                mi_id = #{entity.miId},
+            </if>
+            <if test="entity.inviterDeptId != null">
+                inviter_dept_id = #{entity.inviterDeptId},
+            </if>
+            <if test="entity.inviterDeptName != null">
+                inviter_dept_name = #{entity.inviterDeptName},
+            </if>
+            <if test="entity.createTime != null">
+                create_time = #{entity.createTime},
+            </if>
+            <if test="entity.updateTime != null">
+                update_time = #{entity.updateTime},
+            </if>
+            <if test="entity.isDelete != null">
+                is_delete = #{entity.isDelete},
+            </if>
+            <!-- ,VERSION,UPDATED_DT,UPDATED_BY,CREATED_DT,CREATED_BY,REMARKS -->
+            <if test="entity.version != null">
+                and VERSION=#{entity.version},
+            </if>
+            <if test="entity.updatedDt != null">
+                and UPDATED_DT=#{entity.updatedDt},
+            </if>
+            <if test="entity.updatedBy != null">
+                and UPDATED_BY=#{entity.updatedBy},
+            </if>
+            <if test="entity.createdDt != null">
+                and CREATED_DT=#{entity.createdDt},
+            </if>
+            <if test="entity.createdBy != null">
+                and CREATED_BY=#{entity.createdBy},
+            </if>
+            <if test="entity.remarks != null">
+                and REMARKS=#{entity.remarks},
+            </if>
+        </trim>
+        where ID in
+        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+
+    <delete id="deleteById">
+      delete from mt_invite_dept where ID =#{id}
+   </delete>
+    <delete id="deleteByMiId">
+      delete from mt_invite_dept where mi_id =#{miId} and is_delete = 0
+   </delete>
+    <delete id="deleteByIds">
+        delete from mt_invite_dept where ID in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByListId">
+        delete from mt_invite_dept where ID in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="delete" parameterType="com.sgai.property.meeting.entity.InviteDept">
+        delete from mt_invite_dept where
+        <include refid="whereSql"/>
+    </delete>
+
+</mapper>

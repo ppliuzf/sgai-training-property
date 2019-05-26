@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.depot.dao.IWarehouseInDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.depot.entity.WarehouseIn" >
+  		<id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="wh_name" property="whName" jdbcType="VARCHAR" />
+         <result column="wh_type" property="whType" jdbcType="BIGINT" />
+         <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+         <result column="out_emp_id" property="outEmpId" jdbcType="VARCHAR" />
+         <result column="wh_in_no" property="whInNo" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+         <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+         <result column="wh_id" property="whId" jdbcType="VARCHAR" />
+         <result column="allot_id" property="allotId" jdbcType="VARCHAR" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="wh_in_stat" property="whInStat" jdbcType="BIGINT" />
+         <result column="order_name" property="orderName" jdbcType="VARCHAR" />
+         <result column="out_datetime" property="outDatetime" jdbcType="TIMESTAMP" />
+         <result column="out_emp_name" property="outEmpName" jdbcType="VARCHAR" />
+         <result column="allot_name" property="allotName" jdbcType="VARCHAR" />
+         <result column="wh_in_type" property="whInType" jdbcType="BIGINT" />
+		  <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+		  <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       version
+       ,wh_name
+       ,wh_type
+       ,order_id
+       ,out_emp_id
+       ,wh_in_no
+       ,created_dt
+       ,updated_dt
+       ,wh_id
+       ,allot_id
+       ,id
+       ,created_by
+       ,remarks
+       ,updated_by
+       ,wh_in_stat
+       ,order_name
+       ,out_datetime
+       ,out_emp_name
+       ,allot_name
+       ,wh_in_type
+       ,com_code
+      ,modu_code
+  </sql>
+  
+  <sql id="whereSql">
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="whName != null">
+			and wh_name=#{whName}
+		 </if> 
+       <if test="whType != null">
+			and wh_type=#{whType}
+		 </if> 
+       <if test="orderId != null">
+			and order_id=#{orderId}
+		 </if> 
+       <if test="outEmpId != null">
+			and out_emp_id=#{outEmpId}
+		 </if> 
+       <if test="whInNo != null">
+			and wh_in_no=#{whInNo}
+		 </if> 
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="whId != null">
+			and wh_id=#{whId}
+		 </if> 
+       <if test="allotId != null">
+			and allot_id=#{allotId}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="whInStat != null">
+			and wh_in_stat=#{whInStat}
+		 </if> 
+       <if test="orderName != null">
+			and order_name=#{orderName}
+		 </if> 
+       <if test="outDatetime != null">
+			and out_datetime=#{outDatetime}
+		 </if> 
+       <if test="outEmpName != null">
+			and out_emp_name=#{outEmpName}
+		 </if> 
+       <if test="allotName != null">
+			and allot_name=#{allotName}
+		 </if> 
+       <if test="whInType != null">
+			and wh_in_type=#{whInType}
+		 </if>
+	  <if test = "comCode != null and comCode != ''" >
+		  AND com_code = #{comCode}
+	  </if >
+	  <if test = "moduCode != null and moduCode != ''" >
+		  AND modu_code = #{moduCode}
+	  </if >
+	  <if test = "moduCode == null or moduCode == ''" >
+		  AND modu_code IS NULL
+	  </if >
+   </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from DEPOT_WAREHOUSE_IN  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from DEPOT_WAREHOUSE_IN  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from DEPOT_WAREHOUSE_IN  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.depot.entity.WarehouseIn">
+		select <include refid="baseColumns"/> from
+       DEPOT_WAREHOUSE_IN  where  1 = 1    <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from DEPOT_WAREHOUSE_IN
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.depot.entity.WarehouseIn" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from DEPOT_WAREHOUSE_IN where  1 = 1
+		<if test="whInNo != null">
+			and (wh_in_no=#{whInNo} or allot_name = #{whInNo} or order_id = #{whInNo})
+		</if>
+		<if test="whInStat != null">
+			and wh_in_stat=#{whInStat}
+		</if>
+		<if test="whInType != null">
+			and wh_in_type=#{whInType}
+		</if>
+		<if test = "comCode != null and comCode != ''" >
+			AND com_code = #{comCode}
+		</if >
+		<if test = "moduCode != null and moduCode != ''" >
+			AND modu_code = #{moduCode}
+		</if >
+		<if test = "moduCode == null or moduCode == ''" >
+			AND modu_code IS NULL
+		</if >
+		<if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.depot.entity.WarehouseIn" resultType="java.lang.Integer">
+           select count(1) from DEPOT_WAREHOUSE_IN where   1 = 1
+		 <if test="whInNo != null">
+			 and (wh_in_no=#{whInNo} or allot_name = #{whInNo} or order_id = #{whInNo})
+		 </if>
+		 <if test="whInStat != null">
+			 and wh_in_stat=#{whInStat}
+		 </if>
+		 <if test="whInType != null">
+			 and wh_in_type=#{whInType}
+		 </if>
+		 <if test = "comCode != null and comCode != ''" >
+			 AND com_code = #{comCode}
+		 </if >
+		 <if test = "moduCode != null and moduCode != ''" >
+			 AND modu_code = #{moduCode}
+		 </if >
+		 <if test = "moduCode == null or moduCode == ''" >
+			 AND modu_code IS NULL
+		 </if >
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.depot.entity.WarehouseIn">
+      insert into DEPOT_WAREHOUSE_IN 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="whName != null">
+				   wh_name,
+			 </if> 
+          <if test="whType != null">
+				   wh_type,
+			 </if> 
+          <if test="orderId != null">
+				   order_id,
+			 </if> 
+          <if test="outEmpId != null">
+				   out_emp_id,
+			 </if> 
+          <if test="whInNo != null">
+				   wh_in_no,
+			 </if> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="whId != null">
+				   wh_id,
+			 </if> 
+          <if test="allotId != null">
+				   allot_id,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="whInStat != null">
+				   wh_in_stat,
+			 </if> 
+          <if test="orderName != null">
+				   order_name,
+			 </if> 
+          <if test="outDatetime != null">
+				   out_datetime,
+			 </if> 
+          <if test="outEmpName != null">
+				   out_emp_name,
+			 </if> 
+          <if test="allotName != null">
+				   allot_name,
+			 </if> 
+          <if test="whInType != null">
+				   wh_in_type,
+			 </if>
+			<if test="comCode != null">
+				com_code,
+			</if>
+			<if test="moduCode != null">
+				modu_code,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="whName != null">
+				#{whName},
+			  </if>
+			  <if test="whType != null">
+				#{whType},
+			  </if>
+			  <if test="orderId != null">
+				#{orderId},
+			  </if>
+			  <if test="outEmpId != null">
+				#{outEmpId},
+			  </if>
+			  <if test="whInNo != null">
+				#{whInNo},
+			  </if>
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="whId != null">
+				#{whId},
+			  </if>
+			  <if test="allotId != null">
+				#{allotId},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="whInStat != null">
+				#{whInStat},
+			  </if>
+			  <if test="orderName != null">
+				#{orderName},
+			  </if>
+			  <if test="outDatetime != null">
+				#{outDatetime},
+			  </if>
+			  <if test="outEmpName != null">
+				#{outEmpName},
+			  </if>
+			  <if test="allotName != null">
+				#{allotName},
+			  </if>
+			  <if test="whInType != null">
+				#{whInType},
+			  </if>
+			<if test="comCode != null">
+				#{comCode},
+			</if>
+			<if test="moduCode != null">
+				#{moduCode},
+			</if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.depot.entity.WarehouseIn">
+	   update DEPOT_WAREHOUSE_IN  set
+	    <trim suffixOverrides="," >
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="whName != null">
+					 wh_name=#{whName},
+				  </if>
+				  <if test="whType != null">
+					 wh_type=#{whType},
+				  </if>
+				  <if test="orderId != null">
+					 order_id=#{orderId},
+				  </if>
+				  <if test="outEmpId != null">
+					 out_emp_id=#{outEmpId},
+				  </if>
+				  <if test="whInNo != null">
+					 wh_in_no=#{whInNo},
+				  </if>
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="whId != null">
+					 wh_id=#{whId},
+				  </if>
+				  <if test="allotId != null">
+					 allot_id=#{allotId},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="whInStat != null">
+					 wh_in_stat=#{whInStat},
+				  </if>
+				  <if test="orderName != null">
+					 order_name=#{orderName},
+				  </if>
+				  <if test="outDatetime != null">
+					 out_datetime=#{outDatetime},
+				  </if>
+				  <if test="outEmpName != null">
+					 out_emp_name=#{outEmpName},
+				  </if>
+				  <if test="allotName != null">
+					 allot_name=#{allotName},
+				  </if>
+				  <if test="whInType != null">
+					 wh_in_type=#{whInType},
+				  </if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.depot.entity.WarehouseIn">
+        update DEPOT_WAREHOUSE_IN  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.whName != null">
+                wh_name = #{entity.whName},
+				  </if>
+				  <if test="entity.whType != null">
+                wh_type = #{entity.whType},
+				  </if>
+				  <if test="entity.orderId != null">
+                order_id = #{entity.orderId},
+				  </if>
+				  <if test="entity.outEmpId != null">
+                out_emp_id = #{entity.outEmpId},
+				  </if>
+				  <if test="entity.whInNo != null">
+                wh_in_no = #{entity.whInNo},
+				  </if>
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.whId != null">
+                wh_id = #{entity.whId},
+				  </if>
+				  <if test="entity.allotId != null">
+                allot_id = #{entity.allotId},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.whInStat != null">
+                wh_in_stat = #{entity.whInStat},
+				  </if>
+				  <if test="entity.orderName != null">
+                order_name = #{entity.orderName},
+				  </if>
+				  <if test="entity.outDatetime != null">
+                out_datetime = #{entity.outDatetime},
+				  </if>
+				  <if test="entity.outEmpName != null">
+                out_emp_name = #{entity.outEmpName},
+				  </if>
+				  <if test="entity.allotName != null">
+                allot_name = #{entity.allotName},
+				  </if>
+				  <if test="entity.whInType != null">
+                wh_in_type = #{entity.whInType},
+				  </if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from DEPOT_WAREHOUSE_IN where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from DEPOT_WAREHOUSE_IN where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from DEPOT_WAREHOUSE_IN where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.depot.entity.WarehouseIn">
+      delete from DEPOT_WAREHOUSE_IN where 1 = 1  <include refid="whereSql"/>
+   </delete>
+</mapper>

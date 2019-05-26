@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.IndexMenusDao">
+
+
+    <select id="getUserMenuList" resultType="com.sgai.property.ctl.entity.IndexMenus">
+        SELECT
+            m.MENU_CODE        AS "menuCode",
+            m.MENU_NAME        AS "menuName",
+            m.PARENT_MENU_CODE AS "parnetMenuCode",
+            p.PROG_PATH        AS "progPath",
+            m.ICON             AS "icon",
+            m.DISPLAY_ORDER    AS displayOrder
+
+        FROM
+            CTL_MENU M
+            left join CTL_PROG P on P.PROG_CODE = M.PROG_CODE
+            INNER JOIN
+            CTL_ALLOC_MENU cm
+        WHERE
+            m.MENU_CODE = cm.MENU_CODE
+            and #{userCode} = cm.CORR_CODE
+            and m.PARENT_MENU_CODE != 'NULL'
+            and (P.PROG_LEVEL is null or P.PROG_LEVEL != 'B')
+        ORDER BY
+            M.parent_menu_code ASC,
+            M.display_order ASC
+    </select>
+
+    <select id="getRoleMenuList" resultType="com.sgai.property.ctl.entity.IndexMenus">
+        SELECT
+            m.MENU_CODE        AS "menuCode",
+            m.MENU_NAME        AS "menuName",
+            m.PARENT_MENU_CODE AS "parnetMenuCode",
+            p.PROG_PATH        AS "progPath",
+            m.ICON             AS "icon",
+            m.DISPLAY_ORDER    AS displayOrder
+
+        FROM
+            ctl_user u
+            inner join ctl_user_role cr on u.USER_CODE = cr.USER_CODE
+            inner join ctl_alloc_menu cm on cm.CORR_CODE = cr.ROLE_CODE and cm.CATEGORY = 'R'
+            inner join ctl_menu m on m.MENU_CODE = cm.MENU_CODE
+            left join CTL_PROG P on P.PROG_CODE = M.PROG_CODE
+        WHERE
+            m.MENU_CODE = cm.MENU_CODE
+            and #{userCode} = u.USER_CODE
+            and m.PARENT_MENU_CODE != 'NULL'
+            and (P.PROG_LEVEL is null or P.PROG_LEVEL != 'B')
+        ORDER BY
+            M.parent_menu_code ASC,
+            M.display_order ASC
+    </select>
+
+    <select id="getRootMenus" resultType="com.sgai.property.ctl.entity.IndexMenus">
+        SELECT
+            m.MENU_CODE        AS "menuCode",
+            m.MENU_NAME        AS "menuName",
+            m.PARENT_MENU_CODE AS "parentMenuCode",
+            p.PROG_PATH        AS "progPath",
+            m.DEFINE_NAME      AS "defineName",
+            m.ICON             AS "icon"
+        FROM
+            CTL_MENU M
+            LEFT JOIN CTL_PROG P ON M.PROG_CODE = P.PROG_CODE
+        WHERE (M.REMARKS = 'S' OR P.PROG_LEVEL = 'S') AND (M.enabled_flag = 'Y')
+        ORDER BY
+            M.parent_menu_code ASC,
+            M.display_order ASC
+
+    </select>
+    <select id="getIndexMenusForIUSER" resultType="com.sgai.property.ctl.entity.IndexMenus">
+        SELECT
+            s.MENU_CODE         AS "menuCode",
+            v3.menu_name        AS "menuName",
+            v3.PARENT_MENU_CODE AS "parentMenuCode",
+            v4.prog_path,
+            v7.DEFINE_NAME,
+            V3.ICON
+
+        FROM
+            (
+
+                SELECT
+                    DISTINCT
+                    MENU_CODE,
+                    COM_CODE
+                from (
+                         SELECT
+                             com_code,
+                             menu_code
+                         FROM
+                             ctl_alloc_menu
+                         WHERE
+                             CATEGORY = 'U'
+                             AND com_code = #{arg0}
+                             AND corr_code = #{arg1}
+                         UNION ALL
+                         (
+                             SELECT
+                                 v.com_code,
+                                 v.menu_code
+                             FROM
+                                 ctl_alloc_menu v
+                             WHERE
+                                 v.CATEGORY = 'R'
+                                 AND v.com_code = #{arg0}
+                                 AND v.corr_code IN (
+                                     SELECT role_code
+                                     FROM
+                                         ctl_user_role
+                                     WHERE
+                                         com_code = #{arg0}
+                                         AND user_code = #{arg1}
+                                         AND role_code IN (
+                                             SELECT v00.role_code
+                                             FROM
+                                                 ctl_role v00
+                                             WHERE
+                                                 v00.com_code = #{arg0}
+                                                 AND v00.enabled_flag = 'Y'
+                                         )
+                                 )
+                         )
+                     ) v1
+            ) s
+            INNER JOIN ctl_menu v3 ON s.menu_code = v3.menu_code
+            LEFT OUTER JOIN ctl_prog v4 ON v3.prog_code = v4.prog_code
+            INNER JOIN (
+                           select *
+                           from ctl_busi_menu cbm
+                           where cbm.menu_code not in (
+                               (select menu_code
+                                from ctl_busi_menu ctm
+                                where ctm.com_code = #{arg0})
+                           )
+                           UNION
+                           select *
+                           from ctl_busi_menu cbm
+                           where cbm.com_code = #{arg0}
+                       ) v7
+                ON s.menu_code = v7.menu_code
+        WHERE
+            v3.enabled_flag = 'Y' and
+            v7.BUSI_CODE = #{arg2} and
+            (v4.PROG_LEVEL is null or v4.PROG_LEVEL != 'B')
+        ORDER BY
+            v3.parent_menu_code ASC,
+            v3.display_order ASC
+    </select>
+
+
+    <select id="getBtnsForIUser" resultType="java.util.Map">
+        SELECT
+            v4.prog_code AS "progCode",
+            v3.ICON      AS "icon"
+        FROM
+            (
+                SELECT DISTINCT
+                    MENU_CODE,
+                    COM_CODE
+                FROM
+                    (
+                        SELECT
+                            com_code,
+                            menu_code
+                        FROM
+                            ctl_alloc_menu
+                        WHERE
+                            CATEGORY = 'U'
+                            AND com_code = #{arg0}
+                            AND corr_code = #{arg1}
+                        UNION ALL
+                        (
+                            SELECT
+                                v.com_code,
+                                v.menu_code
+                            FROM
+                                ctl_alloc_menu v
+                            WHERE
+                                v.CATEGORY = 'R'
+                                AND v.com_code = #{arg0}
+                                AND v.corr_code IN (
+                                    SELECT role_code
+                                    FROM
+                                        ctl_user_role
+                                    WHERE
+                                        com_code = #{arg0}
+                                        AND user_code = #{arg1}
+                                        AND role_code IN (
+                                            SELECT v00.role_code
+                                            FROM
+                                                ctl_role v00
+                                            WHERE
+                                                v00.com_code = #{arg0}
+                                                AND v00.enabled_flag = 'Y'
+                                        )
+                                )
+                        )
+                    ) v1
+            ) s,
+            ctl_comp_menu v2,
+            ctl_menu v3,
+            ctl_prog v4
+        WHERE
+            s.com_code = v2.com_code
+            AND s.menu_code = v2.menu_code
+            AND s.menu_code = v3.menu_code
+            AND v3.prog_code = v4.prog_code
+            AND v4.prog_level = 'B' AND v4.prog_path = #{arg2}
+            AND v3.enabled_flag = 'Y'
+
+
+    </select>
+
+
+    <select id="getBtnsForMUser" resultType="java.util.Map">
+        SELECT
+            P.prog_code AS "progCode",
+            M.ICON      AS "icon"
+        FROM
+            CTL_MENU M,
+            CTL_PROG P,
+            CTL_ALLOC_MENU cm,
+            CTL_USER_COMP uc,
+            CTL_USER U
+        WHERE
+            M.MENU_CODE = cm.MENU_CODE
+            AND uc.COM_CODE = cm.COM_CODE
+            AND uc.USER_CODE = cm.CORR_CODE
+            AND U.USER_CODE = UC.USER_CODE
+            AND M.PARENT_MENU_CODE != 'NULL'
+            AND P.PROG_CODE = M.PROG_CODE
+            AND P.PROG_LEVEL = 'B' AND P.prog_path = #{arg1}
+            AND U.USER_CODE = #{arg0}
+
+    </select>
+
+</mapper>

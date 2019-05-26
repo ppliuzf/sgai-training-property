@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.quartz.dao.ScheduleEntityDao">
+    
+	
+	
+	<sql id="scheduleEntityColumns">
+		a.job_name AS "jobName",
+		a.job_group AS "jobGroup",
+		a.dept_name AS "cronExpression",
+		a.parent_dept_code AS "status",
+		a.parent_dept_name AS "description",
+		a.enabled_flag AS "className",
+		a.end_flag AS "methodName",
+		
+	</sql>
+
+	<select id="findList" resultType="com.sgai.property.quartz.entity.ScheduleEntity">
+		SELECT
+			a.JOB_NAME  AS "jobName",
+		    a.JOB_GROUP AS "jobGroup",
+		    c.CRON_EXPRESSION  as "cronExpression",
+		    t.TRIGGER_STATE as "status",
+		    a.DESCRIPTION  as "description",
+		    a.JOB_CLASS_NAME  as "className"
+		FROM
+			QRTZ_JOB_DETAILS a,
+			QRTZ_TRIGGERS t,
+			QRTZ_CRON_TRIGGERS c
+	   <where>
+			 a.JOB_NAME = t.TRIGGER_NAME  and  a.JOB_GROUP = t.TRIGGER_GROUP
+		    AND a.JOB_NAME = c.TRIGGER_NAME  and a.JOB_GROUP = t.TRIGGER_GROUP
+			<if test="jobName != null and jobName != ''">
+				AND a.JOB_NAME = #{jobName}
+			</if>
+			<if test="jobGroup != null and jobGroup != ''">
+				AND a.JOB_GROUP = #{jobGroup}
+			</if>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+    
+</mapper>

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlMenuDao">
+
+    <sql id="ctlMenuColumns">
+        a.id AS "id",
+        a.menu_code AS "menuCode",
+        a.menu_name AS "menuName",
+        a.display_order AS "displayOrder",
+        a.enabled_flag AS "enabledFlag",
+        a.final_lev_flag AS "finalLevFlag",
+        a.menu_level AS "menuLevel",
+        a.parent_menu_code AS "parentMenuCode",
+        ifnull(p.menu_name, '无') AS "parentMenuName",
+        a.prog_code AS "progCode",
+        g.prog_name AS "progName",
+        g.prog_level AS "progLevel",
+        a.version AS "version",
+        a.updated_dt AS "updatedDt",
+        a.updated_by AS "updatedBy",
+        a.created_dt AS "createdDt",
+        a.created_by AS "createdBy",
+        a.remarks AS "remarks",
+        a.icon AS "icon"
+    </sql>
+
+    <sql id="ctlMenuJoins">
+        LEFT JOIN ctl_menu p ON a.parent_menu_code=p.menu_code
+        LEFT JOIN ctl_prog g ON a.prog_code=g.prog_code
+    </sql>
+
+    <select id="get" resultType="CtlMenu">
+        SELECT
+        <include refid="ctlMenuColumns"/>
+        FROM ctl_menu a
+        <include refid="ctlMenuJoins"/>
+        WHERE
+        a.enabled_flag='Y'
+        AND a.id = #{id}
+    </select>
+
+    <select id="getCtlMenu" resultType="CtlMenu">
+        SELECT
+        <include refid="ctlMenuColumns"/>
+        FROM
+        ctl_menu a
+        <include refid="ctlMenuJoins"/>
+        WHERE
+        a.enabled_flag='Y'
+        <if test="id!=null and id!=''">
+            AND a.id = #{id}
+        </if>
+        <if test="menuCode!=null and menuCode!=''">
+            AND a.menu_code=#{menuCode}
+        </if>
+    </select>
+
+    <select id="findList" resultType="CtlMenu">
+        SELECT
+        <include refid="ctlMenuColumns"/>
+        FROM ctl_menu a
+        <include refid="ctlMenuJoins"/>
+        WHERE
+        a.enabled_flag='Y'
+        <if test="menuName != null and menuName != ''">
+            AND a.menu_name = #{menuName}
+        </if>
+    </select>
+
+    <select id="findAllList" resultType="CtlMenu">
+        SELECT
+        <include refid="ctlMenuColumns"/>
+        FROM ctl_menu a
+        <include refid="ctlMenuJoins"/>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO ctl_menu (
+            id,
+            menu_code,
+            menu_name,
+            display_order,
+            enabled_flag,
+            final_lev_flag,
+            menu_level,
+            parent_menu_code,
+            prog_code,
+            version,
+            updated_dt,
+            updated_by,
+            created_dt,
+            created_by,
+            remarks,
+            icon
+        ) VALUES (
+            #{id},
+            #{menuCode},
+            #{menuName},
+            #{displayOrder},
+            #{enabledFlag},
+            #{finalLevFlag},
+            #{menuLevel},
+            #{parentMenuCode},
+            #{progCode},
+            #{version},
+            #{updatedDt},
+            #{updatedBy},
+            #{createdDt},
+            #{createdBy},
+            #{remarks},
+            #{icon}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE ctl_menu
+        SET
+            menu_code        = #{menuCode},
+            menu_name        = #{menuName},
+            display_order    = #{displayOrder},
+            enabled_flag     = #{enabledFlag},
+            final_lev_flag   = #{finalLevFlag},
+            menu_level       = #{menuLevel},
+            parent_menu_code = #{parentMenuCode},
+            prog_code        = #{progCode},
+            version          = #{version},
+            updated_dt       = #{updatedDt},
+            updated_by       = #{updatedBy},
+            created_dt       = #{createdDt},
+            created_by       = #{createdBy},
+            remarks          = #{remarks},
+            icon             = #{icon}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        DELETE FROM ctl_menu
+        WHERE
+            menu_code = #{menuCode}
+            OR parent_menu_code = #{menuCode}
+    </update>
+
+    <select id="getMenuList" resultType="com.sgai.property.ctl.dto.FunctionDto">
+        SELECT
+            menu_code        menuCode,
+            parent_menu_code parentMenuCode,
+            menu_name        menuName
+        FROM
+            ctl_menu
+        WHERE
+            enabled_flag = 'Y'
+        ORDER BY
+            parent_menu_code ASC,
+            display_order ASC
+    </select>
+
+    <select id="getCompDefineMenuList" resultType="com.sgai.property.ctl.dto.FunctionDto" >
+        SELECT
+            b.MENU_CODE  menuCode,
+            b.PARENT_MENU_CODE parentMenuCode,
+            b.MENU_NAME menuName
+        from CTL_MENU b
+        where
+            enabled_flag = 'Y'
+        ORDER BY
+            parent_menu_code ASC,
+            display_order ASC
+    </select>
+
+    <select id="getProgList" resultType="java.util.Map">
+        SELECT
+        prog_code as id,
+        prog_name as name,
+        prog_level as plevel,
+        sbs_code as pid
+        FROM
+        ctl_prog
+        <!-- UNION
+        SELECT
+            sbs_code as id,
+            sbs_name as name,
+            '0' as plevel,
+            '0' as pid
+        FROM
+            ctl_modu -->
+    </select>
+
+    <select id="countMenuCodeExceptSelf" resultType="java.lang.Integer">
+        SELECT
+        count(*)
+        FROM
+        ctl_menu
+        WHERE
+        menu_code=#{menuCode}
+        <if test="id!=null and id!=''">
+            AND id !=#{id}
+        </if>
+    </select>
+
+</mapper>

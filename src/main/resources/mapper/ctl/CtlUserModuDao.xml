@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlUserModuDao">
+    
+	<sql id="ctlUserModuColumns">
+		a.id AS "id",
+		a.user_code AS "userCode",
+		a.modu_code AS "moduCode",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.com_code as "comCode"
+	</sql>
+	
+	<sql id="ctlUserModuJoins">
+	</sql>
+    
+	<select id="get" resultType="CtlUserModu">
+		SELECT 
+			<include refid="ctlUserModuColumns"/>
+		FROM ctl_user_modu a
+		<include refid="ctlUserModuJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlUserModu">
+		SELECT 
+			<include refid="ctlUserModuColumns"/>
+		FROM ctl_user_modu a
+		<include refid="ctlUserModuJoins"/>
+		<where>
+			
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
+			<if test="userCode != null and userCode != ''">
+				AND a.user_code = #{userCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CtlUserModu">
+		SELECT 
+			<include refid="ctlUserModuColumns"/>
+		FROM ctl_user_modu a
+		<include refid="ctlUserModuJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findLackList" resultType="CtlModu">
+	SELECT
+		d.SBS_CODE,d.SBS_NAME,c.USER_CODE AS REMARKS
+	FROM
+		(
+			SELECT
+				A .SBS_CODE,
+				b.USER_CODE
+			FROM
+				ctl_modu A
+			LEFT JOIN CTL_USER_MODU b ON A .SBS_CODE = b.MODU_CODE
+			where A.COM_CODE=#{comCode}
+		) c
+	INNER JOIN CTL_MODU d ON c.SBS_CODE=d.SBS_CODE
+	WHERE
+			c.USER_CODE IS NULL
+	OR		 c.USER_CODE = #{remarks}
+	</select>
+	<insert id="insert">
+		INSERT INTO ctl_user_modu(
+			id,
+			user_code,
+			modu_code,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code
+		) VALUES (
+			#{id},
+			#{userCode},
+			#{moduCode},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_user_modu SET 	
+			user_code = #{userCode},
+			modu_code = #{moduCode},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			com_code = #{comCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_user_modu
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

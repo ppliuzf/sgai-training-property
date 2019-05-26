@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlAllocMenuDao">
+
+	<sql id="ctlAllocMenuColumns">
+		a.id AS "id",
+		a.corr_code AS "corrCode",
+		a.category AS "category",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode",
+		a.menu_code AS "menuCode",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+
+	<sql id="ctlAllocMenuJoins">
+	</sql>
+
+	<select id="get" resultType="CtlAllocMenu">
+		SELECT
+			<include refid="ctlAllocMenuColumns"/>
+		FROM ctl_alloc_menu a
+		<include refid="ctlAllocMenuJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="CtlAllocMenu">
+		SELECT
+			<include refid="ctlAllocMenuColumns"/>
+		FROM ctl_alloc_menu a
+		<include refid="ctlAllocMenuJoins"/>
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findMenuByUserCode" resultType="int">
+		SELECT
+			COUNT( cam.MENU_CODE )
+		FROM
+			CTL_ALLOC_MENU cam
+		WHERE
+			(
+				( cam.CORR_CODE IN ( SELECT cur.ROLE_CODE FROM CTL_USER_ROLE cur WHERE cur.USER_CODE = #{userCode} ) AND cam.CATEGORY = 'R' )
+			OR ( cam.CORR_CODE = #{userCode} AND cam.CATEGORY = 'U' ))
+			AND cam.MENU_CODE = #{menuCode}
+	</select>
+	<select id="findAllList" resultType="CtlAllocMenu">
+		SELECT
+			<include refid="ctlAllocMenuColumns"/>
+		FROM ctl_alloc_menu a
+		<include refid="ctlAllocMenuJoins"/>
+		<where>
+
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+
+	<insert id="insert">
+		INSERT INTO ctl_alloc_menu(
+			id,
+			corr_code,
+			category,
+			com_code,
+			modu_code,
+			menu_code,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{corrCode},
+			#{category},
+			#{comCode},
+			#{moduCode},
+			#{menuCode},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE ctl_alloc_menu SET
+			corr_code = #{corrCode},
+			category = #{category},
+			com_code = #{comCode},
+			modu_code = #{moduCode},
+			menu_code = #{menuCode},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+
+	<update id="delete">
+		DELETE FROM ctl_alloc_menu
+		WHERE id = #{id}
+	</update>
+
+	<select id="getRolePage" resultType="CtlAllocMenu">
+	    SELECT
+	        com_code AS "comCode",
+	        role_code AS "corrCode",
+	        role_desc AS "corrName",
+	        modu_code AS "moduCode"
+	    FROM
+	        ctl_role
+	    WHERE
+	     	com_code=#{comCode}
+	     	<if test="moduCode!=null and moduCode!=''">
+	       	AND modu_code=#{moduCode}
+	        </if>
+	        <if test="moduCode==null or moduCode==''">
+	       	AND modu_code is null
+	        </if>
+	        <if test="corrCode!=null and corrCode!=''">
+	        AND role_code like '%'||#{corrCode}||'%'
+	        </if>
+	        <if test="corrName!=null and corrName!=''">
+	        AND role_desc like '%'||#{corrName}||'%'
+	        </if>
+	    ORDER BY
+	        com_code ASC
+	</select>
+
+	<select id="getUserPage" resultType="CtlAllocMenu">
+	    SELECT
+	        u.com_code AS "comCode",
+	        u.user_code AS "corrCode",
+	        u.user_name AS "corrName",
+	        u.modu_code AS "moduCode"
+	    FROM
+	        ctl_user u
+	        LEFT JOIN CTL_COMP P ON U .COM_CODE = P .COM_CODE
+		    LEFT JOIN CTL_EMP B ON B.emp_code = U.corr_code
+	    WHERE
+	        u.user_code!='root'
+	        AND U.ENABLED_FLAG = 'Y'
+	        <if test='userType!=null and userType=="S"'>
+	        AND u.user_type='M'
+	        AND u.user_code IN(
+	        	SELECT uc.user_code FROM ctl_user_comp uc
+	        )
+	        </if>
+	        <if test='userType!=null and userType=="M"'>
+	        AND u.com_code=#{comCode}   AND B.com_code=#{comCode} AND u.modu_code is null AND u.user_type!='M' AND u.user_type!='O' AND u.user_type!='MO'
+	        </if>
+	         <if test='userType!=null and userType=="MO"'>
+	        AND u.com_code=#{comCode}  AND B.com_code=#{comCode} AND u.modu_code=#{moduCode} AND u.user_type!='M' AND u.user_type!='O' AND u.user_type!='MO'
+	        </if>
+	        <if test="corrCode!=null and corrCode!=''">
+	        AND u.user_code like concat('%',#{corrCode},'%')
+	        </if>
+	        <if test="corrName!=null and corrName!=''">
+	        AND u.user_name like concat('%',#{corrName},'%')
+	        </if>
+	    ORDER BY
+	        u.user_code ASC
+	</select>
+
+	<select id="getMenuList" resultType="com.sgai.property.ctl.dto.FunctionDto">
+	    SELECT
+			a.menu_code menuCode ,
+			a.parent_menu_code parentMenuCode,
+			a.menu_name menuName
+	    FROM
+	        ctl_menu a
+	    WHERE
+	        a.enabled_flag='Y'
+	    ORDER BY
+	        a.parent_menu_code ASC,
+	        a.display_order ASC,
+	        a.menu_code ASC
+	</select>
+
+	<select id="getMenuListByCom" resultType="com.sgai.property.ctl.dto.FunctionDto">
+	    SELECT
+		a.menu_code menuCode ,
+		a.parent_menu_code parentMenuCode,
+		a.menu_name menuName
+	    FROM
+	        ctl_menu a
+	    INNER JOIN
+	        ctl_comp_menu m
+	    ON
+	        a.menu_code=m.menu_code
+	        AND m.com_code=#{comCode}
+	    LEFT JOIN
+	        ctl_prog b
+	    ON
+	        a.prog_code=b.prog_code
+	    LEFT JOIN
+	        (select c1.menu_code,p1.prog_level from ctl_menu c1
+	         left join ctl_prog p1 on c1.prog_code=p1.prog_code) c
+	    ON
+	        a.parent_menu_code=c.menu_code
+	    WHERE
+	        a.enabled_flag='Y'
+	        <if test='userType!=null and userType=="S"'>
+	        AND (b.prog_level='M' OR c.prog_level='M'OR b.prog_level='P' OR c.prog_level='P' )
+	        </if>
+	        <if test='userType!=null and userType=="M"'>
+	        AND (b.prog_level='C' OR c.prog_level='C')
+	        </if>
+	         <if test='mark!=null and mark=="P"'>
+	        OR (b.prog_level='M' OR c.prog_level='M')
+	        </if>
+	        <if test='userType!=null and userType=="MO"'>
+	        AND (b.prog_level='C' OR c.prog_level='C')
+	        </if>
+	</select>
+	<select id="getMenuListByModu" resultType="com.sgai.property.ctl.dto.FunctionDto">
+	    SELECT
+		a.menu_code menuCode ,
+		a.parent_menu_code parentMenuCode,
+		a.menu_name menuName
+	    FROM
+	        ctl_menu a
+	    INNER JOIN
+	        ctl_modu_menu m
+	    ON
+	        a.menu_code=m.menu_code
+	        AND m.com_code=#{comCode}
+	        AND m.modu_code=#{moduCode}
+	    LEFT JOIN
+	        ctl_prog b
+	    ON
+	        a.prog_code=b.prog_code
+	    LEFT JOIN
+	        (select c1.menu_code,p1.prog_level from ctl_menu c1
+	         left join ctl_prog p1 on c1.prog_code=p1.prog_code) c
+	    ON
+	        a.parent_menu_code=c.menu_code
+	    WHERE
+	        a.enabled_flag='Y'
+	        <if test='userType!=null and userType=="S"'>
+	        AND (b.prog_level='M' OR c.prog_level='M'OR b.prog_level='P' OR c.prog_level='P' )
+	        </if>
+	        <if test='userType!=null and userType=="M"'>
+	        AND (b.prog_level='C' OR c.prog_level='C')
+	        </if>
+	         <if test='mark!=null and mark=="P"'>
+	        OR (b.prog_level='M' OR c.prog_level='M')
+	        </if>
+	        <if test='userType!=null and userType=="MO"'>
+	        AND (b.prog_level='C' OR c.prog_level='C')
+	        </if>
+	</select>
+	<select id="getMenuListOwn" resultType="com.sgai.property.ctl.dto.FunctionDto">
+	    SELECT
+		a.menu_code menuCode ,
+		a.parent_menu_code parentMenuCode,
+		a.menu_name menuName
+	    FROM
+	        ctl_menu a
+	    INNER JOIN
+	        ctl_alloc_menu b
+	        ON a.enabled_flag='Y'
+	        <choose>
+                <when test='category!=null and category=="R"'>
+	            AND b.category='R'
+                </when>
+                <when test='category!=null and category=="U"'>
+	            AND b.category='U'
+                </when>
+                <otherwise>
+                AND 1!=1
+                </otherwise>
+            </choose>
+	        AND a.menu_code=b.menu_code
+	        AND b.corr_code=#{corrCode}
+	        AND b.com_code=#{comCode}
+	    ORDER BY
+	        a.parent_menu_code ASC,
+	        a.display_order ASC,
+	        a.menu_code ASC
+	</select>
+	<select id="getModuMenuListOwn" resultType="java.util.Map">
+	    SELECT
+	        a.menu_code,
+	        a.parent_menu_code,
+	        a.menu_name
+	    FROM
+	        ctl_menu a
+	    INNER JOIN
+	        ctl_modu_menu b
+	        ON a.enabled_flag='Y'
+	        AND a.menu_code=b.menu_code
+	        AND b.modu_code=#{moduCode}
+	        AND b.com_code=#{comCode}
+	    ORDER BY
+	        a.parent_menu_code ASC,
+	        a.display_order ASC,
+	        a.menu_code ASC
+	</select>
+
+	<select id="getCompDefineMenuList" resultType="java.util.Map">
+	    SELECT
+	        a.menu_code,
+	        a.parent_menu_code,
+	        a.menu_name
+	    FROM
+	        ctl_menu a
+
+	    LEFT JOIN
+	        ctl_prog b
+	    ON
+	        a.prog_code=b.prog_code
+	    LEFT JOIN
+	        (select c1.menu_code,p1.prog_level from ctl_menu c1
+	         left join ctl_prog p1 on c1.prog_code=p1.prog_code) c
+	    ON
+	        a.parent_menu_code=c.menu_code
+	    WHERE
+	        a.enabled_flag='Y'
+	        <if test='userType!=null and userType=="S"'>
+	        AND (b.prog_level='M' OR c.prog_level='M'OR b.prog_level='P' OR c.prog_level='P')
+	        </if>
+	        <if test='userType!=null and userType=="M"'>
+	        AND (b.prog_level='C' OR c.prog_level='C')
+	        </if>
+	</select>
+
+	<delete id="deleteMenuTree">
+	    DELETE FROM
+	        ctl_alloc_menu
+	    WHERE
+	        corr_code=#{corrCode}
+	        AND com_code=#{comCode}
+	        <choose>
+                <when test='category!=null and category=="R"'>
+	            AND category='R'
+                </when>
+                <when test='category!=null and category=="U"'>
+	            AND category='U'
+                </when>
+                <otherwise>
+                AND 1!=1
+                </otherwise>
+            </choose>
+	</delete>
+	<delete id="deleteByCode">
+	    DELETE
+	    	FROM ctl_alloc_menu a
+	    WHERE
+	        a.corr_code=#{corrCode}
+	        AND a.com_code=#{comCode}
+	</delete>
+</mapper>

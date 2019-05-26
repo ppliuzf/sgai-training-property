@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.RepairRecordDao">
+    
+	<sql id="repairRecordColumns">
+		a.id AS "id",
+		a.repair_log AS "repairLog",
+		a.present_date AS "presentDate",
+		a.repair_id AS "repairId",
+		a.appraise_norm AS "appraiseNorm",
+		a.maintain_person_id AS "maintainPersonId",
+		a.maintain_person_name AS "maintainPersonName",
+		a.cause AS "cause",
+		a.repair_status AS "repairStatus"
+	</sql>
+	
+	<select id="findList" resultType="com.sgai.property.wy.entity.RepairRecord">
+		SELECT 
+			<include refid="repairRecordColumns"/>
+		FROM WY_EVT_REPAIR_RECORD a
+		WHERE a.repair_id = #{repairId}
+		order by a.present_date desc
+	</select>
+	<update id="delete">
+		DELETE FROM WY_EVT_REPAIR_RECORD
+		WHERE ID = #{id}
+	</update>
+	
+	<insert id="insert">
+		INSERT INTO WY_EVT_REPAIR_RECORD(
+			id,
+			repair_log,
+			present_date,
+			repair_id,
+			cause,
+			appraise_norm,
+			maintain_person_id,
+			maintain_person_name,
+			repair_status
+		) VALUES (
+			#{id},
+			#{repairLog},
+			#{presentDate},
+			#{repairId},
+			#{cause},
+			#{appraiseNorm},
+			#{maintainPersonId},
+			#{maintainPersonName},
+			#{repairStatus}
+		)
+	</insert>
+
+	
+
+	
+</mapper>

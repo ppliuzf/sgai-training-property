@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlUserRoleDao">
+
+    <sql id="ctlUserRoleColumns">
+        a.id AS "id",
+        a.user_code AS "userCode",
+        a.com_code AS "comCode",
+        a.modu_code AS "moduCode",
+        a.role_code AS "roleCode",
+        a.version AS "version",
+        a.updated_dt AS "updatedDt",
+        a.updated_by AS "updatedBy",
+        a.created_dt AS "createdDt",
+        a.created_by AS "createdBy",
+        a.remarks AS "remarks"
+    </sql>
+
+    <sql id="ctlUserRoleJoins">
+    </sql>
+
+    <select id="get" resultType="CtlUserRole">
+        SELECT
+        <include refid="ctlUserRoleColumns"/>
+        FROM ctl_user_role a
+        <include refid="ctlUserRoleJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="CtlUserRole">
+        SELECT
+        <include refid="ctlUserRoleColumns"/>
+        FROM ctl_user_role a
+        <include refid="ctlUserRoleJoins"/>
+        <where>
+            <if test="userCode != null and userCode != ''">
+                AND a.user_code = #{userCode}
+            </if>
+            <if test="moduCode != null and moduCode != ''">
+                AND a.modu_code = #{moduCode}
+            </if>
+            <if test="moduCode == null and moduCode == ''">
+                AND a.modu_code is null
+            </if>
+            <if test="roleCode != null and roleCode != ''">
+                AND a.role_code= #{roleCode}
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="CtlUserRole">
+        SELECT
+        <include refid="ctlUserRoleColumns"/>
+        FROM ctl_user_role a
+        <include refid="ctlUserRoleJoins"/>
+        <where>
+            <if test="userCode != null and userCode != ''">
+                AND a.user_code = #{userCode}
+            </if>
+            <if test="roleCode != null and roleCode != ''">
+                AND a.role_code = #{roleCode}
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
+    <select id="getAllUnUsersByRole" resultType="CtlUser">
+
+        SELECT
+        A .*
+        FROM
+        CTL_USER A
+        LEFT JOIN CTL_COMP p on a.COM_CODE = p.COM_CODE
+        LEFT JOIN CTL_EMP B ON B.emp_code = a.corr_code
+        <where>
+            A.USER_CODE NOT IN (
+            SELECT
+            USER_CODE
+            FROM
+            CTL_USER_ROLE
+            WHERE
+            ROLE_CODE = #{roleCode}
+            AND COM_CODE=#{comCode}
+            )
+            AND B.COM_CODE=#{comCode}
+            AND A.COM_CODE=#{comCode}
+            <if test="moduCode != null and moduCode != ''">
+                AND A.MODU_CODE=#{moduCode}
+            </if>
+            <if test="moduCode == null or moduCode == ''">
+                AND A.MODU_CODE is null
+            </if>
+            <if test="userCode != null and userCode != ''">
+                AND A.USER_CODE like '%${userCode}%'
+            </if>
+            <if test="userName != null and userName != ''">
+                AND A.USER_NAME like '%${userName}%'
+            </if>
+            AND USER_TYPE='I'
+        </where>
+    </select>
+    <select id="getOwnUsersByRole" resultType="CtlUser">
+        SELECT
+        a.user_code,
+        a.user_name,
+        a.corr_code,
+        a.corr_name
+        FROM
+        CTL_USER a
+        LEFT JOIN CTL_COMP p on a.COM_CODE = p.COM_CODE
+        LEFT JOIN CTL_EMP B ON B.emp_code = a.corr_code
+        INNER JOIN
+        CTL_USER_ROLE m
+        ON
+        a.user_code=m.user_code
+        AND B.com_code = #{comCode}
+        AND m.role_code=#{roleCode}
+        AND m.com_code = #{comCode}
+        <where>
+            a.enabled_flag='Y'
+            AND a.user_type=#{userType}
+            <if test="moduCode != null and moduCode != ''">
+                AND a.MODU_CODE=#{moduCode}
+            </if>
+            <if test="moduCode == null or moduCode == ''">
+                AND a.MODU_CODE is null
+            </if>
+            <if test="userCode != null and userCode != ''">
+                AND A.USER_CODE like '%${userCode}%'
+            </if>
+            <if test="userName != null and userName != ''">
+                AND A.USER_NAME like '%${userName}%'
+            </if>
+        </where>
+    </select>
+    <select id="getUnUsersByRole" resultType="CtlUser" parameterType="java.util.Map">
+        SELECT
+        A .*
+        FROM
+        CTL_USER A
+        LEFT JOIN CTL_COMP p on a.COM_CODE = p.COM_CODE
+        LEFT JOIN CTL_EMP B ON B.emp_code = a.corr_code
+        <where>
+            USER_CODE NOT IN (
+            SELECT
+            USER_CODE
+            FROM
+            CTL_USER_ROLE
+            WHERE
+            ROLE_CODE = #{roleCode}
+            AND COM_CODE=#{comCode}
+            <if test="moduCode != null and moduCode != ''">
+                AND A.MODU_CODE=#{moduCode}
+            </if>
+            <if test="moduCode == null or moduCode == ''">
+                AND A.MODU_CODE is null
+            </if>
+            )
+            AND A.COM_CODE=#{comCode}
+            AND B.COM_CODE=#{comCode}
+            <if test="moduCode != null and moduCode != ''">
+                AND A.MODU_CODE=#{moduCode}
+            </if>
+            <if test="moduCode == null or moduCode == ''">
+                AND A.MODU_CODE is null
+            </if>
+            <if test="userCode != null and userCode != ''">
+                AND USER_CODE like '%${userCode}%'
+            </if>
+            <if test="userName != null and userName != ''">
+                AND USER_NAME like '%${userName}%'
+            </if>
+            AND USER_TYPE='I'
+        </where>
+    </select>
+
+
+    <select id="getRoleCodeByUserCode" resultType="String">
+        SELECT
+        A.ROLE_CODE
+        FROM
+        CTL_USER_ROLE A
+        WHERE
+        A.USER_CODE = #{arg0}
+        AND COM_CODE=#{arg1}
+        <if test="arg2 != null and arg2 != ''">
+            AND A.MODU_CODE=#{arg2}
+        </if>
+        <if test="arg2 == null or arg2 == ''">
+            AND A.MODU_CODE is null
+        </if>
+    </select>
+
+
+    <insert id="insert">
+        INSERT INTO ctl_user_role (
+            id,
+            user_code,
+            com_code,
+            modu_code,
+            role_code,
+            version,
+            updated_dt,
+            updated_by,
+            created_dt,
+            created_by,
+            remarks
+        ) VALUES (
+            #{id},
+            #{userCode},
+            #{comCode},
+            #{moduCode},
+            #{roleCode},
+            #{version},
+            #{updatedDt},
+            #{updatedBy},
+            #{createdDt},
+            #{createdBy},
+            #{remarks}
+        )
+    </insert>
+
+    <update id="update">
+        UPDATE ctl_user_role
+        SET
+            user_code  = #{userCode},
+            com_code   = #{comCode},
+            modu_code  = #{moduCode},
+            role_code  = #{roleCode},
+            version    = #{version},
+            updated_dt = #{updatedDt},
+            updated_by = #{updatedBy},
+            created_dt = #{createdDt},
+            created_by = #{createdBy},
+            remarks    = #{remarks}
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        DELETE FROM ctl_user_role
+        <where>
+            <if test="roleCode != null and roleCode != ''">
+                AND role_code = #{roleCode}
+            </if>
+            <if test="id!= null and id != ''">
+                AND id = #{id}
+            </if>
+        </where>
+    </update>
+
+</mapper>

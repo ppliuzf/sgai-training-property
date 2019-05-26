@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlChartDao">
+    
+	<sql id="ctlChartColumns">
+		a.id AS "id",
+		a.chart_code AS "chartCode",
+		a.chart_name AS "chartName",
+		a.chart_level AS "chartLevel",
+		a.chart_url AS "chartUrl",
+		a.parent_chart_code AS "parentChartCode",
+		a.chart_type AS "chartType",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+	
+	<sql id="ctlChartJoins">
+	</sql>
+    
+	<select id="get" resultType="CtlChart">
+		SELECT 
+			<include refid="ctlChartColumns"/>
+		FROM ctl_chart a
+		<include refid="ctlChartJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findById" resultType="CtlChart">
+		SELECT 
+			<include refid="ctlChartColumns"/>
+		FROM ctl_chart a
+		<include refid="ctlChartJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlChart">
+		SELECT 
+			<include refid="ctlChartColumns"/>
+		FROM ctl_chart a
+		<include refid="ctlChartJoins"/>
+		<where>
+			
+			<if test="chartCode != null and chartCode != ''">
+				AND a.chart_code = #{chartCode}
+			</if>
+			<if test="chartUrl != null and chartUrl != ''">
+				AND a.chart_url = #{chartUrl}
+			</if>
+			<if test="parentChartCode != null and parentChartCode != ''">
+				AND a.parent_chart_code = #{parentChartCode}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+    <select id="findListSpecial" resultType="CtlChart">
+		SELECT 
+			<include refid="ctlChartColumns"/>
+		FROM ctl_chart a
+		<include refid="ctlChartJoins"/>
+		<where>
+			<if test="chartLevel != null and chartLevel != ''">
+				AND a.chart_level = #{chartLevel}
+			</if>
+			<if test="chartCode != null and chartCode != ''">
+				AND a.chart_code like '%'||#{chartCode}||'%'
+			</if>
+			<if test="chartName != null and chartName != ''">
+				AND a.chart_name like '%'||#{chartName}||'%'
+			</if>
+			<if test="chartUrl != null and chartUrl != ''">
+				AND a.chart_url = #{chartUrl}
+			</if>
+			<if test="parentChartCode != null and parentChartCode != ''">
+				AND a.parent_chart_code = #{parentChartCode}
+			</if>
+				<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			    ORDER BY a.created_dt desc
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<select id="findAllList" resultType="CtlChart">
+		SELECT 
+			<include refid="ctlChartColumns"/>
+		FROM ctl_chart a
+		<include refid="ctlChartJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	
+	<select id="findChartByParentCode" resultType="CtlChart">
+		SELECT 
+			<include refid="ctlChartColumns"/>
+		FROM ctl_chart a
+		<include refid="ctlChartJoins"/>
+		WHERE a.parent_chart_code = #{arg0}	
+		<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>	
+		ORDER BY a.created_dt desc
+	</select>
+	
+	<select id="findListByRoleCode" resultType="CtlChart">
+		SELECT 
+			<include refid="ctlChartColumns"/>
+		FROM ctl_chart a
+		WHERE
+			a.CHART_CODE IN (
+				SELECT
+					t.CHART_CODE
+				FROM
+					CTL_ROLE_CHART t
+				WHERE
+					t.ROLE_CODE = #{arg0}
+			<if test="arg1 != null and arg1 != ''">
+				AND t.com_code = #{arg1}
+			</if>
+			<if test="arg2 != null and arg2 != ''">
+				AND t.modu_code = #{arg2}
+			</if>
+			<if test="arg2 == null or arg2 == ''">
+				AND t.modu_code is null
+			</if>
+			)
+            and a.CHART_TYPE ='2'
+            <if test="arg1 != null and arg1 != ''">
+				AND a.com_code = #{arg1}
+			</if>
+			<if test="arg2 != null and arg2 != ''">
+				AND a.modu_code = #{arg2}
+			</if>
+			<if test="arg2 == null or arg2 == ''">
+				AND a.modu_code is null
+			</if>
+	</select>
+	
+	
+	<select id="findListByUserCode" resultType="CtlChart">
+		SELECT 
+			<include refid="ctlChartColumns"/>
+		FROM ctl_chart a
+		WHERE
+			a.CHART_CODE IN (
+				SELECT
+					t.CHART_CODE
+				FROM
+					CTL_USER_CHART t
+				WHERE
+					t.USER_CODE = #{arg0}
+			<if test="arg1 != null and arg1 != ''">
+				AND t.com_code = #{arg1}
+			</if>
+			<if test="arg2 != null and arg2 != ''">
+				AND t.modu_code = #{arg2}
+			</if>
+			<if test="arg2 == null or arg2 == ''">
+				AND t.modu_code is null
+			</if>
+			<if test="arg3 != null or arg3 != ''">
+				AND t.home_show = #{arg3}
+			</if>
+			)
+			<if test='arg3 == "N" '>
+				AND a.CHART_TYPE ='2'
+			</if>
+			<if test="arg1 != null and arg1 != ''">
+				AND a.com_code = #{arg1}
+			</if>
+			<if test="arg2 != null and arg2 != ''">
+				AND a.modu_code = #{arg2}
+			</if>
+			<if test="arg2 == null or arg2 == ''">
+				AND a.modu_code is null
+			</if>
+
+	</select>
+	<select id="findTabAndCharttByUserCode" resultType="CtlChart">
+		SELECT 
+			<include refid="ctlChartColumns"/>
+		FROM ctl_chart a
+		WHERE
+			a.CHART_CODE IN (
+				SELECT
+					t.CHART_CODE
+				FROM
+					CTL_USER_CHART t
+				WHERE
+					t.USER_CODE = #{arg0}
+			<if test="arg1 != null and arg1 != ''">
+				AND t.com_code = #{arg1}
+			</if>
+			<if test="arg2 != null and arg2 != ''">
+				AND t.modu_code = #{arg2}
+			</if>
+			<if test="arg2 == null or arg2 == ''">
+				AND t.modu_code is null
+			</if>
+			<if test="arg3 != null or arg3 != ''">
+				AND t.home_show = #{arg3}
+			</if>
+			)
+			<if test="arg1 != null and arg1 != ''">
+				AND a.com_code = #{arg1}
+			</if>
+			<if test="arg2 != null and arg2 != ''">
+				AND a.modu_code = #{arg2}
+			</if>
+			<if test="arg2 == null or arg2 == ''">
+				AND a.modu_code is null
+			</if>
+
+	</select>
+	<select id="findAllChartWithoutSelected"  resultType="CtlChart">
+		SELECT
+			<include refid="ctlChartColumns"/>
+		from 
+		(
+			SELECT
+				ROWNUM AS rowno,
+				t.*
+			FROM
+				CTL_CHART t
+			<where>
+				t.CHART_CODE NOT IN (
+					SELECT
+						b.CHART_CODE
+					FROM
+						CTL_ROLE_CHART b
+					WHERE
+						b.role_code = #{roleCode}
+				<if test="comCode != null and comCode != ''">
+					AND b.com_code = #{comCode}
+				</if>
+				<if test="moduCode != null and moduCode != ''">
+					AND b.modu_code = #{moduCode}
+				</if>
+				<if test="moduCode == null or moduCode == ''">
+					AND b.modu_code is null
+				</if>
+				)
+				AND t.CHART_TYPE = '2'
+				<if test="chartName != null and chartName != ''">
+				    AND t.CHART_NAME like '%${chartName}%'
+			   </if>
+				<if test="chartCode != null and chartCode != ''">
+					AND t.CHART_CODE like '%${chartCode}%'
+				</if>
+				<if test="chartUrl != null and chartUrl != ''">
+					AND t.CHART_URL like '%${chartUrl}%'
+				</if>
+				<if test="comCode != null and comCode != ''">
+					AND t.com_code = #{comCode}
+				</if>
+				<if test="moduCode != null and moduCode != ''">
+					AND t.modu_code = #{moduCode}
+				</if>
+				<if test="moduCode == null or moduCode == ''">
+					AND t.modu_code is null
+				</if>
+				AND ROWNUM &lt;= #{endNum}
+		    </where>
+			) a 
+		WHERE a.rowno &gt;= #{startNum}
+	
+	</select>
+	
+	<select id="getAllChartWithoutSelectedTotal"  resultType="String">
+	   
+	        SELECT
+				count(A.CHART_CODE)
+			FROM
+				CTL_CHART A
+			<where>
+				A.CHART_CODE NOT IN (
+					SELECT
+						b.CHART_CODE
+					FROM
+						CTL_ROLE_CHART b
+					WHERE
+						b.role_code = #{roleCode}
+					<if test="comCode != null and comCode != ''">
+					    AND b.com_code = #{comCode}
+					</if>
+					<if test="moduCode != null and moduCode != ''">
+						AND b.modu_code = #{moduCode}
+					</if>
+					<if test="moduCode == null or moduCode == ''">
+						AND b.modu_code is null
+					</if>
+				   )
+			   AND A .CHART_TYPE = '2'
+			   <if test="chartName != null and chartName != ''">
+				    AND A .CHART_NAME = #{chartName}
+			   </if>
+			   <if test="chartCode != null and chartCode != ''">
+					AND A .CHART_CODE = #{chartCode}
+			   </if>
+			   <if test="comCode != null and comCode != ''">
+					AND A.com_code = #{comCode}
+				</if>
+				<if test="moduCode != null and moduCode != ''">
+					AND A.modu_code = #{moduCode}
+				</if>
+				<if test="moduCode == null or moduCode == ''">
+					AND A.modu_code is null
+				</if>
+			</where>
+	</select>
+<select id="findWithoutSelectedByUser"  resultType="CtlChart">
+		SELECT
+			<include refid="ctlChartColumns"/>
+		from 
+		(
+			SELECT
+				ROWNUM AS rowno,
+				t.*
+			FROM
+				CTL_CHART t
+			<where>
+				t.CHART_CODE NOT IN (
+					SELECT
+						b.CHART_CODE
+					FROM
+						CTL_USER_CHART b
+					WHERE
+						b.user_code = #{userCode}
+					AND b.home_show = 'N'
+				<if test="comCode != null and comCode != ''">
+					AND b.com_code = #{comCode}
+				</if>
+				<if test="moduCode != null and moduCode != ''">
+					AND b.modu_code = #{moduCode}
+				</if>
+				<if test="moduCode == null or moduCode == ''">
+					AND b.modu_code is null
+				</if>
+				)
+				AND t.CHART_TYPE = '2'
+				<if test="chartName != null and chartName != ''">
+				    AND t.CHART_NAME like '%${chartName}%'
+			   </if>
+				<if test="chartCode != null and chartCode != ''">
+					AND t.CHART_CODE like '%${chartCode}%'
+				</if>
+				<if test="chartUrl != null and chartUrl != ''">
+					AND t.CHART_URL like '%${chartUrl}%'
+				</if>
+				<if test="comCode != null and comCode != ''">
+					AND t.com_code = #{comCode}
+				</if>
+				<if test="moduCode != null and moduCode != ''">
+					AND t.modu_code = #{moduCode}
+				</if>
+				<if test="moduCode == null or moduCode == ''">
+					AND t.modu_code is null
+				</if>
+					AND ROWNUM &lt;= #{endNum}
+		    </where>
+			) a 
+		WHERE a.rowno &gt;= #{startNum}
+	
+	</select>
+	
+	<select id="getTotalunUser"  resultType="String">
+	   
+	        SELECT
+				count(A.CHART_CODE)
+			FROM
+				CTL_CHART A
+			<where>
+				A.CHART_CODE NOT IN (
+					SELECT
+						b.CHART_CODE
+					FROM
+						CTL_USER_CHART b
+					WHERE
+						b.user_code = #{userCode}
+				<if test="comCode != null and comCode != ''">
+					AND b.com_code = #{comCode}
+				</if>
+				<if test="moduCode != null and moduCode != ''">
+					AND b.modu_code = #{moduCode}
+				</if>
+				<if test="moduCode == null or moduCode == ''">
+					AND b.modu_code is null
+				</if>
+				   )
+			   AND A .CHART_TYPE = '2'
+			   <if test="chartName != null and chartName != ''">
+				    AND A .CHART_NAME = #{chartName}
+			   </if>
+			   <if test="chartCode != null and chartCode != ''">
+					AND A .CHART_CODE = #{chartCode}
+			   </if>
+			   <if test="comCode != null and comCode != ''">
+					AND A.com_code = #{comCode}
+				</if>
+				<if test="moduCode != null and moduCode != ''">
+					AND A.modu_code = #{moduCode}
+				</if>
+				<if test="moduCode == null or moduCode == ''">
+					AND A.modu_code is null
+				</if>
+			</where>
+	</select>
+
+    <select id="findListByRoleCodeList" resultType="CtlChart" >
+	    
+	    SELECT
+		<include refid="ctlChartColumns"/>
+		FROM
+			ctl_chart A
+		WHERE
+			A .CHART_CODE IN (
+			  SELECT
+				T .CHART_CODE
+			  FROM
+				CTL_ROLE_CHART T
+			  WHERE
+				T .ROLE_CODE in 
+			 <if test="list!= null">
+				<foreach collection="list" item="item" open="(" close=")" separator=",">
+                    #{item}
+                </foreach> 
+                </if>
+             <if test="comCode!= null and comCode != ''">
+				AND t.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND t.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND t.modu_code is null
+			</if>
+			)
+			<if test="tick != null and tick != ''">
+				AND a.tick = #{tick}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		    
+    </select>
+
+    <select id= "getDataForSelect" resultType="CtlChart">
+    
+	    SELECT
+		    <include refid="ctlChartColumns"/>
+		FROM
+			CTL_CHART A
+		WHERE
+			A .CHART_LEVEL = '1'
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+	</select>
+
+    <select id="findAlmByTime"  resultType="java.util.Map" >
+	    SELECT
+			NVL (v.TOTALCOUNT, 0) AS totalCount
+		FROM
+			MDM_BUILD_INFO T
+		LEFT JOIN (
+			SELECT
+				A .SPACE_id AS spaceId,
+				COUNT (*) AS totalCount
+			FROM
+				ALM_RECORD_LIST A
+			WHERE
+				  a.CREATED_DT &gt;= 
+					TO_DATE (
+					#{startTime},
+					'yyyy-mm-dd hh24:mi:ss'
+				) and  
+		     a.CREATED_DT &lt;= TO_DATE (
+					#{endTime},
+					'yyyy-mm-dd hh24:mi:ss'
+				) and 
+			 a.ALERM_TYPE_NAME = #{almName}
+			GROUP BY
+				A .SPACE_id
+		) v ON T .BUILDING_CODE = v.SPACEID
+	    order by T .BUILDING_NAME
+    </select>
+
+   <select id="findAllAlmType"  resultType="String">
+      select a.ALERM_TYPE_NAME from ALM_ALERM_CLASS a
+   </select>
+
+   <select id="findAllAlmSpace"  resultType="String">
+      select a.building_name from MDM_BUILD_INFO a order by a.building_name
+   </select>
+   
+
+	<insert id="insert">
+		INSERT INTO ctl_chart(
+			id,
+			chart_code,
+			chart_name,
+			chart_level,
+			chart_url,
+			parent_chart_code,
+			chart_type,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{chartCode},
+			#{chartName},
+			#{chartLevel},
+			#{chartUrl},
+			#{parentChartCode},
+			#{chartType},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_chart SET 	
+			chart_code = #{chartCode},
+			chart_name = #{chartName},
+			chart_level = #{chartLevel},
+			chart_url = #{chartUrl},
+			parent_chart_code = #{parentChartCode},
+			chart_type = #{chartType},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			modu_code = #{moduCode},
+			com_code = #{comCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_chart
+		WHERE id = #{id}
+	</update>
+	
+	
+	
+	<update id="deleteById">
+		DELETE FROM ctl_chart
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

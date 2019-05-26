@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.ClientManageDao">
+    
+	<sql id="clientManageColumns">
+		a.id AS "id",
+		a.create_time AS "createTime",
+		a.client_phone_second AS "clientPhoneSecond",
+		a.client_sex AS "clientSex",
+		a.client_birth AS "clientBirth",
+		a.client_type_id AS "clientTypeId",
+		a.client_type_Name AS "clientTypeName",
+		a.update_user_id AS "updateUserId",
+		a.update_user_name AS "updateUserName",
+		a.client_phone_first AS "clientPhoneFirst",
+		a.com_id AS "comId",
+		a.com_name AS "comName",
+		a.update_time AS "updateTime",
+		a.client_email AS "clientEmail",
+		a.client_rank_id AS "clientRankId",
+		a.client_rank_name AS "clientRankName",
+		a.client_name AS "clientName"
+	</sql>
+	
+	<select id="findList" resultType="com.sgai.property.wy.entity.ClientManage">
+		SELECT 
+			<include refid="clientManageColumns"/>
+		FROM WY_CUS_CLIENT a
+		<where>
+			<if test="clientName != null and clientName != ''">
+				AND a.client_name = #{clientName}
+			</if>
+			<if test="clientTypeId != null and clientTypeId != ''">
+				AND a.client_type_id = #{clientTypeId}
+			</if>
+			<if test="clientRankId != null and clientRankId != ''">
+				AND a.client_rank_id = #{clientRankId}
+			</if>
+		</where>
+	</select>
+	<update id="delete">
+		DELETE FROM WY_CUS_CLIENT
+		WHERE ID = #{id}
+	</update>
+	
+	<insert id="insert">
+		INSERT INTO WY_CUS_GOODS_BORROW(
+			id,
+			create_time,
+			client_phone_second,
+			client_sex,
+			client_birth,
+			client_type_id,
+			client_type_name,
+			update_user_id,
+			update_user_name,
+			client_phone_first,
+			com_id,
+			com_name,
+			update_time,
+			client_email,
+			client_rank_id,
+			client_rank_name,
+			client_name
+		) VALUES (
+			#{id},
+			#{createTime},
+			#{clientPhoneSecond},
+			#{clientSex},
+			#{clientBirth},
+			#{clientTypeId},
+			#{clientTypeName},
+			#{updateUserId},
+			#{updateUserName},
+			#{clientPhoneFirst},
+			#{comId},
+			#{comName},
+			#{updateTime},
+			#{clientEmail},
+			#{clientRankId},
+			#{clientRankName},
+			#{clientName}
+		)
+	</insert>
+	
+	<select id="get" resultType="com.sgai.property.wy.entity.ClientManage">
+		SELECT 
+			<include refid="clientManageColumns"/>
+		FROM WY_CUS_CLIENT a
+		WHERE a.id = #{id}
+	</select>
+	
+	<update id="update">
+		UPDATE WY_CUS_CLIENT SET 	
+			CREATE_TIME = #{createTime},
+			CLIENT_PHONE_SECOND = #{clientPhoneSecond},
+			CLIENT_SEX = #{clientSex},
+			CLIENT_BIRTH = #{clientBirth},
+			CLIENT_TYPE_ID = #{clientTypeId},
+			CLIENT_TYPE_NAME = #{clientTypeName},
+			UPDATE_USER_ID = #{updateUserId},
+			UPDATE_USER_NAME = #{updateUserName},
+			CLIENT_PHONE_FIRST = #{clientPhoneFirst},
+			COM_ID = #{comId},
+			COM_NAME = #{comName},
+			UPDATE_TIME = #{updateTime},
+			CLIENT_EMAIL = #{clientEmail},
+			CLIENT_RANK_ID = #{clientRankId},
+			CLIENT_RANK_NAME = #{clientRankName},
+			CLIENT_NAME = #{clientName}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

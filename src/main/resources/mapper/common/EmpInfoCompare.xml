@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.commonService.dao.IEmpInfoCompareDao">
+	<resultMap id="BaseResultMap"
+		type="com.sgai.property.commonService.entity.EmpInfo">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="origin_em_id" property="originEmId" jdbcType="BIGINT" />
+		<result column="org_id" property="orgId" jdbcType="BIGINT" />
+		<result column="org_name" property="orgName" jdbcType="VARCHAR" />
+		<result column="dept_id" property="deptId" jdbcType="BIGINT" />
+		<result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+		<result column="position_id" property="positionId" jdbcType="BIGINT" />
+		<result column="position_name" property="positionName" jdbcType="VARCHAR" />
+		<result column="ei_email" property="eiEmail" jdbcType="VARCHAR" />
+		<result column="ei_emp_no" property="eiEmpNo" jdbcType="VARCHAR" />
+		<result column="ei_emp_name" property="eiEmpName" jdbcType="VARCHAR" />
+		<result column="ei_head_picture" property="eiHeadPicture" jdbcType="VARCHAR" />
+		<result column="ei_emp_phone" property="eiEmpPhone" jdbcType="VARCHAR" />
+		<result column="toon_user_id" property="toonUserId" jdbcType="BIGINT" />
+		<result column="feed_id" property="feedId" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="BIGINT" />
+		<result column="update_time" property="updateTime" jdbcType="BIGINT" />
+		<result column="VERSION" property="version" jdbcType="BIGINT"/>
+		<result column="UPDATED_DT" property="updatedDt" jdbcType="TIMESTAMP"/>
+		<result column="UPDATED_BY" property="updatedBy" jdbcType="VARCHAR"/>
+		<result column="CREATED_DT" property="createdDt" jdbcType="TIMESTAMP"/>
+		<result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR"/>
+		<result column="REMARKS" property="remarks" jdbcType="VARCHAR"/>
+	</resultMap>
+
+	<insert id="insertEmpInfoBatch" parameterType="java.util.List">
+		insert into comm_emp_info_compare
+		(
+		    id,origin_em_id, org_id, org_name, dept_id,
+			dept_name, position_id, position_name, ei_email,ei_emp_no,
+			ei_emp_name, ei_head_picture, ei_emp_phone, toon_user_id, 
+			feed_id, create_time, update_time 
+		)
+		<foreach close=")" collection="list" item="emp" index="index" open="(" separator="union">
+			select
+			#{emp.id},#{emp.originEmId}, #{emp.orgId}, #{emp.orgName}, #{emp.deptId},
+			#{emp.deptName}, #{emp.positionId}, #{emp.positionName},#{emp.eiEmail}, #{emp.eiEmpNo},
+			#{emp.eiEmpName}, #{emp.eiHeadPicture}, #{emp.eiEmpPhone}, #{emp.toonUserId},
+			#{emp.feedId}, #{emp.createTime}, #{emp.updateTime}
+			from dual
+		</foreach >
+	</insert>
+
+	<delete id="delete">
+		delete from comm_emp_info_compare where 1=1
+	</delete>
+	
+	<delete id="deleteAll">
+		delete from comm_emp_info_compare
+	</delete>
+	
+	<select id="getAllIds" resultType="String">
+		select id from comm_emp_info_compare
+	</select>
+	
+	<select id="getAddEmpInfo" resultMap="BaseResultMap">
+		<![CDATA[
+	       select  t1.id as id,t1.origin_em_id as origin_em_id,t1.org_id as org_id, t1.org_name as org_name,
+		    t1.dept_id as dept_id,t1.dept_name as dept_name, t1.position_id as position_id,
+			t1.position_name as position_name,t1.ei_email as ei_email, t1.ei_emp_no as ei_emp_no,
+			t1.ei_emp_name as ei_emp_name,t1.ei_head_picture as ei_head_picture, t1.ei_emp_phone as ei_emp_phone,
+			t1.toon_user_id as toon_user_id, t1.feed_id as feed_id,
+			t1.create_time as create_time, t1.update_time as update_time
+		from (select * from comm_emp_info_compare) t1
+		left join(select id from comm_emp_info) t2
+		on t1.id = t2.id
+		where t2.id is null
+		]]>
+	</select>
+	
+	<select id="getDeleteEmpInfo" resultMap="BaseResultMap">
+		<![CDATA[
+           select  t1.id,t1.origin_em_id,t1.org_id, t1.org_name, t1.dept_id,
+		   t1.dept_name, t1.position_id,
+			t1.position_name,t1.ei_email, t1.ei_emp_no, t1.ei_emp_name,
+			t1.ei_head_picture, t1.ei_emp_phone, t1.toon_user_id, t1.feed_id,
+			t1.create_time, t1.update_time
+			from(select * from comm_emp_info) t1
+			left join (select id from comm_emp_info_compare) t2
+			on t1.id = t2.id
+			where t2.id is null
+		]]>
+	</select>
+	
+	<select id="getUpdateEmpInfo" resultMap="BaseResultMap">
+		<![CDATA[	
+		 select t5.* from
+		(
+			select t1.id,t1.origin_em_id,t1.org_id, t1.org_name, t1.dept_id,
+		   t1.dept_name, t1.position_id,
+			t1.position_name,t1.ei_email, t1.ei_emp_no, t1.ei_emp_name,
+			t1.ei_head_picture, t1.ei_emp_phone, t1.toon_user_id, t1.feed_id,
+			t1.create_time, t1.update_time
+			from(select * from comm_emp_info_compare) t1
+			inner join (select  id from comm_emp_info) t2
+			on t1.id = t2.id
+		) t5,
+		(
+			select  t3.id,t3.origin_em_id,t3.org_id, t3.org_name, t3.dept_id,
+		   t3.dept_name, t3.position_id,
+			t3.position_name,t3.ei_email, t3.ei_emp_no, t3.ei_emp_name,
+			t3.ei_head_picture, t3.ei_emp_phone, t3.toon_user_id, t3.feed_id,
+			t3.create_time, t3.update_time
+			from (select * from comm_emp_info) t3
+			inner join (select  id from comm_emp_info_compare) t4
+			on t3.id = t4.id
+		) t6
+		where
+			t5.id = t6.id
+		and
+		(
+			t5.id <> t6.id or
+			t5.origin_em_id <> t6.origin_em_id or
+			t5.org_id <> t6.org_id or
+			t5.org_name <> t6.org_name or
+			t5.dept_id <> t6.dept_id or
+			t5.dept_name <> t6.dept_name or
+			t5.position_id <> t6.position_id or
+			t5.position_name <> t6.position_name or
+			t5.ei_email <> t6.ei_email or
+			t5.ei_emp_name <> t6.ei_emp_name or
+			t5.ei_head_picture <> t6.ei_head_picture or
+			t5.ei_emp_phone <> t6.ei_emp_phone or
+			t5.toon_user_id <> t6.toon_user_id or
+			t5.feed_id <> t6.feed_id
+		)]]>
+	</select>
+
+</mapper>

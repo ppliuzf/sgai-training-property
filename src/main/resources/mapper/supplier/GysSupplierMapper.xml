@@ -1,0 +1,767 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.supplier.dao.IGysSupplierDaoMapper" >
+	<resultMap id="BaseResultMap" type="com.sgai.property.supplier.entity.GysSupplier" >
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+		<result column="approve_name" property="approveName" jdbcType="VARCHAR" />
+		<result column="updated_dt" property="updatedDt" jdbcType="VARCHAR" />
+		<result column="taxpayer_type" property="taxpayerType" jdbcType="BIGINT" />
+		<result column="card_a_url" property="cardAUrl" jdbcType="VARCHAR" />
+		<result column="level_id" property="levelId" jdbcType="VARCHAR" />
+		<result column="feed_id" property="feedId" jdbcType="VARCHAR" />
+		<result column="bank_account" property="bankAccount" jdbcType="VARCHAR" />
+		<result column="rate" property="rate" jdbcType="DOUBLE" />
+		<result column="is_enabled" property="isEnabled" jdbcType="BIGINT" />
+		<result column="com_name" property="comName" jdbcType="VARCHAR" />
+		<result column="contact" property="contact" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="is_approve" property="isApprove" jdbcType="BIGINT" />
+		<result column="version" property="version" jdbcType="BIGINT" />
+		<result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+		<result column="created_dt" property="createdDt" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="no" property="no" jdbcType="VARCHAR" />
+		<result column="type_name" property="typeName" jdbcType="VARCHAR" />
+		<result column="content_id" property="contentId" jdbcType="VARCHAR" />
+		<result column="content_name" property="contentName" jdbcType="VARCHAR" />
+		<result column="license_no" property="licenseNo" jdbcType="VARCHAR" />
+		<result column="license_url" property="licenseUrl" jdbcType="VARCHAR" />
+		<result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+		<result column="toon_user_id" property="toonUserId" jdbcType="BIGINT" />
+		<result column="legal_name" property="legalName" jdbcType="VARCHAR" />
+		<result column="card_b_url" property="cardBUrl" jdbcType="VARCHAR" />
+		<result column="com_id" property="comId" jdbcType="BIGINT" />
+		<result column="type_id" property="typeId" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="is_delete" property="isDelete" jdbcType="BIGINT" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="com_code" property="comCode" jdbcType="VARCHAR" />
+		<result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="baseColumns">
+		bank_name
+		,approve_name
+		,updated_dt
+		,taxpayer_type
+		,card_a_url
+		,level_id
+		,id
+		,feed_id
+		,bank_account
+		,rate
+		,is_enabled
+		,com_name
+		,contact
+		,phone
+		,is_approve
+		,version
+		,updated_by
+		,created_dt
+		,name
+		,no
+		,type_name
+		,content_id
+		,content_name
+		,license_no
+		,license_url
+		,created_by
+		,toon_user_id
+		,legal_name
+		,card_b_url
+		,com_id
+		,type_id
+		,address
+		,is_delete
+		,remarks
+       ,com_code
+       ,modu_code
+	</sql>
+
+	<sql id="whereSql">
+		<trim  prefixOverrides="AND | OR">
+			<if test="bankName != null">
+				and bank_name=#{bankName}
+			</if>
+			<if test="approveName != null">
+				and approve_name=#{approveName}
+			</if>
+			<if test="updatedDt != null">
+				and updated_dt=#{updatedDt}
+			</if>
+			<if test="taxpayerType != null">
+				and taxpayer_type=#{taxpayerType}
+			</if>
+			<if test="cardAUrl != null">
+				and card_a_url=#{cardAUrl}
+			</if>
+			<if test="levelId != null">
+				and level_id=#{levelId}
+			</if>
+			<if test="id != null">
+				and id=#{id}
+			</if>
+			<if test="feedId != null">
+				and feed_id=#{feedId}
+			</if>
+			<if test="bankAccount != null">
+				and bank_account=#{bankAccount}
+			</if>
+			<if test="rate != null">
+				and rate=#{rate}
+			</if>
+			<if test="isEnabled != null">
+				and is_enabled=#{isEnabled}
+			</if>
+			<if test="comName != null">
+				and com_name=#{comName}
+			</if>
+			<if test="contact != null">
+				and contact=#{contact}
+			</if>
+			<if test="phone != null">
+				and phone=#{phone}
+			</if>
+			<if test="isApprove != null">
+				and is_approve=#{isApprove}
+			</if>
+			<if test="version != null">
+				and version=#{version}
+			</if>
+			<if test="updatedBy != null">
+				and updated_by=#{updatedBy}
+			</if>
+			<if test="createdDt != null">
+				and created_dt=#{createdDt}
+			</if>
+			<if test="name != null">
+				and name=#{name}
+			</if>
+			<if test="no != null">
+				and no=#{no}
+			</if>
+			<if test="typeName != null">
+				and type_name=#{typeName}
+			</if>
+			<if test="contentId != null">
+				and content_id=#{contentId}
+			</if>
+			<if test="contentName != null">
+				and content_name=#{contentName}
+			</if>
+			<if test="licenseNo != null">
+				and license_no=#{licenseNo}
+			</if>
+			<if test="licenseUrl != null">
+				and license_url=#{licenseUrl}
+			</if>
+			<if test="createdBy != null">
+				and created_by=#{createdBy}
+			</if>
+			<if test="toonUserId != null">
+				and toon_user_id=#{toonUserId}
+			</if>
+			<if test="legalName != null">
+				and legal_name=#{legalName}
+			</if>
+			<if test="cardBUrl != null">
+				and card_b_url=#{cardBUrl}
+			</if>
+			<if test="comId != null">
+				and com_id=#{comId}
+			</if>
+			<if test="typeId != null">
+				and type_id=#{typeId}
+			</if>
+			<if test="address != null">
+				and address=#{address}
+			</if>
+			<if test="isDelete != null">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="remarks != null">
+				and remarks=#{remarks}
+			</if>
+			<if test="comCode != null">
+				and com_code=#{comCode}
+			</if>
+			<if test="moduCode != null">
+				and modu_code=#{moduCode}
+			</if>
+		</trim>
+	</sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from GYS_SUPPLIER  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from GYS_SUPPLIER  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from GYS_SUPPLIER  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.supplier.entity.GysSupplier">
+		select <include refid="baseColumns"/> from
+       GYS_SUPPLIER  where   <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from GYS_SUPPLIER WHERE 1=1
+		<if test="comCode != null and comCode != ''">
+			AND com_code = #{comCode}
+		</if>
+		<if test="moduCode != null and moduCode != ''">
+			AND modu_code = #{moduCode}
+		</if>
+		<if test="moduCode == null or moduCode == ''">
+			AND modu_code is null
+		</if>
+	</select>
+
+	<select id="getSupperlierByName" resultMap="BaseResultMap" parameterType="com.sgai.property.supplier.entity.GysSupplier">
+		select <include refid="baseColumns"/> from
+		GYS_SUPPLIER  where 1=1
+		<if test="name != null">
+			AND name=#{name}
+		</if>
+		<if test="comCode != null and comCode != ''">
+			AND com_code = #{comCode}
+		</if>
+		<if test="moduCode != null and moduCode != ''">
+			AND modu_code = #{moduCode}
+		</if>
+		<if test="moduCode == null or moduCode == ''">
+			AND modu_code is null
+		</if>
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.supplier.entity.GysSupplier" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from GYS_SUPPLIER where  is_delete=0
+
+		<if test="name != null">
+			and name like '%'||#{name}||'%'
+		</if>
+
+		<if test="typeId != null">
+			and type_id=#{typeId}
+		</if>
+		<if test="contentId != null">
+			and content_id=#{contentId}
+		</if>
+		<if test="levelId != null">
+			and level_id=#{levelId}
+		</if>
+		<if test="comCode != null and comCode != ''">
+			AND com_code = #{comCode}
+		</if>
+		<if test="moduCode != null and moduCode != ''">
+			AND modu_code = #{moduCode}
+		</if>
+		<if test="moduCode == null or moduCode == ''">
+			AND modu_code is null
+		</if>
+		<if test="page !=null and page.orderBy != null and page.orderBy != ''">
+			ORDER BY ${page.orderBy}
+		</if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.supplier.entity.GysSupplier" resultType="java.lang.Integer">
+           select count(1) from GYS_SUPPLIER where   1=1
+		 <if test="name != null">
+			 and name like '%'||#{name}||'%'
+		 </if>
+
+		 <if test="typeId != null">
+			 and type_id=#{typeId}
+		 </if>
+		 <if test="contentId != null">
+			 and content_id=#{contentId}
+		 </if>
+		 <if test="levelId != null">
+			 and level_id=#{levelId}
+		 </if>
+		 <if test="comCode != null and comCode != ''">
+			 AND com_code = #{comCode}
+		 </if>
+		 <if test="moduCode != null and moduCode != ''">
+			 AND modu_code = #{moduCode}
+		 </if>
+		 <if test="moduCode == null or moduCode == ''">
+			 AND modu_code is null
+		 </if>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.supplier.entity.GysSupplier">
+      insert into GYS_SUPPLIER 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="bankName != null">
+				   bank_name,
+			 </if> 
+          <if test="approveName != null">
+				   approve_name,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="taxpayerType != null">
+				   taxpayer_type,
+			 </if> 
+          <if test="cardAUrl != null">
+				   card_a_url,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="feedId != null">
+				   feed_id,
+			 </if> 
+          <if test="bankAccount != null">
+				   bank_account,
+			 </if> 
+          <if test="rate != null">
+				   rate,
+			 </if> 
+          <if test="isEnabled != null">
+				   is_enabled,
+			 </if> 
+          <if test="comName != null">
+				   com_name,
+			 </if> 
+          <if test="contact != null">
+				   contact,
+			 </if> 
+          <if test="phone != null">
+				   phone,
+			 </if> 
+          <if test="isApprove != null">
+				   is_approve,
+			 </if> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="name != null">
+				   name,
+			 </if> 
+          <if test="no != null">
+				   no,
+			 </if> 
+          <if test="typeName != null">
+				   type_name,
+			 </if> 
+          <if test="contentId != null">
+				   content_id,
+			 </if> 
+          <if test="contentName != null">
+				   content_name,
+			 </if> 
+          <if test="licenseNo != null">
+				   license_no,
+			 </if> 
+          <if test="licenseUrl != null">
+				   license_url,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="toonUserId != null">
+				   toon_user_id,
+			 </if> 
+          <if test="legalName != null">
+				   legal_name,
+			 </if> 
+          <if test="cardBUrl != null">
+				   card_b_url,
+			 </if> 
+          <if test="comId != null">
+				   com_id,
+			 </if> 
+          <if test="typeId != null">
+				   type_id,
+			 </if> 
+          <if test="address != null">
+				   address,
+			 </if> 
+          <if test="isDelete != null">
+				   is_delete,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if>
+			<if test="levelId != null">
+				level_id,
+			</if>
+			<if test="comCode != null">
+				com_code,
+			</if>
+			<if test="moduCode != null">
+				modu_code,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="bankName != null">
+				#{bankName},
+			  </if>
+			  <if test="approveName != null">
+				#{approveName},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="taxpayerType != null">
+				#{taxpayerType},
+			  </if>
+			  <if test="cardAUrl != null">
+				#{cardAUrl},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="feedId != null">
+				#{feedId},
+			  </if>
+			  <if test="bankAccount != null">
+				#{bankAccount},
+			  </if>
+			  <if test="rate != null">
+				#{rate},
+			  </if>
+			  <if test="isEnabled != null">
+				#{isEnabled},
+			  </if>
+			  <if test="comName != null">
+				#{comName},
+			  </if>
+			  <if test="contact != null">
+				#{contact},
+			  </if>
+			  <if test="phone != null">
+				#{phone},
+			  </if>
+			  <if test="isApprove != null">
+				#{isApprove},
+			  </if>
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="name != null">
+				#{name},
+			  </if>
+			  <if test="no != null">
+				#{no},
+			  </if>
+			  <if test="typeName != null">
+				#{typeName},
+			  </if>
+			  <if test="contentId != null">
+				#{contentId},
+			  </if>
+			  <if test="contentName != null">
+				#{contentName},
+			  </if>
+			  <if test="licenseNo != null">
+				#{licenseNo},
+			  </if>
+			  <if test="licenseUrl != null">
+				#{licenseUrl},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="toonUserId != null">
+				#{toonUserId},
+			  </if>
+			  <if test="legalName != null">
+				#{legalName},
+			  </if>
+			  <if test="cardBUrl != null">
+				#{cardBUrl},
+			  </if>
+			  <if test="comId != null">
+				#{comId},
+			  </if>
+			  <if test="typeId != null">
+				#{typeId},
+			  </if>
+			  <if test="address != null">
+				#{address},
+			  </if>
+			  <if test="isDelete != null">
+				#{isDelete},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			<if test="levelId != null">
+				#{levelId},
+			</if>
+			<if test="comCode != null">
+				#{comCode},
+			</if>
+			<if test="moduCode != null">
+				#{moduCode},
+			</if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.supplier.entity.GysSupplier">
+	   update GYS_SUPPLIER  set
+	    <trim suffixOverrides="," >
+				  <if test="bankName != null">
+					 bank_name=#{bankName},
+				  </if>
+				  <if test="approveName != null">
+					 approve_name=#{approveName},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="taxpayerType != null">
+					 taxpayer_type=#{taxpayerType},
+				  </if>
+				  <if test="cardAUrl != null">
+					 card_a_url=#{cardAUrl},
+				  </if>
+				  <if test="feedId != null">
+					 feed_id=#{feedId},
+				  </if>
+				  <if test="bankAccount != null">
+					 bank_account=#{bankAccount},
+				  </if>
+				  <if test="rate != null">
+					 rate=#{rate},
+				  </if>
+				  <if test="isEnabled != null">
+					 is_enabled=#{isEnabled},
+				  </if>
+				  <if test="comName != null">
+					 com_name=#{comName},
+				  </if>
+				  <if test="contact != null">
+					 contact=#{contact},
+				  </if>
+				  <if test="phone != null">
+					 phone=#{phone},
+				  </if>
+				  <if test="isApprove != null">
+					 is_approve=#{isApprove},
+				  </if>
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="name != null">
+					 name=#{name},
+				  </if>
+				  <if test="no != null">
+					 no=#{no},
+				  </if>
+				  <if test="typeName != null">
+					 type_name=#{typeName},
+				  </if>
+				  <if test="contentId != null">
+					 content_id=#{contentId},
+				  </if>
+				  <if test="contentName != null">
+					 content_name=#{contentName},
+				  </if>
+				  <if test="licenseNo != null">
+					 license_no=#{licenseNo},
+				  </if>
+				  <if test="licenseUrl != null">
+					 license_url=#{licenseUrl},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="toonUserId != null">
+					 toon_user_id=#{toonUserId},
+				  </if>
+				  <if test="legalName != null">
+					 legal_name=#{legalName},
+				  </if>
+				  <if test="cardBUrl != null">
+					 card_b_url=#{cardBUrl},
+				  </if>
+				  <if test="comId != null">
+					 com_id=#{comId},
+				  </if>
+				  <if test="typeId != null">
+					 type_id=#{typeId},
+				  </if>
+				  <if test="address != null">
+					 address=#{address},
+				  </if>
+				  <if test="isDelete != null">
+					 is_delete=#{isDelete},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				<if test="levelId != null">
+					 level_id=#{levelId},
+				</if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.supplier.entity.GysSupplier">
+        update GYS_SUPPLIER  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.bankName != null">
+                bank_name = #{entity.bankName},
+				  </if>
+				  <if test="entity.approveName != null">
+                approve_name = #{entity.approveName},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.taxpayerType != null">
+                taxpayer_type = #{entity.taxpayerType},
+				  </if>
+				  <if test="entity.cardAUrl != null">
+                card_a_url = #{entity.cardAUrl},
+				  </if>
+				  <if test="entity.feedId != null">
+                feed_id = #{entity.feedId},
+				  </if>
+				  <if test="entity.bankAccount != null">
+                bank_account = #{entity.bankAccount},
+				  </if>
+				  <if test="entity.rate != null">
+                rate = #{entity.rate},
+				  </if>
+				  <if test="entity.isEnabled != null">
+                is_enabled = #{entity.isEnabled},
+				  </if>
+				  <if test="entity.comName != null">
+                com_name = #{entity.comName},
+				  </if>
+				  <if test="entity.contact != null">
+                contact = #{entity.contact},
+				  </if>
+				  <if test="entity.phone != null">
+                phone = #{entity.phone},
+				  </if>
+				  <if test="entity.isApprove != null">
+                is_approve = #{entity.isApprove},
+				  </if>
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.name != null">
+                name = #{entity.name},
+				  </if>
+				  <if test="entity.no != null">
+                no = #{entity.no},
+				  </if>
+				  <if test="entity.typeName != null">
+                type_name = #{entity.typeName},
+				  </if>
+				  <if test="entity.contentId != null">
+                content_id = #{entity.contentId},
+				  </if>
+				  <if test="entity.contentName != null">
+                content_name = #{entity.contentName},
+				  </if>
+				  <if test="entity.licenseNo != null">
+                license_no = #{entity.licenseNo},
+				  </if>
+				  <if test="entity.licenseUrl != null">
+                license_url = #{entity.licenseUrl},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.toonUserId != null">
+                toon_user_id = #{entity.toonUserId},
+				  </if>
+				  <if test="entity.legalName != null">
+                legal_name = #{entity.legalName},
+				  </if>
+				  <if test="entity.cardBUrl != null">
+                card_b_url = #{entity.cardBUrl},
+				  </if>
+				  <if test="entity.comId != null">
+                com_id = #{entity.comId},
+				  </if>
+				  <if test="entity.typeId != null">
+                type_id = #{entity.typeId},
+				  </if>
+				  <if test="entity.address != null">
+                address = #{entity.address},
+				  </if>
+				  <if test="entity.isDelete != null">
+                is_delete = #{entity.isDelete},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+				<if test="levelId != null">
+				   level_id=#{levelId},
+				</if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from GYS_SUPPLIER where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from GYS_SUPPLIER where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from GYS_SUPPLIER where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.supplier.entity.GysSupplier">
+      delete from GYS_SUPPLIER where   <include refid="whereSql"/> 
+   </delete>
+   
+</mapper>

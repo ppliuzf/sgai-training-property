@@ -1,0 +1,828 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.quality.dao.IQtDefectOrderDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.quality.entity.QtDefectOrder" >
+	     <id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+         <result column="do_deadline" property="doDeadline" jdbcType="BIGINT" />
+         <result column="do_create_name" property="doCreateName" jdbcType="VARCHAR" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="do_content" property="doContent" jdbcType="VARCHAR" />
+         <result column="do_update_name" property="doUpdateName" jdbcType="VARCHAR" />
+         <result column="do_create_dept" property="doCreateDept" jdbcType="VARCHAR" />
+         <result column="object_name" property="objectName" jdbcType="VARCHAR" />
+         <result column="item_id" property="itemId" jdbcType="VARCHAR" />
+         <result column="do_create_position" property="doCreatePosition" jdbcType="VARCHAR" />
+         <result column="do_create_icon" property="doCreateIcon" jdbcType="VARCHAR" />
+         <result column="do_create_id" property="doCreateId" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="com_id" property="comId" jdbcType="BIGINT" />
+         <result column="do_icon" property="doIcon" jdbcType="VARCHAR" />
+         <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+         <result column="do_create_time" property="doCreateTime" jdbcType="BIGINT" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="do_executor_id" property="doExecutorId" jdbcType="VARCHAR" />
+         <result column="do_update_id" property="doUpdateId" jdbcType="VARCHAR" />
+         <result column="do_status" property="doStatus" jdbcType="BIGINT" />
+         <result column="object_id" property="objectId" jdbcType="VARCHAR" />
+         <result column="task_id" property="taskId" jdbcType="VARCHAR" />
+         <result column="do_name" property="doName" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="do_executor_name" property="doExecutorName" jdbcType="VARCHAR" />
+         <result column="do_update_time" property="doUpdateTime" jdbcType="BIGINT" />
+         <result column="category_id" property="categoryId" jdbcType="VARCHAR" />
+		  <result column="do_update_icon" property="doUpdateIcon" jdbcType="VARCHAR" />
+		  <result column="do_update_dept" property="doUpdateDept" jdbcType="VARCHAR" />
+		  <result column="do_update_position" property="doUpdatePosition" jdbcType="VARCHAR" />
+  </resultMap>
+
+	<resultMap id="OrderVoMap" type="com.sgai.property.quality.vo.DefectOrderVo" >
+		<id column="id" property="doId" jdbcType="BIGINT" />
+		<result column="do_name" property="doName" jdbcType="VARCHAR" />
+		<result column="object_id" property="objectId" jdbcType="VARCHAR" />
+		<result column="object_name" property="objectName" jdbcType="VARCHAR" />
+		<result column="do_status" property="doStatus" jdbcType="TINYINT" />
+		<result column="do_icon" property="doIcon" jdbcType="VARCHAR" />
+		<result column="do_create_id" property="doCreateId" jdbcType="VARCHAR" />
+		<result column="do_create_name" property="doCreateName" jdbcType="VARCHAR" />
+		<result column="do_create_icon" property="doCreateIcon" jdbcType="VARCHAR" />
+		<result column="do_create_dept" property="doCreateDept" jdbcType="VARCHAR" />
+		<result column="do_create_position" property="doCreatePosition" jdbcType="VARCHAR" />
+		<result column="do_create_time" property="doCreateTime" jdbcType="BIGINT" />
+		<result column="do_update_id" property="doUpdateId" jdbcType="VARCHAR" />
+		<result column="do_update_name" property="doUpdateName" jdbcType="VARCHAR" />
+		<result column="do_update_time" property="doUpdateTime" jdbcType="BIGINT" />
+		<result column="do_update_icon" property="doUpdateIcon" jdbcType="VARCHAR" />
+		<result column="do_update_dept" property="doUpdateDept" jdbcType="VARCHAR" />
+		<result column="do_update_position" property="doUpdatePosition" jdbcType="VARCHAR" />
+	</resultMap>
+
+  <sql id="baseColumns">
+       created_dt
+       ,do_deadline
+       ,do_create_name
+       ,created_by
+       ,do_content
+       ,do_update_name
+       ,do_create_dept
+       ,object_name
+       ,item_id
+       ,do_create_position
+       ,do_create_icon
+       ,do_create_id
+       ,version
+       ,com_id
+       ,do_icon
+       ,updated_dt
+       ,do_create_time
+       ,id
+       ,remarks
+       ,do_executor_id
+       ,do_update_id
+       ,do_status
+       ,object_id
+       ,task_id
+       ,do_name
+       ,updated_by
+       ,do_executor_name
+       ,do_update_time
+       ,do_update_icon
+       ,do_update_dept
+       ,do_update_position
+       ,category_id
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="doDeadline != null">
+			and do_deadline=#{doDeadline}
+		 </if> 
+       <if test="doCreateName != null">
+			and do_create_name=#{doCreateName}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="doContent != null">
+			and do_content=#{doContent}
+		 </if> 
+       <if test="doUpdateName != null">
+			and do_update_name=#{doUpdateName}
+		 </if> 
+       <if test="doCreateDept != null">
+			and do_create_dept=#{doCreateDept}
+		 </if> 
+       <if test="objectName != null">
+			and object_name=#{objectName}
+		 </if> 
+       <if test="itemId != null">
+			and item_id=#{itemId}
+		 </if> 
+       <if test="doCreatePosition != null">
+			and do_create_position=#{doCreatePosition}
+		 </if> 
+       <if test="doCreateIcon != null">
+			and do_create_icon=#{doCreateIcon}
+		 </if> 
+       <if test="doCreateId != null">
+			and do_create_id=#{doCreateId}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="comId != null">
+			and com_id=#{comId}
+		 </if> 
+       <if test="doIcon != null">
+			and do_icon=#{doIcon}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="doCreateTime != null">
+			and do_create_time=#{doCreateTime}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="doExecutorId != null">
+			and do_executor_id=#{doExecutorId}
+		 </if> 
+       <if test="doUpdateId != null">
+			and do_update_id=#{doUpdateId}
+		 </if> 
+       <if test="doStatus != null">
+			and do_status=#{doStatus}
+		 </if> 
+       <if test="objectId != null">
+			and object_id=#{objectId}
+		 </if> 
+       <if test="taskId != null">
+			and task_id=#{taskId}
+		 </if> 
+       <if test="doName != null">
+			and do_name=#{doName}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="doExecutorName != null">
+			and do_executor_name=#{doExecutorName}
+		 </if> 
+       <if test="doUpdateTime != null">
+			and do_update_time=#{doUpdateTime}
+		 </if> 
+       <if test="categoryId != null">
+			and category_id=#{categoryId}
+		 </if> 
+      </trim>
+  </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from qt_defect_order  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_defect_order  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from qt_defect_order  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.quality.entity.QtDefectOrder">
+		select <include refid="baseColumns"/> from
+       qt_defect_order  where   <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_defect_order
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.quality.entity.QtDefectOrder" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from qt_defect_order where   <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.quality.entity.QtDefectOrder" resultType="java.lang.Integer">
+           select count(1) from qt_defect_order where   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.quality.entity.QtDefectOrder">
+      insert into qt_defect_order 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="doDeadline != null">
+				   do_deadline,
+			 </if> 
+          <if test="doCreateName != null">
+				   do_create_name,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="doContent != null">
+				   do_content,
+			 </if> 
+          <if test="doUpdateName != null">
+				   do_update_name,
+			 </if> 
+          <if test="doCreateDept != null">
+				   do_create_dept,
+			 </if> 
+          <if test="objectName != null">
+				   object_name,
+			 </if> 
+          <if test="itemId != null">
+				   item_id,
+			 </if> 
+          <if test="doCreatePosition != null">
+				   do_create_position,
+			 </if> 
+          <if test="doCreateIcon != null">
+				   do_create_icon,
+			 </if> 
+          <if test="doCreateId != null">
+				   do_create_id,
+			 </if> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="comId != null">
+				   com_id,
+			 </if> 
+          <if test="doIcon != null">
+				   do_icon,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="doCreateTime != null">
+				   do_create_time,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+          <if test="doExecutorId != null">
+				   do_executor_id,
+			 </if> 
+          <if test="doUpdateId != null">
+				   do_update_id,
+			 </if> 
+          <if test="doStatus != null">
+				   do_status,
+			 </if> 
+          <if test="objectId != null">
+				   object_id,
+			 </if> 
+          <if test="taskId != null">
+				   task_id,
+			 </if> 
+          <if test="doName != null">
+				   do_name,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="doExecutorName != null">
+				   do_executor_name,
+			 </if> 
+          <if test="doUpdateTime != null">
+				   do_update_time,
+			 </if> 
+          <if test="categoryId != null">
+				   category_id,
+			 </if>
+			<if test="doUpdateIcon != null">
+				do_update_icon,
+			</if>
+			<if test="doUpdateDept != null">
+				do_update_dept,
+			</if>
+			<if test="doUpdatePosition != null">
+				do_update_position,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="doDeadline != null">
+				#{doDeadline},
+			  </if>
+			  <if test="doCreateName != null">
+				#{doCreateName},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="doContent != null">
+				#{doContent},
+			  </if>
+			  <if test="doUpdateName != null">
+				#{doUpdateName},
+			  </if>
+			  <if test="doCreateDept != null">
+				#{doCreateDept},
+			  </if>
+			  <if test="objectName != null">
+				#{objectName},
+			  </if>
+			  <if test="itemId != null">
+				#{itemId},
+			  </if>
+			  <if test="doCreatePosition != null">
+				#{doCreatePosition},
+			  </if>
+			  <if test="doCreateIcon != null">
+				#{doCreateIcon},
+			  </if>
+			  <if test="doCreateId != null">
+				#{doCreateId},
+			  </if>
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="comId != null">
+				#{comId},
+			  </if>
+			  <if test="doIcon != null">
+				#{doIcon},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="doCreateTime != null">
+				#{doCreateTime},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			  <if test="doExecutorId != null">
+				#{doExecutorId},
+			  </if>
+			  <if test="doUpdateId != null">
+				#{doUpdateId},
+			  </if>
+			  <if test="doStatus != null">
+				#{doStatus},
+			  </if>
+			  <if test="objectId != null">
+				#{objectId},
+			  </if>
+			  <if test="taskId != null">
+				#{taskId},
+			  </if>
+			  <if test="doName != null">
+				#{doName},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="doExecutorName != null">
+				#{doExecutorName},
+			  </if>
+			  <if test="doUpdateTime != null">
+				#{doUpdateTime},
+			  </if>
+			  <if test="categoryId != null">
+				#{categoryId},
+			  </if>
+			<if test="doUpdateIcon != null">
+				#{doUpdateIcon},
+			</if>
+			<if test="doUpdateDept != null">
+				#{doUpdateDept},
+			</if>
+			<if test="doUpdatePosition != null">
+				#{doUpdatePosition},
+			</if>
+		</trim>
+   </insert>
+
+	<update id="redistributeByStatusAndUser" parameterType="java.util.Map">
+		update qt_defect_order  set
+		<trim suffixOverrides="," >
+			<if test="doName != null">
+				do_name=#{doName},
+			</if>
+			<if test="categoryId != null">
+				category_id=#{categoryId},
+			</if>
+			<if test="taskId != null">
+				task_id=#{taskId},
+			</if>
+			<if test="itemId != null">
+				item_id=#{itemId},
+			</if>
+			<if test="objectId != null">
+				object_id=#{objectId},
+			</if>
+			<if test="objectName != null">
+				object_name=#{objectName},
+			</if>
+			<if test="doStatus != null">
+				do_status=#{doStatus},
+			</if>
+			<if test="doCreateId != null">
+				do_create_id=#{doCreateId},
+			</if>
+			<if test="doCreateName != null">
+				do_create_name=#{doCreateName},
+			</if>
+			<if test="doCreateIcon != null">
+				do_create_icon=#{doCreateIcon},
+			</if>
+			<if test="doCreateDept != null">
+				do_create_dept=#{doCreateDept},
+			</if>
+			<if test="doCreatePosition != null">
+				do_create_position=#{doCreatePosition},
+			</if>
+			<if test="doCreateTime != null">
+				do_create_time=#{doCreateTime},
+			</if>
+			<if test="doUpdateId != null">
+				do_update_id=#{doUpdateId},
+			</if>
+			<if test="doUpdateName != null">
+				do_update_name=#{doUpdateName},
+			</if>
+			<if test="doUpdateTime != null">
+				do_update_time=#{doUpdateTime},
+			</if>
+			<if test="doExecutorId != null">
+				do_executor_id=#{doExecutorId},
+			</if>
+			<if test="doExecutorName != null">
+				do_executor_name=#{doExecutorName},
+			</if>
+			<if test="doContent != null">
+				do_content=#{doContent},
+			</if>
+			<if test="doDeadline != null">
+				do_deadline=#{doDeadline},
+			</if>
+			<if test="comId != null">
+				com_id=#{comId},
+			</if>
+			<if test="doIcon != null">
+				do_icon=#{doIcon},
+			</if>
+			<if test="doUpdateIcon != null">
+				do_update_icon=#{doUpdateIcon},
+			</if>
+			<if test="doUpdateDept != null">
+				do_update_dept=#{doUpdateDept},
+			</if>
+			<if test="doUpdatePosition != null">
+				do_update_position=#{doUpdatePosition},
+			</if>
+		</trim>
+		where id =#{id}
+		and do_status =#{oldStatus}
+		and (do_create_id = #{currentFeedId} or do_update_id = #{currentFeedId})
+	</update>
+   
+   <update id="updateById" parameterType="com.sgai.property.quality.entity.QtDefectOrder">
+	   update qt_defect_order  set
+	    <trim suffixOverrides="," >
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="doDeadline != null">
+					 do_deadline=#{doDeadline},
+				  </if>
+				  <if test="doCreateName != null">
+					 do_create_name=#{doCreateName},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="doContent != null">
+					 do_content=#{doContent},
+				  </if>
+				  <if test="doUpdateName != null">
+					 do_update_name=#{doUpdateName},
+				  </if>
+				  <if test="doCreateDept != null">
+					 do_create_dept=#{doCreateDept},
+				  </if>
+				  <if test="objectName != null">
+					 object_name=#{objectName},
+				  </if>
+				  <if test="itemId != null">
+					 item_id=#{itemId},
+				  </if>
+				  <if test="doCreatePosition != null">
+					 do_create_position=#{doCreatePosition},
+				  </if>
+				  <if test="doCreateIcon != null">
+					 do_create_icon=#{doCreateIcon},
+				  </if>
+				  <if test="doCreateId != null">
+					 do_create_id=#{doCreateId},
+				  </if>
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="comId != null">
+					 com_id=#{comId},
+				  </if>
+				  <if test="doIcon != null">
+					 do_icon=#{doIcon},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="doCreateTime != null">
+					 do_create_time=#{doCreateTime},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				  <if test="doExecutorId != null">
+					 do_executor_id=#{doExecutorId},
+				  </if>
+				  <if test="doUpdateId != null">
+					 do_update_id=#{doUpdateId},
+				  </if>
+				  <if test="doStatus != null">
+					 do_status=#{doStatus},
+				  </if>
+				  <if test="objectId != null">
+					 object_id=#{objectId},
+				  </if>
+				  <if test="taskId != null">
+					 task_id=#{taskId},
+				  </if>
+				  <if test="doName != null">
+					 do_name=#{doName},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="doExecutorName != null">
+					 do_executor_name=#{doExecutorName},
+				  </if>
+				  <if test="doUpdateTime != null">
+					 do_update_time=#{doUpdateTime},
+				  </if>
+				  <if test="categoryId != null">
+					 category_id=#{categoryId},
+				  </if>
+			<if test="doUpdateIcon != null">
+				do_update_icon=#{doUpdateIcon},
+			</if>
+			<if test="doUpdateDept != null">
+				do_update_dept=#{doUpdateDept},
+			</if>
+			<if test="doUpdatePosition != null">
+				do_update_position=#{doUpdatePosition},
+			</if>
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.quality.entity.QtDefectOrder">
+        update qt_defect_order  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.doDeadline != null">
+                do_deadline = #{entity.doDeadline},
+				  </if>
+				  <if test="entity.doCreateName != null">
+                do_create_name = #{entity.doCreateName},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.doContent != null">
+                do_content = #{entity.doContent},
+				  </if>
+				  <if test="entity.doUpdateName != null">
+                do_update_name = #{entity.doUpdateName},
+				  </if>
+				  <if test="entity.doCreateDept != null">
+                do_create_dept = #{entity.doCreateDept},
+				  </if>
+				  <if test="entity.objectName != null">
+                object_name = #{entity.objectName},
+				  </if>
+				  <if test="entity.itemId != null">
+                item_id = #{entity.itemId},
+				  </if>
+				  <if test="entity.doCreatePosition != null">
+                do_create_position = #{entity.doCreatePosition},
+				  </if>
+				  <if test="entity.doCreateIcon != null">
+                do_create_icon = #{entity.doCreateIcon},
+				  </if>
+				  <if test="entity.doCreateId != null">
+                do_create_id = #{entity.doCreateId},
+				  </if>
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.comId != null">
+                com_id = #{entity.comId},
+				  </if>
+				  <if test="entity.doIcon != null">
+                do_icon = #{entity.doIcon},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.doCreateTime != null">
+                do_create_time = #{entity.doCreateTime},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+				  <if test="entity.doExecutorId != null">
+                do_executor_id = #{entity.doExecutorId},
+				  </if>
+				  <if test="entity.doUpdateId != null">
+                do_update_id = #{entity.doUpdateId},
+				  </if>
+				  <if test="entity.doStatus != null">
+                do_status = #{entity.doStatus},
+				  </if>
+				  <if test="entity.objectId != null">
+                object_id = #{entity.objectId},
+				  </if>
+				  <if test="entity.taskId != null">
+                task_id = #{entity.taskId},
+				  </if>
+				  <if test="entity.doName != null">
+                do_name = #{entity.doName},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.doExecutorName != null">
+                do_executor_name = #{entity.doExecutorName},
+				  </if>
+				  <if test="entity.doUpdateTime != null">
+                do_update_time = #{entity.doUpdateTime},
+				  </if>
+				  <if test="entity.categoryId != null">
+                category_id = #{entity.categoryId},
+				  </if>
+			<if test="entity.doUpdateIcon != null">
+				do_update_icon = #{entity.doUpdateIcon},
+			</if>
+			<if test="entity.doUpdateDept != null">
+				do_update_dept = #{entity.doUpdateDept},
+			</if>
+			<if test="entity.doUpdatePosition != null">
+				do_update_position = #{entity.doUpdatePosition},
+			</if>
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from qt_defect_order where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from qt_defect_order where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from qt_defect_order where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.quality.entity.QtDefectOrder">
+      delete from qt_defect_order where   <include refid="whereSql"/> 
+   </delete>
+
+
+
+	<update id="updateByIdAndStatus" parameterType="java.util.Map">
+		update qt_defect_order  set
+		<trim suffixOverrides="," >
+			<if test="doName != null">
+				do_name=#{doName},
+			</if>
+			<if test="categoryId != null">
+				category_id=#{categoryId},
+			</if>
+			<if test="taskId != null">
+				task_id=#{taskId},
+			</if>
+			<if test="itemId != null">
+				item_id=#{itemId},
+			</if>
+			<if test="objectId != null">
+				object_id=#{objectId},
+			</if>
+			<if test="objectName != null">
+				object_name=#{objectName},
+			</if>
+			<if test="doStatus != null">
+				do_status=#{doStatus},
+			</if>
+			<if test="doCreateId != null">
+				do_create_id=#{doCreateId},
+			</if>
+			<if test="doCreateName != null">
+				do_create_name=#{doCreateName},
+			</if>
+			<if test="doCreateIcon != null">
+				do_create_icon=#{doCreateIcon},
+			</if>
+			<if test="doCreateDept != null">
+				do_create_dept=#{doCreateDept},
+			</if>
+			<if test="doCreatePosition != null">
+				do_create_position=#{doCreatePosition},
+			</if>
+			<if test="doCreateTime != null">
+				do_create_time=#{doCreateTime},
+			</if>
+			<if test="doUpdateId != null">
+				do_update_id=#{doUpdateId},
+			</if>
+			<if test="doUpdateName != null">
+				do_update_name=#{doUpdateName},
+			</if>
+			<if test="doUpdateTime != null">
+				do_update_time=#{doUpdateTime},
+			</if>
+			<if test="doExecutorId != null">
+				do_executor_id=#{doExecutorId},
+			</if>
+			<if test="doExecutorName != null">
+				do_executor_name=#{doExecutorName},
+			</if>
+			<if test="doContent != null">
+				do_content=#{doContent},
+			</if>
+			<if test="doDeadline != null">
+				do_deadline=#{doDeadline},
+			</if>
+			<if test="comId != null">
+				com_id=#{comId},
+			</if>
+			<if test="doIcon != null">
+				do_icon=#{doIcon},
+			</if>
+		</trim>
+		where id =#{id} and do_status =#{oldStatus}
+	</update>
+
+	<select id="getOrdersByStatus"  parameterType="com.sgai.property.quality.vo.DefectOrderVo" resultMap="OrderVoMap">
+		select <include refid="baseColumns"/> from qt_defect_order
+		where
+		com_id = #{comId}
+		<if test="categoryId != null">
+			and category_id = #{categoryId}
+		</if>
+		and (do_create_id = #{createId} or do_update_id = #{createId})
+		<if test="status == 0">
+			and do_status &lt;= 1
+		</if>
+		<if test="status == 1">
+			and do_status &gt;= 2
+		</if>
+		order by do_update_time desc
+
+	</select>
+</mapper>

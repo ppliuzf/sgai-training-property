@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sgai.property.wy.dao.TodoEventDao">
+
+	<select id="findList"  resultType="com.sgai.property.wy.entity.EventCommon">
+		SELECT 
+		a.REPAIR_STATUS  repairStatus
+		FROM WY_EVT_REPAIR_INFORMATION a	
+		where
+		REPAIR_STATUS  in('16','1','15','3','7','4')
+	</select>
+	
+	<select id="findTodayList"  resultType="com.sgai.property.wy.entity.EventCommon">
+		SELECT distinct a.id,
+		a.REPAIR_STATUS  repairStatus
+		FROM WY_EVT_REPAIR_INFORMATION a	
+		LEFT JOIN WY_EVT_REPAIR_RECORD b on 	a.id=b.repair_id
+		<where> 
+		a.REPAIR_STATUS  in('16','1','15','3','7','4')
+		<if test="date != null">
+		AND	STR_TO_DATE(DATE_FORMAT(b.present_date,'%y-%m-%d'),'%y-%m-%d') = #{date}
+		</if>
+		</where>
+	</select>
+		
+		<select id="findCallList"  resultType="java.lang.Integer">
+	   		select 
+				count(*)
+			from wy_evt_callinfo a	
+		<where>
+			a.del_flag='0'
+			<if test="repairStatus ==1">
+		 	<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+					AND	${sqlMap.sql}
+			</if> 
+			</if>
+			<!-- a.operator_id =#{user} -->
+			<if test="user !=null and user !=''">
+				and  a.operator_id =#{user}
+			</if>
+			<if test="status !=null and status  !=''">
+				and  a.appoint_status =#{status}
+				and a.DEAL_STATUS='0'
+			</if>
+			
+		<if test="date != null">
+			AND STR_TO_DATE(DATE_FORMAT(a.appoint_date,'%y-%m-%d'),'%y-%m-%d') = #{date}
+		</if>
+		</where>
+		
+		</select>
+		
+		<select id="findLogList"  resultType="java.lang.Integer">
+			select 
+				count(*)
+			from wy_evt_log a	
+		<where> 
+			a.del_flag='0'
+			<if test="repairStatus ==1">
+		 	<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+					AND	${sqlMap.sql}
+			</if>
+			</if> 
+			<!-- 	and a.processing_person_id =#{user} -->
+			<if test="type != 0">
+			<if test="user !=null and user !=''">
+				and	 a.processing_person_id =#{user}
+			</if>
+			</if>
+			<if test="type == 0">
+				AND a.processing_person_id is not null
+				and a.DESCRIBE is null
+			</if>
+		<if test="date != null">
+			AND STR_TO_DATE(DATE_FORMAT(a.create_time,'%y-%m-%d'),'%y-%m-%d') = #{date}
+		</if>
+		
+		</where>
+		</select>
+		
+		<select id="findNoticeList"  resultType="com.sgai.property.wy.entity.EventCommon">
+			select 
+				a.news_status publishNotice,a.check_status notcieWait
+			from  wy_cus_news_centre a
+		<where> 
+		<if test="user != null  and user !=''">
+				and a.recept_id like '%'||#{user}||'%'
+		</if>
+		<if test="date != null">
+			AND STR_TO_DATE(DATE_FORMAT(a.publish_date,'%y-%m-%d'),'%y-%m-%d') = #{date}
+		</if>
+		</where>
+		</select>
+		
+		<select id="findPuNoticeList"  resultType="com.sgai.property.wy.entity.EventCommon">
+			select 
+				a.news_status publishNotice,a.check_status notcieWait
+			from  wy_cus_news_centre a
+		<where> 
+		<if test="date != null">
+			AND STR_TO_DATE(DATE_FORMAT(a.publish_date,'%y-%m-%d'),'%y-%m-%d') = #{date}
+		</if>
+		</where>
+		</select>
+		
+		<select id="getSpaceList" resultType="com.sgai.property.wy.entity.EventCommon">
+		    SELECT 
+		        NODE_NAME spaceName,NODE_CODE spaceCode
+		    FROM
+		        mdm_space_tree
+		    WHERE
+		        enabled_flag='Y'
+		        and PARENT_CODE = '201801241622310335'
+		    ORDER BY 
+		        NODE_SEQUENCE  ASC
+		</select>
+	
+		<select id="getRepairList" resultType="com.sgai.property.wy.entity.RepairInformation">
+		       select * from wy_evt_repair_information 
+		       <where>
+		       repair_address_code like '%'||(select  a.node_code from 
+	            mdm_space_tree a
+	             WHERE
+	            a.enabled_flag='Y'
+	            and a.PARENT_CODE = '201801241622310335'
+	            and a.node_name=#{buildName})||'%'
+	         <if test="createdDt !=null">
+				 AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{createdDt}
+            </if>
+			<if test="updatedDt !=null">
+				AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{updatedDt}
+			</if>
+	            </where>
+		</select>
+		
+		<select id="getSumRoom" resultType="int">
+		     SELECT 
+    			count(*) 
+   			 FROM mdm_room_info a where a.enabled_flag='Y'
+		</select>
+	
+		<select id="getSumBuildRoom" resultType="int">
+	    /*select count(*) from mdm_space_tree a  where a.node_type='ROOM'
+		start with a.node_code = #{nodeCode}
+		connect by prior a.node_code = a.parent_code*/
+		select count(*) from mdm_space_tree a  where a.node_type='ROOM'
+		and a.node_code = #{nodeCode}
+		and a.node_code = a.parent_code
+		</select>
+	
+		<select id="findRecordList" resultType="com.sgai.property.wy.entity.RepairRecord">
+			select * from wy_evt_repair_record c where c.repair_id=#{id} 
+		</select>
+		
+		<select id="getRepairBxgdList" resultType="com.sgai.property.wy.entity.RepairAnalysisDto">
+			select count(b.xTime) sumRepair,b.xTime as xTime from 
+				(select 
+			<if test="dateType ==0">
+				DATE_FORMAT(a.created_dt,'%y') as xTime
+		 	</if>
+			<if test="dateType ==1">
+				DATE_FORMAT(a.created_dt,'%y-%m') as xTime
+		 	</if>
+			<if test="dateType ==2">
+				DATE_FORMAT(a.created_dt,'%y-%m-%d') as xTime
+		 	</if>
+				from  wy_evt_repair_information a 
+			<where>
+			<if test="repairType==0">
+					a.complain_id is not null
+			</if>
+			 <if test="startDate !=null">
+				 AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{startDate}
+	            </if>
+				<if test="endDate !=null">
+					AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{endDate}
+			</if>
+			</where>
+			) 
+			b  GROUP BY b.xTime		
+		</select>
+		
+		<select id="getRepairBxyzList" resultType="com.sgai.property.wy.entity.RepairAnalysisDto">
+			select count(b.sumRepair) sumRepair,b.xTime as xTime from 
+				(select  distinct(a.repair_people_id) as sumRepair,
+			<if test="dateType ==0">
+				DATE_FORMAT(a.created_dt,'%y') as xTime
+		 	</if>
+			<if test="dateType ==1">
+				DATE_FORMAT(a.created_dt,'%y-%m') as xTime
+		 	</if>
+			<if test="dateType ==2">
+				DATE_FORMAT(a.created_dt,'%y-%m-%d') as xTime
+		 	</if>
+				from  wy_evt_repair_information a 
+			<where>
+			<if test="repairType==0">
+					a.complain_id is not null
+			</if>
+			 <if test="startDate !=null">
+				 AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{startDate}
+	            </if>
+				<if test="endDate !=null">
+					AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{endDate}
+			</if>
+			</where>
+			) 
+			b  GROUP BY b.xTime		
+		</select>
+		<select id="getRepairBxyzs" resultType="com.sgai.property.wy.entity.RepairAnalysisDto">
+			select count(b.sumRepair) sumRepair  from 
+				(select  distinct(a.repair_people_id) as sumRepair
+	
+				from  wy_evt_repair_information a 
+
+				)  b  	
+		</select>
+	<select id="getRepairBxlList" resultType="com.sgai.property.wy.entity.RepairAnalysisDto">
+		SELECT  b.xTime as xTime,
+			round((count(b.xTime)/(SELECT count(*) FROM mdm_room_info r where r.enabled_flag='Y')),2) sumRepair
+		      FROM 
+			(select  
+		<if test="dateType ==0">
+			DATE_FORMAT(a.created_dt,'%y') as xTime
+	 	</if>
+		<if test="dateType ==1">
+			DATE_FORMAT(a.created_dt,'%y-%m') as xTime
+	 	</if>
+		<if test="dateType ==2">
+			DATE_FORMAT(a.created_dt,'%y-%m-%d') as xTime
+	 	</if>
+			from  wy_evt_repair_information a 
+		<where>
+		 <if test="startDate !=null">
+			 AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{startDate}
+            </if>
+			<if test="endDate !=null">
+				AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{endDate}
+		</if>
+		</where>
+		) 
+		b  GROUP BY b.xTime		
+	</select>
+
+	<select id="getRepairBxwclList" resultType="com.sgai.property.wy.entity.RepairAnalysisDto">
+		SELECT a.repair_status repairType,
+		<if test="dateType ==0">
+			DATE_FORMAT(a.created_dt,'%y') as xTime
+	 	</if>
+		<if test="dateType ==1">
+			DATE_FORMAT(a.created_dt,'%y-%m') as xTime
+	 	</if>
+		<if test="dateType ==2">
+			DATE_FORMAT(a.created_dt,'%y-%m-%d') as xTime
+	 	</if>
+			from  wy_evt_repair_information a 
+		<where>
+		 <if test="startDate !=null">
+			 	AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{startDate}
+            </if>
+			<if test="endDate !=null">
+				AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{endDate}
+		</if>
+		</where>
+	
+	</select>
+	
+	<select id="getRepairBxtslList" resultType="com.sgai.property.wy.entity.RepairAnalysisDto">
+		SELECT  a.complain_id complainID,
+
+		<if test="dateType ==0">
+			DATE_FORMAT(a.created_dt,'%y') as xTime
+	 	</if>
+		<if test="dateType ==1">
+			DATE_FORMAT(a.created_dt,'%y-%m') as xTime
+	 	</if>
+		<if test="dateType ==2">
+			DATE_FORMAT(a.created_dt,'%y-%m-%d') as xTime
+	 	</if>
+			from  wy_evt_repair_information a 
+		<where>
+		 <if test="startDate !=null">
+			 	AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{startDate}
+            </if>
+			<if test="endDate !=null">
+				AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{endDate}
+		</if>
+		</where>
+
+	</select>
+	
+	<select id="getRepairInformationlList" resultType="com.sgai.property.wy.entity.RepairAnalysisDto">
+		SELECT  
+		<if test="dateType ==0">
+			DATE_FORMAT(a.created_dt,'%y') as xTime
+	 	</if>
+		<if test="dateType ==1">
+			DATE_FORMAT(a.created_dt,'%y-%m') as xTime
+	 	</if>
+		<if test="dateType ==2">
+			DATE_FORMAT(a.created_dt,'%y-%m-%d') as xTime
+	 	</if>
+			from  wy_evt_repair_information a 
+		<where>
+			
+		 <if test="startDate !=null">
+			 	AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{startDate}
+            </if>
+			<if test="endDate !=null">
+				AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{endDate}
+		</if>
+		</where>
+
+	</select>
+
+	
+	<select id="getRepairAVGTimeList" resultType="com.sgai.property.wy.entity.RepairAnalysisDto">
+			select  a.updated_dt as endDate, a.created_dt as startDate
+		<if test="dateType ==0">
+	 		,DATE_FORMAT(a.created_dt,'%y') as xTime
+	 	</if>
+		<if test="dateType ==1">
+	 		,DATE_FORMAT(a.created_dt,'%y-%m') as xTime
+	 	</if>
+		<if test="dateType ==2">
+	 		,DATE_FORMAT(a.created_dt,'%y-%m-%d') as xTime
+	 	</if>
+			from  wy_evt_repair_information a 
+		<where>
+			a.repair_status in(13,10)
+		 <if test="startDate !=null">
+			 	AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{startDate}
+            </if>
+			<if test="endDate !=null">
+				AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{endDate}
+		</if>
+		</where>
+
+	</select>
+	<select id="getRepairAVGComplainTimeList" resultType="com.sgai.property.wy.entity.RepairAnalysisDto">
+			      
+      select a.reply_time endDate,a.complain_time startDate,c.complain_id complainID
+      		<if test="dateType ==0">
+			,DATE_FORMAT(a.complain_time,'%y') as xTime
+	 	</if>
+		<if test="dateType ==1">
+	 		,DATE_FORMAT(a.complain_time,'%y-%m') as xTime
+	 	</if>
+		<if test="dateType ==2">
+	 		,DATE_FORMAT(a.complain_time,'%y-%m-%d') as xTime
+	 	</if>
+       from   wy_cus_complain a left join wy_evt_repair_information c on a.id=c.complain_id
+		<where>
+		 <if test="startDate !=null">
+			 	AND STR_TO_DATE(DATE_FORMAT(a.complain_time,'%y-%m-%d'),'%y-%m-%d') &gt;= #{startDate}
+            </if>
+			<if test="endDate !=null">
+				AND STR_TO_DATE(DATE_FORMAT(a.complain_time,'%y-%m-%d'),'%y-%m-%d') &lt;= #{endDate}
+		</if>
+		</where>
+	</select>
+	<select id="findComplainList" resultType="com.sgai.property.wy.entity.RepairInformation">
+      select a.complain_time createdDt,c.complain_id complainId,
+		c.repair_address_code repairAddressCode
+       from   wy_cus_complain a left join wy_evt_repair_information c on a.id=c.complain_id
+		<where>
+		 <if test="createdDt !=null">
+				AND STR_TO_DATE(DATE_FORMAT(a.complain_time,'%y-%m-%d'),'%y-%m-%d') &gt;= #{createdDt}
+            </if>
+			<if test="updatedDt !=null">
+				AND STR_TO_DATE(DATE_FORMAT(a.complain_time,'%y-%m-%d'),'%y-%m-%d') &lt;= #{updatedDt}
+		</if>
+		</where>
+	</select>
+	
+	<select id="getRepairyzAvgList" resultType="com.sgai.property.wy.entity.RepairAnalysisDto">
+	select d.xTime,round((d.xxSum/c.sumRepair),1)  sumRepair from 
+	( select count(b.sumRepair) sumRepair,b.xTime as xTime  from 
+        (select  distinct(a.repair_people_id) as sumRepair
+		<if test="dateType ==0">
+			,DATE_FORMAT(a.created_dt,'%y') as xTime
+	 	</if>
+		<if test="dateType ==1">
+			,DATE_FORMAT(a.created_dt,'%y-%m') as xTime
+	 	</if>
+		<if test="dateType ==2">
+			,DATE_FORMAT(a.created_dt,'%y-%m-%d') as xTime
+	 	</if>
+        from  wy_evt_repair_information a 
+		<where>
+			<if test="repairType==0">
+					a.complain_id is not null
+			</if>
+		 <if test="startDate !=null">
+			 	AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{startDate}
+            </if>
+			<if test="endDate !=null">
+				AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{endDate}
+		</if>
+		</where>
+      ) 
+      b  GROUP BY b.xTime  )c  ,
+      
+      ( select b.xTime as xTime ,count(xTime) xxSum from 
+        (select
+		<if test="dateType ==0">
+			DATE_FORMAT(a.created_dt,'%y') as xTime
+	 	</if>
+		<if test="dateType ==1">
+			DATE_FORMAT(a.created_dt,'%y-%m') as xTime
+	 	</if>
+		<if test="dateType ==2">
+			DATE_FORMAT(a.created_dt,'%y-%m-%d') as xTime
+	 	</if>
+        from  wy_evt_repair_information a 
+		<where>
+		<if test="repairType==0">
+					a.complain_id is not null
+			</if>
+		 <if test="startDate !=null">
+			 	AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{startDate}
+            </if>
+			<if test="endDate !=null">
+				AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{endDate}
+		</if>
+		</where>
+      ) 
+      b  GROUP BY b.xTime  ) d  where c.xTime=d.xTime
+
+	</select>
+	
+	<select id="getRepairAllqyAvgList" resultType="com.sgai.property.wy.entity.RepairAnalysisDto">
+	select d.xTime,round((d.xxSum/c.sumRepair),1)  sumRepair from 
+	( select count(b.sumRepair) sumRepair,b.xTime as xTime  from 
+        (select   distinct(substr(a.repair_address_code,INSTR(a.repair_address_code,'-',-1)+1))  as sumRepair
+		<if test="dateType ==0">
+			,DATE_FORMAT(a.created_dt,'%y') as xTime
+	 	</if>
+		<if test="dateType ==1">
+	 		,DATE_FORMAT(a.created_dt,'%y-%m') as xTime
+	 	</if>
+		<if test="dateType ==2">
+	 		,DATE_FORMAT(a.created_dt,'%y-%m-%d') as xTime
+	 	</if>
+        from  wy_evt_repair_information a 
+		<where>
+			<if test="repairType==0">
+					a.complain_id is not null
+			</if>
+		 <if test="startDate !=null">
+			 	AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{startDate}
+            </if>
+			<if test="endDate !=null">
+				AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{endDate}
+		</if>
+		</where>
+      ) 
+      b  GROUP BY b.xTime  )c  ,
+      
+      ( select b.xTime as xTime ,count(xTime) xxSum from 
+        (select
+		<if test="dateType ==0">
+			DATE_FORMAT(a.created_dt,'%y') as xTime
+	 	</if>
+		<if test="dateType ==1">
+			DATE_FORMAT(a.created_dt,'%y-%m') as xTime
+	 	</if>
+		<if test="dateType ==2">
+			DATE_FORMAT(a.created_dt,'%y-%m-%d') as xTime
+	 	</if>
+        from  wy_evt_repair_information a 
+		<where>
+			<if test="repairType==0">
+					a.complain_id is not null
+			</if>
+		 <if test="startDate !=null">
+			 	AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{startDate}
+            </if>
+			<if test="endDate !=null">
+				AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{endDate}
+		</if>
+		</where>
+      ) 
+      b  GROUP BY b.xTime  ) d  where c.xTime=d.xTime
+
+	</select>
+
+		<select id="getBtomtime" resultType="com.sgai.property.wy.entity.RepairInformation">
+				select a.repair_address_code repairAddressCode,a.created_dt createdDt,b.complain_time endTime
+				from wy_evt_repair_information  a left join wy_cus_complain b
+ 				on a.complain_id =b.id  
+		       <where>
+				a.complain_id is not null and a.repair_status !='1'
+	         <if test="createdDt !=null">
+				 AND STR_TO_DATE(DATE_FORMAT(a.created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{createdDt}
+            </if>
+			<if test="createdDt !=null">
+				AND STR_TO_DATE(DATE_FORMAT(a.created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{updatedDt}
+			</if>
+	            </where>
+		</select>
+		
+		<select id="getBuildRoomAnalsis" resultType="com.sgai.property.wy.entity.RepairAnalysisDto">
+				select count(b.sumRepair) sumRepair,b.xTime as xTime  from 
+		        (select   distinct(substr(a.repair_address_code,INSTR(a.repair_address_code,'-',-1)+1))  as sumRepair
+				<if test="dateType ==0">
+			 		,DATE_FORMAT(a.created_dt,'%y') as xTime
+			 	</if>
+				<if test="dateType ==1">
+			 		,DATE_FORMAT(a.created_dt,'%y-%m') as xTime
+			 	</if>
+				<if test="dateType ==2">
+			 		,DATE_FORMAT(a.created_dt,'%y-%m-%d') as xTime
+			 	</if>
+		        from  wy_evt_repair_information a 
+				<where>
+					<if test="repairType==0">
+							a.complain_id is not null
+					</if>
+				 <if test="startDate !=null">
+					 	AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{startDate}
+		            </if>
+					<if test="endDate !=null">
+						AND STR_TO_DATE(DATE_FORMAT(created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{endDate}
+				</if>
+				</where>
+		      ) 
+		      b  GROUP BY b.xTime  
+		</select>
+		<select id="getRepairBxgdCount" resultType="com.sgai.property.wy.entity.RepairInformation">
+			select a.repair_address_code repairAddressCode,a.created_dt createdDt
+			from wy_evt_repair_information  a
+			<where>
+				<if test="createdDt !=null">
+					AND STR_TO_DATE(DATE_FORMAT(a.created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{createdDt}
+				</if>
+				<if test="createdDt !=null">
+					AND STR_TO_DATE(DATE_FORMAT(a.created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{updatedDt}
+				</if>
+			</where>
+		</select>
+		<select id="getRepairBxyzCount" resultType="com.sgai.property.wy.entity.RepairInformation">
+			select DISTINCT a.REPAIR_PEOPLE_NAME repairPeopleName,
+			a.repair_address_code repairAddressCode,
+			a.created_dt createdDt
+			from wy_evt_repair_information  a
+			<where>
+				<if test="createdDt !=null">
+					AND STR_TO_DATE(DATE_FORMAT(a.created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{createdDt}
+				</if>
+				<if test="createdDt !=null">
+					AND STR_TO_DATE(DATE_FORMAT(a.created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{updatedDt}
+				</if>
+			</where>
+		</select>
+	<select id="getRepairBxlCount" resultType="com.sgai.property.wy.entity.RepairInformation">
+		select * from (select * from (select
+		c.name cause,ROUND((count(*)/(select
+		count(*) from MDM_SPACE_TREE a where
+		a.NODE_TYPE='ROOM'))*100,2)
+		count from (select
+		substr(b.REPAIRADRESS,1,INSTR(b.REPAIRADRESS,'-')-1) name from
+		(select a.REPAIR_ADDRESS repairAdress from
+		WY_EVT_REPAIR_INFORMATION
+		a
+		<where>
+			<if test="createdDt !=null">
+				AND STR_TO_DATE(DATE_FORMAT(a.created_dt,'%y-%m-%d'),'%y-%m-%d') &gt;= #{createdDt}
+			</if>
+			<if test="createdDt !=null">
+				AND STR_TO_DATE(DATE_FORMAT(a.created_dt,'%y-%m-%d'),'%y-%m-%d') &lt;= #{updatedDt}
+			</if>
+		</where>
+		group by a.REPAIR_ADDRESS) b) c
+		GROUP BY c.name)d ORDER BY d.count
+		desc) e
+		limit 0,10
+
+	</select>
+	<select id="getSumRooms" resultType="int">
+		select count(*) from mdm_space_tree a  where a.node_type='ROOM'
+		</select>
+
+</mapper>

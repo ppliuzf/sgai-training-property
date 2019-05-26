@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.mdm.dao.MdmParkInfoDao">
+    
+	<sql id="mdmParkInfoColumns">
+		a.id AS "id",
+		a.park_code AS "parkCode",
+		a.park_name AS "parkName",
+		a.park_desc AS "parkDesc",
+		a.view_imge AS "viewImge",
+		a.plan_char AS "planChar",
+		a.plan_year AS "planYear",
+		a.start_date AS "startDate",
+		a.end_date AS "endDate",
+		a.longi_tude AS "longiTude",
+		a.lati_tude AS "latiTude",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.park_property  AS "parkProperty",
+		a.com_code AS "comCode"
+	</sql>
+	
+	<sql id="mdmParkInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.mdm.entity.MdmParkInfo">
+		SELECT 
+			<include refid="mdmParkInfoColumns"/>
+		FROM mdm_park_info a
+		<include refid="mdmParkInfoJoins"/>
+		
+		WHERE a.id = #{id}
+		<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+		</if>
+	</select>
+	
+	<select id="getByCode" resultType="com.sgai.property.mdm.entity.MdmParkInfo">
+		SELECT 
+			<include refid="mdmParkInfoColumns"/>
+		FROM mdm_park_info a
+		<include refid="mdmParkInfoJoins"/>
+		WHERE a.park_code = #{arg0} AND a.com_code = #{arg1}
+		<!-- <if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+		</if> -->
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.mdm.entity.MdmParkInfo">
+		SELECT 
+			<include refid="mdmParkInfoColumns"/>
+		FROM mdm_park_info a
+		<include refid="mdmParkInfoJoins"/>
+		<where>
+			a.enabled_flag = 'Y'
+			<if test="parkCode != null and parkCode != ''">
+				AND a.park_code = #{parkCode}
+			</if>
+			<if test="parkName != null and parkName != ''">
+				AND a.park_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{parkName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{parkName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{parkName},'%')</if>
+			</if>
+			<if test="parkDesc != null and parkDesc != ''">
+				AND a.park_desc = #{parkDesc}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.mdm.entity.MdmParkInfo">
+		SELECT 
+			<include refid="mdmParkInfoColumns"/>
+		FROM mdm_park_info a
+		<include refid="mdmParkInfoJoins"/>
+		<where>
+			
+		</where>	
+		<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>	
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mdm_park_info(
+			id,
+			park_code,
+			park_name,
+			park_desc,
+			view_imge,
+			plan_char,
+			plan_year,
+			start_date,
+			end_date,
+			longi_tude,
+			lati_tude,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			park_property,
+			com_code
+		) VALUES (
+			#{id},
+			#{parkCode},
+			#{parkName},
+			#{parkDesc},
+			#{viewImge},
+			#{planChar},
+			#{planYear},
+			#{startDate},
+			#{endDate},
+			#{longiTude},
+			#{latiTude},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{parkProperty},
+			#{comCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mdm_park_info SET 	
+			park_code = #{parkCode},
+			park_name = #{parkName},
+			park_desc = #{parkDesc},
+			view_imge = #{viewImge},
+			plan_char = #{planChar},
+			plan_year = #{planYear},
+			start_date = #{startDate},
+			end_date = #{endDate},
+			longi_tude = #{longiTude},
+			lati_tude = #{latiTude},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			park_property = #{parkProperty},
+			com_code = #{comCode}
+		WHERE id = #{id}
+	</update>
+	
+	<!-- <update id="delete">
+		DELETE FROM mdm_park_info
+		WHERE park_code = #{parkCode}
+	</update> -->
+	
+	<update id="delete">
+		UPDATE mdm_park_info SET 
+		    enabled_flag='N'
+		WHERE 
+		    park_code = #{parkCode}
+	</update>
+	
+</mapper>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlUserIpDao">
+    
+	<sql id="ctlUserIpColumns">
+		a.id AS "id",
+		a.user_code AS "userCode",
+		a.ip_address AS "ipAddress",
+		a.enabled_flag AS "enabledFlag",
+		a.remark AS "remark",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		b.com_code AS "comCode",
+		b.user_name AS "userName"
+	</sql>
+	
+	<sql id="ctlUserIpJoins">
+	INNER JOIN ctl_user b on a.user_code=b.user_code INNER JOIN ctl_comp c on b.com_code=c.com_code
+	</sql>
+    
+	<select id="get" resultType="CtlUserIp">
+		SELECT
+			<include refid="ctlUserIpColumns"/>
+		FROM ctl_user_ip a 
+		<include refid="ctlUserIpJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlUserIp">
+		SELECT
+			<include refid="ctlUserIpColumns"/>
+		FROM ctl_user_ip a INNER JOIN ctl_user b on a.user_code=b.user_code
+		<where>
+			<if test="userCode != null and userCode != ''">
+				a.user_code= ANY(SELECT user_code from ctl_user b INNER JOIN ctl_comp c on b.com_code= c.com_code) AND a.user_code = #{userCode}
+			</if>
+			
+		</where>
+
+	</select>
+	
+	
+	<select id="getComp" resultType="String">
+		SELECT com_code
+		FROM ctl_comp
+	</select>
+	<select id="findAllList" resultType="CtlUserIp">
+		SELECT 
+			<include refid="ctlUserIpColumns"/>
+		FROM ctl_user_ip a
+		
+		a.id AS "id",
+		a.user_code AS "userCode",
+		a.ip_address AS "ipAddress",
+		a.enabled_flag AS "enabledFlag",
+		a.remark AS "remark",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getUser" resultType="CtlUserIp">
+		SELECT user_code AS "userCode",
+			user_name AS "userName"
+		FROM ctl_user
+		
+		WHERE
+		<if test="comCode != null and comCode != ''">
+		 com_code=#{comCode} AND 
+		</if>
+		ip_limited_flag='Y'
+	</select>
+
+
+	
+	<insert id="insert">
+		INSERT INTO ctl_user_ip(
+			id,
+			user_code,
+			ip_address,
+			enabled_flag,
+			remark,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{userCode},
+			#{ipAddress},
+			#{enabledFlag},
+			#{remark},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_user_ip SET 	
+			user_code = #{userCode},
+			ip_address = #{ipAddress},
+			enabled_flag = #{enabledFlag},
+			remark = #{remark}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_user_ip
+			<where>
+		
+			id=#{id}
+		</where>
+	</update>
+	
+</mapper>

@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.customer.dao.ISurveyMainDao">
+    <resultMap id="BaseResultMap" type="com.sgai.property.customer.entity.SurveyMain">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="sm_creator_id" property="smCreatorId" jdbcType="VARCHAR"/>
+        <result column="created_dt" property="createdDt" jdbcType="VARCHAR"/>
+        <result column="sm_creator_feed_id" property="smCreatorFeedId" jdbcType="VARCHAR"/>
+        <result column="sm_creator_name" property="smCreatorName" jdbcType="VARCHAR"/>
+        <result column="sm_status" property="smStatus" jdbcType="BIGINT"/>
+        <result column="sm_finish_count" property="smFinishCount" jdbcType="BIGINT"/>
+        <result column="version" property="version" jdbcType="BIGINT"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="sm_count" property="smCount" jdbcType="BIGINT"/>
+        <result column="sm_type" property="smType" jdbcType="BIGINT"/>
+        <result column="sm_join_count" property="smJoinCount" jdbcType="BIGINT"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="sm_start_time" property="smStartTime" jdbcType="VARCHAR"/>
+        <result column="updated_dt" property="updatedDt" jdbcType="VARCHAR"/>
+        <result column="sm_name" property="smName" jdbcType="VARCHAR"/>
+        <result column="survey_no" property="surveyNo" jdbcType="VARCHAR"/>
+        <result column="sm_desc" property="smDesc" jdbcType="VARCHAR"/>
+        <result column="sm_end_time" property="smEndTime" jdbcType="VARCHAR"/>
+        <result column="is_delete" property="isDelete" jdbcType="BIGINT"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+	  <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="baseColumns">
+       id
+       ,sm_creator_id
+       ,created_dt
+       ,sm_creator_feed_id
+       ,sm_creator_name
+       ,sm_status
+       ,sm_finish_count
+       ,version
+       ,created_by
+       ,sm_count
+       ,sm_type
+       ,sm_join_count
+       ,updated_by
+       ,sm_start_time
+       ,updated_dt
+       ,sm_name
+       ,survey_no
+       ,sm_desc
+       ,sm_end_time
+       ,is_delete
+       ,remarks
+       ,com_code
+       ,modu_code
+    </sql>
+
+    <sql id="whereSql">
+        <trim prefixOverrides="AND | OR">
+        <if test="comCode != null">
+			 and com_code=#{comCode}
+		 </if>
+		 <if test="moduCode != null">
+			 and modu_code=#{moduCode}
+		 </if>
+            <if test="id != null">
+                and id=#{id}
+            </if>
+            <if test="smCreatorId != null">
+                and sm_creator_id=#{smCreatorId}
+            </if>
+            <if test="createdDt != null">
+                and created_dt=#{createdDt}
+            </if>
+            <if test="smCreatorFeedId != null">
+                and sm_creator_feed_id=#{smCreatorFeedId}
+            </if>
+            <if test="smCreatorName != null">
+                and sm_creator_name=#{smCreatorName}
+            </if>
+            <if test="smStatus != null">
+                and sm_status=#{smStatus}
+            </if>
+            <if test="smFinishCount != null">
+                and sm_finish_count=#{smFinishCount}
+            </if>
+            <if test="version != null">
+                and version=#{version}
+            </if>
+            <if test="createdBy != null">
+                and created_by=#{createdBy}
+            </if>
+            <if test="smCount != null">
+                and sm_count=#{smCount}
+            </if>
+            <if test="smType != null">
+                and sm_type=#{smType}
+            </if>
+            <if test="smJoinCount != null">
+                and sm_join_count=#{smJoinCount}
+            </if>
+            <if test="updatedBy != null">
+                and updated_by=#{updatedBy}
+            </if>
+            <if test="smStartTime != null">
+                and sm_start_time=#{smStartTime}
+            </if>
+            <if test="updatedDt != null">
+                and updated_dt=#{updatedDt}
+            </if>
+            <if test="smName != null">
+                and sm_name like CONCAT( CONCAT ( '%',
+                #{smName} ) ,'%')
+            </if>
+            <if test="surveyNo != null">
+                and survey_no=#{surveyNo}
+            </if>
+            <if test="smDesc != null">
+                and sm_desc=#{smDesc}
+            </if>
+            <if test="smEndTime != null">
+                and sm_end_time=#{smEndTime}
+            </if>
+            <if test="isDelete != null">
+                and is_delete=#{isDelete}
+            </if>
+            <if test="remarks != null">
+                and remarks=#{remarks}
+            </if>
+        </trim>
+    </sql>
+
+    <select id="getById" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CR_SURVEY_MAIN where id =#{id}
+    </select>
+
+    <select id="getByIds" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CR_SURVEY_MAIN where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="getByListId">
+        select
+        <include refid="baseColumns"/>
+        from CR_SURVEY_MAIN where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.customer.entity.SurveyMain">
+        select
+        <include refid="baseColumns"/>
+        from
+        CR_SURVEY_MAIN where
+        <include refid="whereSql"/>
+        limit 0,1
+    </select>
+
+    <select id="findAllList" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CR_SURVEY_MAIN
+    </select>
+
+    <select id="findList" parameterType="com.sgai.property.customer.entity.SurveyMain" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CR_SURVEY_MAIN where
+        <include refid="whereSql"/>
+        ORDER BY updated_dt DESC
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ,${page.orderBy}
+        </if>
+    </select>
+
+    <select id="getCount" parameterType="com.sgai.property.customer.entity.SurveyMain" resultType="java.lang.Integer">
+        select count(1) from CR_SURVEY_MAIN where
+        <include refid="whereSql"/>
+    </select>
+
+    <insert id="insert" parameterType="com.sgai.property.customer.entity.SurveyMain">
+        insert into CR_SURVEY_MAIN
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="comCode != null">
+				 com_code,
+			 </if>
+			 <if test="moduCode != null">
+				 modu_code,
+			 </if>
+            <if test="id != null">
+                id,
+            </if>
+            <if test="smCreatorId != null">
+                sm_creator_id,
+            </if>
+            <if test="createdDt != null">
+                created_dt,
+            </if>
+            <if test="smCreatorFeedId != null">
+                sm_creator_feed_id,
+            </if>
+            <if test="smCreatorName != null">
+                sm_creator_name,
+            </if>
+            <if test="smStatus != null">
+                sm_status,
+            </if>
+            <if test="smFinishCount != null">
+                sm_finish_count,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="smCount != null">
+                sm_count,
+            </if>
+            <if test="smType != null">
+                sm_type,
+            </if>
+            <if test="smJoinCount != null">
+                sm_join_count,
+            </if>
+            <if test="updatedBy != null">
+                updated_by,
+            </if>
+            <if test="smStartTime != null">
+                sm_start_time,
+            </if>
+            <if test="updatedDt != null">
+                updated_dt,
+            </if>
+            <if test="smName != null">
+                sm_name,
+            </if>
+            <if test="surveyNo != null">
+                survey_no,
+            </if>
+            <if test="smDesc != null">
+                sm_desc,
+            </if>
+            <if test="smEndTime != null">
+                sm_end_time,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="comCode != null">
+				 #{comCode},
+			 </if>
+			 <if test="moduCode != null">
+				 #{moduCode},
+			 </if>
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="smCreatorId != null">
+                #{smCreatorId},
+            </if>
+            <if test="createdDt != null">
+                <!-- to_timestamp(#{createdDt}, 'yyyy-MM-dd HH24:MI:ss.ff'), -->
+                #{createdDt},
+            </if>
+            <if test="smCreatorFeedId != null">
+                #{smCreatorFeedId},
+            </if>
+            <if test="smCreatorName != null">
+                #{smCreatorName},
+            </if>
+            <if test="smStatus != null">
+                #{smStatus},
+            </if>
+            <if test="smFinishCount != null">
+                #{smFinishCount},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="smCount != null">
+                #{smCount},
+            </if>
+            <if test="smType != null">
+                #{smType},
+            </if>
+            <if test="smJoinCount != null">
+                #{smJoinCount},
+            </if>
+            <if test="updatedBy != null">
+                #{updatedBy},
+            </if>
+            <if test="smStartTime != null">
+                #{smStartTime},
+                <!-- to_timestamp(#{smStartTime}, 'yyyy-MM-dd HH24:MI:ss.ff'), -->
+            </if>
+            <if test="updatedDt != null">
+                <!-- to_timestamp(#{updatedDt}, 'yyyy-MM-dd HH24:MI:ss.ff'), -->
+              #{updatedDt},
+            </if>
+            <if test="smName != null">
+                #{smName},
+            </if>
+            <if test="surveyNo != null">
+                #{surveyNo},
+            </if>
+            <if test="smDesc != null">
+                #{smDesc},
+            </if>
+            <if test="smEndTime != null">
+               <!-- to_timestamp( #{smEndTime}, 'yyyy-MM-dd HH24:MI:ss.ff'), -->
+                #{smEndTime},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>
+            <if test="remarks != null">
+                #{remarks},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.sgai.property.customer.entity.SurveyMain">
+        update CR_SURVEY_MAIN set
+        <trim suffixOverrides=",">
+        <if test="comCode != null">
+					 com_code=#{comCode},
+				 </if>
+				 <if test="moduCode != null">
+					 modu_code=#{moduCode},
+				 </if>
+            <if test="smCreatorId != null">
+                sm_creator_id=#{smCreatorId},
+            </if>
+            <if test="createdDt != null">
+                created_dt=#{createdDt},
+            </if>
+            <if test="smCreatorFeedId != null">
+                sm_creator_feed_id=#{smCreatorFeedId},
+            </if>
+            <if test="smCreatorName != null">
+                sm_creator_name=#{smCreatorName},
+            </if>
+            <if test="smStatus != null">
+                sm_status=#{smStatus},
+            </if>
+            <if test="smFinishCount != null">
+                sm_finish_count=#{smFinishCount},
+            </if>
+            <if test="version != null">
+                version=#{version},
+            </if>
+            <if test="createdBy != null">
+                created_by=#{createdBy},
+            </if>
+            <if test="smCount != null">
+                sm_count=#{smCount},
+            </if>
+            <if test="smType != null">
+                sm_type=#{smType},
+            </if>
+            <if test="smJoinCount != null">
+                sm_join_count=#{smJoinCount},
+            </if>
+            <if test="updatedBy != null">
+                updated_by=#{updatedBy},
+            </if>
+            <if test="smStartTime != null">
+                sm_start_time=#{smStartTime},
+            </if>
+            <if test="updatedDt != null">
+                updated_dt=#{updatedDt},
+            </if>
+            <if test="smName != null">
+                sm_name=#{smName},
+            </if>
+            <if test="surveyNo != null">
+                survey_no=#{surveyNo},
+            </if>
+            <if test="smDesc != null">
+                sm_desc=#{smDesc},
+            </if>
+            <if test="smEndTime != null">
+                sm_end_time=#{smEndTime},
+            </if>
+            <if test="isDelete != null">
+                is_delete=#{isDelete},
+            </if>
+            <if test="remarks != null">
+                remarks=#{remarks},
+            </if>
+        </trim>
+        where id =#{id}
+    </update>
+
+    <update id="updateByIds" parameterType="com.sgai.property.customer.entity.SurveyMain">
+        update CR_SURVEY_MAIN set
+        <trim suffixOverrides=",">
+        <if test="entity.comCode != null">
+					 com_code=#{entity.comCode},
+				 </if>
+				 <if test="entity.moduCode != null">
+					 modu_code=#{entity.moduCode},
+				 </if>
+            <if test="entity.smCreatorId != null">
+                sm_creator_id = #{entity.smCreatorId},
+            </if>
+            <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+            </if>
+            <if test="entity.smCreatorFeedId != null">
+                sm_creator_feed_id = #{entity.smCreatorFeedId},
+            </if>
+            <if test="entity.smCreatorName != null">
+                sm_creator_name = #{entity.smCreatorName},
+            </if>
+            <if test="entity.smStatus != null">
+                sm_status = #{entity.smStatus},
+            </if>
+            <if test="entity.smFinishCount != null">
+                sm_finish_count = #{entity.smFinishCount},
+            </if>
+            <if test="entity.version != null">
+                version = #{entity.version},
+            </if>
+            <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+            </if>
+            <if test="entity.smCount != null">
+                sm_count = #{entity.smCount},
+            </if>
+            <if test="entity.smType != null">
+                sm_type = #{entity.smType},
+            </if>
+            <if test="entity.smJoinCount != null">
+                sm_join_count = #{entity.smJoinCount},
+            </if>
+            <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+            </if>
+            <if test="entity.smStartTime != null">
+                sm_start_time = #{entity.smStartTime},
+            </if>
+            <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+            </if>
+            <if test="entity.smName != null">
+                sm_name = #{entity.smName},
+            </if>
+            <if test="entity.surveyNo != null">
+                survey_no = #{entity.surveyNo},
+            </if>
+            <if test="entity.smDesc != null">
+                sm_desc = #{entity.smDesc},
+            </if>
+            <if test="entity.smEndTime != null">
+                sm_end_time = #{entity.smEndTime},
+            </if>
+            <if test="entity.isDelete != null">
+                is_delete = #{entity.isDelete},
+            </if>
+            <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+            </if>
+        </trim>
+        where id in
+        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+
+    <delete id="deleteById">
+      delete from CR_SURVEY_MAIN where id =#{id}
+   </delete>
+
+    <delete id="deleteByIds">
+        delete from CR_SURVEY_MAIN where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByListId">
+        delete from CR_SURVEY_MAIN where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="delete" parameterType="com.sgai.property.customer.entity.SurveyMain">
+        delete from CR_SURVEY_MAIN where
+        <include refid="whereSql"/>
+    </delete>
+
+    <select id="getNotFinishSurvey" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from CR_SURVEY_MAIN
+        where sm_status != 2
+    </select>
+
+    <update id="updateSurveyStatusToEnd" parameterType="java.lang.String">
+        update  CR_SURVEY_MAIN
+        set sm_status = 2
+        where id = #{id}
+    </update>
+
+</mapper>

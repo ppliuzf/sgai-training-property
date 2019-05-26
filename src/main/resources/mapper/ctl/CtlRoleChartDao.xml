@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlRoleChartDao">
+    
+	<sql id="ctlRoleChartColumns">
+		a.id AS "id",
+		a.com_code AS "comCode",
+		a.chart_code AS "chartCode",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.role_code AS "roleCode",
+		a.modu_code AS "moduCode"
+	</sql>
+	
+	<sql id="ctlRoleChartJoins">
+	</sql>
+    
+	<select id="get" resultType="CtlRoleChart">
+		SELECT 
+			<include refid="ctlRoleChartColumns"/>
+		FROM ctl_role_chart a
+		<include refid="ctlRoleChartJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlRoleChart">
+		SELECT 
+			<include refid="ctlRoleChartColumns"/>
+		FROM ctl_role_chart a
+		<include refid="ctlRoleChartJoins"/>
+		<where>
+			
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="chartCode != null and chartCode != ''">
+				AND a.chart_code = #{chartCode}
+			</if>
+			<if test="roleCode != null and roleCode != ''">
+				AND a.role_code = #{roleCode}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CtlRoleChart">
+		SELECT 
+			<include refid="ctlRoleChartColumns"/>
+		FROM ctl_role_chart a
+		<include refid="ctlRoleChartJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ctl_role_chart(
+			id,
+			com_code,
+			chart_code,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			role_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{comCode},
+			#{chartCode},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{roleCode},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_role_chart SET 	
+			com_code = #{comCode},
+			chart_code = #{chartCode},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			role_code = #{roleCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_role_chart
+		WHERE id = #{id}
+	</update>
+	
+	<update id="deleteByRoleCode">
+		DELETE FROM ctl_role_chart
+		WHERE role_code = #{roleCode}
+	</update>
+	
+	
+	
+</mapper>

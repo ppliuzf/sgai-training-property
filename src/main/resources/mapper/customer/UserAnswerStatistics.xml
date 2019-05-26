@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!-- com.qitoon.app.survey.api.dao.IUserAnswerStatisticsDao -->
+<mapper namespace="com.sgai.property.customer.dao.IUserAnswerStatisticsDao">
+    <resultMap id="BaseResultMap" type="com.sgai.property.customer.vo.SurveyOptionStatisticsVo">
+        <result column="SQ_ID" property="sqId" jdbcType="BIGINT"/>
+        <result column="COUNT" property="count" jdbcType="BIGINT"/>
+        <result column="SA_CONTENT" property="saContent" jdbcType="VARCHAR"/>
+        <result column="scale" property="scale" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="getCount" resultType="java.lang.Double">
+        select COUNT(*) FROM cr_survey_user_answer
+        where SM_ID = #{smId}
+        and SQ_ID = #{sqId}
+        <if test="sqContent != null">
+            and SA_CONTENT= #{sqContent}
+        </if>
+    </select>
+
+   <select id="getCountForMulti" resultType="java.lang.Double">
+        select count(0) from (
+            select user_phone FROM cr_survey_user_answer
+            where SM_ID = #{smId}
+              and SQ_ID = #{sqId} group by user_phone
+        ) sua
+
+    </select>
+
+    <select id="getPhone" resultType="com.sgai.property.customer.entity.SurveyUserAnswer">
+        select user_phone AS userPhone FROM cr_survey_user_answer
+        where user_phone = #{userPhone} and sm_id=#{smId}
+    </select>
+
+
+
+
+
+
+
+</mapper>

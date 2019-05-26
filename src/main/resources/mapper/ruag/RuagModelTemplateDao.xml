@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ruag.dao.RuagModelTemplateDao">
+    
+	<sql id="ruagModelTemplateColumns">
+		a.id AS "id",
+		a.control_code AS "controlCode",
+		a.strategy_code AS "strategyCode",
+		a.control_type AS "controlType",
+		a.strategy_type AS "strategyType",
+		a.model_degree AS "modelDegree",
+		a.work_mode_name AS "workModeName",
+		a.start_date AS "startDate",
+		a.end_date AS "endDate",
+		a.status AS "status",
+		a.work_time AS "workTime",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+	
+	<sql id="ruagModelTemplateJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.ruag.entity.RuagModelTemplate">
+		SELECT 
+			<include refid="ruagModelTemplateColumns"/>
+		FROM ruag_model_template a
+		<include refid="ruagModelTemplateJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.ruag.entity.RuagModelTemplate">
+		SELECT 
+			<include refid="ruagModelTemplateColumns"/>
+		FROM ruag_model_template a
+		<include refid="ruagModelTemplateJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>	 
+			<if test="workModeName != null and workModeName != ''">
+				AND a.work_mode_name like '%${workModeName}%'
+			</if>
+			<if test="controlCode != null and controlCode != ''">
+				AND a.control_code =#{controlCode}
+			</if>
+			<if test="strategyCode != null and strategyCode != ''">
+				AND a.strategy_code =#{strategyCode}
+			</if>
+			<if test="modelDegree != null and modelDegree != ''">
+				AND a.model_degree =#{modelDegree}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status =#{status}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag =#{enabledFlag}
+			</if>
+		</where>
+				 ORDER BY created_dt DESC
+	</select>
+	<select id="findAllOfList" resultType="com.sgai.property.ruag.entity.RuagModelTemplate">
+		SELECT 
+			<include refid="ruagModelTemplateColumns"/>
+		FROM ruag_model_template a
+		<include refid="ruagModelTemplateJoins"/>
+		<where>
+			<if test="workModeName != null and workModeName != ''">
+				AND a.work_mode_name like '%${workModeName}%'
+			</if>
+			<if test="controlCode != null and controlCode != ''">
+				AND a.control_code =#{controlCode}
+			</if>
+			<if test="strategyCode != null and strategyCode != ''">
+				AND a.strategy_code =#{strategyCode}
+			</if>
+			<if test="modelDegree != null and modelDegree != ''">
+				AND a.model_degree =#{modelDegree}
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status =#{status}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag =#{enabledFlag}
+			</if>
+		</where>
+				 ORDER BY created_dt DESC
+	</select>
+	<select id="findByName" resultType="com.sgai.property.ruag.entity.RuagModelTemplate">
+		SELECT * FROM ruag_model_template a WHERE a.work_mode_name=#{workModeName}
+		AND a.com_code = #{comCode}
+		<if test="moduCode != null and moduCode!= ''">
+				AND a.modu_code =#{moduCode}
+		</if>
+		<if test="moduCode == null and moduCode== ''">
+				AND a.modu_code is null
+		</if>				
+	</select>
+	<select id="findAllList" resultType="com.sgai.property.ruag.entity.RuagModelTemplate">
+		SELECT 
+			<include refid="ruagModelTemplateColumns"/>
+		FROM ruag_model_template a
+		<include refid="ruagModelTemplateJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ruag_model_template(
+			id,
+			control_code,
+			strategy_code,
+			control_type,
+			strategy_type,
+			model_degree,
+			work_mode_name,
+			start_date,
+			end_date,
+			status,
+			work_time,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{controlCode},
+			#{strategyCode},
+			#{controlType},
+			#{strategyType},
+			#{modelDegree},
+			#{workModeName},
+			#{startDate},
+			#{endDate},
+			#{status},
+			#{workTime},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode},
+			#{moduCode}
+			
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ruag_model_template SET 	
+			control_code = #{controlCode},
+			strategy_code = #{strategyCode},
+			control_type = #{controlType},
+			strategy_type = #{strategyType},
+			model_degree = #{modelDegree},
+			work_mode_name = #{workModeName},
+			start_date = #{startDate},
+			end_date = #{endDate},
+			status = #{status},
+			work_time = #{workTime},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ruag_model_template
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

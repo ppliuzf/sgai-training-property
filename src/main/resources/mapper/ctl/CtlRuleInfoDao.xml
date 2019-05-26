@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlRuleInfoDao">
+    
+	<sql id="ctlRuleInfoColumns">
+		a.id AS "id",
+		a.sequ_code AS "sequCode",
+		a.sequ_name AS "sequName",
+		a.sequ_delimiter AS "sequDelimiter",
+		a.sequ_reset AS "sequReset",
+		a.is_multiple_com AS "isMultipleCom",
+		a.step_length AS "stepLength",
+		a.current_no AS "currentNo",
+		a.current_code AS "currentCode",
+		a.current_reset AS "currentReset",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="ctlRuleInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="CtlRuleInfo">
+		SELECT 
+			<include refid="ctlRuleInfoColumns"/>
+		FROM ctl_rule_info a
+		<include refid="ctlRuleInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlRuleInfo">
+		SELECT 
+			<include refid="ctlRuleInfoColumns"/>
+		FROM 
+		    ctl_rule_info a
+		<include refid="ctlRuleInfoJoins"/>
+		<where>
+		    1=1
+			<if test="sequCode != null and sequCode != ''">
+				AND a.sequ_code like '%'||#{sequCode}||'%'
+			</if>
+			<if test="sequName != null and sequName != ''">
+				AND a.sequ_name like '%'||#{sequName}||'%'
+			</if>
+		</where>
+		ORDER BY
+		    a.created_dt DESC
+	</select>
+	
+	<select id="findAllList" resultType="CtlRuleInfo">
+		SELECT 
+			<include refid="ctlRuleInfoColumns"/>
+		FROM ctl_rule_info a
+		<include refid="ctlRuleInfoJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ctl_rule_info(
+			id,
+			sequ_code,
+			sequ_name,
+			sequ_delimiter,
+			sequ_reset,
+			is_multiple_com,
+			step_length,
+			current_no,
+			current_code,
+			current_reset,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code
+		) VALUES (
+			#{id},
+			#{sequCode},
+			#{sequName},
+			#{sequDelimiter},
+			#{sequReset},
+			#{isMultipleCom},
+			#{stepLength},
+			#{currentNo},
+			#{currentCode},
+			#{currentReset},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_rule_info SET 	
+			sequ_code = #{sequCode},
+			sequ_name = #{sequName},
+			sequ_delimiter = #{sequDelimiter},
+			sequ_reset = #{sequReset},
+			is_multiple_com = #{isMultipleCom},
+			step_length = #{stepLength},
+			current_no = #{currentNo},
+			current_code = #{currentCode},
+			current_reset = #{currentReset},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_rule_info
+		WHERE id = #{id}
+	</update>
+	
+	<select id="getRuleInfo" resultType="CtlRuleInfo">
+		SELECT 
+			<include refid="ctlRuleInfoColumns"/>
+		FROM 
+		    ctl_rule_info a
+		<include refid="ctlRuleInfoJoins"/>
+		WHERE 
+		    1=1
+		    <if test="id!=null and id!=''">
+		    AND a.id=#{id}
+		    </if>
+		    <if test="sequCode!=null and sequCode!=''">
+		    AND a.sequ_code=#{sequCode}
+		    </if>
+	</select>
+	
+	<delete id="batchDelete">
+	    DELETE FROM
+	        ctl_rule_info
+	    WHERE
+	        id in
+	        <foreach collection="list" item="item" open="(" close=")" separator=",">
+	            #{item}
+	        </foreach>
+	</delete>
+	
+	<select id="countSequCodeExceptSelf" resultType="java.lang.Integer">
+	    SELECT
+            count(*) 
+        FROM
+            ctl_rule_info 
+        WHERE 
+            enabled_flag='Y' 
+            AND sequ_code=#{sequCode} 
+            <if test="id!=null and id!=''">
+            AND id !=#{id}
+            </if>
+	</select>
+	
+</mapper>

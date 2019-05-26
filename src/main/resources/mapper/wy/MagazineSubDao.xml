@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.MagazineSubDao">
+
+    <sql id="callColumns">
+        a.ID id,
+		a.CREATE_DATE signDate,
+		a.AREA_ID area,
+		a.M_PHR phr,
+		a.SIGN_DEPT signDept,
+		a.M_NAME_ID magazine,
+		c.CORR_NAME signName,
+		a.REMAKES remarks,
+		a.RECEIVE_NAME receiveName,
+		a.CHECK_USER checkUser,
+		a.CHECK_NUMBER checkNumber,
+		a.AREA_CODE repairAddressCode
+    </sql>
+
+    <sql id="magasubJoins">
+        LEFT JOIN CTL_USER c ON a.sign_name = c.user_code
+    </sql>
+
+    <select id="get" resultType="com.sgai.property.wy.entity.MagazineSub">
+        SELECT
+        <include refid="callColumns"/>
+        FROM WY_CUS_MAGAZINE_SUB a
+        <include refid="magasubJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="com.sgai.property.wy.entity.MagazineSub" parameterType="com.sgai.property.wy.entity.MagazineSub">
+        SELECT
+        <include refid="callColumns"/>
+        FROM WY_CUS_MAGAZINE_SUB a
+        <include refid="magasubJoins"/>
+        <where>
+            and a.del_flag='0'
+            <if test="repairAddressCode !=null and repairAddressCode !=''">
+                and a.AREA_CODE like CONCAT('%',#{repairAddressCode},'%')
+            </if>
+            <if test="beginTime !=null">
+                and a.create_date &gt;=#{beginTime}
+            </if>
+            <if test="endTime !=null">
+                and a.create_date &lt;=#{endTime}
+            </if>
+            <if test="magazine != null and magazine != ''">
+                AND a.m_name_id = #{magazine}
+            </if>
+            <if test="signName != null and signName != ''">
+                AND c.corr_name like concat('%',#{signName},'%')
+            </if>
+            <if test="receiveName != null and receiveName != ''">
+                AND a.receive_name = #{receiveName}
+            </if>
+            <if test="signDate != null ">
+                AND DATE_FORMAT(a.create_date,'%y-%m-%d') = DATE_FORMAT(#{signDate},'%y-%m-%d')
+            </if>
+            <!--AND SUBSTRING_INDEX(a.area_code, '-', -1) in(select cr.space_code from ctl_user_space_relation cr where
+            cr.user_code = #{loginUserCode})-->
+        </where>
+        ORDER BY a.create_date DESC
+    </select>
+
+    <insert id="insert">
+        INSERT INTO WY_CUS_MAGAZINE_SUB(ID,
+                                        CREATE_DATE,
+                                        AREA_ID,
+                                        AREA_CODE,
+                                        M_PHR,
+                                        SIGN_DEPT,
+                                        M_NAME_ID,
+                                        SIGN_NAME,
+                                        REMAKES,
+                                        RECEIVE_NAME,
+                                        DEL_FLAG,
+                                        CHECK_USER,
+                                        CHECK_NUMBER,
+                                        CREATED_BY)
+        VALUES (#{id},
+                #{signDate},
+                #{area},
+                #{repairAddressCode},
+                #{phr},
+                #{signDept},
+                #{magazine},
+                #{signName},
+                #{remarks},
+                #{receiveName},
+                '0',
+                #{checkUser},
+                #{checkNumber},
+                #{createdBy})
+    </insert>
+
+    <update id="update">
+        UPDATE WY_CUS_MAGAZINE_SUB
+        <set>
+            <if test="signDate != null ">
+                create_date =#{signDate},
+            </if>
+            <if test="area != null and area != ''">
+                area_id =#{area},
+            </if>
+            <if test="phr != null and phr != ''">
+                m_phr =#{phr},
+            </if>
+            <if test="signDept != null and signDept != ''">
+                sign_dept =#{signDept},
+            </if>
+            <if test="magazine != null and magazine != ''">
+                m_name_id =#{magazine},
+            </if>
+            <if test="signName != null and signName != ''">
+                sign_name =#{signName},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remakes =#{remarks},
+            </if>
+            <if test="receiveName != null and receiveName != ''">
+                receive_name =#{receiveName},
+            </if>
+            <if test="delFlag != null and delFlag != ''">
+                del_flag =#{delFlag},
+            </if>
+            <if test="checkUser != null and checkUser != ''">
+                check_user =#{checkUser},
+            </if>
+            <if test="checkNumber != null and checkNumber != ''">
+                check_number =#{checkNumber},
+            </if>
+            <if test="repairAddressCode != null and repairAddressCode != ''">
+                area_code =#{repairAddressCode},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="batchDelete">
+        UPDATE WY_CUS_MAGAZINE_SUB SET
+        DEL_FLAG ='1'
+        WHERE id in
+        <foreach collection="list" item="item" open="(" close=")"
+                 separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+    <select id="findAllM" resultType="com.sgai.property.wy.entity.MagazineInfo">
+        SELECT id     id,
+               M_NAME magazineName
+        FROM WY_CUS_MAGAZINE_INFO
+    </select>
+
+    <select id="queryMCount" resultType="com.sgai.property.wy.entity.MagazineSub">
+        select sum(a.check_number) phr ,a.m_name_id magazine from wy_cus_magazine_sub a
+        <where>
+            a.del_flag='0'
+            <if test="beginTime !=null">
+                and a.create_date &gt;=#{beginTime}
+            </if>
+            <if test="endTime !=null">
+                and a.create_date &lt;=#{endTime}
+            </if>
+            <if test="magazine != null and magazine != ''">
+                AND a.m_name_id like '%'||#{magazine}||'%'
+            </if>
+        </where>
+        GROUP BY m_name_id
+    </select>
+</mapper>

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.MeetingOrderDao">
+    <sql id="meetingRoomSelect">
+        SELECT
+            w.id                id,
+            w.source_type       sourceType,
+            w.service_type      serviceType,
+            w.meeting_room_id   meetingRoomId,
+            w.meeting_room_name meetingRoomName,
+            w.order_time        orderTime,
+            w.phone             phone,
+            w.contact_people    contactPeople,
+            w.meeting_name      meetingName,
+            w.order_department  orderDepartment,
+            w.order_people_num  orderPeopleNum,
+            w.meeting_scale     meetingScale,
+            w.meeting_type      meetingType,
+            w.meeting_leval     meetingLeval,
+            w.towel_num         towelNum,
+            w.sign_pen_num      signPenNum,
+            w.paper_num         paperNum,
+            w.pencils_num       pencilsNum,
+            w.pencils2b_num     pencils2bNum,
+            w.glass_num         glassNum,
+            w.remark            remark,
+            w.tea_flag          teaFlag,
+            w.water_bottle_flag waterBottleFlag,
+            w.coffee_flag       coffeeFlag,
+            w.tea_num           teaNum,
+            w.water_bottle_num  waterBottleNum,
+            w.coffee_num        coffeeNum,
+            w.white_board_num   whiteBoardNum,
+            w.consumable_num    consumableNum,
+            w.dixie_cup_num     dixieCupNum,
+            w.water_bucket_num  waterBucketNum,
+            w.tissue_num        tissueNum,
+            w.record_people     recordPeople,
+            w.real_People_Num   realPeopleNum,
+            w.begin_time        beginTime,
+            w.end_time          endTime,
+            w.NORMAL_TIME       normalTime
+        FROM
+            WY_CUS_MEET_ORDER w
+    </sql>
+    <select id="findList" resultType="com.sgai.property.wy.entity.MeetingOrder"
+            parameterType="com.sgai.property.wy.entity.MeetingOrder">
+        <include refid="meetingRoomSelect"></include>
+        <where>
+            <if test="beginTime !=null">
+                AND w.begin_time &gt;= #{beginTime}
+            </if>
+            <if test="endTime !=null">
+                and w.begin_time &lt;=#{endTime}
+            </if>
+            <if test="orderDepartment !=null and orderDepartment!=''">
+                and w.order_Department=#{orderDepartment}
+            </if>
+            <if test="recordPeople !=null and recordPeople !=''">
+                AND w.record_people LIKE CONCAT( CONCAT ( '%', #{recordPeople} ) ,'%')
+            </if>
+            <if test="meetingLeval !=null and meetingLeval !=''">
+                and w.meeting_leval=#{meetingLeval}
+            </if>
+            <if test="meetingScale !=null and meetingScale !=''">
+                and w.meeting_Scale=#{meetingScale}
+            </if>
+            <if test="meetingType !=null and meetingType !=''">
+                and w.meeting_Type=#{meetingType}
+            </if>
+            <if test="meetingRoomId !=null and meetingRoomId !=''">
+                and w.meeting_Room_Id=#{meetingRoomId}
+            </if>
+            <if test="sourceType !=null and sourceType !=''">
+                and w.source_Type=#{sourceType}
+            </if>
+            <if test="serviceType !=null and serviceType !=''">
+                and w.service_Type=#{serviceType}
+            </if>
+            <if test="normalTime !=null and normalTime !=''">
+                and w.NORMAL_TIME=#{normalTime}
+            </if>
+        </where>
+        ORDER BY w.begin_time desc
+    </select>
+    <update id="delete">
+        DELETE FROM WY_CUS_MEET_ORDER
+        WHERE ID = #{id}
+    </update>
+
+    <insert id="insert">
+        INSERT INTO WY_CUS_MEET_ORDER (
+            ID,
+            SOURCE_TYPE,
+            SERVICE_TYPE,
+            MEETING_ROOM_ID,
+            MEETING_ROOM_NAME,
+            ORDER_TIME,
+            PHONE,
+            CONTACT_PEOPLE,
+            MEETING_NAME,
+            ORDER_DEPARTMENT,
+            ORDER_PEOPLE_NUM,
+            MEETING_SCALE,
+            MEETING_TYPE,
+            MEETING_LEVAL,
+            TOWEL_NUM,
+            SIGN_PEN_NUM,
+            PAPER_NUM,
+            PENCILS_NUM,
+            PENCILS2B_NUM,
+            GLASS_NUM,
+            REMARK,
+            TEA_FLAG,
+            WATER_BOTTLE_FLAG,
+            COFFEE_FLAG,
+            TEA_NUM,
+            WATER_BOTTLE_NUM,
+            COFFEE_NUM,
+            WHITE_BOARD_NUM,
+            CONSUMABLE_NUM,
+            DIXIE_CUP_NUM,
+            WATER_BUCKET_NUM,
+            TISSUE_NUM,
+            RECORD_PEOPLE,
+            REAL_PEOPLE_NUM,
+            BEGIN_TIME,
+            END_TIME,
+            CREATED_DT,
+            NORMAL_TIME
+        )
+        VALUES
+            (
+                #{id},
+                #{sourceType},
+                #{serviceType},
+                #{meetingRoomId},
+                #{meetingRoomName},
+                #{orderTime},
+                #{phone},
+                #{contactPeople},
+                #{meetingName},
+                #{orderDepartment},
+                #{orderPeopleNum},
+                #{meetingScale},
+                #{meetingType},
+                #{meetingLeval},
+                #{towelNum},
+                #{signPenNum},
+                #{paperNum},
+                #{pencilsNum},
+                #{pencils2bNum},
+                #{glassNum},
+                #{remark},
+                #{teaFlag},
+                #{waterBottleFlag},
+                #{coffeeFlag},
+                #{teaNum},
+                #{waterBottleNum},
+                #{coffeeNum},
+                #{whiteBoardNum},
+                #{consumableNum},
+                #{dixieCupNum},
+                #{waterBucketNum},
+                #{tissueNum},
+                #{recordPeople},
+                #{realPeopleNum},
+                #{beginTime},
+                #{endTime},
+                SYSDATE(),
+                #{normalTime}
+            )
+    </insert>
+
+    <select id="get" resultType="com.sgai.property.wy.entity.MeetingOrder">
+        <include refid="meetingRoomSelect"/>
+        WHERE w.id = #{id}
+    </select>
+
+    <update id="update">
+        UPDATE WY_CUS_MEET_ORDER
+        SET
+            ID                = #{id},
+            source_type       = #{sourceType},
+            service_type      = #{serviceType},
+            meeting_room_id   = #{meetingRoomId},
+            meeting_room_name = #{meetingRoomName},
+            order_time        = #{orderTime},
+            phone             = #{phone},
+            contact_people    = #{contactPeople},
+            meeting_name      = #{meetingName},
+            order_department  = #{orderDepartment},
+            order_people_num  = #{orderPeopleNum},
+            meeting_scale     = #{meetingScale},
+            meeting_type      = #{meetingType},
+            meeting_leval     = #{meetingLeval},
+            towel_num         = #{towelNum},
+            sign_pen_num      = #{signPenNum},
+            paper_num         = #{paperNum},
+            pencils_num       = #{pencilsNum},
+            pencils2b_num     = #{pencils2bNum},
+            glass_num         = #{glassNum},
+            remark            = #{remark},
+            tea_flag          = #{teaFlag},
+            water_bottle_flag = #{waterBottleFlag},
+            coffee_flag       = #{coffeeFlag},
+            tea_num           = #{teaNum},
+            water_bottle_num  = #{waterBottleNum},
+            coffee_num        = #{coffeeNum},
+            white_board_num   = #{whiteBoardNum},
+            consumable_num    = #{consumableNum},
+            dixie_cup_num     = #{dixieCupNum},
+            water_bucket_num  = #{waterBucketNum},
+            tissue_num        = #{tissueNum},
+            record_people     = #{recordPeople},
+            real_People_Num   = #{realPeopleNum},
+            begin_time        = #{beginTime},
+            end_time          = #{endTime},
+            NORMAL_TIME       = #{normalTime}
+        WHERE id = #{id}
+    </update>
+</mapper>

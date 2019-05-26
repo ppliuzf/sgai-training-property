@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.VisitReceptionDao">
+   
+	<sql id="visitReceptionDaoColumns">
+		ID id,
+		APP_TIME appTime,
+		APP_PERSON appPerson,
+		APP_PHONE appPhone,
+		RECEPTION_TIME receptionTime,
+		RECEPTION_ADDRESS receptionAddress,
+		VISIT_UNIT visitUnit,
+		VISIT_NUMBER visitNumber,
+		LEADER_PHONE leaderPhone,
+		VISIT_LEVEL visitLevel,
+		APP_VISIT_TIME appVisitTime,
+		VISIT_AREA visitArea,
+		OVER_TIME overTime,
+		VISITING_TIME visitingTime,
+		DISPLAY display,
+		REMARKS remarks
+	</sql>
+	
+	<select id="findList" resultType="com.sgai.property.wy.entity.VisitReception">
+		SELECT 
+			<include refid="visitReceptionDaoColumns"/> 
+		FROM WY_CUS_VISIT_RECEPTION
+		<where>
+			AND DISPLAY = 'Y'
+			<if test="appTime != null">
+				AND RECEPTION_TIME >= #{appTime}
+			</if>
+			<if test="appVisitTime != null">
+				AND #{appVisitTime} > RECEPTION_TIME
+			</if>
+			<if test="receptionAddress != null and receptionAddress != ''">
+				AND RECEPTION_ADDRESS  like '%'||#{receptionAddress}||'%'
+			</if>
+			<if test="visitArea != null and visitArea != ''">
+				AND VISIT_AREA like '%'||#{visitArea}||'%'
+			</if>
+			<if test="visitLevel != null and visitLevel != ''">
+				AND VISIT_LEVEL like '%'||#{visitLevel}||'%'
+			</if>
+		</where>
+		ORDER BY APP_TIME DESC
+	</select>
+	
+	<select id="get" resultType="com.sgai.property.wy.entity.VisitReception">
+		SELECT 
+			<include refid="visitReceptionDaoColumns"/>
+		FROM WY_CUS_VISIT_RECEPTION
+		WHERE ID = #{id}
+	</select>
+	
+	<delete id="batchDelete">
+	    DELETE FROM
+	        WY_CUS_VISIT_RECEPTION
+	    WHERE
+	        ID in
+	        <foreach collection="list" item="item" open="(" close=")" separator=",">
+	            #{item}
+	        </foreach>
+	</delete>
+	
+	<insert id="insert">
+		INSERT INTO WY_CUS_VISIT_RECEPTION(
+			ID,
+			APP_TIME,
+			APP_PERSON,
+			APP_PHONE,
+			RECEPTION_TIME,
+			RECEPTION_ADDRESS,
+			VISIT_UNIT,
+			VISIT_NUMBER,
+			LEADER_PHONE,
+			VISIT_LEVEL,
+			APP_VISIT_TIME,
+			VISIT_AREA,
+			OVER_TIME,
+			VISITING_TIME,
+			DISPLAY,
+			REMARKS
+		) VALUES (
+			#{id},
+			#{appTime},
+			#{appPerson},
+			#{appPhone},
+			#{receptionTime},
+			#{receptionAddress},
+			#{visitUnit},
+			#{visitNumber},
+			#{leaderPhone},
+			#{visitLevel},
+			#{appVisitTime},
+			#{visitArea},
+			#{overTime},
+			#{visitingTime},
+			#{display},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE WY_CUS_VISIT_RECEPTION SET 	
+			    APP_TIME = #{appTime},
+			  APP_PERSON = #{appPerson},
+			   APP_PHONE = #{appPhone},
+	      RECEPTION_TIME = #{receptionTime},
+	   RECEPTION_ADDRESS = #{receptionAddress},
+			  VISIT_UNIT = #{visitUnit},
+			VISIT_NUMBER = #{visitNumber},
+			LEADER_PHONE = #{leaderPhone},
+			 VISIT_LEVEL = #{visitLevel},
+		  APP_VISIT_TIME = #{appVisitTime},
+			  VISIT_AREA = #{visitArea},
+		 	   OVER_TIME = #{overTime},
+		   VISITING_TIME = #{visitingTime},
+	   			 DISPLAY = #{display},
+			     REMARKS = #{remarks}
+		WHERE ID = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.mdm.dao.MdmMatInfoDao">
+    
+	<sql id="mdmMatInfoColumns">
+		a.id AS "id",
+		a.brand_code AS "brandCode",
+		a.brand_name AS "brandName",
+		a.mat_code AS "matCode",
+		a.mat_name AS "matName",
+		a.mat_type_code AS "matTypeCode",
+		a.spec AS "spec",
+		a.unit AS "unit",
+		a.stock_limit AS "stockLimit",
+		a.stock_offline AS "stockOffline",
+		a.mat_use AS "matUse",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+	
+	<sql id="mdmMatInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.mdm.entity.MdmMatInfo">
+		SELECT 
+			<include refid="mdmMatInfoColumns"/>
+		FROM mdm_mat_info a
+		<include refid="mdmMatInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.mdm.entity.MdmMatInfo">
+		SELECT 
+			mmi.id AS "id",
+			mmi.mat_type_code AS "matTypeCode",
+			mmc.mat_type_name AS "matTypeName",
+			mmi.mat_name AS "matName",
+			mmi.spec AS "spec",
+			cu.code_name AS "unitName",
+			mmi.stock_limit AS "stockLimit",
+			mmi.stock_offline AS "stockOffline",
+			cmu.code_name AS "matUseName",
+			mmi.remarks AS "remarks",
+			mmi.com_code AS "comCode",
+			mmi.modu_code AS "moduCode"
+		FROM mdm_mat_info mmi
+		left join mdm_mat_class mmc on mmi.mat_type_code = mmc.mat_type_code
+		left join ctl_code_det cu on cu.code_type = 'unit' and mmi.unit = cu.code_code
+		left join ctl_code_det cmu on cmu.code_type = 'mat_use' and mmi.mat_use = cmu.code_code
+		<where>
+			mmi.enabled_flag = 'Y' and mmi.com_code = mmc.COM_CODE
+			<if test="id != null and id != ''">
+				AND mmi.id = #{id}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND mmi.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND mmi.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND mmi.modu_code is null
+			</if>
+			<if test="matTypeCode != null and matTypeCode != ''">
+				AND mmc.mat_type_code = #{matTypeCode}
+			</if>
+			<if test="matName != null and matName != ''">
+				AND mmi.mat_name like '%'|| #{matName} || '%'
+			</if>
+			<if test="matUse != null and matUse != ''">
+				AND mmi.mat_use =  #{matUse}
+			</if>
+			 ORDER BY mmi.CREATED_DT DESC
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findRepeatList" resultType="com.sgai.property.mdm.entity.MdmMatInfo">
+		SELECT 
+			mmi.id AS "id",
+			mmi.mat_type_code AS "matTypeCode",
+			mmc.mat_type_name AS "matTypeName",
+			mmi.mat_name AS "matName",
+			mmi.spec AS "spec",
+			cu.code_name AS "unitName",
+			mmi.stock_limit AS "stockLimit",
+			mmi.stock_offline AS "stockOffline",
+			cmu.code_name AS "matUseName",
+			mmi.remarks AS "remarks",
+			mmi.com_code AS "comCode",
+			mmi.modu_code AS "moduCode"
+		FROM mdm_mat_info mmi
+		left join mdm_mat_class mmc on mmi.mat_type_code = mmc.mat_type_code
+		left join ctl_code_det cu on cu.code_type = 'unit' and mmi.unit = cu.code_code
+		left join ctl_code_det cmu on cmu.code_type = 'mat_use' and mmi.mat_use = cmu.code_code
+		<where>
+			mmi.enabled_flag = 'Y'
+			<if test="id != null and id != ''">
+				AND mmi.id = #{id}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND mmi.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND mmi.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND mmi.modu_code is null
+			</if>
+			<if test="matTypeCode != null and matTypeCode != ''">
+				AND mmc.mat_type_code = #{matTypeCode}
+			</if>
+			<if test="matName != null and matName != ''">
+				AND mmi.mat_name = #{matName}
+			</if>
+			<if test="matUse != null and matUse != ''">
+				AND mmi.mat_use = #{matUse}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findAllList" resultType="com.sgai.property.mdm.entity.MdmMatInfo">
+		SELECT 
+			<include refid="mdmMatInfoColumns"/>
+		FROM mdm_mat_info a
+		<include refid="mdmMatInfoJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO mdm_mat_info(
+			id,
+			brand_code,
+			brand_name,
+			mat_code,
+			mat_name,
+			mat_type_code,
+			spec,
+			unit,
+			stock_limit,
+			stock_offline,
+			mat_use,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{brandCode},
+			#{brandName},
+			#{matCode},
+			#{matName},
+			#{matTypeCode},
+			#{spec},
+			#{unit},
+			#{stockLimit},
+			#{stockOffline},
+			#{matUse},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mdm_mat_info SET 	
+			brand_code = #{brandCode},
+			brand_name = #{brandName},
+			mat_code = #{matCode},
+			mat_name = #{matName},
+			mat_type_code = #{matTypeCode},
+			spec = #{spec},
+			unit = #{unit},
+			stock_limit = #{stockLimit},
+			stock_offline = #{stockOffline},
+			mat_use = #{matUse},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM mdm_mat_info
+		WHERE id = #{id}
+	</update>
+	
+	<select id="getMatTypeList" resultType="java.util.HashMap">
+		select 
+			mmc.mat_type_code as "matTypeCode",
+			mmc.mat_type_name as "matTypeName"
+		from mdm_mat_class mmc 
+		<where>
+			mmc.enabled_flag = 'Y'
+			<if test="comCode != null and comCode != ''">
+				AND mmc.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND mmc.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND mmc.modu_code is null
+			</if>
+		</where>
+	</select>
+
+	<select id="getSpecList" resultType="java.util.HashMap">
+		select 
+			t.code_code as "spec",
+			t.code_name as "specName"
+		from ctl_code_det t
+		where t.enabled_flag = 'Y'
+		and t.code_type = 'spec'
+	</select>
+	
+	<select id="getUnitList" resultType="java.util.HashMap">
+		select 
+			t.code_code as "unit",
+			t.code_name as "unitName"
+		from ctl_code_det t
+		where t.enabled_flag = 'Y'
+		and t.code_type = 'unit'
+	</select>
+	
+	<select id="getMatUseList" resultType="java.util.HashMap">
+		select 
+			t.code_code as "matUse",
+			t.code_name as "matUseName"
+		from ctl_code_det t
+		where t.enabled_flag = 'Y'
+		and t.code_type = 'mat_use'
+	</select>
+	
+</mapper>

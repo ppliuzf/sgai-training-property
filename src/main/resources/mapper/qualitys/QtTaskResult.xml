@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.quality.dao.IQtTaskResultDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.quality.entity.QtTaskResult" >
+           <id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP" />
+         <result column="create_time" property="createTime" jdbcType="BIGINT" />
+         <result column="valid" property="valid" jdbcType="BIGINT" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="ti_status" property="tiStatus" jdbcType="BIGINT" />
+         <result column="tp_name" property="tpName" jdbcType="VARCHAR" />
+         <result column="com_id" property="comId" jdbcType="BIGINT" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="ti_check_time" property="tiCheckTime" jdbcType="BIGINT" />
+         <result column="ti_executor_name" property="tiExecutorName" jdbcType="VARCHAR" />
+         <result column="record_id" property="recordId" jdbcType="VARCHAR" />
+         <result column="tp_id" property="tpId" jdbcType="VARCHAR" />
+         <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+         <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="ti_has_defect" property="tiHasDefect" jdbcType="BIGINT" />
+         <result column="ti_executor_id" property="tiExecutorId" jdbcType="VARCHAR" />
+         <result column="ti_name" property="tiName" jdbcType="VARCHAR" />
+         <result column="ti_id" property="tiId" jdbcType="VARCHAR" />
+         <result column="ti_is_submit" property="tiIsSubmit" jdbcType="BIGINT" />
+         <result column="ti_input_result" property="tiInputResult" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="date_time" property="dateTime" jdbcType="BIGINT" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       created_dt
+       ,create_time
+       ,valid
+       ,created_by
+       ,ti_status
+       ,tp_name
+       ,com_id
+       ,version
+       ,ti_check_time
+       ,ti_executor_name
+       ,record_id
+       ,id
+       ,tp_id
+       ,update_time
+       ,updated_dt
+       ,remarks
+       ,ti_has_defect
+       ,ti_executor_id
+       ,ti_name
+       ,ti_id
+       ,ti_is_submit
+       ,ti_input_result
+       ,updated_by
+       ,date_Time
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="createTime != null">
+			and create_time=#{createTime}
+		 </if> 
+       <if test="valid != null">
+			and valid=#{valid}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="tiStatus != null">
+			and ti_status=#{tiStatus}
+		 </if> 
+       <if test="tpName != null">
+			and tp_name=#{tpName}
+		 </if> 
+       <if test="comId != null">
+			and com_id=#{comId}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="tiCheckTime != null">
+			and ti_check_time=#{tiCheckTime}
+		 </if> 
+       <if test="tiExecutorName != null">
+			and ti_executor_name=#{tiExecutorName}
+		 </if> 
+       <if test="recordId != null">
+			and record_id=#{recordId}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="tpId != null">
+			and tp_id=#{tpId}
+		 </if> 
+       <if test="updateTime != null">
+			and update_time=#{updateTime}
+		 </if> 
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="tiHasDefect != null">
+			and ti_has_defect=#{tiHasDefect}
+		 </if> 
+       <if test="tiExecutorId != null">
+			and ti_executor_id=#{tiExecutorId}
+		 </if> 
+       <if test="tiName != null">
+			and ti_name=#{tiName}
+		 </if> 
+       <if test="tiId != null">
+			and ti_id=#{tiId}
+		 </if> 
+       <if test="tiIsSubmit != null">
+			and ti_is_submit=#{tiIsSubmit}
+		 </if> 
+       <if test="tiInputResult != null">
+			and ti_input_result=#{tiInputResult}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if>
+       <if test="dateTime != null">
+			and date_time=#{dateTime}
+		 </if> 		  
+      </trim>
+  </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from QT_TASK_RESULT  where id =#{id}
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from QT_TASK_RESULT  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from QT_TASK_RESULT  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.quality.entity.QtTaskResult">
+		select <include refid="baseColumns"/> from
+       QT_TASK_RESULT  where   <include refid="whereSql"/>
+	</select>
+
+	<select id="getDisEntity" resultMap="BaseResultMap" parameterType="com.sgai.property.quality.entity.QtTaskResult">
+		select distinct <include refid="baseColumns"/> from
+		QT_TASK_RESULT  where   <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from QT_TASK_RESULT
+	</select>
+	<select id="getByTiIdAndDateTime" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from QT_TASK_RESULT where 
+	     ti_id = #{tiId} and date_time = #{dateTime}
+	    
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.quality.entity.QtTaskResult" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from QT_TASK_RESULT where   <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+	
+	<select id="findListByRecordId_tpId_dateTime"  parameterType="map" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from QT_TASK_RESULT where 
+	    record_id = #{recordId} and tp_Id = #{tpId} and date_time = #{dateTime}
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.quality.entity.QtTaskResult" resultType="java.lang.Integer">
+           select count(1) from QT_TASK_RESULT where   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.quality.entity.QtTaskResult">
+      insert into QT_TASK_RESULT 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="createTime != null">
+				   create_time,
+			 </if> 
+          <if test="valid != null">
+				   valid,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="tiStatus != null">
+				   ti_status,
+			 </if> 
+          <if test="tpName != null">
+				   tp_name,
+			 </if> 
+          <if test="comId != null">
+				   com_id,
+			 </if> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="tiCheckTime != null">
+				   ti_check_time,
+			 </if> 
+          <if test="tiExecutorName != null">
+				   ti_executor_name,
+			 </if> 
+          <if test="recordId != null">
+				   record_id,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="tpId != null">
+				   tp_id,
+			 </if> 
+          <if test="updateTime != null">
+				   update_time,
+			 </if> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+          <if test="tiHasDefect != null">
+				   ti_has_defect,
+			 </if> 
+          <if test="tiExecutorId != null">
+				   ti_executor_id,
+			 </if> 
+          <if test="tiName != null">
+				   ti_name,
+			 </if> 
+          <if test="tiId != null">
+				   ti_id,
+			 </if> 
+          <if test="tiIsSubmit != null">
+				   ti_is_submit,
+			 </if> 
+          <if test="tiInputResult != null">
+				   ti_input_result,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if>
+          <if test="dateTime != null">
+				   date_time,
+			 </if> 			  
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="createTime != null">
+				#{createTime},
+			  </if>
+			  <if test="valid != null">
+				#{valid},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="tiStatus != null">
+				#{tiStatus},
+			  </if>
+			  <if test="tpName != null">
+				#{tpName},
+			  </if>
+			  <if test="comId != null">
+				#{comId},
+			  </if>
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="tiCheckTime != null">
+				#{tiCheckTime},
+			  </if>
+			  <if test="tiExecutorName != null">
+				#{tiExecutorName},
+			  </if>
+			  <if test="recordId != null">
+				#{recordId},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="tpId != null">
+				#{tpId},
+			  </if>
+			  <if test="updateTime != null">
+				#{updateTime},
+			  </if>
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			  <if test="tiHasDefect != null">
+				#{tiHasDefect},
+			  </if>
+			  <if test="tiExecutorId != null">
+				#{tiExecutorId},
+			  </if>
+			  <if test="tiName != null">
+				#{tiName},
+			  </if>
+			  <if test="tiId != null">
+				#{tiId},
+			  </if>
+			  <if test="tiIsSubmit != null">
+				#{tiIsSubmit},
+			  </if>
+			  <if test="tiInputResult != null">
+				#{tiInputResult},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="dateTime != null">
+				#{dateTime},
+			  </if>			  
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.quality.entity.QtTaskResult">
+	   update QT_TASK_RESULT  set
+	    <trim suffixOverrides="," >
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="createTime != null">
+					 create_time=#{createTime},
+				  </if>
+				  <if test="valid != null">
+					 valid=#{valid},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="tiStatus != null">
+					 ti_status=#{tiStatus},
+				  </if>
+				  <if test="tpName != null">
+					 tp_name=#{tpName},
+				  </if>
+				  <if test="comId != null">
+					 com_id=#{comId},
+				  </if>
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="tiCheckTime != null">
+					 ti_check_time=#{tiCheckTime},
+				  </if>
+				  <if test="tiExecutorName != null">
+					 ti_executor_name=#{tiExecutorName},
+				  </if>
+				  <if test="recordId != null">
+					 record_id=#{recordId},
+				  </if>
+				  <if test="tpId != null">
+					 tp_id=#{tpId},
+				  </if>
+				  <if test="updateTime != null">
+					 update_time=#{updateTime},
+				  </if>
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				  <if test="tiHasDefect != null">
+					 ti_has_defect=#{tiHasDefect},
+				  </if>
+				  <if test="tiExecutorId != null">
+					 ti_executor_id=#{tiExecutorId},
+				  </if>
+				  <if test="tiName != null">
+					 ti_name=#{tiName},
+				  </if>
+				  <if test="tiId != null">
+					 ti_id=#{tiId},
+				  </if>
+				  <if test="tiIsSubmit != null">
+					 ti_is_submit=#{tiIsSubmit},
+				  </if>
+				  <if test="tiInputResult != null">
+					 ti_input_result=#{tiInputResult},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="dateTime != null">
+					 date_time=#{dateTime},
+				  </if>				  
+		  </trim>
+		 where id =#{id}
+	</update>
+	
+	
+	
+	
+
+	 <update id="updateByIds" parameterType="com.sgai.property.quality.entity.QtTaskResult">
+        update QT_TASK_RESULT  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.createTime != null">
+                create_time = #{entity.createTime},
+				  </if>
+				  <if test="entity.valid != null">
+                valid = #{entity.valid},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.tiStatus != null">
+                ti_status = #{entity.tiStatus},
+				  </if>
+				  <if test="entity.tpName != null">
+                tp_name = #{entity.tpName},
+				  </if>
+				  <if test="entity.comId != null">
+                com_id = #{entity.comId},
+				  </if>
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.tiCheckTime != null">
+                ti_check_time = #{entity.tiCheckTime},
+				  </if>
+				  <if test="entity.tiExecutorName != null">
+                ti_executor_name = #{entity.tiExecutorName},
+				  </if>
+				  <if test="entity.recordId != null">
+                record_id = #{entity.recordId},
+				  </if>
+				  <if test="entity.tpId != null">
+                tp_id = #{entity.tpId},
+				  </if>
+				  <if test="entity.updateTime != null">
+                update_time = #{entity.updateTime},
+				  </if>
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+				  <if test="entity.tiHasDefect != null">
+                ti_has_defect = #{entity.tiHasDefect},
+				  </if>
+				  <if test="entity.tiExecutorId != null">
+                ti_executor_id = #{entity.tiExecutorId},
+				  </if>
+				  <if test="entity.tiName != null">
+                ti_name = #{entity.tiName},
+				  </if>
+				  <if test="entity.tiId != null">
+                ti_id = #{entity.tiId},
+				  </if>
+				  <if test="entity.tiIsSubmit != null">
+                ti_is_submit = #{entity.tiIsSubmit},
+				  </if>
+				  <if test="entity.tiInputResult != null">
+                ti_input_result = #{entity.tiInputResult},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.dateTime != null">
+                date_time = #{entity.dateTime},
+				  </if>				  
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	
+	<delete id="deleteById">
+      delete from QT_TASK_RESULT where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from QT_TASK_RESULT where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from QT_TASK_RESULT where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.quality.entity.QtTaskResult">
+      delete from QT_TASK_RESULT where   <include refid="whereSql"/> 
+   </delete>
+   
+</mapper>

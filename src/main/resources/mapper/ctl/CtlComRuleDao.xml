@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.ctl.dao.CtlComRuleDao">
+    
+	<sql id="ctlComRuleColumns">
+		a.id AS "id",
+		a.sequ_code AS "sequCode",
+		a.sequ_name AS "sequName",
+		a.com_code AS "comCode",
+		b.com_name AS "comName",
+		a.current_no AS "currentNo",
+		a.current_code AS "currentCode",
+		a.current_reset AS "currentReset",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks"
+	</sql>
+	
+	<sql id="ctlComRuleJoins">
+	    LEFT JOIN ctl_comp b ON a.com_code=b.com_code
+	</sql>
+    
+	<select id="get" resultType="CtlComRule">
+		SELECT 
+			<include refid="ctlComRuleColumns"/>
+		FROM ctl_com_rule a
+		<include refid="ctlComRuleJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CtlComRule">
+		SELECT 
+			<include refid="ctlComRuleColumns"/>
+		FROM ctl_com_rule a
+		<include refid="ctlComRuleJoins"/>
+        <where>
+		    1=1
+			<if test="sequCode != null and sequCode != ''">
+				AND a.sequ_code like '%'||#{sequCode}||'%'
+			</if>
+			<if test="sequName != null and sequName != ''">
+				AND a.sequ_name like '%'||#{sequName}||'%'
+			</if>
+		</where>
+		ORDER BY
+		    a.updated_dt DESC
+	</select>
+	
+	<select id="findAllList" resultType="CtlComRule">
+		SELECT 
+			<include refid="ctlComRuleColumns"/>
+		FROM ctl_com_rule a
+		<include refid="ctlComRuleJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY a.created_dt desc
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO ctl_com_rule(
+			id,
+			sequ_code,
+			sequ_name,
+			com_code,
+			current_no,
+			current_code,
+			current_reset,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks
+		) VALUES (
+			#{id},
+			#{sequCode},
+			#{sequName},
+			#{comCode},
+			#{currentNo},
+			#{currentCode},
+			#{currentReset},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE ctl_com_rule SET 	
+			sequ_code = #{sequCode},
+			sequ_name = #{sequName},
+			com_code = #{comCode},
+			current_no = #{currentNo},
+			current_code = #{currentCode},
+			current_reset = #{currentReset},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM ctl_com_rule
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="batchDelete">
+	    DELETE FROM
+	        ctl_com_rule
+	    WHERE
+	        id in
+	        <foreach collection="list" item="item" open="(" close=")" separator=",">
+	            #{item}
+	        </foreach>
+	</delete>
+	
+	<select id="getComList" resultType="java.util.Map">
+	    SELECT
+	        com_code,
+	        com_name
+	    FROM
+	        ctl_comp
+	    WHERE
+	        enabled_flag='Y'  
+	</select>
+	
+	<select id="getRuleList" resultType="java.util.Map">
+	    SELECT
+	        sequ_code,
+	        sequ_name
+	    FROM
+	        ctl_rule_info
+	    WHERE
+	        enabled_flag='Y' 
+	</select>
+	
+	<select id="getComRule" resultType="CtlComRule">
+		SELECT 
+			<include refid="ctlComRuleColumns"/>
+		FROM ctl_com_rule a
+		<include refid="ctlComRuleJoins"/>
+		WHERE 
+            1=1
+            <if test="comCode!=null and comCode!=''">
+            AND a.com_code=#{comCode}
+            </if>
+            <if test="sequCode!=null and sequCode!=''">
+            AND a.sequ_code=#{sequCode}
+            </if>            
+	</select>
+	
+</mapper>

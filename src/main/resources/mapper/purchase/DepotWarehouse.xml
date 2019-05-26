@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.purchase.dao.IDepotWarehouseDao">
+    <resultMap id="BaseResultMap" type="com.sgai.property.purchase.entity.DepotWarehouse">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="wh_no" property="whNo" jdbcType="VARCHAR"/>
+        <result column="wh_longitude" property="whLongitude" jdbcType="VARCHAR"/>
+        <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP"/>
+        <result column="wh_type" property="whType" jdbcType="BIGINT"/>
+        <result column="wh_emp_id" property="whEmpId" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="BIGINT"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="wh_emp_name" property="whEmpName" jdbcType="VARCHAR"/>
+        <result column="wh_desc" property="whDesc" jdbcType="VARCHAR"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="wh_address" property="whAddress" jdbcType="VARCHAR"/>
+        <result column="wh_dept" property="whDept" jdbcType="VARCHAR"/>
+        <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP"/>
+        <result column="wh_emp_phone" property="whEmpPhone" jdbcType="VARCHAR"/>
+        <result column="wh_name" property="whName" jdbcType="VARCHAR"/>
+        <result column="wh_latitude" property="whLatitude" jdbcType="VARCHAR"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="baseColumns">
+       wh_no
+       ,wh_longitude
+       ,created_dt
+       ,wh_type
+       ,wh_emp_id
+       ,version
+       ,created_by
+       ,wh_emp_name
+       ,wh_desc
+       ,updated_by
+       ,wh_address
+       ,wh_dept
+       ,updated_dt
+       ,id
+       ,wh_emp_phone
+       ,wh_name
+       ,wh_latitude
+       ,remarks
+  </sql>
+
+    <sql id="whereSql">
+        <if test="whNo != null">
+            and wh_no=#{whNo}
+        </if>
+        <if test="whLongitude != null">
+            and wh_longitude=#{whLongitude}
+        </if>
+        <if test="createdDt != null">
+            and created_dt=#{createdDt}
+        </if>
+        <if test="whType != null">
+            and wh_type=#{whType}
+        </if>
+        <if test="whEmpId != null">
+            and wh_emp_id=#{whEmpId}
+        </if>
+        <if test="version != null">
+            and version=#{version}
+        </if>
+        <if test="createdBy != null">
+            and created_by=#{createdBy}
+        </if>
+        <if test="whEmpName != null">
+            and wh_emp_name=#{whEmpName}
+        </if>
+        <if test="whDesc != null">
+            and wh_desc=#{whDesc}
+        </if>
+        <if test="updatedBy != null">
+            and updated_by=#{updatedBy}
+        </if>
+        <if test="whAddress != null">
+            and wh_address=#{whAddress}
+        </if>
+        <if test="whDept != null">
+            and wh_dept=#{whDept}
+        </if>
+        <if test="updatedDt != null">
+            and updated_dt=#{updatedDt}
+        </if>
+        <if test="id != null">
+            and id=#{id}
+        </if>
+        <if test="whEmpPhone != null">
+            and wh_emp_phone=#{whEmpPhone}
+        </if>
+        <if test="whName != null">
+            and wh_name=#{whName}
+        </if>
+        <if test="whLatitude != null">
+            and wh_latitude=#{whLatitude}
+        </if>
+        <if test="remarks != null">
+            and remarks=#{remarks}
+        </if>
+        <if test = "comCode != null and comCode != ''" >
+            AND com_code = #{comCode}
+        </if >
+        <if test = "moduCode != null and moduCode != ''" >
+            AND modu_code = #{moduCode}
+        </if >
+        <if test = "moduCode == null or moduCode == ''" >
+            AND modu_code IS NULL
+        </if >
+    </sql>
+
+    <select id="getById" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from DEPOT_WAREHOUSE where id =#{id}
+    </select>
+
+    <select id="getByIds" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from DEPOT_WAREHOUSE where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="getByListId">
+        select
+        <include refid="baseColumns"/>
+        from DEPOT_WAREHOUSE where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.purchase.entity.DepotWarehouse">
+        select
+        <include refid="baseColumns"/>
+        from
+        DEPOT_WAREHOUSE where 1 = 1
+        <include refid="whereSql"/>
+    </select>
+
+    <select id="findAllList" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from DEPOT_WAREHOUSE
+    </select>
+
+    <select id="findList" parameterType="com.sgai.property.purchase.entity.DepotWarehouse" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from DEPOT_WAREHOUSE where 1 = 1
+        <include refid="whereSql"/>
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+    </select>
+
+    <select id="getCount" parameterType="com.sgai.property.purchase.entity.DepotWarehouse"
+            resultType="java.lang.Integer">
+        select count(1) from DEPOT_WAREHOUSE where 1 = 1
+        <include refid="whereSql"/>
+    </select>
+
+    <insert id="insert" parameterType="com.sgai.property.purchase.entity.DepotWarehouse">
+        insert into DEPOT_WAREHOUSE
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="whNo != null">
+                wh_no,
+            </if>
+            <if test="whLongitude != null">
+                wh_longitude,
+            </if>
+            <if test="createdDt != null">
+                created_dt,
+            </if>
+            <if test="whType != null">
+                wh_type,
+            </if>
+            <if test="whEmpId != null">
+                wh_emp_id,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="whEmpName != null">
+                wh_emp_name,
+            </if>
+            <if test="whDesc != null">
+                wh_desc,
+            </if>
+            <if test="updatedBy != null">
+                updated_by,
+            </if>
+            <if test="whAddress != null">
+                wh_address,
+            </if>
+            <if test="whDept != null">
+                wh_dept,
+            </if>
+            <if test="updatedDt != null">
+                updated_dt,
+            </if>
+            <if test="id != null">
+                id,
+            </if>
+            <if test="whEmpPhone != null">
+                wh_emp_phone,
+            </if>
+            <if test="whName != null">
+                wh_name,
+            </if>
+            <if test="whLatitude != null">
+                wh_latitude,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="whNo != null">
+                #{whNo},
+            </if>
+            <if test="whLongitude != null">
+                #{whLongitude},
+            </if>
+            <if test="createdDt != null">
+                #{createdDt},
+            </if>
+            <if test="whType != null">
+                #{whType},
+            </if>
+            <if test="whEmpId != null">
+                #{whEmpId},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="whEmpName != null">
+                #{whEmpName},
+            </if>
+            <if test="whDesc != null">
+                #{whDesc},
+            </if>
+            <if test="updatedBy != null">
+                #{updatedBy},
+            </if>
+            <if test="whAddress != null">
+                #{whAddress},
+            </if>
+            <if test="whDept != null">
+                #{whDept},
+            </if>
+            <if test="updatedDt != null">
+                #{updatedDt},
+            </if>
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="whEmpPhone != null">
+                #{whEmpPhone},
+            </if>
+            <if test="whName != null">
+                #{whName},
+            </if>
+            <if test="whLatitude != null">
+                #{whLatitude},
+            </if>
+            <if test="remarks != null">
+                #{remarks},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.sgai.property.purchase.entity.DepotWarehouse">
+        update DEPOT_WAREHOUSE set
+        <trim suffixOverrides=",">
+            <if test="whNo != null">
+                wh_no=#{whNo},
+            </if>
+            <if test="whLongitude != null">
+                wh_longitude=#{whLongitude},
+            </if>
+            <if test="createdDt != null">
+                created_dt=#{createdDt},
+            </if>
+            <if test="whType != null">
+                wh_type=#{whType},
+            </if>
+            <if test="whEmpId != null">
+                wh_emp_id=#{whEmpId},
+            </if>
+            <if test="version != null">
+                version=#{version},
+            </if>
+            <if test="createdBy != null">
+                created_by=#{createdBy},
+            </if>
+            <if test="whEmpName != null">
+                wh_emp_name=#{whEmpName},
+            </if>
+            <if test="whDesc != null">
+                wh_desc=#{whDesc},
+            </if>
+            <if test="updatedBy != null">
+                updated_by=#{updatedBy},
+            </if>
+            <if test="whAddress != null">
+                wh_address=#{whAddress},
+            </if>
+            <if test="whDept != null">
+                wh_dept=#{whDept},
+            </if>
+            <if test="updatedDt != null">
+                updated_dt=#{updatedDt},
+            </if>
+            <if test="whEmpPhone != null">
+                wh_emp_phone=#{whEmpPhone},
+            </if>
+            <if test="whName != null">
+                wh_name=#{whName},
+            </if>
+            <if test="whLatitude != null">
+                wh_latitude=#{whLatitude},
+            </if>
+            <if test="remarks != null">
+                remarks=#{remarks},
+            </if>
+        </trim>
+        where id =#{id}
+    </update>
+
+    <update id="updateByIds" parameterType="com.sgai.property.purchase.entity.DepotWarehouse">
+        update DEPOT_WAREHOUSE set
+        <trim suffixOverrides=",">
+            <if test="entity.whNo != null">
+                wh_no = #{entity.whNo},
+            </if>
+            <if test="entity.whLongitude != null">
+                wh_longitude = #{entity.whLongitude},
+            </if>
+            <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+            </if>
+            <if test="entity.whType != null">
+                wh_type = #{entity.whType},
+            </if>
+            <if test="entity.whEmpId != null">
+                wh_emp_id = #{entity.whEmpId},
+            </if>
+            <if test="entity.version != null">
+                version = #{entity.version},
+            </if>
+            <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+            </if>
+            <if test="entity.whEmpName != null">
+                wh_emp_name = #{entity.whEmpName},
+            </if>
+            <if test="entity.whDesc != null">
+                wh_desc = #{entity.whDesc},
+            </if>
+            <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+            </if>
+            <if test="entity.whAddress != null">
+                wh_address = #{entity.whAddress},
+            </if>
+            <if test="entity.whDept != null">
+                wh_dept = #{entity.whDept},
+            </if>
+            <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+            </if>
+            <if test="entity.whEmpPhone != null">
+                wh_emp_phone = #{entity.whEmpPhone},
+            </if>
+            <if test="entity.whName != null">
+                wh_name = #{entity.whName},
+            </if>
+            <if test="entity.whLatitude != null">
+                wh_latitude = #{entity.whLatitude},
+            </if>
+            <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+            </if>
+        </trim>
+        where id in
+        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+
+    <delete id="deleteById">
+      delete from DEPOT_WAREHOUSE where id =#{id}
+   </delete>
+
+    <delete id="deleteByIds">
+        delete from DEPOT_WAREHOUSE where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByListId">
+        delete from DEPOT_WAREHOUSE where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="delete" parameterType="com.sgai.property.purchase.entity.DepotWarehouse">
+        delete from DEPOT_WAREHOUSE where 1 = 1
+        <include refid="whereSql"/>
+    </delete>
+
+</mapper>

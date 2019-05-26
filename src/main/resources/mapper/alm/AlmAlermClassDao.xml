@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.alm.dao.AlmAlermClassDao">
+
+	<sql id="almAlermClassColumns">
+		a.id AS "id",
+		a.alerm_type_code AS "alermTypeCode",
+		a.alerm_type_name AS "alermTypeName",
+		a.alerm_type_desc AS "alermTypeDesc",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+
+	<sql id="almAlermClassJoins">
+	</sql>
+
+	<select id="get" resultType="com.sgai.property.alm.entity.AlmAlermClass">
+		SELECT
+			<include refid="almAlermClassColumns"/>
+		FROM alm_alerm_class a
+		<include refid="almAlermClassJoins"/>
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="findList" resultType="com.sgai.property.alm.entity.AlmAlermClass">
+		SELECT
+			<include refid="almAlermClassColumns"/>
+		FROM alm_alerm_class a
+		<include refid="almAlermClassJoins"/>
+		<where>
+
+			<if test="alermTypeCode != null and alermTypeCode != ''">
+				AND a.alerm_type_code = #{alermTypeCode}
+			</if>
+			<if test="alermTypeName != null and alermTypeName != ''">
+				AND a.alerm_type_name LIKE
+					<if test="dbName == 'oracle'">'%'||#{alermTypeName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{alermTypeName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{alermTypeName},'%')</if>
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		 ORDER BY updated_dt DESC
+		<!-- <choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose> -->
+	</select>
+
+	<select id="findAllList" resultType="com.sgai.property.alm.entity.AlmAlermClass">
+		SELECT
+			<include refid="almAlermClassColumns"/>
+		FROM alm_alerm_class a
+		<include refid="almAlermClassJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO alm_alerm_class(
+			id,
+			alerm_type_code,
+			alerm_type_name,
+			alerm_type_desc,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code,
+			modu_code
+		) VALUES (
+			#{id},
+			#{alermTypeCode},
+			#{alermTypeName},
+			#{alermTypeDesc},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE alm_alerm_class SET 	
+			alerm_type_code = #{alermTypeCode},
+			alerm_type_name = #{alermTypeName},
+			alerm_type_desc = #{alermTypeDesc},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM alm_alerm_class
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

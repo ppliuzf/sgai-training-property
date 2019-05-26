@@ -1,0 +1,1047 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.sgai.property.quality.dao.plan.ITaskDao" >
+  <resultMap id="BaseResultMap" type="com.sgai.property.quality.entity.plan.Task" >
+           <id column="id" property="id" jdbcType="VARCHAR" />
+         <result column="updated_dt" property="updatedDt" jdbcType="VARCHAR" />
+         <result column="create_time" property="createTime" jdbcType="BIGINT" />
+         <result column="task_creator_ei_emp_name" property="taskCreatorEiEmpName" jdbcType="VARCHAR" />
+         <result column="record_id" property="recordId" jdbcType="VARCHAR" />
+         <result column="is_delete" property="isDelete" jdbcType="BIGINT" />
+         <result column="task_creator_ei_id" property="taskCreatorEiId" jdbcType="VARCHAR" />
+         <result column="task_appr_time" property="taskApprTime" jdbcType="BIGINT" />
+         <result column="task_appr_ei_id" property="taskApprEiId" jdbcType="VARCHAR" />
+         <result column="task_need_appr" property="taskNeedAppr" jdbcType="BIGINT" />
+         <result column="task_desc" property="taskDesc" jdbcType="VARCHAR" />
+         <result column="created_dt" property="createdDt" jdbcType="VARCHAR" />
+         <result column="updated_by" property="updatedBy" jdbcType="VARCHAR" />
+         <result column="version" property="version" jdbcType="BIGINT" />
+         <result column="task_creator_ei_emp_img" property="taskCreatorEiEmpImg" jdbcType="VARCHAR" />
+         <result column="task_sort" property="taskSort" jdbcType="BIGINT" />
+         <result column="task_end_time" property="taskEndTime" jdbcType="BIGINT" />
+         <result column="created_by" property="createdBy" jdbcType="VARCHAR" />
+         <result column="update_time" property="updateTime" jdbcType="BIGINT" />
+         <result column="task_appr_feed_id" property="taskApprFeedId" jdbcType="VARCHAR" />
+         <result column="task_appr_toon_user_id" property="taskApprToonUserId" jdbcType="VARCHAR" />
+         <result column="task_is_complete" property="taskIsComplete" jdbcType="BIGINT" />
+         <result column="task_name" property="taskName" jdbcType="VARCHAR" />
+         <result column="push_time" property="pushTime" jdbcType="BIGINT" />
+         <result column="task_type" property="taskType" jdbcType="BIGINT" />
+         <result column="record_name" property="recordName" jdbcType="VARCHAR" />
+         <result column="task_begin_time" property="taskBeginTime" jdbcType="BIGINT" />
+         <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+         <result column="task_appr_state" property="taskApprState" jdbcType="BIGINT" />
+         <result column="task_appr_ei_emp_name" property="taskApprEiEmpName" jdbcType="VARCHAR" />
+         <result column="task_result_time" property="taskResultTime" jdbcType="BIGINT" />
+         <result column="org_id" property="orgId" jdbcType="VARCHAR" />
+         <result column="period_name" property="periodName" jdbcType="VARCHAR" />
+         <result column="period_id" property="periodId" jdbcType="VARCHAR" />
+	  	<result column="task_flag" property="taskFlag" jdbcType="BIGINT" />
+	  	<result column="template_id" property="templateId" jdbcType="VARCHAR" />
+	  	<result column="template_name" property="templateName" jdbcType="VARCHAR" />
+	  <result column="task_scope_type" property="taskScopeType" jdbcType="VARCHAR" />
+	  <result column="space_data" property="spaceData" jdbcType="VARCHAR" />
+	  <result column="materiel_data" property="materielData" jdbcType="VARCHAR" />
+	  <result column="equipment_data" property="equipmentData" jdbcType="VARCHAR" />
+	  <result column="supplier_data" property="supplierData" jdbcType="VARCHAR" />
+	  <result column="option_flag" property="optionFlag" jdbcType="VARCHAR" />
+	  <result column="task_day" property="taskDay" jdbcType="VARCHAR" />
+	  <result column="task_year" property="taskYear" jdbcType="VARCHAR" />
+	  <result column="begin_date" property="beginDate" jdbcType="VARCHAR" />
+	  <result column="end_date" property="endDate" jdbcType="VARCHAR" />
+	  <result column="begin_time" property="beginTime" jdbcType="VARCHAR" />
+	  <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+	  <result column="begin_month" property="beginMonth" jdbcType="VARCHAR" />
+	  <result column="end_month" property="endMonth" jdbcType="VARCHAR" />
+	  <result column="type_flag" property="typeFlag" jdbcType="BIGINT" />
+	  <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+	  <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  <sql id="baseColumns">
+       updated_dt
+       ,create_time
+       ,task_creator_ei_emp_name
+       ,record_id
+       ,is_delete
+       ,task_creator_ei_id
+       ,task_appr_time
+       ,task_appr_ei_id
+       ,task_need_appr
+       ,task_desc
+       ,id
+       ,created_dt
+       ,updated_by
+       ,version
+       ,task_creator_ei_emp_img
+       ,task_sort
+       ,task_end_time
+       ,created_by
+       ,update_time
+       ,task_appr_feed_id
+       ,task_appr_toon_user_id
+       ,task_is_complete
+       ,task_name
+       ,push_time
+       ,task_type
+       ,record_name
+       ,task_begin_time
+       ,remarks
+       ,task_appr_state
+       ,task_appr_ei_emp_name
+       ,task_result_time
+       ,org_id
+       ,period_name
+       ,period_id
+       ,task_flag
+       ,template_id
+       ,template_name
+       ,task_scope_type
+       ,space_data
+       ,materiel_data
+       ,equipment_data
+       ,supplier_data
+       ,option_flag
+       ,task_day
+       ,task_year
+       ,begin_date
+       ,end_date
+       ,begin_time
+       ,end_time
+       ,begin_month
+       ,end_month
+       ,type_flag
+       ,com_code
+       ,modu_code
+
+  </sql>
+  
+  <sql id="whereSql">
+     <trim  prefixOverrides="AND | OR">
+       <if test="updatedDt != null">
+			and updated_dt=#{updatedDt}
+		 </if> 
+       <if test="createTime != null">
+			and create_time=#{createTime}
+		 </if> 
+       <if test="taskCreatorEiEmpName != null">
+			and task_creator_ei_emp_name=#{taskCreatorEiEmpName}
+		 </if> 
+       <if test="recordId != null">
+			and record_id=#{recordId}
+		 </if> 
+       <if test="isDelete != null">
+			and is_delete=#{isDelete}
+		 </if> 
+       <if test="taskCreatorEiId != null">
+			and task_creator_ei_id=#{taskCreatorEiId}
+		 </if> 
+       <if test="taskApprTime != null">
+			and task_appr_time=#{taskApprTime}
+		 </if> 
+       <if test="taskApprEiId != null">
+			and task_appr_ei_id=#{taskApprEiId}
+		 </if> 
+       <if test="taskNeedAppr != null">
+			and task_need_appr=#{taskNeedAppr}
+		 </if> 
+       <if test="taskDesc != null">
+			and task_desc=#{taskDesc}
+		 </if> 
+       <if test="id != null">
+			and id=#{id}
+		 </if> 
+       <if test="createdDt != null">
+			and created_dt=#{createdDt}
+		 </if> 
+       <if test="updatedBy != null">
+			and updated_by=#{updatedBy}
+		 </if> 
+       <if test="version != null">
+			and version=#{version}
+		 </if> 
+       <if test="taskCreatorEiEmpImg != null">
+			and task_creator_ei_emp_img=#{taskCreatorEiEmpImg}
+		 </if> 
+       <if test="taskSort != null">
+			and task_sort=#{taskSort}
+		 </if> 
+       <if test="taskEndTime != null">
+			and task_end_time=#{taskEndTime}
+		 </if> 
+       <if test="createdBy != null">
+			and created_by=#{createdBy}
+		 </if> 
+       <if test="updateTime != null">
+			and update_time=#{updateTime}
+		 </if> 
+       <if test="taskApprFeedId != null">
+			and task_appr_feed_id=#{taskApprFeedId}
+		 </if> 
+       <if test="taskApprToonUserId != null">
+			and task_appr_toon_user_id=#{taskApprToonUserId}
+		 </if> 
+       <if test="taskIsComplete != null">
+			and task_is_complete=#{taskIsComplete}
+		 </if> 
+       <if test="taskName != null">
+			and task_name=#{taskName}
+		 </if> 
+       <if test="pushTime != null">
+			and push_time=#{pushTime}
+		 </if> 
+       <if test="taskType != null">
+			and task_type=#{taskType}
+		 </if> 
+       <if test="recordName != null">
+			and record_name=#{recordName}
+		 </if> 
+       <if test="taskBeginTime != null">
+			and task_begin_time=#{taskBeginTime}
+		 </if> 
+       <if test="remarks != null">
+			and remarks=#{remarks}
+		 </if> 
+       <if test="taskApprState != null">
+			and task_appr_state=#{taskApprState}
+		 </if> 
+       <if test="taskApprEiEmpName != null">
+			and task_appr_ei_emp_name=#{taskApprEiEmpName}
+		 </if> 
+       <if test="taskResultTime != null">
+			and task_result_time=#{taskResultTime}
+		 </if> 
+       <if test="orgId != null">
+			and org_id=#{orgId}
+		 </if> 
+       <if test="periodName != null">
+			and period_name=#{periodName}
+		 </if> 
+       <if test="periodId != null">
+			and period_id=#{periodId}
+		 </if>
+		 <if test="taskFlag != null">
+			 and task_flag=#{taskFlag}
+		 </if>
+		 <if test="templateId != null">
+			 and template_id=#{templateId}
+		 </if>
+		 <if test="templateName != null">
+			 and template_name=#{templateName}
+		 </if>
+
+		 <if test="taskScopeType != null">
+			 and task_scope_type=#{taskScopeType}
+		 </if>
+		 <if test="spaceData != null">
+			 and space_data=#{spaceData}
+		 </if>
+		 <if test="materielData != null">
+			 and materiel_data=#{materielData}
+		 </if>
+		 <if test="equipmentData != null">
+			 and equipment_data=#{equipmentData}
+		 </if>
+		 <if test="supplierData != null">
+			 and supplier_data=#{supplierData}
+		 </if>
+		 <if test="optionFlag != null">
+			 and option_flag=#{optionFlag}
+		 </if>
+		 <if test="taskDay != null">
+			 and task_day=#{taskDay}
+		 </if>
+		 <if test="taskYear != null">
+			 and task_year=#{taskYear}
+		 </if>
+		 <if test="beginDate != null">
+			 and begin_date=#{beginDate}
+		 </if>
+		 <if test="endDate != null">
+			 and end_date=#{endDate}
+		 </if>
+		 <if test="beginTime != null">
+			 and begin_time=#{beginTime}
+		 </if>
+		 <if test="endTime != null">
+			 and end_time=#{endTime}
+		 </if>
+		 <if test="beginMonth != null">
+			 and begin_month=#{beginMonth}
+		 </if>
+		 <if test="endMonth != null">
+			 and end_month=#{endMonth}
+		 </if>
+		 <if test="typeFlag != null">
+			 and type_flag=#{typeFlag}
+		 </if>
+		 <if test="comCode != null">
+			 and com_code=#{comCode}
+		 </if>
+		 <if test="moduCode != null">
+			 and modu_code=#{moduCode}
+		 </if>
+
+	 </trim>
+  </sql>
+  
+  	<select id="getById" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/>
+		from JH_TASK  where id =#{id}
+	</select>
+
+
+
+	<select id="getByRecordIdAndTemplateId" resultMap="BaseResultMap" parameterType="com.sgai.property.quality.entity.plan.Task">
+		select <include refid="baseColumns"/>
+		from JH_TASK  where <include refid="whereSql"/>
+	</select>
+	
+	<select id="getByIds" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from JH_TASK  where id in
+	    <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>  
+	</select>
+
+	<delete id="getByListId">
+       select <include refid="baseColumns"/> from JH_TASK  where id in
+	    <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</delete>
+
+	<select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.quality.entity.plan.Task">
+		select <include refid="baseColumns"/> from
+       JH_TASK  where   <include refid="whereSql"/>
+	</select>
+	
+	<select id="findAllList" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from JH_TASK
+	</select>
+
+	<select id="findListByRecordId" parameterType="com.sgai.property.quality.entity.plan.Task" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/> from JH_TASK where 1=1
+
+		<if test="recordId != null and recordId != ''">
+			and record_id=#{recordId}
+		</if>
+		<if test="isDelete != null and isDelete != ''">
+			and is_delete=#{isDelete}
+		</if>
+
+	</select>
+
+	<select id="findListByTemplateId" parameterType="com.sgai.property.quality.entity.plan.Task" resultMap="BaseResultMap">
+		select <include refid="baseColumns"/> from JH_TASK where is_delete =0
+
+		<if test="templateId != null and templateId != ''">
+			and template_id=#{templateId}
+		</if>
+
+	</select>
+	
+	<select id="findList"  parameterType="com.sgai.property.quality.entity.plan.Task" resultMap="BaseResultMap">
+	    select <include refid="baseColumns"/> from JH_TASK where   <include refid="whereSql"/>
+         <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            ORDER BY ${page.orderBy}
+        </if>
+	</select>
+
+	 <select id="getCount"  parameterType="com.sgai.property.quality.entity.plan.Task" resultType="java.lang.Integer">
+           select count(1) from JH_TASK where   <include refid="whereSql"/>
+     </select>
+
+     <insert id="insert" parameterType="com.sgai.property.quality.entity.plan.Task">
+      insert into JH_TASK 
+		<trim prefix="(" suffix=")" suffixOverrides=","> 
+          <if test="updatedDt != null">
+				   updated_dt,
+			 </if> 
+          <if test="createTime != null">
+				   create_time,
+			 </if> 
+          <if test="taskCreatorEiEmpName != null">
+				   task_creator_ei_emp_name,
+			 </if> 
+          <if test="recordId != null">
+				   record_id,
+			 </if> 
+          <if test="isDelete != null">
+				   is_delete,
+			 </if> 
+          <if test="taskCreatorEiId != null">
+				   task_creator_ei_id,
+			 </if> 
+          <if test="taskApprTime != null">
+				   task_appr_time,
+			 </if> 
+          <if test="taskApprEiId != null">
+				   task_appr_ei_id,
+			 </if> 
+          <if test="taskNeedAppr != null">
+				   task_need_appr,
+			 </if> 
+          <if test="taskDesc != null">
+				   task_desc,
+			 </if> 
+          <if test="id != null">
+				   id,
+			 </if> 
+          <if test="createdDt != null">
+				   created_dt,
+			 </if> 
+          <if test="updatedBy != null">
+				   updated_by,
+			 </if> 
+          <if test="version != null">
+				   version,
+			 </if> 
+          <if test="taskCreatorEiEmpImg != null">
+				   task_creator_ei_emp_img,
+			 </if> 
+          <if test="taskSort != null">
+				   task_sort,
+			 </if> 
+          <if test="taskEndTime != null">
+				   task_end_time,
+			 </if> 
+          <if test="createdBy != null">
+				   created_by,
+			 </if> 
+          <if test="updateTime != null">
+				   update_time,
+			 </if> 
+          <if test="taskApprFeedId != null">
+				   task_appr_feed_id,
+			 </if> 
+          <if test="taskApprToonUserId != null">
+				   task_appr_toon_user_id,
+			 </if> 
+          <if test="taskIsComplete != null">
+				   task_is_complete,
+			 </if> 
+          <if test="taskName != null">
+				   task_name,
+			 </if> 
+          <if test="pushTime != null">
+				   push_time,
+			 </if> 
+          <if test="taskType != null">
+				   task_type,
+			 </if> 
+          <if test="recordName != null">
+				   record_name,
+			 </if> 
+          <if test="taskBeginTime != null">
+				   task_begin_time,
+			 </if> 
+          <if test="remarks != null">
+				   remarks,
+			 </if> 
+          <if test="taskApprState != null">
+				   task_appr_state,
+			 </if> 
+          <if test="taskApprEiEmpName != null">
+				   task_appr_ei_emp_name,
+			 </if> 
+          <if test="taskResultTime != null">
+				   task_result_time,
+			 </if> 
+          <if test="orgId != null">
+				   org_id,
+			 </if> 
+          <if test="periodName != null">
+				   period_name,
+			 </if> 
+          <if test="periodId != null">
+				   period_id,
+			 </if>
+			<if test="taskFlag != null">
+				 task_flag,
+			</if>
+			<if test="templateId != null">
+				 template_id,
+			</if>
+			<if test="templateName != null">
+				template_name,
+			</if>
+			<if test="taskScopeType != null">
+				task_scope_type,
+			</if>
+			<if test="spaceData != null">
+				space_data,
+			</if>
+			<if test="materielData != null">
+				materiel_data,
+			</if>
+			<if test="equipmentData != null">
+				equipment_data,
+			</if>
+			<if test="supplierData != null">
+				supplier_data,
+			</if>
+			<if test="optionFlag != null">
+				 option_flag,
+			</if>
+			<if test="taskDay != null">
+				 task_day,
+			</if>
+
+			<if test="taskYear != null">
+				 task_year,
+			</if>
+			<if test="beginDate != null">
+				 begin_date,
+			</if>
+			<if test="endDate != null">
+				 end_date,
+			</if>
+			<if test="beginTime != null">
+				 begin_time,
+			</if>
+			<if test="endTime != null">
+				 end_time,
+			</if>
+			<if test="beginMonth != null">
+				 begin_month,
+			</if>
+			<if test="endMonth != null">
+				 end_month,
+			</if>
+			<if test="typeFlag != null">
+				type_flag,
+			</if>
+			<if test="comCode != null">
+				com_code,
+			</if>
+			<if test="moduCode != null">
+				modu_code,
+			</if>
+
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			  <if test="updatedDt != null">
+				#{updatedDt},
+			  </if>
+			  <if test="createTime != null">
+				#{createTime},
+			  </if>
+			  <if test="taskCreatorEiEmpName != null">
+				#{taskCreatorEiEmpName},
+			  </if>
+			  <if test="recordId != null">
+				#{recordId},
+			  </if>
+			  <if test="isDelete != null">
+				#{isDelete},
+			  </if>
+			  <if test="taskCreatorEiId != null">
+				#{taskCreatorEiId},
+			  </if>
+			  <if test="taskApprTime != null">
+				#{taskApprTime},
+			  </if>
+			  <if test="taskApprEiId != null">
+				#{taskApprEiId},
+			  </if>
+			  <if test="taskNeedAppr != null">
+				#{taskNeedAppr},
+			  </if>
+			  <if test="taskDesc != null">
+				#{taskDesc},
+			  </if>
+			  <if test="id != null">
+				#{id},
+			  </if>
+			  <if test="createdDt != null">
+				#{createdDt},
+			  </if>
+			  <if test="updatedBy != null">
+				#{updatedBy},
+			  </if>
+			  <if test="version != null">
+				#{version},
+			  </if>
+			  <if test="taskCreatorEiEmpImg != null">
+				#{taskCreatorEiEmpImg},
+			  </if>
+			  <if test="taskSort != null">
+				#{taskSort},
+			  </if>
+			  <if test="taskEndTime != null">
+				#{taskEndTime},
+			  </if>
+			  <if test="createdBy != null">
+				#{createdBy},
+			  </if>
+			  <if test="updateTime != null">
+				#{updateTime},
+			  </if>
+			  <if test="taskApprFeedId != null">
+				#{taskApprFeedId},
+			  </if>
+			  <if test="taskApprToonUserId != null">
+				#{taskApprToonUserId},
+			  </if>
+			  <if test="taskIsComplete != null">
+				#{taskIsComplete},
+			  </if>
+			  <if test="taskName != null">
+				#{taskName},
+			  </if>
+			  <if test="pushTime != null">
+				#{pushTime},
+			  </if>
+			  <if test="taskType != null">
+				#{taskType},
+			  </if>
+			  <if test="recordName != null">
+				#{recordName},
+			  </if>
+			  <if test="taskBeginTime != null">
+				#{taskBeginTime},
+			  </if>
+			  <if test="remarks != null">
+				#{remarks},
+			  </if>
+			  <if test="taskApprState != null">
+				#{taskApprState},
+			  </if>
+			  <if test="taskApprEiEmpName != null">
+				#{taskApprEiEmpName},
+			  </if>
+			  <if test="taskResultTime != null">
+				#{taskResultTime},
+			  </if>
+			  <if test="orgId != null">
+				#{orgId},
+			  </if>
+			  <if test="periodName != null">
+				#{periodName},
+			  </if>
+			  <if test="periodId != null">
+				#{periodId},
+			  </if>
+			<if test="taskFlag != null">
+				 #{taskFlag},
+			</if>
+			<if test="templateId != null">
+				#{templateId},
+			</if>
+			<if test="templateName != null">
+				#{templateName},
+			</if>
+
+
+			<if test="taskScopeType != null">
+				#{taskScopeType},
+			</if>
+			<if test="spaceData != null">
+				#{spaceData},
+			</if>
+			<if test="materielData != null">
+				#{materielData},
+			</if>
+			<if test="equipmentData != null">
+				#{equipmentData},
+			</if>
+			<if test="supplierData != null">
+				#{supplierData},
+			</if>
+			<if test="optionFlag != null">
+				#{optionFlag},
+			</if>
+			<if test="taskDay != null">
+				 #{taskDay},
+			</if>
+
+			<if test="taskYear != null">
+				#{taskYear},
+			</if>
+			<if test="beginDate != null">
+				#{beginDate},
+			</if>
+			<if test="endDate != null">
+				#{endDate},
+			</if>
+			<if test="beginTime != null">
+				#{beginTime},
+			</if>
+			<if test="endTime != null">
+				#{endTime},
+			</if>
+
+			<if test="beginMonth != null">
+				 #{beginMonth},
+			</if>
+			<if test="endMonth != null">
+				 #{endMonth},
+			</if>
+			<if test="typeFlag != null">
+				#{typeFlag},
+			</if>
+			<if test="comCode != null">
+				#{comCode},
+			</if>
+			<if test="moduCode != null">
+				#{moduCode},
+			</if>
+		</trim>
+   </insert>
+   
+   <update id="updateById" parameterType="com.sgai.property.quality.entity.plan.Task">
+	   update JH_TASK  set
+	    <trim suffixOverrides="," >
+				  <if test="updatedDt != null">
+					 updated_dt=#{updatedDt},
+				  </if>
+				  <if test="createTime != null">
+					 create_time=#{createTime},
+				  </if>
+				  <if test="taskCreatorEiEmpName != null">
+					 task_creator_ei_emp_name=#{taskCreatorEiEmpName},
+				  </if>
+				  <if test="recordId != null">
+					 record_id=#{recordId},
+				  </if>
+				  <if test="isDelete != null">
+					 is_delete=#{isDelete},
+				  </if>
+				  <if test="taskCreatorEiId != null">
+					 task_creator_ei_id=#{taskCreatorEiId},
+				  </if>
+				  <if test="taskApprTime != null">
+					 task_appr_time=#{taskApprTime},
+				  </if>
+				  <if test="taskApprEiId != null">
+					 task_appr_ei_id=#{taskApprEiId},
+				  </if>
+				  <if test="taskNeedAppr != null">
+					 task_need_appr=#{taskNeedAppr},
+				  </if>
+				  <if test="taskDesc != null">
+					 task_desc=#{taskDesc},
+				  </if>
+				  <if test="createdDt != null">
+					 created_dt=#{createdDt},
+				  </if>
+				  <if test="updatedBy != null">
+					 updated_by=#{updatedBy},
+				  </if>
+				  <if test="version != null">
+					 version=#{version},
+				  </if>
+				  <if test="taskCreatorEiEmpImg != null">
+					 task_creator_ei_emp_img=#{taskCreatorEiEmpImg},
+				  </if>
+				  <if test="taskSort != null">
+					 task_sort=#{taskSort},
+				  </if>
+				  <if test="taskEndTime != null">
+					 task_end_time=#{taskEndTime},
+				  </if>
+				  <if test="createdBy != null">
+					 created_by=#{createdBy},
+				  </if>
+				  <if test="updateTime != null">
+					 update_time=#{updateTime},
+				  </if>
+				  <if test="taskApprFeedId != null">
+					 task_appr_feed_id=#{taskApprFeedId},
+				  </if>
+				  <if test="taskApprToonUserId != null">
+					 task_appr_toon_user_id=#{taskApprToonUserId},
+				  </if>
+				  <if test="taskIsComplete != null">
+					 task_is_complete=#{taskIsComplete},
+				  </if>
+				  <if test="taskName != null">
+					 task_name=#{taskName},
+				  </if>
+				  <if test="pushTime != null">
+					 push_time=#{pushTime},
+				  </if>
+				  <if test="taskType != null">
+					 task_type=#{taskType},
+				  </if>
+				  <if test="recordName != null">
+					 record_name=#{recordName},
+				  </if>
+				  <if test="taskBeginTime != null">
+					 task_begin_time=#{taskBeginTime},
+				  </if>
+				  <if test="remarks != null">
+					 remarks=#{remarks},
+				  </if>
+				  <if test="taskApprState != null">
+					 task_appr_state=#{taskApprState},
+				  </if>
+				  <if test="taskApprEiEmpName != null">
+					 task_appr_ei_emp_name=#{taskApprEiEmpName},
+				  </if>
+				  <if test="taskResultTime != null">
+					 task_result_time=#{taskResultTime},
+				  </if>
+				  <if test="orgId != null">
+					 org_id=#{orgId},
+				  </if>
+				  <if test="periodName != null">
+					 period_name=#{periodName},
+				  </if>
+				  <if test="periodId != null">
+					 period_id=#{periodId},
+				  </if>
+				<if test="taskFlag != null">
+					 task_flag=#{taskFlag},
+				</if>
+				<if test="templateId != null">
+					 template_id=#{templateId},
+				</if>
+				<if test="templateName != null">
+					template_name=#{templateName},
+				</if>
+
+
+			<if test="taskScopeType != null">
+				task_scope_type=#{taskScopeType},
+			</if>
+			<if test="spaceData != null">
+				space_data=#{spaceData},
+			</if>
+			<if test="materielData != null">
+				materiel_data=#{materielData},
+			</if>
+			<if test="equipmentData != null">
+				equipment_data=#{equipmentData},
+			</if>
+			<if test="supplierData != null">
+				supplier_data=#{supplierData},
+			</if>
+			<if test="optionFlag != null">
+				 option_flag=#{optionFlag},
+			</if>
+			<if test="taskDay != null">
+				 task_day=#{taskDay},
+			</if>
+
+			<if test="taskYear != null">
+				 task_year=#{taskYear},
+			</if>
+			<if test="beginDate != null">
+				 begin_date=#{beginDate},
+			</if>
+			<if test="endDate != null">
+				 end_date=#{endDate},
+			</if>
+			<if test="beginTime != null">
+				 begin_time=#{beginTime},
+			</if>
+			<if test="endTime != null">
+				 end_time=#{endTime},
+			</if>
+			<if test="beginMonth != null">
+				 begin_month=#{beginMonth},
+			</if>
+			<if test="endMonth != null">
+				 end_month=#{endMonth},
+			</if>
+			<if test="typeFlag != null">
+				type_flag=#{typeFlag},
+			</if>
+			<if test="comCode != null">
+				com_code=#{comCode},
+			</if>
+			<if test="moduCode != null">
+				modu_code=#{moduCode},
+			</if>
+
+		  </trim>
+		 where id =#{id}
+	</update>
+
+	 <update id="updateByIds" parameterType="com.sgai.property.quality.entity.plan.Task">
+        update JH_TASK  set
+	    <trim suffixOverrides="," >
+				  <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+				  </if>
+				  <if test="entity.createTime != null">
+                create_time = #{entity.createTime},
+				  </if>
+				  <if test="entity.taskCreatorEiEmpName != null">
+                task_creator_ei_emp_name = #{entity.taskCreatorEiEmpName},
+				  </if>
+				  <if test="entity.recordId != null">
+                record_id = #{entity.recordId},
+				  </if>
+				  <if test="entity.isDelete != null">
+                is_delete = #{entity.isDelete},
+				  </if>
+				  <if test="entity.taskCreatorEiId != null">
+                task_creator_ei_id = #{entity.taskCreatorEiId},
+				  </if>
+				  <if test="entity.taskApprTime != null">
+                task_appr_time = #{entity.taskApprTime},
+				  </if>
+				  <if test="entity.taskApprEiId != null">
+                task_appr_ei_id = #{entity.taskApprEiId},
+				  </if>
+				  <if test="entity.taskNeedAppr != null">
+                task_need_appr = #{entity.taskNeedAppr},
+				  </if>
+				  <if test="entity.taskDesc != null">
+                task_desc = #{entity.taskDesc},
+				  </if>
+				  <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+				  </if>
+				  <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+				  </if>
+				  <if test="entity.version != null">
+                version = #{entity.version},
+				  </if>
+				  <if test="entity.taskCreatorEiEmpImg != null">
+                task_creator_ei_emp_img = #{entity.taskCreatorEiEmpImg},
+				  </if>
+				  <if test="entity.taskSort != null">
+                task_sort = #{entity.taskSort},
+				  </if>
+				  <if test="entity.taskEndTime != null">
+                task_end_time = #{entity.taskEndTime},
+				  </if>
+				  <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+				  </if>
+				  <if test="entity.updateTime != null">
+                update_time = #{entity.updateTime},
+				  </if>
+				  <if test="entity.taskApprFeedId != null">
+                task_appr_feed_id = #{entity.taskApprFeedId},
+				  </if>
+				  <if test="entity.taskApprToonUserId != null">
+                task_appr_toon_user_id = #{entity.taskApprToonUserId},
+				  </if>
+				  <if test="entity.taskIsComplete != null">
+                task_is_complete = #{entity.taskIsComplete},
+				  </if>
+				  <if test="entity.taskName != null">
+                task_name = #{entity.taskName},
+				  </if>
+				  <if test="entity.pushTime != null">
+                push_time = #{entity.pushTime},
+				  </if>
+				  <if test="entity.taskType != null">
+                task_type = #{entity.taskType},
+				  </if>
+				  <if test="entity.recordName != null">
+                record_name = #{entity.recordName},
+				  </if>
+				  <if test="entity.taskBeginTime != null">
+                task_begin_time = #{entity.taskBeginTime},
+				  </if>
+				  <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+				  </if>
+				  <if test="entity.taskApprState != null">
+                task_appr_state = #{entity.taskApprState},
+				  </if>
+				  <if test="entity.taskApprEiEmpName != null">
+                task_appr_ei_emp_name = #{entity.taskApprEiEmpName},
+				  </if>
+				  <if test="entity.taskResultTime != null">
+                task_result_time = #{entity.taskResultTime},
+				  </if>
+				  <if test="entity.orgId != null">
+                org_id = #{entity.orgId},
+				  </if>
+				  <if test="entity.periodName != null">
+                period_name = #{entity.periodName},
+				  </if>
+				  <if test="entity.periodId != null">
+                period_id = #{entity.periodId},
+				  </if>
+				<if test="entity.taskFlag != null">
+					 task_flag=#{entity.taskFlag},
+				</if>
+				<if test="entity.templateId != null">
+					 template_id=#{entity.templateId},
+				</if>
+				<if test="entity.templateName != null">
+					template_name=#{entity.templateName},
+				</if>
+			<if test="entity.optionFlag != null">
+				 option_flag=#{entity.optionFlag},
+			</if>
+			<if test="entity.taskDay != null">
+				 task_day=#{entity.taskDay},
+			</if>
+
+
+			<if test="entity.taskYear != null">
+				 task_year=#{entity.taskYear},
+			</if>
+			<if test="entity.beginDate != null">
+				 begin_date=#{entity.beginDate},
+			</if>
+			<if test="entity.endDate != null">
+				 end_date=#{entity.endDate},
+			</if>
+			<if test="entity.beginTime != null">
+				 begin_time=#{entity.beginTime},
+			</if>
+			<if test="entity.endTime != null">
+				 end_time=#{entity.endTime},
+			</if>
+			<if test="entity.beginMonth != null">
+				 begin_month=#{entity.beginMonth}
+			</if>
+			<if test="entity.endMonth != null">
+				 end_month=#{entity.endMonth}
+			</if>
+			<if test="entity.typeFlag != null">
+				type_flag=#{entity.typeFlag},
+			</if>
+			<if test="entity.comCode != null">
+				com_code=#{entity.comCode},
+			</if>
+			<if test="entity.moduCode != null">
+				modu_code=#{entity.moduCode},
+			</if>
+
+		  </trim>
+		 where id in
+		  <foreach collection="ids" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+       </foreach>
+	</update>
+    
+	<update id="updateByIdAndTpId" parameterType="map">
+		update JH_TASK set task_is_complete = #{task.taskIsComplete} 
+		where record_id = #{recordId} 
+		and  template_id=#{tpId} 
+	</update>
+	<delete id="deleteById">
+      delete from JH_TASK where id =#{id}
+   </delete>
+   
+    <delete id="deleteByIds">
+      delete from JH_TASK where id in 
+      <foreach collection="array" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>  
+	</delete>
+
+   <delete id="deleteByListId">
+      delete from JH_TASK where id in
+      <foreach collection="list" item="item" index="index"  open="(" close=")" separator=",">
+            #{item}
+      </foreach>
+	</delete>
+   
+   <delete id="delete" parameterType="com.sgai.property.quality.entity.plan.Task">
+      delete from JH_TASK where   <include refid="whereSql"/> 
+   </delete>
+   
+</mapper>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wf.dao.WfFlowDefineDao">
+    
+	<sql id="wfFlowDefineColumns">
+		a.step_code AS "stepCode",
+		a.step_name AS "stepName",
+		a.flow_code AS "flowCode",
+		a.step_pos AS "stepPos",
+		a.step_seq AS "stepSeq",
+		a.step_name_short AS "stepNameShort",
+		a.step_level AS "stepLevel",
+		a.step_url AS "stepUrl",
+		a.is_flag AS "isFlag",
+		a.is_distr_flag AS "isDistrFlag",
+		a.is_exclusive_flag AS "isExclusiveFlag",
+		a.end_flag AS "endFlag",
+		a.id AS "id",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode"
+	</sql>
+	
+	<sql id="wfFlowDefineJoins">
+	</sql>
+    
+	<select id="get" resultType="com.sgai.property.wf.entity.WfFlowDefine">
+		SELECT 
+			<include refid="wfFlowDefineColumns"/>
+		FROM wf_flow_define a
+		<include refid="wfFlowDefineJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="com.sgai.property.wf.entity.WfFlowDefine">
+		SELECT 
+			<include refid="wfFlowDefineColumns"/>
+		FROM wf_flow_define a
+		<include refid="wfFlowDefineJoins"/>
+		<where>
+			
+			<if test="stepCode != null and stepCode != ''">
+				AND a.step_code = #{stepCode}
+			</if>
+			<if test="stepName != null and stepName != ''">
+				AND a.step_name like '%${stepName}%'
+			</if>
+			<if test="flowCode != null and flowCode != ''">
+				AND a.flow_code = #{flowCode}
+			</if>
+			<if test="stepPos != null and stepPos != ''">
+				AND a.step_pos = #{stepPos}
+			</if>
+			<if test="stepNameShort != null and stepNameShort != ''">
+				AND a.step_name_short = #{stepNameShort}
+			</if>
+			<if test="stepLevel != null and stepLevel != ''">
+				AND a.step_level = #{stepLevel}
+			</if>
+			<if test="isFlag != null and isFlag != ''">
+				AND a.is_flag = #{isFlag}
+			</if>
+			<if test="isDistrFlag != null and isDistrFlag != ''">
+				AND a.is_distr_flag = #{isDistrFlag}
+			</if>
+			<if test="isExclusiveFlag != null and isExclusiveFlag != ''">
+				AND a.is_exclusive_flag = #{isExclusiveFlag}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="remarks != null and remarks != ''">
+				AND a.remarks = #{remarks}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findFlowList" resultType="com.sgai.property.wf.entity.WfFlowDefine">
+		select a.STEP_POS,a.STEP_NAME,a.STEP_URL from WF_FLOW_DEFINE a
+		<include refid="wfFlowDefineJoins"/>
+		<where>
+			<if test="flowCode != null and flowCode != ''">
+				AND a.flow_code = #{flowCode}
+			</if>
+		</where>		
+		group by a.STEP_POS,a.STEP_NAME,a.STEP_URL ORDER BY a.STEP_POS
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.wf.entity.WfFlowDefine">
+		SELECT 
+			<include refid="wfFlowDefineColumns"/>
+		FROM wf_flow_define a
+		<include refid="wfFlowDefineJoins"/>
+		<where>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO wf_flow_define(
+			step_code,
+			step_name,
+			flow_code,
+			step_pos,
+			step_seq,
+			step_name_short,
+			step_level,
+			step_url,
+			is_flag,
+			is_distr_flag,
+			is_exclusive_flag,
+			end_flag,
+			id,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code,
+			modu_code
+		) VALUES (
+			#{stepCode},
+			#{stepName},
+			#{flowCode},
+			#{stepPos},
+			#{stepSeq},
+			#{stepNameShort},
+			#{stepLevel},
+			#{stepUrl},
+			#{isFlag},
+			#{isDistrFlag},
+			#{isExclusiveFlag},
+			#{endFlag},
+			#{id},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode},
+			#{moduCode}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE wf_flow_define SET 	
+			step_code = #{stepCode},
+			step_name = #{stepName},
+			flow_code = #{flowCode},
+			step_pos = #{stepPos},
+			step_seq = #{stepSeq},
+			step_name_short = #{stepNameShort},
+			step_level = #{stepLevel},
+			step_url = #{stepUrl},
+			is_flag = #{isFlag},
+			is_distr_flag = #{isDistrFlag},
+			is_exclusive_flag = #{isExclusiveFlag},
+			end_flag = #{endFlag},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			com_code = #{comCode},
+			modu_code = #{moduCode}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM wf_flow_define
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

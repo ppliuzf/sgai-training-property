@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.wy.dao.CallDao">
+   
+	<sql id="callColumns">
+		a.ID id,
+		a.CALLER caller,
+		a.CALL_PHONE callPhone,
+		a.CALL_ADDRESS callAddress,
+		a.DEPARTMENT_ID department,
+		a.CALL_DESCRIPTION callDescription,
+		a.DEAL_DESCRIPTION dealDescription,
+		a.UPDATE_DATE callDate, 
+		a.APPOINT_DATE appointDate, 
+		a.DEAL_DATE dealDate, 
+		a.REMAKES remarks,
+		a.APPOINT_STATUS appointStatus,
+		a.DEAL_STATUS dealStatus,
+		a.ORDER_ID serialNumber,
+		b.USER_NAME operatorName,
+		b.USER_CODE operatorId
+	</sql>
+	
+	<select id="findList" resultType="com.sgai.property.wy.entity.CallInformation">
+		SELECT <include refid="callColumns"/> FROM WY_EVT_CALLINFO a
+		left join ctl_user b  on a.operator_id=b.user_code
+		<where>
+		 	a.del_flag='0'
+		 	<if test="type ==null">
+			 	<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+					AND	${sqlMap.sql}
+				</if>
+			</if>
+            <if test="beginTime !=null">
+				AND	STR_TO_DATE(DATE_FORMAT(a.update_date,'%y-%m-%d'),'%y-%m-%d') &gt;= #{beginTime}
+            </if>
+			<if test="endTime !=null">
+			  	AND	STR_TO_DATE(DATE_FORMAT(a.update_date,'%y-%m-%d'),'%y-%m-%d') &lt;= #{endTime}
+			</if>
+            <if test="beginTimeDeal !=null">
+				AND	STR_TO_DATE(DATE_FORMAT(a.deal_date,'%y-%m-%d'),'%y-%m-%d') &gt;= #{beginTimeDeal}
+            </if>
+			<if test="endTimeDeal !=null">
+				AND	STR_TO_DATE(DATE_FORMAT(a.deal_date,'%y-%m-%d'),'%y-%m-%d') &lt;= #{endTimeDeal}
+			</if>
+			<if test="caller != null and caller != ''">
+				AND a.caller like '%'||#{caller}||'%'
+			</if>
+			<if test="operatorId != null and operatorId != ''">
+				AND a.operator_id  = #{operatorId}
+			</if>
+			<if test="appointStatus != null and appointStatus != ''">
+				AND a.appoint_status  = #{appointStatus}
+			</if>
+			<if test="department != null and department != ''">
+				AND a.department_id  =#{department}
+			</if>
+			<if test="cho != null and cho != ''">
+					and a.DEAL_STATUS='0'
+			</if>
+			<if test="loginId != null and loginId  != ''">
+				OR a.login_id =#{loginId}
+			</if>
+			<if test="callNowToday != null  and callNowToday !='' ">
+				AND DATE_FORMAT(a.appoint_date,'%y-%m-%d') = DATE_FORMAT(sysdate,'%y-%m-%d')
+			</if>
+		</where>
+		ORDER BY a.update_date DESC
+	</select>
+	
+	<select id="get" resultType="com.sgai.property.wy.entity.CallInformation">
+		SELECT 
+			<include refid="callColumns"/>
+		FROM WY_EVT_CALLINFO a
+		WHERE a.id = #{id}
+	</select>
+	
+	<update id="batchDelete">
+			UPDATE WY_EVT_CALLINFO SET 
+			DEL_FLAG ='1'
+		WHERE   id in
+	        <foreach collection="list" item="item" open="(" close=")" separator=",">
+	            #{item}
+	        </foreach>
+	</update>
+	
+	
+	<insert id="insert">
+		INSERT INTO WY_EVT_CALLINFO(
+			ID,
+			CALLER ,
+			CALL_PHONE ,
+			CALL_ADDRESS ,
+			DEPARTMENT_ID ,
+			OPERATOR_ID ,
+			OPERATOR_NAME,
+			CALL_DESCRIPTION ,
+			DEAL_DESCRIPTION ,
+			UPDATE_DATE , 
+			APPOINT_STATUS , 
+			LOGIN_ID,
+			AREA_ID,
+			DEL_FLAG,
+			ORDER_ID,
+			COM_CODE,
+			DEPT_CODE,			
+			REMAKES,
+			CREATED_BY
+		) VALUES (
+			#{id},
+			#{caller},
+			#{callPhone},
+			#{repairAddress},
+			#{department},
+			#{operatorId},
+			#{operatorName},
+			#{callDescription},
+			#{dealDescription},
+			#{callDate},
+			#{appointStatus},
+			#{loginId},
+			#{areaId},
+			'0',
+			#{serialNumber},
+			#{comCode},
+			#{deptCode},
+			#{remarks},
+			#{createdBy}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE WY_EVT_CALLINFO 
+		<set>		
+		<if test="caller != null and caller != ''">
+			caller =#{caller},
+		</if>
+		<if test="callPhone != null and callPhone != ''">
+			call_phone =#{callPhone},
+		</if>
+		<if test="callAddress != null and callAddress != ''">
+			call_address =#{repairAddress},
+		</if>
+		<if test="department != null and department != ''">
+			department_id =#{department},
+		</if>
+		<if test="operatorId != null and operatorId != ''">
+			operator_id =#{operatorId},
+		</if>
+		<if test="operatorName != null and operatorName != ''">
+			operator_name =#{operatorName},
+		</if>
+		<if test="callDescription != null and callDescription != ''">
+			call_description =#{callDescription},
+		</if>
+		<if test="dealDescription != null and dealDescription != ''">
+			deal_description =#{dealDescription},
+		</if>
+		<if test="appointStatus != null and appointStatus != ''">
+			appoint_status =#{appointStatus},
+		</if>
+		<if test="dealStatus != null and dealStatus != ''">
+			deal_status =#{dealStatus},
+		</if>
+		<if test="callDate != null ">
+			update_date =#{callDate}, 
+		</if>
+		<if test="appointDate != null ">
+			appoint_date =#{appointDate}, 
+		</if>
+		<if test="dealDate != null ">
+			deal_date =#{dealDate}, 
+		</if>
+		<if test="remarks != null and remarks != ''">
+			remakes =#{remarks}
+		</if>
+		</set>
+			WHERE id = #{id}
+	</update>
+	
+	
+	<select id="findName" resultType="com.sgai.property.wy.entity.Member"  parameterType="String">
+	     select CHINESE_NAME chineseName,ID id,REPAIR_ADDRESS repairAddress from WY_CUS_MEMBER 
+	     	<where>
+	     		<if test="caller != null  and caller !='' ">
+				 CHINESE_NAME  like '%'||#{caller}||'%'
+				</if>
+			</where>
+	</select>
+	
+	<select id="findAddressList" resultType="com.sgai.property.wy.entity.Member"  parameterType="String">
+	     select distinct(REPAIR_ADDRESS) repairAddress,REPAIR_ADDRESS_CODE repairAddressCode
+	      from WY_EVT_REPAIR_INFORMATION 
+	     	<where>
+	     		<if test="id != null  and id !='' ">
+				 repair_people_id  =#{id}
+				</if>
+			</where>
+	</select>
+	
+	<select id="findAddress" resultType="String"  parameterType="String">
+	     select REPAIR_ADDRESS_CODE repairAddressCode from WY_CUS_MEMBER 
+	     	<where>
+	     		<if test="id != null  and id !='' ">
+				 id  =#{id}
+				</if>
+			</where>
+	</select>
+	
+	<!-- 查询指定所有跟进人的信息 -->
+	<select id="findAppointList"   resultType="com.sgai.property.wy.entity.CallCommon"  >
+		select
+		E.USER_NAME userName,E.USER_NAME realName,E.USER_CODE userCode from CTL_USER_ROLE D ,CTL_USER E
+	     	<where>
+			  D.USER_CODE = E.USER_CODE and D.ROLE_CODE NOT in ('gncs','common','bz','zcpd','kcgl')
+     		<if test="realName != null  and realName !='' ">
+			AND E.USER_NAME like '%'||#{realName}||'%'
+			</if>
+			</where>
+	</select>
+		<select id="queryRole" resultType="String">
+		SELECT 
+		     ROLE_CODE 
+		FROM CTL_USER_ROLE a
+		WHERE a.USER_CODE = #{userId}
+	</select>
+</mapper>

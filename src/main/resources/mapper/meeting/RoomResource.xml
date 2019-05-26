@@ -1,0 +1,876 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sgai.property.meeting.dao.IRoomResourceDao">
+    <resultMap id="BaseResultMap" type="com.sgai.property.meeting.entity.RoomResource">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="updated_dt" property="updatedDt" jdbcType="TIMESTAMP"/>
+        <result column="is_delete" property="isDelete" jdbcType="BIGINT"/>
+        <result column="rr_room_pic_main" property="rrRoomPicMain" jdbcType="VARCHAR"/>
+        <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="rr_room_state" property="rrRoomState" jdbcType="BIGINT"/>
+        <result column="rr_room_peoples" property="rrRoomPeoples" jdbcType="VARCHAR"/>
+        <result column="rr_room_position" property="rrRoomPosition" jdbcType="VARCHAR"/>
+        <result column="rp_id" property="rpId" jdbcType="VARCHAR"/>
+        <result column="rr_admin_id" property="rrAdminId" jdbcType="VARCHAR"/>
+        <result column="created_dt" property="createdDt" jdbcType="TIMESTAMP"/>
+        <result column="updated_by" property="updatedBy" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="BIGINT"/>
+        <result column="create_user_id" property="createUserId" jdbcType="VARCHAR"/>
+        <result column="com_id" property="comId" jdbcType="BIGINT"/>
+        <result column="rd_room_device" property="rdRoomDevice" jdbcType="VARCHAR"/>
+        <result column="rr_admin_type" property="rrAdminType" jdbcType="BIGINT"/>
+        <result column="created_by" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="BIGINT"/>
+        <result column="rr_room_type" property="rrRoomType" jdbcType="VARCHAR"/>
+        <result column="rr_room_name" property="rrRoomName" jdbcType="VARCHAR"/>
+        <result column="rr_admin_name" property="rrAdminName" jdbcType="VARCHAR"/>
+        <result column="rt_id" property="rtId" jdbcType="VARCHAR"/>
+        <result column="remarks" property="remarks" jdbcType="VARCHAR"/>
+        <result column="rd_device_id" property="rdDeviceId" jdbcType="VARCHAR"/>
+        <result column="rr_room_desc" property="rrRoomDesc" jdbcType="VARCHAR"/>
+        <result column="com_code" property="comCode" jdbcType="VARCHAR" />
+	  <result column="modu_code" property="moduCode" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="baseColumns">
+       updated_dt
+       ,is_delete
+       ,rr_room_pic_main
+       ,create_user
+       ,create_time
+       ,rr_room_state
+       ,rr_room_peoples
+       ,rr_room_position
+       ,rp_id
+       ,rr_admin_id
+       ,created_dt
+       ,updated_by
+       ,version
+       ,create_user_id
+       ,com_id
+       ,rd_room_device
+       ,rr_admin_type
+       ,created_by
+       ,update_time
+       ,rr_room_type
+       ,rr_room_name
+       ,id
+       ,rr_admin_name
+       ,rt_id
+       ,remarks
+       ,rd_device_id
+       ,rr_room_desc
+       ,com_code
+       ,modu_code
+    </sql>
+
+    <sql id="whereSql">
+        <trim prefixOverrides="AND | OR">
+        <if test="comCode != null">
+			 and com_code=#{comCode}
+		 </if>
+		 <if test="moduCode != null">
+			 and modu_code=#{moduCode}
+		 </if>
+            <if test="updatedDt != null">
+                and updated_dt=#{updatedDt}
+            </if>
+            <if test="isDelete != null">
+                and is_delete=#{isDelete}
+            </if>
+            <if test="rrRoomPicMain != null">
+                and rr_room_pic_main=#{rrRoomPicMain}
+            </if>
+            <if test="createUser != null">
+                and create_user=#{createUser}
+            </if>
+            <if test="createTime != null">
+                and create_time=#{createTime}
+            </if>
+            <if test="rrRoomState != null">
+                and rr_room_state=#{rrRoomState}
+            </if>
+            <if test="rrRoomPeoples != null">
+                and rr_room_peoples=#{rrRoomPeoples}
+            </if>
+            <if test="rrRoomPosition != null">
+                and rr_room_position=#{rrRoomPosition}
+            </if>
+            <if test="rpId != null">
+                and rp_id=#{rpId}
+            </if>
+            <if test="rrAdminId != null">
+                and rr_admin_id=#{rrAdminId}
+            </if>
+            <if test="createdDt != null">
+                and created_dt=#{createdDt}
+            </if>
+            <if test="updatedBy != null">
+                and updated_by=#{updatedBy}
+            </if>
+            <if test="version != null">
+                and version=#{version}
+            </if>
+            <if test="createUserId != null">
+                and create_user_id=#{createUserId}
+            </if>
+            <if test="comId != null">
+                and com_id=#{comId}
+            </if>
+            <if test="rdRoomDevice != null">
+                and rd_room_device=#{rdRoomDevice}
+            </if>
+            <if test="rrAdminType != null">
+                and rr_admin_type=#{rrAdminType}
+            </if>
+            <if test="createdBy != null">
+                and created_by=#{createdBy}
+            </if>
+            <if test="updateTime != null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="rrRoomType != null">
+                and rr_room_type=#{rrRoomType}
+            </if>
+            <if test="rrRoomName != null">
+                and rr_room_name=#{rrRoomName}
+            </if>
+            <if test="id != null">
+                and id=#{id}
+            </if>
+            <if test="rrAdminName != null">
+                and rr_admin_name=#{rrAdminName}
+            </if>
+            <if test="rtId != null">
+                and rt_id=#{rtId}
+            </if>
+            <if test="remarks != null">
+                and remarks=#{remarks}
+            </if>
+            <if test="rdDeviceId != null">
+                and rd_device_id=#{rdDeviceId}
+            </if>
+            <if test="rrRoomDesc != null">
+                and rr_room_desc=#{rrRoomDesc}
+            </if>
+        </trim>
+    </sql>
+
+
+    <sql id="whereSqlToLike">
+        <trim prefixOverrides="AND | OR">
+            <if test="updatedDt != null">
+                and updated_dt=#{updatedDt}
+            </if>
+            <if test="isDelete != null">
+                and is_delete=#{isDelete}
+            </if>
+            <if test="rrRoomPicMain != null">
+                and rr_room_pic_main=#{rrRoomPicMain}
+            </if>
+            <if test="createUser != null">
+                and create_user=#{createUser}
+            </if>
+            <if test="createTime != null">
+                and create_time=#{createTime}
+            </if>
+            <if test="rrRoomState != null">
+                and rr_room_state=#{rrRoomState}
+            </if>
+            <if test="rrRoomPeoples != null">
+                and rr_room_peoples=#{rrRoomPeoples}
+            </if>
+            <if test="rrRoomPosition != null">
+                and rr_room_position=#{rrRoomPosition}
+            </if>
+            <if test="rpId != null">
+                and rp_id=#{rpId}
+            </if>
+            <if test="rrAdminId != null">
+                and rr_admin_id=#{rrAdminId}
+            </if>
+            <if test="createdDt != null">
+                and created_dt=#{createdDt}
+            </if>
+            <if test="updatedBy != null">
+                and updated_by=#{updatedBy}
+            </if>
+            <if test="version != null">
+                and version=#{version}
+            </if>
+            <if test="createUserId != null">
+                and create_user_id=#{createUserId}
+            </if>
+            <if test="comId != null">
+                and com_id=#{comId}
+            </if>
+            <if test="rdRoomDevice != null">
+                and rd_room_device=#{rdRoomDevice}
+            </if>
+            <if test="rrAdminType != null">
+                and rr_admin_type=#{rrAdminType}
+            </if>
+            <if test="createdBy != null">
+                and created_by=#{createdBy}
+            </if>
+            <if test="updateTime != null">
+                and update_time=#{updateTime}
+            </if>
+            <if test="rrRoomType != null">
+                and rr_room_type=#{rrRoomType}
+            </if>
+            <if test="rrRoomName != null || rrRoomName != ''"  >
+                AND rr_room_name   LIKE '%${rrRoomName}%' ESCAPE '/'
+            </if>
+            <if test="id != null">
+                and id=#{id}
+            </if>
+            <if test="rrAdminName != null">
+                and rr_admin_name=#{rrAdminName}
+            </if>
+            <if test="rtId != null">
+                and rt_id=#{rtId}
+            </if>
+            <if test="remarks != null">
+                and remarks=#{remarks}
+            </if>
+            <if test="rdDeviceId != null">
+                and rd_device_id=#{rdDeviceId}
+            </if>
+            <if test="rrRoomDesc != null">
+                and rr_room_desc=#{rrRoomDesc}
+            </if>
+        </trim>
+    </sql>
+
+    <select id="getById" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_room_resource where id =#{id}
+    </select>
+
+    <select id="getByIds" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_room_resource where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </select>
+
+    <delete id="getByListId">
+        select
+        <include refid="baseColumns"/>
+        from mt_room_resource where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="get" resultMap="BaseResultMap" parameterType="com.sgai.property.meeting.entity.RoomResource">
+        select
+        <include refid="baseColumns"/>
+        from
+        mt_room_resource where
+        <include refid="whereSql"/>
+        limit 0,1
+    </select>
+
+    <select id="findAllList" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_room_resource
+        where com_id = #{comId}
+        order by UPDATED_DT DESC
+    </select>
+
+    <select id="findList" parameterType="com.sgai.property.meeting.entity.RoomResource" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_room_resource where
+        <include refid="whereSqlToLike"/>
+        ORDER BY  UPDATED_DT DESC
+        <if test="page !=null and page.orderBy != null and page.orderBy != ''">
+            , ${page.orderBy}
+        </if>
+    </select>
+
+    <select id="getCount" parameterType="com.sgai.property.meeting.entity.RoomResource" resultType="java.lang.Integer">
+        select count(1) from mt_room_resource where
+        <include refid="whereSql"/>
+    </select>
+
+    <insert id="insert" parameterType="com.sgai.property.meeting.entity.RoomResource">
+        insert into mt_room_resource
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="comCode != null">
+				 com_code,
+			 </if>
+			 <if test="moduCode != null">
+				 modu_code,
+			 </if>
+            <if test="updatedDt != null">
+                updated_dt,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="rrRoomPicMain != null">
+                rr_room_pic_main,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="rrRoomState != null">
+                rr_room_state,
+            </if>
+            <if test="rrRoomPeoples != null">
+                rr_room_peoples,
+            </if>
+            <if test="rrRoomPosition != null">
+                rr_room_position,
+            </if>
+            <if test="rpId != null">
+                rp_id,
+            </if>
+            <if test="rrAdminId != null">
+                rr_admin_id,
+            </if>
+            <if test="createdDt != null">
+                created_dt,
+            </if>
+            <if test="updatedBy != null">
+                updated_by,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="comId != null">
+                com_id,
+            </if>
+            <if test="rdRoomDevice != null">
+                rd_room_device,
+            </if>
+            <if test="rrAdminType != null">
+                rr_admin_type,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="rrRoomType != null">
+                rr_room_type,
+            </if>
+            <if test="rrRoomName != null">
+                rr_room_name,
+            </if>
+            <if test="id != null">
+                id,
+            </if>
+            <if test="rrAdminName != null">
+                rr_admin_name,
+            </if>
+            <if test="rtId != null">
+                rt_id,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+            <if test="rdDeviceId != null">
+                rd_device_id,
+            </if>
+            <if test="rrRoomDesc != null">
+                rr_room_desc,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+        <if test="comCode != null">
+				 #{comCode},
+			 </if>
+			 <if test="moduCode != null">
+				 #{moduCode},
+			 </if>
+            <if test="updatedDt != null">
+                #{updatedDt},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>
+            <if test="rrRoomPicMain != null">
+                #{rrRoomPicMain},
+            </if>
+            <if test="createUser != null">
+                #{createUser},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="rrRoomState != null">
+                #{rrRoomState},
+            </if>
+            <if test="rrRoomPeoples != null">
+                #{rrRoomPeoples},
+            </if>
+            <if test="rrRoomPosition != null">
+                #{rrRoomPosition},
+            </if>
+            <if test="rpId != null">
+                #{rpId},
+            </if>
+            <if test="rrAdminId != null">
+                #{rrAdminId},
+            </if>
+            <if test="createdDt != null">
+                #{createdDt},
+            </if>
+            <if test="updatedBy != null">
+                #{updatedBy},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId},
+            </if>
+            <if test="comId != null">
+                #{comId},
+            </if>
+            <if test="rdRoomDevice != null">
+                #{rdRoomDevice},
+            </if>
+            <if test="rrAdminType != null">
+                #{rrAdminType},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="rrRoomType != null">
+                #{rrRoomType},
+            </if>
+            <if test="rrRoomName != null">
+                #{rrRoomName},
+            </if>
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="rrAdminName != null">
+                #{rrAdminName},
+            </if>
+            <if test="rtId != null">
+                #{rtId},
+            </if>
+            <if test="remarks != null">
+                #{remarks},
+            </if>
+            <if test="rdDeviceId != null">
+                #{rdDeviceId},
+            </if>
+            <if test="rrRoomDesc != null">
+                #{rrRoomDesc},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.sgai.property.meeting.entity.RoomResource">
+        update mt_room_resource set
+        <trim suffixOverrides=",">
+
+         <if test="comCode != null">
+					 com_code=#{comCode},
+				 </if>
+				 <if test="moduCode != null">
+					 modu_code=#{moduCode},
+				 </if>
+            <if test="updatedDt != null">
+                updated_dt=#{updatedDt},
+            </if>
+            <if test="isDelete != null">
+                is_delete=#{isDelete},
+            </if>
+            <if test="rrRoomPicMain != null">
+                rr_room_pic_main=#{rrRoomPicMain},
+            </if>
+            <if test="createUser != null">
+                create_user=#{createUser},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="rrRoomState != null">
+                rr_room_state=#{rrRoomState},
+            </if>
+            <if test="rrRoomPeoples != null">
+                rr_room_peoples=#{rrRoomPeoples},
+            </if>
+            <if test="rrRoomPosition != null">
+                rr_room_position=#{rrRoomPosition},
+            </if>
+            <if test="rpId != null">
+                rp_id=#{rpId},
+            </if>
+            <if test="rrAdminId != null">
+                rr_admin_id=#{rrAdminId},
+            </if>
+            <if test="createdDt != null">
+                created_dt=#{createdDt},
+            </if>
+            <if test="updatedBy != null">
+                updated_by=#{updatedBy},
+            </if>
+            <if test="version != null">
+                version=#{version},
+            </if>
+            <if test="createUserId != null">
+                create_user_id=#{createUserId},
+            </if>
+            <if test="comId != null">
+                com_id=#{comId},
+            </if>
+            <if test="rdRoomDevice != null">
+                rd_room_device=#{rdRoomDevice},
+            </if>
+            <if test="rrAdminType != null">
+                rr_admin_type=#{rrAdminType},
+            </if>
+            <if test="createdBy != null">
+                created_by=#{createdBy},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+            <if test="rrRoomType != null">
+                rr_room_type=#{rrRoomType},
+            </if>
+            <if test="rrRoomName != null">
+                rr_room_name=#{rrRoomName},
+            </if>
+            <if test="rrAdminName != null">
+                rr_admin_name=#{rrAdminName},
+            </if>
+            <if test="rtId != null">
+                rt_id=#{rtId},
+            </if>
+            <if test="remarks != null">
+                remarks=#{remarks},
+            </if>
+            <if test="rdDeviceId != null">
+                rd_device_id=#{rdDeviceId},
+            </if>
+            <if test="rrRoomDesc != null">
+                rr_room_desc=#{rrRoomDesc},
+            </if>
+        </trim>
+        where id =#{id}
+    </update>
+
+
+    <update id="update" parameterType="com.sgai.property.meeting.entity.RoomResource">
+        update mt_room_resource set
+        <trim suffixOverrides=",">
+
+            <if test="comCode != null">
+                com_code=#{comCode},
+            </if>
+            <if test="moduCode != null">
+                modu_code=#{moduCode},
+            </if>
+            <if test="updatedDt != null">
+                updated_dt=#{updatedDt},
+            </if>
+            <if test="isDelete != null">
+                is_delete=#{isDelete},
+            </if>
+            <if test="rrRoomPicMain != null">
+                rr_room_pic_main=#{rrRoomPicMain},
+            </if>
+            <if test="createUser != null">
+                create_user=#{createUser},
+            </if>
+            <if test="createTime != null">
+                create_time=#{createTime},
+            </if>
+            <if test="rrRoomState != null">
+                rr_room_state=#{rrRoomState},
+            </if>
+            <if test="rrRoomPeoples != null">
+                rr_room_peoples=#{rrRoomPeoples},
+            </if>
+            <if test="rrRoomPosition != null">
+                rr_room_position=#{rrRoomPosition},
+            </if>
+            <if test="rpId != null">
+                rp_id=#{rpId},
+            </if>
+            <if test="rrAdminId != null">
+                rr_admin_id=#{rrAdminId},
+            </if>
+            <if test="createdDt != null">
+                created_dt=#{createdDt},
+            </if>
+            <if test="updatedBy != null">
+                updated_by=#{updatedBy},
+            </if>
+            <if test="version != null">
+                version=#{version},
+            </if>
+            <if test="createUserId != null">
+                create_user_id=#{createUserId},
+            </if>
+            <if test="comId != null">
+                com_id=#{comId},
+            </if>
+            <if test="rdRoomDevice != null">
+                rd_room_device=#{rdRoomDevice},
+            </if>
+            <if test="rrAdminType != null">
+                rr_admin_type=#{rrAdminType},
+            </if>
+            <if test="createdBy != null">
+                created_by=#{createdBy},
+            </if>
+            <if test="updateTime != null">
+                update_time=#{updateTime},
+            </if>
+            <if test="rrRoomType != null">
+                rr_room_type=#{rrRoomType},
+            </if>
+            <if test="rrRoomName != null">
+                rr_room_name=#{rrRoomName},
+            </if>
+            <if test="rrAdminName != null">
+                rr_admin_name=#{rrAdminName},
+            </if>
+            <if test="rtId != null">
+                rt_id=#{rtId},
+            </if>
+            <if test="remarks != null">
+                remarks=#{remarks},
+            </if>
+            <if test="rdDeviceId != null">
+                rd_device_id=#{rdDeviceId},
+            </if>
+            <if test="rrRoomDesc != null">
+                rr_room_desc=#{rrRoomDesc},
+            </if>
+        </trim>
+        where id =#{id}
+    </update>
+
+
+    <update id="updateByIds" parameterType="com.sgai.property.meeting.entity.RoomResource">
+        update mt_room_resource set
+        <trim suffixOverrides=",">
+        <if test="entity.comCode != null">
+					 com_code=#{entity.comCode},
+				 </if>
+				 <if test="entity.moduCode != null">
+					 modu_code=#{entity.moduCode},
+				 </if>
+            <if test="entity.updatedDt != null">
+                updated_dt = #{entity.updatedDt},
+            </if>
+            <if test="entity.isDelete != null">
+                is_delete = #{entity.isDelete},
+            </if>
+            <if test="entity.rrRoomPicMain != null">
+                rr_room_pic_main = #{entity.rrRoomPicMain},
+            </if>
+            <if test="entity.createUser != null">
+                create_user = #{entity.createUser},
+            </if>
+            <if test="entity.createTime != null">
+                create_time = #{entity.createTime},
+            </if>
+            <if test="entity.rrRoomState != null">
+                rr_room_state = #{entity.rrRoomState},
+            </if>
+            <if test="entity.rrRoomPeoples != null">
+                rr_room_peoples = #{entity.rrRoomPeoples},
+            </if>
+            <if test="entity.rrRoomPosition != null">
+                rr_room_position = #{entity.rrRoomPosition},
+            </if>
+            <if test="entity.rpId != null">
+                rp_id = #{entity.rpId},
+            </if>
+            <if test="entity.rrAdminId != null">
+                rr_admin_id = #{entity.rrAdminId},
+            </if>
+            <if test="entity.createdDt != null">
+                created_dt = #{entity.createdDt},
+            </if>
+            <if test="entity.updatedBy != null">
+                updated_by = #{entity.updatedBy},
+            </if>
+            <if test="entity.version != null">
+                version = #{entity.version},
+            </if>
+            <if test="entity.createUserId != null">
+                create_user_id = #{entity.createUserId},
+            </if>
+            <if test="entity.comId != null">
+                com_id = #{entity.comId},
+            </if>
+            <if test="entity.rdRoomDevice != null">
+                rd_room_device = #{entity.rdRoomDevice},
+            </if>
+            <if test="entity.rrAdminType != null">
+                rr_admin_type = #{entity.rrAdminType},
+            </if>
+            <if test="entity.createdBy != null">
+                created_by = #{entity.createdBy},
+            </if>
+            <if test="entity.updateTime != null">
+                update_time = #{entity.updateTime},
+            </if>
+            <if test="entity.rrRoomType != null">
+                rr_room_type = #{entity.rrRoomType},
+            </if>
+            <if test="entity.rrRoomName != null">
+                rr_room_name = #{entity.rrRoomName},
+            </if>
+            <if test="entity.rrAdminName != null">
+                rr_admin_name = #{entity.rrAdminName},
+            </if>
+            <if test="entity.rtId != null">
+                rt_id = #{entity.rtId},
+            </if>
+            <if test="entity.remarks != null">
+                remarks = #{entity.remarks},
+            </if>
+            <if test="entity.rdDeviceId != null">
+                rd_device_id = #{entity.rdDeviceId},
+            </if>
+            <if test="entity.rrRoomDesc != null">
+                rr_room_desc = #{entity.rrRoomDesc},
+            </if>
+        </trim>
+        where id in
+        <foreach collection="ids" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </update>
+
+
+    <delete id="deleteById">
+      delete from mt_room_resource where id =#{id}
+   </delete>
+
+    <delete id="deleteByIds">
+        delete from mt_room_resource where id in
+        <foreach collection="array" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByListId">
+        delete from mt_room_resource where id in
+        <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="delete" parameterType="com.sgai.property.meeting.entity.RoomResource">
+        delete from mt_room_resource where
+        <include refid="whereSql"/>
+    </delete>
+    <select id="getByRpIdOrCurrtDateAndTimeSeg" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_room_resource rr where rr.rp_id =#{rpId} and rr.is_delete = 0 and rr_room_state = 1
+        <if test="currtDate != null and timeSeg!=null ">
+            and not EXISTS (select 1 from mt_maininfo mi where mi.rr_id = rr.ID and
+            mi.mi_status IN(1,2)
+            and mi.is_delete = 0
+            <if test="createEiId != null ">
+                and mi.create_ei_id != #{createEiId}
+            </if>
+            AND mi.mi_mt_date = #{currtDate}
+            <!-- and splitTimeSeg(#{timeSeg},mi.mi_mt_time_seg) > 0
+             AND mi.mi_mt_time_seg like CONCAT('%',#{timeSeg},'%') -->
+            )
+        </if>
+    </select>
+
+
+
+    <select id="findRtAll" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_room_resource
+        WHERE is_delete = 0
+        <if test="rtId != null">
+            and rt_id = #{rtId}
+        </if>
+        order by UPDATED_DT DESC
+    </select>
+    
+    
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_room_resource
+        WHERE is_delete = 0
+        <if test="comId != null">
+            and com_id = #{comId}
+        </if>
+        order by UPDATED_DT DESC
+    </select>
+
+    <select id="searchRoom" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        <include refid="baseColumns"/>
+        FROM mt_room_resource
+        WHERE is_delete = 0
+        <if test="keyWord == null">
+            AND 1=1
+        </if>
+        <if test="keyWord  !=  null">
+            AND rr_room_name   LIKE '%${keyWord}%' ESCAPE '/'
+        </if>
+        <if test="comId != null">
+            and com_id = #{comId}
+        </if>
+        order by create_time DESC
+    </select>
+
+
+    <select id="getByNameAndId" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_room_resource
+        WHERE
+        <if test="rrId != null">
+            id = #{rrId}
+        </if>
+        <if test="rrRoomName != null">
+            and rr_room_name = #{rrRoomName}
+        </if>
+    </select>
+
+
+    <select id="getByName" resultMap="BaseResultMap">
+        select
+        <include refid="baseColumns"/>
+        from mt_room_resource
+        WHERE
+        <if test="rrRoomName != null">
+            rr_room_name = #{rrRoomName}
+        </if>
+        AND IS_DELETE =0
+    </select>
+
+
+</mapper>

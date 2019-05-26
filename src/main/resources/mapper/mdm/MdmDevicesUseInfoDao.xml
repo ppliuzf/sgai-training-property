@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgai.property.mdm.dao.MdmDevicesUseInfoDao">
+    
+	<sql id="mdmDevicesUseInfoColumns">
+		a.id AS "id",
+		a.devices_code AS "devicesCode",
+		a.devices_name AS "devicesName",
+		a.model_code AS "modelCode",
+		a.devices_model AS "devicesModel",
+		a.class_code AS "classCode",
+		a.class_name AS "className",
+		a.out_date AS "outDate",
+		a.supplier_no AS "supplierNo",
+		a.supplier_name AS "supplierName",
+		a.tel_phone AS "telPhone",
+		a.space_code AS "spaceCode",
+		a.space_name AS "spaceName",
+		a.enabled_flag AS "enabledFlag",
+		a.version AS "version",
+		a.updated_dt AS "updatedDt",
+		a.updated_by AS "updatedBy",
+		a.created_dt AS "createdDt",
+		a.created_by AS "createdBy",
+		a.remarks AS "remarks",
+		a.com_code AS "comCode",
+		a.modu_code AS "moduCode",
+		a.ip AS ip,
+		a.x as "x",
+		a.y as "y",
+		a.path as "path",
+		a.parent_code as "parentCode",
+		a.space_desc as "spaceDesc"
+	</sql>
+	
+	<sql id="mdmDevicesUseInfoJoins">
+	</sql>
+    
+    <!--根据筛选条件查出所有的列数据 -->
+	<select id="getALLAttrName"  resultType="com.sgai.property.mdm.entity.MdmDevicesModel">
+		SELECT DISTINCT(b.ATTR_NAME) attrName FROM mdm_ATTRIBUTE b
+		LEFT JOIN MDM_DEVICES_USE_INFO a ON b.DEVICES_CODE = a.DEVICES_CODE
+		WHERE 1=1
+		<if test="comCode != null and comCode != ''">
+				AND a.com_code=#{comCode}
+		</if>
+		<if test="moduCode != null and moduCode != ''">
+			AND a.modu_code = #{moduCode}
+		</if>
+	</select>
+    
+    
+    <!--根据条件查询数据  -->
+	<select id="findAttrListVoByDevices" resultType="com.sgai.property.mdm.entity.MdmDevicesModel">
+		SELECT 
+		<if test="selectStr != null and selectStr != ''">
+			${selectStr},
+		</if>
+		a.ID id,
+		a.DEVICES_CODE devicesCode,
+		a.DEVICES_name devicesName,
+		a.com_code comCode
+		FROM MDM_DEVICES_USE_INFO a
+		RIGHT JOIN (${paramStr}) b ON 
+		b.DEVICES_CODE = a.DEVICES_CODE
+		WHERE 1=1
+		<if test="comCode != null and comCode != ''">
+				AND a.com_code=#{comCode}
+		</if>
+		<if test="moduCode != null and moduCode != ''">
+			AND a.modu_code = #{moduCode}
+		</if>
+		<if test="moduCode == null or moduCode == ''">
+			AND a.modu_code is null
+		</if>
+		<if test="devicesCode != null or devicesCode !=''">
+			AND a.devices_code =#{devicesCode}
+		</if>
+	</select>
+    
+	<select id="get" resultType="com.sgai.property.mdm.entity.MdmDevicesUseInfo">
+		SELECT 
+			a.*,
+			b.prof_name AS "className"
+			FROM mdm_devices_use_info a LEFT JOIN MDM_DEVICE_CLASS b ON a.CLASS_CODE = b.class_code AND a.COM_CODE = b.COM_CODE
+			<where>
+				a.CLASS_CODE = (SELECT CLASS_CODE  FROM mdm_devices_use_info a WHERE a.id = #{id})
+				AND a.id = #{id}
+			</where>
+	</select>
+	<select id="getDevicesByCode" resultType="com.sgai.property.mdm.entity.MdmDevicesUseInfo">
+		SELECT
+		a.*
+		FROM mdm_devices_use_info a where a.devices_code = #{devicesCode}
+
+	</select>
+	
+	<select id="findAttrList" resultType="com.sgai.property.mdm.entity.MdmDevicesUseInfo">
+		select CUI.space_code as "spaceCode",
+			   cui.remarks as "remarks",
+			   ma.attr_value as "ip"
+		from MDM_ATTRIBUTE ma
+		left join (
+			select mdui.* 
+			from 
+				MDM_DEVICE_CLASS mdc
+				LEFT JOIN
+				MDM_DEVICES_USE_INFO mdui
+				ON MDC.CLASS_CODE = MDUI.CLASS_CODE
+			WHERE MDC.PROF_CODE = #{devicesCode} and mdc.com_code = #{comCode} and mdui.com_code = #{comCode}
+			) cui
+		on MA.DEVICES_CODE = CUI.DEVICES_CODE
+		where attr_name = 'ip' and ma.com_code = #{comCode}
+	</select>
+	
+	<select id="findSpaceInfo" resultType="com.sgai.property.mdm.entity.MdmSpaceTree">
+		select node_type as "nodeType",node_name as "spaceName" from mdm_space_tree  
+		where (node_code = #{spaceCode} 
+		or node_code = (
+			select parent_code 
+			from mdm_space_tree  
+			where node_code = #{spaceCode} 
+			and enabled_flag = 'Y' and com_code = #{comCode})) 
+		and com_code = #{comCode}
+	</select>
+	
+	<select id="getMdmDevicesUseInfoVo" resultType="com.sgai.property.mdm.entity.MdmDevicesModel">
+		SELECT 
+			a.*,
+			b.prof_name AS "profName"
+			FROM mdm_devices_use_info a LEFT JOIN MDM_DEVICE_CLASS b ON a.CLASS_CODE = b.class_code AND a.COM_CODE = b.COM_CODE
+			<where>
+				a.CLASS_CODE = (SELECT CLASS_CODE  FROM mdm_devices_use_info a WHERE a.id = #{id})
+				AND a.id = #{id}
+			</where>
+	</select>
+	<select id="findNotByIdList" resultType="com.sgai.property.mdm.entity.MdmDevicesModel">
+		SELECT 
+		a.ip as "ip",
+		a.x as "x",
+		a.y as "y",
+		a.path as "path",
+		 a.id AS "id",
+		 a.com_code AS "comCode",
+		 a.modu_code AS "moduCode"
+		 a.DEVICES_CODE AS "devicesCode",
+		 a.DEVICES_NAME AS "devicesName",
+		 a.class_code AS "classCode",
+		 a.CLASS_NAME AS "className",
+		 b.PROF_CODE AS "profCode",
+		 b.PROF_NAME AS "profName",
+		 a.DEVICES_MODEL AS "devicesModel",
+		 a.SUPPLIER_NAME AS "supplierName",
+		 a.TEL_PHONE AS "telPhone",
+		 a.SPACE_NAME AS "spaceName",
+		 a.OUT_DATE AS "outDate",
+		 a.ENABLED_FLAG AS "enabledFlag",
+		 a.REMARKS AS "remarks",
+		 a.parent_code as "parentCode",
+		 a.space_desc as "spaceDesc"
+		 FROM MDM_DEVICES_USE_INFO a inner JOIN MDM_DEVICE_CLASS b ON a.CLASS_CODE = b.CLASS_CODE 
+		<include refid="mdmDevicesUseInfoJoins"/>
+		<where>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				${sqlMap.sqlMap}
+			</if> 
+			<if test="profName != null and profName != ''">
+				AND b.PROF_NAME like '%#{profName}%'
+			</if>
+			<if test="devicesName != null and devicesName != ''">
+				AND a.DEVICES_NAME like '%${devicesName}%'
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND a.space_name like '%${spaceName}%'
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND a.space_name like '%${spaceName}%'
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND a.CLASS_NAME like '%${className}%'
+			</if>
+			<if test="x != null and x != ''">
+				AND a.x = #{x}
+			</if>
+			<if test="y != null and y != ''">
+				AND a.y = #{y}
+			</if>
+			<if test="path != null and path != ''">
+				AND a.path = #{path}
+			</if>
+			<if test="parentCode != null and parentCode != ''">
+				AND a.parent_code = #{parentCode}
+			</if>
+			<if test="spaceDesc != null and spaceDesc != ''">
+				AND a.space_desc = #{spaceDesc}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findList" resultType="com.sgai.property.mdm.entity.MdmDevicesUseInfo">
+		SELECT 
+			<include refid="mdmDevicesUseInfoColumns"/>
+		FROM mdm_devices_use_info a
+		<include refid="mdmDevicesUseInfoJoins"/>
+		<where>
+			<if test="sqlMap != null and  sqlMap.sql != null and sqlMap.sql != ''">
+				  ${sqlMap.sql}
+			</if>
+			<if test="devicesCode != null and devicesCode != ''">
+				AND a.devices_code = #{devicesCode}
+			</if>
+			<if test="devicesName != null and devicesName != ''">
+				AND a.devices_name like '%${devicesName}%'
+			</if>
+			<if test="modelCode != null and modelCode != ''">
+				AND a.model_code = #{modelCode}
+			</if>
+			<if test="devicesModel != null and devicesModel != ''">
+				AND a.devices_model like '%${devicesModel}%'
+			</if>
+			<if test="classCode != null and classCode != ''">
+				AND a.class_code = #{classCode}
+			</if>
+			<if test="className != null and className != ''">
+				AND a.class_name like '%${className}%'
+			</if>
+			<if test="supplierNo != null and supplierNo != ''">
+				AND a.supplier_no = #{supplierNo}
+			</if>
+			<if test="supplierName != null and supplierName != ''">
+				AND a.supplier_name like '%${supplierName}%'
+			</if>
+			<if test="telPhone != null and telPhone != ''">
+				AND a.tel_phone like '%${telPhone}%'
+			</if>
+			<if test="x != null and x != ''">
+				AND a.x = #{x}
+			</if>
+			<if test="y != null and y != ''">
+				AND a.y = #{y}
+			</if>
+			<if test="path != null and path != ''">
+				AND a.path = #{path}
+			</if>
+			<if test="parentCode != null and parentCode != ''">
+				AND a.parent_code = #{parentCode}
+			</if>
+			<if test="spaceDesc != null and spaceDesc != ''">
+				AND a.space_desc = #{spaceDesc}
+			</if>
+			<if test="spaceCode != null and spaceCode != ''">
+				AND a.space_code = #{spaceCode}
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND a.space_name like '%${spaceName}%'
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="createdDt != null and createdDt != ''">
+				AND a.created_dt = #{createdDt}
+			</if>
+			<if test="createdBy != null and createdBy != ''">
+				AND a.created_by = #{createdBy}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+			<if test="ip != null and ip != ''">
+				AND a.ip = #{ip}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id="findProBySpace" resultType="com.sgai.property.mdm.entity.MdmDeviceProf">
+	SELECT DISTINCT
+		b.PROF_NAME AS "profName",
+		b.PROF_CODE AS "profCode"
+	FROM
+		MDM_DEVICES_USE_INFO A
+	INNER JOIN MDM_DEVICE_CLASS b ON A .CLASS_CODE = b.CLASS_CODE
+	INNER JOIN MDM_DEVICES_MODEL c ON A .MODEL_CODE = c.model_code
+	WHERE
+		A .COM_CODE = b.COM_CODE
+	AND A .COM_CODE = c.com_code
+	AND A .SPACE_CODE IN (
+		SELECT
+			D .SPACE_CODE
+		FROM
+			RUAG_LINKAGE_RULE_SPACE D
+		WHERE
+			D .LINKAGE_CODE = #{linkCode}
+	)
+	AND A .com_code = #{comCode}
+	<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+	</if>
+	<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+	</if>
+	</select>
+		<select id = "findDeviceCodes" resultType="String">
+		SELECT
+			A.path
+		FROM
+			MDM_DEVICES_USE_INFO A
+		INNER JOIN MDM_DEVICE_CLASS b ON A .CLASS_CODE = b.CLASS_CODE
+		WHERE
+			A .COM_CODE = b.COM_CODE
+		<if test="spaceCode != null and spaceCode != ''">
+				AND a.space_code in (select DISTINCT NODE_CODE from MDM_SPACE_TREE WHERE com_code = #{comCode} start with NODE_CODE=#{spaceCode} connect by prior NODE_CODE=PARENT_CODE) 
+		</if>
+		<if test="profCode != null and profCode != ''">
+				AND b.PROF_CODE = #{profCode}
+		</if>
+		<if test="parentCode != null and parentCode != ''">
+				AND a.PARENT_CODE = #{parentCode}
+		</if>
+		AND A .com_code = #{comCode}
+		AND A .path is not null
+		<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+		</if>
+		<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+		</if>
+	</select>
+	<select id="findListVo" resultType="com.sgai.property.mdm.dto.MdmDevicesUseInfoVo">
+		SELECT 
+		 a.id AS "id",
+		 a.ip AS "ip",
+		 a.x AS "x",
+		 a.y AS "y",
+		 a.path AS "path",
+		 a.DEVICES_CODE AS "devicesCode",
+		 a.DEVICES_NAME AS "devicesName",
+		 a.CLASS_NAME AS "className",
+		 a.CLASS_CODE AS "classCode",
+		 b.PROF_CODE AS "profCode",
+		 b.PROF_NAME AS "profName",
+		 c.brand_name AS "brandName",
+		 a.DEVICES_MODEL AS "devicesModel",
+		 a.SUPPLIER_NAME AS "supplierName",
+		 a.TEL_PHONE AS "telPhone",
+		 a.SPACE_NAME AS "spaceName",
+		 a.OUT_DATE AS "outDate",
+		 a.ENABLED_FLAG AS "enabledFlag",
+		 a.REMARKS AS "remarks",
+		 a.com_code AS "comCode",
+		 a.modu_code AS "moduCode",
+		 a.parent_code as "parentCode",
+		 a.space_desc as "spaceDesc"
+		 FROM MDM_DEVICES_USE_INFO a inner JOIN MDM_DEVICE_CLASS b ON a.CLASS_CODE = b.CLASS_CODE inner JOIN MDM_DEVICES_MODEL c ON a.MODEL_CODE = c.model_code
+		<include refid="mdmDevicesUseInfoJoins"/>
+		<where>
+			A.COM_CODE = b.COM_CODE AND a.COM_CODE = c.com_code
+			<if test="sqlMap != null">
+				  ${sqlMap.sqlMap}
+			</if>
+			<if test="profName != null and profName != ''">
+				AND b.PROF_CODE = #{profName}
+			</if>
+			<if test="profCode != null and profCode != ''">
+				AND b.PROF_CODE = #{profCode}
+			</if>
+			<if test="brandName != null and brandName != ''">
+				AND c.brand_name = #{brandName}
+			</if>
+			<if test="devicesCode != null and devicesCode != ''">
+				AND a.devices_code like '%${devicesCode}%'
+			</if>
+			<if test="devicesName != null and devicesName != ''">
+				AND a.devices_name like '%${devicesName}%'
+			</if>
+			<if test="devicesModel != null and devicesModel != ''">
+				AND a.devices_model like '%${devicesModel}%'
+			</if>
+			<if test="className != null and className != ''">
+				AND a.class_name = #{className}
+			</if>
+			<if test="classCode != null and classCode != ''">
+				AND a.class_Code = #{classCode}
+			</if>
+			<if test="supplierName != null and supplierName != ''">
+				AND a.supplier_name like '%${supplierName}%'
+			</if>
+			<if test="telPhone != null and telPhone != ''">
+				AND a.tel_phone like '%${telPhone}%'
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND a.space_name like '%${spaceName}%'
+			</if>
+			<if test="x != null and x != ''">
+				AND a.x = #{x}
+			</if>
+			<if test="y != null and y != ''">
+				AND a.y = #{y}
+			</if>
+			<if test="path != null and path != ''">
+				AND a.path = #{path}
+			</if>
+			<if test="parentCode != null and parentCode != ''">
+				AND a.parent_code = #{parentCode}
+			</if>
+			<if test="spaceDesc != null and spaceDesc != ''">
+				AND a.space_desc = #{spaceDesc}
+			</if>
+			<if test="enabledFlag != null and enabledFlag != ''">
+				AND a.enabled_flag = #{enabledFlag}
+			</if>
+			<if test="createdDt != null and createdDt != ''">
+				AND a.created_dt = #{createdDt}
+			</if>
+			<if test="createdBy != null and createdBy != ''">
+				AND a.created_by = #{createdBy}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>
+			ORDER BY  A.UPDATED_DT DESC
+			
+						
+			
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="com.sgai.property.mdm.entity.MdmDevicesUseInfo">
+		SELECT 
+			<include refid="mdmDevicesUseInfoColumns"/>
+		FROM mdm_devices_use_info a
+		<include refid="mdmDevicesUseInfoJoins"/>
+		<where>
+			<if test="comCode != null and comCode != ''">
+				AND a.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND a.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND a.modu_code is null
+			</if>
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	<select id = "findListByProf" resultType="com.sgai.property.mdm.entity.MdmDevicesModel">
+			SELECT
+		mdui.* ,
+		arl4.states 
+	FROM
+		MDM_DEVICES_USE_INFO mdui
+		INNER JOIN MDM_DEVICE_CLASS mdc ON mdui.CLASS_CODE = mdc.CLASS_CODE
+		LEFT JOIN (
+		SELECT
+			arl1.DEVICES_CODE,
+			arl1.STATES 
+		FROM
+			ALM_RECORD_LIST arl1,
+			( SELECT arl2.DEVICES_CODE, max( ALARM_TIME ) ALARM_TIME FROM ALM_RECORD_LIST arl2 GROUP BY DEVICES_CODE ) arl3 
+		WHERE
+			arl1.DEVICES_CODE = arl3.DEVICES_CODE 
+			AND arl1.ALARM_TIME = arl3.ALARM_TIME 
+		) arl4 ON mdui.DEVICES_CODE = arl4.DEVICES_CODE
+			<where>
+			     mdui.path is not null
+			<if test="profCode != null and profCode != ''">
+				AND mdc.PROF_CODE = #{profCode}
+			</if>
+			<if test="classCode != null and classCode != ''">
+				AND mdc.CLASS_CODE = #{classCode}
+			</if>
+			<if test="spaceName != null and spaceName != ''">
+				AND mdui.space_code in (select NODE_CODE from MDM_SPACE_TREE WHERE com_code = #{comCode} start with NODE_CODE=#{spaceName} connect by prior NODE_CODE=PARENT_CODE)
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND mdui.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND mdui.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND mdui.modu_code is null
+			</if>
+		</where>
+	</select>
+	<select id = "getAttr" resultType = "Map">
+		SELECT
+			ma.ATTR_VALUE,
+			mdui.devices_name,
+			mdui.SPACE_CODE 
+		FROM
+			MDM_DEVICES_USE_INFO mdui
+		INNER JOIN MDM_ATTRIBUTE ma ON mdui.DEVICES_CODE = ma.DEVICES_CODE
+		<where>
+			     mdui.path is not null
+			<if test="spaceCode != null and spaceCode != ''">
+				AND mdui.SPACE_CODE = #{spaceCode}
+			</if>
+			<if test="attrName != null and attrName != ''">
+				AND ma.ATTR_NAME = #{attrName}
+			</if>
+			<if test="comCode != null and comCode != ''">
+				AND mdui.com_code = #{comCode}
+			</if>
+			<if test="moduCode != null and moduCode != ''">
+				AND mdui.modu_code = #{moduCode}
+			</if>
+			<if test="moduCode == null or moduCode == ''">
+				AND mdui.modu_code is null
+			</if>
+		</where>
+	</select>
+	<insert id="insert">
+		INSERT INTO mdm_devices_use_info(
+			id,
+			devices_code,
+			devices_name,
+			model_code,
+			devices_model,
+			class_code,
+			class_name,
+			out_date,
+			supplier_no,
+			supplier_name,
+			tel_phone,
+			space_code,
+			space_name,
+			enabled_flag,
+			version,
+			updated_dt,
+			updated_by,
+			created_dt,
+			created_by,
+			remarks,
+			com_code,
+			modu_code,
+			parent_code,
+			space_desc,
+			ip,
+			x,
+			y,
+			path
+		) VALUES (
+			#{id},
+			#{devicesCode},
+			#{devicesName},
+			#{modelCode},
+			#{devicesModel},
+			#{classCode},
+			#{className},
+			#{outDate},
+			#{supplierNo},
+			#{supplierName},
+			#{telPhone},
+			#{spaceCode},
+			#{spaceName},
+			#{enabledFlag},
+			#{version},
+			#{updatedDt},
+			#{updatedBy},
+			#{createdDt},
+			#{createdBy},
+			#{remarks},
+			#{comCode},
+			#{moduCode},
+			#{parentCode},
+			#{spaceDesc},
+			#{ip},
+			#{x},
+			#{y},
+			#{path}
+			
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE mdm_devices_use_info SET 	
+			devices_code = #{devicesCode},
+			devices_name = #{devicesName},
+			model_code = #{modelCode},
+			devices_model = #{devicesModel},
+			class_code = #{classCode},
+			class_name = #{className},
+			out_date = #{outDate},
+			supplier_no = #{supplierNo},
+			supplier_name = #{supplierName},
+			tel_phone = #{telPhone},
+			space_code = #{spaceCode},
+			space_name = #{spaceName},
+			enabled_flag = #{enabledFlag},
+			version = #{version},
+			updated_dt = #{updatedDt},
+			updated_by = #{updatedBy},
+			created_dt = #{createdDt},
+			created_by = #{createdBy},
+			remarks = #{remarks},
+			com_code = #{comCode},
+			modu_code = #{moduCode},
+			parent_code = #{parentCode},
+			space_desc = #{spaceDesc},
+			ip=#{ip},
+			x=#{x},
+			y=#{y},
+			path=#{path}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM mdm_devices_use_info
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
