@@ -1,0 +1,178 @@
+{
+  "attris": [
+    {
+      "deviceId": 2429,
+      "id": 8603,
+      "name": "花滑1层训练用电",
+      "path": "FsHall.XNDB.HH_D1AL1_1",
+      "timestamp": "1557141582439",
+      "unit": "KWH",
+      "value": "897.6300048828125"
+    },
+    {
+      "deviceId": 2429,
+      "id": 8604,
+      "name": "花滑2层训练用电",
+      "path": "FsHall.XNDB.HH_D2AL2_1",
+      "timestamp": "1557141582443",
+      "unit": "KWH",
+      "value": "0.0"
+    },
+    {
+      "deviceId": 2429,
+      "id": 8605,
+      "name": "花滑2层短道商区照明",
+      "path": "FsHall.XNDB.HH_D2AL1_1",
+      "timestamp": "1557141582448",
+      "unit": "KWH",
+      "value": "0.0"
+    },
+    {
+      "deviceId": 2429,
+      "id": 8606,
+      "name": "花滑2层短道商区用电",
+      "path": "FsHall.XNDB.HH_D2AL1_2",
+      "timestamp": "1557141582453",
+      "unit": "KWH",
+      "value": "0.0"
+    },
+    {
+      "deviceId": 2429,
+      "id": 8607,
+      "name": "花滑2层短道商区用电",
+      "path": "FsHall.XNDB.HH_D2AL1_3",
+      "timestamp": "1557141582459",
+      "unit": "KWH",
+      "value": "0.0"
+    },
+    {
+      "deviceId": 2429,
+      "id": 8608,
+      "name": "花滑2层花滑商区照明",
+      "path": "FsHall.XNDB.HH_H2AL2_1",
+      "timestamp": "1557141582463",
+      "unit": "KWH",
+      "value": "1153.6800537109375"
+    },
+    {
+      "deviceId": 2429,
+      "id": 8609,
+      "name": "花滑2层短道商区用电",
+      "path": "FsHall.XNDB.HH_H2AL2_2",
+      "timestamp": "1557141582468",
+      "unit": "KWH",
+      "value": "0.0"
+    },
+    {
+      "deviceId": 2429,
+      "id": 8610,
+      "name": "花滑2层短道商区用电",
+      "path": "FsHall.XNDB.HH_H2AL2_3",
+      "timestamp": "1557141582475",
+      "unit": "KWH",
+      "value": "0.0"
+    },
+    {
+      "deviceId": 2429,
+      "id": 8611,
+      "name": "花滑2层花滑商区用电",
+      "path": "FsHall.XNDB.HH_H2AL2_4",
+      "timestamp": "1557141582480",
+      "unit": "KWH",
+      "value": "0.0"
+    },
+    {
+      "deviceId": 2429,
+      "id": 8612,
+      "name": "花滑2层花滑商区用电",
+      "path": "FsHall.XNDB.HH_H2AL2_5",
+      "timestamp": "1557141582485",
+      "unit": "KWH",
+      "value": "0.0"
+    },
+    {
+      "deviceId": 2429,
+      "id": 8613,
+      "name": "花滑1层训练用电",
+      "path": "FsHall.XNDB.HH_H1AL1_1",
+      "timestamp": "1557141582490",
+      "unit": "KWH",
+      "value": "3.8299999237060547"
+    },
+    {
+      "deviceId": 2429,
+      "id": 8614,
+      "name": "花滑1层花滑商区照明",
+      "path": "FsHall.XNDB.HH_H1AL2_1",
+      "timestamp": "1557141582499",
+      "unit": "KWH",
+      "value": "265.3999938964844"
+    },
+    {
+      "deviceId": 2429,
+      "id": 8615,
+      "name": "花滑1层短道商区用电",
+      "path": "FsHall.XNDB.HH_H1AL2_2",
+      "timestamp": "1557141582506",
+      "unit": "KWH",
+      "value": "2061.97998046875"
+    },
+    {
+      "deviceId": 2429,
+      "id": 8616,
+      "name": "花滑1层短道商区用电",
+      "path": "FsHall.XNDB.HH_H1AL2_3",
+      "timestamp": "1557141582512",
+      "unit": "KWH",
+      "value": "0.0"
+    },
+    {
+      "deviceId": 2429,
+      "id": 8617,
+      "name": "花滑1层花滑商区用电",
+      "path": "FsHall.XNDB.HH_H1AL2_4",
+      "timestamp": "1557141582517",
+      "unit": "KWH",
+      "value": "0.0"
+    },
+    {
+      "deviceId": 2429,
+      "id": 8618,
+      "name": "花滑1层花滑商区用电",
+      "path": "FsHall.XNDB.HH_H1AL2_5",
+      "timestamp": "1557141582521",
+      "unit": "KWH",
+      "value": "2.950000047683716"
+    },
+    {
+      "deviceId": 2429,
+      "id": 8619,
+      "name": "花滑1层花滑商区用电",
+      "path": "FsHall.XNDB.HH_H1AL2_6",
+      "timestamp": "1557141582526",
+      "unit": "KWH",
+      "value": "0.0"
+    },
+    {
+      "deviceId": 2429,
+      "id": 8620,
+      "name": "花滑2层短道大屏",
+      "path": "FsHall.XNDB.HH_H2ATXS1_1",
+      "timestamp": "1557141582531",
+      "unit": "KWH",
+      "value": "648.469970703125"
+    },
+    {
+      "deviceId": 2429,
+      "id": 8621,
+      "name": "花滑2层花滑大屏",
+      "path": "FsHall.XNDB.HH_H2ATXS1_2",
+      "timestamp": "1557141582535",
+      "unit": "KWH",
+      "value": "956.6599731445312"
+    }
+  ],
+  "id": 2429,
+  "name": "花滑虚拟电表",
+  "path": "FsHall.XNDB"
+}

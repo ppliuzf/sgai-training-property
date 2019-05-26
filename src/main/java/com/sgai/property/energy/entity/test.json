@@ -1,0 +1,118 @@
+{
+  "waterDay": [
+    {
+      "curling": 0.00000,
+      "id": 598,
+      "puck": 0.00000,
+      "recordTime": "2019-05-17 21:55:55",
+      "slip": 0.00000,
+      "total": 0.00000
+    },
+    {
+      "curling": 0.00000,
+      "id": 597,
+      "puck": 0.00000,
+      "recordTime": "2019-05-18 21:55:55",
+      "slip": 0.00000,
+      "total": 0.00000
+    },
+    {
+      "curling": 0.00000,
+      "id": 596,
+      "puck": 0.00000,
+      "recordTime": "2019-05-19 21:55:55",
+      "slip": 0.00000,
+      "total": 0.00000
+    },
+    {
+      "curling": 0.00000,
+      "id": 595,
+      "puck": 0.00000,
+      "recordTime": "2019-05-20 20:55:55",
+      "slip": 0.00000,
+      "total": 0.00000
+    },
+    {
+      "curling": 0.00000,
+      "id": 594,
+      "puck": 0.00000,
+      "recordTime": "2019-05-21 21:55:55",
+      "slip": 0.00000,
+      "total": 0.00000
+    },
+    {
+      "curling": 0.00000,
+      "id": 593,
+      "puck": 0.00000,
+      "recordTime": "2019-05-22 20:55:55",
+      "slip": 0.00000,
+      "total": 0.00000
+    },
+    {
+      "curling": 0.00000,
+      "id": 592,
+      "puck": 0.00000,
+      "recordTime": "2019-05-23 20:00:00",
+      "slip": 66.00000,
+      "total": 66.00000
+    }
+  ],
+  "waterHour": [
+    {
+      "curling": 0.00000,
+      "puck": 0.00000,
+      "slip": 2.00000,
+      "strRecordTime": "0:00",
+      "total": 2.00000
+    },
+    {
+      "curling": 0.00000,
+      "puck": 0.00000,
+      "slip": 6.00000,
+      "strRecordTime": "18:00",
+      "total": 6.00000
+    },
+    {
+      "curling": 0.00000,
+      "puck": 0.00000,
+      "slip": 6.00000,
+      "strRecordTime": "3:00",
+      "total": 6.00000
+    },
+    {
+      "curling": 0.00000,
+      "puck": 0.00000,
+      "slip": 24.00000,
+      "strRecordTime": "21:00",
+      "total": 24.00000
+    },
+    {
+      "curling": 0.00000,
+      "puck": 0.00000,
+      "slip": 6.00000,
+      "strRecordTime": "6:00",
+      "total": 6.00000
+    },
+    {
+      "curling": 0.00000,
+      "puck": 0.00000,
+      "slip": 6.00000,
+      "strRecordTime": "9:00",
+      "total": 6.00000
+    },
+    {
+      "curling": 0.00000,
+      "puck": 0.00000,
+      "slip": 6.00000,
+      "strRecordTime": "12:00",
+      "total": 6.00000
+    },
+    {
+      "curling": 0.00000,
+      "puck": 0.00000,
+      "slip": 6.00000,
+      "strRecordTime": "15:00",
+      "total": 6.00000
+    }
+  ]
+}
