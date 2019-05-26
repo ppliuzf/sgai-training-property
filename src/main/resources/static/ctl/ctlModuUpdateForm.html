@@ -1,0 +1,185 @@
+<!-- 
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+--><!-- 
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.src.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../static/common/smart-common.js" type="text/javascript"></script>
+    <title>模块维护</title>
+    <meta name="decorator" content="default">
+    <script type="text/javascript">
+        $(document).ready(function () {
+        	var url = APIHost + "/ctl/ctlModuUpdateForm.html";
+    		// var thispage = document.getElementById("thispage");
+    		// thispage.setAttribute("href",url);
+			//
+    		//var actionurl = APIHost + "/admin/ctlModu/update";
+    		//var inputForm = document.getElementById("inputForm");
+    		//inputForm.setAttribute("action",actionurl);
+        	initPageLoad();
+        });
+        var paramId=GetQueryString("paramId");
+        function initPageLoad() {
+    		//删除旧tbody
+    		var contentTableSub = document.getElementById("privilegeTable");
+    		var oldTbody = document.getElementById("privilegeTbody");
+    		if (oldTbody != null) {
+    			contentTableSub.removeChild(oldTbody);
+    		}
+    		//添加新tbody
+    		$.ajax({
+    			headers    : {
+                    "token" : localStorage.getItem("token"),
+                },
+    			url : APIHost + '/admin/ctlModu/findModuById',
+    			type : 'POST',
+    			async : false, //或false,是否异步
+    			data : {
+    				//url页面参数获取
+    				qId : paramId
+    			},
+    			timeout : 30000,
+    			dataType : 'json',
+    			success : function(data) {
+    				//参数qId通过findModuById方法获取到Modu对象值，赋值到页面字段中
+    				$("#id").val(data.id),
+    				$("#sbsCode").val(data.sbsCode),
+					$("#sbsName").val(data.sbsName),
+					$("#enabledFlag").val(data.enabledFlag),
+					$("#displayOrder").val(data.displayOrder),
+					$("#sbsDesc").val(data.sbsDesc),
+					$('#s2id_enabledFlag').find('span.select2-chosen').html($("#enabledFlag").val()=='Y'?"是":"否")
+    			},
+    			error : function() {
+    				console.log('错误')
+    			}
+    		})
+    	}
+        function updateSubmit(){
+        	if (confirm("你确定提交吗？")){
+        		$.ajax({
+        			headers    : {
+                        "token" : localStorage.getItem("token"),
+                    },
+        			url : APIHost + '/admin/ctlModu/updateSubmit',
+        			type : 'POST',
+        			async : false, //或false,是否异步
+        			data : {
+        				id : $("#id").val(),
+        				sbsCode : $("#sbsCode").val(),
+        				sbsName : $("#sbsName").val(),
+        				enabledFlag : $("#enabledFlag").val(),
+        				displayOrder : $("#displayOrder").val(),
+        				sbsDesc : $("#sbsDesc").val()
+        			},
+        			timeout : 30000,
+        			dataType : 'json',
+        			success : function(data) {
+        				
+        				
+        				if(data.checkResult == "dataOk"){
+        					alert(data.updateResult);
+        					 $('#myModal .close', window.parent.document).click();
+        					 parent.pageload();
+    					} else {
+    						alert(data.checkResult);
+    					}
+        			},
+        			error : function() {
+        				console.log('错误')
+        			}
+        		})
+            }
+        }
+
+        //获取跳转地址的参数
+        function GetQueryString(name){
+             var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+             var r = window.location.search.substr(1).match(reg);
+             if(r!=null)return  unescape(r[2]); return null;
+        }
+
+        // 关闭弹框
+    function closePopUp(){
+        $('#myModalEdit .close', window.parent.document).click();
+    }
+    </script>
+</head>
+<body>
+<!-- <ul class="nav nav-tabs">
+    <li><a id="thispage">模块更新</a></li>
+</ul>
+<br> -->
+--><!-- 
+<form id="inputForm" class="form-horizontal" method="numPost" encType="multipart/form-data" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+    <input id="token" name="token" type="hidden" value="" >
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+    <div class="control-group">
+        <label class="control-label">模块代码:</label>
+        <div class="controls">
+            <input id="sbsCode" name="sbsCode" class="required" type="text" value="" disabled="disabled" maxlength="100">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">模块名称:</label>
+        <div class="controls">
+            <input id="sbsName" name="sbsName" class="required" type="text" value="" maxlength="50">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>    		
+    <div class="control-group">
+		<label class="control-label">是否可用</label>
+		<div class="controls">
+				<select id="enabledFlag" name="enabledFlag" tabindex="-1" width="100px" value= class="select2-offscreen">
+	 				<option value="Y" >是&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+	                <option value="N" >否&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+	            </select>
+				<!-- <form:input path="enabledFlag" htmlEscape="false" maxlength="1" class="input-xlarge required"/> -->
+				--><!-- 
+				<span class="help-inline"><font color="red">*</font> “是”代表此模块可用，“否”则表示此模块不可用</span>
+		</div>
+	</div>
+    <div class="control-group">
+        <label class="control-label">显示序号:</label>
+        <div class="controls">
+            <input id="displayOrder" name="displayOrder" class="required" type="text" value="" maxlength="50" onKeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">描述:</label>
+        <div class="controls">
+            <input id="sbsDesc" name="sbsDesc" class="required" type="text" value="" maxlength="50">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="form-actions">
+        <input id="btnSubmit" class="btn btn-primary" type="button" value="保 存" onclick="updateSubmit()">&nbsp;
+        <input id="btnCancel" class="btn" type="button" value="关 闭" onclick="closePopUp()">
+    </div>
+</form>
+
+</body></html>
+-->

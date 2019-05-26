@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+	<meta http-equiv="Expires" content="0">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-store">
+	 <script src="../wy/static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<!-- <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+ -->	<link href="../wy/static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../wy/static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../wy/static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+
+<link href="../wy/static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../wy/static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../wy/static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../wy/static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../wy/static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<link href="../wy/static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../wy/static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../wy/static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../wy/static/common/smart.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+var ctx = '/admin', ctxStatic = '/static';
+</script>
+<script src="../wy/static/jquery-form/3.51.0/jquery.form.js"	type="text/javascript"></script>
+<script src="../config/smart-common.js"type="text/javascript"></script>
+<script	src="../wy/static/paginator/bootstrap-paginator.js" 	type="text/javascript"></script>
+<script	src="../wy/static/echart/echarts.min.js" 	type="text/javascript"></script>
+<script	src="../wy/static/echart/china.js" 	type="text/javascript"></script>
+<link href="../wy/static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script src="../wy/static/media/js/main.js" type="text/javascript"></script>
+<title>首页-添加图表</title>
+<meta name="decorator" content="default">
+<style>
+	.nav-content{
+		position: relative;
+	}
+	.nav-content .nav-tabs{
+		margin-bottom: 0;
+		border-bottom: 0;
+	}
+	.nav-content .nav-tabs>li>a{
+		width: 120px;
+		height: 36px;
+		font-size: 16px;
+		color: #8a92a8;
+		text-align: center;
+		background-color: #edeff5;
+		border-top: 4px solid #d6dbea;
+		border-bottom: 1px solid #ddd;
+		box-sizing: border-box;
+	}
+	.nav-content .nav-tabs>.active>a{
+		color: #666;
+		background-color: #fff;
+		border-top: 4px solid #3399cc;
+		border-bottom: 0;
+	}
+	.nav-content .nav-tabs>li>.addChartBtn{
+		width: 50px;
+		padding-top: 12px;
+		border-top: 0;
+	}
+	.nav-content .actions{
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+	.tab-content{
+		overflow: hidden;
+		border: 1px solid #E0E0E0;
+		border-radius: 0 4px 4px 4px;
+		-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.075);
+		-moz-box-shadow: inset 0 0 4px rgba(0,0,0,0.075);
+		box-shadow: 0 0 4px rgba(0,0,0,0.075);
+	}
+	.tab-content .tab-pane{
+		padding: 10px;
+		overflow: hidden;
+	}
+	.book-item {
+		float: left;
+		border-radius: 2px;
+		box-sizing: border-box;
+		display: inline-block;
+		font-family: arial, sans-serif;
+		font-size: 12px;
+		height: 240px;
+		line-height: 100%;
+		margin: 10px 1%;
+		opacity: 1;
+		overflow: hidden;
+		position: relative;
+		vertical-align: top;
+		white-space: nowrap;
+		width: 30%;
+	}
+	.book-item:hover {
+		box-shadow: 0 0 5px rgba(0,0,0,0.3);
+	}
+	.book-title {
+		padding: 0 10px;
+		width: 100%;
+		height: 35px;
+		border-bottom: 1px solid #ddd;
+		box-sizing: border-box;
+	}
+	.book-title p{
+		height: 34px;
+		line-height: 34px;
+		text-indent: 3px;
+		color: #666;
+		margin: 0;
+		float: left;
+		font-size: 14px;
+		font-weight: bold;
+	}
+	.book-item .main {
+		width: 100%;
+		height: 205px;
+	}
+	.book-item .addChartBtn{
+		display: block;
+		width: 100%;
+		height: 100%;
+		line-height: 240px;
+		font-size: 24px;
+		color: #d3d6e3;
+		border-radius: 4px;
+		text-align: center;
+		background-color: #f5f6fa;
+		text-decoration: none;
+	}
+	.book-item .addChartBtn span{
+		display: inline-block;
+		margin-right: 15px;
+		font-size: 28px;
+		vertical-align: middle;
+	}
+.message_detail{
+	width:85%;
+	height:130px;
+	font-size:14px;
+	display:none;
+	float:left;
+	background: #F1F9FD;
+	border-left:1px solid #E0E0E0;
+	box-sizing: border-box;
+	}
+	.stylelone{
+		color: blueviolet;
+		font-size: 16px;
+		margin-left: 1px;
+	}
+			.map-title{
+		padding:10px;
+		border-bottom:1px solid #ddd;
+	}
+</style>
+</head>
+<body>
+<div class="home_content">
+	<div class="message_box  folded">
+		<div class="message_title">
+			<span id="time"></span>好，<span id="userName"></span>您今天的待处理事项有以下几项内容：
+			<span class="title_icon icon-chevron-up"></span><span class="title_icon icon-rotate-left"></span>
+		</div>
+		<div class="message_content">
+			<div class="message_item active">
+				<div class="event_icon icon_event">
+					<div class="icon_img icon-calendar"></div>
+					<div class="event_name">事件</div>
+					<div class="event_num" id="event_total">0</div>
+				</div>
+				<div class="message_detail" id="event_detail">
+					<ul class="event_content">
+					<li ><a href="javascript:void(0)" onclick="skipTab(0)">未处理事件<span id="jwcl"></span>条</a></li>
+<li><a href="javascript:void(0)" onclick="skipTab(1)">未验收事件<span id="wys"></span>条</a></li>
+<li><a href="javascript:void(0)" onclick="skipTab(2)">未指派事件<span id="wzp"></span>条</a></li>
+<li><a href="javascript:void(0)" onclick="skipTab(3)">未受理事件<span id="wsl"></span>条</a></li>
+<li><a href="javascript:void(0)" onclick="skipTab(4)">退单事件事件<span id="back"></span>条</a></li>
+<li><a href="javascript:void(0)" onclick="skipTab(5)">关闭事件事件<span id="close"></span>条</a></li>
+</ul>
+<ul class="event_content">
+<li><a href="javascript:void(0)" onclick="skipTab(6)">今日新增未验收事件<span id="jwys"></span>条</a></li>
+<li><a href="javascript:void(0)" onclick="skipTab(7)">今日新增未指派事件<span id="jwzp"></span>条</a></li>
+<li><a href="javascript:void(0)" onclick="skipTab(8)">今日新增未受理事件<span id="jwsl"></span>条</a></li>
+<li><a href="javascript:void(0)" onclick="skipTab(9)">今日新增退单事件<span id="jback"></span>条</a></li>
+<li><a href="javascript:void(0)" onclick="skipTab(10)">今日新增关闭事件<span id="jclose"></span>条</a></li>
+<li><a href="javascript:void(0)" onclick="skipTab(11)">今日新增未处理事件<span id="jxwcl"></span>条</a></li>
+		</ul>
+	</div>
+</div>
+<div class="message_item">
+	<div class="event_icon icon_notify">
+		<div class="icon_img icon-calendar"></div>
+		<div class="event_name">公告</div>
+		<div class="event_num" id="notice_detail">0</div>
+	</div>
+	<div class="message_detail" >
+	<ul class="event_content">
+		<li ><a href="javascript:void(0)" onclick="skipNoticeTab(0)">公告发布<span id="pn"></span>条</a></li>
+<li><a href="javascript:void(0)" onclick="skipNoticeTab(1)">公告待审核<span id="pnwait"></span>条</a></li>
+<li><a href="javascript:void(0)" onclick="skipNoticeTab(2)">我收到的<span id="pnown"></span>条</a></li>
+</ul>
+<ul class="event_content">
+<li><a href="javascript:void(0)" onclick="skipNoticeTab(3)">今日新增公告发布<span id="jpn"></span>条</a></li>
+<li><a href="javascript:void(0)" onclick="skipNoticeTab(4)">今日新增待审核<span id="jpnwait"></span>条</a></li>
+<li><a href="javascript:void(0)" onclick="skipNoticeTab(5)">今日新增我收到的<span id="jpnown"></span>条</a></li>
+		</ul>
+	</div>
+</div>
+<div class="message_item">
+	<div class="event_icon icon_police">
+		<div class="icon_img icon-calendar"></div>
+				<div class="event_name">来电/日志</div>
+		<div class="event_num" id="calllog_total">0</div>
+	</div>
+	<div class="message_detail" >
+			<ul class="event_content">
+		<li ><a href="javascript:void(0)" onclick="skipTabCall(0)">来电事件<span id="call"></span>条</a></li>
+<li ><a href="javascript:void(0)" onclick="skipTabCall(1)">来电未处理事件<span id="mycall"></span>条</a></li>
+<li><a href="javascript:void(0)" onclick="skipTabLog(0)">日志事件<span id="log"></span>条</a></li>
+<li><a href="javascript:void(0)" onclick="skipTabLog(1)">日志未处理事件<span id="mylog"></span>条</a></li>
+</ul>
+<ul class="event_content">
+<li ><a href="javascript:void(0)" onclick="skipTabCall(2)">今日新增来电事件<span id="jcall"></span>条</a></li>
+<li ><a href="javascript:void(0)" onclick="skipTabCall(3)">今日新增来电未处理事件<span id="tomyCall"></span>条</a></li>
+<li><a href="javascript:void(0)" onclick="skipTabLog(2)">今日日志新增事件<span id="jlog"></span>条</a></li>
+<li><a href="javascript:void(0)" onclick="skipTabLog(3)">今日日志新增未处理事件<span id="tmyLog"></span>条</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="chart_box">
+
+</div>
+		<div id="echartsMap" style="width: 1340px;height:550px;"></div>
+		<div style="width: 100%; height: 403px;position:relative;border:1px solid #ddd;" >
+			<div  class="map-title"  id="initCilck">园区事件分布</div>
+		<div style="display:none;width: 1400px; height: 400px;position:absolute;left:-8px;top:0px;background-color: #DDDDDD;z-index: 1;opacity: 0.6;" id="repairMapMask"  >
+			</div>
+			<div id="echartsEvent" style="width: 1340px;height:400px;margin-left: -132px;"  >
+			<!-- //chart  -->
+
+		</div>
+		</div>
+		<div style="width: 100%; height: 450px;position:relative;border:1px solid #ddd;margin-top: 15px;" id="repairMap2Mask">
+			<div class="map-title">报修指标时间间隔对比</div>
+		<div style="width: 100%; height: 400px;position:absolute;left:0px;top:0px"></div>
+		<div id="echartsEvent1"  style="width: 1100px;height:400px;">
+		<!-- //chart  -->
+		</div>
+		</div>
+<div id="chooseDate" class="hide"
+	style="position: absolute; border: 1px solid; left: 366px; top: 600px; background: #FFFFFF; width: 400px;  z-index: 100; text-align: center;">
+
+<br />
+<label >动态时间：</label>
+  <select id="datetype"  name="datetype"   onchange="chooseDynamicTime(this.value)"  class="input-xlarge"  >
+  </select>
+
+<div id="searchForm" style="display: none;margin-top: -6px;margin-bottom: 6px;">
+	<label style="margin-left: 34px;">时间从：</label><input id="startTime"
+		name="startTime" class="query_input Wdate" type="text"
+		onclick="WdatePicker()"
+		style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+	<br> <label style="margin-left: 60px;">至：</label><input
+		id="endTime" name="endTime" class="query_input Wdate" type="text"
+		onclick="WdatePicker()"  onfocus="WdatePicker({onpicked:function(dp){sureData('e'); }})"
+		style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+</div>
+
+<!-- <input type="button"
+	class="btn btn-primary" value="关闭" onclick="closedivChange()" /> -->
+
+</div>
+<div id="chooseDate3" class="hide"
+	style="position: absolute; border: 1px solid; left: 83px; top: 1072px; background: #FFFFFF; width: 400px;  z-index: 100; text-align: center;">
+<br>
+<label >动态时间：</label>
+  <select id="datetype3"  name="datetype"   onchange="chooseDynamicTime3(this.value)"  class="input-xlarge"  >
+  </select>
+
+<div id="searchForm3" style="display: none;margin-top: -6px;margin-bottom: 6px;">
+	<label style="margin-left: 34px;">时间从：</label><input id="startTime3"
+		name="startTime" class="query_input Wdate" type="text"
+		onclick="WdatePicker()"
+		style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+	<br> <label style="margin-left: 60px;">至：</label><input
+		id="endTime3" name="endTime" class="query_input Wdate" type="text"
+		onclick="WdatePicker()"  onfocus="WdatePicker({onpicked:function(dp){sureData3('e'); }})"
+		style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+</div>
+</div>
+
+<div id="chooseDate6" class="hide"
+	style="position: absolute; border: 1px solid; left: 653px; top: 1072px; background: #FFFFFF; width: 400px;  z-index: 100; text-align: center;">
+<br>
+<label >动态时间：</label>
+  <select id="datetype6"  name="datetype"   onchange="chooseDynamicTime6(this.value)"  class="input-xlarge"  >
+  </select>
+
+<div id="searchForm6" style="display: none;margin-top: -6px;margin-bottom: 6px;">
+	<label style="margin-left: 34px;">时间从：</label><input id="startTime6"
+		name="startTime" class="query_input Wdate" type="text"
+		onclick="WdatePicker()"
+		style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+	<br> <label style="margin-left: 60px;">至：</label><input
+		id="endTime6" name="endTime" class="query_input Wdate" type="text"
+		onclick="WdatePicker()"  onfocus="WdatePicker({onpicked:function(dp){sureData6('e'); }})"
+		style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+</div>
+</div>
+
+
+<div id="choosecau" class="hide"
+	style="position: absolute; border: 1px solid; left: 366px; top: 1020px; background: #FFFFFF; width: 400px;  z-index: 100; text-align: center;">
+	<br>
+<label >动态类型：</label>
+  <select id="analtype"  name="analtype"   class="input-xlarge"  >
+               <option value=""></option>
+               <option value="bxwc">报修完成率</option>
+               <option value="bxts">报修投诉率</option>
+               <option value="bxcl">报修处理时长</option>
+               <option value="pjbx">平均每户报修数</option>
+        </select>
+	<br>
+	<label >动态时间：</label>
+	  <select id="datetype2"  name="datetype"   onchange="chooseDynamicTime2(this.value)"  class="input-xlarge"  >
+	  </select>
+<div id="searchForm2" style="display: none;margin-top: -6px;margin-bottom: 6px;">
+	<label style="margin-left: 34px;">时间从：</label><input id="startTime2"
+		name="startTime" class="query_input Wdate" type="text"
+		onclick="WdatePicker()"
+		style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+	<br> <label style="margin-left: 60px;">至：</label><input
+		id="endTime2" name="endTime" class="query_input Wdate" type="text"
+		onclick="WdatePicker()"  onfocus="WdatePicker({onpicked:function(dp){analData('e'); }})"
+		style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+</div>
+</div>
+<div id="chooseDate4" class="hide"
+	style="position: absolute; border: 1px solid; left: 260px; top: 1500px; background: #FFFFFF; width: 400px; z-index: 100; text-align: center;">
+	<br>
+<label >动态类型：</label>
+  <select id="chostype"  name="chostype"   class="input-xlarge"  >
+               <option value=""></option>
+               <option value="ytjysl">已提交-已受理</option>
+               <option value="yslyzp">已受理-已指派</option>
+               <option value="yzpywc">已指派-已完成</option>
+               <option value="ywcyswc">已完成-验收完成</option>
+        </select>
+        	<br>
+<label >动态时间：</label>
+	  <select id="datetype4"  name="datetype"   onchange="chooseDynamicTime4(this.value)"  class="input-xlarge"  >
+	  </select>
+<div id="searchForm4" style="display: none;margin-top: -6px;margin-bottom: 6px;">
+	<label style="margin-left: 34px;">时间从：</label><input id="startTime4"
+		name="startTime" class="query_input Wdate" type="text"
+		onclick="WdatePicker()"
+		style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+	<br> <label style="margin-left: 60px;">至：</label><input
+		id="endTime4" name="endTime" class="query_input Wdate" type="text"
+		onclick="WdatePicker()"  onfocus="WdatePicker({onpicked:function(dp){chosData('e'); }})"
+		style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+</div>
+	</div>
+</div>
+<div id="showS" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	<h4 id="myModalLabel">实时报警项</h4>
+</div>
+<div class="modal-body">
+	<iframe id="shIframe"></iframe>
+</div>
+</div>
+<input id="orderBy" name="orderBy" type="hidden" value="0">
+<input type="hidden" value="0" id="flag">
+<script >
+$(document).ready(function(){
+	init();
+	analData();
+	findEvent(1,5);//初始化事件
+	$("#userName").html($(".username",window.parent.document).html());
+	//  时间
+	now = new Date();
+	hour = now.getHours()
+	if(hour < 6){timeNow="凌晨"}
+	else if (hour < 9){timeNow="早上"}
+	else if (hour < 12){timeNow="上午"}
+	else if (hour < 14){timeNow="中午"}
+	else if (hour < 17){timeNow="下午"}
+	else if (hour < 19){timeNow="傍晚"}
+	else if (hour < 22){timeNow="晚上"}
+	else {timeNow="深夜"}
+	$("#time").html(timeNow);
+});
+   var timeNow;
+function init(){
+
+	//消息折叠展开
+	$(".message_box .icon-chevron-up").click(function(){
+		$(this).closest(".message_box").toggleClass("folded");
+	});
+	$(".message_content").on("click",".message_item",function(){
+		if(!$(this).hasClass("active")){
+			$(this).addClass("active").siblings().removeClass("active");
+		}
+	});
+
+	var bookItem = $(".book-item");
+	//遮罩渐入渐出
+	bookItem.hover(function(){
+		$(this).find('.mask').slideDown(300);
+		$(this).find('.icheckbox').fadeIn(100);
+
+	},function() {
+		if (!$(this).find('.checkItem').is(':checked')) {
+			$(this).find('.mask').fadeOut();
+			$(this).find('.icheckbox').hide();
+		}
+	});
+	//标志已选择项
+	bookItem.find('.icheckbox').on('click', function() {
+		if (!$(this).children('input[type = checkbox]').is(':checked')) {
+			$(this).addClass("selected").children('input[type = checkbox]').attr('checked', true);
+		}else {
+			$(this).removeClass("selected").children('input[type = checkbox]').attr('checked', false);
+		}
+	});
+	//清除所有tab内的选中
+	$('#clearSelectAll').click(function(){
+		$('.book-item .icheckbox').each(function(){
+			$(this).removeClass("selected").children('input[type = checkbox]').attr('checked', false);
+			bookItem.find('.mask').fadeOut();
+			bookItem.find('.icheckbox').hide();
+		})
+	});
+	//tab切换初始化图表
+	$('a[data-toggle="tab"]').on('shown', function (e) {
+		//e.target 当前活动的标签
+		//e.relatedTarget 上一个选择的标签
+		var href = $(e.target).attr("href").toString();
+		//var type = href.substr(1,href.length);
+		$('.addChartBtn').attr("href","/sys/homeAdd.html?"+href);
+	});
+	$('.sidebar-toggler',window.parent.document).click(function(){
+	})
+}
+
+
+
+/********* 事件 **********/
+
+// n pageNo  s pageSize
+function  findEvent(n,s){
+	$.ajax({
+		headers    : {
+			"token" : localStorage.getItem("token")
+		},
+		url : APIHost + '/todoEvent/queryEvents',//事件查找
+		type : 'POST',
+		async : false, //或false,是否异步
+		timeout : 5000,
+		data : {
+			"pageNo" : n ,
+			"pageSize" : s
+		},
+		dataType : 'json',
+		//contentType: "application/json; charset=utf-8",
+		success : function(res) {
+				// 拼接事件
+					$("#event_total").html(res.eventsAll);
+					$("#jwzp").html(res.jwzp);
+					$("#jwsl").html(res.jwsl);
+					$("#jwcl").html(res.jwcl);
+					$("#jxwcl").html(res.jxwcl);
+					$("#jwys").html(res.jwys);
+					$("#wsl").html(res.wsl);
+					$("#wzp").html(res.wzp);
+					$("#wys").html(res.wys);
+					$("#back").html(res.back);
+					$("#close").html(res.close);
+					$("#jclose").html(res.close);
+					$("#jback").html(res.close);
+					$("#call").html(res.call);
+					$("#jcall").html(res.todayCall);
+					$("#log").html(res.log);
+					$("#jlog").html(res.todayLog);
+					$("#calllog_total").html(res.callAndlog);
+
+					$("#mycall").html(res.mycall);
+					$("#mylog").html(res.mylog);
+					$("#tomyCall").html(res.tomyCall);
+					$("#tmyLog").html(res.tmyLog);
+
+					$("#pn").html(res.pn);
+					$("#pnwait").html(res.pnwait);
+					$("#pnown").html(res.pnown);
+					$("#jpn").html(res.jpn);
+					$("#jpnwait").html(res.jpnwait);
+					$("#jpnown").html(res.jpnown);
+					$("#notice_detail").html(res.pn);
+		},
+		error : function() {
+			console.log("错误");
+		}
+	});
+}
+
+
+function skipTab(index){
+	var flag,repairStatus;
+	if(index==0){
+		flag="",
+		repairStatus="0";//已指派
+	}
+	if(index==1){
+		flag="",
+		repairStatus="1";//维修完成
+	}
+	if(index==2){
+		flag="",
+		repairStatus="2";//已受理
+	}
+	if(index==3){
+		flag="",
+		repairStatus="3";//已提交
+	}
+	if(index==4){
+		flag="",
+		repairStatus="4";//已退单
+	}
+	if(index==5){
+		flag="",
+		repairStatus="5";//已关闭
+	}
+	if(index==6){
+		flag="1",
+		repairStatus="1";//维修完成
+	}
+	if(index==7){
+		flag="1",
+		repairStatus="2";//已受理
+	}
+	if(index==8){
+		flag="1",
+		repairStatus="3";//已提交
+	}
+	if(index==9){
+		flag="1",
+		repairStatus="4";//已退单
+	}
+	if(index==10){
+		flag="1",
+		repairStatus="5";//已关闭
+	}
+	if(index==11){
+		flag="1",
+		repairStatus="0";//已指派
+	}
+
+	window.location.href = APIHost
+	+ "/wy/repairInformation/repairInformation_list.html?flag="+flag+"&repairStatus="+repairStatus;
+}
+function skipTabCall(index){
+	var flag,pa,ra;
+	if(index==0){
+		flag="";
+		ra="";
+		pa="callAppoint_list.html"
+	}
+	if(index==1){
+		flag="";
+		ra="1";
+		pa="callDeal_list.html";
+	}
+	if(index==2){
+		flag="1";
+		ra="";
+		pa="callAppoint_list.html";
+	}
+	if(index==3){
+		flag="1";
+		ra="1";
+		pa="callDeal_list.html";
+	}
+
+	window.location.href = APIHost + "/wy/call/"+pa+"?flag="+flag+"&ra="+ra;
+}
+function skipTabLog(index){
+	var flag,pa,ra;
+	if(index==0){
+		flag="";
+		ra="";
+		pa="log_list.html"
+	}
+	if(index==1){
+		flag="";
+		ra="1";
+		pa="log_list2.html";
+	}
+	if(index==2){
+		flag="1";
+		ra="";
+		pa="log_list.html"
+	}
+	if(index==3){
+		flag="1";
+		ra="1";
+		pa="log_list2.html"
+	}
+	window.location.href = APIHost + "/wy/wyLog/"+pa+"?flag="+flag+"&ra="+ra;
+}
+function skipNoticeTab(index){
+	var flag;
+	if(index==1){
+		flag="1"
+	}else{
+		flag="";
+	}
+	window.location.href = APIHost + "/wy/messageCentre/messageCentre_list.html"
+}
+function chooseDynamicTime(value){
+	$("#startTime").val("");
+	$("#endTime").val("");
+	if('custom'==value){
+		$("#searchForm").show();
+	}else{
+		$("#searchForm").hide();
+		sureData();
+	}
+}
+function chooseDynamicTime2(value){
+	$("#startTime2").val("");
+	$("#endTime2").val("");
+	if('custom'==value){
+		$("#searchForm2").show();
+
+	}else{
+		$("#searchForm2").hide();
+		analData();
+	}
+}
+
+ function sureData(){
+	$("#chooseDate").hide();
+	$("#flag").val('0');
+		$("#repairMapMask").css("display","none");
+ 		$.ajax({
+			headers    : {
+				"token" : localStorage.getItem("token")
+			},
+			url : APIHost + '/todoEvent/treemapData',
+			type : 'POST',
+			async : false, //或false,是否异步
+			timeout : 5000,
+			dataType : 'json',
+			data:{
+				type:$("#datetype").val(),
+				createdDt:$("#startTime").val(),
+				updatedDt:$("#endTime").val(),
+			},
+			success : function(data) {
+				 var res=[];
+					for(var i in data){
+						var re=data[i];
+						for(var j in re){
+			                 if(re[j]!=0){
+								res.push({
+				                    value:re[j],
+				                    name:i
+										})
+			                 }
+					}
+	         };
+			 var option = {
+	 	       toolbox: {
+	 	          show : true,
+	 	         	 orient: 'horizontal',
+	 	         	 x:1180,
+	 	          feature : {
+	 	             myTool1 : {
+ 	 	                show : true,
+ 	 	                title : '筛选',
+ 	 	               	icon: 'path://M837 139.3L573.2 464.6 562 478.3V853.4L462 803V478.3l-11.2-13.8L187 139.3h650m105-50H82L412 496v337.8l200 100.8V496.1L942 89.3z',
+ 	 	                onclick : function (){
+ 	 	              	if($("#flag").val()=='1'){
+ 	 	          		alert("还有未关闭的窗口!请先关闭，才能点击！");
+ 	 	          		return;
+ 	 	          	}
+ 	 	              $("#flag").val('1');
+ 	 	         		$("#chooseDate").show();
+ 	 	         		$("#repairMapMask").css("display","block");
+ 	 	         		$("#searchForm").hide();
+ 	 	             var obj=document.getElementById('datetype');
+ 	 	             obj.options.length=0;//移除options
+ 	 	     		$.ajax({
+ 	 	     			headers    : {
+ 	 	     				"token" : localStorage.getItem("token")
+ 	 	     			},
+ 	 	     			url : APIHost + '/todoEvent/getDates',
+ 	 	     			type : 'POST',
+ 	 	     			async : false, //或false,是否异步
+ 	 	     			timeout : 5000,
+ 	 	     			dataType : 'json',
+ 	 	     			success : function(res) {
+ 	 	     				$('#datetype').append("<option hidden='hidden' value=''></option>");
+ 	 	     				for(i in res){
+ 	 	         				$('#datetype').append("<option value="+i+">"+res[i]+"</option>");
+ 	 	     				}
+ 	 	  					$('#datetype').append("<option  value='custom'>自定义</option>")
+ 	 	     			},
+ 	 	     			error : function() {
+ 	 	     				console.log("错误");
+ 	 	     			}
+ 	 	     		});
+ 	 	                }
+	 	          }
+	 	          }
+	 	      },
+	 	        calculable : false,
+	 	       	color: ['#7EC0EE', '#7FFFD4', '#6CA6CD', '#7A67EE', '#48D1CC','#EEDFCC', '#104E8B'],
+	 	        series : [
+	 	            {
+	 	                name:'',
+	 	              	roam: false,
+	 	                type:'treemap',
+	 	                itemStyle: {
+	 	                    normal: {
+	 	                        label: {
+	 	                            show: true,
+	 	                            formatter:  function (params) {
+		 	                              var arr = [
+		 	 	                                '{name|' + params.name + '}',
+		 	 	                                '{budget|事件:' + params.value + '}条'
+		 	 	                            ];
+		 	 	                            return arr.join('\n');
+		 	 	                        },
+		 	 	                        rich: {
+		 	 	                            budget: {
+		 	 	                                fontSize: 14,
+		 	 	                                lineHeight: 5,
+		 	 	                              	color: '#fff',
+		 	 	                            },
+		 	 	                            name: {
+		 	 	                                fontSize: 16,
+		 	 	                                color: '#fff',
+		 	 	                            },
+		 	 	                        },
+
+
+	 	                        },
+	 	                        borderWidth: 1
+	 	                    },
+	 	                    emphasis: {
+	 	                        label: {
+	 	                            show: true
+	 	                        }
+	 	                    }
+	 	                },
+	 	                data:res
+	 	            }
+	 	        ]
+	 	    };
+			 			var myChart = echarts.init(document.getElementById("echartsEvent"));
+                	    myChart.setOption(option);
+                       myChart.on('click', function (params) {
+                       	$("#initCilck").html("园区事件分布>>>事件类型分布");
+                          			var name1=params.name;
+                                 	var or=$("#orderBy").val();
+                                 	if(or!='0'){
+                                 		return
+                                 	}
+			             		$.ajax({
+			            			headers    : {
+			            				"token" : localStorage.getItem("token")
+			            			},
+			            			url : APIHost + '/todoEvent/treemapDataRepair',
+			            			type : 'POST',
+			            			async : false, //或false,是否异步
+			            			timeout : 3000,
+			            			data :{
+			            				buildName:name1
+			            			},
+			            			dataType : 'json',
+			            			success : function(data) {
+			        	                	    var myChart1 = echarts.init(document.getElementById("echartsEvent"));
+			        	                	    myChart1.setOption(optionUtill(data));
+			        	                	    $("#orderBy").val("1");
+			            			}
+			            		});
+                             });
+			}
+			})
+}
+
+function analData(){
+	$("#choosecau").hide();
+	$("#repairMap2Mask").css("background","#FFFFFF");
+	$("#flag").val('0');
+	if(!$("#analtype").val()){
+		$("#analtype").val("bxcl");
+	}
+	var ctype=$("#analtype").val();
+       var textName="报修完成率";
+	if(ctype=="bxwc"){
+		textName="报修完成率";
+	}
+	if(ctype=="bxts"){
+		textName="报修投诉率";
+	}
+	if(ctype=="bxcl"){
+		textName="报修处理时长";
+	}
+	if(ctype=="pjbx"){
+		textName="平均每户报修数";
+	}
+	$.ajax({
+		headers    : {
+			"token" : localStorage.getItem("token")
+		},
+		url : APIHost + '/todoEvent/statisticsData',
+		type : 'POST',
+		async : false, //或false,是否异步
+		timeout : 3000,
+		data :{
+			analtype:$("#analtype").val(),
+			type:$("#datetype2").val(),
+			createdDt:$("#startTime2").val(),
+			updatedDt:$("#endTime2").val(),
+		},
+		dataType : 'json',
+		success : function(data) {
+			var yaxis=[];
+			var xaxis=[];
+			var xaxisf=[];
+			var level=data['repairLevel'];
+			var levell=data['repairLevel'];
+			for(var k in data){
+				if(k!='repairLevel'){
+					yaxis.push(k);
+					xaxis.push(data[k]);
+				}
+			}
+			if(ctype=="bxcl"){
+				level=level+'分钟';
+			}
+			if(ctype=="pjbx"){
+				level=level+'条';
+			}
+			option = {
+				    title: {
+					    subtext: '基于园区TGI : '+level,
+				     	left: '38%',
+				        top: '20',
+				        textAlign: 'center',
+				        subtextStyle:{
+				            fontSize:14
+			       		 }
+				    },
+    		        toolbox: {
+    		            show : true,
+    		            x:1050,
+    		            feature : {
+    		            myTool : {
+    		                    show : true,
+    		                    title : '筛选',
+    		                    icon: 'path://M837 139.3L573.2 464.6 562 478.3V853.4L462 803V478.3l-11.2-13.8L187 139.3h650m105-50H82L412 496v337.8l200 100.8V496.1L942 89.3z',
+    		                    onclick : function (){
+    		                    	if($("#flag").val()=='1'){
+    		                    		alert("还有未关闭的窗口!请先关闭，才能点击！");
+    		                    		return;
+    		                    	}
+    		                    	$("#flag").val('1');
+    		                    	$("#choosecau").show();
+    		                    	$("#searchForm2").hide();
+    		                    	$("#repairMap2Mask").css("background","#DDDDDD");
+    		              		  var obj=document.getElementById('datetype2');
+    		              	        obj.options.length=0;//移除options
+    		              			$.ajax({
+    		              				headers    : {
+    		              					"token" : localStorage.getItem("token")
+    		              				},
+    		              				url : APIHost + '/todoEvent/getDates',
+    		              				type : 'POST',
+    		              				async : false, //或false,是否异步
+    		              				timeout : 5000,
+    		              				dataType : 'json',
+    		              				contentType: "application/json; charset=utf-8",
+    		              				success : function(res) {
+    		              					$('#datetype2').append("<option hidden='hidden' value=''></option>");
+    		              					for(i in res){
+    		              	    				$('#datetype2').append("<option value="+i+">"+res[i]+"</option>");
+    		              					}
+    		              					$('#datetype2').append(
+    		    							"<option  value='custom'>自定义</option>")
+    		              				},
+    		              				error : function() {
+    		              					console.log("错误");
+    		              				}
+    		              			});
+    		                    }
+    		                 }
+    		            }
+    		        },
+				    tooltip : {
+				        trigger: 'axis',
+				        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+				            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+				        },
+                        formatter:  function (params) {
+                            var arr=[];
+                            if(params[0].value==0){
+                            	 return arr.join('');
+                            }
+                            var k= '<div class="tooltip-title">' +params[0].name+ '的'+textName+ ':&nbsp;&nbsp;'+params[0].value +'</div>';
+                        	var n=0;
+                            if(params[0].value<0){
+                        		n=params[0].value+levell;
+                        	}else{
+                        		n=params[0].value-levell;
+                        	}
+                            var m='高于/低于园区平均水平: &nbsp;&nbsp;' + n.toFixed(2) + '<br>';
+                        	var l= '园区'+textName+': &nbsp;&nbsp;'+levell;
+                            arr.push(k);
+                            arr.push(m);
+                            arr.push(l);
+                            return arr.join('')
+	                        },
+				    },
+				    legend: {
+				        data:[''],
+				        x: 'center',
+				        y: 'bottom',
+				    },
+				    grid: {
+				        left: '3%',
+				        right: '4%',
+				        bottom: '3%',
+				        containLabel: true
+				    },
+				    xAxis : [
+				        {
+				            type : 'value',
+				            boundaryGap:["1","1"],
+				    //        axisLine: {onZero: true},
+				            axisTick: {  //是否显示刻度线
+				                show: false
+				            },
+				            axisLabel: {
+				            	show: false //这行代码控制着坐标轴x轴的文字是否显示
+				            	},
+				        },
+
+				    ],
+				    yAxis : [
+				        {
+				            type : 'category',
+					        name: textName,
+					        nameLocation: 'center',
+					        nameGap: '85',
+					        nameTextStyle: {
+					            fontSize: 17,
+					            fontWeight:'bold'
+					        },
+				            axisTick : {show: false},
+				            data : yaxis
+				        }
+				    ],
+				    series : [
+				        {
+				            name:'偏高',
+				            type:'bar',
+				            roam:false,
+				            label: {
+				                normal: {
+				                    show: true,
+				                    position: 'inside'
+				                }
+				            },
+				            data:xaxis,
+				            itemStyle: {
+				                normal: {
+	/* 			                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+				                        offset: 0,
+				                        color: '#008cff'
+				                    }, {
+				                        offset: 1,
+				                        color: '#fff'
+				                    }]), */
+				             //       color:'#008cff',
+				                    color: function (params) {
+		 	                              if(params.value>0){
+		 	                            	  return '#008cff';
+		 	                              }else if(params.value<0){
+		 	                            	 return '#FF4500';
+		 	                              }else{
+		 	                            	 return '#FFFFFF';
+		 	                              }
+		 	 	                        },
+				                    opacity: 1,
+				                }
+				            }
+				        }/* ,
+				        {
+				            name:'偏低',
+				            type:'bar',
+				            stack: '总量',
+				            label: {
+				                normal: {
+				                    show: true,
+				                    position: 'left'
+				                }
+				            },
+				            data:xaxisf
+				        } */
+				    ]
+				};
+			var myChart = echarts.init(document.getElementById('echartsEvent1'));
+			myChart.setOption(option);
+
+		}
+	});
+}
+
+
+
+</script>
+<!-- <script src="../static/echart/echarts.min.js"></script> -->
+    <script type="text/javascript">
+   function optionUtill(data){
+	  var res=[];
+			for(var i in data){
+				var re=data[i];
+				for(var j in re){
+	                 if(re[j]!=0){
+						res.push({
+		                    value:re[j],
+		                    name:i
+								})
+	                 }
+			}
+        };
+	 var option = {
+/* 	        tooltip : {
+	            trigger: 'item',
+	            formatter: "{b}: {c}"
+	        }, */
+	        calculable : false,
+	       	color: ['#7EC0EE', '#7FFFD4', '#6CA6CD', '#7A67EE', '#48D1CC','#EEDFCC', '#104E8B'],
+	        series : [
+	            {
+	                name:'',
+	                type:'treemap',
+	                roam:false,
+	                itemStyle: {
+	                    normal: {
+	                        label: {
+	                            show: true,
+	                            formatter:  function (params) {
+	 	                              var arr = [
+	 	 	                                '{name|' + params.name + '}',
+	 	 	                                '{budget|事件:' + params.value + '}条'
+	 	 	                            ];
+	 	 	                            return arr.join('\n');
+	 	 	                        },
+	 	 	                        rich: {
+	 	 	                            budget: {
+	 	 	                                fontSize: 14,
+	 	 	                                lineHeight: 5,
+	 	 	                              	color: '#fff',
+	 	 	                            },
+	 	 	                            name: {
+	 	 	                                fontSize: 16,
+	 	 	                                color: '#fff',
+	 	 	                            },
+	 	 	                        },
+
+	                        },
+	                        borderWidth: 1
+	                    },
+	                    emphasis: {
+	                        label: {
+	                            show: true
+	                        }
+	                    }
+	                },
+	                data:res
+	            }
+	        ]
+	    };
+	 return option;
+}
+
+  		$.ajax({
+ 			headers    : {
+ 				"token" : localStorage.getItem("token")
+ 			},
+ 			url : APIHost + '/todoEvent/treemapData',
+ 			type : 'POST',
+ 			async : false, //或false,是否异步
+ 			timeout : 5000,
+ 			dataType : 'json',
+ 			success : function(data) {
+ 				 var res=[];
+ 					for(var i in data){
+ 						var re=data[i];
+ 						for(var j in re){
+ 			                 if(re[j]!=0){
+ 								res.push({
+ 				                    value:re[j],
+ 				                    name:i
+ 										})
+ 			                 }
+ 					}
+ 	         };
+ 			 var option = {
+/*  	 	        tooltip : {
+ 	 	            trigger: 'item',
+ 	 	            formatter: "{b}: {c}"
+ 	 	        }, */
+ 	 	       toolbox: {
+ 	 	          show : true,
+ 	 	         	 orient: 'horizontal',
+ 	 	         	 x:1180,
+ 	 	          feature : {
+ 	 	             myTool1 : {
+  	 	                show : true,
+  	 	                title : '筛选',
+  	 	               	icon: 'path://M837 139.3L573.2 464.6 562 478.3V853.4L462 803V478.3l-11.2-13.8L187 139.3h650m105-50H82L412 496v337.8l200 100.8V496.1L942 89.3z',
+  	 	                onclick : function (){
+  	 	             	if($("#flag").val()=='1'){
+  	 	         		alert("还有未关闭的窗口!请先关闭，才能点击！");
+  	 	         		return;
+  	 	         	}
+  	 	             $("#flag").val('1');
+  	 	         		$("#chooseDate").show();
+  	 	         		$("#repairMapMask").css("display","block");
+  	 	         	$("#searchForm").hide();
+  	 	             var obj=document.getElementById('datetype');
+  	 	             obj.options.length=0;//移除options
+  	 	     		$.ajax({
+  	 	     			headers    : {
+  	 	     				"token" : localStorage.getItem("token")
+  	 	     			},
+  	 	     			url : APIHost + '/todoEvent/getDates',
+  	 	     			type : 'POST',
+  	 	     			async : false, //或false,是否异步
+  	 	     			timeout : 5000,
+  	 	     			dataType : 'json',
+  	 	     			success : function(res) {
+  	 	     				$('#datetype').append("<option hidden='hidden' value=''></option>");
+  	 	     				for(i in res){
+  	 	         				$('#datetype').append("<option value="+i+">"+res[i]+"</option>");
+  	 	     				}
+  	 	     			$('#datetype').append("<option  value='custom'>自定义</option>")
+  	 	     			},
+  	 	     			error : function() {
+  	 	     				console.log("错误");
+  	 	     			}
+  	 	     		});
+  	 	                }
+ 	 	          }
+ 	 	          }
+ 	 	      },
+ 	 	        calculable : false,
+ 	 	       	color: ['#7EC0EE', '#7FFFD4', '#6CA6CD', '#7A67EE', '#48D1CC','#EEDFCC', '#104E8B'],
+ 	 	        series : [
+ 	 	            {
+ 	 	                name:'',
+		              	roam: false,
+		                type:'treemap',
+		                breadcrumb: {
+			                show: false
+			            },
+ 	 	                itemStyle: {
+ 	 	                    normal: {
+ 	 	                        label: {
+ 	 	                            show: true,
+ 	 	                            formatter:  function (params) {
+ 	 	                              var arr = [
+ 	 	                                '{name|' + params.name + '}',
+ 	 	                                '{budget|事件:' + params.value + '}条'
+ 	 	                            ];
+ 	 	                            return arr.join('\n');
+ 	 	                        },
+ 	 	                        rich: {
+ 	 	                            budget: {
+ 	 	                                fontSize: 14,
+ 	 	                                lineHeight: 5,
+ 	 	                              	color: '#fff',
+ 	 	                            },
+ 	 	                            name: {
+ 	 	                                fontSize: 16,
+ 	 	                                color: '#fff',
+ 	 	                            },
+ 	 	                        },
+ 	 	                           textStyle: {
+ 	 	                              color: '#fff',
+ 	 	                              fontSize: 15,
+ 	 	                          },
+ 	 	                        },
+ 	 	                        borderWidth: 1
+ 	 	                    },
+ 	 	                    emphasis: {
+ 	 	                        label: {
+ 	 	                            show: true
+ 	 	                        }
+ 	 	                    }
+ 	 	                },
+ 	 	                data:res
+ 	 	            }
+ 	 	        ]
+ 	 	    };
+ 					var myChart = echarts.init(document.getElementById("echartsEvent"));
+           	    	myChart.setOption(option);
+                     myChart.on('click', function (params) {
+                    	 var myChart1 = echarts.init(document.getElementById("echartsEvent"));
+                     	$("#initCilck").html("园区事件分布>>>事件类型分布");
+                     	var or=$("#orderBy").val();
+                     	if(or!='0'){
+                     		return
+                     	}
+                        var name1=params.name;
+	             		$.ajax({
+	            			headers    : {
+	            				"token" : localStorage.getItem("token")
+	            			},
+	            			url : APIHost + '/todoEvent/treemapDataRepair',
+	            			type : 'POST',
+	            			async : false, //或false,是否异步
+	            			timeout : 3000,
+	            			data :{
+	            				buildName:name1
+	            			},
+	            			dataType : 'json',
+	            			success : function(data) {
+	        	                	    myChart1.setOption(optionUtill(data));
+	        	                	    $("#orderBy").val("1");
+	            			}
+	            		});
+                           });
+ 					}
+ 			})
+
+
+
+	$("#initCilck").on("click",function(){
+       	$("#initCilck").html("园区事件分布");
+	    $("#orderBy").val("0");
+	    $("#flag").val('0');
+     		$.ajax({
+    			headers    : {
+    				"token" : localStorage.getItem("token")
+    			},
+    			url : APIHost + '/todoEvent/treemapData',
+    			type : 'POST',
+    			async : false, //或false,是否异步
+    			timeout : 5000,
+    			dataType : 'json',
+    			success : function(data) {
+    				 var res=[];
+    					for(var i in data){
+    						var re=data[i];
+    						for(var j in re){
+    			                 if(re[j]!=0){
+    								res.push({
+    				                    value:re[j],
+    				                    name:i
+    										})
+    			                 }
+    					}
+    	         };
+    			 var option = {
+/*     	 	        tooltip : {
+    	 	            trigger: 'item',
+    	 	            formatter: "{b}: {c}"
+    	 	        }, */
+    	 	       toolbox: {
+    	 	          show : true,
+    	 	         	 orient: 'horizontal',
+    	 	         	 x:1180,
+    	 	          feature : {
+    	 	             myTool1 : {
+     	 	                show : true,
+     	 	                title : '筛选',
+     	 	               	icon: 'path://M837 139.3L573.2 464.6 562 478.3V853.4L462 803V478.3l-11.2-13.8L187 139.3h650m105-50H82L412 496v337.8l200 100.8V496.1L942 89.3z',
+     	 	                onclick : function (){
+     	 	              	if($("#flag").val()=='1'){
+     	 	          		alert("还有未关闭的窗口!请先关闭，才能点击！");
+     	 	          		return;
+     	 	          		}
+     	 	              $("#flag").val('1');
+     	 	         		$("#chooseDate").show();
+     	 	             var obj=document.getElementById('datetype');
+     	 	             obj.options.length=0;//移除options
+     	 	     		$.ajax({
+     	 	     			headers    : {
+     	 	     				"token" : localStorage.getItem("token")
+     	 	     			},
+     	 	     			url : APIHost + '/todoEvent/getDates',
+     	 	     			type : 'POST',
+     	 	     			async : false, //或false,是否异步
+     	 	     			timeout : 5000,
+     	 	     			dataType : 'json',
+     	 	     			success : function(res) {
+     	 	     				$('#datetype').append("<option hidden='hidden' value=''></option>");
+     	 	     				for(i in res){
+     	 	         				$('#datetype').append("<option value="+i+">"+res[i]+"</option>");
+     	 	     				}
+     	 	     				$('#datetype').append("<option  value='custom'>自定义</option>")
+     	 	     			},
+     	 	     			error : function() {
+     	 	     				console.log("错误");
+     	 	     			}
+     	 	     		});
+     	 	                }
+    	 	          }
+    	 	          }
+    	 	      },
+    	 	        calculable : false,
+    	 	       	color: ['#7EC0EE', '#7FFFD4', '#6CA6CD', '#7A67EE', '#48D1CC','#EEDFCC', '#104E8B'],
+    	 	        series : [
+    	 	            {
+    	 	                name:'',
+    	 	              	roam: false,
+    	 	                type:'treemap',
+    	 	                itemStyle: {
+    	 	                    normal: {
+    	 	                        label: {
+    	 	                            show: true,
+    	 	                            formatter:  function (params) {
+    	 	 	                              var arr = [
+    	 	 	 	                                '{name|' + params.name + '}',
+    	 	 	 	                                '{budget|事件:' + params.value + '}条'
+    	 	 	 	                            ];
+    	 	 	 	                            return arr.join('\n');
+    	 	 	 	                        },
+    	 	 	 	                        rich: {
+    	 	 	 	                            budget: {
+    	 	 	 	                                fontSize: 14,
+    	 	 	 	                                lineHeight: 5,
+    	 	 	 	                              	color: '#fff',
+    	 	 	 	                            },
+    	 	 	 	                            name: {
+    	 	 	 	                                fontSize: 16,
+    	 	 	 	                                color: '#fff',
+    	 	 	 	                            },
+    	 	 	 	                        },
+    	 	                           textStyle: {
+    	 	                              color: '#fff',
+    	 	                              fontSize: 15,
+    	 	                          },
+    	 	                        },
+    	 	                        borderWidth: 1
+    	 	                    },
+    	 	                    emphasis: {
+    	 	                        label: {
+    	 	                            show: true
+    	 	                        }
+    	 	                    }
+    	 	                },
+    	 	                data:res
+    	 	            }
+    	 	        ]
+    	 	    };
+   			 			var myChart = echarts.init(document.getElementById("echartsEvent"));
+                	    myChart.setOption(option);
+                        myChart.on('click', function (params) {
+                        	$("#initCilck").html("园区事件分布>>>事件类型分布");
+                           			var name1=params.name;
+                                 	var or=$("#orderBy").val();
+                                 	if(or!='0'){
+                                 		return
+                                 	}
+				             		$.ajax({
+				            			headers    : {
+				            				"token" : localStorage.getItem("token")
+				            			},
+				            			url : APIHost + '/todoEvent/treemapDataRepair',
+				            			type : 'POST',
+				            			async : false, //或false,是否异步
+				            			timeout : 3000,
+				            			data :{
+				            				buildName:name1
+				            			},
+				            			dataType : 'json',
+				            			success : function(data) {
+				        	                	    var myChart1 = echarts.init(document.getElementById("echartsEvent"));
+				        	                	    myChart1.setOption(optionUtill(data));
+				        	                	    $("#orderBy").val("1");
+				            			}
+				            		});
+                              });
+    			}
+    			})
+       });
+
+
+   </script>
+   <script>
+
+	$.ajax({
+		headers    : {
+			"token" : localStorage.getItem("token")
+		},
+		url : APIHost + '/todoEvent/mapCData',
+		type : 'POST',
+		async : false, //或false,是否异步
+		timeout : 3000,
+		data :{
+		},
+		dataType : 'json',
+		success : function(data) {
+		    var categoryData = [];
+		    var res=[];
+		    for(var i in data){
+		    categoryData.push(i);
+		            res.push({
+		                name: i,
+		                value:data[i]
+		            });
+		    }
+		optionM = {
+		    backgroundColor: '#FFFFFF',
+		    animation: false,
+		    animationDuration: 1000,
+		    animationEasing: 'cubicInOut',
+		    animationDurationUpdate: 1000,
+		    animationEasingUpdate: 'cubicInOut',
+		    title: [{
+		        text: '首钢物业统计',
+		        left: '420',
+		        textStyle: {
+		            color: '#404040'
+		        }
+		    }],
+		    brush: {
+		        outOfBrush: {
+		            color: '#abc'
+		        },
+		        brushStyle: {
+		            borderWidth: 2,
+		            color: 'rgba(0,0,0,0.2)',
+		            borderColor: 'rgba(0,0,0,0.5)',
+		        },
+		        seriesIndex: [0, 1],
+		        throttleType: 'debounce',
+		        throttleDelay: 300,
+		        geoIndex: 0
+		    },
+		    geo: {
+		        map: 'china',
+		        left: '20',
+		        right: '15%',
+		        center: [116.98561551896913, 39.205000490896193],
+		        zoom: 0.5,
+		        label: {
+		            emphasis: {
+		                show: false
+		            }
+		        },
+		        roam: false,
+		        itemStyle: {
+		            normal: {
+		                areaColor: '#1785ca',
+		                borderColor: '#111'
+		            },
+		            emphasis: {
+		                areaColor: '#2a333d'
+		            }
+		        }
+		    },
+		    tooltip: {
+		        trigger: 'item'
+		    },
+		    grid: {
+		        right: 100,
+		        top: 100,
+		        bottom: 40,
+		        width: '30%'
+		    },
+		    xAxis: {
+		        type: 'value',
+		        scale: false,
+		        position: 'top',
+		        boundaryGap: ['0','5'],
+		        splitLine: {
+		            show: false
+		        },
+		        axisLine: {
+		            show: false
+		        },
+		        axisTick: {
+		            show: false
+		        },
+		        axisLabel: {
+		            show:false,
+		            margin: 2,
+		            textStyle: {
+		                color: '#aaa'
+		            }
+		        },
+		    },
+		    yAxis: {
+		        type: 'category',
+		        //  name: 'TOP 20',
+		        nameGap: 16,
+		        axisLine: {
+		            show: true,
+		            lineStyle: {
+		                color: '#3D3D3D'
+		            }
+		        },
+		        axisTick: {
+		            show: false,
+		            lineStyle: {
+		                color: '#3D3D3D'
+		            }
+		        },
+		        axisLabel: {
+		            interval: 0,
+		            textStyle: {
+		                color: '#404040',
+		                fontSize: 14,
+		            }
+		        },
+		        data: categoryData
+		    },
+		    series: [ {
+		        //  name: 'Top 5',
+		        type: 'effectScatter',
+		        coordinateSystem: 'geo',
+		        data: [{
+		        	name: "北京",
+	            	value: [116.46, 39.92]
+		            }],
+		        symbolSize: function(val) {
+		            return 20;
+		        },
+		        showEffectOn: 'render',
+		        rippleEffect: {
+		            brushType: 'fill'
+		        },
+		        hoverAnimation: true,
+		        label: {
+		            normal: {
+		                formatter: '{b}',
+		                position: 'right',
+		                show: true,
+		                fontSize: 16,
+		                color:'#FFD700',
+		                fontWeight : 'bold'
+		            }
+		        },
+		        itemStyle: {
+		            normal: {
+		                color: '#f4e925',
+		                shadowBlur: 8,
+		                shadowColor: '#333'
+		            }
+		        },
+		        zlevel: 1
+		    }, {
+		        id: 'bar',
+		        zlevel: 2,
+		        type: 'bar',
+		        symbol: 'none',
+		        barWidth: 15,
+		        itemStyle: {
+		            normal: {
+		                color: '#ddb926',
+		                label:{
+		                    show:true,
+		                    position: 'right',
+		                    formatter:function (params) {
+	                            var arr=[];
+		                    	var name=params.name;
+		                    	if(name=="报修完成率"){
+		                    		arr = [
+	 	                                '{budget|' + params.value + '}%'
+	 	                            ];
+		                    	}
+		                    	if(name=="报修投诉率"){
+		                    		arr = [
+	 	                                '{budget|' + params.value + '}%'
+	 	                            ];
+		                    	}
+		                    	if(name=="报修处理时长"){
+		                    		arr = [
+	 	                                '{budget|' + params.value + '}小时'
+	 	                            ];
+		                    	}
+		                    	if(name=="报修工单数"){
+		                    		arr = [
+	 	                                '{budget|' + params.value + '}条'
+	 	                            ];
+		                    	}
+		                    	if(name=="报修业主数"){
+		                    		arr = [
+	 	                                '{budget|' + params.value + '}条'
+	 	                            ];
+		                    	}
+		                    	if(name=="报修建筑体数"){
+		                    		arr = [
+	 	                                '{budget|' + params.value + '}条'
+	 	                            ];
+		                    	}
+	 	                            return arr.join('\n');
+	 	                        },
+	 	                        rich: {
+	 	 	                            budget: {
+ 	 	 	                                fontSize: 14,
+ 	 	 	                                lineHeight: 5,
+
+ 	 	 	                              	color: '#050505',
+ 	 	 	                            },
+ 	 	 	                            name: {
+ 	 	 	                                fontSize: 16,
+ 	 	 	                                color: '#050505',
+ 	 	 	                            },
+ 	 	 	                        },
+		                }
+		            }
+		        },
+
+		        data: res
+		    }]
+		};
+
+		var myChart= echarts.init(document.getElementById('echartsMap'));
+		myChart.setOption(optionM);
+		}
+	});
+
+	/*setInterval(function () {
+		parent.initMenu("物业管理");
+		var url = APIHost + "/wy/repairInformation/alarm_repair_show.html";
+		$('#showS').modal('show');
+		$("#shIframe").attr("src", url);
+		$("#shIframe").css("height", "400px");
+	}, 10000);*/
+   </script>
+</body>
+</html>
+

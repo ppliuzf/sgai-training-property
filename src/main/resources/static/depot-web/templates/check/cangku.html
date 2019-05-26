@@ -1,0 +1,47 @@
+{{each items as item index}}
+<div style="position: relative;" class="cangKuGrounp{{index+1}}">
+    <i class="glyphicon glyphicon-remove-circle reduceIcon"></i>
+    <div class="form-group">
+        <label for="ckType">
+            <span class="require"></span>选择仓库类型
+        </label>
+        
+        <div>
+            <select id="ckTypeC{{index+1}}" class="form-control" required="required">
+                {{if item.whType == 1}}
+                <option value="1" selected>实仓</option>
+                <option value="2">虚仓</option>
+                {{else}}
+                <option value="1">实仓</option>
+                <option value="2" selected>虚仓</option>
+                {{/if}}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="ckTypeDetail{{index+1}}">
+            <span class="require"></span>选择仓库
+        </label>
+        <div>
+            <select id="ckTypeDetail{{index}}" class="form-control" required="required">
+                {{if item.whType == 1}}   
+                {{each options1 as opt1}}
+                <option>{{opt1.whName}}</option>
+                {{/each}}
+                {{else}}
+                {{each options2 as opt2}}
+                <option>{{opt2.whName}}</option>
+                {{/each}}
+                {{/if}}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="mater1">
+            <span class="require"></span>盘点物料名称</label>
+        <div>
+            <textarea id="mater{{index+1}}" class="form-control" required="required"></textarea>
+        </div>
+    </div>
+</div>
+{{/each}}

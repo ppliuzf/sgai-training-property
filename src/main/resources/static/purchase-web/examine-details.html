@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>采购详情</title>
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+<body id="main">
+        <div class="container-fluid">
+            <div class="row header">
+                <div class="hide" id="untreatedTitle">
+                    <h4>订单详情-未处理</h4>
+                </div>
+                <div class="hide" id="passedTitle">
+                    <h4>订单详情-已通过</h4>
+                </div>
+                <div class="hide" id="refusedTitle">
+                    <h4>订单详情-已拒绝</h4>
+                </div>
+                <!--未处理-->
+                <div class="btns text-right hide" id="untreated">
+                    <button type="submit" class="btn btn-primary" id="examineAdopt">通过</button>
+                    <button type="submit" class="btn btn-primary" id="examineRefuse">拒绝</button>
+                    <button type="submit" class="btn btn-default" id="cancel">返回</button>
+                </div>
+                <!--已通过-->
+                <div class="btns text-right hide" id="alreadyPassed">
+                    <button type="submit" class="btn btn-default" id="cancel">返回</button>
+                </div>
+                <!--已拒绝-->
+                <div class="btns text-right hide" id="haveRefused">
+                    <button type="submit" class="btn btn-default" id="cancel">返回</button>
+                </div>
+            </div>       
+            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 js-main" id="order">
+            </div>
+            <div class="col-xs-12 col-sm-11 col-md-12 col-lg-12 js-main">
+                <h4 class="pt15">物料明细</h4>
+                <div class="pt15">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="active">
+                                <th class="text-center" width="60">序号</th>
+                                <th>物料名称</th>
+                                <th>供应商</th>
+                                <th width="80">物料数量</th>
+                                <th width="80">规格</th>
+                                <th width="160">型号</th>
+                            </tr>
+                        </thead>
+                        <tbody class="js-list" id="materielList"></tbody>
+                    </table>
+                    <nav class="text-right pages"></nav>
+                </div>
+            </div>
+        </div>     
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="../lib/lib/lightbox.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/deptTree.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/examine-details.js"></script>
+</body>
+</html>

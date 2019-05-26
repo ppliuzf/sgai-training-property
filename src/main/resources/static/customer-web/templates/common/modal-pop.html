@@ -1,0 +1,19 @@
+<div class="modal fade" id="{{el}}" role="dialog">
+    <div class="modal-dialog modal-{{size}}">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="exampleModalLabel">{{title}}</h4>
+            </div>
+            <div class="modal-body{{noIcon && ' no-icon'}}">{{noIcon}}{{# content}}</div>
+            <div class="modal-footer">
+                {{if isCancel}}
+                <button class="btn btn-default js-model-cancel" data-dismiss="{{cancelModel ? 'modal' : ''}}">{{cancel}}</button>
+                {{/if}}
+                <button class="btn btn-primary js-modal-sure" data-dismiss="{{yesModel ? 'modal' : ''}}">{{sureText}}</button>
+            </div>
+        </div>
+    </div>
+</div>

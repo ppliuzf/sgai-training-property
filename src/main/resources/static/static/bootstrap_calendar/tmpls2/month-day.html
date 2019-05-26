@@ -1,0 +1,29 @@
+<div class="cal-month-day <%= cls %>">
+	<span class="pull-right" data-cal-date="<%= data_day %>" data-cal-view="day" data-toggle="tooltip" title="<%= tooltip %>"><%= day %></span>
+	<% if (events.length > 0) { %>
+		<div class="list" data-cal-start="<%= start %>" data-cal-end="<%= end %>">
+			<% _.each(events, function(event) { %>
+					 <p size="1" >
+					 	<span style="color:#999"><%= event.title.split(":")[0] %></span>
+					 	<span>:</span>
+					 	<% _.each(event.title.split(":")[1].split("/"), function(event2) { %>
+							<a onclick="loadPerson(this)" nodeId="<%=event2.split("|")[0]%>" style="cursor: pointer;"><%=event2.split("|")[1]%></a>
+					 	<% }); %>
+					 </p>
+			<% }); %>
+		</div>
+		<div class="mini-model">
+			<div class="header">
+				<%var dayArr = data_day.split("-");var day = Number(dayArr[1])+"-"+dayArr[2];var today = new Array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
+				var date = new Date(data_day);var week = today[date.getDay()]; %>
+				<span class="day"><%= day %></span>
+				<span class="week"><%= week %></span>
+				<a href="javascript:;"><i class="icon-remove"></i></a>
+			</div>
+			<div class="body personBox">
+				<!-- <div>这是内容</div> -->
+			</div>
+		</div>
+	<% } %>
+</div>
+

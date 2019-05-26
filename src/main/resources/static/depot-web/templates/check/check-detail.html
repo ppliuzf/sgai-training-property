@@ -1,0 +1,56 @@
+<div><h5><b>基础信息</b></h5></div>
+<table>
+        <tbody>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">主题</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">
+                    {{if items.ivtTitle}}
+                        {{items.ivtTitle}}
+                    {{else}}
+                        --
+                    {{/if}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">单号</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.ivtNo}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">工单状态</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">
+                    {{if items.matStat == 1}}
+                        未开始
+                    {{else if items.matStat == 2}}
+                        盘点中
+                    {{else}}
+                        已完成
+                    {{/if}}
+                </td>
+            </tr>
+            <tr>
+                
+                <td class="text-center">盘点仓库</td>
+                <td class="value">{{items.whName}}</td>
+                <td class="text-center">计划开始时间</td>
+                <td class="value">{{items.ivtPlanBegin | dateFormat:'yyyy-MM-dd hh:mm:ss'}}</td>
+                <td class="text-center">计划结束时间</td>
+                <td class="value">{{items.ivtPlanEnd | dateFormat:'yyyy-MM-dd hh:mm:ss'}}</td>
+            </tr>
+            <tr>
+                <td class="text-center">盘点人</td>
+                <td class="value" colspan="5">{{items.position}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div><h5><b>执行结果 </b></h5></div>
+    <table>
+        <tbody>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">盘点开始时间</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.ivtExecBegin | dateFormat:'yyyy-MM-dd hh:mm:ss'}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">盘点结束时间</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.ivtExecEnd | dateFormat:'yyyy-MM-dd hh:mm:ss'}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">盘点执行人</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.ivtExecEmpName}}</td>
+            </tr>
+            <tr>
+                <td class="text-center">差异原因</td>
+                <td class="value" colspan="5">{{items.ivtDiffReason}}</td>
+            </tr>
+        </tbody>
+    </table>

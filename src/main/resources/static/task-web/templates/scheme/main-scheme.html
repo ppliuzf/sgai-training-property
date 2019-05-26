@@ -1,0 +1,43 @@
+{{each items as item}}
+    <tr data-id="{{item.id}}">
+        <td class="text-center">
+            {{if item.num<10}}
+            0{{item.num}}
+            {{else}}
+            {{item.num}}
+            {{/if}}
+        </td>
+        <td>
+            <div class="text-ellipsis" style="max-width: 300px"><a href="../check/detail-check.html?id={{item.tiId}}" class="underline js-view">{{item.piName ? item.piName : '无'}}</a></div>
+        </td>
+        <td>
+            <div class="cont dot" title="{{item.pcName}}">
+                {{item.pcName}}
+            </div>
+        </td>
+        <!-- <td>
+            <div class="cont dot">{{item.groupName}}</div>
+        </td> -->
+        <td>
+            <div class="cont dot" >{{item.piIsInput == 1 ? '单选': '数值'}}</div>
+        </td>
+        <td>
+            <div class="cont dot">{{item.createName}}</div>
+        </td>
+        <td>
+            <div class="cont dot">{{item.createTime | dateFormat: 'yyyy-MM-dd'}}</div>
+        </td>
+            {{if items.taskName}}
+                <!-- <td class="text-center act">
+                       <span></span>
+                  
+                </td> -->
+            {{else}}
+
+            <td class="text-center act">
+                <a class="js-cancel-relate underline" href="javascript:;" data-id="{{item.id}}">取消关联</a>
+            </td>
+            {{/if}}
+
+    </tr>
+{{/each}}

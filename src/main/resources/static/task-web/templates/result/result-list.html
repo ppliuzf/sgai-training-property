@@ -1,0 +1,18 @@
+{{each items as item}}
+<tr>
+    <td class="text-center">
+        {{if item.num<10}}
+        0{{item.num}}
+        {{else}}
+        {{item.num}}
+        {{/if}}
+    </td>
+    <td><a class="underline" data-id="{{item.ttId}}" href="pages/result/result-detail.html?id={{item.ttId}}">{{item.ttName}}</a></td>
+    <td><div class="text-ellipsis">{{item.pcName}}</div></td>
+    <td>{{item.createName}}</td>
+    <td>{{item.createTime | dateFormat:'yyyy-MM-dd hh:mm'}}</td>
+    <td>{{item.ttSubmitName}}</td>
+    <td>{{item.ttSubmitTime | dateFormat:'yyyy-MM-dd hh:mm'}}</td>
+    <td class="text-center act">{{item.ttStatus}}</td>
+</tr>
+{{/each}}

@@ -1,0 +1,22 @@
+{{each items as item}}
+<tr>
+    <td class="text-center">
+        {{if item.num
+        <10}} 0{{item.num}} {{else}} {{item.num}} {{/if}} </td>
+            <td>{{item.name}}</td>
+            <td>
+                <div class="text-ellipsis" style="max-width: 400px">{{item.description}}</div>
+            </td>
+            <td>{{item.professionalCategory}}</td>
+            <td>{{item.operator}}</td>
+            <td>{{item.updateTime | dateFormat:'yyyy-MM-dd hh:mm'}}</td>
+            <td class="text-center">
+                {{if type}}
+                <a class="underline" data-id="{{item.id}}" href="pages/scheme/set-scheme.html?id={{item.id}}&type=1">关联任务项</a>
+                {{else}}
+                <a class="underline" data-id="{{item.id}}" href="pages/scheme/set-scheme.html?id={{item.id}}">关联任务项</a>
+                {{/if}}
+                <a class="js-del underline" href="javascript:;" data-id="{{item.id}}">删除</a>
+            </td>
+</tr>
+{{/each}}

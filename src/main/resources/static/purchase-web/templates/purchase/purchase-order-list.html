@@ -1,0 +1,89 @@
+{{each items as item}}
+<tr data-id="{{item.id}}">
+    <!-- 序号 -->
+    {{ if item.number1 < 10}}
+        <td class="text-center">0{{item.number1}}</td>
+    {{ else }}
+        <td class="text-center">{{item.number1}}</td>
+    {{/if}}
+    <!-- 订单编号 -->
+    <td>
+        <a class="underline js-detail" ordertype="{{item.orderType}}" orderstat="{{item.orderStat}}" id-main="{{item.id}}">{{item.orderNo}}</a>
+    </td>
+    <!-- 订单类型 -->
+    <td>
+        {{if item.orderType === 1}}
+        需求订单
+        {{else item.orderType === 2}}
+        主动采购
+        {{/if}}
+    </td>
+    <!-- 需求单号 -->
+    <td>{{item.applyNo}}</td>
+    <!-- 制单人 -->
+    <td>{{item.orderEmpName}}</td>
+    <!-- 制单日期 -->
+    <td>{{item.orderDate | dateFormat:'yyyy-MM-dd hh:mm:ss'}}</td>
+    <!-- 状态 -->
+    <td>
+        {{if item.orderStat === 1}}
+        待审核
+        {{else if item.orderStat === 2}}
+        已拒绝
+        {{else if item.orderStat === 3}}
+        已通过
+        {{else if item.orderStat === 4}}
+        采购中
+        {{else if item.orderStat === 5}}
+        已完成
+        {{else if item.orderStat === 6}}
+        已撤回
+        {{/if}}
+    </td>
+    {{if item.orderStat !== 1}}
+    <!-- 采购审批人 -->
+    <td>{{item.buyerApproveEmpName}}</td>
+    <!-- 审批时间 -->
+    <td>{{item.approveDate | dateFormat:'yyyy-MM-dd hh:mm:ss'}}</td>
+    {{else}}
+    <!-- 采购审批人 -->
+    <td></td>
+    <!-- 审批时间 -->
+    <td></td>
+    {{/if}}
+    <!-- 操作 -->
+    <td class="js-act text-center act">
+        <div class="btn-group more">
+            {{if item.orderStat ===1 || item.orderStat === 2 || item.orderStat === 3 || item.orderStat === 4}}
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多
+            </button>
+            <ul class="dropdown-menu">
+                {{if item.orderStat === 1}}
+                <li>
+                    <a class="underline js-cancle" data-id="{{item.id}}">撤销</a>
+                    <a class="underline js-edit" ordertype1="{{item.orderType}}" data-id="{{item.id}}">编辑</a>
+                </li>
+                {{else if item.orderStat === 2}}
+                <li>
+                {{if item.orderType === 1}}
+                <a class="underline js-apply" data-id="{{item.id}}" href="./purchase-order-details.html?status=edit&orderId={{item.id}}">重新申请</a>
+                {{else if item.orderType === 2}}
+                <a class="underline js-apply" data-id="{{item.id}}" href="./purchase-add.html?infoId={{item.id}}">重新申请</a>
+                {{/if}}
+                    <!-- <a class="underline js-apply" data-id="{{item.id}}" href="./purchase-order-details.html?status=edit&orderId={{item.id}}">重新申请</a> -->
+                </li>
+                {{else if item.orderStat === 3}}
+                <li>
+                    <a class="underline js-start" data-id="{{item.id}}">开始采购</a>
+                </li>
+                {{else if item.orderStat === 4}}
+                <li>
+                    <a class="underline js-compelet" data-id="{{item.id}}">完成采购</a>
+                </li>
+                {{/if}}
+            </ul>
+            {{/if}}
+        </div>
+    </td>
+</tr>
+{{/each}}

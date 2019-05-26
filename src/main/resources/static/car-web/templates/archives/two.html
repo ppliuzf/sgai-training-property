@@ -1,0 +1,12 @@
+{{each items as item itemIndex}}
+<tr>
+    <td style="text-align:center;">{{itemIndex+1 < 10 ? "0" + (itemIndex+1) : itemIndex+1}}</td>
+    <td class="word-warp">{{item.rrDate }}</td>
+    <td class="word-warp">{{item.rrName }}</td>
+    <td class="word-warp">{{item.rrPhoneNum}}</td>
+    <td class="word-warp">{{item.rrAddress }}</td>
+    <td class="word-warp">{{item.rrContent }}</td>    
+    <td class="word-warp">{{item.rrRemark}}</td>
+</tr>
+{{/each}}
+

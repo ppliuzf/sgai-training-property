@@ -1,0 +1,418 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link href="../static/media/css/smart-font/iconfont.css" rel="stylesheet" type="text/css" media="screen"/>
+<!--分页  -->	
+<script src="../static/paginator/bootstrap-paginator.js" type="text/javascript"></script>
+<!-- 公共样式表	，公共方法 -->
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.src.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+<title>目标优化</title>
+<meta name="decorator" content="default">
+<style type="text/css">
+	.mode-select-wrap{
+		margin-bottom: 16px;
+		background-color: #fcfcfc;
+		border: 1px solid #f0f0f0;
+	}
+	.caption{
+		padding: 0 8px;
+		border-bottom: 1px solid #f0f0f0;
+	}
+	.caption h5{
+		color: #333;
+		font-weight: normal;
+		line-height: 30px;
+	}
+	input[type="checkbox"]{
+		margin-right: 6px;
+	}
+	.mode-select-wrap .form-search{
+		border: 0;
+		border-radius: 0;
+		margin-bottom: 0;
+	}
+	.mode-list ul{
+		margin: 0 20px 16px;
+		overflow: hidden;
+		max-height: 70px;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+	.mode-list li{
+		width: 20%;
+		list-style: none;
+		padding: 6px 12px;
+		float: left;
+		text-align: left;
+		background-color: #fff;
+		border-color: #f0f0f0;
+		border-style: solid;
+		border-width: 1px 0 1px 1px;
+		box-sizing: border-box;
+	}
+	.mode-list li:nth-of-type(5n+0),
+	.mode-list li:last-of-type{
+		border-right-width: 1px;
+	}
+	.mode-list label{
+		font-size: 12px!important;
+		color: #333;
+	}
+	.mode-list .smartfont{
+		margin: 0 6px;
+		display: inline-block;
+		vertical-align: middle;
+		font-size: 20px;
+	}
+	.target-select-wrap .caption{
+		border-color: #f0f0f0;
+		border-width: 1px 1px 0 1px;
+		border-style: solid;
+		background-color: #fcfcfc;
+	}
+	.target-select-wrap .scroll-wrap{
+		max-height: 220px;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+	.target-td label{
+		margin: 0 8px;
+		font-size: 12px!important;
+		color: #666;
+	}
+	.target-td input:nth-child(2){
+		margin-left: 20px;
+	}
+	.target-select-wrap .btn-wrap{
+		text-align: right;
+	}
+	.target-select-wrap .btn-wrap .btn{
+		margin: 4px 0 4px 8px;
+	}
+</style>
+</head>
+<body>
+<div class="table_fluid">
+	<div class="smart_bread"></div>
+	<div class="mode-select-wrap">
+		<div class="caption"><h5>优化对象选择</h5></div>
+		<form id="searchForm" class="breadcrumb form-search " method="post">
+			<input id="pageNo" name="pageNo" type="hidden" value="1">
+			<input id="pageSize" name="pageSize" type="hidden" value="10">
+			<ul class="ul-form">
+				<li>
+					<label>名称：</label>
+					<input id="workModeName" name="workModeName" class="query_input input-medium" type="text" value=""  maxlength="50" onkeypress="if(event.keyCode==13) loadModes()">
+				</li>
+				<li class="btns">
+					<button id="btnQuery" class="btn btn-primary btn_middle small_blue" type="button" onclick="loadModes();">查询</button>
+					<button class="btn btn-primary btn_middle small_clear" type="button" onclick="clearUp();">清空</button>
+				</li>
+			</ul>
+		</form>
+		<div id="modeList" class="mode-list"></div>
+	</div>
+	<div class="target-select-wrap">
+		<div class="caption"><h5>优化目标选择</h5></div>
+		<div id="targetWrap" class="scroll-wrap">
+			<table id="targetTable" class="table table-striped table-bordered table-condensed">
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>优化项</th>
+						<th>优化项说明</th>
+						<th>目标</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div class="btn-wrap">
+			<a href="javascript:;" class="btn btn-primary btn_small small_blue" onclick='show()'>优化预览</a>
+			<a href="javascript:;" class="btn btn-primary btn_small small_blue" onclick="executeOpt()">执行优化</a>
+			<a href="javascript:;" class="btn btn-primary btn_small small_blue" onclick="goOptRecord();">优化记录</a>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		makeBread();
+		loadModes();
+		loadOptTargets();
+		checkedClick();
+		
+	});
+
+	function goOptRecord(){
+		$("#mainFrame",window.parent.document).attr("src","/ruag/ruagTargetRecord.html?page=targetPage");
+	}
+
+	function loadModes(){
+		$.ajax({
+	        headers    : {
+	            "token" : localStorage.getItem("token")
+	        },
+	        url : APIHost + '/ruag/ruag/ruagModelTemplate/getListYouHua',
+	        type : 'POST',
+	        async : true, //或false,是否异步
+	        data : {
+	            workModeName:$("#workModeName").val(),
+	            status:'1',
+	        },
+	        timeout : 5000,
+	        dataType : 'json',
+	        success : function(res) {
+	        	if(res.code === 1000){
+	        		var list = res.data.list;
+	        		var html = '<ul>';
+	        		for(var i=0;i<list.length;i++){
+	        			var icon = 'smart-c-circle';
+	        			if(list[i].workModeName.indexOf("假日") != -1){
+	        				icon = "smart-balloon";
+	        			}else if(list[i].workModeName.indexOf("春秋") != -1){
+	        				icon = "smart-leaf";
+	        			}else if(list[i].workModeName.indexOf("冬季") != -1){
+	        				icon = "smart-snowflake";
+	        			}else if(list[i].workModeName.indexOf("夏季") != -1){
+	        				icon = "smart-sun";
+	        			}else if(list[i].workModeName.indexOf("会议") != -1){
+	        				icon = "smart-meeting-circle";
+	        			}
+	        			html += '<li><label><input type="checkbox" name ="modeName"  value="' + list[i].id +'"/><i class="smartfont '+icon+'"></i>'+list[i].workModeName+'</label></li>'
+	        		}
+	        		html+='</ul>';
+	        		$("#modeList").empty();
+	        		$("#modeList").append(html);
+	        	}else if(res.code ===1003){
+					//没有登录状态
+					$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+						{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+				}else if(res.code === 1002){
+					//发生异常
+					$.jBox.alert(res.msg);
+				}else if(res.code === 1004){
+					//结果为空
+					$.jBox.alert(res.msg);
+				}
+	        },
+	        error : function() {
+	            console.log('错误')
+	        }
+	    })
+	}
+
+	function loadOptTargets(){
+		$(".target-select-wrap .scroll-wrap").append("<div id='loading' class='spinner'><div class='rect1'></div><div class='rect2'></div><div class='rect3'></div><div class='rect4'></div><div class='rect5'></div></div>");
+		//删除旧tbody
+	    var contentTableSub = document.getElementById("targetTable");
+	    var oldTbody = document.getElementById("targetTbody");
+
+	    if (oldTbody != null) {
+	      contentTableSub.removeChild(oldTbody);
+	    }
+	    //添加新tbody
+		$.ajax({
+	        headers    : {
+	            "token" : localStorage.getItem("token")
+	        },
+	        url : APIHost + '/ruag/ruag/ruagOptItem/getListYouHuaTarget',
+	        type : 'POST',
+	        async : true, //或false,是否异步
+	        data : {
+	        	workModeName : $("#workModeName").val(),
+				status:'1',
+	        },
+	        timeout : 5000,
+	        dataType : 'json',
+	        success : function(res) {
+	        	$('#loading').remove();
+	        	if(res.code === 1000){
+	        		var newTbody = document.createElement("tbody");
+                    newTbody.setAttribute("id", "targetTbody");
+                        
+                    var list = res.data.list;
+                    if(list.length){
+                    	$("#targetWrap .page-null").hide();
+                    	for (var i = 0; i < list.length; i++) {
+	                        var entity = list[i];
+						var tr = document.createElement("tr");
+						
+						//序号
+						var td1 = document.createElement("td");
+						td1.innerHTML = i+1;
+						td1.className="order_number";
+						tr.appendChild(td1);
+						newTbody.appendChild(tr);
+						
+						   var peopertys = new Array("optimizationItem","optimizationItemDesc");
+							for(var j = 0;j < peopertys.length;j++){
+								var td = document.createElement("td");
+								if(peopertys[j]=="enabledFlag"){
+									if(list[i][peopertys[j]]=="Y"){
+										td.innerHTML = "是";
+									}else if(list[i][peopertys[j]]=="N"){
+										td.innerHTML = "否";
+									}
+								}else{
+									td.innerHTML = list[i][peopertys[j]];
+								}
+		    					tr.appendChild(td);
+							} 
+							//选择框
+	                        var td1 = document.createElement("td");
+	                        td1.innerHTML = "<label><input type='checkbox' name ='optParam'  value='" + list[i].profCode + "*min'/>最小</label><label><input type='checkbox' name ='optParam'  value='" + list[i].profCode + "*avg'/>均衡</label>"
+	                        td1.className = "target-td";
+	                        tr.appendChild(td1);
+	                    }
+	                    contentTableSub.appendChild(newTbody);
+	                    //table下每一行tr选中高亮
+						inputCheck();
+                    }else{
+                    	$("#targetWrap").append('<h3 class="page-null">暂无数据！</h3>');
+                    } 
+	        	}else if(res.code ===1003){
+	                //没有登录状态
+	                $.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+	                { window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+	            }else if(res.code === 1002){
+	                //发生异常
+	                $.jBox.alert(res.msg);
+	            }else if(res.code === 1004){
+	                //结果为空
+	                $.jBox.alert(res.msg);
+	            }
+	        },
+	        error : function() {
+	        	$('#loading').remove();
+	        	$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+	            console.log('错误')
+	        }
+	    })
+	}
+
+	//优化目标最小/均衡
+	function checkedClick(){
+		$("#targetTable").on("click",":checkbox",function(){
+			if($(this).attr("checked")!=undefined){
+				$(this).attr("checked",true);
+				$(this).parent().siblings().find(":checkbox").attr("checked",false);
+			}
+		});
+	}
+	function clearUp(){
+		$("input[type=text]").val("");
+	}
+	var format = function(time, format){
+	    var t = new Date(new Date(time).getTime()+28800000);
+	    var tf = function(i){return (i < 10 ? '0' : '') + i};
+	    return format.replace(/yyyy|MM|dd|HH|mm|ss/g, function(a){
+	    switch(a){
+	        case 'yyyy':
+	            return tf(t.getFullYear());
+	            break;
+	        case 'MM':
+	            return tf(t.getMonth() + 1);
+	            break;
+	        case 'mm':
+	            return tf(t.getMinutes());
+	            break;
+	        case 'dd':
+	            return tf(t.getDate());
+	            break;
+	        case 'HH':
+	            return tf(t.getHours());
+	            break;
+	        case 'ss':
+	            return tf(t.getSeconds());
+	            break;
+	        }
+	    }) 
+	}
+	function getOptObj(){
+		//优化对象   objStr
+		var obj = document.getElementsByName("modeName");
+		var objStr = "";
+	    for(k in obj){
+	        if(obj[k].checked)
+	        	objStr+=(obj[k].value)+",";
+	    }
+	    return objStr
+	}
+	function getOptTarget(){
+		//优化目标   targetStr
+	    var obj = document.getElementsByName("optParam");
+	    targetStr = "";
+	    for(k in obj){
+	        if(obj[k].checked)
+	        	targetStr+=(obj[k].value)+",";
+	    }
+	    return targetStr
+	}
+	function show(){
+		var objStr = getOptObj(),
+		targetStr = getOptTarget();
+
+	   	if(objStr!=''&&targetStr!=''){
+		   	var obj={
+              	objStr:objStr,
+              	targetStr:targetStr,
+  		 	};
+      		sessionStorage.setItem('optimizationParams', JSON.stringify(obj));
+      		$("#mainFrame",window.parent.document).attr("src","/ruag/ruagOptPreview.html?page=targetPage");
+	   	}else{
+		   	$.jBox.alert("请选择优化对象和优化目标","提示");
+	   	}
+	}
+	function executeOpt(){
+		var objStr = getOptObj(),
+		targetStr = getOptTarget();
+    	if(objStr!=''&&targetStr!=''){
+		   	$.ajax({	
+				headers    : {
+	                "token" : localStorage.getItem("token"),
+	            },
+	            url : APIHost + '/ruag/ruag/ruagOptimizationParameterSet/updateParamter',
+				type : 'POST',
+				async : false, //或false,是否异步
+				data : {
+					"objStr" : objStr,
+					"targetStr" : targetStr
+				},
+				timeout : 5000,
+				dataType : 'json',
+				success : function(res) {
+					if(res.code === 1000){
+						$.jBox.alert("执行优化成功！","成功");
+					}
+				}
+			})
+	   	}else{
+		   	$.jBox.alert("请选择优化对象和优化目标","提示");
+	   	}
+	}
+</script>
+</body>
+</html>

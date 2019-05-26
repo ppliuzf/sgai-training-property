@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+	<meta http-equiv="Expires" content="0">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-store">
+	<title>workModelList</title>
+	<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+	<!-- 日历css -->
+	<link rel="stylesheet" type="text/css" media="all" href="../static/bootstrap/dist/css/daterangepicker.css" />
+	<link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+
+	<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+	<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+	
+	<!--分页  -->	
+	<script src="../static/paginator/bootstrap-paginator.js" type="text/javascript"></script>
+
+	<!-- 公共样式表	，公共方法 -->
+	<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+
+	<!-- 日历JS -->
+	<script type="text/javascript" src="../static/bootstrap/dist/js/moment.js"></script>
+	<script type="text/javascript" src="../static/bootstrap/dist/js/daterangepicker.js"></script>
+	<script type="text/javascript" src="../static/bootstrap/dist/js/locales/datetimepicker.zh-CN.js"></script>
+<head>
+<style type="text/css">
+/*.table-responsive .table-bordered>thead>tr>th, .table-responsive .table-bordered>tbody>tr>td {
+    border: 1px solid #9B9B9B;
+}*/
+.table-responsive .table-bordered>thead>tr>th {
+    color: #666;
+}
+
+.table-responsive .table thead th {
+    background-color: #eee;
+    text-align: center;
+}
+/*.table-striped > tbody > tr:nth-child(odd) > td {
+    background-color: #ccc;
+    border: 1px solid #9B9B9B;
+}*/
+/*.table-striped > tbody > tr:nth-child(even) > td {
+    background-color: #ccc;
+    border: 1px solid #9B9B9B;
+}*/
+.table-striped tbody>tr:nth-child(odd)>td, .table-striped tbody>tr:nth-child(odd)>th{
+	background: #fff;
+}
+.table-responsive {
+    min-height: .01%;
+    max-height: 600px;
+    overflow-x: auto;
+}
+table tbody > tr > td button {
+    border: 0;
+    background-color: #ccc !important;
+    background: none !important;
+}
+table thead th:nth-child(2) {
+    width: 150px;
+}
+table thead th:nth-child(1) {
+    width: 150px;
+}
+.activeBj{
+    background: rgba(0,0,0,.3) !important; 
+    position: relative;
+}
+.tsk{
+    width: 185px;
+    height: 70px;
+    background: #fff;
+    padding-left: 10px;
+    padding-top: 15px;
+    color: #9E9E9E;
+    position: absolute;
+    right:  30%;
+    bottom: 40px;
+    font-size: 12px;
+    box-shadow: 1px 1px 2px #fff;
+    z-index: 15;
+}
+.tsk div .btn:nth-child(1) {
+    color: #A6A6A6;
+    background: #F3F3F3 !important;
+    border: 1px solid #E6E6E6 !important;
+    border-radius: 5px;
+    width: 48px !important;
+    margin-right: 5px;
+    height: 20px;
+    font-size: 12px;
+    padding: 0;
+}
+.tsk div .btn:nth-child(2) {
+    color: #B36663;
+    background: #F3F3F3 !important;
+    border: 1px solid #E6E6E6 !important;
+    border-radius: 5px;
+    width: 48px !important;
+    height: 20px;
+    font-size: 12px;
+    padding: 0;
+}
+.table-striped tbody>tr>td{
+	text-align: center;
+}
+.table-bordered thead:first-child tr:first-child>th:first-child,.table-bordered thead:first-child tr:first-child>th:last-child{
+	border-radius: 0;
+}
+/*.modal-body button, .modal-footer button {
+    background: linear-gradient(to bottom, #0196FA 0%,#0066CF 100%);
+    border-radius: 0;
+    width: 100px;
+    font-size: 14px;
+    border: none;
+    color: #fff;
+    box-shadow: 10px #fff inset;
+    -webkit-box-shadow: 1px 1px 0px #4BC3FE inset;
+}
+.btn {
+    width: 66px !important;
+    background: #0362fd !important;
+    border: 1px solid #0362fd !important;
+    margin-left: 15px;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    border-radius: 4px !important;
+}*/
+.modal-content {
+    position: relative;
+    background-color: #eee;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #999;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 0;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+    box-shadow: 0 3px 9px rgba(0,0,0,.5);
+}
+.modal-header {
+    background: #E3E3E3;
+    border-radius: none;
+    text-align: left;
+    color: #848484;
+    border-top: 3px solid #0096FF;
+    min-height: 14.43px;
+    padding: 10px 20px;
+    border-bottom: 1px solid #e5e5e5;
+}
+.modal-header button.close {
+    background-color: #E3E3E3;
+    opacity: 1;
+    width: 24px;
+    height: 20px;
+    color: #828282;
+    /* border-radius: 50%; */
+    line-height: 1.0em;
+    font-size: 25px;
+}
+.modal-title {
+    margin: 0;
+    line-height: 1.42857143;
+    font-size: 16px;
+}
+.modal-body {
+    padding: 20px 30px;
+    max-height: 320px;
+}
+.modal-content input {
+    background-color: #fff;
+    -webkit-box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    box-shadow: none!important;
+    /* border: 1px solid #e3e4e8 !important; */
+    color: #6c6c6c;
+    font-size: 12px;
+}
+.modal-content .form-control {
+    height: 32px;
+    margin-bottom: 4px;
+}
+.form-group2 input, .form-group3 {
+    width: 331px;
+    float: right;
+}
+.form-group span {
+    float: left;
+    margin-top: 5px;
+    margin-right: 5px;
+    color: #747474;
+}
+.weekchoose {
+    display: inline-block;
+    float: left;
+    width: 90%;
+}
+#weekCheck input {
+    margin-left: 40px;
+    margin-top:0;
+}
+.modal-content input {
+    background-color: #fff;
+    -webkit-box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    box-shadow: none!important;
+    /* border: 1px solid #e3e4e8 !important; */
+    color: #6c6c6c;
+    font-size: 12px;
+}
+.modal{
+	width: 460px;
+	margin-left: -230px;
+	border-radius: 0;
+}
+.modal-content select {
+    background: linear-gradient(to bottom, #fff 0%,#E8E8E8 100%) !important;
+    /* background-size: 30px 6px !important; */
+    background-position: right center !important;
+    -webkit-box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    box-shadow: none!important;
+    /* -webkit-border-radius: 6px !important; */
+    /* -moz-border-radius: 6px !important; */
+    /* border-radius: 6px !important; */
+    border: 1px solid #CFCFCF !important;
+    color: #999;
+    outline: none;
+    display: inline-block;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    font-size: 12px;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.modal-body{
+	padding: 0;
+	overflow: hidden;
+}
+iframe{
+	width: 100%;
+	height: 410px;
+	border: none;
+}
+.modal-footer{
+	text-align: center;
+	background: #fff;
+	border-top: none;
+}
+.modal-backdrop, .modal-backdrop.fade.in {
+    opacity: .5;
+    filter: alpha(opacity=50);
+}
+
+.form-group {
+    margin-bottom: 25px;
+    height: 30px;
+}
+.form-group span {
+    float: left;
+    margin-top: 5px;
+    margin-right: 5px;
+    color: #747474;
+}
+.form-group2 input, .form-group3 {
+    width: 331px;
+    float: right;
+}
+.weekCheck1 {
+    display: inline-block;
+    float: left;
+    width: 85%;
+}
+.weekCheck1 input {
+    margin-left: 31px;
+    margin-top: -1px;
+}
+.modal-content {
+    position: relative;
+    background-color: #eee !important;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #999;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 0 !important;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+    box-shadow: 0 3px 9px rgba(0,0,0,.5);
+}
+.modal-footer {
+    text-align: center;
+    border: none;
+    background-color: #fff;
+    padding: 10px;
+}
+/* .row {
+    margin-right: 0px;
+    margin-left: 0;
+    margin-top: 0px;
+    padding-left: 25px;
+    padding-right: 30px;
+    padding-top: 20px;
+}
+.modal-body{
+padding: 0;
+} */
+.modal-body button, .modal-footer button {
+    background: linear-gradient(to bottom, #0196FA 0%,#0066CF 100%);
+    border-radius: 0;
+    width: 100px;
+    font-size: 14px;
+    border: none;
+    color: #fff;
+    box-shadow: 10px #fff inset;
+    -webkit-box-shadow: 1px 1px 0px #4BC3FE inset;
+}
+.weekCheck1{
+	width:300px;
+}
+.demo { position: relative; }
+.demo i {
+      position: absolute; bottom: -25px; right: 0px; top: auto; cursor: pointer;
+    }
+.row{
+  margin-left: 0;
+  padding: 15px 30px 0px 30px;
+}
+#modelKind_1,#modelType_1,#modelName_1{
+	background: #eeeeee;
+}
+.daterangepicker .input-mini{
+	width: 270px;
+}
+.btn:hover, .btn:focus{
+	color: #fff;
+}
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+</style>
+
+</head>
+
+<body>
+<div class="table-responsive ">
+            <table class="table table-striped table-bordered text-center">
+                <thead>
+                <tr style="height: 45px;border-top: 1px solid #9b9b9b;">
+                    <th>模式名称</th>
+                	<th>模式类别</th>
+                	<th>模式等级</th>
+                    <th>起止日期</th>
+                    <th>模式种类</th>
+                    <th>操作</th>
+                 </tr>
+                </thead>
+                <tbody id="modelList">
+                	<tr class="aa">
+                		<td name="modelList" onclick="showItems(this,58,&quot;夏季模式&quot;)" style="border-left:20px solid #279600 !important"><div style="cursor: pointer;">夏季模式</div></td>
+                		<td>计划模式</td>
+                		<td>1</td>
+                		<td>2017-05-18~2017-08-01</td>
+                		<td>区域</td>
+                		<td><button onclick="showWorkModel(58)" type="button">查看</button>&nbsp;<button class="delBtn" type="button">刪除</button><div style="display: none; top: 40px;" class="tsk"><img src="../static/images/warn.png"><span>你确认要删除该模式么?</span><div><div class="btn closetsk">取消</div><div class="btn" onclick="comfirDelete(58)">确认</div></div></div></td>
+                	</tr>
+                	<tr class="aa">
+                		<td name="modelList" onclick="showItems(this,58,&quot;夏季模式&quot;)" style="border-left:20px solid #279600 !important"><div style="cursor: pointer;">夏季模式</div></td>
+                		<td>计划模式</td>
+                		<td>1</td>
+                		<td>2017-05-18~2017-08-01</td>
+                		<td>区域</td>
+                		<td><button onclick="showWorkModel(58)" type="button">查看</button>&nbsp;<button class="delBtn" type="button">刪除</button><div style="display: none; top: 40px;" class="tsk"><img src="../static/images/warn.png"><span>你确认要删除该模式么?</span><div><div class="btn closetsk">取消</div><div class="btn" onclick="comfirDelete(58)">确认</div></div></div></td>
+                	</tr>
+                	<tr class="aa">
+                		<td name="modelList" onclick="showItems(this,58,&quot;夏季模式&quot;)" style="border-left:20px solid #279600 !important"><div style="cursor: pointer;">夏季模式</div></td>
+                		<td>计划模式</td>
+                		<td>1</td>
+                		<td>2017-05-18~2017-08-01</td>
+                		<td>区域</td>
+                		<td><button onclick="showWorkModel(58)" type="button">查看</button>&nbsp;<button class="delBtn" type="button">刪除</button><div style="display: none; top: 40px;" class="tsk"><img src="../static/images/warn.png"><span>你确认要删除该模式么?</span><div><div class="btn closetsk">取消</div><div class="btn" onclick="comfirDelete(58)">确认</div></div></div></td>
+                	</tr>
+                	<tr class="aa">
+                		<td name="modelList" onclick="showItems(this,60,&quot;工作日模式&quot;)" style="border-left:20px solid #0060CA !important"><div style="cursor: pointer;">工作日模式</div></td>
+                		<td>计划模式</td>
+                		<td>2</td>
+                		<td>2017-09-14~2017-09-23</td>
+                		<td>区域</td>
+                		<td><button onclick="editModel(60)" type="button">修改</button>&nbsp;<button class="delBtn" type="button">刪除</button><div style="display:none" class="tsk"><img src="/ibms2/admin_comp/img/warn.png"><span>你确认要删除该模式么?</span><div><div class="btn closetsk">取消</div><div class="btn" onclick="comfirDelete(60)">确认</div></div></div></td>
+                	</tr>
+                	<tr id="first_tr">
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                	</tr>
+                	<tr>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                	</tr>
+                	<tr>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                	</tr>
+                	<tr>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                	</tr>
+                	<tr>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                	</tr>
+                	<tr>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                	</tr>
+                	<tr>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                	</tr>
+                	<tr>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                	</tr>
+                	<tr>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                	</tr>
+                	<tr>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                		<td></td>
+                	</tr>	
+                </tbody>
+            </table>
+        </div>
+        <!-- 删除模式弹出确认框 -->
+	<!-- 删除时弹出输入框 -->
+ 	<div class="modal fade"  id="workDele" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog" style="width:520px;border-radius:10px">
+	        <div class="modal-content" style="border-radius:10px">
+	            <div class="modal-header" style="background-color:#337ab7!important;border-radius:0px">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title" id="myModalLabel">删除确认</h4>
+	            </div>
+	            <div class="modal-body">
+	                  <form  id="modelDeleform" class="form-horizontal" action="${ctx}/ruag/alertitem/save" method="post">
+						<input  type="hidden"  id="model_id" name="id">
+						<div class="row" align="center">
+							 <div class="col-sm-9">
+							 <label id="childHas"  for="alertDate"></label>
+							<!--  <input id="childHas" class="form-control"  style="border:0px"/> -->
+							</div>
+						</div>
+						</form>
+	
+				</div> 
+	            <div class="modal-footer butCenter">
+	            <button type="button" class="btn btn-primary"  onclick="comfirDelete()">确认</button>
+	            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+	<div class="modal fade"  id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog" style="width:460px">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title" id="myModalLabel">查看模式</h4>
+	            </div>
+	            <div class="modal-body">
+	            	<iframe src="modelShow.html"></iframe>
+				</div>
+	            <div class="modal-footer butCenter"> 
+	                 <button type="button" class="btn btn-primary" id="addModelBtn" onclick="closeTopmostWindow()">关闭</button>
+	             </div>
+	        </div>
+	    </div>
+	</div>
+	<div class="modal fade"  id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog" style="width:460px">
+	        <div style="background: #fff !important" class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title" id="myModalLabel">编辑模式</h4>
+	            </div>
+	            <div style="max-height: 345px;" class="modal-body">
+	            	<div class="row">
+	            	<form id="modeltemplateform3" action="${ctx}/ruag/modeltemplate/editDo" method="post">
+	            	    <input type="hidden"  id="selectDates3" name="selectDates3">
+	            	    <input type="hidden"  id="worktime3" name="worktime3">
+						<input type="hidden" id="modelId" name="id" value="${modelTemplate.id}">
+						<input type="hidden" id="modelContent_1" name="content" value="系统内置">
+						<div class="form-group form-group2">
+						    <span>名称:</span>
+						    <input type="text" disabled= "true " id="modelName_1" class="form-control"  name="name" required="required" value="${modelTemplate.name}">
+					  	</div>
+					  	<div id="newmodelModelkind_1" class="form-group form-group2">
+					  	    <span>名称:</span>
+							<input type="text" disabled= "true " id="modelKind_1" name="modelKind" class="form-control" value="${modelTemplate.modelKind}" >
+					  	</div>
+					  	<div id="newmodelModelType_1" class="form-group form-group2">
+					  	
+					  	    <span>名称:</span>
+							<input type="text" disabled= "true " id="modelType_1" name="modelType" class="form-control" value="${modelTemplate.modelType}">
+					  	</div>
+					  	<div id="newmodelDegree_1" class="form-group form-group2" style="display: none;">
+					  	    <span>名称:</span>
+							<input type="text" disabled= "true " id="modelDegree_1" name="modelDegree" class="form-control" title="请选择模式等级，0等级最高，5等级最低" value="${modelTemplate.modelDegree}">
+					  	</div>
+						 <div class="form-group form-group2" id="myDate">
+						    <span>名称:</span>
+						    <div class="demo">
+                    <input type="text" id="myDate2" name="myDate2" class="form-control">
+                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                </div>
+                <div style="clear: both"></div>
+					  	</div> 
+					  	<div class="form-group " id=weekchoose>
+					  	   <span>名称:</span>
+					  	   <div class="weekCheck1">
+						  <!--  <input type="text" id="workTime" class="form-control" placeholder="工作时间" name="workTime" required="required">  -->
+						    <input type="checkbox" multiple="multiple" name="workTime2" value='星期一'>周一
+						    <input type="checkbox" multiple="multiple" name="workTime2" value="星期二">周二
+							<input type="checkbox" multiple="multiple" name="workTime2" value="星期三">周三
+							<input type="checkbox" multiple="multiple" name="workTime2" value="星期四">周四
+							<input type="checkbox" multiple="multiple" name="workTime2" value="星期五">周五
+							<input type="checkbox" multiple="multiple" name="workTime2" value="星期六">周六
+							<input type="checkbox" multiple="multiple" name="workTime2" value="星期日">周日
+							</div> 
+					  	</div>						  					  	  					  	
+				  	</form>
+				</div>
+          <div class="modal-footer butCenter"> 
+               <button type="button" class="btn " id="addModelBtn3" onclick="addModel3(this)">提交</button>
+         		 <button type="button" class="btn btn-default" onclick="closeTopmostWindow()" data-dismiss="modal">关闭</button>
+          </div>
+				</div>
+	            <!-- <div class="modal-footer butCenter"> 
+	                 <button type="button"  class="btn btn-primary" id="addModelBtn" onclick="addModel(this)">关闭</button>
+	             </div> -->
+	        </div>
+	    </div>
+	</div>
+ <script type="text/javascript">
+ 	var colors = ["#279600","#0060CA","#950096","#CC0000","#FAAB35"];
+	var modelLists = document.getElementsByName("modelList");
+	for (var i=0; i<modelLists.length; i++) {
+  		modelLists[i].setAttribute("style","border-left:8px solid "+colors[i % colors.length]+" !important");
+  	}
+
+  	$(".delBtn").click(function(){
+        $(".aa td").removeClass("activeBj");
+        $(this).parent().addClass("activeBj");
+        $(this).parent().siblings().addClass("activeBj");
+        $(".tsk").css("display","none");
+        $(this).siblings(".tsk").css("display","block");
+        $(".tmk").css("display","block");
+    })
+    $(".closetsk").click(function(){
+        $(".tsk").css("display","none");
+        $(".aa td").removeClass("activeBj");
+        $(".tmk").css("display","none");
+    })
+
+    function closeTopmostWindow(){
+    	console.log($("#myModal .close"))
+    	$("#myModal .close").click();
+    }
+	 //加载相应的工作模式
+		$.ajax({ 
+	   		url: "${ctx}/ruag/modeltemplate/findAll",
+	   		type: "GET",
+	   		data: {},
+	   		dataType: "json",
+	   		cache: false,
+	   		success: function(data){
+	   			
+	   		
+	   			for(var i=0;i<data.length;i++){
+	   				addModelList(data[i]);
+	   			}
+	    			
+	   		},
+	   		error: function(err){
+	   			reLogin()
+	   		}
+	   	});
+	 refreshData=function(){
+		 $.ajax({ 
+		   		url: "${ctx}/ruag/modeltemplate/findAll",
+		   		type: "GET",
+		   		data: {},
+		   		dataType: "json",
+		   		cache: false,
+		   		success: function(data){
+		   			itemSeq=0;
+		   		
+		   			for(var i=0;i<data.length;i++){
+		   				addModelList(data[i]);
+		   			}
+		    			
+		   		},
+		   		error: function(err){
+		   			reLogin()
+		   		}
+		   	});
+	 }
+	     var itemSeq = 0;
+		 addModelList = function(item){
+			    itemSeq = itemSeq +1 ;
+		    	var str = "";
+		    	str += '<tr class="aa">';
+		    	str += "<td name='modelList' onclick='showItems(this,"+item.id+",\""+item.name+"\")'><div style='cursor: pointer;'>"+item.name+"</div></td>";
+		    	str += "<td>"+item.modelType+"</td>";
+		    	str += "<td>"+item.modelDegree+"</td>";
+		    	if(item.startDay==""){
+		    		str += "<td>"+"</td>";
+		    	}else{
+		    		str += "<td>"+getStartDate(new Date(item.startDay))+"~"+getStartDate(new Date(item.endDay))+"</td>";
+		    	}
+		    	str += "<td>"+item.modelKind+"</td>";
+		    	if(item.status=="0"&&item.modelType=="计划模式"){
+		    		str += "<td><button onclick='editModel("+item.id+")'type='button' >修改</button>&nbsp<button class='delBtn' type='button' >刪除</button><div style='display:none' class='tsk'><img src='${ctx}/admin_comp/img/warn.png' /><span>"+"你确认要删除该模式么?"+"</span><div><div class='btn closetsk'>"+"取消"+"</div><div class='btn' onclick='comfirDelete("+item.id+")'>"+"确认"+"</div></div></div></td>";
+		    	}else if(item.status=="0"&& item.modelType=="临时模式"){
+		    		str += "<td><button onclick='showWorkModel("+item.id+")'type='button' >查看</button>&nbsp<button class='delBtn' type='button' >刪除</button><div style='display:none' class='tsk'><img src='../static/images/warn.png' /><span>"+"你确认要删除该模式么?"+"</span><div><div class='btn closetsk'>"+"取消"+"</div><div class='btn' onclick='comfirDelete("+item.id+")'>"+"确认"+"</div></div></div></td>";
+		    	}else{
+		    		str += "<td><button onclick='showWorkModel("+item.id+")'type='button' >查看</button>&nbsp<button class='delBtn' type='button' >刪除</button><div style='display:none' class='tsk'><img src='../static/images/warn.png' /><span>"+"你确认要删除该模式么?"+"</span><div><div class='btn closetsk'>"+"取消"+"</div><div class='btn' onclick='comfirDelete("+item.id+")'>"+"确认"+"</div></div></div></td>";
+		    	}
+		    	/* str += "<td><button onclick='show("+item.id+")'type='button' >修改</button>&nbsp<button class='delBtn' type='button' >刪除</button><div style='display:none' class='tsk'><img src='${ctx}/admin_comp/img/warn.png' /><span>"+"你确认要删除该模式么?"+"</span><div><div class='btn closetsk'>"+"取消"+"</div><div class='btn' onclick='comfirDelete("+item.id+")'>"+"确认"+"</div></div></div></td>"; */
+		    	// onclick='deleteModel("+item.id+")'
+		    	str += "</tr>";
+		    	/* $("#modelList").append(str); */
+		    	$("#first_tr").before(str);
+		    	if(itemSeq == 1){
+		    		$(".tsk").css("top","40px");
+		    	}
+		    	var colors = ["#279600","#0060CA","#950096","#CC0000","#FAAB35"];
+		    	var modelLists = document.getElementsByName("modelList");
+		    	for (var i=0; i<modelLists.length; i++) {
+			  		modelLists[i].setAttribute("style","border-left:20px solid "+colors[i % colors.length]+" !important");
+			  	}
+
+			  	$(".delBtn").click(function(){
+		            $(".aa td").removeClass("activeBj");
+		            $(this).parent().addClass("activeBj");
+		            $(this).parent().siblings().addClass("activeBj");
+		            $(".tsk").css("display","none");
+		            $(this).siblings(".tsk").css("display","block");
+		            $(".tmk").css("display","block");
+		        })
+		        $(".closetsk").click(function(){
+		            $(".tsk").css("display","none");
+		            $(".aa td").removeClass("activeBj");
+		            $(".tmk").css("display","none");
+		        })
+		    }
+		  //获得年月日      得到日期oTime 
+		    function getEndDate(oDate){ 
+		        oYear = oDate.getFullYear(), 
+		        oMonth = oDate.getMonth()+1, 
+		        oDay = oDate.getDate(), 
+		        oTime = oYear +'-'+ getzf(oMonth) +'-'+ getzf(oDay) ;//最后拼接时间 
+		        return oTime; 
+		    }; 
+		  //获得年月日      得到日期oTime 
+		    function getStartDate(oDate){ 
+		        oYear = oDate.getFullYear(), 
+		        oMonth = oDate.getMonth()+1, 
+		        oDay = oDate.getDate(), 
+		        oTime = oYear +'-'+ getzf(oMonth) +'-'+ getzf(oDay) ;//最后拼接时间 
+		        return oTime; 
+		    }; 
+		    //补0操作 
+		    function getzf(num){ 
+		        if(parseInt(num) < 10){ 
+		            num = '0'+num; 
+		        } 
+		        return num; 
+		    }
+		    //删除模式
+		    deleteModel = function(id){
+		    	currentModeId=id;
+		    	$("#model_id").val(currentModeId);
+		    	//先弹出确认删除框
+		    	//判断是否子信息存在
+		    	$.ajax({
+					url: "${ctx}/ruag/workmodel/findAll",
+					type: "POST",
+					data: {search_EQ_modelTemplateId:currentModeId},
+					dataType: "json",
+					success: function(data){
+						$('#workDele').modal({
+				            keyboard: true
+				        });
+						if(data.length==0){
+							document.getElementById('childHas').innerHTML="确认删除该模式吗？";
+							/* $("#childHas").val("确认删除该模式吗？"); */
+						}
+						else 
+							{
+							document.getElementById('childHas').innerHTML="该工作模式下已经配置了设备工作，是否确认一起删除？";
+							/* $("#childHas").val("该工作模式下已经配置了设备工作，是否确认一起删除？"); */
+							}
+						
+						
+					},
+					error: function(err){
+						reLogin()
+					}
+				});
+		    }
+		    
+		    //version2 确认删除模式
+		    comfirDelete=function(id){
+		    	currentModeId=id;
+		    	var queryCondition = {id: currentModeId};
+		    	//删除主表
+				$.ajax({
+					url: "${ctx}/ruag/modeltemplate/deleteById",
+					type: "POST",
+					data: queryCondition,
+					dataType: "json",
+					success: function(data){
+						//删除子表
+						$.ajax({
+							url: "${ctx}/ruag/workmodel/deleteAllByModelId",
+							type: "POST",
+							data: {search_EQ_modelTemplateId:currentModeId},
+							dataType: "json",
+							success: function(data){
+								/* $("#ModelObj"+currentModeId).remove(); */
+							},
+						});
+					 	$(".tsk").css("display","none");
+			            $(".aa td").removeClass("activeBj");
+			            $(".tmk").css("display","none");
+			            $(".aa").remove();
+						refreshData();
+					},
+					error: function(err){
+						reLogin()
+					}
+				});
+		    	/* $("#ModelObj"+currentModeId).remove();
+		    	
+				$('#workDele').modal('hide');
+				$("#contextInf").empty(); */
+			
+				
+				
+		    }
+		    //展示某个工作模式具体的设备信息
+	        showItems=function(panel,id,name){
+	        	/* var nav1Text2 = $(".lmain ul li.Lactive").html();
+	        	console.log(nav1Text2) */
+
+	        	/* $(".panelClicked").removeClass("panelClicked");
+		    	$(panel).addClass("panelClicked");	 */
+	        	$.ajax({ 
+	    	    	url:"${ctx}/ruag/workmodel/modelDetail",//要请求的服务器url 
+	    	    	data:{id:id,name:name
+	    			},
+	    			async:false,
+	    			cache:false,
+	    	        type: "GET",
+	    	        dataType: "html",
+	    	        success: function (result) {
+	    	        	$('.container-fluid').empty();
+	    	        	$('#right_div').html(result);
+	    	        	$(window.parent.document).find(".listModel").css("display","none");
+	    	      	   	 $(window.parent.document).find("#RNav").append("<span>"+">"+"</span>"+"<li>"+"模式详情"+"</li>")
+	    	        }
+	    	    });
+	        }
+		    editModel = function(id){
+		    	   $('#editModal').modal({
+		            keyboard: true
+		        });
+				//调用公共方法，弹出窗口
+		    	 popupWindowByUrl('ModelEditWin',"${ctx}/ruag/modeltemplate/edit?id="+id,"编辑工作模式",460,200,true);
+			    
+	      	}
+		    	
+	       showWorkModel = function(id){
+		       	$('#myModal').modal({
+		            keyboard: true
+		        });
+				//调用公共方法，弹出窗口
+		    	popupWindowByUrl('ModelEditWin',"${ctx}/ruag/modeltemplate/show?id="+id,"查看工作模式",460,200,true);
+			    
+	     	}
+	      
+</script>
+<script type="text/javascript">
+ function closeTopmostWindow(){
+    $("#editModal .close",window.parent.document).click();
+ } 
+ $(".cards_item").remove();
+ var workTime2='${modelTemplate.workTime}';
+ var arr2=workTime2.split(",");
+ var chckBox2 = document.getElementsByName("workTime2");
+ console.log(chckBox2);
+ var num2 = chckBox2.length; 
+   if('${modelTemplate.modelType}'=="临时模式"){
+	   $("#myDate").css("display","none");
+	   $("#weekchoose").css("display","none");
+    }else{
+      $("#myDate").css("display","");
+ 	  $("#weekchoose").css("display","");
+ 	 for(var i=0;i<arr2.length; i++){
+		    for(var index =0 ; index<num2 ; index++){ 
+		    		if(arr2[i]== chckBox2[index].value){
+		    	    $(chckBox2[index]).attr("checked",true); 
+		    	    break;
+		    	}
+		    }
+		    } 
+    }
+   console.log("------------------------------------------------------------");
+   console.log(chckBox2);
+   function getWorkTimeRange(){
+	   var chk_worktime="";
+	  /*  chckBox = document.getElementsByName("workTime2");  */ 
+	   for(var index =0 ; index<num2; index++){ 
+		   if(chckBox2[index].checked){
+			   chk_worktime+= chckBox2[index].value + ",";                
+           }  
+   }
+	   $("#worktime3").val(chk_worktime);
+   }
+   makedatepicker3();
+   //自由选择时间控件
+   var chk_dates3 = new Array();
+   var drp2; 
+   function makedatepicker3(){
+       drp3 = $("#myDate3").datepicker({minDate: 1 }); 
+   }
+   function getRange3(){
+     /*   $("#myOutput2").html(""); */
+       $(drp3.getDateRange()).each(function() {
+           chk_dates3.push($.datepicker.formatDate("yy-mm-dd",this));
+       });
+       $("#selectDates3").val(chk_dates3);
+      
+   }
+   //	编辑/新增模式模板 提交
+   var addBtn3=document.getElementById("addModelBtn3");
+   function addModel3(addBtn3){
+   var ladda=Ladda.create(addBtn3);
+   ladda.start();
+   	getRange3();
+   	getWorkTimeRange();
+   	$("#modeltemplateform3").ajaxSubmit({
+   		dataType: "json",
+			success:function(data){ 
+				closeTopmostWindow();
+				$(".cards_item").remove();
+				initialize();
+				$(".aa").remove();
+				refreshData();
+				
+			},
+			error: function(err){
+				reLogin();
+			}
+		});
+}
+</script>
+<script type="text/javascript">
+		  updateConfig();
+        //时间控件
+      $.fn.datetimepicker.dates['zh'] = {  
+                  days:       ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六","星期日"],  
+                  daysShort:  ["日", "一", "二", "三", "四", "五", "六","日"],  
+                  daysMin:    ["日", "一", "二", "三", "四", "五", "六","日"],  
+                  months:     ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月","十二月"],  
+                  monthsShort:  ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "十二"],  
+                  meridiem:    ["上午", "下午"],  
+                  //suffix:      ["st", "nd", "rd", "th"],  
+                  today:       "今天"  
+          };  
+      $('#timePoint_1').datetimepicker({
+        language:  'zh',  
+        autoclose:true,
+        startView: 0,
+          format: 'hh:ii:00'
+      });
+      $('#startDay_1').datetimepicker({
+        language:  'zh',  
+        autoclose:true,
+        startView: 2,
+        minView: "month",
+          format: 'yyyy-mm-dd'
+      });
+      $('#endDay_1').datetimepicker({
+        language:  'zh',  
+        autoclose:true,
+        startView: 2,
+        minView: "month",
+          format: 'yyyy-mm-dd'
+      });
+      //modelTemplate 开始时间设置 
+      $('#startDay').datetimepicker({
+      language:  'zh',  
+      autoclose:true,
+      startView: 2,
+      minView: "month",
+        format: 'yyyy-mm-dd',
+    });
+      //modelTemplate 结束时间设置 
+    $('#endDay').datetimepicker({
+      language:  'zh',  
+      autoclose:true,
+      startView: 2,
+      minView: "month",
+        format: 'yyyy-mm-dd'
+    });
+      //临时模式  开始时间设置
+    $('#startTime').datetimepicker({
+      language:  'zh',  
+      autoclose:true,
+      startView: 0,
+      minView: "month",
+        format: 'hh:ii:00'
+    });
+    //临时模式  结束时间设置
+    $('#endTime').datetimepicker({
+      language:  'zh',  
+      autoclose:true,
+      startView: 0,
+      minView: "month",
+        format: 'hh:ii:00'
+    });
+      $('#config-text').keyup(function() {
+          eval($(this).val());
+        });
+        
+        $('.configurator input, .configurator select').change(function() {
+          updateConfig();
+        });
+
+        $('.demo i').click(function() {
+          $(this).parent().find('input').click();
+        });
+
+        $('#startDate').daterangepicker({
+          singleDatePicker: true,
+          startDate: moment().subtract(6, 'days')
+        });
+
+        $('#endDate').daterangepicker({
+          singleDatePicker: true,
+          startDate: moment()
+        });
+      function updateConfig() {
+            //时间插件  
+            $('#myDate2 span').html(moment().subtract('hours', 1).format('YYYY-MM-DD HH:mm:ss') + ' - ' + moment().format('YYYY-MM-DD HH:mm:ss'));  
+
+            $('#myDate2').daterangepicker(  
+                {  
+                // startDate: moment().startOf('day'),  
+                //endDate: moment(),  
+                //minDate: '01/01/2012',    //最小时间  
+                maxDate : moment(), //最大时间   
+                dateLimit : {  
+                    days : 30  
+                }, //起止时间的最大间隔  
+                showDropdowns : true,  
+                showWeekNumbers : false, //是否显示第几周  
+                timePicker : false, //是否显示小时和分钟  
+                timePickerIncrement : 60, //时间的增量，单位为分钟  
+                timePicker12Hour : false, //是否使用12小时制来显示时间  
+               /*  ranges : {  
+                    //'最近1小时': [moment().subtract('hours',1), moment()],  
+                    '今日': [moment().startOf('day'), moment()],  
+                    '昨日': [moment().subtract('days', 1).startOf('day'), moment().subtract('days', 1).endOf('day')],  
+                    '最近7日': [moment().subtract('days', 6), moment()],  
+                    '最近30日': [moment().subtract('days', 29), moment()]  
+                }, */  
+                opens : 'right', //日期选择框的弹出位置  
+                buttonClasses : [ 'btn btn-default' ],  
+                applyClass : 'btn-small btn-primary blue',  
+                cancelClass : 'btn-small',  
+                format : 'YYYY-MM-DD HH:mm:ss', //控件中from和to 显示的日期格式  
+                separator : ' to ',  
+                locale : {  
+                    applyLabel : '确定',  
+                    cancelLabel : '取消',  
+                    fromLabel : '起始时间',  
+                    toLabel : '结束时间',  
+                    customRangeLabel : '自定义',  
+                    daysOfWeek : [ '日', '一', '二', '三', '四', '五', '六' ],  
+                    monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月',  
+                            '七月', '八月', '九月', '十月', '十一月', '十二月' ],  
+                    firstDay : 1  
+                }  
+            }, function(start, end, label) {//格式化日期显示框  
+                  
+                $('#myDate2 span').html(start.format('YYYY-MM-DD HH:mm:ss') + ' - ' + end.format('YYYY-MM-DD HH:mm:ss'));  
+           });  
+        }
+  </script>
+</body>
+</html>
+	

@@ -1,0 +1,58 @@
+{{each items as item itemIndex}}
+<tr data-id="{{item.id}}" data-status="{{item.taskNeedStatus}}">
+    <!-- 序号 -->
+    {{ if itemIndex+1 < 10}} 
+    <td class="text-center">0{{itemIndex+1}}</td>
+    {{ else }}
+    <td class="text-center">{{itemIndex+1}}</td>
+
+    {{/if}}
+    <!-- 订单编号 -->
+    <td>
+        <a class="underline " data-task="{{item.taskNeedStatus}}" data-id="{{item.id}}" href="./purchase-apply-aldeal.html?id={{item.id}}&status={{item.taskNeedStatus}}">{{item.taskNo}}</a>
+    </td>
+    <!-- 申请人 -->
+    <td>
+        {{item.taskEmpName}}
+    </td>
+    <td>
+        {{item.department}}
+    </td>
+    <!-- 申请理由 -->
+    <td class="wrap ">
+        {{item.taskOpinion}}
+    </td>
+    <!-- 申请日期 -->
+    <td>
+        {{item.taskDate | dateFormat:'yyyy-MM-dd'}}
+    </td>
+    <!-- 需求状态 -->
+    <td>
+        {{if item.taskNeedStatus === 2}} 
+         未处理
+        {{else}} 
+         已处理
+        {{/if}}
+    </td>
+    <!-- 操作 -->
+    <td class="js-act text-center act">
+            {{if item.taskNeedStatus == 2}}
+            <a href="javascript:;" class="underline js-chuli" data-id="{{item.id}}">处理</a>
+            {{else}}
+            <a href="javascript:;" class="underline js-xq" data-id="{{item.id}}">详情</a>
+            {{/if}}
+        <!-- <div class="btn-group more">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+            <ul class="dropdown-menu">
+                <li>
+                    {{if item.taskNeedStatus == 2}}
+                    <a class="underline js-chuli" data-id="{{item.id}}">处理</a>
+                    {{else}}
+                    <a class="underline js-xq" data-id="{{item.id}}">详情</a>
+                    {{/if}}
+                </li>
+            </ul>
+        </div> -->
+    </td>
+</tr>
+{{/each}}

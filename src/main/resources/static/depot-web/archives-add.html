@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>新建仓库</title>
+    <link rel="stylesheet" href="./css/default.css">
+    <link rel="stylesheet" href="./css/easyui.css">
+    <style>
+        .point{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row header js-title">
+            <h4>新建仓库</h4>
+
+        </div>
+        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 js-main">
+            <div class="stepOne" id="stepOne"></div>
+            <div class="form-group">
+                 <button type="submit" class="btn btn-primary" id='save'>保存</button>
+                <button type="submit" class="btn btn-default js-back" id="cancle">取消</button>
+            </div>
+        </div>
+    </div>
+    <script src="./js/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/lib/jquery.easyui.min.js"></script>
+    <script src="./js/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/archives/archives-add.js"></script>
+</body>
+</html>

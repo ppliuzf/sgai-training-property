@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>采购订单</title>
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+
+<body class="main2">
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>采购订单</h4>
+            <div class="btns text-right">
+                <button type="button" class="btn btn-primary rel js-xuqiuchuli"><span class="sign"></span>需求处理</button>
+                <button type="button" class="btn btn-primary js-add">新建订单</button>
+            </div>
+        </div>
+        <!-- 搜索 -->
+        <div class="form-inline filter">
+            <div class="form-group">
+                <label for="keyWords" class="control-label form-inline">订单号</label>
+                <input id="keyWords" type="text" class="form-control" placeholder="请输入订单号">
+            </div>
+            <div class="form-group">
+                <label for="type" class="control-label form-inline">订单类型</label>
+                <select id="type" class="form-control" required="required">
+                    <option value="3">全部类型</option>
+                    <option value="2">主动采购</option>
+                    <option value="1">需求订单</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="status" class="control-label form-inline">状态</label>
+                <select id="status" class="form-control" required="required">
+                    <option value="7">全部</option>
+                    <option value="1">待审核</option>
+                    <option value="2">已拒绝</option>
+                    <option value="3">已通过</option>
+                    <option value="4">采购中</option>
+                    <option value="5">已完成</option>
+                    <option value="6">已撤回</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary js-search">搜索</button>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th width="60" class="text-center">序号</th>
+                    <th>订单编号</th>
+                    <th width="100">订单类型</th>
+                    <th>需求单号</th>
+                    <th width="100">制单人</th>
+                    <th width="160">制单日期</th>
+                    <th width="80">状态</th>
+                    <th width="100">采购审批人</th>
+                    <th width="160">审批时间</th>
+                    <th width="92" class="text-center">操作</th>
+                </tr>
+            </thead>
+            <tbody class="js-list"></tbody>
+        </table>
+        <nav class="text-right pages"></nav>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/purchase-order-list.js"></script>
+</body>
+</html>

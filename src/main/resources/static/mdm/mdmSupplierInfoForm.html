@@ -1,0 +1,412 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <meta name="decorator" content="default">
+    <title>供应商增加</title>
+
+    <link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <!--[if lte IE 7]>
+    <link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet"/><![endif]-->
+    <!--[if lte IE 6]>
+    <link href="../static/bootstrap/bsie/css/bootstrap-ie6.min.css" type="text/css" rel="stylesheet"/>
+    <script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+    <link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+    <link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+    <link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+    <link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+	<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+
+    <script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+    <script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+    <script src="../static/common/mustache.min.js" type="text/javascript"></script>
+    <script src="../static/common/smart.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+    <script src="../static/media/js/main.js" type="text/javascript"></script>
+    <script src="../config/smart-common.js" type="text/javascript"></script>
+    <script src="../static/common/validator-common.js" type="text/javascript"></script>
+    <style>
+    	.form-horizontal .control-label {
+		    width: 125px;
+		}
+    </style>
+    <script type="text/javascript">
+        //获取跳转地址的参数
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;
+        }
+
+        var paramId = GetQueryString("paramId");
+        $.validator.setDefaults({
+            submitHandler: function () {
+                // 调用提交
+                save();
+            }
+        });
+        $().ready(function () {
+            // 在键盘按下并释放及提交后验证提交表单
+            $("#inputForm").validate({
+                rules: {
+                    supplierName: {
+                        required: true,
+                    },
+                    regAddress: {
+                        required: true,
+                    },
+                    lowPerson: {
+                        required: true,
+                    },
+                    lowPersonCarid: "isCard",
+                    comType: {
+                        required: true,
+                    },
+                    province: {
+                        required: true,
+                    },
+                    orgCode: {
+                        required: true,
+                    },
+                    taxNo: {
+                        required: true,
+                    },
+                    openBank: {
+                        required: true,
+                    },
+                    openBankCode: {
+                        required: true,
+                    },
+                    accountNo: {
+                        required: true,
+                    },
+                    zipCode: {
+                        required: true,
+                        maxlength: 6,
+                        digits: true
+                    },
+                    officeAddress: {
+                        required: true,
+                    },
+                    eMail: {
+                        required: true,
+                    },
+                    remarks: {
+                        maxlength: 170,
+                    },
+                    supplyProd: {
+                        required: true,
+                    },
+                    contactPhone: "isTel"
+                },
+                messages: {
+                    supplierName: {
+                        required: "请输入供应商名称",
+                    },
+                    regAddress: {
+                        required: "请输入注册地址",
+                    },
+                    lowPerson: {
+                        required: "请输入法人",
+                    },
+                    comType: {
+                        required: "请选择经营性质",
+                    },
+                    province: {
+                        required: "请输入省份",
+                    },
+                    orgCode: {
+                        required: "请输入社会统一征信代码",
+                    },
+                    taxNo: {
+                        required: "请输入税号",
+                    },
+                    openBank: {
+                        required: "请输入开户行",
+                    },
+                    openBankCode: {
+                        required: "请输入开户行代码",
+                    },
+                    accountNo: {
+                        required: "请输入开户行账号",
+                    },
+                    zipCode: {
+                        required: "请输入邮编",
+                        maxlength:"请输入6位以内的邮编",
+                        digits: "请输入以数字组成的邮编格式"
+                    },
+                    officeAddress: {
+                        required: "请输入办公地址",
+                    },
+                    eMail: {
+                        required: "请输入邮箱",
+                        email: "邮箱格式不正确"
+                    },
+                    remarks: {
+                        maxlength: "描述信息最多70个字符串",
+                    },
+                    supplyProd: {
+                        required: "请输入主要供应品",
+                    },
+
+                },
+                errorPlacement: function (error, element) {
+                    error.appendTo(element.parent()); //将错误信息添加当前元素的父结点后面
+                }
+            });
+        })
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            loadDictByType('comType', 'com_Type');
+
+        });
+        function save() {
+        	$.jBox.confirm("确定提交吗？", "提示", function (v, h, f) {
+                if (v == 'ok') {
+                	$("#btnCancel").attr("disabled", true);
+                	$("#btnSubmit").attr("disabled", true);
+		            var ajax_option = {
+		                headers: {
+		                    "token": localStorage.getItem("token"),
+		                },
+		                type: "POST",
+		                url: APIHost + '/admin/mdmSupplierInfo/save',//默认是form action
+		                success: function (response) {
+		                    var data = response.data;
+		                    if (data.msg == "success") {
+		                    	/* tip("../static/media/image/tip/tip.png","提交成功");
+		                        setTimeout(function () {
+		                        	window.parent.location.href = APIHost + "/mdm/mdmSupplierInfo.html";
+		                        },2000)
+		                        $.jBox.alert("保存成功！", "提示"); */
+		                        $.jBox.alert("保存成功","提示",{ closed: function ()
+        							{window.parent.location.href= APIHost + "/mdm/mdmSupplierInfo.html"; }});
+		                    }else {
+		                    	$("#btnCancel").attr("disabled", false);
+				            	$("#btnSubmit").attr("disabled", false);
+		                        $.jBox.alert("保存失败！", "提示");
+		                    }
+		                }
+		            }
+		
+		            $("#inputForm").ajaxSubmit(ajax_option);
+
+                }
+            })
+        }
+
+        //获取修改数据
+        function updatepageload() {
+            //添加新tbody
+            $.ajax({
+                headers: {
+                    "token": localStorage.getItem("token"),
+                },
+                url: APIHost + '/admin/mdmSupplierInfo/getSupplierInfo',
+                type: 'POST',
+                async: true, //或false,是否异步
+                data: {
+                    id: paramId
+                },
+                timeout : 30000,
+                dataType: 'json',
+                success: function (res) {
+                    $("#id").val(paramId);
+                    $("#supplierNo").attr('value', res.data.supplierNo);
+                    $("#supplierName").attr('value', res.data.supplierName);
+                    $("#regAddress").attr('value', res.data.regAddress);
+                    $('#lowPerson').attr('value', res.data.lowPerson);
+                    $('#lowPersonCarid').attr('value', res.data.lowPersonCarid);
+                    $('#orgCode').attr('value', res.data.orgCode);
+                    $('#taxNo').attr('value', res.data.taxNo);
+                    $('#openBank').attr('value', res.data.openBank);
+                    $('#openBankCode').attr('value', res.data.openBankCode);
+                    $('#accountNo').attr('value', res.data.accountNo);
+                    $('#zipCode').attr('value', res.data.zipCode);
+                    $('#officeAddress').attr('value', res.data.officeAddress);
+                    $('#eMail').attr('value', res.data.email);
+                    $('#comType').attr('value', res.data.comType);
+                    $('#select2-comType-container').html(res.data.comType);
+                    $("#supplyProd").attr('value', res.data.supplyProd);
+                    $("#province").attr('value', res.data.province);
+                    $("#contactPhone").attr('value', res.data.contactPhone);
+                    $("#remarks").attr('value', res.data.remarks).trigger('input');
+                },
+                error: function () {
+                    console.log('错误')
+                }
+            })
+        }
+
+        $(function () {
+            setTimeout(function () {
+                if (paramId != null) {
+                    updatepageload();
+                }
+            }, 500)
+
+        })
+
+
+        function closePopUp() {
+            $('#myModal .close', window.parent.document).click();
+        }
+
+        //textarea 拉伸
+        $(function () {
+            autoSize();
+            paramId = GetQueryString("paramId");
+            if (paramId != null) {
+                $('#myModal #myModalLabel', window.parent.document).text("供应商主数据修改");
+            } else {
+                $('#myModal #myModalLabel', window.parent.document).text("供应商主数据增加");
+            }
+        })
+    </script>
+</head>
+<body>
+<form id="inputForm" class="form-horizontal">
+    <input id="id" name="id" type="hidden">
+    <input id="supplierNo" name="supplierNo" type="hidden">
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>供应商名称：</label>
+        <div class="controls">
+            <input id=supplierName name="supplierName" type="text" placeholder="请输入">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>注 册 地 址：</label>
+        <div class="controls">
+            <textarea id="regAddress" name="regAddress" class="textAreas" placeholder="请输入" maxlength="42"></textarea>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>法人：</label>
+        <div class="controls">
+            <input id="lowPerson" name="lowPerson" type="text" placeholder="请输入" maxlength="42">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>法人身份证号码：</label>
+        <div class="controls">
+            <input class="required" id="lowPersonCarid" name="lowPersonCarid" type="text" placeholder="请输入">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>经营性质：</label>
+        <div class="controls">
+            <select id="comType" name="comType" placeholder="请输入">
+                <option vaue=""></option>
+            </select>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>省份：</label>
+        <div class="controls">
+            <input id="province" name="province" type="text" placeholder="请输入" maxlength="85">
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>社会统一征信代码：</label>
+        <div class="controls">
+            <input id="orgCode" name="orgCode" type="text" placeholder="请输入" maxlength="10">
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>税号：</label>
+        <div class="controls">
+            <input id="taxNo" name="taxNo" type="text" placeholder="请输入" maxlength="33">
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>开户行：</label>
+        <div class="controls">
+            <input id="openBank" name="openBank" type="text" placeholder="请输入" maxlength="21">
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>开户行代码：</label>
+        <div class="controls">
+            <input id="openBankCode" name="openBankCode" type="text" placeholder="请输入" maxlength="21">
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>开户行账号：</label>
+        <div class="controls">
+            <input id="accountNo" name="accountNo" type="text" placeholder="请输入">
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>邮编：</label>
+        <div class="controls">
+            <input id="zipCode" name="zipCode" type="text" placeholder="请输入">
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>办公地址：</label>
+        <div class="controls">
+            <textarea id="officeAddress" name="officeAddress" class="textAreas" placeholder="请输入"></textarea>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>邮箱地址：</label>
+        <div class="controls">
+            <input id="eMail" name="eMail" class="required eMail" type="text" placeholder="请输入">
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>主要供应品：</label>
+        <div class="controls">
+            <input id="supplyProd" name="supplyProd" type="text" placeholder="请输入">
+        </div>
+    </div>
+
+
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>联系电话：</label>
+        <div class="controls">
+            <input class="required" id="contactPhone" name="contactPhone" type="text" placeholder="请输入">
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label class="control-label">描述信息：</label>
+        <div class="controls">
+            <textarea id="remarks" name="remarks" placeholder="请输入（最多70个字符）" class="textAreas"></textarea>
+        </div>
+    </div>
+    
+    <div class="form-actions">
+    	<input id="btnCancel" class="btn" type="button" value="关 闭" onclick="closePopUp()">
+        <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">
+    </div>
+</form>
+<div id="tipModal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div id="tipContent">
+    </div>
+</div>
+</body>
+</html>

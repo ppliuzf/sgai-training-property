@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>订单详情</title>
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+<body id="main">
+        <div class="container-fluid">
+            <div class="row header">
+                <h4>订单详情</h4>
+                
+                <div class="btns text-right hide" id="editBtn">
+                    <button type="submit" class="btn btn-primary" id="saveOrder">保存</button>
+                    <button type="submit" class="btn btn-default" id="cancel1">返回</button>
+                </div>
+                <div class="btns text-right hide" id="showBtn">
+                    <button type="submit" class="btn btn-primary" id="handleOrder">处理</button>
+                    <button type="submit" class="btn btn-default" id="cancel2">返回</button>
+                </div>
+            </div>       
+            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 js-main" id="order">
+            </div>
+            <div class="col-xs-12 col-sm-11 col-md-12 col-lg-12 js-main">
+                <h4 class="pt15">物料明细</h4>
+                <div class="text-right hide" id="editStatus">
+                    <button type="button" class="btn btn-primary" id="purchase">采购物料</button>
+                </div>
+                <div class="pt15">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="active">
+                                <th width="60" class="text-center">序号</th>
+                                <th>物料名称</th>
+                                <th width="80">物料数量</th>
+                                <th width="80">规格</th>
+                                <th width="160">型号</th>
+                                <th width="80">状态</th>
+                            </tr>
+                        </thead>
+                        <tbody class="js-list" id="materielList"></tbody>
+                    </table>
+                    <nav class="text-right pages"></nav>
+                </div>
+            </div>
+        </div>
+        
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="../lib/lib/lightbox.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/deptTree.js"></script>
+    <script src="./js/server/utils.js"></script>
+   
+    
+    <script src="./js/controller/purchase-demand-detail.js"></script>
+</body>
+</html>

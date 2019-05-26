@@ -1,0 +1,387 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<!-- <link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script> -->
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../../config/smart-common.js" type="text/javascript"></script>
+<title>通讯录条目增加</title>
+<meta name="decorator" content="default"/>
+
+    <title>通讯录条目增加</title>
+    <meta name="decorator" content="default">
+ 
+</head>
+<body>
+
+<br>
+<form id="inputForm" class="form-horizontal"  method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" />
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+	<div class="control-group">
+    		<label class="control-label"></label>
+    		<input style="margin-left: 20px;" type="radio" name="goodsClassify" value="门卡" />门卡
+        	<input style="margin-left: 20px;" type="radio" name="goodsClassify" value="钥匙" />钥匙
+    	    <input style="margin-left: 20px;" type="radio" name="goodsClassify" value="门卡和钥匙" />钥匙/门卡 
+    </div> 
+    
+    <div class="control-group">
+        <label class="control-label">部位:</label>
+        <div class="controls">
+        <select id="repairAddress1" class="input-mini" name="repairAddress1" tabindex="-1">
+        			<option value=""></option>
+        </select>
+    	<select id="repairAddress2" class="input-mini  required" name="repairAddress2" tabindex="-1">
+    		<option value=""></option>
+    	</select>
+             <input id="position" name="position" class="required" type="hidden" value="" maxlength="50">
+             <input id="positionCode" name="positionCode" class="required" type="hidden" value="" maxlength="50">
+       			<span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">借用部门:</label>
+        <div class="controls">
+        		<select id="deptName" name="deptName" class="input-xlarge select2-offscreen" tabindex="-1">
+	            	<option value=""></option>
+	            	<option value="奥组委">奥组委</option>
+	            	<option value="总值">总值</option>
+	            	<option value="保洁">保洁</option>
+	            	<option value="其他">其他</option>
+	            </select>
+            <input id="deptCodes" name="deptCodes"  type="hidden" value="10" maxlength="50">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">借用人:</label>
+        <div class="controls">
+            <input id="borrower" name="borrower" class="required" type="text" value="" maxlength="50">
+      			<span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+       <div class="control-group">
+	        <label class="control-label">电话:</label>
+	        <div class="controls">
+	            <input id="phone" name="phone" class="required" type="text" value="" maxlength="50">
+	        		<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">数量:</label>
+	        <div class="controls">
+	            <input id="amount" name="amount" class="required"  type="text" value="" maxlength="50">
+	        		<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">借用时间:</label>
+	        <div class="controls">
+	            <input id="borrowTime" name="borrowTime" class="input-mini Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});" class="required" type="text" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">借用经办人:</label>
+	        <div class="controls">
+	             <input id="borrowManager" name="borrowManager"  class="required" type="text" value="" maxlength="50">
+	       			<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+    	</div>
+    	<div class="control-group">
+	        <label class="control-label">归还人:</label>
+	        <div class="controls">
+	            <input id="watch" name="watch" class="required" type="text" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <!-- <div class="control-group">
+	        <label class="control-label">归还时间:</label>
+	        <div class="controls">
+	            <input id="regainTime" name="regainTime" class="input-mini Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});" class="required" type="text" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div> -->
+        <div class="control-group">
+	        <label class="control-label">归还人部门:</label>
+	        <div class="controls">
+	        <select id="regainDept" name="regainDept" class="input-xlarge select2-offscreen" tabindex="-1">
+	            	<option value=""></option>
+	            	<option value="奥组委">奥组委</option>
+	            	<option value="总值">总值</option>
+	            	<option value="保洁">保洁</option>
+	            	<option value="其他">其他</option>
+	            </select>
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">归还数量:</label>
+	        <div class="controls">
+	            <input id="regainAmount" name="regainAmount" class="required" type="text" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">归还经办人:</label>
+	        <div class="controls">
+	            <input id="manager" name="manager" class="required" type="text" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <!-- <div class="control-group">
+	        <label class="control-label">用途:</label>
+	        <div class="controls">
+	            <input id="purpose" name="purpose" class="required" type="text" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div> -->
+        <div class="control-group">
+	        <label class="control-label">备注:</label>
+	        <div class="controls">
+	            <textarea id="remark" name="remark" rows="5" cols="40" style="width:270px;resize:none"></textarea>
+	        </div>
+        </div>
+
+    <div class="form-actions">
+    	<input id="btnSubmit" class="btn btn-primary" type="submit" value="提  交">&nbsp;
+        <input id="btnCancel" class="btn " type="button" value="取  消" onclick="back()">
+    </div>
+</form>
+
+   <script type="text/javascript">
+   
+   $(function (){
+	   var pCode = "201801241622310335";
+		var repairAddress1 = "";
+		var repairAddress2 = "";		
+		var repairAddressCode1 = "";
+		var repairAddressCode2 = "";
+	   $.ajax({
+			headers    : {
+	               "token" : localStorage.getItem("token"),
+	         },
+			url:APIHost+"/repairInformation/getByParentCode",
+			type:"POST",
+			data:{pCode : pCode},
+			success:function (obj){
+				for(var i = 0;i<obj.length;i++){
+					var province = obj[i];
+					$("#repairAddress1").append("<option value="+province.spaceCode+">"+province.spaceName+"</option>");
+				}
+			}
+		});
+		$("#repairAddress1").change(function (){
+			//$("#repairAddress2").empty();
+			//$("#repairAddress3").empty();
+			//  $("#repairAddress2").append("<option>"+"--请选择--"+"</option>");
+			//2.$("#repairAddress2")[0].options.length = 1;
+			$("#repairAddress2").get(0).length = 1;
+			repairAddressCode1 = $("#repairAddress1 option:selected").val();
+			repairAddress1 = $("#repairAddress1 option:selected").text();
+				$.ajax({
+					headers    : {
+			               "token" : localStorage.getItem("token"),
+			         },
+					url:APIHost+"/repairInformation/getByParentCode",
+					type:"POST",
+					data:{pCode:repairAddressCode1},
+					success:function(obj){
+						console.log(obj);
+						for(var i = 0;i<obj.length;i++){
+							var city = obj[i];
+							$("#repairAddress2").append("<option value="+city.spaceCode+">"+city.spaceName+"</option>");
+						}
+						$("#position").val();
+						$("#positionCode").val();
+						$("#position").val(repairAddress1);
+						$("#positionCode").val(repairAddressCode1);
+					}
+				});
+			
+			
+		
+		})
+		$("#repairAddress2").change(function (){
+			repairAddressCode2 = $("#repairAddress2 option:selected").val();
+			repairAddress2 = $("#repairAddress2 option:selected").text();
+			$("#position").val();
+			$("#positionCode").val();
+			$("#position").val(repairAddress1+"-"+repairAddress2);
+			$("#positionCode").val(repairAddressCode1+"-"+repairAddressCode2);
+		})
+   })
+	
+
+ // 表单验证
+    $.validator.setDefaults({
+        submitHandler: function() {
+           // 调用提交
+           formSubmit();
+        }
+    });
+	
+	$(document).ready(function() {
+		/*输入校验*/
+        $("#inputForm").validate({
+        	rules: {
+                deptName:{
+                	required: true
+                },
+                borrowManager:{
+                	required: true,
+                	realName: true
+                },
+                borrower:{
+                	required: true,
+                	realName: true
+                },
+            	 phone: {
+                    required: true
+                 },
+                amount:{
+             	   required: true,
+                   number:true
+                },
+                borrowTime:{
+                	required: true
+                },
+                /* regainTime:{
+                	required: true
+                }, */
+                watch:{
+                	required: true,
+                	realName: true
+                },
+                manager:{
+                	required: true,
+                	realName: true
+                },
+                /* purpose:{
+                	required: true
+                }, */
+                regainDept:{
+                	required: true
+                },
+                regainAmount:{
+                	required: true,
+                	number: true
+                }
+                 },
+                 message:{
+                   deptName:{
+                   		required: ""
+                   },
+                   borrowManager:{
+                   		required: "",
+                   		realName: ""
+                   },
+                   borrower:{
+                   		required: "",
+                   		realName: ""
+                   },
+                   phone: {
+                       required: ""
+                   },
+                   amount:{
+                	   required: "",
+                       number:""
+                   },
+                   borrowTime:{
+                   		required: ""
+                   },
+                  /*  regainTime:{
+                   		required: ""
+                   }, */
+                   watch:{
+                   		required: "",
+                   		realName: ""
+                   },
+                   manager:{
+                   		required: "",
+                   		realName: ""
+                   },
+                  /*  purpose:{
+                   		required: ""
+                   }, */
+                   regainDept:{
+                  		required: ""
+                  },
+                   regainAmount:{
+                  		required: "",
+                  		number:""
+                  }
+               }
+       });
+		
+	});
+	
+
+        
+        
+        function formSubmit(){
+            		var ajax_option={
+	            			 headers    : {
+	          	                 "token" : localStorage.getItem("token"),
+	          	             }, 
+	          	           beforeSend:function () {
+	          	                var loading = $('<div id="loading"></div>');
+	          	                $('body').append(loading);
+	          	                $("#btnSubmit").attr("disabled",true);
+
+	          	            },
+            				url:APIHost + '/keyBorrow/save',//默认是form action
+            				success:function(response){
+            					if(response.data.msg=="success"){
+            						parent.hideDiv();
+            	                    parent.pageload();
+            						parent.jBox.alert("保存成功 !","提示");
+            					}
+            					else if(response.data.msg=="exists"){
+            						$.jBox.alert("数据已存在","提示");
+            					}
+            					else{
+            						$.jBox.alert("错误","提示");
+            					}
+            					
+            				
+               				} ,
+	          	            complete: function () {
+	          	                $("#btnSubmit").attr("disabled",false);
+	          	                $("#loading").hide();
+	          	            }
+                   		}
+                   		
+                   		 $("#inputForm").ajaxSubmit(ajax_option);  
+        }   
+        
+        function back(){
+        	parent.location.reload();
+        }
+        
+        $('#deptName').change(function(){
+ 		  	$("#deptCodes").val($("#deptName option:selected").val());
+ 	   })
+ 	   
+        
+    </script>
+
+</body></html>

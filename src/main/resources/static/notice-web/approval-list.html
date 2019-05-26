@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>我审核的</title>
+    <link rel="stylesheet" href="../lib/css/default.css">
+    <link rel="stylesheet" href="../lib/css/style.css">
+    <style>
+            .glyphicon{
+                font-family:'Glyphicons Halflings' !important;
+            }
+        </style>
+</head>
+<body class="main1">
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>我审核的</h4>
+        </div>
+        <!-- 搜索 -->
+        <form class="filter">
+            <div class='form-inline'>
+            <div class="form-group">
+                <label for="keyWords" class="control-label">搜索内容</label>
+                <input id="keyWords" type="text" class="form-control" placeholder="请输入搜索内容" maxlength="20">
+            </div>
+            <div class="form-group">
+                <label for="type" class="control-label">状态</label>
+                <select id="type" class="form-control" required="required">
+                    <option value="">全部</option>
+                    <option value="DSH">待审核</option>
+                    <option value="YSH">已审核</option>
+                </select>
+            </div>
+            <div class="form-group time1 ns">
+                <div class="form-group mr0">
+                    <label for="dtp_input2" class="control-label faqiTime">发起审核时间</label>
+                    <div class="input-group">
+                        <input id="fqTimeStart" class="form-control form_date2" data-date-format="yyyy-MM-dd" format="yyyy-MM-dd" size="16" type="text" value="" readonly>
+                        <span class="input-group-addon js-date-clean">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </span>
+                    </div>
+                    <input type="hidden" id="dtp_input2" value="" />
+                    <br/>
+                </div>
+                <label for="dtp_input3" class="control-label faqiTime ck">至</label>
+                <div class="form-group">
+                    
+                    <div class="input-group">
+                        <input id="fqTimeEnd" class="form-control form_date3" data-date-format="yyyy-MM-dd" format="yyyy-MM-dd" size="16" type="text" value="" readonly>
+                        <span class="input-group-addon js-date-clean">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </span>
+                    </div>
+                    <input type="hidden" id="dtp_input3" value="" />
+                    <br/>
+                </div>
+            </div>
+            <div class="form-group time1 nss">
+                <div class="form-group mr0">
+                    <label for="dtp_input4" class="control-label faqiTime">发布时间</label>
+                    <div class="input-group">
+                        <input id="fbTimeStart" class="form-control form_date4" data-date-format="yyyy-MM-dd" format="yyyy-MM-dd" size="16" type="text" value="" readonly>
+                        <span class="input-group-addon js-date-clean">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </span>
+                    </div>
+                    <input type="hidden" id="dtp_input4" value="" />
+                    <br/>
+                </div>
+                <label for="dtp_input5" class="control-label faqiTime ck">至</label>
+                <div class="form-group">
+              
+                    <div class="input-group">
+                        <input id="fbTimeEnd" class="form-control form_date5" data-date-format="yyyy-MM-dd" format="yyyy-MM-dd" size="16" type="text" value="" readonly>
+                        <span class="input-group-addon js-date-clean">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </span>
+                    </div>
+                    <input type="hidden" id="dtp_input5" value=""/>
+                    <br/>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary js-search cs">搜索</button>
+            </div>
+
+        </div>
+        </form>
+
+
+
+
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th class="text-center" width="60">序号</th>
+                    <th>标题</th>
+                    <th>摘要</th>
+                    <th width="150">发起审核时间</th>
+                    <th width="150">发布时间</th>
+                    <th width="70">发起人</th>
+                    <th width="80">状态</th>
+                    <th class="text-center" width="92">操作</th>
+                </tr>
+            </thead>
+            <tbody class="js-list"></tbody>
+        </table>
+        <nav class="text-right pages"></nav>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/approval-list.js"></script>
+    <script src="../lib/lib/bootstrap-datetimepicker.min.js"></script>
+    <script src="../lib/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<!--[if lte IE 6]><link href="../static/bootstrap/bsie/css/bootstrap-ie6.min.css" type="text/css" rel="stylesheet" />
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+    <link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+	<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='../static';</script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='../static';</script>
+<script type="text/javascript">
+    	$(function(){
+            loadDictByType("enabledFlag","yesno");
+            autoSize();
+            paramId=GetQueryString("paramId");
+        	if(paramId!=null){
+        		$('#myModal #myModalLabel', window.parent.document).text("设备类型修改");
+        	}else{
+        		$('#myModal #myModalLabel', window.parent.document).text("设备类型增加");
+        	}
+    	})
+    </script>
+    <title>类型维护</title>
+    <meta name="decorator" content="default">
+<script type="text/javascript">
+var paramId=GetQueryString("paramId");
+// 表单验证
+   $.validator.setDefaults({
+       submitHandler: function() {
+          // 调用提交
+          save();
+       }
+   });
+   $().ready(function () {
+       // 在键盘按下并释放及提交后验证提交表单
+       $("#inputForm").validate({
+    		errorPlacement: function(error, element) {
+    			// Append error within linked label
+    			$(element).parent().append( error );
+    		},
+            rules: {
+               className: {
+                   required: true,
+                   minlength: 1
+               },
+               profName: {
+                   required: true
+               },
+               classDesc: {
+                   required: true
+               },
+               enabledFlag: {
+                   required: true
+               },
+               remarks: {
+            	   maxlength: 170
+               }
+             },
+           messages:{
+               className: {
+                   required: "请输入设备类型名称",
+                   minlength: "设备类型名称不能少于一个字符"
+               },
+               profName: {
+                   required: "请选择设备专业"
+               },
+               classDesc: {
+                   required: "请输入类型描述"
+               },
+               enabledFlag: {
+                   required: "请选择可用标志"
+               },
+               remarks: {
+            	   maxlength: "备注信息最多输入170个字符串"
+               }
+           }
+       });
+   })
+   
+        function save(){
+        	$.jBox.confirm("确定提交吗？", "提示", function (v, h, f) {
+    			if(v == 'ok'){
+    				$("#btnCancel").attr("disabled", true);
+                	$("#btnSubmit").attr("disabled", true);
+    				var ajax_option={
+    	    				headers    : {
+    	    	                 "token" : localStorage.getItem("token"),
+    	    	             },
+    	    				url:APIHost + '/admin/mdm/deviceclass/mdmDeviceClass/save',//默认是form action
+    	    				success:function(res){
+    	    					if(res.data.msg=="success"){
+    	    						$.jBox.alert("保存成功","提示",{ closed: function ()
+	        							{window.parent.location.href= APIHost + "/mdm/mdmDeviceClassList.html"; }});
+    	                        }else if(res.data.msg=="haveData"){
+    	                        	$("#btnCancel").attr("disabled", false);
+					            	$("#btnSubmit").attr("disabled", false);
+    	                        	$.jBox.tip("类型代码已存在！","提示");
+    	                        }else if (res.data.msg=="haveName"){
+    	                        	$("#btnCancel").attr("disabled", false);
+					            	$("#btnSubmit").attr("disabled", false);
+    	                        	$.jBox.tip("设备类型已存在！","提示");
+    	                        }else{
+    	                        	$("#btnCancel").attr("disabled", false);
+					            	$("#btnSubmit").attr("disabled", false);
+    	                        	$.jBox.tip("保存失败","提示");
+    	                        }
+    	       				}
+    	           		}
+    	    		$("#inputForm").ajaxSubmit(ajax_option);
+    			}
+    		})
+        }
+        
+   
+// 获取修改数据
+   function updatepageload() {
+       //添加新tbody
+       $.ajax({
+           headers : {
+               "token" : localStorage.getItem("token"),
+           },
+           url : APIHost + '/admin/mdm/deviceclass/mdmDeviceClass/getDeviceClass',
+           type : 'POST',
+           async : true, //或false,是否异步
+           data : {
+               id : paramId
+           },
+           timeout : 30000,
+           dataType : 'json',
+           success : function(res) {
+        	   $("#id").val(paramId);
+        	   $("#classCode").val(res.data.classCode);
+				$("#className").val(res.data.className);
+				$("#profCode").val(res.data.profCode);
+				$("#profName").val(res.data.profName);
+				$("#classDesc").val(res.data.classDesc);
+				var select = document.getElementById("enabledFlag");
+				for (var i = 0; i < select.options.length; i++){  
+			        if (select.options[i].value == res.data.enabledFlag){
+			            select.options[i].selected = true;
+			            $("#enabledFlag").parent().find("span.select2-selection__rendered").html(select.options[i].text);
+			            break;  
+			        }  
+			    }
+				$("#remarks").val(res.data.remarks);
+           },
+           error : function() {
+               //console.log('错误')
+        	   $('#loading').remove(); 
+				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+           }
+       })
+   }
+$(function(){
+	 setTimeout(function(){
+		 if(paramId != null){
+		        updatepageload();
+		    }
+	},500)
+	
+})
+   
+       
+       //获取跳转地址的参数
+   function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }  
+   
+// 关闭弹框
+   function closePopUp(){
+       $('#myModal .close', window.parent.document).click();
+   }
+   
+   // 弹出父页面中的弹框
+   function getModuList(){
+       $('#myModalTable', window.parent.document).modal('show');
+       var url = APIHost + "/mdm/mdmDeviceProfTable.html";
+       $("#AddIframeTable", window.parent.document).attr("src",url);
+   }
+		
+		 //获取跳转地址的参数
+        function GetQueryString(name){
+    	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+    	     var r = window.location.search.substr(1).match(reg);
+    	     if(r!=null)return  unescape(r[2]); return null;
+    	}
+		 
+    </script>
+</head>
+<body>
+<!--<ul class="nav nav-tabs">
+    <li><a href="">设备类型新增或修改</a></li>
+</ul>
+<br>-->
+<form id="inputForm" class="form-horizontal" method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+    <input id="classCode" name="classCode" type="hidden" value="">
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+    <!-- <div class="control-group">
+        <label class="control-label">类型代码：</label>
+        <div class="controls">
+            <input id="classCode" name="classCode" type="text" value="" maxlength="100">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div> -->
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>设备类型：</label>
+        <div class="controls">
+            <input id="className" name="className" type="text" value="" maxlength="50">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>专业名称：</label>
+        <div class="controls">
+        	<input type="hidden" id="profCode" name="profCode" value="">
+            <input id="profName" name="profName" readonly="readonly" style="cursor:pointer;" type="text" value="" maxlength="50" onclick="getModuList();">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>类型描述：</label>
+        <div class="controls">
+           <!--  <input id="classDesc" name="classDesc" type="text" value="" maxlength="50"> -->
+              <textarea id="classDesc" name="classDesc"  maxlength="100"  style="overflow-y:hidden;" class="textAreas"></textarea>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>可用：</label>
+        <div class="controls">
+            <select id="enabledFlag" name="enabledFlag" class="input-xlarge select2" tabindex="-1">
+            	<option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">备注：</label>
+        <div class="controls">
+            <textarea id="remarks" name="remarks"  class="textAreas"></textarea>
+        </div>
+    </div>
+    <div class="form-actions">
+        <input id="btnCancel" class="btn" type="button" value="关 闭" onclick="closePopUp()">
+        <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">
+    </div>
+</form>
+</body></html>

@@ -1,0 +1,105 @@
+<!-- <div class="form-group clearfix">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 p0">
+        <h5><b>订单编号</b></h5>
+        <div>{{items.orderNo}}</div>
+    </div>
+</div>
+<div class="form-group clearfix">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 p0">
+        <h5><b>订单来源</b></h5>
+        {{if items.orderType == 1}}
+        <div>需求订单</div>
+        {{ else if items.orderType == 2}}
+        <div>主动采购</div>
+        {{/if}}
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <h5><b>采购人</b></h5>
+        <div>{{items.buyerEmpName}}</div>
+    </div>
+</div>
+<div class="form-group clearfix">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 p0">
+        <h5><b>部门</b></h5>
+        <div>{{items.dept}}</div>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <h5><b>采购时间</b></h5>
+        <div>{{items.buyerTime | dateFormat:'yyyy-MM-dd'}}</div>
+    </div>
+</div>
+<div class="form-group clearfix">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 p0">
+        <h5><b>制单人</b></h5>
+        <div>{{items.orderEmpName}}</div>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <h5><b>制单日期</b></h5>
+        <div>{{items.orderDate | dateFormat:'yyyy-MM-dd'}}</div>
+    </div>
+</div>
+{{if items.status != 'dsh' }}
+    <div class="form-group clearfix">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 p0">
+            <h5><b>采购审核人</b></h5>
+            <div>{{items.buyerApproveEmpName}}</div>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <h5><b>审核日期</b></h5>
+            <div>{{items.approveDate | dateFormat:'yyyy-MM-dd'}}</div>
+        </div>
+    </div>
+{{/if}}
+{{if items.status == 'yjj' }}
+<div class="form-group clearfix">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <h5><b>拒绝理由</b></h5>
+        <div class="wrap">{{items.approveOption}}</div>
+    </div>
+</div>
+{{/if}} -->
+<table style="margin-bottom:20px;">
+        <tbody>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">订单编号</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.orderNo}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">订单来源</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{if items.orderType == 1}}
+                        <div>需求订单</div>
+                        {{ else if items.orderType == 2}}
+                        <div>主动采购</div>
+                        {{/if}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">采购人</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.buyerEmpName}}</td>
+            </tr>
+            <tr>
+                <td class="text-center">部门</td>
+                <td class="value">{{items.dept}}</td>
+                <td class="text-center">采购时间</td>
+                <td class="value">{{items.buyerTime | dateFormat:'yyyy-MM-dd'}}</td>
+                <td class="text-center">制单人</td>
+                <td class="value">{{items.orderEmpName}}</td>
+            </tr>
+            <tr>
+                <td class="text-center">制单日期</td>
+                <td class="value">{{items.orderDate | dateFormat:'yyyy-MM-dd'}}</td>
+                {{if items.status != 'dsh' }}
+                <td class="text-center">采购审核人</td>
+                <td class="value">{{items.buyerApproveEmpName}}</td>
+                <td class="text-center">审核日期</td>
+                <td class="value">{{items.approveDate | dateFormat:'yyyy-MM-dd'}}</td>
+                {{else}}
+                <td class="text-center">采购审核人</td>
+                <td class="value">--</td>
+                <td class="text-center">审核日期</td>
+                <td class="value">--</td>
+                {{/if}}
+            </tr>
+            {{if items.status == 'yjj' }}
+            <tr>
+                <td class="text-center">拒绝理由</td>
+                <td class="value" colspan="5">{{items.approveOption}}</td>
+            </tr>
+            {{/if}}
+        </tbody>
+    </table>

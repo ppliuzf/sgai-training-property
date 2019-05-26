@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title> 录入计算</title>
+    <link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row header">
+        <h4>录入预算</h4>
+    </div>
+    <!-- <div class="js-detail-basic"></div> -->
+    <div class="js-left">
+        <div>
+            <table class="table table-bordered table-hover">
+                <thead class="js-header">
+                </thead>
+                <tbody class="js-body"></tbody> 
+
+            </table>
+        </div>
+    </div>
+     <div class="btn-operation">
+        <button type="button" class="btn btn-primary js-save">保存</button>
+        <button type="button" class="btn btn-default js-submit">提交</button>
+        <button type="button" class="btn btn-default js-input-cancel">取消</button>
+    </div>
+    <div class="btn-close" style="display: none;">
+        <button type="button" class="btn btn-default js-close">关闭</button>
+    </div>
+</div>
+<script src="../lib/lib/jquery.min.js"></script>
+<script src="../lib/lib/bootstrap.min.js"></script>
+<script src="./js/server/template.js"></script>
+<script src="../config/config.js"></script>
+<script src="./js/server/utils.js"></script>
+<script src="./js/controller/budget-table.js"></script>
+</body>
+</html>

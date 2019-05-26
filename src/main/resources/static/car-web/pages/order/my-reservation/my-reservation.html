@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>我的预约</title>
+    <link rel="stylesheet" href="../../../../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../../lib/css/default.css">
+    <style>
+        .modal-footer{
+            margin-top: -5px;
+            position: relative;
+            z-index: 9999;
+        }
+
+        dd dt{
+            font-weight: 400;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row header">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <h4 style="margin:0px">我的预约</h4>
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 text-right">
+                <button class="btn btn-default" id='fh' style="margin-top:12px">返回</button>
+
+            </div>
+        </div>
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                        <th class='text-center' width='60'>序号</th>
+                        <th>预约日期</th>
+                        <th>预约时间</th>
+                        <th>预约车辆</th>
+                        <th>车辆品牌</th>
+                        <th>车辆型号</th>
+                        <th>车辆颜色</th>
+                        <th>变速箱类型</th>
+                        <th>排量</th>
+                        <th>荷载人数</th>
+                        <th>预约状态</th>
+                        <th class='text-center' width="92">操作</th>
+                </tr>
+            </thead>
+            <tbody class="js-list"></tbody>
+        </table>
+
+        <nav class="text-right pages"></nav>
+
+
+    </div>
+    <script src="../../../../lib/lib/jquery.min.js"></script>
+    <script src="../../../../lib/lib/bootstrap.min.js"></script>
+    <script src="../../../js/server/template.js"></script>
+    <script src="../../../../config/config.js"></script>
+    <script src="../../../js/server/utils.js"></script>
+    <script src="../../../js/controller/order/my-reservation.js"></script>
+    <script src="../../../../lib/lib/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../../../lib/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+
+</body>
+
+</html>

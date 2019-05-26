@@ -1,0 +1,46 @@
+{{each items.list as item itemIndex}}
+<tr dataId='{{item.rsiId}}'>
+    <td>{{item.subCode}}</td>
+    <td>{{item.subLongName}}</td>
+    <td>{{item.itemName}}</td>
+    
+    <td class="budget-num">
+    {{if items.type==1}}
+	    <input class="iptbudget" type="number" value='{{item.budget}}' name="" dataId='{{item.rsiId}}' oninput="if(value.length>8)value=value.slice(0,8)" >
+	{{/if}}
+    {{if items.type==2 || items.type==3|| items.type==4}}
+    	{{item.budget}}
+	{{/if}}
+	</td>
+
+	{{if items.type==2}}
+    <td width="200" class="expend-num">
+    </td>
+	{{/if}}
+
+    {{if items.type==3}}
+    <td>
+    	{{item.surplus}}
+	</td>
+	{{/if}}
+
+
+	{{each items.monthNum  as monthIndex}}
+    <td>
+	    {{if items.type==2}}
+		    <input class="iptexpend"  value='{{(item.expend).split(',')[monthIndex]}}' type="number" name="" dataId='{{item.rsiId}}' oninput="if(value.length>8)value=value.slice(0,8)" >
+	    	
+		{{/if}}
+	    {{if items.type==3|| items.type==4}}
+		    {{(item.expend).split(',')[monthIndex]}}
+		{{/if}}
+	</td>
+	{{/each}}
+</tr>
+{{/each}}
+<style type="text/css">
+	input{width: 100%;}
+	.redw{
+		color: #f00;
+	}
+</style>

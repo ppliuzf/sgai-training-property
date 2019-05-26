@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css"
+	type="text/css" rel="stylesheet">
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css"
+	type="text/css" rel="stylesheet">
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css"
+	type="text/css" rel="stylesheet">
+
+<!--分页  -->
+<script src="../static/paginator/bootstrap-paginator.js"
+	type="text/javascript"></script>
+<!-- 公共样式表	，公共方法 -->
+<link href="../static/media/css/my-style.css" rel="stylesheet"
+	type="text/css" />
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+
+<!-- <link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet"> -->
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css"
+	type="text/css" rel="stylesheet">
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css"
+	rel="stylesheet">
+<link href="../static/My97DatePicker/skin/WdatePicker.css"
+	rel="stylesheet" type="text/css">
+<link href="../static/common/smart.min.css" type="text/css"
+	rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js"
+	type="text/javascript"></script>
+<!-- <script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script> -->
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js"
+	type="text/javascript"></script>
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.src.js"
+	type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js"
+	type="text/javascript"></script>
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../../config/smart-common.js" type="text/javascript"></script>
+<script src="../static/wy/area.js" type="text/javascript"></script>
+<script src="../static/echart/echarts.js" type="text/javascript"></script>
+<style>
+	.map-title{
+		padding:10px;
+		border-bottom:1px solid #ddd;
+	}
+</style>
+</head>
+<body>
+<input type="hidden" value="0" id="flag">
+	<div id="chooseDate" class="hide"
+		style="position: absolute; border: 1px solid; left: 74px; top: 65px; background: #FFFFFF; width: 400px; padding-bottom: 20px; z-index: 100; text-align: center;">
+		<div style="margin-top: 21px;">
+			<label>时间维度：</label> <select class="input-xlarge "
+				onchange="chooseDate(this.value)" id="datetype">
+				<option value=""></option>
+				<option value="0">年</option>
+				<option value="1">月</option>
+				<option value="2">日</option>
+			</select> <label>事件类型：</label> <select class="input-xlarge " id="repairType">
+				<option value="bxgd">投诉工单数</option>
+				<option value="bxyz">投诉业主数</option>
+				<option value="bxl">投诉建筑体数</option>
+				<option value="bxwcl">投诉完成率</option>
+				<option value="bxtsl">投诉率</option>
+				<option value="bxAvgTimel">投诉平均時長</option>
+				<option value="yzAvg">业主区域平均投诉条数</option>
+				<option value="allqyAvg">全部业主区域平均投诉条数</option>
+			</select> <label>动态时间：</label> <select class="input-xlarge "
+				onchange="chooseDynamicTime(this.value)" id="dynamicTime">
+				<option value=""></option>
+			</select>
+			<div id="searchForm" style="display: none">
+				<label style="margin-left: 34px;">时间从：</label><input id="startTime"
+					name="startTime" class="query_input Wdate" type="text"
+					onclick="WdatePicker()"
+					style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+				<br> <label style="margin-left: 60px;">至：</label><input
+					id="endTime" name="endTime" class="query_input Wdate" type="text"
+					onclick="WdatePicker()"
+					onfocus="WdatePicker({onpicked:function(dp){queryData('e'); }})"
+					style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+			</div>
+
+		</div>
+	</div>
+<div id="chooseDate1" class="hide"
+	style="position: absolute; border: 1px solid; left: 82px; top: 577px; background: #FFFFFF; width: 400px; padding-bottom: 20px; z-index: 100; text-align: center;">
+		<div id="importFormSureChange1" action="" method="post"
+			enctype="multipart/form-data" class="form-search"
+			style="padding-left: 20px; text-align: center;margin-bottom:5px !important">
+			<br />
+			<div class="control-group" style="margin-top: 9px;">
+				
+				<div class="controls">
+				<label for="customer-name" class="control-label"><b>动态时间:</b></label>
+					<select id="datetype1" name="datetype" onchange="find(this.value)"
+						class="query_input" style="width: 230px;">
+					</select>
+				</div>
+			</div>
+			
+		</div>
+		<div id="searchForm1" class="form-search hide";
+			style="padding-left: 20px; text-align: center;margin-top:5px !important" method="post"
+		style="display: none">
+			<div class="controls" style="margin-top:5px">
+				
+				<div>
+				<label for="customer-name" class="control-label"><b>时间从:</b></label>
+					<input id="startTime1" name="startTime" class="query_input Wdate" type="text" onclick="WdatePicker()" />
+				</div>	
+			</div>
+			<div class="controls" style="margin-top:10px">
+				
+				<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="customer-name" class="control-label"><b>至:</b></label>
+					<input id="endTime1" name="endTime" class="query_input Wdate" type="text" onclick="WdatePicker()" onfocus="WdatePicker({onpicked:function(dp){fresh('e'); }})"/>
+				</div>
+			</div>
+		
+	</div>
+	<!-- <input id="btnSubmitLog1"
+				class="btn btn-primary btn_middle small_blue hide" type="button"
+				value="查询" onclick="fresh('e');"></input>
+	<input type="button" class="btn btn-primary" value="关闭"
+				onclick="closedivChange1()" /> -->
+	
+	</div>
+	<div id="chooseDate3" class="hide"
+	style="position: absolute; border: 1px solid; left: 655px; top: 596px; background: #FFFFFF; width: 400px;  z-index: 100; text-align: center;">
+<br>
+<label >动态时间：</label>
+  <select id="datetype3"  name="datetype"   onchange="chooseDynamicTime3(this.value)"  class="input-xlarge"  >
+  </select>
+		
+<div id="searchForm3" style="display: none;margin-top: -6px;margin-bottom: 6px;">
+	<label style="margin-left: 34px;">时间从：</label><input id="startTime3"
+		name="startTime" class="query_input Wdate" type="text"
+		onclick="WdatePicker()"
+		style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+	<br> <label style="margin-left: 60px;">至：</label><input
+		id="endTime3" name="endTime" class="query_input Wdate" type="text"
+		onclick="WdatePicker()"  onfocus="WdatePicker({onpicked:function(dp){sureData3('e'); }})"
+		style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+</div>
+</div>
+	
+	<div id="chooseDate2" class="hide"
+	style="position: absolute; border: 1px solid; left: 660px; top: 205px; background: #FFFFFF; width: 400px; padding-bottom: 20px; z-index: 100; text-align: center;">
+		<div id="importFormSureChange2" action="" method="post"
+			enctype="multipart/form-data" class="form-search"
+			style="padding-left: 20px; text-align: center;margin-bottom:5px !important">
+			<br />
+			<div class="control-group" style="margin-top: 9px;">
+				
+				<div class="controls">
+				<label for="customer-name" class="control-label"><b>动态时间:</b></label>
+					<select id="datetype2" name="datetype" onchange="find1(this.value)"
+						class="query_input" style="width: 230px;">
+					</select>
+				</div>
+			</div>
+			
+		</div>
+		<div id="searchForm2" class="form-search hide";
+			style="padding-left: 20px; text-align: center;margin-top:5px !important" method="post"
+		style="display: none">
+			<div class="controls" style="margin-top:5px">
+				
+				<div>
+				<label for="customer-name" class="control-label"><b>时间从:</b></label>
+					<input id="startTime2" name="startTime" class="query_input Wdate" type="text" onclick="WdatePicker()" />
+				</div>	
+			</div>
+			<div class="controls" style="margin-top:10px">
+				
+				<div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="customer-name" class="control-label"><b>至:</b></label>
+					<input id="endTime2" name="endTime" class="query_input Wdate" type="text" onclick="WdatePicker()" onfocus="WdatePicker({onpicked:function(dp){fresh1('e'); }})"/>
+				</div>
+			</div>
+		
+	</div>
+	<!-- <input id="btnSubmitLog2"
+				class="btn btn-primary btn_middle small_blue hide" type="button"
+				value="查询" onclick="fresh1('e');"></input>
+	<input type="button" class="btn btn-primary" value="关闭"
+				onclick="closedivChange2()" /> -->
+	
+	</div>	
+	
+<!-- 	<div style="width: 100%; height: 400px; position: relative;"
+		>
+		<div style="width: 45%; height: 400px;" id="repairMask">
+		<div
+			style="width: 100%; height: 400px; position: absolute; left: 0px; top: 0px">
+		</div>
+		<div id="repairbox" style="width: 100%; height: 400px; float: left">
+			//chart 
+
+		</div>
+		</div>
+			<div style="width: 10%; height: 400px;position:relative;float:left;"></div>
+		<div style="margin-top: 5px;color: black;font-Size:15px;font-Weight:normal;font-Family:宋体;font-Style:normal" class="hide" id="showTitle1">
+		投诉来源分布
+		</div>
+		<div style="width: 45%; height: 400px;position:relative;float:left;" >
+		<div style="width: 100%; height: 400px;position:absolute;left:0px;top:0px" id="css21">
+			</div>
+			<div id="repairbox3" style="width: 100%; height: 400px; float: left">
+			//chart 
+			
+		</div>
+		</div>
+	</div> -->
+	<div style="overflow: hidden; width: 100%">
+		<!-- <div style="width: 45%; height: 400px;position:relative;float:left;border:0px solid #000" id="repairMask">
+		<div style="width: 100%; height: 400px;position:absolute;left:0px;top:0px">
+			</div>
+			<div id="repairbox" style="width: 100%; height: 400px; float: left;border:1px   ">
+			//chart 
+			
+		</div>
+		</div> -->
+		
+		<div style="width: 44%; height: 400px;position:relative;float:left;border:1px solid #ddd;margin-left:4%;margin-right:4%;" id="repairMask">
+		<div class="map-title">投诉事件时间分布</div>
+		<div style="width: 100%; height: 400px;position:absolute;left:0px;top:0px">
+			</div>
+			<div id="repairbox" style="width: 100%; height: 350px; float: left;border:1px   ">
+			<!-- //chart  -->
+			
+		</div>
+		</div>
+		<!-- <div style="width: 10%; height: 400px;position:relative;float:left;"></div>
+		<div style="margin-top: 5px;color: black;font-Size:15px;font-Weight:normal;font-Family:宋体;font-Style:normal" class="hide" id="showTitle1">
+		投诉来源分布
+		</div>
+		<div style="width: 45%; height: 400px;position:relative;float:left;" >
+		<div style="width: 100%; height: 400px;position:absolute;left:0px;top:0px" id="css21">
+			</div>
+			<div id="repairbox3" style="width: 100%; height: 400px; float: left">
+			//chart 
+			
+		</div>
+		</div> -->
+		<div style="width: 44%; height: 400px;position:relative;float:left;border:1px solid #ddd;" >
+		<div class="map-title">投诉来源分布</div>
+		<div style="width: 100%; height: 400px;position:absolute;left:0px;top:0px" id="css21">
+			</div>
+			<div id="repairbox3" style="width: 100%; height:350px; float: left;border:1px ;margin-right:4%;">
+			<!-- //chart  -->
+			
+		</div>
+		</div>
+		
+		
+	</div>
+	<div style="height:50px">
+	</div>
+	<div style="overflow: hidden; width: 100%">
+		<!-- <div
+			style="width: 45%; height: 400px; position: relative; float: left; border: 0px solid #000"
+			id="css1">
+			<div
+				style="width: 100%; height: 400px; position: absolute; left: 0px; top: 0px">
+			</div>
+			<div id="echartsEvent2"
+				style="width: 100%; height: 400px; float: left; border: 1px">
+				//chart 
+
+			</div>
+		</div> -->
+		<div style="width: 44%; height: 400px;position:relative;float:left;border:1px solid #ddd;margin-left:4%;margin-right:4%;" id="css1">
+		<div class="map-title">日平均投诉工单量</div>
+		<div style="width: 100%; height: 400px;position:absolute;left:0px;top:0px">
+			</div>
+			<div id="echartsEvent2" style="width: 100%; height: 350px; float: left;border:1px   ">
+			<!-- //chart  -->
+			
+		</div>
+		</div>
+		
+		<!-- <div
+			style="width: 10%; height: 400px; position: relative; float: left;"></div>
+		<div
+			style="margin-top: 5px; color: black; font-Size: 15px; font-Weight: normal; font-Family: 宋体; font-Style: normal"
+			class="hide" id="showTitle">报修来源分布</div>
+		<div
+			style="width: 45%; height: 400px; position: relative; float: left;">
+			<div
+				style="width: 100%; height: 400px; position: absolute; left: 0px; top: 0px"
+				id="css1Mask"></div>
+			<div id="echartsEvent3"
+				style="width: 100%; height: 400px; float: left">
+				//chart 
+
+			</div>
+		</div> -->
+		<!-- <div style="width: 44%; height: 400px;position:relative;float:left;border:1px solid #ddd;margin-left:4%;margin-right:4%;" id="css1Mask">
+		<div class="map-title">日平均投诉工单量</div>
+		<div style="width: 100%; height: 400px;position:absolute;left:0px;top:0px">
+			</div>
+			<div id="echartsEvent3" style="width: 100%; height: 350px; float: left;border:1px   ">
+			//chart 
+			
+		</div>
+		</div> -->
+		<div style="width: 44%; height: 400px;position:relative;float:left;border:1px solid #ddd;" id="css1Mask">
+		<div class="map-title">投诉工单时间分布</div>
+		<div style="width: 100%; height: 400px;position:absolute;left:0px;top:0px" >
+			</div>
+			<div id="echartsEvent3" style="width: 100%; height:350px; float: left;border:1px ;margin-right:4%;">
+			<!-- //chart  -->
+			
+		</div>
+		</div>
+
+
+	</div>
+
+	<script src="../static/echart/echarts.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			queryData();
+			fresh();
+			fresh1();
+			sureData3();
+			// analData();
+		});
+
+		function chooseDate(value) {
+			$("#dynamicTime").text("");
+			var obj = document.getElementById('dynamicTime');
+			obj.options.length = 0;//移除options 
+
+			$.ajax({
+				headers : {
+					"token" : localStorage.getItem("token")
+				},
+				url : APIHost + '/todoEvent/getMoreDates',
+				type : 'POST',
+				async : false, //或false,是否异步
+				timeout : 5000,
+				dataType : 'json',
+				data : {
+					timeType : $("#datetype").val()
+				},
+				success : function(res) {
+					$('#dynamicTime').append(
+							"<option hidden='hidden' value=''></option>");
+					for (i in res) {
+						$('#dynamicTime').append(
+								"<option value="+i+">" + res[i] + "</option>");
+					}
+					$('#dynamicTime').append(
+							"<option  value='custom'>自定义</option>")
+				},
+				error : function() {
+					console.log("错误");
+				}
+			});
+		}
+
+		function chooseDynamicTime(value) {
+			$("#startTime").val("");
+			$("#endTime").val("");
+			if ('custom' == value) {
+				$("#searchForm").show();
+			} else {
+				$("#searchForm").hide();
+				queryData();
+			}
+		}
+
+		function queryData() {
+			$("#flag").val('0');
+			$("#chooseDate").hide();
+			$("#repairMask").css("background", "#FFFFFF");
+			var repairName = $("#repairType").val();
+			var textName = "投诉工单数";
+			if (repairName == 'bxgd') {
+				textName = "投诉工单数";
+			}
+			if (repairName == 'bxyz') {
+				textName = "投诉业主数";
+			}
+			if (repairName == 'bxl') {
+				textName = "投诉建筑体数";
+			}
+			if (repairName == 'bxwcl') {
+				textName = "投诉完成率";
+			}
+			if (repairName == 'bxtsl') {
+				textName = "投诉率";
+			}
+			if (repairName == 'bxAvgTimel') {
+				textName = "投诉平均時長";
+			}
+			if (repairName == 'yzAvg') {
+				textName = "业主区域平均投诉条数";
+			}
+			if (repairName == 'allqyAvg') {
+				textName = "全部业主区域平均投诉条数";
+			}
+			$
+					.ajax({
+						headers : {
+							"token" : localStorage.getItem("token")
+						},
+						url : APIHost + '/todoEvent/complainDetailAnalysis',
+						type : 'POST',
+						async : false, //或false,是否异步
+						timeout : 5000,
+						dataType : 'json',
+						data : {
+							type : $("#repairType").val() == '' ? 'bxgd' : $(
+									"#repairType").val(),
+							startDate : $("#startTime").val(),
+							endDate : $("#endTime").val(),
+							dateType : $("#datetype").val() == '' ? '1' : $(
+									"#datetype").val(),
+							dynamicTime : $("#dynamicTime").val() == '' ? 'months'
+									: $("#dynamicTime").val(),
+						},
+						success : function(res) {
+							console.log(res)
+							var xaxis = [];
+							var yaxis = []
+							var data;
+							if (repairName == 'bxgd') {
+								data = res["bxgd"];
+							}
+							if (repairName == 'bxyz') {
+								data = res["bxyz"];
+							}
+							if (repairName == 'bxl') {
+								data = res["bxl"];
+							}
+							if (repairName == 'bxwcl') {
+								data = res["bxwcl"];
+							}
+							if (repairName == 'bxtsl') {
+								data = res["bxtsl"];
+							}
+							if (repairName == 'bxAvgTimel') {
+								data = res["bxAvgTimel"];
+							}
+							if (repairName == 'yzAvg') {
+								data = res["yzAvg"];
+							}
+							if (repairName == 'allqyAvg') {
+								data = res["allqyAvg"];
+							}
+							for ( var i in data) {
+								for ( var k in data[i]) {
+									xaxis.push(k);
+									yaxis.push(data[i][k]);
+								}
+							}
+							option = {
+								xAxis : {
+									type : 'category',
+									data : xaxis,
+								},
+								yAxis : {
+									type : 'value',
+									name : textName,
+									nameLocation : 'center',
+									nameGap : '25',
+									nameTextStyle : {
+										fontSize : 17,
+										fontWeight : 'bold'
+									},
+								},
+								toolbox : {
+									show : true,
+									feature : {
+										myTool : {
+											show : true,
+											title : '筛选',
+											icon : 'path://M837 139.3L573.2 464.6 562 478.3V853.4L462 803V478.3l-11.2-13.8L187 139.3h650m105-50H82L412 496v337.8l200 100.8V496.1L942 89.3z',
+											onclick : function() {
+												if ($("#flag").val() == '1') {
+													alert("还有未关闭的窗口!请先关闭，才能点击！");
+													return;
+												}
+												$("#flag").val('1');
+												$("#chooseDate").show();
+												$("#searchForm").hide();
+												$("#repairMask")
+														.css("background",
+																"#DDDDDD");
+											}
+										}
+									}
+								},
+								tooltip : {
+									trigger : 'item',
+									formatter : "{b}: {c}"
+								},
+								series : [ {
+									data : yaxis,
+									type : 'line',
+									smooth : true
+								} ]
+							};
+							var myChart = echarts.init(document
+									.getElementById("repairbox"));
+							myChart.setOption(option);
+						},
+						error : function() {
+							console.log("错误");
+						}
+					});
+		}
+
+		/* 黑斌的 */
+		function fresh(id) {
+			$("#chooseDate1").hide();
+			$("#searchForm1").hide();
+			$("#flag").val('0');
+			$("#css1").css("background", "#FFFFFF");
+			$
+					.ajax({
+						headers : {
+							"token" : localStorage.getItem("token")
+						},
+						url : APIHost + '/repairInformation/freshReport',
+						type : 'POST',
+						async : false, //或false,是否异步
+						data : {
+							id : id,
+							startTime1 : $("#startTime1").val(),
+							endTime1 : $("#endTime1").val(),
+							type:"1"
+						},
+						dataType : 'json',
+						//contentType: "application/json; charset=utf-8",
+						success : function(res) {
+							/* require.config({
+								paths : {
+									echarts : 'http://echarts.baidu.com/build/dist'
+								}
+							});
+							require([ 'echarts', 'echarts/chart/pie',
+									'echarts/chart/bar', 'echarts/chart/line' ],
+									function(ec) { */
+							var monday;
+							var tuesday;
+							var Wednesday;
+							var thursday;
+							var friday;
+							var saturday;
+							var sunday;
+							for (i in res) {
+								console.log(res[i]);
+								if (res[i].type == 2) {
+									monday = res[i].count;
+								} else if (res[i].type == 3) {
+									tuesday = res[i].count;
+								} else if (res[i].type == 4) {
+									Wednesday = res[i].count;
+								} else if (res[i].type == 5) {
+									thursday = res[i].count;
+								} else if (res[i].type == 6) {
+									friday = res[i].count;
+								} else if (res[i].type == 7) {
+									saturday = res[i].count;
+								} else if (res[i].type == 1) {
+									sunday = res[i].count;
+								}
+
+							}
+							// 基于准备好的dom，初始化echarts图表
+							var option2 = {
+								title : {
+									text : '',
+									//subtext : "日平均投诉工单量",
+									top : '-3%',
+									subtextStyle : {
+										color : 'black',
+										fontStyle : 'normal',
+										fontSize : 15,
+										fontWeight : 'normal',
+										fontFamily : '宋体'
+
+									}
+								},
+								toolbox : {
+									show : true,
+									feature : {
+										myTool : {
+											show : true,
+											title : '筛选',
+											icon : 'path://M837 139.3L573.2 464.6 562 478.3V853.4L462 803V478.3l-11.2-13.8L187 139.3h650m105-50H82L412 496v337.8l200 100.8V496.1L942 89.3z',
+											onclick : function() {
+												if ($("#flag").val() == '1') {
+													alert("还有未关闭的窗口!请先关闭，才能点击！");
+													return;
+												}
+												$("#flag").val('1');
+												$("#chooseDate1").show();
+												$("#chooseDate2").hide();
+												$("#chooseDate3").hide();
+												$("#chooseDate4").hide();
+												$("#css1").css("background",
+														"#DDDDDD");
+												var obj = document
+														.getElementById('datetype1');
+												obj.options.length = 0;//移除options 
+												$
+														.ajax({
+															headers : {
+																"token" : localStorage
+																		.getItem("token")
+															},
+															url : APIHost
+																	+ '/repairInformation/getDates',
+															type : 'POST',
+															async : false, //或false,是否异步
+															timeout : 5000,
+															dataType : 'json',
+															contentType : "application/json; charset=utf-8",
+															success : function(
+																	res) {
+																$('#datetype1')
+																		.append(
+																				"<option hidden='hidden' value=''></option>");
+																for (i in res) {
+																	$(
+																			'#datetype1')
+																			.append(
+																					"<option value="+i+">"
+																							+ res[i]
+																							+ "</option>");
+																}
+																$('#datetype1')
+																		.append(
+																				"<option  value='e'>自定义</option>");
+															},
+															error : function() {
+																console
+																		.log("错误");
+															}
+														});
+											}
+										}
+									}
+								},
+								color : [ '#3398DB' ],
+								tooltip : {
+									trigger : 'axis',
+									axisPointer : { // 坐标轴指示器，坐标轴触发有效
+										type : '' // 默认为直线，可选为：'line' | 'shadow'
+									}
+								},
+								xAxis : {
+									type : 'category',
+									data : [ '周一', '周二', '周三', '周四', '周五',
+											'周六', '周日' ]
+								},
+								yAxis : {
+									type : 'value',
+									name : '投诉工单数(条)',
+									nameLocation : 'center',
+									nameGap : '25',
+									nameTextStyle : {
+										fontSize : 17,
+										fontWeight : 'bold'
+									},
+								},
+								series : [ {
+									data : [ monday, tuesday, Wednesday,
+											thursday, friday, saturday, sunday ],
+									type : 'bar',
+									name : '数据信息'
+								} ]
+							};
+							var myChart2 = echarts.init(document
+									.getElementById('echartsEvent2'));
+							myChart2.setOption(option2);
+							setTimeout(function() {
+								window.onresize = function() {
+
+									myChart2.resize();
+								}
+							}, 200)
+							//})
+						},
+						error : function() {
+							console.log("错误");
+						}
+					});
+
+		}
+		function find(id) {
+			if (id == 'e') {
+				$("#startTime1").val("");
+				$("#endTime1").val("");
+				$("#searchForm1").show();
+				$("#btnSubmitLog1").show();
+			} else {
+				$("#searchForm1").hide();
+				$("#btnSubmitLog1").hide();
+				fresh(id);
+			}
+		}
+		function chooseDynamicTime3(value){
+			$("#startTime3").val("");
+			$("#endTime3").val("");
+			if('custom'==value){
+				$("#searchForm3").show();
+
+			}else{
+				$("#searchForm3").hide();
+				sureData3();
+			}
+		}
+		function sureData3(){
+			$("#chooseDate3").hide();
+			$("#css1Mask").css("background","#FFFFFF");
+			$("#flag").val('0');
+			$.ajax({
+				headers    : {
+					"token" : localStorage.getItem("token")
+				},
+				url : APIHost + '/todoEvent/analtsgd',
+				type : 'POST',
+				async : false, //或false,是否异步
+				timeout : 3000,
+				data :{
+					type:$("#datetype3").val(),
+					createdDt:$("#startTime3").val(),
+					updatedDt:$("#endTime3").val(),
+				},
+				dataType : 'json',
+				success : function(data) {
+					var xaxis=[];
+					var yaxis=[];
+					for(var k in data){
+						xaxis.push(k);
+						yaxis.push(data[k]);
+					}
+					option = {
+						    title: {
+						        text: '',
+			  				    subtext: "事件数(条)",
+			  				    top:'4%',
+						        subtextStyle:{
+						            fontSize:15
+					       		 }
+						    },
+						    toolbox: {  
+		    		            show : true,  
+		    		            feature : {  
+		    		            myTool : {  
+		    		                    show : true,  
+		    		                    title : '筛选',  
+		    		                    icon: 'path://M837 139.3L573.2 464.6 562 478.3V853.4L462 803V478.3l-11.2-13.8L187 139.3h650m105-50H82L412 496v337.8l200 100.8V496.1L942 89.3z',
+		    		                    onclick : function (){ 
+		    		                    	if($("#flag").val()=='1'){
+		    		                    		alert("还有未关闭的窗口!请先关闭，才能点击！");
+		    		                    		return;
+		    		                    	}
+		    		                    	$("#flag").val('1');
+		    		                    	$("#chooseDate3").show();
+		    		                    	$("#searchForm3").hide();
+		    		                    	$("#css1Mask").css("background","#DDDDDD");
+		    		                    	var obj=document.getElementById('datetype3');
+		    		                        obj.options.length=0;//移除options 
+		    		                		$.ajax({
+		    		                			headers    : {
+		    		                				"token" : localStorage.getItem("token")
+		    		                			},
+		    		                			url : APIHost + '/todoEvent/getDates',
+		    		                			type : 'POST',
+		    		                			async : false, //或false,是否异步
+		    		                			timeout : 5000,
+		    		                			dataType : 'json',
+		    		                			contentType: "application/json; charset=utf-8",
+		    		                			success : function(res) {
+		    		                				$('#datetype3').append("<option hidden='hidden' value=''></option>");
+		    		                				for(i in res){
+		    		                    				$('#datetype3').append("<option value="+i+">"+res[i]+"</option>");
+		    		                				}
+		    		                				$('#datetype3').append("<option  value='custom'>自定义</option>")
+		    		                			},
+		    		                			error : function() {
+		    		                				console.log("错误");
+		    		                			}
+		    		                		});
+		    		                    }  
+		    		                 } 
+		    		            }  
+		    		        },
+						    xAxis: {
+						        type: 'category',
+						        boundaryGap: false,
+						        data:xaxis
+						    },
+						    color: ['#7EC0EE'],
+						    yAxis: {
+					            type : 'value',
+			      			    //      name : '工单数(条)',
+							     //       type : 'category',
+								        name: '投诉时间分布',
+								        nameLocation: 'center',
+								        nameGap: '25',
+								        nameTextStyle: {
+								            fontSize: 17,
+								            fontWeight:'bold'   
+								        },
+						        
+						    },
+						    series: [{
+						        data: yaxis,
+						        type: 'line',
+						          areaStyle: {
+						                normal: {type: 'default',
+						                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+						                        offset: 0,
+						                        color: 'rgba(199, 37, 50,0.2)'
+						                    }, {
+						                        offset: 1,
+						                        color: 'rgba(199, 37, 50,0.2)'
+						                    }], false)
+						                }
+						            },
+						    }]
+						};
+					var myChart = echarts.init(document.getElementById('echartsEvent3')); 
+					myChart.setOption(option);
+				}
+			});
+		}
+		function fresh1(id) {
+			$("#chooseDate2").hide();
+			$("#searchForm2").hide();
+			$("#flag").val('0');
+			var css = {  
+         		   "background-color": '#FFFFFF',
+         		   "z-index":"0",
+         		   "opacity":"0"
+         		};
+			$("#css21").css(css);
+			var fontSize = 10;
+			var rich = {
+				yellow : {
+					color : "#ffc72b",
+					fontSize : fontSize * 2,
+					padding : [ 5, 4 ],
+					align : 'center'
+				},
+				total : {
+					color : "#ffc72b",
+					fontSize : fontSize * 4,
+					align : 'center'
+				},
+				white : {
+					color : "#9a8169",
+					align : 'center',
+					fontSize : fontSize * 1.4,
+				},
+				blue : {
+					color : '#49dff0',
+					fontSize : fontSize * 1.4,
+					align : 'center'
+				},
+				hr : {
+					borderColor : '#0b5263',
+					width : '100%',
+					borderWidth : 1,
+					height : 0,
+				}
+			}
+			$
+					.ajax({
+						headers : {
+							"token" : localStorage.getItem("token")
+						},
+						url : APIHost + '/admin/complain/pieData',
+						type : 'POST',
+						async : false, //或false,是否异步
+						timeout : 3000,
+						data : {
+							id : id,
+							startTime : $("#startTime2").val(),
+							endTime : $("#endTime2").val()
+						},
+						dataType : 'json',
+						success : function(data) {
+
+							/* 	require.config({
+							      paths: {
+							          echarts: 'http://echarts.baidu.com/build/dist'
+							      }
+							  });
+							  require(
+							      [
+							          'echarts',
+							          'echarts/chart/pie',
+							          'echarts/chart/bar',
+							          'echarts/chart/line'
+							      ], */
+							//  function(ec){
+							var res = [];
+							for ( var j in data) {
+								if (j != 'repairSum') {
+									res.push({
+										value : data[j],
+										name : j
+									})
+								}
+							}
+							;
+							option = {
+								backgroundColor : '#fff',
+								title : {
+									text : '投诉工单总数(条):' + data["repairSum"],
+									subtext : "",
+									x : 'center',
+									y : 'center',
+									textStyle : {
+										fontWeight : 'normal',
+										fontSize : 16
+									}
+								},
+							    toolbox: {  
+						            show : true,  
+						            feature : {  
+						            myTool : {  
+						                    show : true,  
+						                    title : '筛选',  
+						                    icon: 'path://M837 139.3L573.2 464.6 562 478.3V853.4L462 803V478.3l-11.2-13.8L187 139.3h650m105-50H82L412 496v337.8l200 100.8V496.1L942 89.3z',
+						                    onclick : function (){  
+						                    	if($("#flag").val()=='1'){
+			    		                    		alert("还有未关闭的窗口!请先关闭，才能点击！");
+			    		                    		return;
+			    		                    	}
+			    		                    	$("#flag").val('1');
+						                    	$("#chooseDate2").show();
+			    		                    	$("#chooseDate1").hide();
+			    		                    	$("#chooseDate3").hide();
+			    		                    	$("#chooseDate4").hide();
+			    		                    	var css = {  
+			    		                    		   "background-color": '#888888',
+			    		                    		   "z-index":"1",
+			    		                    		   "opacity":"0.3"
+			    		                    		};
+			    		                    	$("#css21").css(css);
+			    		                    	
+						                    	var obj=document.getElementById('datetype2');
+						              	        obj.options.length=0;//移除options 
+						              			$.ajax({
+						              				headers    : {
+						              					"token" : localStorage.getItem("token")
+						              				},
+						              				url : APIHost + '/admin/complain/getDates',
+						              				type : 'POST',
+						              				async : false, //或false,是否异步
+						              				timeout : 5000,
+						              				dataType : 'json',
+						              				success : function(res) {
+						              					$('#datetype2').append("<option hidden='hidden' value=''></option>");
+						              					for(i in res){
+						              	    				$('#datetype2').append("<option value="+i+">"+res[i]+"</option>");
+						              					}
+						              					$('#datetype2').append("<option  value='e'>自定义</option>");
+						              				},
+						              				error : function() {
+						              					console.log("错误");
+						              				}
+						              			});
+						                    }  
+						                 } 
+						            }  
+						        },
+								tooltip : {
+									trigger : 'item',
+									formatter : "{b}<br/>{c} ({d}%)",
+									textStyle : {
+										fontSize : fontSize * 1.6
+									}
+								},
+								series : [ {
+									name : 'pie',
+									type : 'pie',
+									radius : [ '40%', '60%' ],
+									hoverAnimation : false,
+									color : [ '#7EC0EE', '#7FFFD4', '#87CEFF',
+											'#7A67EE', '#48D1CC', '#104E8B' ],
+									label : {
+										normal : {
+											formatter : function(params,
+													ticket, callback) {
+												var total = 0; //考生总数量
+												var percent = 0; //考生占比
+												res.forEach(function(value,
+														index, array) {
+													total += value.value;
+												});
+												if (total != 0) {
+													percent = ((params.value / total) * 100)
+															.toFixed(2);
+												}
+												return '{white|' + params.name
+														+ '}\n{yellow|'
+														+ params.value
+														+ '}{blue|' + percent
+														+ '%}';
+											},
+											rich : rich
+										},
+									},
+									data : res
+								} ]
+							};
+							$("#showTitle1").show();
+							var myChartpie = echarts.init(document
+									.getElementById('repairbox3'));
+							myChartpie.setOption(option);
+							//}
+							//)
+						}
+					});
+		}
+		function find1(id) {
+			if (id == 'e') {
+				$("#startTime2").val("");
+				$("#endTime2").val("");
+				$("#searchForm2").show();
+				$("#btnSubmitLog2").show();
+			} else {
+				$("#searchForm2").hide();
+				$("#btnSubmitLog2").hide();
+				fresh1(id);
+			}
+		}
+	</script>
+</body>
+</html>

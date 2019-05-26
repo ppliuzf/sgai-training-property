@@ -1,0 +1,102 @@
+<div class="infos-detail">
+    <table>
+        <tbody>
+            <tr>
+                <td class=" text-center">会议室名称：</td>
+                <td class=" value">{{roomName}}</td>
+                <td class=" text-center">可容纳人数：</td>
+                <td class=" value">{{rrRoomPeoples + ' '}} 人</td>
+                <!-- <td class="col-lg-5 col-md-5 col-sm-5 text-center" colspan="2">会议室设备：</td> -->
+            </tr>
+
+            <tr>
+                <td class=" text-center" rowspan="2">会议室设备：</td>
+                <!-- <td class="text-center" colspan="" rowspan=""></td> -->
+                {{if deviceDetailVoList.length>0}}
+                <td class="value"> 已启用：</td>
+                <td class="value text-center" colspan="2">
+
+                    {{each deviceDetailVoList as itom }} {{if itom.rdsState==0}}
+                    <span href="javascript:;" class="device-txt" data-rdsId="{{itom.rdsId}}" data-rdsState="{{itom.rdsState}}">{{itom.rdRoomDevice}}</span>
+                    {{/if}} {{/each}}
+
+                </td>
+            </tr>
+            <tr>
+                <td class="value"> 已禁用：</td>
+                <td class="value text-center" colspan="2">
+
+                    {{each deviceDetailVoList as itom }}{{if itom.rdsState!=0}}
+                    <span href="javascript:;" class="device-txt" data-rdsId="{{itom.rdsId}}" data-rdsState="{{itom.rdsState}}">{{itom.rdRoomDevice}}</span>
+                    {{/if}} {{/each}}
+
+                </td>
+            </tr>
+
+            {{/if}} {{if deviceDetailVoList.length == 0}}
+            <tr>
+                <td colspan="3" class="value" style="text-align: center">无</td>
+            </tr>
+            {{/if}}
+            <tr>
+                <td class="text-center">预约会议时间：</td>
+                <td class="value">{{miMtDate}} {{miMtTimeSeg}}</td>
+                <td class="text-center">发起人：</td>
+                <td class="value" colspan="3">{{createEiName}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="h-box">
+    <div class="form-group">
+        <label>会议主题：</label>
+        <div style="word-wrap:break-word;word-break:break-all;">{{miMtSubject}}</div>
+    </div>
+    <div class="form-group">
+        <label>会议摘要：</label>
+        <div style="word-wrap:break-word;word-break:break-all;">{{# miMtContent || '-'}}</div>
+    </div>
+    <div class="form-group">
+        <label>参会人：</label>
+        <div class="clearfix order-detail-joiner">
+            {{if inviters && inviters.length}} {{each inviters as user}}
+            <div class="pull-left">
+                {{if user.isDept === 1}}
+                <!-- <div class="avatar js-dispatch" data-id="{{user.inviterEiId}}"> -->
+                <div class="js-dispatch" data-id="{{user.inviterEiId}}">
+                    <div class="name">{{user.inviterEiName}}</div>
+                </div>
+                <div class="text-center">未派遣</div>
+                {{else}}
+                <!-- <div class="avatar"> -->
+                <div class="">
+                    <!-- <img src="{{user.inviterUrl || ''}}" alt="{{user.inviterEiName}}"> -->
+                    <div class="name">{{user.inviterEiName || '佚名'}}</div>
+                </div>
+                <!-- <div class="text-center">{{user.isInvite | formatStatus2}}</div> -->
+                {{/if}}
+            </div>
+            {{/each}} {{else}} - {{/if}}
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-9">
+        <div class="row form-group">
+            <label>所需物料：</label>
+            {{if materielDtoList && materielDtoList.length}} {{each materielDtoList as goods}}
+            <span>{{goods.maName}}</span>&nbsp; {{/each}} {{else}}
+            <span>-</span>
+            {{/if}}
+        </div>
+    </div>
+</div>
+
+<style>
+    .name {
+        cursor: pointer;
+    }
+    .h-box{
+        margin-top: 20px
+    }
+
+</style>

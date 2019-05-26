@@ -1,0 +1,198 @@
+
+<!-- <span id="cal-slide-tick" style="display: none"></span>
+<div id="cal-slide-content" class="cal-event-list" style="text-align:center">
+	
+		<% _.each(events, function(event) { %>
+			
+				<span class="pull-middle event <%= event['class'] %>"></span>&nbsp;
+				<a  data-event-id="<%= event.id %>"
+					data-event-class="<%= event['class'] %>" class="event-item">
+					<%= event.title %></a>
+					<button type='button' class='deleteModel' id='startModel'onclick='startModel("<%= event.id %>")' style='background:rgba(255, 251, 240, 0.4); border:none'>启用</button>
+					<button type='button' class='deleteModel' id='closeModel'onclick='closeModel("<%= event.id %>")' style='background:rgba(255, 251, 240, 0.4); border:none'>关闭</button>
+					<button type='button' class='deleteModel' id='deleteModel'onclick='deleteModel("<%= event.id %>")' style='background:rgba(255, 251, 240, 0.4); border:none'>删除</button>
+					<br>
+		<% }) %>
+	
+</div> -->
+<!-- <script type="text/javascript">
+		
+		var date;
+       //模式开启函数
+		startModel=function(id){
+			var queryCondition={id:id};
+			$.ajax({
+			url: "http://localhost:8080/ibms2/admin/modelcalendartest/start",
+			type: "POST",
+			data: queryCondition,
+			dataType: "json",
+			async:false,
+			success: function(data){
+			date=data.start;
+			
+			},
+			error: function(err){
+			
+			}
+		}); 
+			refresh();	
+	}
+       //模式关闭函数
+		closeModel=function(id){
+			var queryCondition={id:id};
+			
+			$.ajax({
+			url: "http://localhost:8080/ibms2/admin/modelcalendartest/close",
+			type: "POST",
+			data: queryCondition,
+			dataType: "json",
+			async:false,
+			success: function(data){
+				date=data.start;
+			},
+			error: function(err){
+			
+			}
+		}); 
+			refresh();	
+	}
+       //模式删除函数
+		deleteModel=function(id){
+			var queryCondition={id:id};
+			
+			$.ajax({
+			url: "http://localhost:8080/ibms2/admin/modelcalendartest/delete",
+			type: "POST",
+			data: queryCondition,
+			dataType: "json",
+			async:false,
+			success: function(data){
+				date=data.start;
+			},
+			error: function(err){
+			
+			}
+		}); 
+			refresh();	
+	}
+       
+		refresh=function(){
+			var events=new Array();
+			  
+			 $.ajax({
+			    url: "http://localhost:8080/ibms2/admin/modelcalendar/findAllModel",
+		     	type: "GET",
+		     	data: {},
+		     	dataType: "json",
+		     	cache: false,
+		     	async:false,
+		     	success: function(data){
+		     		events=data;
+		     	},
+		     	error: function(err){
+		     		$.messager.alert('提示',err,'error');
+		     	}
+		     });
+			
+			var options = {
+			   
+				events_source:events,
+				view: 'month',
+				tmpl_path: 'tmpls/',
+				tmpl_cache: false,
+				day: getMyDate(parseInt(date)),
+				onAfterEventsLoad: function(events) {
+					if(!events) {
+						return;
+					}
+					var list = $('#eventlist');
+					list.html('');
+
+					$.each(events, function(key, val) {
+						$(document.createElement('li'))
+							.html('<a href="' + val.url + '">' + val.title + '</a>')
+							.appendTo(list);
+					});
+				},
+				onAfterViewLoad: function(view) {
+					$('.page-header h3').text(this.getTitle());
+					$('.btn-group button').removeClass('active');
+					$('button[data-calendar-view="' + view + '"]').addClass('active');
+				},
+				classes: {
+					months: {
+						general: 'label'
+					}
+				}
+			};
+			var calendar = $('#calendar').calendar(options);
+
+			$('.btn-group button[data-calendar-nav]').each(function() {
+				var $this = $(this);
+				$this.click(function() {
+					calendar.navigate($this.data('calendar-nav'));
+				});
+			});
+
+			$('.btn-group button[data-calendar-view]').each(function() {
+				var $this = $(this);
+				$this.click(function() {
+					calendar.view($this.data('calendar-view'));
+				});
+			});
+
+			$(function(){
+				/*var value = $(this).val();
+				value = value.length ? parseInt(value) : null;*/
+				calendar.setOptions({first_day:"1"});
+				calendar.view();
+			});
+
+			$(function(){
+				calendar.setLanguage("zh-TW");
+				calendar.view();
+			}
+					);
+
+			$(function(){
+				calendar.setOptions({modal: "#events-modal"});
+			});
+			$('#format-12-hours').change(function(){
+				var val = $(this).is(':checked') ? true : false;
+				calendar.setOptions({format12: val});
+				calendar.view();
+			});
+			$(function(){
+				
+				calendar.setOptions({display_week_numbers: true});
+				calendar.view();
+			});
+			$(function(){
+				calendar.setOptions({weekbox: true});
+				calendar.view();
+			});
+			$('#events-modal .modal-header, #events-modal .modal-footer').click(function(e){
+				//e.preventDefault();
+				//e.stopPropagation();
+			});
+			
+		}
+		//获得年月日      得到日期oTime  
+	    function getMyDate(str){  
+	        var oDate = new Date(str),  
+	        oYear = oDate.getFullYear(),  
+	        oMonth = oDate.getMonth()+1,  
+	        oDay = oDate.getDate(),  
+	        oTime = oYear +'-'+ getzf(oMonth) +'-'+ getzf(oDay) ;//最后拼接时间  
+	        return oTime;  
+	    };  
+	    //补0操作  
+	    function getzf(num){  
+	        if(parseInt(num) < 10){  
+	            num = '0'+num;  
+	        }  
+	        return num;  
+	    }  
+</script>
+
+ -->

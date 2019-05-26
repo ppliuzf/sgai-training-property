@@ -1,0 +1,21 @@
+{{each items as item itemIndex}}
+<tr>
+    <td class="text-center">
+        {{if item.num<10}}
+        0{{item.num}}
+        {{else}}
+        {{item.num}}
+        {{/if}}
+    </td>
+    <td>{{item.name}}</td>
+    <td>{{item.groupName}}</td>
+    <td>{{item.answerType}}</td>
+    <td>{{item.checkName}}</td>
+    <td>{{item.checkTime | dateFormat:'yyyy-MM-dd hh:mm:ss'}}</td>
+    <td>{{item.status}}</td>
+    <td>{{item.result}}</td>
+    <!--<td class="text-ellipsis text-center">-->
+        <!--<div class="text-ellipsis text-center" style="width: 100px">{{item.remark}}</div>-->
+    <!--</td>-->
+</tr>
+{{/each}}

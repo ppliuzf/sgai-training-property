@@ -1,0 +1,309 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css"
+      type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js"
+        type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css"
+      type="text/css" rel="stylesheet">
+      <!-- 公共样式表	 -->
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.src.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<link href="../static/jquery-ztree/3.5.12/css/zTreeStyle/zTreeStyle.min.css" rel="stylesheet" type="text/css"/>
+<script src="../static/jquery-ztree/3.5.12/js/jquery.ztree.all-3.5.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<script src="../static/jquery-params/jquery.params.js" type="text/javascript"></script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+<script src="../static/paginator/bootstrap-paginator.js" type="text/javascript"></script>
+<script type="text/javascript">
+var ctx = '/admin', ctxStatic = '/static';
+</script>
+<title>租户单据编号规则管理</title>
+<meta name="decorator" content="default">
+<style>
+body{
+    overflow-x: hidden;
+}
+    .control-group .controls input {
+        width: 200px;
+    }
+
+    .controls .select2-container--default {
+        width: 200px !important;
+    }
+
+    .form-horizontal .control-label {
+        width: 120px;
+    }
+
+    .form-horizontal {
+        margin: 16px 10px 0 10px;
+    }
+    .form-horizontal .controls{
+   	    max-width: 260px;
+    }
+</style>
+<script type="text/javascript">
+$.validator.setDefaults({
+	submitHandler: function(e) {
+		saveCtlComRule();
+	}
+});
+var id = $.query.get("paramId");
+var entityRowIdx = 0;
+$().ready(function() {
+	initForm();
+	// validate signup form on keyup and submit
+	$("#inputForm").validate({
+		rules: {
+			comName: "required",
+			sequName: "required",
+			currentNo: "required",
+			currentCode: "required",
+			currentReset: "required",
+/* 			enabledFlag: "required"
+ */		},
+		messages: {
+			comName: "请输入机构名称",
+			sequName: "请输入规则名称",
+            currentNo: "请输入当前序号",
+            currentCode: "请输入当前编码",
+            currentReset: "请输入当前重置依赖",
+/*             enabledFlag: "请选择可用标识"
+ */		},
+		errorPlacement:function(error, element){
+            error.appendTo(element.parent());
+        }
+	});
+});
+$(function () {
+	loadDictByType('enabledFlag', 'yesno');
+})
+function initForm() {
+    if (id == null || id == "") return true;
+    $.ajax({
+        headers: {"token": localStorage.getItem("token")},
+        url: APIHost + "/admin/ctl/ctlComRule/getComRule",
+        type: 'POST',
+        async: false,
+        data: {id: id},
+        dataType: 'json',
+        success: function (data) {
+            var properties = new Array("id", "comName", "comCode", "sequCode", "sequName", "currentNo",
+                "currentCode", "currentReset", "enabledFlag");
+            for (var i = 0; i < properties.length; i++) {
+                var p0 = properties[i];
+                $("#" + p0).val(data[p0]);
+                $("#enabledFlag").select2({
+                    placeholder: data.enabledFlag,
+                    minimumResultsForSearch: 10,
+                    language: "zh-CN"
+                });
+            }
+        }
+    });
+}
+function showComList() {
+    /*$.ajax({
+        headers: {
+            "token": localStorage.getItem("token"),
+        },
+        url: APIHost + '/admin/ctlParamComp/getComp',
+        type: 'POST',
+        async: false, //或false,是否异步
+        timeout : 30000,
+        dataType: 'json',
+        success: function (response) {
+            console.log(response);
+            compList = response.data;
+            for (var i = 0; i < compList.length; i++) {
+                $('#comCode').val(compList[i].comCode);
+                $('#comName').val(compList[i].comName);
+            }
+
+        },
+        error: function () {
+            console.log('错误')
+        }
+    });*/
+    top.$.jBox.open("iframe:"
+        + APIHost
+        + "/sys/tagTreeselect.html?urlData="
+        + encodeURIComponent(APIHost
+            + "/admin/ctl/ctlComRule/getComList?type=2"), "选择功能",
+        300, 420, {
+            headers: {"token": localStorage.getItem("token")},
+            ajaxData: {
+                selectIds: $("#comCode").val()
+            },
+            id: "selectFunJbox",
+            width: 400,
+            buttons: {
+                "关闭": true,
+                "清除": "clear",
+                "确定": "ok"
+            },
+            buttonsFocus: 2,
+            submit: function (v, h, f) {
+                if (v == "ok") {
+                    var tree = h.find("iframe")[0].contentWindow.tree;
+                    nodes = tree.getSelectedNodes();
+                    $("#comCode").val(nodes[0].id);
+                    $("#comName").val(nodes[0].name);
+                }
+                else if (v == "clear") {
+                    $("#comCode").val("");
+                    $("#comName").val("");
+                }
+            }
+        });
+}
+function showRuleList() {
+    top.$.jBox.open("iframe:"
+        + APIHost
+        + "/sys/tagTreeselect.html?urlData="
+        + encodeURIComponent(APIHost
+            + "/admin/ctl/ctlComRule/getRuleList?type=2"), "选择功能",
+        300, 420, {
+            headers: {"token": localStorage.getItem("token")},
+            ajaxData: {
+                selectIds: $("#sequCode").val()
+            },
+            id: "selectFunJbox",
+            width: 400,
+            buttons: {
+                "关闭": true,
+                "清除": "clear",
+                "确定": "ok"
+            },
+            buttonsFocus: 2,
+            submit: function (v, h, f) {
+                if (v == "ok") {
+                    var tree = h.find("iframe")[0].contentWindow.tree;
+                    nodes = tree.getSelectedNodes();
+                    $("#sequCode").val(nodes[0].id);
+                    $("#sequName").val(nodes[0].name);
+                }
+                else if (v == "clear") {
+                    $("#sequCode").val("");
+                    $("#sequName").val("");
+                }
+            }
+        });
+}
+function saveCtlComRule() {
+    $("#inputForm").attr("action", APIHost + "/admin/ctl/ctlComRule/save");
+    $("#inputForm").ajaxSubmit({
+        headers: {"token": localStorage.getItem("token")},
+        success: function (data) {
+            console.log(data)
+            if (data.state == true) {
+                $.jBox.alert("保存成功", "提示", {
+                    closed: function () {
+                        window.parent.location.href = APIHost + "/ctl/ctlComRuleList.html";
+                    }
+                });
+            } else {
+                $.jBox.alert(data.msg, "提示");
+            }
+
+        }
+    });
+}
+function historyGoBack() {
+    parent.hideDiv();
+}
+</script>
+</head>
+<body>
+	<form id="inputForm" class="form-horizontal" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font></span>机构名称:</label>
+        <div class="controls">
+            <input readonly="readonly" id="comName" name="comName" type="text">
+            <a href="javascript:showComList()" class="btn btn-primary btn_icon small_blue">
+                <i class="icon-search"></i>
+            </a>
+            
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">机构CODE:</label>
+        <div class="controls">
+            <input id="comCode" name="comCode" class="input-xlarge" readonly="readonly" type="text">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font></span>单据规则名称:</label>
+        <div class="controls">
+            <input readonly="readonly" id="sequName" name="sequName" type="text">
+            <a href="javascript:showRuleList()" class="btn btn-primary btn_icon small_blue">
+                <i class="icon-search"></i>
+            </a>
+            
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">单据规则CODE:</label>
+        <div class="controls">
+            <input id="sequCode" name="sequCode" class="input-xlarge" readonly="readonly" type="text">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"> <span class="help-inline"><font color="red">*</font></span>当前序号:</label>
+        <div class="controls">
+            <input id="currentNo" name="currentNo" class="input-xlarge" type="text">
+           
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font></span>当前编码:</label>
+        <div class="controls">
+            <input id="currentCode" name="currentCode" class="input-xlarge" type="text">
+            
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font></span>当前重置依赖:</label>
+        <div class="controls">
+            <input id="currentReset" name="currentReset" class="input-xlarge" type="text">
+            
+        </div>
+    </div>
+    <!-- <div class="control-group">
+        <label class="control-label">可用标识:</label>
+        <div class="controls">
+            <select id="enabledFlag" name="enabledFlag">
+                <option></option>
+            </select>
+            <span class="help-inline"><font color="red">*</font></span>
+        </div>
+    </div> -->
+    <div class="form-actions">
+        <input id="btnCancel" class="btn" type="button" value="关 闭" onclick="historyGoBack()">&nbsp;
+        <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">
+    </div>
+</form>
+</body>
+</html>

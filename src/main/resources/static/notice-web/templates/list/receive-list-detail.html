@@ -1,0 +1,67 @@
+<div class="container-fluid">
+    <div class="row header js-title">
+            <h4>公告详情</h4>
+            <div class="btns text-right">
+                <button class="layui-btn layui-btn-blank js-preview btn btn-default">返回</button>
+            </div>
+    </div>
+
+    <div class="infos-detail js-main">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="col-lg-1 col-md-1 col-sm-1 text-center">标题</td>
+                        <td class="col-lg-5 col-md-5 col-sm-5 value js-title">{{infoTitle}}</td>
+                        <td class="col-lg-1 col-md-1 col-sm-1 text-center">摘要</td>
+                        <td class="col-lg-5 col-md-5 col-sm-5 value js-desc">{{infoSummary}}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-lg-1 col-md-1 col-sm-1 text-center">正文</td>
+                        <td colspan='3' class="col-lg-11 col-md-11 col-sm-11 value js-article article">{{infoContent}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="infos-detail js-main">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="col-lg-1 col-md-1 col-sm-1 text-center">发起人</td>
+                            <td class="col-lg-3 col-md-3 col-sm-3 value">{{infoCreatorName || '--'}}</td>
+                            <td class="col-lg-1 col-md-1 col-sm-1 text-center">类型</td>
+                            {{if infoUrgency === 0}}
+                            <td class="col-lg-3 col-md-3 col-sm-3 value">一般</td>
+                            {{else}}
+                            <td class="col-lg-3 col-md-3 col-sm-3 value">紧急</td>
+                            {{/if}}
+                            <td class="col-lg-1 col-md-1 col-sm-1 text-center">发布到</td>
+                            <td class="value">{{visibilityScope || '--'}}</td>
+                        </tr>
+                        <tr>
+                            
+                                <td class="col-lg-1 col-md-1 col-sm-1 text-center">发布范围</td>
+                                {{if infoScopeIsAll === 1}}
+                                <td class="col-lg-3 col-md-3 col-sm-3 value">公开，全部可见</td>
+                                {{else}}
+                                <td class="col-lg-3 col-md-3 col-sm-3 value">{{infoScope}}
+                                    <a class="fuck-more underline js-show-more"><span></span><i class="icon"></i></a>
+                                </td>
+                                {{/if}}
+                            <td class="col-lg-1 col-md-1 col-sm-1 text-center"></td>
+                            <td class="col-lg-3 col-md-3 col-sm-3 value"></td>
+                            <td class="col-lg-1 col-md-1 col-sm-1 text-center"></td>
+                            <td class="col-lg-3 col-md-3 col-sm-3 value"></td>
+                        </tr>
+                  
+                    </tbody>
+                </table>
+            </div> 
+
+
+
+
+
+
+     
+</div> 

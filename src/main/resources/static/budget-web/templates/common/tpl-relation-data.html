@@ -1,0 +1,51 @@
+<div class="clearfix">
+    <dl class="pull-left">
+        <dt>科目名称</dt>
+    </dl>
+    <dl class="pull-left ml300">
+        <dt>关联费项</dt>
+    </dl>
+</div>
+{{each items as item itemIndex}}
+<div>
+    <div class="clearfix mt20">
+        <div class="icon-div pull-left w250">
+            {{if item.childSubjectList && item.childSubjectList.length !==0}}
+            <span class="icon-span glyphicon glyphicon-minus fs identify col-666"></span>
+            <span class="col-666">{{item.shortName}}</span>
+            {{else}}
+            <span class="  col-666 span-inline">{{item.shortName}}</span>
+            {{/if}}
+        </div>
+        <input type="text" class="w350 ml100 pull-left mt-2 cost-input col-666 form-control" sub-id="{{item.id}}" sub-code="{{item.codeNumber}}" sub-name="{{item.shortName}}" sub-index="{{itemIndex}}">
+    </div>
+    {{each item.childSubjectList as subSecondItem subSecondIndex}}
+    <div>
+        <div class="clearfix mt20">
+            <div class="icon-div pull-left w250 pl20 pl40">
+                {{if subSecondItem.childSubjectList && subSecondItem.childSubjectList.length !==0}}
+                <span class="icon-span glyphicon glyphicon-minus fs identify col-666"></span>
+                <span class="col-666">{{subSecondItem.shortName}}</span>
+                {{else}}
+                <span class=" col-666 span-inline">{{subSecondItem.shortName}}</span>
+                {{/if}}
+            </div>
+            <input type="text" class="w350 ml100 pull-left mt-2 cost-input col-666 form-control" sub-id="{{subSecondItem.id}}" sub-code="{{subSecondItem.codeNumber}}" sub-name="{{subSecondItem.shortName}}" sub-{{itemIndex}}-secondIndex="{{subSecondIndex}}">
+        </div>
+        {{if subSecondItem}}
+        <div>
+            {{each subSecondItem.childSubjectList as subThirdItem subThirdIndex}}
+            <div class="clearfix mt20">
+                <div class="pull-left w250 pl60">
+                    <span class="col-666 span-inline">{{subThirdItem.shortName}}</span>
+                </div>
+                <input type="text" class="w350 ml100 pull-left mt-2 cost-input col-666 form-control" sub-id="{{subThirdItem.id}}" sub-code="{{subThirdItem.codeNumber}}" sub-name="{{subThirdItem.shortName}}" sub-{{itemIndex}}-{{subSecondIndex}}-thirdIndex="{{subThirdIndex}}">
+                <!-- <input type="text" class="ml100 pull-left mt-2 cost-input" cost-data="[{'a': 1},{'b': 2},{'c': 3}]"> -->
+            </div>
+            {{/each}}
+        </div>  
+        {{/if}}
+    </div>
+    {{/each}}
+</div>
+{{/each}}

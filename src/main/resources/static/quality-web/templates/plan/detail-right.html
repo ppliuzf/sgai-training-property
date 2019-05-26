@@ -1,0 +1,46 @@
+{{each items as item}}
+        {{if items.length>1}}
+        <tr>
+            <td colspan="7" class="head" style="background: #f9f9f9">{{item.periodName}}</td>
+        </tr>
+        {{/if}}
+        {{each item.taskList as task}}
+        <tr class="item sort-{{item.periodId}} s{{task.id}}" data-id="{{task.id}}">
+            <td>
+                <div class="cont dot" title="{{task.taskName}}">{{task.taskName}}</div>
+            </td>
+            <td>
+                {{if task.taskType == 1}}
+                <div class="cont dot" title="{{task.taskType}}">执行</div>
+                {{else}}
+                <div class="cont dot" title="{{task.taskType}}">检验</div>
+                {{/if}}
+            </td>
+            <td>
+                <div class="cont dot" title="{{task.viewStat}}">{{task.viewState}}</div>
+            </td>
+            <td>
+                <div class="cont dot" title="{{task.taskBeginTime | dateFormat: 'yyyy-MM-dd'}}">{{task.taskBeginTime | dateFormat: 'yyyy-MM-dd'}}</div>
+            </td>
+            <td>
+                <div class="cont dot" title="{{task.taskEndTime | dateFormat: 'yyyy-MM-dd'}}">{{task.taskEndTime | dateFormat: 'yyyy-MM-dd'}}</div>
+            </td>
+            <td>
+                <div class="cont dot" title="{{task.taDutyEiEmpName}}">{{task.taskCreatorEiEmpName}}</div>
+            </td>
+            <td class="poin-td act">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">查看更多 <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        {{if task.viewState != '执行中' && task.viewState != '已完成'}}
+                            <li><a class="js-del underline" data-taId="{{task.id}}" data-state="{{task.isAppror}}">删除</a></li>
+                        {{/if}}
+                        <li><a class="js-down underline js-movedown" data-id="s{{task.id}}">下移</a></li>
+                        <li><a class="js-up underline" data-id="s{{task.id}}">上移</a></li>
+                        <li><a class="js-moveto underline" data-id="{{task.id}}">移动至</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        {{/each}}
+        {{/each}}

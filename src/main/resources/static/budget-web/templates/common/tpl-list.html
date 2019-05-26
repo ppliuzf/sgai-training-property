@@ -1,0 +1,30 @@
+{{each items as item itemIndex}}
+<tr>
+    <td class="text-center"><div>{{itemIndex == 9 ? '' :'0'}}{{itemIndex+1}}</div></td>
+    <td>
+        <div class="cont">
+            <a href="tpl-detail.html?id={{item.id}}" class="underline dot name">{{item.templateName}}</a>
+        </div>
+    </td>
+    {{if item.cycle === 1}}<td><div class="cont dot">全年</div></td>{{/if}}
+    {{if item.cycle === 2}}<td><div class="cont dot">半年</div></td>{{/if}}
+    {{if item.cycle === 3}}<td><div class="cont dot">季度</div></td>{{/if}}
+    {{if item.cycle === 4}}<td><div class="cont dot">月</div></td>{{/if}}
+    <td><div class="cont dot">{{item.creatorEiEmpName}}</div></td>
+    <td><div class="cont dot">{{item.createTime}}</div></td>
+    <td><div class="cont dot" style="max-width: 600px;word-wrap:break-word;">{{item.description}}</div></td>
+    <td>
+        <div class="switch">
+            <div class="switch-inner">
+                <input type="checkbox" {{item.state === 0 && 'checked'}} class="js-status" data-id="{{item.id}}">
+            </div>
+        </div>
+    </td>
+    <td class="text-center">
+        <div class="cont">
+            <!-- <button type="button" item-id = "{{item.id}}" class="btn btn-primary btn-xs js-relation-data" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">关联数据</button> -->
+            <a href="tpl-relation.html?id={{item.id}}" class="underline dot name">关联数据</a>
+        </div>
+    </td>
+</tr>
+{{/each}}

@@ -1,0 +1,13 @@
+{{each items as item itemIndex}}
+<tr data-id="{{item.id}}">
+    {{ if itemIndex+1 < 10}}
+        <td class="text-center">0{{itemIndex+1}}</td>
+    {{ else }}
+        <td class="text-center">{{itemIndex+1}}</td>
+    {{/if}}
+    <td>{{item.materiel || item.matName }}</td>
+    <td>{{item.number || item.applyCount }}</td>
+    <td>{{item.spec || item.matSpec }}</td>
+    <td>{{item.matTypeCode}}</td>
+</tr>
+{{/each}}

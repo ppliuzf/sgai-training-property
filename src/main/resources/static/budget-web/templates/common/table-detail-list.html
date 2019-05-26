@@ -1,0 +1,26 @@
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th class="text-center" width="60">序号</th>
+        <th>录入人</th>
+        <th>录入日期</th>
+        <th  class="text-center" width="92">操作</th>
+        <!-- <th>费项状态</th> -->
+        
+    </tr>
+    </thead>
+    <tbody>
+        {{each items as item itemIndex}}
+        <tr>
+            <td class="text-center"><div>{{itemIndex == 9 ? '' :'0'}}{{itemIndex+1}}</div></td>
+            <td><div class="cont dot">{{item.creatorEiEmpName}}</div></td>
+            <td><div class="cont dot">{{item.createTime}}</div></td>
+            <td class="text-center act">
+                <a href="javascript:;" class="js-link-detail" dataid='{{item.id}}'>详情</a>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<div class="pages text-right"></div>
+

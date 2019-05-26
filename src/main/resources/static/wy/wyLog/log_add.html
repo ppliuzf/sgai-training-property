@@ -1,0 +1,935 @@
+
+<html>
+	<head>
+		<title>添加访客记录</title>
+
+		<meta name="decorator" content="default">
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	    <meta name="renderer" content="webkit">
+	    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+	    <meta http-equiv="Expires" content="0">
+	    <meta http-equiv="Cache-Control" content="no-cache">
+	    <meta http-equiv="Cache-Control" content="no-store">
+	    <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+	    <link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+	    <script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+	    <link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+	    <link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" />
+		<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script>
+	    <link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+	    <script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+	    <link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+	    <script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+	    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+	    <script src="../static/common/mustache.min.js" type="text/javascript"></script>
+	    <link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+	    <script src="../static/common/smart.min.js" type="text/javascript"></script>
+	    <script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+	    <link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+	    <script type="text/javascript">var ctx = '/admin', ctxStatic='../../static';</script>
+	    <script src="../../config/smart-common.js" type="text/javascript"></script>
+		<script src="../static/wy/area.js" type="text/javascript"></script>
+	 	<style>
+		   select{
+		        height: 31px !important;
+		        width: 286px;
+		   }
+		</style>
+
+		<script type="text/javascript">
+
+				// 开启表单验证,调用提交
+			    $.validator.setDefaults({
+			        submitHandler: function () {
+			            formSubmit();
+			        }
+			    });
+				// 提交数据
+			    function formSubmit() {
+			        var saveData = {
+			            headers: {"token": localStorage.getItem("token")},
+			            url: APIHost + '/wyLog/save',
+			            beforeSend:function(){
+			          		var loading=$('<div id="loading"></div>');
+			          		$('body').append(loading);
+			          		$("#btnSubmit").attr("disabled",true)
+			          	},
+			            success: function (response) {
+			            	if (response.data.msg == "success") {
+			            		parent.jBox.alert("保存成功!","提示");
+			            		location.href= APIHost + "/wy/wyLog/log_add.html";
+			            		parent.hideDiv();
+			                    parent.pageload();
+
+			                }else if (response.data.msg == "exists") {
+			                	parent.hideDiv();
+								parent.jBox.alert("数据已存在","提示");
+			                } else if (response.code === 1003){
+								$.jBox.alert('请先登录', '提示',{closed: function (){window.parent.location.href= APIHost + "/sys/sysLogin.html";}});
+			                } else {
+			                    $.jBox.alert("异常状态 ,请重试 !", "提示");
+			                }
+			            },
+			            complete:function(){
+			            	$("#btnSubmit").attr("disabled",false);
+			            	$("#loading").hide();
+			            }
+			        }
+			        $("#inputForm").ajaxSubmit(saveData);
+			    }
+		        // 表单输入校验
+				$(document).ready(function() {
+					$.ajax({
+					 	headers: {"token": localStorage.getItem("token")},
+						 url : APIHost + '/call/findLoginName',
+						type : "POST",
+						dataType : "json"
+					}).done(
+						function(response) {
+							$("#loginName").val(response.data.login);
+					})
+		        jQuery.validator.addMethod("isphoneNum", function (value, element) {
+			            var length = value.length;
+			            return this.optional(element) || (length == 11 );
+			        }, "请写长度为11位的号码");
+
+
+			        $("#inputForm").validate({
+			        	rules: {
+			        		visitorDate:{
+			                	required: true
+			                },
+			                visitorName:{
+			                	required: true
+			                },
+			                idCard:{
+			                	required: true,
+			                	rangelength: [18,19],
+			                    number:true
+			                },
+			                comName:{
+			                	required: true
+			                },
+			            	phone: {
+			                    required: true,
+			                    isphoneNum: true,
+			                    number:true
+			                },
+			                personNum:{
+			             	   required: true,
+			                   number:true
+			                },
+			                deptName:{
+			                	required: true
+			                },
+			                visitorMeet:{
+			                	required: true
+			                },
+			                visitorType:{
+			                	required: true
+			                },
+			                toerPersons:{
+			                	required: true
+			                },
+			                beginTime:{
+			                	required: true
+			                },
+			                endTime:{
+			                	required: true
+			                },
+			                remarks:{
+			                	required: false
+			                }
+	               	 	}
+	       		  });
+			});
+
+			//取消保存请求
+	        function back(){
+	        	parent.hideDiv();
+	        	/* parent.location.reload(); */
+	        }
+			//点击新增加号
+	        function add(){
+				var i=$('#hidden0').val();
+				if(i<7){
+					i++;
+					$('#hidden'+i).show();
+					$('#hidden0').val(i);
+				}
+	        }
+	      //点击减号
+	        function reduce() {
+				var i = $('#hidden0').val();
+				if(i>-1){
+					$('#hidden' + i).hide();
+					$("#hour"+ i).val("");
+					$("#minute"+ i).val("");
+					$("#content"+ i).val("");
+					i--;
+					$('#hidden0').val(i);
+				}
+			}
+    </script>
+	</head>
+<body>
+	<form id="inputForm" class="form-horizontal"  method="post" novalidate="novalidate">
+	    <input id="id" name="id" type="hidden" value=""/>
+		<script type="text/javascript">top.$.jBox.closeTip();</script>
+	   <div  style=" float:left; display:inline;width:50%">
+	   <div class="control-group">
+	        <label class="control-label"><b>记   录  人:</b></label>
+	        <div class="controls">
+	            <input id="loginName" name="loginName"  type="text" value="" maxlength="50" disabled   style="height:31px;">
+	        </div>
+	    </div>
+	    <div class="control-group">
+	        <label class="control-label"><b>记录时间:</b></label>
+	        <div class="controls">
+	        <input id="createTime" name="createTime" class="input-mini Wdate required" type="text" onclick="WdatePicker()" style="height:31px;"/>
+	        </div>
+	    </div>
+	   <div class="control-group">
+        <label class="control-label"><b>区&emsp;&emsp;域:</b></label>
+        <div class="controls">
+        		<select id="repairAddress1" class="input-mini" name="repairAddress1" tabindex="-1">
+        			<option value=""   style="height:31px;"></option>
+        		</select>
+    			<select id="repairAddress2" class="input-mini" name="repairAddress2" tabindex="-1"  style="height:31px;"></select>
+    			<select id="repairAddress3" class="input-mini" name="repairAddress3" tabindex="-1"  style="height:31px;"></select>
+
+    			<input type="hidden" id="repairAddress" name="repairAddress" />
+       		<span class="help-inline"><font color="red"></font> </span>
+        </div>
+         </div>
+         <div class="control-group">
+	        <label class="control-label"><b>选择时间:</b></label>
+	        <div class="controls">
+             <select id="hour" class="input-mini" name="hour" tabindex="-1">
+        	  <option value="0">0</option>
+        	  <option value="1">1</option>
+        	  <option value="2">2</option>
+        	  <option value="3">3</option>
+        	  <option value="4">4</option>
+        	  <option value="5">5</option>
+        	  <option value="6">6</option>
+        	  <option value="7">7</option>
+        	  <option value="8">8</option>
+        	  <option value="9">9</option>
+        	  <option value="10">10</option>
+        	  <option value="11">11</option>
+        	  <option value="12">12</option>
+        	  <option value="13">13</option>
+        	  <option value="14">14</option>
+        	  <option value="15">15</option>
+        	  <option value="16">16</option>
+        	  <option value="17">17</option>
+        	  <option value="18">18</option>
+        	  <option value="19">19</option>
+        	  <option value="20">20</option>
+        	  <option value="21">21</option>
+        	  <option value="22">22</option>
+        	  <option value="23">23</option>
+        	  <option value="24">24</option>
+        	 </select>
+        	 <select id="minute" class="input-mini" name="minute" tabindex="-1">
+        	  <option value="0">0</option>
+        	  <option value="1">1</option>
+        	  <option value="2">2</option>
+        	  <option value="3">3</option>
+        	  <option value="4">4</option>
+        	  <option value="5">5</option>
+        	  <option value="6">6</option>
+        	  <option value="7">7</option>
+        	  <option value="8">8</option>
+        	  <option value="9">9</option>
+        	  <option value="10">10</option>
+        	  <option value="11">11</option>
+        	  <option value="12">12</option>
+        	  <option value="13">13</option>
+        	  <option value="14">14</option>
+        	  <option value="15">15</option>
+        	  <option value="16">16</option>
+        	  <option value="17">17</option>
+        	  <option value="18">18</option>
+        	  <option value="19">19</option>
+        	  <option value="20">20</option>
+        	  <option value="21">21</option>
+        	  <option value="22">22</option>
+        	  <option value="23">23</option>
+        	  <option value="24">24</option>
+        	  <option value="25">25</option>
+        	  <option value="26">26</option>
+        	  <option value="27">27</option>
+        	  <option value="28">28</option>
+        	  <option value="29">29</option>
+        	  <option value="30">30</option>
+        	  <option value="31">31</option>
+        	  <option value="32">32</option>
+        	  <option value="33">33</option>
+        	  <option value="34">34</option>
+        	  <option value="35">35</option>
+        	  <option value="36">36</option>
+        	  <option value="37">37</option>
+        	  <option value="38">38</option>
+        	  <option value="39">39</option>
+        	  <option value="40">40</option>
+        	  <option value="41">41</option>
+        	  <option value="42">42</option>
+        	  <option value="43">43</option>
+        	  <option value="44">44</option>
+        	  <option value="45">45</option>
+        	  <option value="46">46</option>
+        	  <option value="47">47</option>
+        	  <option value="48">48</option>
+        	   <option value="49">49</option>
+        	  <option value="50">50</option>
+        	  <option value="51">51</option>
+        	  <option value="52">52</option>
+        	  <option value="53">53</option>
+        	  <option value="54">54</option>
+        	  <option value="55">55</option>
+        	  <option value="56">56</option>
+        	  <option value="57">57</option>
+        	  <option value="58">58</option>
+        	  <option value="59">59</option>
+        	 </select>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label"><b>工作内容:</b></label>
+	        <div class="controls">
+	        	<textarea id="remarks" name="content" rows="2" cols="40" style="width:270px;resize:none;" class="required"></textarea>
+	        </div>
+        </div>
+        <input type="hidden" value="0" id="hidden0">
+        <div style="display: none" id="hidden1">
+              <div class="control-group">
+	        <label class="control-label"><b>选择时间:</b></label>
+	        <div class="controls">
+             <select id="hour1" class="input-mini" name="hour1" tabindex="-1">
+        	  <option value="0">0</option>
+        	  <option value="1">1</option>
+        	  <option value="2">2</option>
+        	  <option value="3">3</option>
+        	  <option value="4">4</option>
+        	  <option value="5">5</option>
+        	  <option value="6">6</option>
+        	  <option value="7">7</option>
+        	  <option value="8">8</option>
+        	  <option value="9">9</option>
+        	  <option value="10">10</option>
+        	  <option value="11">11</option>
+        	  <option value="12">12</option>
+        	  <option value="13">13</option>
+        	  <option value="14">14</option>
+        	  <option value="15">15</option>
+        	  <option value="16">16</option>
+        	  <option value="17">17</option>
+        	  <option value="18">18</option>
+        	  <option value="19">19</option>
+        	  <option value="20">20</option>
+        	  <option value="21">21</option>
+        	  <option value="22">22</option>
+        	  <option value="23">23</option>
+        	  <option value="24">24</option>
+        	 </select>
+        	 <select id="minute1" class="input-mini" name="minute1" tabindex="-1">
+        	  <option value="0">0</option>
+        	  <option value="1">1</option>
+        	  <option value="2">2</option>
+        	  <option value="3">3</option>
+        	  <option value="4">4</option>
+        	  <option value="5">5</option>
+        	  <option value="6">6</option>
+        	  <option value="7">7</option>
+        	  <option value="8">8</option>
+        	  <option value="9">9</option>
+        	  <option value="10">10</option>
+        	  <option value="11">11</option>
+        	  <option value="12">12</option>
+        	  <option value="13">13</option>
+        	  <option value="14">14</option>
+        	  <option value="15">15</option>
+        	  <option value="16">16</option>
+        	  <option value="17">17</option>
+        	  <option value="18">18</option>
+        	  <option value="19">19</option>
+        	  <option value="20">20</option>
+        	  <option value="21">21</option>
+        	  <option value="22">22</option>
+        	  <option value="23">23</option>
+        	  <option value="24">24</option>
+        	  <option value="25">25</option>
+        	  <option value="26">26</option>
+        	  <option value="27">27</option>
+        	  <option value="28">28</option>
+        	  <option value="29">29</option>
+        	  <option value="30">30</option>
+        	  <option value="31">31</option>
+        	  <option value="32">32</option>
+        	  <option value="33">33</option>
+        	  <option value="34">34</option>
+        	  <option value="35">35</option>
+        	  <option value="36">36</option>
+        	  <option value="37">37</option>
+        	  <option value="38">38</option>
+        	  <option value="39">39</option>
+        	  <option value="40">40</option>
+        	  <option value="41">41</option>
+        	  <option value="42">42</option>
+        	  <option value="43">43</option>
+        	  <option value="44">44</option>
+        	  <option value="45">45</option>
+        	  <option value="46">46</option>
+        	  <option value="47">47</option>
+        	  <option value="48">48</option>
+        	   <option value="49">49</option>
+        	  <option value="50">50</option>
+        	  <option value="51">51</option>
+        	  <option value="52">52</option>
+        	  <option value="53">53</option>
+        	  <option value="54">54</option>
+        	  <option value="55">55</option>
+        	  <option value="56">56</option>
+        	  <option value="57">57</option>
+        	  <option value="58">58</option>
+        	  <option value="59">59</option>
+        	 </select>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label"><b>工作内容:</b></label>
+	        <div class="controls">
+	        	<textarea id="content1" name="content1" rows="2" cols="40" style="width:270px;resize:none;" class="required"></textarea>
+	        </div>
+        </div>
+        </div>
+        <div style="display: none" id="hidden2">
+             <div class="control-group">
+	        <label class="control-label"><b>选择时间:</b></label>
+	        <div class="controls">
+             <select id="hour2" class="input-mini" name="hour2" tabindex="-1">
+        	  <option value="0">0</option>
+        	  <option value="1">1</option>
+        	  <option value="2">2</option>
+        	  <option value="3">3</option>
+        	  <option value="4">4</option>
+        	  <option value="5">5</option>
+        	  <option value="6">6</option>
+        	  <option value="7">7</option>
+        	  <option value="8">8</option>
+        	  <option value="9">9</option>
+        	  <option value="10">10</option>
+        	  <option value="11">11</option>
+        	  <option value="12">12</option>
+        	  <option value="13">13</option>
+        	  <option value="14">14</option>
+        	  <option value="15">15</option>
+        	  <option value="16">16</option>
+        	  <option value="17">17</option>
+        	  <option value="18">18</option>
+        	  <option value="19">19</option>
+        	  <option value="20">20</option>
+        	  <option value="21">21</option>
+        	  <option value="22">22</option>
+        	  <option value="23">23</option>
+        	  <option value="24">24</option>
+        	 </select>
+        	 <select id="minute2" class="input-mini" name="minute2" tabindex="-1">
+        	  <option value="0">0</option>
+        	  <option value="1">1</option>
+        	  <option value="2">2</option>
+        	  <option value="3">3</option>
+        	  <option value="4">4</option>
+        	  <option value="5">5</option>
+        	  <option value="6">6</option>
+        	  <option value="7">7</option>
+        	  <option value="8">8</option>
+        	  <option value="9">9</option>
+        	  <option value="10">10</option>
+        	  <option value="11">11</option>
+        	  <option value="12">12</option>
+        	  <option value="13">13</option>
+        	  <option value="14">14</option>
+        	  <option value="15">15</option>
+        	  <option value="16">16</option>
+        	  <option value="17">17</option>
+        	  <option value="18">18</option>
+        	  <option value="19">19</option>
+        	  <option value="20">20</option>
+        	  <option value="21">21</option>
+        	  <option value="22">22</option>
+        	  <option value="23">23</option>
+        	  <option value="24">24</option>
+        	  <option value="25">25</option>
+        	  <option value="26">26</option>
+        	  <option value="27">27</option>
+        	  <option value="28">28</option>
+        	  <option value="29">29</option>
+        	  <option value="30">30</option>
+        	  <option value="31">31</option>
+        	  <option value="32">32</option>
+        	  <option value="33">33</option>
+        	  <option value="34">34</option>
+        	  <option value="35">35</option>
+        	  <option value="36">36</option>
+        	  <option value="37">37</option>
+        	  <option value="38">38</option>
+        	  <option value="39">39</option>
+        	  <option value="40">40</option>
+        	  <option value="41">41</option>
+        	  <option value="42">42</option>
+        	  <option value="43">43</option>
+        	  <option value="44">44</option>
+        	  <option value="45">45</option>
+        	  <option value="46">46</option>
+        	  <option value="47">47</option>
+        	  <option value="48">48</option>
+        	   <option value="49">49</option>
+        	  <option value="50">50</option>
+        	  <option value="51">51</option>
+        	  <option value="52">52</option>
+        	  <option value="53">53</option>
+        	  <option value="54">54</option>
+        	  <option value="55">55</option>
+        	  <option value="56">56</option>
+        	  <option value="57">57</option>
+        	  <option value="58">58</option>
+        	  <option value="59">59</option>
+        	 </select>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label"><b>工作内容:</b></label>
+	        <div class="controls">
+	        	<textarea id="content2" name="content2" rows="2" cols="40" style="width:270px;resize:none;" class="required"></textarea>
+	        </div>
+        </div>
+        </div>
+        </div>
+        <div style="display:inline-block;width:50%;float:left;min-height:400px;overflow-y:hidden;float:left; display:inline">
+       <div style="display:none " id="hidden3">
+              <div class="control-group">
+	        <label class="control-label"><b>选择时间:</b></label>
+	        <div class="controls">
+             <select id="hour3" class="input-mini" name="hour3" tabindex="-1">
+        	  <option value="0">0</option>
+        	  <option value="1">1</option>
+        	  <option value="2">2</option>
+        	  <option value="3">3</option>
+        	  <option value="4">4</option>
+        	  <option value="5">5</option>
+        	  <option value="6">6</option>
+        	  <option value="7">7</option>
+        	  <option value="8">8</option>
+        	  <option value="9">9</option>
+        	  <option value="10">10</option>
+        	  <option value="11">11</option>
+        	  <option value="12">12</option>
+        	  <option value="13">13</option>
+        	  <option value="14">14</option>
+        	  <option value="15">15</option>
+        	  <option value="16">16</option>
+        	  <option value="17">17</option>
+        	  <option value="18">18</option>
+        	  <option value="19">19</option>
+        	  <option value="20">20</option>
+        	  <option value="21">21</option>
+        	  <option value="22">22</option>
+        	  <option value="23">23</option>
+        	  <option value="24">24</option>
+        	 </select>
+        	 <select id="minute3" class="input-mini" name="minute3" tabindex="-1">
+        	  <option value="0">0</option>
+        	  <option value="1">1</option>
+        	  <option value="2">2</option>
+        	  <option value="3">3</option>
+        	  <option value="4">4</option>
+        	  <option value="5">5</option>
+        	  <option value="6">6</option>
+        	  <option value="7">7</option>
+        	  <option value="8">8</option>
+        	  <option value="9">9</option>
+        	  <option value="10">10</option>
+        	  <option value="11">11</option>
+        	  <option value="12">12</option>
+        	  <option value="13">13</option>
+        	  <option value="14">14</option>
+        	  <option value="15">15</option>
+        	  <option value="16">16</option>
+        	  <option value="17">17</option>
+        	  <option value="18">18</option>
+        	  <option value="19">19</option>
+        	  <option value="20">20</option>
+        	  <option value="21">21</option>
+        	  <option value="22">22</option>
+        	  <option value="23">23</option>
+        	  <option value="24">24</option>
+        	  <option value="25">25</option>
+        	  <option value="26">26</option>
+        	  <option value="27">27</option>
+        	  <option value="28">28</option>
+        	  <option value="29">29</option>
+        	  <option value="30">30</option>
+        	  <option value="31">31</option>
+        	  <option value="32">32</option>
+        	  <option value="33">33</option>
+        	  <option value="34">34</option>
+        	  <option value="35">35</option>
+        	  <option value="36">36</option>
+        	  <option value="37">37</option>
+        	  <option value="38">38</option>
+        	  <option value="39">39</option>
+        	  <option value="40">40</option>
+        	  <option value="41">41</option>
+        	  <option value="42">42</option>
+        	  <option value="43">43</option>
+        	  <option value="44">44</option>
+        	  <option value="45">45</option>
+        	  <option value="46">46</option>
+        	  <option value="47">47</option>
+        	  <option value="48">48</option>
+        	   <option value="49">49</option>
+        	  <option value="50">50</option>
+        	  <option value="51">51</option>
+        	  <option value="52">52</option>
+        	  <option value="53">53</option>
+        	  <option value="54">54</option>
+        	  <option value="55">55</option>
+        	  <option value="56">56</option>
+        	  <option value="57">57</option>
+        	  <option value="58">58</option>
+        	  <option value="59">59</option>
+        	 </select>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label"><b>工作内容:</b></label>
+	        <div class="controls">
+	        	<textarea id="content3" name="content3" rows="2" cols="40" style="width:270px;resize:none;" class="required"></textarea>
+	        </div>
+        </div>
+        </div>
+        <div style="display: none" id="hidden4">
+              <div class="control-group">
+	        <label class="control-label"><b>选择时间:</b></label>
+	        <div class="controls">
+             <select id="hour4" class="input-mini" name="hour4" tabindex="-1">
+        	  <option value="0">0</option>
+        	  <option value="1">1</option>
+        	  <option value="2">2</option>
+        	  <option value="3">3</option>
+        	  <option value="4">4</option>
+        	  <option value="5">5</option>
+        	  <option value="6">6</option>
+        	  <option value="7">7</option>
+        	  <option value="8">8</option>
+        	  <option value="9">9</option>
+        	  <option value="10">10</option>
+        	  <option value="11">11</option>
+        	  <option value="12">12</option>
+        	  <option value="13">13</option>
+        	  <option value="14">14</option>
+        	  <option value="15">15</option>
+        	  <option value="16">16</option>
+        	  <option value="17">17</option>
+        	  <option value="18">18</option>
+        	  <option value="19">19</option>
+        	  <option value="20">20</option>
+        	  <option value="21">21</option>
+        	  <option value="22">22</option>
+        	  <option value="23">23</option>
+        	  <option value="24">24</option>
+        	 </select>
+        	 <select id="minute4" class="input-mini" name="minute4" tabindex="-1">
+        	  <option value="0">0</option>
+        	  <option value="1">1</option>
+        	  <option value="2">2</option>
+        	  <option value="3">3</option>
+        	  <option value="4">4</option>
+        	  <option value="5">5</option>
+        	  <option value="6">6</option>
+        	  <option value="7">7</option>
+        	  <option value="8">8</option>
+        	  <option value="9">9</option>
+        	  <option value="10">10</option>
+        	  <option value="11">11</option>
+        	  <option value="12">12</option>
+        	  <option value="13">13</option>
+        	  <option value="14">14</option>
+        	  <option value="15">15</option>
+        	  <option value="16">16</option>
+        	  <option value="17">17</option>
+        	  <option value="18">18</option>
+        	  <option value="19">19</option>
+        	  <option value="20">20</option>
+        	  <option value="21">21</option>
+        	  <option value="22">22</option>
+        	  <option value="23">23</option>
+        	  <option value="24">24</option>
+        	  <option value="25">25</option>
+        	  <option value="26">26</option>
+        	  <option value="27">27</option>
+        	  <option value="28">28</option>
+        	  <option value="29">29</option>
+        	  <option value="30">30</option>
+        	  <option value="31">31</option>
+        	  <option value="32">32</option>
+        	  <option value="33">33</option>
+        	  <option value="34">34</option>
+        	  <option value="35">35</option>
+        	  <option value="36">36</option>
+        	  <option value="37">37</option>
+        	  <option value="38">38</option>
+        	  <option value="39">39</option>
+        	  <option value="40">40</option>
+        	  <option value="41">41</option>
+        	  <option value="42">42</option>
+        	  <option value="43">43</option>
+        	  <option value="44">44</option>
+        	  <option value="45">45</option>
+        	  <option value="46">46</option>
+        	  <option value="47">47</option>
+        	  <option value="48">48</option>
+        	   <option value="49">49</option>
+        	  <option value="50">50</option>
+        	  <option value="51">51</option>
+        	  <option value="52">52</option>
+        	  <option value="53">53</option>
+        	  <option value="54">54</option>
+        	  <option value="55">55</option>
+        	  <option value="56">56</option>
+        	  <option value="57">57</option>
+        	  <option value="58">58</option>
+        	  <option value="59">59</option>
+        	 </select>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label"><b>工作内容:</b></label>
+	        <div class="controls">
+	        	<textarea id="content4" name="content4" rows="2" cols="40" style="width:270px;resize:none;" class="required"></textarea>
+	        </div>
+        </div>
+        </div>
+        <div style="display:none " id="hidden5">
+              <div class="control-group">
+	        <label class="control-label"><b>选择时间:</b></label>
+	        <div class="controls">
+             <select id="hour5" class="input-mini" name="hour5" tabindex="-1">
+        	  <option value="0">0</option>
+        	  <option value="1">1</option>
+        	  <option value="2">2</option>
+        	  <option value="3">3</option>
+        	  <option value="4">4</option>
+        	  <option value="5">5</option>
+        	  <option value="6">6</option>
+        	  <option value="7">7</option>
+        	  <option value="8">8</option>
+        	  <option value="9">9</option>
+        	  <option value="10">10</option>
+        	  <option value="11">11</option>
+        	  <option value="12">12</option>
+        	  <option value="13">13</option>
+        	  <option value="14">14</option>
+        	  <option value="15">15</option>
+        	  <option value="16">16</option>
+        	  <option value="17">17</option>
+        	  <option value="18">18</option>
+        	  <option value="19">19</option>
+        	  <option value="20">20</option>
+        	  <option value="21">21</option>
+        	  <option value="22">22</option>
+        	  <option value="23">23</option>
+        	  <option value="24">24</option>
+        	 </select>
+        	 <select id="minute5" class="input-mini" name="minute5" tabindex="-1">
+        	  <option value="0">0</option>
+        	  <option value="1">1</option>
+        	  <option value="2">2</option>
+        	  <option value="3">3</option>
+        	  <option value="4">4</option>
+        	  <option value="5">5</option>
+        	  <option value="6">6</option>
+        	  <option value="7">7</option>
+        	  <option value="8">8</option>
+        	  <option value="9">9</option>
+        	  <option value="10">10</option>
+        	  <option value="11">11</option>
+        	  <option value="12">12</option>
+        	  <option value="13">13</option>
+        	  <option value="14">14</option>
+        	  <option value="15">15</option>
+        	  <option value="16">16</option>
+        	  <option value="17">17</option>
+        	  <option value="18">18</option>
+        	  <option value="19">19</option>
+        	  <option value="20">20</option>
+        	  <option value="21">21</option>
+        	  <option value="22">22</option>
+        	  <option value="23">23</option>
+        	  <option value="24">24</option>
+        	  <option value="25">25</option>
+        	  <option value="26">26</option>
+        	  <option value="27">27</option>
+        	  <option value="28">28</option>
+        	  <option value="29">29</option>
+        	  <option value="30">30</option>
+        	  <option value="31">31</option>
+        	  <option value="32">32</option>
+        	  <option value="33">33</option>
+        	  <option value="34">34</option>
+        	  <option value="35">35</option>
+        	  <option value="36">36</option>
+        	  <option value="37">37</option>
+        	  <option value="38">38</option>
+        	  <option value="39">39</option>
+        	  <option value="40">40</option>
+        	  <option value="41">41</option>
+        	  <option value="42">42</option>
+        	  <option value="43">43</option>
+        	  <option value="44">44</option>
+        	  <option value="45">45</option>
+        	  <option value="46">46</option>
+        	  <option value="47">47</option>
+        	  <option value="48">48</option>
+        	   <option value="49">49</option>
+        	  <option value="50">50</option>
+        	  <option value="51">51</option>
+        	  <option value="52">52</option>
+        	  <option value="53">53</option>
+        	  <option value="54">54</option>
+        	  <option value="55">55</option>
+        	  <option value="56">56</option>
+        	  <option value="57">57</option>
+        	  <option value="58">58</option>
+        	  <option value="59">59</option>
+        	 </select>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label"><b>工作内容:</b></label>
+	        <div class="controls">
+	        	<textarea id="content5" name="content5" rows="2" cols="40" style="width:270px;resize:none;" class="required"></textarea>
+	        </div>
+        </div>
+        </div>
+        <div style="display:none " id="hidden6">
+              <div class="control-group">
+	        <label class="control-label"><b>选择时间:</b></label>
+	        <div class="controls">
+             <select id="hour6" class="input-mini" name="hour6" tabindex="-1">
+        	  <option value="0">0</option>
+        	  <option value="1">1</option>
+        	  <option value="2">2</option>
+        	  <option value="3">3</option>
+        	  <option value="4">4</option>
+        	  <option value="5">5</option>
+        	  <option value="6">6</option>
+        	  <option value="7">7</option>
+        	  <option value="8">8</option>
+        	  <option value="9">9</option>
+        	  <option value="10">10</option>
+        	  <option value="11">11</option>
+        	  <option value="12">12</option>
+        	  <option value="13">13</option>
+        	  <option value="14">14</option>
+        	  <option value="15">15</option>
+        	  <option value="16">16</option>
+        	  <option value="17">17</option>
+        	  <option value="18">18</option>
+        	  <option value="19">19</option>
+        	  <option value="20">20</option>
+        	  <option value="21">21</option>
+        	  <option value="22">22</option>
+        	  <option value="23">23</option>
+        	  <option value="24">24</option>
+        	 </select>
+        	 <select id="minute6" class="input-mini" name="minute6" tabindex="-1">
+        	  <option value="0">0</option>
+        	  <option value="1">1</option>
+        	  <option value="2">2</option>
+        	  <option value="3">3</option>
+        	  <option value="4">4</option>
+        	  <option value="5">5</option>
+        	  <option value="6">6</option>
+        	  <option value="7">7</option>
+        	  <option value="8">8</option>
+        	  <option value="9">9</option>
+        	  <option value="10">10</option>
+        	  <option value="11">11</option>
+        	  <option value="12">12</option>
+        	  <option value="13">13</option>
+        	  <option value="14">14</option>
+        	  <option value="15">15</option>
+        	  <option value="16">16</option>
+        	  <option value="17">17</option>
+        	  <option value="18">18</option>
+        	  <option value="19">19</option>
+        	  <option value="20">20</option>
+        	  <option value="21">21</option>
+        	  <option value="22">22</option>
+        	  <option value="23">23</option>
+        	  <option value="24">24</option>
+        	  <option value="25">25</option>
+        	  <option value="26">26</option>
+        	  <option value="27">27</option>
+        	  <option value="28">28</option>
+        	  <option value="29">29</option>
+        	  <option value="30">30</option>
+        	  <option value="31">31</option>
+        	  <option value="32">32</option>
+        	  <option value="33">33</option>
+        	  <option value="34">34</option>
+        	  <option value="35">35</option>
+        	  <option value="36">36</option>
+        	  <option value="37">37</option>
+        	  <option value="38">38</option>
+        	  <option value="39">39</option>
+        	  <option value="40">40</option>
+        	  <option value="41">41</option>
+        	  <option value="42">42</option>
+        	  <option value="43">43</option>
+        	  <option value="44">44</option>
+        	  <option value="45">45</option>
+        	  <option value="46">46</option>
+        	  <option value="47">47</option>
+        	  <option value="48">48</option>
+        	   <option value="49">49</option>
+        	  <option value="50">50</option>
+        	  <option value="51">51</option>
+        	  <option value="52">52</option>
+        	  <option value="53">53</option>
+        	  <option value="54">54</option>
+        	  <option value="55">55</option>
+        	  <option value="56">56</option>
+        	  <option value="57">57</option>
+        	  <option value="58">58</option>
+        	  <option value="59">59</option>
+        	 </select>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label"><b>工作内容:</b></label>
+	        <div class="controls">
+	        	<textarea id="content6" name="content6" rows="2" cols="40" style="width:270px;resize:none;" class="required"></textarea>
+	        </div>
+        </div>
+        </div>
+        </div>
+        <div class="small_btn" style="float:left;">
+        <label class="control-label"><b>添加新日志</b></label>
+	            <button id="btnInsert" class="btn btn-primary btn_icon small_blue" type="button" value="新增"  onclick="add();"><i class="icon-plus"></i></button>
+	     <button id="btnInsert" class="btn btn-primary btn_icon small_blue"
+				type="button" value="新增" onclick="reduce();">
+				<i class="icon-minus"></i>
+			</button>
+	     </div>
+
+	    <div class="form-actions">
+	    	<input id="btnSubmit" class="btn btn-primary" type="submit" value="保  存" >&nbsp;
+	    </div>
+	</form>
+	</body>
+</html>

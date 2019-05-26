@@ -1,0 +1,37 @@
+{{each items as item index}}
+<tr data-id="{{item.id}}">
+    {{ if index+1 < 10}}
+    <td class="text-center" >0{{index+1}}</td>
+    {{ else }}
+    <td class="text-center" >{{index+1}}</td>
+    {{ /if }}
+    <td><a href="./archives-detail.html?status=1&infoId={{item.id}}">{{item.whNo}}</a></td>
+    <td>{{item.whName}}</td>
+    {{if item.whType == 1}}
+    <td>实仓</td>
+    {{else if item.whType == 2}}
+    <td>虚仓</td>
+    {{/if}}
+    <td>{{item.whAddress}}</td>
+    {{if item.whLatitude && item.whLongitude}}
+    <td>{{item.whLatitude}},{{item.whLongitude}}</td>
+    {{else}}
+    <td>--</td>
+    {{/if}}
+    <td class="text-center act">
+        <div class="btn-group more">
+                <a href="./archives-add.html?infoId={{item.id}}" class="js-tb-bj underline">编辑</a>
+                <a href="javascript:void(0)" class="js-tb-ch underline">删除</a></td>
+                
+            <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="./archives-add.html?infoId={{item.id}}" class="js-tb-bj underline">编辑</a>
+                </li>  
+                <li>
+                    <a href="javascript:void(0)" class="js-tb-ch underline">删除</a></td>
+                </li> 
+            </ul> -->
+        </div>
+    </td>
+{{/each}}

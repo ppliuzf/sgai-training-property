@@ -1,0 +1,40 @@
+<tr>
+    <th rowspan="4" width="150" style="vertical-align:middle">科目编码</th>
+    <th rowspan="4" width="150" style="vertical-align:middle">科目名称</th>
+    <th rowspan="4" width="150" style="vertical-align:middle">费项名称</th>
+    <th rowspan="4" width="200" style="vertical-align:middle">预算金额</th>
+{{if items.type==2 || items.type==3}}
+    <th rowspan="4" width="150" style="vertical-align:middle">预算结余</th>
+{{/if}}
+{{if items.list.year}}
+    <th colspan="12" width="150">{{items.list.year}}</th>
+{{/if}}
+</tr>
+
+{{if items.list.halfYear}}
+<tr>
+{{each items.list.halfYear as halfYearitem}}
+<th colspan="6">{{halfYearitem}}</th>
+{{/each}}
+</tr>
+{{/if}}
+
+{{if items.list.quarter}}
+<tr>
+{{each items.list.quarter as quarteritem}}
+<th colspan="3">{{quarteritem}}</th>
+{{/each}}
+</tr>
+{{/if}}
+
+{{if items.list.month}}
+<tr>
+{{each items.list.month as monthitem}}
+<th width="150">{{monthitem}}</th>
+{{/each}}
+{{/if}}
+</tr>
+<style type="text/css">
+    th{padding: 0 10px;text-align: center;}
+    .wd200{width: 200px}
+</style>

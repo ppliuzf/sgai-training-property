@@ -1,0 +1,12 @@
+{{each items as item itemIndex}}
+<tr>
+    <td style="text-align:center;">{{itemIndex+1 < 10 ? "0" + (itemIndex+1) : itemIndex+1}}</td>
+    <td class="word-warp"><div class='r'>{{item.maintainName }}</div></td>
+    <td class="word-warp"><div class='r'>{{item.maintainType }}</div></td>
+    <td class="word-warp"><div class='r'>{{item.maintainTime}}</div></td>
+    <td class="word-warp"><div class='r'>{{item.maintainComName }}</div></td>
+    <td class="word-warp"><div class='r'>{{item.maintainUserName }}</div></td>    
+    <td class="word-warp"><div class='r'>{{item.maintainDesc}}</div></td>
+</tr>
+{{/each}}
+

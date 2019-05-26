@@ -1,0 +1,68 @@
+{{each items as item itemIndex}}
+<tr data-id="{{item.id}}">
+    <td>{{((itemIndex+1).toString()).length==1 ? '0' :''}}{{itemIndex+1}}</td>
+    <td>
+        <a href="../scheme/set-scheme.html?id={{item.templateId}}&taskName={{item.templateName}}" style="cursor:pointer;">
+            <div class="cont dot" title="{{item.templateName}}">{{item.templateName}}</div>
+        </a>
+    </td>
+    <td>
+        {{if item.taskType == 1}}
+        <div class="cont dot" title="{{item.taskType}}">执行</div>
+        {{else}}
+        <div class="cont dot" title="{{item.taskType}}">检验</div>
+        {{/if}}
+    </td>
+    <td>
+        {{if item.taskFlag == 0}}
+        <span>非重复</span>
+        {{else}}
+        <span>重复执行</span>
+        {{/if}}
+    </td>
+    <td>
+        {{if item.optionFlag ==2}}
+        <span>周</span>
+        {{else if item.optionFlag ==1}}
+        <span>天</span>
+        {{else if item.optionFlag ==3}}
+        <span>月</span>
+        {{else}}
+        <span>-</span>
+        {{/if}}
+    </td>
+    <td>
+        <div class="cont dot" title="{{item.viewStat}}">{{item.status}}</div>
+    </td>
+    <td>
+       
+         <div class="cont dot" title="{{item.taskBeginTime | dateFormat: 'yyyy-MM-dd hh:mm'}}">{{item.taskBeginTime | dateFormat: 'yyyy-MM-dd hh:mm'}}</div>
+    </td>
+    <td>
+         
+        <div class="cont dot" title="{{item.taskEndTime | dateFormat: 'yyyy-MM-dd hh:mm'}}">{{item.taskEndTime | dateFormat: 'yyyy-MM-dd hh:mm'}}</div>
+    </td>
+    <!-- <td>
+        <div class="cont dot" title="{{item.taDutyEiEmpName}}">{{item.taskCreatorEiEmpName}}</div>
+    </td> -->
+    <!-- <td class="poin-td act">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">查看更多 <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        {{if item.viewState != '执行中' && item.viewState != '已完成'}}
+                            <li><a class="js-del underline" data-taId="{{item.id}}" data-state="{{item.isAppror}}">删除</a></li>
+                        {{/if}}
+                        <li><a class="js-down underline js-movedown" data-id="s{{item.id}}">下移</a></li>
+                        <li><a class="js-up underline" data-id="s{{item.id}}">上移</a></li>
+                        <li><a class="js-moveto underline" data-id="{{item.id}}">移动至</a></li>
+                    </ul>
+                </div>
+            </td> -->
+    <td class="text-center">
+        {{if item.viewState != '执行中' && item.viewState != '已完成'}}
+        <a class="js-del underline" data-taId="{{item.id}}" data-state="{{item.isAppror}}">删除</a>
+        {{else}}
+        <span>--</span>
+        {{/if}}
+    </td>
+</tr> {{/each}}

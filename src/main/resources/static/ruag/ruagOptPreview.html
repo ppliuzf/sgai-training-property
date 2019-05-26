@@ -1,0 +1,301 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+
+<!--分页  -->	
+<script src="../static/paginator/bootstrap-paginator.js" type="text/javascript"></script>
+<!-- 公共样式表	，公共方法 -->
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.src.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+<title>目标优化</title>
+<meta name="decorator" content="default">
+<style type="text/css">
+	.mode-select-wrap{
+		margin-bottom: 16px;
+		background-color: #fcfcfc;
+		border: 1px solid #f0f0f0;
+	}
+	.caption{
+		padding: 0 8px;
+		border-bottom: 1px solid #f0f0f0;
+		overflow: hidden;
+	}
+	.caption h5{
+		float: left;
+		color: #333;
+		font-weight: normal;
+		line-height: 30px;
+	}
+	.caption .go-back{
+		margin: 5px 8px;
+    line-height: 12px;
+    float: right;
+    color: #1785ca;
+    border-color: #1785ca;
+    font-size: 12px;
+    border-radius: 2px;
+    box-sizing: border-box;
+	}
+	.caption .go-back:hover{
+		color: #333;
+	}
+	.mode-select-wrap .form-search{
+		border: 0;
+		border-radius: 0;
+		margin-bottom: 0;
+	}
+	.detail-btn{
+		text-decoration: underline;
+	}
+</style>
+</head>
+<body>
+<div class="table_fluid">
+	<div class="smart_bread"><span> 运行策略模型 /</span><span> 优化预览</span></div>
+	<div class="mode-select-wrap">
+		<div class="caption"><h5>优化预览</h5><a id="backBtn" class="btn btn-default go-back" href="javascript:;">返回</a></div>
+		<form id="searchForm" class="breadcrumb form-search " method="post">
+			<input id="pageNo" name="pageNo" type="hidden" value="1">
+			<input id="pageSize" name="pageSize" type="hidden" value="10">
+			<ul class="ul-form">
+				<li>
+					<label>专业：</label>
+					<input id="profName" name="profName" class="query_input input-medium" type="text" value=""  maxlength="50" onkeypress="if(event.keyCode==13) pageload()">
+				</li>
+				<li>
+					<label>设备名称：</label>
+					<input id="deviceName" name="deviceName" class="query_input input-medium" type="text" value=""  maxlength="50" onkeypress="if(event.keyCode==13) pageload()">
+				</li>
+				<li class="btns">
+					<button id="btnQuery" class="btn btn-primary btn_middle small_blue" type="button" onclick="pageload();">查询</button>
+					<button class="btn btn-primary btn_middle small_clear" type="button" onclick="clearUp();">清空</button>
+				</li>
+			</ul>
+		</form>
+	</div>
+	<table id="targetTable" class="table table-striped table-bordered table-condensed">
+		<thead>
+			<tr>
+				<th>选项</th>
+				<th>序号</th>
+				<th>位置</th>
+				<th>专业</th>
+				<th>设备名称</th>
+				<th>设备编号</th>
+				<th>原参数配置</th>
+				<th>现参数配置</th>
+			</tr>
+		</thead>
+		<!-- <tbody>
+			<tr>
+				<td></td>
+				<td>1</td>
+				<td>A2-F4-302</td>
+				<td>空调专业</td>
+				<td>风机盘管</td>
+				<td>A2F4302</td>
+				<td><a class="detail-btn" href="javascript:;">详情</a></td>
+				<td><a class="detail-btn" href="javascript:;">详情</a></td>
+			</tr>
+		</tbody> -->
+	</table>
+</div>
+<!-- 详情弹窗 -->
+<div id="paramModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">参数信息</h4>
+    </div>
+    <div class="modal-body" style="">
+        <iframe id="Iframe"></iframe>
+    </div>
+</div>	
+<script type="text/javascript">
+	$(document).ready(function() {
+		//设备列表分页+load
+	    pageRightContent();
+	    pageload();
+	});
+
+	var urlParams = getIframeParams("mainFrame");
+	    if(urlParams.page == "targetPage"){
+	    	$("#backBtn").attr("href","/ruag/ruagTargetOpt.html");
+	    }else if(urlParams.page == "oneTouchPage"){
+	    	$("#backBtn").attr("href","/ruag/ruagOneTouchOptimize.html");
+	    }
+
+	var optParams = {};
+	if(!sessionStorage.getItem('optimizationParams')){
+		optParams.objStr="";
+		optParams.  targetStr="";
+	}else{
+		optParams =JSON.parse(sessionStorage.getItem('optimizationParams'));
+		var objStr=optParams.objStr;
+		var targetStr=optParams.targetStr;
+	}
+
+	function pageload(n,s){
+		$(".page-box").css("display","none");
+	    $(".page-null").css("display","none");
+	    $("#page_div").css("display","none");
+	    $(".table_fluid").append("<div id='loading' class='spinner'><div class='rect1'></div><div class='rect2'></div><div class='rect3'></div><div class='rect4'></div><div class='rect5'></div></div>");
+	    //判断是否传pageSize
+	    var pageSize = $('.page-size option:selected').val();
+	    if(!$.isNumeric(s)){
+	        s = pageSize;
+	    }
+	    //删除旧tbody
+	    var contentTableSub = document.getElementById("targetTable");
+	    var oldTbody = document.getElementById("targetTbody");
+
+	    if (oldTbody != null) {
+	      contentTableSub.removeChild(oldTbody);
+	    }
+	    //添加新tbody
+	    $.ajax({
+	        headers    : {
+	            "token" : localStorage.getItem("token")
+	        },
+	        url : APIHost + '/ruag/ruag/ruagWorkModelDatail/getListById',
+	        type : 'POST',
+	        async : true, //或false,是否异步
+	        data : {
+	            pageNo : n,
+	            pageSize : s,
+	            profName:$("#profName").val(),
+	            deviceName:$("#deviceName").val(),
+	            modelTemplateId : objStr
+	        },
+	        timeout : 5000,
+	        dataType : 'json',
+	        success : function(res) {
+	            $('#loading').remove();
+	            if(res.code === 1000){
+	                //向页面拼接分页内容
+	                pageContent(res.data);
+	                if(res.data.list==''){
+	                    $(".page-null").css("display","block");
+	                    $(".page-box").css("display","none");
+	                }else{
+	                    $(".page-null").css("display","none");
+	                    $(".page-box").css("display","block");
+	                    $("#page_div").css("display","block");
+	                    var newTbody = document.createElement("tbody");
+	                    newTbody.setAttribute("id", "targetTbody");
+	                        
+	                    var list = res.data.list;
+	                    for (var i = 0; i < list.length; i++) {
+	                        var entity = list[i];
+							var tr = document.createElement("tr");
+							//选择框
+	                        var td0 = document.createElement("td");
+	                        td0.innerHTML = "<input type='checkbox' name ='checkbox' data-code= '" + list[i].classCode + "' value='" + list[i].id + "'/>"
+	                        td0.className = "checked_size";
+	                        tr.appendChild(td0);
+							
+							//序号
+							var td1 = document.createElement("td");
+							td1.innerHTML = i+1;
+							td1.className="order_number";
+							tr.appendChild(td1);
+							newTbody.appendChild(tr);
+
+							var peopertys = new Array("spaceName","profName","deviceName","deviceCode");
+							for(var j = 0;j < peopertys.length;j++){
+								var td = document.createElement("td");
+								if(peopertys[j]=="enabledFlag"){
+									if(list[i][peopertys[j]]=="Y"){
+										td.innerHTML = "是";
+									}else if(list[i][peopertys[j]]=="N"){
+										td.innerHTML = "否";
+									}
+								}else{
+									td.innerHTML = list[i][peopertys[j]];
+								}
+		    					tr.appendChild(td);
+							}
+							//操纵
+	                        var td2 = document.createElement("td");
+	                        td2.innerHTML = '<a class="detail-btn" href="javascript:;" itemId="' + list[i].id + '"  onclick="oldParameterClick(this)">详情</a>';
+	                        tr.appendChild(td2);
+	                        var td3 = document.createElement("td");
+	                        tr.appendChild(td3);
+	                        //DEVICE-PROF-2018-00007*min,DEVICE-PROF-2018-00008*min,
+                            var strs=targetStr.split(',');
+                            for(var j=0;j<strs.length;j++){
+                            	var str=strs[j].split('*');
+                                if(list[i].profCode==str[0]||"energyCosts"==str[0]){ 	
+	                                var optMode = ''; 
+    							    if(urlParams.page == "targetPage"){
+								    	optMode = "*"+str[1];
+								    }
+								    td3.innerHTML = '<a class="detail-btn" href="javascript:;" itemId="'+list[i].id+optMode+'" onclick="newParameterClick(this)">'
+	    							     +'详情</a>';  
+                               	}
+                            } 
+	                        newTbody.appendChild(tr); 
+						}
+						contentTableSub.appendChild(newTbody);
+						//table下每一行tr选中高亮
+						inputCheck();
+	                }
+	            }else if(res.code ===1003){
+	                //没有登录状态
+	                $.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+	                { window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+	            }else if(res.code === 1002){
+	                //发生异常
+	                $.jBox.alert(res.msg);
+	            }else if(res.code === 1004){
+	                //结果为空
+	                $.jBox.alert(res.msg);
+	            }
+	        },
+	        error : function() {
+	            $('#loading').remove();
+	            console.log('错误')
+	        }
+	    })
+	}
+
+	function clearUp(){
+		$("input[type=text]").val("");
+	}
+
+	var oldParameterClick=function (index) {
+        //调用公共方法，弹出窗口
+        $("#Iframe").css("width","600px");
+        editItem(index, 'itemId', 'ruag/ruagParamsShow', 'paramModal', 'Iframe', 600);
+    }
+	
+	var newParameterClick=function (index) {
+        //调用公共方法，弹出窗口
+        $("#Iframe").css("width","600px");
+        editItem(index, 'itemId', 'ruag/ruagParamsShow2', 'paramModal', 'Iframe', 600);
+    }
+</script>
+</body>
+</html>

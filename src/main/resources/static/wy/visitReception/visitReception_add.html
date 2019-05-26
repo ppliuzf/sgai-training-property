@@ -1,0 +1,255 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>添加参观接待记录</title>
+	
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+	<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+    <link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+    <link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+    <script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script src="../static/common/mustache.min.js" type="text/javascript"></script>
+    <link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/common/smart.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+    <link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript">var ctx = '/admin', ctxStatic='../../static';</script>
+    <script src="../../config/smart-common.js" type="text/javascript"></script>
+ 	<style>
+	   select{height: 30px !important;width: 142px;}
+	   input{width: 128px;}
+	   .face{padding-left: 15px;
+	   }
+	</style>
+	
+	<script type="text/javascript">
+				
+		// 开启表单验证,调用提交
+	    $.validator.setDefaults({
+	        submitHandler: function () {
+	            formSubmit();
+	        }
+	    });
+		// 提交数据
+	    function formSubmit() {
+	        var saveData = {
+	            headers: {"token": localStorage.getItem("token")},
+	            url: APIHost + '/visitReception/save', 
+	            success: function (response) {
+	            	if (response.data.msg == "success") {
+						parent.hideDiv();
+	                    parent.pageload();
+						parent.jBox.alert("保存成功 !","提示");
+	                }else if (response.data.msg == "fail") {
+	                	parent.hideDiv();
+						parent.jBox.alert("操作异常 ,请重试 !","提示");
+	                } else if (response.code === 1003){
+	                	parent.hideDiv();
+	                	parent.jBox.alert('请先登录', '提示',{closed: function (){window.parent.location.href= APIHost + "/sys/sysLogin.html";}});
+	                } else {
+	                	parent.jBox.alert("异常状态 ,请重试 !", "提示");
+	                }
+	            },
+	            beforeSend:function(){
+	          		var loading=$('<div id="loading"></div>');
+	          		$('body').append(loading);
+	          		$("#btnSubmit").attr("disabled",true)
+	          	},
+	          	complete:function(){
+	            	$("#btnSubmit").attr("disabled",false);
+	            	$("#loading").hide();
+	            }
+	        }
+	        $("#inputForm").ajaxSubmit(saveData);
+	    } 
+        // 表单输入校验
+		$(document).ready(function() {
+	        jQuery.validator.addMethod("isphoneNum", function (value, element) {
+	            var length = value.length;
+	            return this.optional(element) || (length == 11 );
+	        }, "请写长度为11位的号码");
+	        $("#inputForm").validate({
+	        	rules: {
+	        		appTime:{
+	                	required: true
+	                },
+	                appPerson:{
+	                	required: true
+	                },
+	                appPhone:{
+	                	required: true,
+	                    number:true
+	                },
+	                receptionTime:{
+	                	required: true
+	                },
+	                receptionAddress: {
+	                    required: true,
+	                },
+	                visitUnit:{
+	             	   required: true
+	                },
+	                visitNumber:{
+	                	required: true,
+	                    number:true
+	                },
+	                leaderPhone:{
+	                	required: true,
+	                	isphoneNum:true,
+	                    number:true
+	                },
+	                visitLevel:{
+	                	required: true
+	                },
+	                appVisitTime:{
+	                	required: true
+	                },
+	                visitArea:{
+	                	required: true
+	                },
+	                overTime:{
+	                	required: true
+	                },
+	                visitingTime:{
+	                	required: true,
+	                	number:true
+	                },
+	                remarks:{
+	                	required: false
+	                }
+              	}
+      		});
+		});
+		// 取消保存请求		
+        function back(){parent.hideDiv();}
+    </script>
+</head>
+<body>
+	<form id="inputForm" class="breadcrumb form-search form-horizontal"  method="post" >
+	    <input id="id" name="id" type="hidden" value=""/>
+       	<table cellpadding="5px" cellspacing="2px">	
+       		<tr style=""> 
+				<td width="16%"><label>预约时间:</label></td>
+				<td width="34%">
+					<input id="appTime" name="appTime"  type="text" class="Wdate input_mini" value="" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm' })" />
+		            <font color="red">*</font>
+	        	</td>
+	        	<td width="16%" class="face"><label>预约人:</label></td>
+	        	<td width="34%">
+		        	<input id="appPerson" name="appPerson" class="input_mini" type="text" value="" />
+		            <font color="red">*</font>
+	            </td>
+        	</tr>
+        	
+        	<tr>
+        		<td><label>预约电话:</label></td>
+        		<td>
+	        		<input id="appPhone" name="appPhone"  type="text" value="" />
+	        		<font color="red">*</font>
+				</td>
+				<td><label>接待时间:</label></td>
+				<td>
+					<input id="receptionTime" name="receptionTime" class="Wdate" type="text" value="" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm' })" />
+					<font color="red">*</font>
+				</td>
+        	</tr>
+        	
+        	<tr> 
+				<td><label>接待地点:</label></td>
+				<td>
+					<select id="receptionAddress" name="receptionAddress" >
+	                    <option value="" selected="selected" >请选择</option>
+	                    <option value="门口" >门口</option>
+	                    <option value="南门" >南门</option>
+	                    <option value="西门" >西门</option>
+		            </select>
+			        <font color="red">*</font>
+		        </td>
+				<td><label>参观单位:</label></td>
+				<td>
+					<input id="visitUnit" name="visitUnit"  type="text" value="" />
+		            <font color="red">*</font>
+           		</td>
+       		</tr>
+	        
+        	<tr>
+           		<td><label>参观人数:</label></td>
+           		<td>
+	           		<input id="visitNumber" name="visitNumber"  type="text" value="" />
+		            <font color="red">*</font>
+	            </td>
+				<td><label>领队电话:</label></td>
+				<td>
+					<input id="leaderPhone" name="leaderPhone"  type="text" value="" />
+		            <font color="red">*</font>
+            	</td>
+           	</tr>
+        	
+        	<tr>
+            	<td><label>参观级别:</label></td>
+            	<td> 
+		        	<select id="visitLevel" name="visitLevel">
+		            	<option value="" selected="selected" >请选择</option>
+	                    <option value="市级">市级</option>
+	                    <option value="公司级">公司级</option>
+	                    <option value="一般">一般</option>
+		            </select><font color="red">*</font>
+	            </td>
+        		<td><label>参观时间:</label></td>
+        		<td>
+        			<input id="appVisitTime" name="appVisitTime" class="Wdate" type="text"  onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm' })" value="" >
+	            	<font color="red">*</font>
+	            </td>
+            </tr>
+            
+        	<tr> 
+            	<td><label>参观区域:</label></td>
+            	<td>
+		           	<select id="visitArea" name="visitArea">
+		            	<option value="" selected="selected" >请选择</option>
+		                   <option value="南广场"  >南广场</option>
+		                   <option value="料仓五层" >料仓五层</option>
+		                   <option value="会议中心" >会议中心</option>
+		                   <option value="展厅一层" >展厅一层</option>
+		                   <option value="地下展厅" >地下展厅</option>
+		            </select><font color="red">*</font>
+	            </td>
+				<td><label>结束时间:</label></td>
+				<td>
+					<input id=overTime name="overTime" class="Wdate" type="text"  onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm' })" value="" ><font color="red">*</font>
+            	</td>
+           	</tr>
+            
+			<tr>
+            	<td><label>参观用时:</label></td>
+            	<td colspan="3">
+	            	<input id=visitingTime name="visitingTime"  type="text"  value="" >
+	            	<font color="red">*</font>
+            	</td>
+        	</tr>
+        	
+        	<tr> 
+				<td><label>备注:</label></td>
+				<td colspan="3">
+					<textarea id="remarks" name="remarks" rows="2" style="width:369px;resize:none"></textarea>
+				</td>
+         	</tr>
+         	
+	    </table>
+       	<div class="form-actions" style="height: 10px;">
+		    <input id="btnSubmit" class="btn btn-primary" type="submit" value="保  存">
+		    <input id="btnCancel" class="btn " type="button" value="返  回"  onclick="back()">
+		</div>
+	</form>
+</body>
+</html>

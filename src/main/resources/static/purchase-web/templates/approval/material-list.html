@@ -1,0 +1,22 @@
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr class="active">
+            <th width="60" class="text-center">序号</th>
+            <th>物料名称</th>
+            <th>采购数量</th>
+            <th>规格</th>
+            <th>型号</th>
+        </tr>
+    </thead>
+    <tbody class="js-list">
+        {{each items as item index}}
+        <tr>
+            <td class="text-center">{{index+1 < 10 ? "0" + (index+1) : index+1}}</td>
+            <td>{{item.matName}}</td>
+            <td>{{item.applyCount}}</td>
+            <td>{{item.matSpec}}</td>
+            <td>{{item.matTypeCode}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>

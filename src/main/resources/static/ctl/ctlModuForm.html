@@ -1,0 +1,233 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+<script type="text/javascript">
+var ctx = '/admin', ctxStatic='/static';
+var FormHtml = APIHost + "/ctl/ctlModuForm.html";
+</script>
+<title>模块维护</title>
+<meta name="decorator" content="default">
+</head>
+<!------------------------------------------------------------------------------------------------------------------------------------->
+<body>
+<form id="inputForm" class="form-horizontal" method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+    <input id="sbsCode" name="sbsCode" class="required" type="hidden" value="" maxlength="100">
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>模块名称：</label>
+        <div class="controls">
+            <input id="sbsName" name="sbsName" class="required" type="text" value="" maxlength="20">
+        </div>
+    </div>
+   <!--  <div class="control-group">
+        <label class="control-label">是否可用：</label>
+        <div class="controls">
+         <select id="enabledFlag" name="enabledFlag" class="input-xlarge select2-offscreen" tabindex="-1">
+             <option></option>
+             <option value="Y">是</option>
+             <option value="N">否</option>
+        </select>
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div> -->
+    <!-- <div class="control-group" id="orderDiv" style="display:none">
+        <label class="control-label">显示序号：</label>
+        <div class="controls">
+            <input id="displayOrder" name="displayOrder" class="required" type="text" value="" maxlength="50" onkeyup="value=value.replace(/[^\d]/g,'') ">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div> -->
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>描述：</label>
+        <div class="controls">
+            <!-- <input id="sbsDesc" name="sbsDesc" class="required" type="text" value="" maxlength="50"> -->
+           	<textarea id="sbsDesc" name="sbsDesc"  maxlength="20" type="text" style="overflow-y:hidden;" class="required textAreas"></textarea>
+        </div>
+    </div>
+    <div class="form-actions">
+        <input id="btnCancel" class="btn" type="button" value="关 闭" onclick="closePopUp()">
+        <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">
+    </div>
+</form>
+<!------------------------------------------------------------------------------------------------------------------------------------->
+<script>
+// 表单验证
+$.validator.setDefaults({
+    submitHandler: function() {
+       // 调用提交
+       save();
+    }
+});
+$().ready(function () {
+    // 在键盘按下并释放及提交后验证提交表单
+    $("#inputForm").validate({
+         rules: {
+        	/* sbsCode: {
+                required: true,
+                minlength:1,
+                maxlength:10
+            }, */
+            sbsName: {
+                required: true,
+                maxlength: 20
+            },
+           /*  enabledFlag: {
+                required: true
+            }, */
+           /*  displayOrder: {
+                required: true,
+                minlength:1,
+                maxlength:19
+            }, */
+           	sbsDesc: {
+                required: true,
+                maxlength: 20
+            }
+          },
+        messages:{
+        	/* sbsCode: {
+                required: "请输入模块代码",
+                minlength: "模块代码由 1~10 个字符组成"
+            }, */
+            sbsName: {
+                required: "请输入模块名称",
+                maxlength: "模块名称最多20个字"
+            },
+           /*  displayOrder: {
+                required: "请输入序号"
+            }, */
+            sbsDesc: {
+            	required: "请输入描述",
+            	maxlength: "描述最多20个字"
+            }
+              
+        },
+        errorPlacement:function(error, element){
+            error.appendTo(element.parent()); //将错误信息添加当前元素的父结点后面
+        }
+    });
+})
+</script>
+<script type="text/javascript">
+	$(document).ready(function () {
+	});
+	var paramId=GetQueryString("paramId");
+    if(paramId != null){
+        updatepageload();
+    }
+  //获取跳转地址的参数
+	function GetQueryString(name){
+	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	     var r = window.location.search.substr(1).match(reg);
+	     if(r!=null)return  unescape(r[2]); return null;
+	}
+	// 获取修改数据
+    function updatepageload() {
+        //添加新tbody
+        $.ajax({
+            headers : {
+                "token" : localStorage.getItem("token"),
+            },
+            url : APIHost + '/admin/ctlModu/findModuById',
+            type : 'POST',
+            async : false, //或false,是否异步
+            data : {
+                qId : paramId
+            },
+            timeout : 30000,
+            dataType : 'json',
+            success : function(data) {
+            	//参数qId通过findModuById方法获取到Modu对象值，赋值到页面字段中
+				$("#id").val(data.id),
+				$("#sbsCode").val(data.sbsCode),
+				$("#sbsName").val(data.sbsName),
+				$("#enabledFlag").val(data.enabledFlag),
+				$("#sbsDesc").val(data.sbsDesc)
+            },
+            error : function() {
+				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+            }
+        })
+    }
+
+    //保存
+    function save(){
+   		$.jBox.confirm("确定提交吗？", "提示", function (v, h, f) {
+   			if(v == 'ok'){
+   				$.ajax({
+	    			headers    : {
+	                    "token" : localStorage.getItem("token"),
+	                },
+	    			url : APIHost + '/admin/ctlModu/save',
+	    			type : 'POST',
+	    			async : false, //或false,是否异步
+	    			data : {
+	    				id : $("#id").val(),
+	    				sbsCode : $("#sbsCode").val(),
+	    				sbsName : $("#sbsName").val(),
+	    				enabledFlag : $("#enabledFlag").val(),
+	    				displayOrder : $("#displayOrder").val(),
+	    				sbsDesc : $("#sbsDesc").val(),
+	    				orderOld: $("#orderOld").val()
+	    			},
+	    			timeout : 30000,
+	    			dataType : 'json',
+	    			success : function(data) {
+	    				if(data.msg=="success"){
+	    					$.jBox.alert('保存成功', '提示',{ closed: function ()
+	    						{   closePopUp();
+	                                var pageSize = $('.page-size', window.parent.document).find("option:selected").val();
+	                                parent.pageload(1,pageSize); } });
+	    				}else if(data.msg=="faild"){
+	    					$.jBox.alert(data.saveResult,"提示");
+	    				}
+	    			},
+	    			error : function() {
+	    				$.jBox.alert(data.saveResult,"提示");
+	    			}
+   				})
+   				
+   			}
+   		})
+       }
+ 
+    $(function(){
+    	autoSize();
+    })
+    
+    // 关闭弹框
+    function closePopUp(){
+        $('#myModal .close', window.parent.document).click();
+    }
+</script>
+</body></html>
+<style type="text/css">
+#select2-enabledFlag-results:firstchild{
+	display:hidden;
+}
+</style>

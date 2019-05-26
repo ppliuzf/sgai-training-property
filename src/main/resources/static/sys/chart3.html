@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+</head>
+<body>
+
+<div id="main" style="height:400px"></div>
+<!-- ECharts单文件引入 -->
+<script src="../static/echart/echarts.js"></script>
+<!-- <script src="../static/echart/echarts.min.js"></script> -->
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet" />
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+
+$(document).ready(function() {
+	initOption();
+   }
+);
+
+var myChart = echarts.init(document.getElementById('main')); 
+var option;
+function initOption(){
+	
+	$.ajax({
+		headers    : {
+            "token" : localStorage.getItem("token"),
+        },
+		url : APIHost + '/listOption3',
+		type : 'POST',
+		async : false, //或false,是否异步
+		timeout : 5000,
+		dataType : 'json',
+		success : function(res) {
+			if(res.code === 1000){
+				//option = JSON.parse(JSON.stringify(res.data));
+				//console.log(option);
+				//myChart.setOption(option); 
+			}else if(res.code === 1001){
+				option = eval("("+res.msg+")") ;
+				myChart.setOption(option); 
+			}else if(res.code ===1003){
+				//没有登录状态
+				$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+					{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+			}else if(res.code === 1002){
+				//发生异常
+				$.jBox.alert(res.msg,"提示");
+			}else if(res.code === 1004){
+				//结果为空
+				$.jBox.alert(res.msg,"提示");
+			}
+		},
+		error : function() {
+			$.jBox.alert("系统错误，请重试","提示");
+			console.log('错误');
+		}
+	})
+	
+}
+        // 为echarts对象加载数据 
+        //console.log(option);
+        //myChart.setOption(option); 
+</script>
+</body>

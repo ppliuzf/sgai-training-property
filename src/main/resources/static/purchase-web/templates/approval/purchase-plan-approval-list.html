@@ -1,0 +1,38 @@
+{{each items as item index}}
+<tr>
+    <td class="text-center">{{index+1 < 10 ? "0" + (index+1) : index+1}}</td>
+    {{ if item.planStat == 2}}
+        <td><a href='javascript:;' status='dsh' id='{{item.id}}' class="jumpDetail">{{item.planName}}</a></td>
+    {{ else if item.planStat == 3}}
+        <td><a href='javascript:;' status='yjj' id='{{item.id}}' class="jumpDetail">{{item.planName}}</a></td>
+    {{ else if item.planStat == 4}}
+        <td><a href='javascript:;' status='ytg' id='{{item.id}}' class="jumpDetail">{{item.planName}}</a></td>
+    {{/if}}
+
+    {{if item.planType == 1}}
+    <td>采购类</td>
+    {{ else}}
+    <td></td>
+    {{/if}}
+    <td>{{item.planDate | dateFormat:'yyyy-MM-dd'}}</td>
+    <td>{{item.planEmpName}}</td>
+    <td>{{item.dept}}</td>
+    {{ if item.planStat == 2}}
+    <td>待审核</td>
+    {{ else if item.planStat == 3}}
+    <td>已拒绝</td>
+    {{ else if item.planStat == 4}}
+    <td>已通过</td>
+    {{/if}}
+    {{if item.buyerEmpName}}
+        <td>{{item.buyerEmpName}}</td>
+    {{else}}
+        <td>--</td>
+    {{/if}}
+    {{ if item.planStat != 2}}
+    <td>{{item.approveDate | dateFormat:'yyyy-MM-dd'}}</td>
+    {{else}}
+        <td>--</td>
+    {{/if}}
+</tr>
+{{/each}}

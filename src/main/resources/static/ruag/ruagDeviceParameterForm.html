@@ -1,0 +1,157 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var ctx = '/admin', ctxStatic='/static';
+	var getList = "/admin/mdm/mdmdeviceparameter/mdmDeviceParameter/findByDeviceClassCode"
+	var saveUrl = "/ruag/ruag/ruagLinkageDeviceParamSet/save"
+</script>
+<meta name="decorator" content="default">
+<script type="text/javascript">
+var deviceClassCode= GetQueryString("deviceClassCode");
+var deviceCode= GetQueryString("deviceCode");
+var linkageRuleId=GetQueryString("linkageRuleId");
+var masterName=GetQueryString("masterName");
+var profCode=GetQueryString("profCode");
+var profName=GetQueryString("profName");
+console.log(deviceCode);
+  	// 关闭弹框
+     function closePopUp(){
+         $('#myModal .close', window.parent.document).click();
+         
+     }
+ 
+	$(function() {
+		if (deviceCode != null) {
+			 //添加新tbody
+	        $.ajax({
+	            headers : {
+	                "token" : localStorage.getItem("token"),
+	            },
+	            url : APIHost + getList,
+	            type : 'POST',
+	            async : false, //或false,是否异步
+	            data : {
+	            	deviceClassCode : deviceClassCode
+	            },
+	            timeout : 5000,
+	            dataType : 'json',
+	            success : function(res) {
+					if(res.code === 1000){
+						var list = res.data.data;
+						var parameterDiv = document.getElementById("parameterDiv");
+						var str = "";
+						for (var i = 0; i < list.length; i++) {
+							str +="<div class='addParamDiv'>"
+								+"<label class='control-label'>设定"+list[i].paramName+"：</label>"
+								+"<input id='paramCode' name='paramCode'  value='"+list[i].paramCode+"' type='hidden' >"
+			 	               	+"<input id='paramName' name='paramName' style='float:left;width:107px;' placeholder='请在参数值前面加>、<、=运算符' type='text' value='' maxlength='100'>"
+			 	               	+"</div>";
+						}
+						parameterDiv.insertAdjacentHTML("beforeEnd",str);
+					}else if(res.code === 1002){
+						//发生异常
+						$.jBox.alert(res.msg);
+					}else if(res.code === 1004){
+						//结果为空
+						$.jBox.alert(res.msg);
+					}
+	            },
+	            error : function() {
+					$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+	            }
+	        })
+		}
+	})
+	
+	
+	    function save(){
+			$.jBox.confirm("确定提交吗？", "提示", function (v, h, f) {
+				if(v == 'ok'){
+					var taskName="";
+					var content =  $(".addParamDiv");
+					$.each(content,function(i,item){
+						var paramCode = "" , paramName ="";
+						paramCode = $(this).find("input[name='paramCode']").val();
+						paramName = $(this).find("input[name='paramName']").val();
+						taskName +=  paramCode + "," + paramName + ";";
+						if((i+1) == content.length){
+							var ajax_option={
+								headers    : {
+							       "token" : localStorage.getItem("token"),
+							    },
+								url:APIHost + saveUrl,//默认是form action
+								data : {
+									deviceParams : taskName,
+							        deviceCode : deviceCode,
+							        profCode : profCode,
+									profName : profName,
+							        deviceClassCode : deviceClassCode,
+							        linkageRuleId : linkageRuleId,
+							        masterName : masterName
+							    },
+								success:function(res){
+									if(res.data.msg=="success"){
+										$.jBox.alert('保存成功', '提示',{ closed: function ()
+		        							{window.parent.location.href= APIHost + "/ruag/ruagLinkageDeviceList.html"; } });
+							        }else if(res.data.msg=="haveData"){
+							            $.jBox.alert("参数编码已存在！","提示");
+							        }else{
+							            $.jBox.alert("保存失败","提示");
+							        }
+								}
+							 }
+							$("#inputForm").ajaxSubmit(ajax_option);
+						}
+					})
+				}
+			})			
+        }
+
+	 //获取跳转地址的参数
+    function GetQueryString(name){
+		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if(r!=null)return  unescape(r[2]); return null;
+  	}
+</script>
+<style type="text/css">
+	.body {
+		float: left;
+	}
+</style>
+<body class="body">
+<form id="inputForm" class="form-horizontal" method="post" novalidate="novalidate">
+	<script type="text/javascript">top.$.jBox.closeTip();</script>
+    <div class="control-group body" id="parameterDiv">
+    </div>
+    <div class="form-actions">
+        <input id="btnCancel" class="btn" type="button" value="关 闭" onclick="closePopUp()">
+        <input id="btnSubmit" class="btn btn-primary" type="button" value="保 存" onclick="save()">
+    </div>
+</form>
+</body></html>

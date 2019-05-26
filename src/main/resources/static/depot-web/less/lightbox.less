@@ -1,0 +1,115 @@
+// main: default.less
+.lightboxOverlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #000000;
+    opacity: 0.8;
+    display: none;
+    z-index: 9999;
+}
+.lightbox{
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: 10000;
+    text-align: center;
+    line-height: 0;
+    .lb-image{
+        display: block;
+        height: auto;
+        border-radius: 3px;
+        box-sizing: border-box;
+    }
+    a{
+        img{
+            border: none;
+        }
+    }
+}
+.lb-outerContainer{
+    position: relative;
+    width: 250px;
+    height: 250px;
+    margin: 0 auto;
+    border-radius: 4px;
+    padding: 4px;
+    background-color: #ffffff;
+    box-sizing: content-box;
+    &:after{
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
+.lb-dataContainer{
+    margin: 0 auto;
+    padding-top: 5px;
+    width: 100%;
+    border-radius: 4px;
+}
+.lb-loader{
+    width: 32px;
+    height: 32px;
+    background: url('../images/loading.gif');
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -16px 0 0 -16px;
+}
+.lb-cancel{
+    display: block;
+    width: 32px;
+    height: 32px;
+    margin: 0 auto;
+}
+.lb-nav{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    &:hover{
+        .lb-prev, .lb-next{
+            opacity: 1;
+        }
+    }
+    a{
+        outline: none;
+    }
+}
+.lb-prev, .lb-next{
+    height: 100%;
+    cursor: pointer;
+    display: block;
+    transition: 0.5s;
+    opacity: 0;
+}
+.lb-prev{
+    width: 34%;
+    left: 0;
+    float: left;
+    background: url('../images/prev.png') left 48% no-repeat;
+}
+.lb-next{
+    width: 64%;
+    right: 0;
+    float: right;
+    background: url('../images/next.png') right 48% no-repeat;
+}
+.lb-close{
+    cursor: pointer;
+    opacity: .7;
+    transition: 0.5s;
+    width: 30px;
+    height: 30px;
+    background: url('../images/close.png') 50% 50% no-repeat;
+    float: right;
+    &:hover{
+        opacity: 1;
+    }
+}
+.lb-details{
+    display: none;
+}

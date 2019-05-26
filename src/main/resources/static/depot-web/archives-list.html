@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>仓库档案</title>
+    <link rel="stylesheet" href="./css/default.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>仓库档案</h4>
+            <div class="btns text-right">
+                <button type="button" class="btn btn-primary addDepot">新建仓库</button>
+            </div>
+        </div>
+        <!-- 搜索 -->
+        <div class="form-inline filter">
+            <div class="form-group">
+                <label for="name" class="control-label form-inline">仓库名称 </label>
+                <input id="name" type="text" class="form-control" placeholder="请输入">
+            </div>
+            <div class="form-group">
+                <label for="address" class="control-label form-inline">仓库地址 </label>
+                <input id="address" type="text" class="form-control" placeholder="请输入">
+            </div>
+            <div class="form-group">
+                <label for="type" class="control-label form-inline">仓库类型</label>
+                <select id="type" class="form-control" required="required">
+                    <option value="">全部</option>
+                    <option value="1">实仓</option>
+                    <option value="2">虚仓</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary js-search">查询</button>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th width="60" class='text-center'>序号</th>
+                    <th width="150">编号</th>
+                    <th width="150">仓库名称</th>
+                    <th width="150">仓库类型</th>
+                    <th>仓库地址</th>
+                    <th width="150">仓库GIS</th>
+                    <th width="92" class='text-center'>操作</th>
+                </tr>
+            </thead>
+            <tbody class="js-list"></tbody>
+        </table>
+        <nav class="text-right pages"></nav>
+    </div>
+    <script src="./js/lib/jquery.min.js"></script>
+    <script src="./js/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/archives/archives-list.js"></script>
+</body>
+</html>

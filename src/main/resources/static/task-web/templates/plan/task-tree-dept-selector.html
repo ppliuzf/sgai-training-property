@@ -1,0 +1,44 @@
+<div class="task-tree multi-selector clean search">
+    <div class="btn-search js-{{title}}-search 000">
+        <div class="content">{{name}}</div>
+        <div class="inner js-{{title}}-selector" style="display: none;">
+            {{# value}}
+        </div>
+        <input type="hidden" class="js-{{title}}-dept" value="{{dept}}">
+        <input type="hidden" class="js-{{title}}-emp" value="{{emp}}">
+        <input type="hidden" class="js-{{title}}-all" value="{{all}}">
+    </div>
+</div>
+<style>
+    .task-tree {
+        height:auto;
+        border:0;
+    }
+    .task-tree  ul{
+        position:absolute;
+        z-index:100;
+        border:0;
+        left:0;
+        padding:0;
+        background:none;
+    }
+    .task-tree  ul li.btn-search{
+        display:block;
+        position:static;
+        border:0;
+    }
+    .task-tree  .btn-search{
+        height:auto;
+        width:100%;
+    }
+    /*.glyphicon-search:before{*/
+        /*display:none;*/
+    /*}*/
+    .task-tree  .btn-search{
+
+    }
+    .multi-selector .btn-search{
+    	background: #fff;
+    	border:0;
+    }
+</style>

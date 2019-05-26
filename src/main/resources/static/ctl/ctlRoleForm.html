@@ -1,0 +1,231 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<!--分页  -->
+<script src="../static/paginator/bootstrap-paginator.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.src.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+    <title>角色管理</title>
+    <meta name="decorator" content="default">
+    <script type="text/javascript">
+        var paramId;
+        $(document).ready(function () {
+        	paramId=GetQueryString("paramId");
+        	if(paramId!=null){
+        		updatepageload();
+        		$('#myModal #myModalLabel', window.parent.document).text("角色修改");
+        	}else{
+        		$('#myModal #myModalLabel', window.parent.document).text("角色新增");
+        	}
+        });
+        // 关闭弹框
+        function closePopUp(){
+            $('#myModal .close', window.parent.document).click();
+        }
+        function updatepageload(){
+        	 $.ajax({
+           		 headers : {
+                        "token" : localStorage.getItem("token"),
+                    },   
+        			url :APIHost+'/admin/ctl/ctlRole/findById',
+        			type : 'POST',
+        			async : false, //或false,是否异步
+        			data : {
+        				"roleIds": paramId
+
+        			},
+        			timeout : 30000,
+        			dataType : 'json',
+        			success : function(res) {
+        				if(res.code === 1000){
+    				    //成功返回
+    				    var item = res.data;
+        				$("#id").val(item.id);
+        				$("#roleCode").attr("readonly","readonly");
+        				$("#comCode").val(item.comCode);
+        				$("#roleCode").val(item.roleCode);
+        				$("#roleType").val(item.roleType);
+        				$("#roleDesc").val(item.roleDesc);
+        				$("#enabledFlag").val(item.enabledFlag);
+                            $("#remarks").val(item.remarks);
+        				}else if(res.code ===1003){
+        					//没有登录状态
+        					$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+        						{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+        				}else if(res.code === 1002){
+        					//发生异常
+        					$.jBox.alert(res.msg);
+        				}else if(res.code === 1004){
+        					//结果为空
+        					$.jBox.alert(res.msg);
+        				}
+        			},
+        			error : function() {
+        				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+        			}
+        		})
+        }
+        $(function(){
+        	autoSize();
+        })
+        //获取跳转地址的参数
+        function GetQueryString(name){
+             var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+             var r = window.location.search.substr(1).match(reg);
+             if(r!=null)return  unescape(r[2]); return null;
+        }
+        function saveItem(){
+            $.jBox.confirm("确定提交吗？", "提示", function (v, h, f) {
+                if(v == 'ok'){
+                	$("#inputForm").ajaxSubmit({
+                		 headers : {
+                             "token" : localStorage.getItem("token"),
+                         },   
+                		url : APIHost+'/admin/ctl/ctlRole/save',
+            			type : 'POST',
+            			async : false, //或false,是否异步
+            			data : {},
+            			timeout : 30000,
+            			dataType : 'json',
+                	    success:function (res) {
+                	    	if(res.code === 1000){
+        					//成功返回
+        					var data = res.data;
+                       		if(data.msg=="success"){
+                       		//提示删除成功
+            					$.jBox.alert('保存成功', '提示',{ closed: function ()
+            						{
+            						    window.parent.location.href= APIHost + "/ctl/ctlRoleList.html";
+            						} });
+                       		}else if(data.msg=="repeat"){
+                       			$.jBox. alert("该机构下角色代码已存在，请重新填写！","提示")
+                       		}else if(data.msg=="faild"){
+                       			$.jBox. alert("保存失败！","提示")
+                       		}
+                	    	}else if(res.code ===1003){
+                				//没有登录状态
+                				$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+                					{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+                			}else if(res.code === 1002){
+                				//发生异常
+                				$.jBox.alert(res.msg);
+                			}else if(res.code === 1004){
+                				//结果为空
+                				$.jBox.alert(res.msg);
+                			}
+                	}
+                });
+                }
+            })
+        } 
+    </script>
+</head>
+<body>
+<form id="inputForm" name="addForm" class="form-horizontal"  method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+    <input id="comCode" name="comCode" type="hidden" value="">
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>角色代码：</label>
+        <div class="controls">
+            <input id="roleCode" name="roleCode" class="required" type="text" value="" maxlength="10">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>角色名称：</label>
+        <div class="controls">
+           <!-- <input id="roleDesc" name="roleDesc" type="text" value="" maxlength="100"> -->
+            <textarea id="roleDesc" name="roleDesc"  maxlength="100" type="text" style="overflow-y:hidden;" class="textAreas"></textarea>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">角色描述：</label>
+        <div class="controls">
+            <!-- <input id="roleDesc" name="roleDesc" type="text" value="" maxlength="100"> -->
+            <textarea id="remarks" name="remarks"  maxlength="100" type="text" style="overflow-y:hidden;" class="textAreas"></textarea>
+        </div>
+    </div>
+   <!--  <div class="control-group">
+        <label class="control-label">专业：</label>
+        <div class="controls">
+            <input id="profession" name="profession" type="text" value="" maxlength="100">
+            <textarea id="profession" name="profession"  maxlength="100" type="text" style="overflow-y:hidden;" class="textAreas"></textarea>
+        </div>
+    </div> -->
+    <div class="form-actions">
+        <input id="btnCancel" class="btn" type="button" value="关闭" onclick="closePopUp()">
+        <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">
+        
+    </div>
+</form>
+
+</body>
+<script>
+// 表单验证
+$.validator.setDefaults({
+    submitHandler: function() {
+       // 调用提交
+       saveItem();
+    }
+});
+$().ready(function () {
+    // 在键盘按下并释放及提交后验证提交表单
+    $("#inputForm").validate({
+         rules: {
+            roleCode: {
+                required: true,
+                minlength: 1,
+                maxlength:6
+            },
+            roleName: {
+                required: true,
+                minlength: 1
+            },
+            roleDesc: {
+                required: true,
+            },
+          },
+        messages:{
+        	roleCode: {
+                required: "请输入角色代码",
+                minlength: "角色代码必需由六个字母组成"
+            },
+            roleDesc: {
+                required: "请输入角色名称",
+                minlength: "角色名称最低一个字"
+            },
+           /*  roleType: {
+                required: "请输入角色类型",
+            }, */
+        },
+        errorPlacement:function(error, element){
+            error.appendTo(element.parent());
+        }
+    });
+})
+</script>
+</html>

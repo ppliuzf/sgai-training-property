@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>客户档案</title>
+    <link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>客户类型设置</h4>
+            <div class="btns text-right">
+                <!-- <a href="./type-add.html" class="btn btn-primary">新建类型</a> -->
+                <button onclick="window.location.href='./type-add.html'" class="btn btn-primary">新建类型</button>
+            </div>
+        </div>
+        
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th width="60" class="text-center">序号</th>
+                    <th>类型名称</th>
+                    <th>描述　　</th>
+                    <th width="92" class="text-center">操作</th>
+                </tr>
+            </thead>
+            <tbody class="js-list"></tbody>
+        </table>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/type-list.js"></script>
+</body>
+</html>

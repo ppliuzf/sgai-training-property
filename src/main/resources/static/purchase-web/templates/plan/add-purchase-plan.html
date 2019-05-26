@@ -1,0 +1,23 @@
+<div class="form-group js-num">
+    <label for="planName"><span class="require"></span>计划名称</label>
+    <input type="text" class="form-control" id="planName" ids="" value="{{items.planName}}" placeholder="" maxlength="20">
+</div>
+<div class="form-group js-num">
+    <label for="planType"><span class="require"></span>计划类型</label>
+    <select id="planType" class="form-control" required="required">
+        <option value="1" selected="selected">采购</option>
+    </select>
+</div>
+<div class="form-group">
+    <label for="planDescription">描述</label>
+    <textarea type="email" rows="4" class="form-control" id="planDescription" placeholder="请输入描述内容" maxlength="200">{{items.planDescribe}}</textarea>
+    <div class="text-right js-count">0/200</div>
+</div>
+<div class="form-group js-num">
+    <label for="planDepartment"><span class="require"></span>部门</label>
+    <!-- <select id="planDepartment" class="form-control" required="required">
+        <option value="1" selected="selected">部门一</option>
+        <option value="2">部门二</option>
+    </select> -->
+    <div class="js-dept-selector"></div>
+</div>

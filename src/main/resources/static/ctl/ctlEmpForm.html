@@ -1,0 +1,355 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+    <script src="../static/common/validator-common.js" type="text/javascript"></script>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script type="text/javascript">
+    	$(function(){
+    		loadDictByType("sex","sex_type");
+            loadDictByType("marriage","marriage");
+    	})
+    </script>
+    <title>员工管理</title>
+    <meta name="decorator" content="default">
+    <style type="text/css">
+    	.form-horizontal .control-label {
+		    width: 100px;
+		}
+    </style>
+<script type="text/javascript">
+var paramId=GetQueryString("paramId");
+//表单验证
+$.validator.setDefaults({
+    submitHandler: function() {
+       // 调用提交
+       save();
+    }
+});
+$().ready(function () {
+	paramId=GetQueryString("paramId");
+	if(paramId!=null){
+		$('#myModal #myModalLabel', window.parent.document).text("修改员工信息");
+		$("#empCode").attr("readonly","readonly");
+	}else{
+		$('#myModal #myModalLabel', window.parent.document).text("新增员工");
+	}
+    // 在键盘按下并释放及提交后验证提交表单
+    $("#inputForm").validate({
+         rules: {
+        	empCode: {notChineseLenth: ["20"]},
+            lastname: {
+                required: true,
+                minlength: 1,
+                maxlength: 10
+            },
+            deptName: {
+                required: true,
+                minlength: 1
+            }
+          },
+        messages:{
+            lastname: {
+                required: "请输入员工姓名",
+                minlength: "员工姓名不能少于一个字符",
+                maxlength: "员工姓名不能 多于10个字符"
+            },
+            deptName: {
+                required: "请选择部门",
+                minlength: "部门名称最低一个字符"
+            }
+        },
+        errorPlacement:function(error, element){
+            error.appendTo(element.parent());
+        }
+    });
+})
+
+
+        function save(){
+        	var employdt = $("#employdt").val();
+        	var termindt = $("#termindt").val();
+        	var startDte = new Date(employdt.replace(/\-/g, "\/"));
+        	var endDate = new Date(termindt.replace(/\-/g, "\/"));
+        	if(employdt != "" && termindt != ""){
+        		if(startDte >= endDate){
+            		$.jBox.alert("离职日期不能早于录用日期！","提示");
+            		return false;
+            	}
+        	}
+        	$.jBox.confirm("确定提交吗？", "提示", function (v, h, f) {
+    			if(v == 'ok'){
+    				var ajax_option={
+    	    				headers    : {
+    	    	                 "token" : localStorage.getItem("token"),
+    	    	             },
+    	    	            async : false, //或false,是否异步
+    	    				url:APIHost + '/admin/ctl/emp/ctlEmp/save',//默认是form action
+    	    				success:function(res){
+    	    					if(res.code === 1000){
+    	    						console.log(res);
+    	        					if(res.data.msg=="success"){
+    	                            	$.jBox.alert("保存成功","提示",{closed:function(){
+    	                            		window.parent.location.href = APIHost + "/ctl/ctlEmpList.html";}
+    	                            	});
+    	                            	/* setTimeout(function(){
+    	                            		window.parent.location.href = APIHost + "/ctl/ctlEmpList.html";
+    	            	            	},500) */
+    	            	            	
+    	                            }else if(res.data.msg=="havaData"){
+    	                            	$.jBox.alert("员工代码已存在！","提示");
+    	                            }else if(res.data.msg=="repeatCard"){
+    	                            	$.jBox.alert("身份证号已存在！","提示");
+    	                            }else{
+    	                            	$.jBox.alert("保存失败","提示");
+    	                            }
+    		    				}else if(res.code ===1003){
+    		    					//没有登录状态
+    		    					$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+    		    						{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+    		    				}else if(res.code === 1002){
+    		    					//发生异常
+    		    					$.jBox.alert(res.msg);
+    		    				}else if(res.code === 1004){
+    		    					//结果为空
+    		    					$.jBox.alert(res.msg);
+    		    				}
+    	       				}
+    	           		}
+    	    		$("#inputForm").ajaxSubmit(ajax_option);
+    			}
+    		})
+        	
+        }
+        
+//获取修改数据
+function updatepageload() {
+    //添加新tbody
+    $.ajax({
+        headers : {
+            "token" : localStorage.getItem("token"),
+        },
+        url : APIHost + '/admin/ctl/emp/ctlEmp/getEmp',
+        type : 'POST',
+        async : false, //或false,是否异步
+        data : {
+            id : paramId
+        },
+        timeout : 30000,
+        dataType : 'json',
+        success : function(res) {
+        	$("#id").val(paramId);
+			$("#empCode").val(res.data.empCode);
+			$("#lastname").val(res.data.lastname);
+			$("#defaproj").val(res.data.defaproj);
+			$("#deptCode").val(res.data.deptCode);
+			$("#deptName").val(res.data.deptName);
+			$("#telepno1").val(res.data.telepno1);
+			$("#telepno2").val(res.data.telepno2);
+			$("#telepno3").val(res.data.telepno3);
+			$("#email").val(res.data.email);
+			$("#birthdt").val(res.data.birthdt);
+			var select = document.getElementById("sex");
+			for (var i = 0; i < select.options.length; i++){  
+		        if (select.options[i].value == res.data.sex){
+		        	console.log(select.options[i].value);
+		            select.options[i].selected = true;
+		            $("#sex").parent().find("span.select2-selection__rendered").html(select.options[i].text);
+		            $(".select2-selection__placeholder").css("color","#999");
+		            break;  
+		        }  
+		    }
+			var select2 = document.getElementById("marriage");
+			for (var i = 0; i < select.options.length; i++){  
+		        if (select2.options[i].value == res.data.marriage){
+		            select2.options[i].selected = true;
+		            $("#marriage").parent().find("span.select2-selection__rendered").html(select2.options[i].text);
+		            break;  
+		        }  
+		    }
+			$("#idCard").val(res.data.idCard);
+			$("#employdt").val(res.data.employdt);
+			$("#termindt").val(res.data.termindt);
+        },
+        error : function() {
+			$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+        }
+    })
+}
+$(function(){
+ setTimeout(function(){
+	 if(paramId != null){
+	        updatepageload();
+	    }
+	},500)
+
+})
+
+    
+    //获取跳转地址的参数
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}  
+
+// 关闭弹框
+function closePopUp(){
+    $('#myModal .close', window.parent.document).click();
+}
+
+function showTree(){
+	if ($("#progButton").hasClass("disabled")){
+		return true;
+	}
+	top.$.jBox.open("iframe:"+APIHost+"/sys/tagTreeselect.html?urlData="
+			+encodeURIComponent(APIHost+"/admin/ctl/dept/ctlDept/getDeptList?type=2"), 
+			"选择功能", 300, 420, 
+		{
+		ajaxData:{selectIds: $("#progCode").val()},
+		buttons:{"确定":"ok", "关闭":true}, 
+		submit:function(v, h, f){
+			if (v=="ok"){
+				var tree = h.find("iframe")[0].contentWindow.tree;
+				nodes = tree.getSelectedNodes();
+				/* if (nodes[0].isParent){
+					top.$.jBox.tip("不能选择父节点("+nodes[0].name+")请重新选择。");
+					return false;
+				} */					
+				$("#deptCode").val(nodes[0].id);
+				$("#deptName").val(nodes[0].name);
+			}
+		}
+	});
+}
+		 
+        
+    </script>
+</head>
+<body>
+<!--<ul class="nav nav-tabs">-->
+    <!--<li><a href="">员工新增或修改</a></li>-->
+<!--</ul>-->
+<!--<br>-->
+<form id="inputForm" class="form-horizontal" method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>员工代码：</label>
+        <div class="controls">
+            <input id="empCode" name="empCode" type="text" class="required" maxlength="20">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>姓名：</label>
+        <div class="controls">
+            <input id="lastname" name="lastname" type="text" value="" maxlength="30">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">工作任务：</label>
+        <div class="controls">
+            <input id="defaproj" name="defaproj" type="text" value="" maxlength="30">
+        </div>
+    </div>
+    <div class="control-group">
+		<label class="control-label"><span class="help-inline"><font color="red">*</font> </span>部门：</label>
+		<input id="deptCode" name="deptCode" type="hidden" value="">
+		<div class="controls">
+			<input id="deptName" name="deptName" readonly="readonly" type="text" onclick="showTree()" style="cursor:pointer;">
+		</div>
+	</div>
+    <div class="control-group">
+        <label class="control-label">办公电话：</label>
+        <div class="controls">
+            <input id="telepno2" name="telepno2" type="text" value="" maxlength="20">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">住宅电话：</label>
+        <div class="controls">
+            <input id="telepno1" name="telepno1" type="text" value="" maxlength="20">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">移动电话：</label>
+        <div class="controls">
+            <input id="telepno3" name="telepno3" type="text" value="" maxlength="11">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">电子邮件：</label>
+        <div class="controls">
+            <input id="email" name="email" type="text" value="" maxlength="30">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">出生日期：</label>
+        <div class="controls">
+            <input id="birthdt" name="birthdt" type="text" style="cursor:pointer;" readonly="readonly" maxlength="20" class="input-mini Wdate" value="" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">性别：</label>
+        <div class="controls">
+            <select id="sex" name="sex" class="input-xlarge select2-offscreen" tabindex="-1">
+            	<option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">婚姻状况：</label>
+        <div class="controls">
+            <select id="marriage" name="marriage" class="input-xlarge select2-offscreen" tabindex="-1">
+            	<option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">身份证：</label>
+        <div class="controls">
+            <input id="idCard" name="idCard" type="text" value="" maxlength="18">
+        </div>
+    </div>
+  
+    <div class="control-group">
+        <label class="control-label">录用日期：</label>
+        <div class="controls">
+            <input id="employdt" name="employdt" type="text" style="cursor:pointer;" readonly="readonly" maxlength="20" class="input-mini Wdate" value="" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">离职日期：</label>
+        <div class="controls">
+            <input id="termindt" type="text" name="termindt" style="cursor:pointer;" readonly="readonly" maxlength="20" class="input-mini Wdate" value="" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});">
+        </div>
+    </div>
+    <div class="form-actions">
+        <input id="btnCancel" class="btn" type="button" value="关 闭" onclick="closePopUp()">
+        <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">
+    </div>
+</form>
+
+</body></html>

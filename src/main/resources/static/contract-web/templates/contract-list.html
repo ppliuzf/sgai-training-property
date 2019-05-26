@@ -1,0 +1,54 @@
+{{each items as item idx}}
+<tr>
+<td class="text-center">
+    {{if item.status === 1}}
+    <input type="checkbox" class="js-list-select-single" data-id="{{item.id}}" data-status="{{item.status}}" name="choose">
+    {{else}}
+    <input type="checkbox" class="js-list-select-single" data-id="{{item.id}}" data-status="{{item.status}}" disabled >
+    {{/if}}
+</td>
+    <td class="text-center">{{idx + 1 < 10 ? '0'+(idx + 1) : idx + 1}}</td>
+    <td><a href="./contract-detail.html?id={{item.id}}">{{item.no}}</a></td>
+    <td><div>{{item.name}}</div></td>
+    <td><div>{{item.typeName}}</div></td>
+    <td>{{item.singDate | dateFormat:'yyyy-MM-dd'}}</td>
+    <td>{{item.creater}}</td>
+    <td><div>{{item.ownerName}}</div></td>
+    <td><div>{{item.secondPartyName}}</div></td>
+    <td>{{item.effectiveDate | dateFormat:'yyyy-MM-dd'}}</td>
+    <td>{{item.amount}}万</td>
+    <td>{{item.status !== 1 ? '已签约': '未签约'}}</td>
+    <!--<td class="text-center act">-->
+        <!--<div class="btn-group more">-->
+            <!--<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>-->
+            <!--<ul class="dropdown-menu">-->
+                <!--<li>-->
+                    <!--<a href="./contract-add.html?id={{item.id}}" data-id="{{item.id}}" class="js-edit">编辑</a>-->
+                <!--</li>-->
+                <!--{{if item.status === 1}}-->
+                <!--<li>-->
+                    <!--<a href="javascript:;" data-id="{{item.id}}" class="js-del">删除</a>-->
+                <!--</li>-->
+                <!--{{/if}}-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</td>-->
+    <td class="text-center" style="white-space:nowrap">
+        <a href="./contract-add.html?id={{item.id}}" data-id="{{item.id}}" class="js-edit">编辑</a>
+        {{if item.status === 1}}
+        <a href="javascript:;" data-id="{{item.id}}" class="js-del">删除</a>
+        {{/if}}
+    </td>
+</tr>
+{{/each}}
+<style>
+    td div{
+        display: -webkit-box;
+        overflow: hidden;
+        white-space: normal!important;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
+</style>

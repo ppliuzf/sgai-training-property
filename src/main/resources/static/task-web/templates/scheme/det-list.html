@@ -1,0 +1,37 @@
+{{each items as item}}
+<tr data-id="{{item.id}}">
+    <td class="text-center">
+        <!-- {{if item.num<10}}
+        0{{item.num}}
+        {{else}}
+        {{item.num}}
+        {{/if}} -->
+        <input type="checkbox" class="check-item" data-id={{item.id}}>
+    </td>
+    <td>{{item.name}}</td>
+    <!-- <td>
+        <div class="text-ellipsis text-center" style="max-width:300px;">
+            {{item.standard ? item.standard : '无'}}
+        </div>
+    </td> -->
+    <td>{{item.answerTypeDesc}}</td>
+    <td>{{item.createName}}</td>
+    <td>
+            {{if item.updateTime}}
+            {{item.updateTime | dateFormat:'yyyy-MM-dd'}}
+            {{else}}
+            --
+            {{/if}}
+    </td>
+    <!-- <td class="text-center act">
+        <div class="btn-group more">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多 <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li>
+                    <span><a class="js-add-item underline" data-id="{{item.id}}">添加</a></span>
+                </li>
+            </ul>
+        </div>
+    </td> -->
+</tr>
+{{/each}}

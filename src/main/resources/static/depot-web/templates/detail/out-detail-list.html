@@ -1,0 +1,13 @@
+{{each items as item index}}
+<tr>
+    {{ if index+1 < 10}}
+    <td class="text-center" >0{{index+1}}</td>
+    {{ else }}
+    <td class="text-center" >{{index+1}}</td>
+    {{ /if }}
+    <td>{{item.matName}}</td>
+    <td>{{item.matSpec}}</td>
+    <td>{{item.matNeetNum }}</td>
+    <td>{{item.matRealNum }}</td>
+</tr>
+{{/each}}

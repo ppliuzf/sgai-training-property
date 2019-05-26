@@ -1,0 +1,58 @@
+<div class="form-inline filter">
+    <h4 class="pt30">用料明细</h4>
+    <div class="pt15">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th width="60" class="text-center">序号</th>
+                    <th>物料名称</th>
+                    <th>物料规格</th>
+                    <!--<th>材料型号</th>-->
+                    <th width="120">所需数量</th>
+                    <th width="120">库存数量</th>
+                    <th width="120">已出库数量</th>
+                    <th width="120">出库数量</th>
+                </tr>
+            </thead>
+            <tbody class="js-wuliao-list">
+                {{if items.length > 0}} {{each items as item index}}
+                <tr>
+                    <!--<td>序号</td>-->
+                    {{ if index+1
+                    < 10}} <td class="text-center" id='{{item.id}}'>0{{index+1}}</td>
+                        {{ else }}
+                        <td class="text-center">{{index+1}}</td>
+                        {{ /if }}
+                        <!--<td>物料名称</td>-->
+                        <td>{{item.matName}}</td>
+                        <!--<td>物料规格</td>-->
+                        <td>{{item.matSpec}}</td>
+                        <!-- <td>{{item.applyCount || item.matRealNum}}</td> -->
+                        <td>{{item.matNeetNum}}</td>
+                        <td>{{item.matNum}}</td>
+                        {{if item.matRealNum != 0}}
+                        <td>{{item.matRealNum}}</td>
+                        {{else}}
+                        <td>0</td>
+                        {{ /if }}
+                        <td>
+                            <input type="number" class="numbers matRealNum" matNum="{{item.matNum}}" matNeetNum="{{item.matNeetNum}}" matTypeId='{{item.matTypeId}}'
+                                ids='{{item.id}}' value="0" min="0" max="{{item.matNum}}">
+                        </td>
+                        <!-- {{if item.outNumber != 0}}
+                            <td><input type="number" class="numbers matRealNum" matNum="{{item.matNum}}" matNeetNum="{{item.matNeetNum}}" matTypeId='{{item.matTypeId}}' ids='{{item.id}}' value="{{item.outNumber}}" min="0" max="{{item.outNumber}}"></td>
+                        {{else}}
+                            <td><input type="number" class="numbers matRealNum" matNum="{{item.matNum}}" matNeetNum="{{item.matNeetNum}}" matTypeId='{{item.matTypeId}}' ids='{{item.id}}' value="0" min="0" max="{{item.outNumber}}"></td>
+                        {{ /if }} -->
+
+                </tr>
+                {{/each}} {{else}}
+                <tr>
+                    <td colspan='7'>暂无数据</td>
+                </tr>
+                {{/if}}
+            </tbody>
+        </table>
+        <nav class="text-right pages"></nav>
+    </div>
+</div>

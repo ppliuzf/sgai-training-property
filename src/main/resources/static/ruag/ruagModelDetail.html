@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store">
+   <link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+	<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+	<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+	<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+	<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+	<link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+	<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+	<link href="../static/jquery-ztree/3.5.12/css/zTreeStyle/zTreeStyle.min.css" rel="stylesheet" type="text/css"/>
+	<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+	<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+	<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="../static/paginator/bootstrap-paginator.js" type="text/javascript"></script>
+	<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+	<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+	<script src="../static/jquery-ztree/3.5.12/js/jquery.ztree.all-3.5.min.js" type="text/javascript"></script>
+	<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+	<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+	<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+	<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+	<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+	<script src="../static/common/smart.min.js" type="text/javascript"></script>
+	<script src="../static/jquery-params/jquery.params.js" type="text/javascript"></script>
+	<script src="../config/smart-common.js" type="text/javascript"></script>
+	<script src="../static/media/js/main.js" type="text/javascript"></script>
+    <style>
+        .circularLi {
+            margin-left: 50px;
+        }
+
+        .controlSpan {
+            font-size: 107px;
+            top: 199px;
+            position: relative;
+        }
+
+        .dropdown-menu {
+            top: 100%;
+        }
+
+        /*.tab-content{
+        display: none;
+        }*/
+        .tab-content.active {
+            display: block;
+        }
+
+        .table-responsive .table tbody td {
+            color: #666;
+            background-color: #e3e3e3;
+            /*border: 1px solid #bbbbbb;*/
+            /*padding-top: 5px;*/
+            /*padding-bottom: 5px;*/
+            text-align: center;
+        }
+
+        .table-responsive .table thead th {
+            background-color: #dadada;
+            text-align: center;
+        }
+
+        .table > thead:first-child > tr:first-child > th {
+            color: #333;
+            width: 61px;
+        }
+
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .table tbody > tr > td {
+            color: #666666;
+            font-size: 13px;
+            line-height: 1.97;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .col-sm-2 {
+            width: 21%;
+            padding-top: 1px;
+            float: left;
+        }
+
+        .tips {
+            float: none;
+            margin-top: 48px;
+            font-size: 13px;
+            color: #6f6f72;
+            background-color: #d9d9f2;
+            padding: 2px 20px;
+            display: none;
+            width: 225px;
+        }
+
+        .deleteAll {
+            color: #0066cc;
+            position: relative;
+        }
+
+        .tsk {
+            width: 185px;
+            height: 70px;
+            background: #fff;
+            padding-left: 10px;
+            padding-top: 15px;
+            color: #9E9E9E;
+            position: absolute;
+            right: 35px;
+            bottom: 40px;
+            font-size: 12px;
+            box-shadow: 1px 1px 2px #fff;
+            z-index: 15;
+        }
+
+        .tsk span {
+            padding-left: 5px;
+        }
+
+        .tsk div {
+            padding-top: 8px;
+            float: right;
+            margin-right: 10px;
+        }
+
+        .tsk div .btn:nth-child(1) {
+            color: #A6A6A6;
+            background: #F3F3F3;
+            border: 1px solid #E6E6E6;
+            border-radius: 5px;
+            width: 48px;
+            margin-right: 5px;
+            height: 20px;
+            line-height: 2px;
+            font-size: 12px;
+        }
+
+        .tsk div .btn:nth-child(2) {
+            color: #B36663;
+            background: #F3F3F3;
+            border: 1px solid #E6E6E6;
+            border-radius: 5px;
+            width: 48px;
+            height: 20px;
+            line-height: 2px;
+            font-size: 12px;
+        }
+
+        .deleteTC {
+            width: 186px;
+            font-size: 12px;
+            background-color: #fff;
+            padding: 10px;
+            position: absolute;
+            display: none;
+            position: absolute;
+            color: #666;
+            left: -146px;
+            top: -74px;
+        }
+
+        .deleteTC1 {
+            display: none;
+        }
+
+        .deleteButton {
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        .deleteButton button {
+            width: 50px;
+            height: 24px;
+            font-size: 12px;
+            background: linear-gradient(to bottom, #fdfdfd 0%, #e8e8e8 100%) !important;
+            border: 1px solid #d5d5d5 !important;
+            margin-left: 5px;
+        }
+
+        .nav-tabs {
+            border-bottom: 1px solid #ddd;
+            background-color: #cccccc;
+        }
+
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+            color: #666;
+            cursor: default;
+            background-color: #eee;
+            border-bottom-color: transparent;
+            /*border-top: 2px solid #0166CC;*/
+            border-radius: 0;
+            width: 140px;
+            border: none !important;
+        }
+
+        .nav-tabs > li.active > a {
+            border-top: none !important;
+        }
+
+        .nav-tabs > li > a {
+            margin-right: 2px;
+            line-height: 1.42857143;
+            border: 1px solid transparent;
+            border-radius: none !important;
+            color: #666;
+        }
+
+        .footer:before {
+            position: absolute;
+            content: '';
+            left: 0;
+            width: 0;
+            top: 0;
+            bottom: 20px;
+            background-color: #9C9CA5;
+            z-index: 0;
+        }
+
+        .tab_title {
+            width: 100%;
+            height: 40px;
+            overflow: hidden;
+            left: 0;
+            top: 0;
+            clear: both;
+            position: relative;
+            background-color: #ccc;
+            border-top: 1px solid #a1a1a1;
+        }
+
+        .tab_title .u {
+            width: 700px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .tab_title ul {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .tab_title div {
+            float: left;
+            width: 15px;
+            height: 40px;
+            line-height: 40px;
+            cursor: pointer;
+        }
+
+        .tab_title li {
+            float: left;
+            margin-bottom: 0;
+            width: 140px;
+            height: 40px;
+            line-height: 20px;
+            text-align: center;
+            background-color: #C6C6C6;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+
+        .tab_title li:hover {
+            background-color: #999999
+        }
+
+        .tab_title li.selected {
+            background-color: #666666;
+        }
+
+        #contextInf tr td span {
+            cursor: pointer;
+        }
+
+        .table-responsive {
+            margin-top: 0 !important;
+            margin-bottom: 24px;
+        }
+
+        .tmk {
+            width: 100%;
+            height: 535px;
+            background: #fff;
+            position: absolute;
+            z-index: 10;
+            opacity: 0;
+            display: none;
+        }
+
+        .activeBj {
+            background: rgba(0, 0, 0, .3) !important;
+        }
+
+        .nav-tabs > li > a:hover {
+            width: 141px;
+        }
+
+        .table-bordered {
+            border-radius: 0;
+        }
+
+        .table-bordered thead:first-child tr:first-child > th:first-child, .table-bordered thead:first-child tr:first-child > th:last-child {
+            border-radius: 0;
+        }
+
+        .table-responsive .table thead th {
+            background: #f5f5f5;
+        }
+
+        .pagination ul {
+            float: right;
+        }
+
+        #addmodelIfame {
+            width: 100%;
+            height: 480px;
+            overflow: hidden;
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-tabs > li > a {
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        #ul .nav-tabs li a {
+            background: #ccc;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        #ul .nav-tabs li.active a {
+            background: #fff;
+        }
+        .form-search{
+            float: none;
+            max-width: none;
+        }
+        .form-horizontal .control-label {
+            width: 100px;
+        }
+        .form-search .ul-forms{
+        	min-height:48px;
+        	margin:0;
+        }
+    	/* .form-search .ul-forms>li{
+    		margin: 0 24px 16px 0;
+		    float: left;
+		    list-style: none;
+		    height: 32px;
+		    line-height: 32px;
+		    font-size: 0;
+    	} */
+    	.modal-body{
+    		overflow-y: auto;
+    	}
+    	
+    </style>
+</head>
+<script type="text/javascript">
+    var paramId;
+    var workModels;
+    var controlCode;
+    var status;
+    var modelTemplateId;
+    $(document).ready(function () {
+    	autoSize();
+        //左侧分页内容
+        getProf();
+        paramId = GetQueryString("id");
+        modelTemplateId = paramId;
+        $("#btnAdd").attr("itemId", paramId);
+        updatepageload(paramId);
+        /*  pageload(); */
+        getList();
+        pageRightContent();
+        $("#queryBtn").click();
+
+    });
+    //获取跳转地址的参数
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)return unescape(r[2]);
+        return null;
+    }
+    function pageload(n, s) {
+        $(".page-box").css("display", "none");
+        $(".page-null").css("display", "none");
+        $("#page_div").css("display", "none");
+        $("#guessLoading").append("<div id='loading' class='spinner'><div class='rect1'></div><div class='rect2'></div><div class='rect3'></div><div class='rect4'></div><div class='rect5'></div></div>");
+        //判断是否传pageSize
+        var pageSize = $('.page-size option:selected').val();
+        if (!$.isNumeric(s)) {
+            s = pageSize;
+        }
+        //删除旧tbody
+        var contentTableSub = document.getElementById("privilegeTable");
+        var oldTbody = document.getElementById("privilegeTbody");
+        if (oldTbody != null) {
+            contentTableSub.removeChild(oldTbody);
+        }
+
+        //添加新tbody
+        $.ajax({
+            headers: {
+                "token": localStorage.getItem("token"),
+            },
+            url: APIHost + '/ruag/ruag/ruagWorkModelDatail/getList',
+            type: 'POST',
+            async: true, //或false,是否异步
+            data: {
+                modelTemplateId: modelTemplateId,
+                pageNo: n,
+                pageSize: s,
+                spaceCode: $("#spaceCode").val(), 
+                profCode: $("#profCode").val(),
+                classCode: $("#classCode").val(),
+                deviceCode: $("#devicesCode").val(),
+            }, 
+            //timeout : 5000,
+            dataType: 'json',
+            success: function (res) {
+                $('#loading').remove();
+                if (res.code === 1000) {
+                    //成功返回
+                    var newTbody = document.createElement("tbody");
+                    newTbody.setAttribute("id", "privilegeTbody");
+                    pageContent(res.data);
+                    if (res.data.list == '') {
+                        $(".page-null").css("display", "block");
+                        $(".page-box").css("display", "none");
+                    } else {
+                        $(".page-null").css("display", "none");
+                        $(".page-box").css("display", "block");
+                        $("#page_div").css("display", "block");
+                        var list = res.data.list;
+                        workModels = list;
+                        for (var i = 0; i < list.length; i++) {
+                            var tr = document.createElement("tr");
+                            //选择框
+                            var td0 = document.createElement("td");
+                            td0.innerHTML = "<input type='checkbox' name ='checkbox' data-code= '" + list[i].classCode + "' value='" + list[i].id + "'/>"
+                            td0.className = "checked_size";
+                            tr.appendChild(td0);
+                            //序号
+                            var td1 = document.createElement("td");
+                            td1.innerHTML = i + 1;
+                            td1.className = "order_number";
+                            tr.appendChild(td1);
+                            //系统代码
+                            var td2 = document.createElement("td");
+                            td2.innerHTML = list[i].workModeName;
+                            tr.appendChild(td2);
+                            $(td2).attr("class", "td2-path");
+                            //系统名称
+                            var td3 = document.createElement("td");
+                            td3.innerHTML = list[i].spaceName;
+                            tr.appendChild(td3);
+                            $(td3).attr("class", "td2-path");
+                            //系统图标
+                            var td4 = document.createElement("td");
+                            td4.innerHTML = list[i].profName;
+                            $(td4).attr("class", "td2-path");
+                            tr.appendChild(td4);
+                            //系统访问banner
+                            var td5 = document.createElement("td");
+                            td5.innerHTML = list[i].className;
+                            tr.appendChild(td5);
+                            $(td5).attr("class", "td2-path");
+                            //系统背景图片
+                            var td6 = document.createElement("td");
+                            td6.innerHTML = list[i].deviceName;
+                            tr.appendChild(td6);
+                            $(td6).attr("class", "td2-path");
+                            //显示顺序
+                            /*  var td7 = document.createElement("td");
+                             td7.innerHTML = list[i].deviceCode;
+                             tr.appendChild(td7); */
+                             /* //描述
+                             var td8 = document.createElement("td");
+                             td8.innerHTML = list[i].offsetTime;
+                             tr.appendChild(td8);
+                             $(td8).attr("class","td2-path");  */
+                            var td9 = document.createElement("td");
+                            td9.innerHTML = list[i].remarks;
+                            tr.appendChild(td9);
+                            $(td9).attr("class", "td2-path");
+                            //操作
+                            var td10 = document.createElement("td");
+                            td10.innerHTML = '<span itemId="' + list[i].id + '"  onclick="editItemClick(this)">参数</span>'
+                            + '<span itemId="' + list[i].id + '"  onclick="reMoveItem(this)">删除</span>';
+                            tr.appendChild(td10);
+                            td10.className = "operate_size";
+                            newTbody.appendChild(tr);
+                        }
+                        contentTableSub.appendChild(newTbody);
+                        //table下每一行tr选中高亮
+                        inputCheck();
+                        //调用操作按钮方法
+                        handelBtn();
+            
+                    }
+                } else if (res.code === 1003) {
+                    //没有登录状态
+                    $.jBox.alert('您没有登录状态，请先登录', '提示', {
+                        closed: function () {
+                            window.parent.location.href = APIHost + "/sys/sysLogin.html";
+                        }
+                    });
+                } else if (res.code === 1002) {
+                    //发生异常
+                    $.jBox.alert(res.msg);
+                } else if (res.code === 1004) {
+                    //结果为空
+                    $.jBox.alert(res.msg);
+                }
+            },
+            error: function () {
+				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+            }
+        })
+    }
+    function closePopUp() {
+        $("#myParamModal").modal("hide");
+    }
+    function clearUp(){
+		$("#profCode").select2("val","");
+		$("#classCode").select2("val","");
+		$("input[type=text]").val("");
+		$("#spaceCode").val("");
+	}
+</script>
+<body>
+<div id="modelDetail">
+    <div class="tab_title">
+        <div class="vleft" onclick="left()"><img src="../static/images/left111.png"></div>
+        <div class="u" id="ul">
+            <ul class="nav nav-tabs" role="tablist">
+            </ul>
+        </div>
+        <div class="vright" onclick="right()"><img src="../static/images/right111.png"></div>
+    </div>
+    <!--version2 workmodel  查询    ：按 区域类型 地点 专业   -->
+    <div class="table_fluid">
+        <div class="table-responsive ">
+            <table class="table table-striped table-bordered text-center">
+                <thead>
+                <tr>
+                    <th style="width: 24.5%;">控制类别</th>
+                    <th style="width: 24.5%;">策略等级</th>
+                    <th style="width: 24.5%;">起止日期</th>
+                    <th style="width: 24.5%;">策略类型</th>
+                </tr>
+                </thead>
+                <tbody id="modelInf">
+                </tbody>
+            </table>
+        </div>
+        <form class="breadcrumb form-search">
+            <input type="hidden" id="pageNo" name="pageNo" value="1">
+            <input type="hidden" id="pageSize" name="pageSize" value="10">
+            <input type="hidden" id="mtid" name="id">
+            <ul class="ul-form">
+                <li>
+                    <label>区域：</label>
+                        <input id="positionSearch" type="text" name="spaceTree" readonly="readonly" style="cursor:pointer" class="query_input input-medium inputSearch" style="width:116px" placeholder="请选择">
+                        <input id="spaceCode" name="spaceCode" type="hidden" class="form-control inputSearch">
+                        <div class="spaceTree" id="treeDiv" style="display:none;position:absolute; z-index:2; background-color:White;border-bottom: #c3daf9 1px solid; border-left: #c3daf9 1px solid; width: 182px; border-top: #c3daf9 1px solid; border-right: #c3daf9 1px solid;height:200px;overflow: auto">
+                            <div id="spaceTree" class="ztree">
+                            </div>
+                        </div>
+                </li>
+                <li>
+                    <label>专业：</label>
+                    <select id="profCode" name="proCode" class="input-medium inputSearch">
+                        <option value=""></option>
+                    </select>
+                </li>
+                <li>
+                    <label>设备类型：</label>
+                    <select id="classCode" name="classCode" class="input-medium inputSearch">
+                        <option value=""></option>
+                    </select>
+                </li>
+                 <li>
+                    <label>设备编码：</label>
+                    <input id="devicesCode" name="devicesCode" type='text' class="input-medium inputSearch" style="width:100px">
+                </li>
+                <li class="btns">
+                    <button type="button" class="btn btn-primary btn_middle small_blue" id="queryBtn"
+                            onclick="pageload()">查询
+                    </button>
+                    <button id="btnClear" class="btn btn-primary btn_middle small_clear" type="button" value="清空" onclick="clearUp();">清空</button>
+                </li>  
+                <li class="clearfix"></li>
+           </ul>
+        </form>
+        <div class="table_infor">
+        <div class="small_btn">
+            <button type="button" id="btnAdd" class="btn_add" onclick="showAddWindow(this)">
+                <i class="icon-plus"></i>
+                <span>新增</span>
+            </button>
+            <button type="button" class="btn_add" style="width:90px!important"onclick="selectDatacheck()">
+                <i class="icon-cog"></i>
+                <span>设置参数</span>
+            </button>
+        </div>
+    </div>
+        <div class="table-responsive" id="guessLoading">
+            <div class="tmk"></div>
+            <table id="privilegeTable" class="table table-striped table-bordered text-center">
+                <thead>
+                <tr>
+                    <th>选择</th>
+                    <th>序号</th>
+                    <th>策略名称</th>
+                    <th>位置</th>
+                    <th>专业</th>
+                    <th>设备类型</th>
+                    <th>设备</th>
+                    <!-- <th>设备编码</th> -->
+                    <!--<th>偏移时间</th>  -->
+                    <th>备注</th>
+                    <th width="100">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">参数信息</h4>
+            </div>
+            <div class="modal-body" style="">
+                <iframe id="Iframe" style="height:400px"></iframe>
+            </div>
+        </div>
+        <div class="modal fade hide" id="myParamModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 425px;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="closePopUp()">×</button>
+                        <h4 class="modal-title">设置参数</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="workModelform" class="form-horizontal" style="">
+                            <input type="hidden" id="modelIds" name="modelIds">
+
+                            <div class="control-group">
+                                <label class="control-label">策略名称：</label>
+
+                                <div class="controls">
+                                    <input type="hidden" id="modelTemplateId" name=" ">
+                                    <input type="text" id="workModelName_1" class="input-medium" name="workModeName" readonly="readonly">
+                                </div>
+                            </div>
+                            <div id="paramters"></div>
+                            <div class="control-group" id="remarkDiv">
+                                <label class="control-label">备注：</label>
+
+                                <div class="controls">
+                                    <!-- <input class="input-medium" type="text" id="remark_1" name="remarks"> -->
+                                    <textarea class="textAreas" id="remark_1" name="remark"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <input class="btn" type="button" onclick="closePopUp()" value="关闭">
+								<input class="btn btn-primary" type="submit" value="保存">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //version2  ----为某个模式新增 模式设备记录 (workmodel)
+    showAddWindow = function (index) {
+        if (status == "1") {
+            $.jBox.alert("该运行策略正在开启中，关闭后再进行设置", "提示");
+        } else {
+            //调用公共方法，弹出窗口
+            //$("#Iframe").css("width","1063px");
+            editItem(index, 'itemId', 'ruag/ruagModelAdd', 'myModal', 'Iframe', 1095);
+        }
+
+    }
+    editItemClick = function (index) {
+        //调用公共方法，弹出窗口
+        $("#Iframe").css("width","600px");
+        editItem(index, 'itemId', 'ruag/ruagParamsShow', 'myModal', 'Iframe', 600);
+    }
+    // 操作删除按钮
+    function reMoveItem(i) {
+        $(".checked_size").find("input").prop("checked", false);
+        $(i).parents("td").siblings(".checked_size").find("input").prop("checked", true);
+        $(i).parents("tr").children().css("cssText", "background:#F9F9F9 !important");
+        $(i).parents("tr").siblings().children().css("cssText", "background:#fff !important");
+        var id = $(i).attr("itemId");
+        $.jBox.confirm("确定删除吗?", "", function (v, h, f) {
+            if (v == 'ok') {
+                if (status == "1") {
+                    $.jBox.alert("该运行策略正在启动中，请关闭后再删除！", "提示");
+                } else {
+                    deletebatchProcess(id);
+                    $(i).parents("td").siblings(".checked_size").find("input").prop("checked", false);
+                }
+
+            }
+        })
+    }
+    function deletebatchProcess(ids) {
+        $.ajax({
+            headers: {
+                "token": localStorage.getItem("token"),
+            },
+            url: APIHost + '/ruag/ruag/ruagWorkModelDatail/delete',
+            type: 'POST',
+            async: false, //或false,是否异步
+            data: {
+                "ids": ids
+            },
+            timeout: 5000,
+            dataType: 'json',
+            success: function (res) {
+                if (res.code === 1000) {
+                    //成功返回
+                    if (res.data.msg == "success") {
+                        //提示删除成功
+                        $.jBox.alert('删除成功', '提示', {
+                            closed: function () {
+                                pageload();
+                            }
+                        });
+                    }
+                } else if (res.code === 1003) {
+                    //没有登录状态
+                    $.jBox.alert('您没有登录状态，请先登录', '提示', {
+                        closed: function () {
+                            window.parent.location.href = APIHost + "/sys/sysLogin.html";
+                        }
+                    });
+                } else if (res.code === 1002) {
+                    //发生异常
+                    $.jBox.alert(res.msg, "提示");
+                } else if (res.code === 1004) {
+                    //结果为空
+                    $.jBox.alert(res.msg, "提示");
+                }
+
+            },
+            error: function () {
+				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+            }
+        })
+    }
+    //加载所有的专业
+    function getProf() {
+        $.ajax({
+            headers: {
+                "token": localStorage.getItem("token"),
+            },
+            url: APIHost + '/admin/mdm/deviceprof/mdmDeviceProf/getProfByControl',
+            type: 'POST',
+            async: false, //或false,是否异步
+            data: {},
+            timeout: 5000,
+            dataType: 'json',
+            success: function (res) {
+                if (res.code === 1000) {
+                    //成功返回
+                    var data = res.data;
+                    $("#profCode").empty();
+                    $("#profCode").append("<option value=''></option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $("#profCode").append("<option value='" + data[i].profCode + "'>" + data[i].profName + "</option>");
+                    }
+                } else if (res.code === 1003) {
+                    //没有登录状态
+                    $.jBox.alert('您没有登录状态，请先登录', '提示', {
+                        closed: function () {
+                            window.parent.location.href = APIHost + "/sys/sysLogin.html";
+                        }
+                    });
+                } else if (res.code === 1002) {
+                    //发生异常
+                    $.jBox.alert(res.msg);
+                } else if (res.code === 1004) {
+                    //结果为空
+                    $.jBox.alert(res.msg);
+                }
+            },
+            error: function () {
+                console.log('错误')
+            }
+        })
+    }
+    //加载对应的设备类型
+    function getClass() {
+        $.ajax({
+            headers: {
+                "token": localStorage.getItem("token"),
+            },
+            url: APIHost + '/admin/mdm/deviceclass/mdmDeviceClass/getAllList',
+            type: 'POST',
+            async: false, //或false,是否异步
+            data: {
+                profCode: $("#profCode").val()
+            },
+            timeout: 5000,
+            dataType: 'json',
+            success: function (res) {
+                if (res.code === 1000) {
+                    //成功返回
+                    var data = res.data;
+                    $("#classCode").empty();
+                    $("#classCode").append("<option value=''></option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $("#classCode").append("<option value='" + data[i].classCode + "'>" + data[i].className + "</option>");
+                    }
+                } else if (res.code === 1003) {
+                    //没有登录状态
+                    $.jBox.alert('您没有登录状态，请先登录', '提示', {
+                        closed: function () {
+                            window.parent.location.href = APIHost + "/sys/sysLogin.html";
+                        }
+                    });
+                } else if (res.code === 1002) {
+                    //发生异常
+                    $.jBox.alert(res.msg);
+                } else if (res.code === 1004) {
+                    //结果为空
+                    $.jBox.alert(res.msg);
+                }
+            },
+            error: function () {
+                console.log('错误')
+            }
+        })
+    }
+    //加载修改数据
+    function updatepageload(paramId) {
+        $.ajax({
+            headers: {
+                "token": localStorage.getItem("token"),
+            },
+            url: APIHost + '/ruag/ruag/ruagModelTemplate/getById',
+            type: 'POST',
+            async: false, //或false,是否异步
+            data: {
+                "id": paramId
+
+            },
+            timeout: 5000,
+            dataType: 'json',
+            success: function (res) {
+                if (res.code === 1000) {
+                    var item = res.data;
+                    $("#modelInf").empty();
+                    addModelInfo(item);
+                    $("#workModelName_1").val(item.workModeName);
+                    controlCode = item.controlCode;
+                    status = item.status;
+                } else if (res.code === 1003) {
+                    //没有登录状态
+                    $.jBox.alert('您没有登录状态，请先登录', '提示', {
+                        closed: function () {
+                            window.location.href = APIHost + "/sys/sysLogin.html";
+                        }
+                    });
+                } else if (res.code === 1002) {
+                    //发生异常
+                    $.jBox.alert(res.msg);
+                } else if (res.code === 1004) {
+                    //结果为空
+                    $.jBox.alert(res.msg);
+                }
+
+            },
+            error: function () {
+				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+            }
+        })
+    }
+    function getList() {
+        $.ajax({
+            headers: {
+                "token": localStorage.getItem("token"),
+            },
+            url: APIHost + "/ruag/ruag/ruagModelTemplate/getList",
+            type: "POST",
+            data: {},
+            dataType: "json",
+            cache: false,
+            success: function (res) {
+                if (res.code === 1000) {
+                    var item = res.data;
+                    var tabsLength =  140 * item.length;
+                    var tabBoxWidth = $(".tab_title").width() - 30;
+                    /*if(tabsLength > tabBoxWidth){
+                        $(".tab_title .u").width(tabBoxWidth);
+                    }else{
+                        $(".tab_title .u").width(tabsLength);
+                    }*/
+                    for (var i = 0; i < item.length; i++) {
+                        if (paramId == item[i].id) {
+                            var str = '<li name="modelList"  class="active"><a href="#"  onclick="showDetail(' + "'" + item[i].id + "'" + ')"data-toggle="tab" >' + item[i].workModeName + '</a></li>'; // 设置元素的内容
+                           if(item.length > 5){
+                                if((item.length - i - 1) >= 5){
+                                    page = i;
+                                }else{
+                                    page = item.length - 5;
+                                }
+                                $(".u .nav-tabs").animate({left: "-=" + page * 140 + "px"}, 1000);
+                            }
+
+                        } else {
+                            var str = '<li name="modelList"><a href="#"  onclick="showDetail(' + "'" + item[i].id + "'" + ')"data-toggle="tab" >' + item[i].workModeName + '</a></li>'; // 设置元素的内容
+                        }
+
+                        $(".nav-tabs").append(str).css("width",tabsLength);
+                    }
+                    $(".nav-tabs li a").click(function () {
+                        $(".nav-tabs li a").css("background", "#ccc");
+                        $(this).css("background", "#fff");
+                    })
+                    var colors = ["#279600", "#0060CA", "#950096", "#CC0000", "#FAAB35"];
+                    var modelLists = document.getElementsByName("modelList");
+                    for (var i = 0; i < modelLists.length; i++) {
+                        modelLists[i].setAttribute("style", "border-top:3px solid " + colors[i % colors.length] + " !important");
+                    }
+                } else if (res.code === 1003) {
+                    //没有登录状态
+                    $.jBox.alert('您没有登录状态，请先登录', '提示', {
+                        closed: function () {
+                            window.parent.location.href = APIHost + "/sys/sysLogin.html";
+                        }
+                    });
+                } else if (res.code === 1002) {
+                    //发生异常
+                    $.jBox.alert(res.msg);
+                } else if (res.code === 1004) {
+                    //结果为空
+                    $.jBox.alert(res.msg);
+                }
+
+            }
+        });
+    }
+    addModelInfo = function (item) {
+        var str = "";
+        str += "<tr>";
+        str += "<td>" + item.controlType + "</td>";
+        str += "<td>" + item.modelDegree + "</td>";
+        if (item.startDate == null) {
+            str += "<td>" + "</td>";
+        } else {
+            str += "<td>" + item.startDate + "~" + item.endDate + "</td>";
+        }
+        str += "<td>" + item.strategyType + "</td>";
+        str += "</tr>";
+        $("#modelInf").append(str);
+    }
+    function showDetail(id) {
+        modelTemplateId = id;
+        $("#btnAdd").attr("itemId", id);
+        pageload();
+        updatepageload(id);
+        /*$("#queryBtn").click();*/
+        /*  pageRightContent(); */
+
+
+    }
+    var page = 0;
+    function right() {
+        var i = 5;  //定义每个面板显示5个菜单
+        var len = $(".u .nav-tabs li").length;  //获得LI元素的个数
+        var maxpage = Math.ceil(len / i);
+        var scrollWidth = $(".u .nav-tabs li").width();
+
+        /* var scrollWidth = $(".li").width(); */
+
+        /* alert($(".u .scrol li").length); */
+        if (!$(".u .nav-tabs").is(":animated")) {
+            if (page == len - 5 || len <= 5) {
+                $(".u .nav-tabs").stop();
+            } else {
+                $(".u .nav-tabs").animate({left: "-=" + scrollWidth + "px"}, 1000);
+                page++;
+            }
+        }
+    }
+
+    function left() {
+        var i = 5;  //定义每个面板显示5个菜单
+        var len = $(".u .nav-tabs li").length;  //获得LI元素的个数
+        var maxpage = Math.ceil(len / i);
+        var scrollWidth = $(".u .nav-tabs li").width();
+        if (!$(".u .nav-tabs").is(":animated")) {
+            if (page <= 0  || len <= 5) {
+                $(".u .nav-tabs").stop();
+            } else {
+                $(".u .nav-tabs").animate({left: "+=" + scrollWidth + "px"}, 1000);
+                page--;
+            }
+        }
+    }
+    var modelIds;
+    function selectDatacheck() {
+        var chckBox = document.getElementsByName("checkbox");
+        var num = chckBox.length;
+        var ids = "";
+        var arr = [];
+        for (var index = 0; index < num; index++) {
+            if (chckBox[index].checked) {
+                ids += chckBox[index].value + ",";
+                arr.push(chckBox[index].getAttribute("data-code"));
+            }
+        }
+        if (status == "1") {
+            $.jBox.alert("该运行策略开启中，不允许对其设备进行设置", "提示");
+        }else if (ids == "") {
+            $.jBox.alert("请选择想要设置的设备", "提示");
+        } else if ($.unique( arr ).length != 1) {
+            $.jBox.alert("请选择出相同设备类型的设备再进行设置", "提示");
+        } else {
+            modelIds = ids;
+            batchAddModel(arr[0]);
+            /*  $(".left_tree").css("display",""); */
+            $('#myParamModal').modal({backdrop: 'static', keyboard: false});
+            $("#myParamModal").modal("show");
+        }
+    }
+    //version2 --批量添加workmodel  将选定的设备添加到当前模式     设置模式条目的时间点  设备参数（操作状态(开/关)，温度等）
+    batchAddModel = function (classCode) {
+    	console.log(classCode);
+        $.ajax({
+            headers: {
+                "token": localStorage.getItem("token"),
+            },
+            url: APIHost + "/ruag/ruag/ruagWorkModelDatail/getParametersByClassCode",
+            type: "POST",
+            data: {
+                "classCode": classCode
+            },
+            dataType: "json",
+            async: false,
+            cache: false,
+            success: function (res) {
+                if (res.code === 1000) {
+                    var data = res.data;
+                    $("#paramters").html("");
+                    for (var i = 0; i < data.length; i++) {
+                        //提交  参数到 WorkModel 的 modelparameters 这是个list 三个参数：parameter.id->data[i].id,value,timepoint->
+                        //将该类设备的参数id 放到  parameterIds中 ;code 放到 parameterCodes
+                        var valueElement = "";
+                        if (controlCode == "date") {
+                            //如果是开关状态  添加select    ;其他参数 添加 input
+                            if (data[i].switchFlag == "Y") {
+                                valueElement =
+                                        "<div class='control-group'>" +
+                                        "<input type='hidden' name='onOffParameterCode' value='" + data[i].paramCode + "'/>" +
+                                        "<input type='hidden' name='onOffParameterName' value='" + data[i].paramName + "'/>" +
+                                        "<label class='control-label' >"+data[i].paramName+"开启时间：</label>" +
+                                        "<div class='controls'>" +
+                                        "<input type='text' id='openTime' class='input-medium parameterTimePoint' placeholder='开启时间' name='openTime' required='required' onclick='WdatePicker({dateFmt:" + '"' + "HH:mm" + '"' + ",isShowClear:false,onpicked:checkfinish})'>" +
+                                        "</div>" +
+                                        "</div>" +
+                                        "<div class='control-group'>" +
+                                        "<label class='control-label' for='closeTime' >"+data[i].paramName+"关闭时间：</label>" +
+                                        "<div class='controls'>" +
+                                        "<input type='text' id='closeTime' class='input-medium' placeholder='关闭时间' name='closeTime' required='required' onclick='WdatePicker({dateFmt:" + '"' + "HH:mm" + '"' + ",isShowClear:false})'>" +
+                                        "</div>" +
+                                        "</div>";
+                            } else {
+                                valueElement =
+                                        "<div class='control-group' style='height:90px'>" +
+                                        "<label class='control-label' for='" + data[i].paramCode + "' >" + data[i].paramName + "：</label>" +
+                                        "<div class='controls'>" +
+                                        "<input type='hidden' name='parameterName' value='" + data[i].paramName + "'/>" +
+                                        "<input type='hidden' name='parameterId' value='" + data[i].paramCode + "'/>" +
+                                        "<input class='input-medium configurableElement' type='text' id='" + data[i].paramCode + "' name='parameterValue' placeholder='参数值'></input>" +
+                                        "</div>" +
+                                        "<div class='controls' style='margin: 8px 0 0 110px;'>" +
+                                        "<input class='input-medium configurableElement parameterTimePoint' type='text' id='" + data[i].paramCode + "Timepoint' name='timePoint' placeholder='时间点' readonly='readonly'></input>" +
+                                        "</div>" +
+                                        "</div>";
+                            }
+                        }
+                        if (controlCode == "time") {
+                            //如果是开关状态  添加select    ;其他参数 添加 input
+                            if (data[i].switchFlag == "开关状态") {
+                                valueElement =
+                                        "<div class='control-group'>" +
+                                        "<input type='hidden' name='onOffParameterCode' value='" + data[i].paramCode + "'/>" +
+                                        "<input type='hidden' name='onOffParameterName' value='" + data[i].paramName + "'/>" +
+                                        "<label class='control-label' for='openTime' >"+data[i].paramName+"开启：</label>" +
+                                        "<div class='controls'>" +
+                                        "<input type='number' min='0'id='openTime' class='input-medium parameterTimePoint' placeholder='偏移时间 (提前)' name='openTime' onchange='checkfinish()'required='required'>" +
+                                        "</div>" +
+                                        "</div>" +
+                                        "<div class='control-group'>" +
+                                        "<label class='control-label' for='closeTime' >"+data[i].paramName+"关闭：</label>" +
+                                        "<div class='controls'>" +
+                                        "<input type='number' min='0'id='closeTime' class='input-medium' placeholder='偏移时间（延迟）' name='closeTime' required='required'>" +
+                                        "</div>" +
+                                        "</div>";
+
+                            } else {
+                                valueElement =
+                                        "<div class='control-group' style='height:90px'>" +
+                                        "<label class='control-label' for='" + data[i].paramCode + "' >" + data[i].paramName + "：</label>" +
+                                        "<div class='controls'>" +
+                                        "<input type='hidden' name='parameterName' value='" + data[i].paramName + "'/>" +
+                                        "<input type='hidden' name='parameterId' value='" + data[i].paramCode + "'/>" +
+                                        "<input class='input-medium' type='text' id='" + data[i].paramCode + "' name='parameterValue' placeholder='参数值'></input>" +
+                                        "</div>" +
+                                        "<div class='controls' style='margin: 8px 0 0 110px;'>" +
+                                        "<input class='input-medium configurableElement parameterTimePoint' type='text' id='" + data[i].paramCode + "Timepoint' name='timePoint' placeholder='偏移时间（提前）'readonly='readonly'></input>" +
+                                        "</div>" +
+                                        "</div>";
+                            }
+                            console.log(valueElement);
+                           
+                        }
+                        $('#paramters').append(valueElement);
+                    }
+                }
+
+            },
+            error: function (err) {
+				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+            },
+        });
+    }
+  //开启时间与参数的时间点联动
+    function checkfinish(){
+    	 console.log($('#openTime').val()); 
+    	   $('.parameterTimePoint').val($('#openTime').val());
+    	}
+    function saveItem() {
+        var parameterNames = "";
+        $("input[name='parameterName']").each(function (j, item) {
+            parameterNames += item.value + ","
+        });
+        var parameterIds = "";
+        $("input[name='parameterId']").each(function (j, item) {
+            parameterIds += item.value + ","
+        });
+        var parameterValues = "";
+        $("input[name='parameterValue']").each(function (j, item) {
+            parameterValues += item.value + ","
+        });
+        var timePoints = "";
+        $("input[name='timePoint']").each(function (j, item) {
+            timePoints += item.value + ","
+        });
+        $("#modelIds").val(modelIds);
+        $("#workModelform").ajaxSubmit({
+            headers: {
+                "token": localStorage.getItem("token"),
+            },
+            url: APIHost + "/ruag/ruag/ruagWorkModelDatail/updateModels",
+            type: 'POST',
+            async: false, //或false,是否异步
+            data: {
+                modelTemplateId: paramId,
+                parameterNames: parameterNames,
+                parameterIds: parameterIds,
+                parameterValues: parameterValues,
+                timePoints: timePoints
+            },
+            timeout: 5000,
+            dataType: 'json',
+            success: function (res) {
+                if (res.code === 1000) {
+                    var data = res.data;
+                    if (data.msg == "success") {
+                        $.jBox.alert('保存成功', '提示', {
+                            closed: function () {
+                                url = APIHost + "/ruag/ruagModelDetail.html?id=" + paramId;
+                                window.location.href = url;
+                            }
+                        });
+                    } else if (data.msg == "faild") {
+                        $.jBox.alert("保存失败！", "提示")
+                    }
+                } else if (res.code === 1003) {
+                    //没有登录状态
+                    $.jBox.alert('您没有登录状态，请先登录', '提示', {
+                        closed: function () {
+                            window.location.href = APIHost + "/sys/sysLogin.html";
+                        }
+                    });
+                } else if (res.code === 1002) {
+                    //发生异常
+                    $.jBox.alert(res.msg);
+                } else if (res.code === 1004) {
+                    //结果为空
+                    $.jBox.alert(res.msg);
+                }
+            }
+        });
+    }
+    //专业与设备类型联动事件
+    $('#profCode').on('change', function () {
+        getClass();
+    });
+    //加载位置树
+    function initTree() {
+        var setting = {
+            data: {
+                simpleData: {
+                    enable: true,
+                    idKey: "id",
+                    pIdKey: "pId",
+                    rootPId: 0
+                }
+            },
+            callback: {
+                onClick: zTreeOnCheck
+            }
+        };
+        $.ajax({
+            headers: {"token": localStorage.getItem("token")},
+            url: APIHost + '/admin/mdm/mdmSpaceTree/getSpaceList',
+            type: 'POST',
+            async: false,
+            data: {},
+            timeout: 5000,
+            dataType: 'json',
+            success: function (res) {
+            	  var tree = $.fn.zTree.init($("#spaceTree"), setting, res);
+            	  var treeObj=tree.transformToArray(tree.getNodes());
+  		          tree.expandAll(false);
+            },
+            error: function () {
+				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+            }
+        });
+    }
+   $("#positionSearch").click(function () {
+	   if($(".spaceTree").css("display")=="none"){
+		   initTree();
+	        $("#positionSearch").val("");
+	        $(".spaceTree").css("display", "block");
+	        var top = $(this).position().top + 34;
+	        var left = $(this).position().left;
+	        $(".spaceTree").css({top: top, left: left});
+	   }else{
+		   $(".spaceTree").css("display", "none");
+	   }
+        
+    });
+   /*  $(".spaceTree").mouseenter(function () {
+        $(this).mouseleave(function (event) {
+            $(this).hide();
+            $("#positionSearch").val(names);
+            $("#spaceCode").val(codes);
+        });
+    }); */
+    function zTreeOnCheck(event, treeId, treeNode) {
+    	var treeObj=$.fn.zTree.getZTreeObj("spaceTree");
+ 	    var name = treeNode.name;
+        $("#positionSearch").val(name);
+        var childNodes = treeObj.transformToArray(treeNode); 
+        var nodes = ""; 
+        for(i = 0; i < childNodes.length; i++) { 
+                   nodes+="'"+childNodes[i].id+"',"; 
+        } 
+        console.log(nodes);
+        $("#spaceCode").val(nodes);
+        $(".spaceTree").hide();
+    }
+ // 表单验证
+  //支持相同name值验证
+  if ($.validator) {
+  	$.validator.prototype.elements = function () {
+  		var validator = this,
+  				rulesCache = {};
+  		return $(this.currentForm)
+  				.find("input, select, textarea")
+  				.not(":submit, :reset, :image, [disabled]")
+  				.not(this.settings.ignore)
+  				.filter(function () {
+  					if (!this.name && validator.settings.debug && window.console) {
+  						console.error("%o has no name assigned", this);
+  					}
+  					rulesCache[this.name] = true;
+  					return true;
+  				});
+  	}
+  }
+  $.validator.setDefaults({
+  	submitHandler: function() {
+  		// 调用提交
+  		saveItem();
+  	}
+  });
+  $().ready(function () {
+  	// 在键盘按下并释放及提交后验证提交表单
+  	$("#workModelform").validate({
+  		rules:{
+  			parameterValue:{
+  				required: true
+  			}
+  		},
+  		messages:{
+  			parameterValue:{
+  				required: "请填写参数值"
+  			},
+  			openTime: {
+  				required: "请填写开启时间"
+  			},
+  			closeTime:{
+  				required: "请填写关闭时间"
+  			}
+  		},
+  		errorPlacement: function (error, element) {
+  			error.appendTo(element.parent());
+  		}
+  	});
+  })
+</script>
+</body>
+</html>

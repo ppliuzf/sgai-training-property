@@ -1,0 +1,289 @@
+<html>
+<head>
+	<title>杂志报刊信息</title>
+	
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <!--分页  --><script src="../static/paginator/bootstrap-paginator.js" type="text/javascript"></script>
+    <!-- 公共样式表	，公共方法 --><script type="text/javascript">top.$.jBox.closeTip();</script>
+    <link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+    <script src="../static/media/js/main.js" type="text/javascript"></script>
+    <link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+    <link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+    <link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+    <link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+    <script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.src.js" type="text/javascript"></script>
+    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+    <script src="../static/common/mustache.min.js" type="text/javascript"></script>
+    <script src="../static/common/smart.min.js" type="text/javascript"></script>
+    <script src="../../config/smart-common.js" type="text/javascript"></script>
+	
+    <script type="text/javascript">
+    
+	  	//载入页面时查询访客记录数据
+		$(function(){  
+			pageRightContent();
+			pageload();
+			btnPermit("magazine_list.html");
+		});  
+		//调用数据查询方法
+		function pageload(n, s){
+			$('#allID').prop("checked",false);	
+			// 判断是否传 pageSize
+			var pageSize = $('.page-size option:selected').val();
+			if(!$.isNumeric(s)){s = pageSize;} 
+			// 删除旧tbody
+			var contentTableSub = document.getElementById("privilegeTable");
+			var oldTbody = document.getElementById("privilegeTbody");
+			if (oldTbody != null) {
+				contentTableSub.removeChild(oldTbody);
+			} 
+			$.ajax({
+				headers : {"token" : localStorage.getItem("token")}, 
+				url :  APIHost + '/magazineInfo/magazineInfoList',
+				type : 'Post',
+				timeout: 5000,
+	            dataType: 'json',
+				async : false, 
+				data : {			
+					pageNo : n,
+					pageSize : s,
+					magazineName : $('#magazineName').val(),
+				},
+				success:function (res){
+					// 处理返回数据并分页
+					pageContent(res.data);
+					var newTbody = document.createElement("tbody");
+					newTbody.setAttribute("id", "privilegeTbody");
+					var entityList = res.data.list;
+					for(var i = 0;i< entityList.length;i++){
+						// 获取数据库映射实体对象数据
+						var entity = entityList[i];
+						var tr = document.createElement("tr");
+						
+						//选择框
+						var tdCheckbox=document.createElement("td");
+						tdCheckbox.innerHTML="<input type='checkbox'  name ='checkbox'  value='" + entity.id + "'/>";
+						tdCheckbox.className="dataId";
+						tr.appendChild(tdCheckbox);
+						
+						//序号
+						var td0=document.createElement("td");
+						td0.innerHTML=i+1;
+						td0.className="order_number";
+						tr.appendChild(td0);
+						
+						var properties = new Array("magazineName","encoder","createdDate","personName","remarks");
+						for(var j=0;j<properties.length;j++){
+							var pro = properties[j];
+							var td = document.createElement("td");
+							td.innerHTML = entity[pro];
+							tr.appendChild(td);
+						}
+						
+						//操作('删除--修改')功能
+						var tdMore = document.createElement("td");
+						tdMore.innerHTML='<div class="btn-hover" style="display:inline-block;position:relative;">'
+								+'<button type="button" class="btn btn-primary btn_medium small_blue btn_more">查看更多'
+	              	 				+' <span class="caret"></span></button>'
+								+ '<div class="btn_list pub-hide">'
+								+'<button style="display:none" itemId="'+entity.id+'" onclick="editEntity(this)"    type="button" class="btn sg_middle handel_btn">'
+								+'<i class="icon-edit icon_right icon-blue"></i>修改</button>'
+								+'<button id="btnDeleteMaga2" style="display:none" itemId="'+entity.id+'" onclick="deleteEntity(this)"  type="button" class="btn sg_middle handel_btn">'
+								+'<i class="icon-trash icon_right icon-red"></i>删除</button>'
+								+'</div>'
+						        +'</div>';
+						tr.appendChild(tdMore);
+						tdMore.className="moreThings";
+						newTbody.appendChild(tr);
+					}
+					// 追加数据库内容到页面
+					contentTableSub.appendChild(newTbody);
+					// table下每一行tr选中高亮
+					inputCheck();
+					// 调用操作按钮方法
+					handelBtn();
+					// 内容自适应iframe高度
+					setIframeHeight(parent.document.getElementById('mainFrame'));
+					btnPermit("magazine_list.html");
+				}
+			});	
+		}
+		
+		// 清空搜索框
+		function emptys(){
+			$("input[type='text']").val("");
+		}
+		// 携带对象实际id值跳转到修改页面
+		function editEntity(index){
+			editItem(index,'itemId','wy/magazine/magazine_edit','myModalEdit','IframeEdit',410);
+		}
+		// 关闭"新增/修改"界面弹框(可选方案<本程序已采用>)
+		function hideDiv() {
+			$('#myModalAdd').modal('hide');
+			$('#myModalEdit').modal('hide');
+		}
+		// 操作右侧'删除'按钮(单条数据)
+		function deleteEntity(i){
+			$(".checked_size").find("input").prop("checked",false);
+			$(i).parents("td").siblings(".checked_size").find("input").prop("checked",true);
+			$(i).parents("tr").children().css("cssText","background:#F9F9F9 !important");
+			$(i).parents("tr").siblings().children().css("cssText","background:#fff !important");
+			var sysFlag = $(i).attr("data-flag");
+			var id = $(i).attr("itemId");
+			$.jBox.confirm("确定删除吗 ?", "提示", function (v, h, f) {
+			    if (v == 'ok'){
+			    	$.ajax({
+	            		headers : {"token" : localStorage.getItem("token")},
+	        			url : APIHost+"/magazineInfo/deleteMagazineInfo",
+	            		type : 'POST',
+	            		async : false,
+	            		data : {id:id},
+	            		dataType : 'json',
+	            		success : function(res){
+                			if(res.state == true){
+	            				pageload();
+	            				$.jBox.alert("删除成功！","提示");
+    						} else if(res.state == false){
+    							$.jBox.alert("删除失败 !","提示");
+	            			} else if(res.code === 1003){
+    							$.jBox.alert('请先登录', '提示',{closed: function (){window.parent.location.href= APIHost + "/sys/sysLogin.html";}});
+    						} else{
+    							$.jBox.alert("异常状态,请重试 !","提示");
+    						}
+    					}
+	            	});
+			     }    		       		       
+			});
+		}
+		
+		// 全选/全不选
+		function allSelect(){
+			if($("#allID").is(':checked')){
+				$('input[name="checkbox"]').prop("checked",true);				
+			} else{
+				$('input[name="checkbox"]').prop("checked",false);				
+			}
+		}
+			
+		// 多选/批量删除
+		function deleteMore() {
+			var chckBox = document.getElementsByName("checkbox");  
+	        var ids = "";  
+	        var ids_num = 0;
+	        for(var index =0 ; index<chckBox.length; index++){  
+	            if(chckBox[index].checked){  
+	                ids += chckBox[index].value + ",";      
+	                ids_num+=1;
+	            }  
+	        }
+	        if(ids!="" && ids_num !=0){
+	        	$.jBox.confirm("确定删除吗?", "提示", function (v, h, f) {
+		    		   if (v == 'ok'){
+		    		    	$.ajax({
+		                		headers : {"token" : localStorage.getItem("token")},
+		            			url : APIHost+"/magazineInfo/deleteMagazineInfo",
+		                		type : 'POST',
+		                		async : false,
+		                		data : {id:ids},
+		                		dataType : 'json',
+		                		success : function(res){
+		                			if(res.state==true){
+			            				pageload();
+			            				$('input[name="allID"]').prop("checked",false);
+			            				$.jBox.alert("删除成功！","提示");
+		    						} else if(res.state == false){
+		    							$.jBox.alert("删除失败 !","提示");
+			            			} else if(res.code === 1003){
+		    							$.jBox.alert('请先登录', '提示',{closed: function (){window.parent.location.href= APIHost + "/sys/sysLogin.html";}});
+		    						} else {
+		    							$.jBox.alert("操作无效,请联系管理员调试 !","提示");
+		    						}
+		    					}
+		                	});
+		    		   }    		       		       
+	    		 });
+	        } else {
+	        	$.jBox.alert("选项不可为空！","提示");
+	        }
+	    }
+        // 导出数据为Excel表格
+		function exports(){
+			location.href = APIHost + "/magazineInfo/magazineInfoExport?magazineName="+$("#magazineName").val();
+		}
+    </script>
+</head>
+<body>
+	<div class="table_fluid" >
+	
+ 		<!-- 界面功能  >>> 页眉按钮  -->
+	 	<div class="table_infor">
+	        <div class="table_title">
+	            <i class="icon-table"></i><span>杂志报刊管理</span>
+	        </div>
+	        <div class="small_btn">
+	            <button id="btnInsertMaga"  style="display:none;" class="btn btn-primary btn_icon small_blue" type="button" value="新增" onclick="insertItem('myModalAdd','wy/magazine/magazine_add','IframeAdd',366);"><i class="icon-plus"></i></button>
+	            <button id="btnDeleteMaga" style="display:none" class="btn btn-primary btn_icon small_red" type="button" value="删除"  onclick="deleteMore();"><i class="icon-trash"></i></button>
+	        </div>
+	    </div>
+	    
+	    <!-- 界面功能  >>> 条件查询 -->
+	    <form id="searchForm" class="breadcrumb form-search ">
+	    	<div>
+			    <label class="label_size">杂志/报刊名称：</label><input id="magazineName" name="magazineName" class="query_input" type="text" />
+			    <input id="query"  class="btn btn-primary btn_middle small_blue" type="button" value="查询" onclick="pageload();">
+			    <input id="clear"  class="btn btn-primary btn_middle small_blue" type="button" value="清空" onclick="emptys();">	
+				<input id="exportMaga" style="display:none" class="btn btn-primary btn_middle small_blue" type="button" value="导出" onclick="exports();">
+			</div>
+		</form>
+    	
+	 	<!-- 表格数据展示 -->
+	   	<table id="privilegeTable" class="table  table-striped table-bordered table-condensed">
+	   		<thead>
+		   		<tr>
+		   			<th width="5%"><input type="checkbox" onclick="allSelect();" name ="allID"  id ="allID"  />全选</th>
+		   			<th width="5%">序 号</th>
+		   			<th width="16%">杂志/报刊名称</th>	
+		   			<th width="16%">编 码</th>
+		   			<th width="16%">添加时间</th>
+		   			<th width="16%">维护人</th>
+		   			<th width="16%">备 注</th>
+		   			<th width="12%">操 作</th>
+		   		</tr>
+	   		</thead>
+	   		<tbody id="privilegeTbody">
+			</tbody>	
+	   	</table>
+	   	<!-- 弹窗界面加载区(新增/修改) -->
+	   	<div id="myModalAdd" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header">
+			    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			    <h4 id="myModalLabel">新增杂志报刊信息</h4>
+			</div>
+			<div class="modal-body">
+	  			<iframe id="IframeAdd"></iframe>
+	   	 	</div>
+		</div>
+	   	<div id="myModalEdit" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header">
+			    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			    <h4 id="myModalLabel">修改杂志报刊信息</h4>
+			</div>
+			<div class="modal-body">
+	  			<iframe id="IframeEdit"></iframe>
+	   	 	</div>
+		</div>
+ 	</div>
+</body>
+</html>

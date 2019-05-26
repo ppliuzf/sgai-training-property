@@ -1,0 +1,139 @@
+<div class="col-xs-12">
+    <div class="infos-detail">
+        <div class="form-group">
+        <table>
+            <tbody>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">合同名称</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{name}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">合同编号</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{no}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">合同类型</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{typeName}}</td>
+            </tr>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">合同总额</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{amount}}万</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">签订日期</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{singDate | dateFormat:'yyyy-MM-dd'}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">甲方名称</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{ownerName}}</td>
+            </tr>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">乙方名称</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{secondPartyName}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">生效日期</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{effectiveDate | dateFormat:'yyyy-MM-dd'}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">创建人</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{creater}}</td>
+            </tr>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">手机号</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{phone}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center"></td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value"></td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center"></td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value"></td>
+            </tr>
+            <tr>
+                <td class="text-center">描述</td>
+                <td class="value" colspan="5">{{description}}</td>
+            </tr>
+            <tr>
+                <td class="text-center">供应商</td>
+                <td class="value" colspan="5">
+                    {{each suppliers as supplier}}
+                    {{if suppliers.length}}
+                    {{if supplier === suppliers[suppliers.length-1]}}
+                    <span class="detail-title desc">{{supplier.name}}</span>
+                    {{else}}
+                    <span class="detail-title desc">{{supplier.name}} , </span>
+                    {{/if}}
+                    {{/if}}
+                    {{/each}}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+<div class="col-xs-12">
+    <div class="form-group">
+        <label>相关图片:</label>
+    </div>
+    {{each images as item}}
+    <div class="di-box">
+        {{if item}}
+        <a href="{{item}}" data-lightbox="img">
+            <img src="{{item}}" alt="">
+        </a>
+        {{else}}
+        <img src="images/no-uploder.png" alt="">
+        {{/if}}
+    </div>
+    {{/each}}
+</div>
+<div class="col-xs-12">
+    <!--<p class="WW">相关附件:</p>-->
+    <div class="form-group">
+        <label>相关附件:</label>
+    </div>
+    <!--<div class="file-title WW">合同副本:</div>-->
+    <div class="form-group">
+        <label>合同副本:</label>
+    </div>
+    {{each files as item}}{{if item.mark === 1}}
+    <div class="file-box">
+        <a href="#" class='underline js-ToFile' data-name="{{item.fileName}}" data-url="{{item.fileUrl}}">{{item.fileName}}</a>
+    </div>
+    {{/if}} {{/each}}
+    <!--<div class="file-title WW">补充协议:</div>-->
+    <div class="form-group">
+        <label>补充协议:</label>
+    </div>
+    {{each files as item}} {{if item.mark === 2}}
+    <div class="file-box">
+        <a href="#" class='underline js-ToFile' data-name="{{item.fileName}}" data-url="{{item.fileUrl}}">{{item.fileName}}</a>
+    </div>
+    {{/if}} {{/each}}
+    <!--<div class="file-title WW">其他附件:</div>-->
+    <div class="form-group">
+        <label>其他附件:</label>
+    </div>
+    {{each files as item}}
+    {{if item.mark === 3}}
+    <div class="file-box">
+        <a href="#" class='underline js-ToFile' data-name="{{item.fileName}}" data-url="{{item.fileUrl}}">{{item.fileName}}</a>
+    </div>
+    {{/if}}
+    {{/each}}
+</div>
+<style>
+    .desc{
+    max-width: 1135px;
+    }
+    .di-box {
+    float: left;
+    width: 84px;
+    height: 84px;
+    margin-right: 20px;
+    text-align: center;
+    margin-bottom: 30px;
+    }
+    .di-box img {
+    width: 100%;
+    height: 100%;
+    }
+    .di-box a{
+    display: block;
+    width: 84px;
+    height: 84px;
+    }
+    .di-box a img {
+    width: 100%;
+    }
+    .WW{
+    font-weight: 700;
+    }
+</style>

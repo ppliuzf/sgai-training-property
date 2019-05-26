@@ -1,0 +1,2 @@
+/*TMODJS:{"version":12,"md5":"0fc9f4c260318c4121b1d557a432010b"}*/
+template('plan/number','<div class="input-group-addon reduce">-</div> <input type="number" class="form-control text-center number" value="1" id="exampleInputAmount" placeholder=""> <div class="input-group-addon add">+</div>');

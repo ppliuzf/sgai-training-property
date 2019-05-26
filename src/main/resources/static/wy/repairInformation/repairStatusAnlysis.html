@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css"
+	type="text/css" rel="stylesheet">
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css"
+	type="text/css" rel="stylesheet">
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css"
+	type="text/css" rel="stylesheet">
+
+<!--分页  -->
+<script src="../static/paginator/bootstrap-paginator.js"
+	type="text/javascript"></script>
+<!-- 公共样式表	，公共方法 -->
+<link href="../static/media/css/my-style.css" rel="stylesheet"
+	type="text/css" />
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+
+<!-- <link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet"> -->
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css"
+	type="text/css" rel="stylesheet">
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css"
+	rel="stylesheet">
+<link href="../static/My97DatePicker/skin/WdatePicker.css"
+	rel="stylesheet" type="text/css">
+<link href="../static/common/smart.min.css" type="text/css"
+	rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js"
+	type="text/javascript"></script>
+<!-- <script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script> -->
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js"
+	type="text/javascript"></script>
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.src.js"
+	type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js"
+	type="text/javascript"></script>
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../../config/smart-common.js" type="text/javascript"></script>
+<script src="../static/wy/area.js" type="text/javascript"></script>
+<script src="../static/echart/echarts.js" type="text/javascript"></script>
+<style type="text/css">
+	.stylelone{
+		color: blueviolet;
+		font-size: 16px;
+		margin-left: 5px;
+	}
+		.map-title{
+		padding:10px;
+		border-bottom:1px solid #ddd;
+	}
+</style>
+</head>
+<body>
+<input type="hidden" value="0" id="flag">
+	<div id="chooseDate3" class="hide"
+	style="position: absolute; border: 1px solid; left: 83px; top: 170px; background: #FFFFFF; width: 400px;  z-index: 100; text-align: center;">
+<br>
+<label >动态时间：</label>
+  <select id="datetype3"  name="datetype"   onchange="chooseDynamicTime3(this.value)"  class="input-xlarge"  >
+  </select>
+		
+<div id="searchForm3" style="display: none;margin-top: -6px;margin-bottom: 6px;">
+	<label style="margin-left: 34px;">时间从：</label><input id="startTime3"
+		name="startTime" class="query_input Wdate" type="text"
+		onclick="WdatePicker()"
+		style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+	<br> <label style="margin-left: 60px;">至：</label><input
+		id="endTime3" name="endTime" class="query_input Wdate" type="text"
+		onclick="WdatePicker()"  onfocus="WdatePicker({onpicked:function(dp){sureData3('e'); }})"
+		style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+</div>
+</div>
+
+<div id="chooseDate6" class="hide"
+	style="position: absolute; border: 1px solid; left: 640px; top: 170px; background: #FFFFFF; width: 400px;  z-index: 100; text-align: center;">
+<br>
+<label >动态时间：</label>
+  <select id="datetype6"  name="datetype"   onchange="chooseDynamicTime6(this.value)"  class="input-xlarge"  >
+  </select>
+		
+<div id="searchForm6" style="display: none;margin-top: -6px;margin-bottom: 6px;">
+	<label style="margin-left: 34px;">时间从：</label><input id="startTime6"
+		name="startTime" class="query_input Wdate" type="text"
+		onclick="WdatePicker()"
+		style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+	<br> <label style="margin-left: 60px;">至：</label><input
+		id="endTime6" name="endTime" class="query_input Wdate" type="text"
+		onclick="WdatePicker()"  onfocus="WdatePicker({onpicked:function(dp){sureData6('e'); }})"
+		style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+</div>
+</div>
+<div id="chooseDate4" class="hide"
+	style="position: absolute; border: 1px solid; left: 340px; top: 559px; background: #FFFFFF; width: 400px; z-index: 100; text-align: center;">
+	<br>	 
+<label >动态类型：</label>
+  <select id="chostype"  name="chostype"   class="input-xlarge"  >
+               <option value=""></option>
+               <option value="ytjysl">已提交-已受理</option>
+               <option value="yslyzp">已受理-已指派</option>
+               <option value="yzpywc">已指派-已完成</option>
+               <option value="ywcyswc">已完成-验收完成</option>
+        </select>
+        	<br>	 
+<label >动态时间：</label>
+	  <select id="datetype4"  name="datetype"   onchange="chooseDynamicTime4(this.value)"  class="input-xlarge"  >
+	  </select>
+<div id="searchForm4" style="display: none;margin-top: -6px;margin-bottom: 6px;">
+	<label style="margin-left: 34px;">时间从：</label><input id="startTime4"
+		name="startTime" class="query_input Wdate" type="text"
+		onclick="WdatePicker()"
+		style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+	<br> <label style="margin-left: 60px;">至：</label><input
+		id="endTime4" name="endTime" class="query_input Wdate" type="text"
+		onclick="WdatePicker()"  onfocus="WdatePicker({onpicked:function(dp){chosData('e'); }})"
+		style="margin-left: 45px; width: 251px; margin: 4px 20px 1px 1px; height: 24px !important;" />
+</div>
+	</div>
+<div style="overflow:hidden;width:100%">
+
+		<div style="width: 44%; height: 400px;position:relative;float:left;border:1px solid #ddd;margin-left:4%;margin-right:4%;" id="css1Mask">
+					<div  class="map-title">报修时间分布</div>
+		<div style="width: 100%; height: 400px;position:absolute;left:0px;top:0px">
+			</div>
+			<div id="echartsEvent2" style="width: 100%; height: 400px; float: left">
+			<!-- //chart  -->
+			
+		</div>
+		</div>
+
+				<div style="width: 44%; height: 400px;position:relative;float:left;border:1px solid #ddd;">
+			<div  class="map-title">报修工单状态</div>
+		<div style="width: 100%; height: 400px;position:absolute;left:0px;top:0px"  id="css2Mask">
+			</div>
+			<div id="echartsEvent3" style="width: 100%; height: 359px; float: left">
+			<!-- //chart  -->
+			
+		</div>
+		</div>
+</div>
+
+	</div>
+			<div style="width: 92%; height: 436px;position:relative;border:1px solid #ddd;margin-top: 19px;left: 4%;" id="repairAnalMask">
+				<div  class="map-title">报修工单时间间隔分布</div>
+		<div style="width: 100%; height: 400px;position:absolute;left:0px;top:0px">
+			</div>
+			<div id="echartsEvent4" style="width: 100%; height: 400px; float: left">
+			<!-- //chart  -->
+			
+		</div>
+		</div>
+
+	<script src="../static/echart/echarts.min.js"></script>
+	<script>
+	$(document).ready(function(){
+		sureData3();
+		sureData6();
+		chosData();
+	});
+	function chooseDynamicTime3(value){
+		$("#startTime3").val("");
+		$("#endTime3").val("");
+		if('custom'==value){
+			$("#searchForm3").show();
+		}else{
+			$("#searchForm3").hide();
+			sureData3();
+		}
+	}
+	function chooseDynamicTime4(value){
+		$("#startTime4").val("");
+		$("#endTime4").val("");
+		if('custom'==value){
+			$("#searchForm4").show();
+
+		}else{
+			$("#searchForm4").hide();
+			chosData();
+		}
+	}
+	function chooseDynamicTime6(value){
+		$("#startTime6").val("");
+		$("#endTime6").val("");
+		if('custom'==value){
+			$("#searchForm6").show();
+
+		}else{
+			$("#searchForm6").hide();
+			sureData6();
+		}
+	}
+	
+	var fontSize = 10;
+	var rich = {
+	    yellow: {
+	        color: "#ffc72b",
+	        fontSize: fontSize * 2,
+	        padding: [5, 4],
+	        align: 'center'
+	    },
+	    total: {
+	        color: "#ffc72b",
+	        fontSize: fontSize * 4,
+	        align: 'center'
+	    },
+	    white: {
+	        color: "#9a8169",
+	        align: 'center',
+	        fontSize: fontSize * 1.4,
+	    },
+	    blue: {
+	        color: '#49dff0',
+	        fontSize: fontSize * 1.4,
+	        align: 'center'
+	    },
+	    hr: {
+	        borderColor: '#0b5263',
+	        width: '100%',
+	        borderWidth: 1,
+	        height: 0,
+	    }
+	}
+	function sureData3(){
+		$("#chooseDate3").hide();
+		$("#css1Mask").css("background","#FFFFFF");
+		$("#flag").val('0');
+		$.ajax({
+			headers    : {
+				"token" : localStorage.getItem("token")
+			},
+			url : APIHost + '/todoEvent/analbxgd',
+			type : 'POST',
+			async : false, //或false,是否异步
+			timeout : 3000,
+			data :{
+				type:$("#datetype3").val(),
+				createdDt:$("#startTime3").val(),
+				updatedDt:$("#endTime3").val(),
+			},
+			dataType : 'json',
+			success : function(data) {
+				var xaxis=[];
+				var yaxis=[];
+				for(var k in data){
+					xaxis.push(k);
+					yaxis.push(data[k]);
+				}
+				option = {
+					    title: {
+					        text: '',
+		  				    subtext: "工单数(条)",
+		  				    top:'5%',
+					        subtextStyle:{
+					            fontSize:14
+				       		 }
+					    },
+					    toolbox: {  
+	    		            show : true,  
+	    		            feature : {  
+	    		            myTool : {  
+	    		                    show : true,  
+	    		                    title : '筛选',  
+	    		                    icon: 'path://M837 139.3L573.2 464.6 562 478.3V853.4L462 803V478.3l-11.2-13.8L187 139.3h650m105-50H82L412 496v337.8l200 100.8V496.1L942 89.3z',
+	    		                    onclick : function (){ 
+	    		                    	if($("#flag").val()=='1'){
+	    		                    		alert("还有未关闭的窗口!请先关闭，才能点击！");
+	    		                    		return;
+	    		                    	}
+	    		                    	$("#flag").val('1');
+	    		                    	$("#chooseDate3").show();
+	    		                    	$("#searchForm3").hide();
+	    		                    	$("#css1Mask").css("background","#DDDDDD");
+	    		                    	var obj=document.getElementById('datetype3');
+	    		                        obj.options.length=0;//移除options 
+	    		                		$.ajax({
+	    		                			headers    : {
+	    		                				"token" : localStorage.getItem("token")
+	    		                			},
+	    		                			url : APIHost + '/todoEvent/getDates',
+	    		                			type : 'POST',
+	    		                			async : false, //或false,是否异步
+	    		                			timeout : 5000,
+	    		                			dataType : 'json',
+	    		                			contentType: "application/json; charset=utf-8",
+	    		                			success : function(res) {
+	    		                				$('#datetype3').append("<option hidden='hidden' value=''></option>");
+	    		                				for(i in res){
+	    		                    				$('#datetype3').append("<option value="+i+">"+res[i]+"</option>");
+	    		                				}
+	    		                				$('#datetype3').append("<option  value='custom'>自定义</option>")
+	    		                			},
+	    		                			error : function() {
+	    		                				console.log("错误");
+	    		                			}
+	    		                		});
+	    		                    }  
+	    		                 } 
+	    		            }  
+	    		        },
+					    xAxis: {
+					        type: 'category',
+					        boundaryGap: false,
+					        data:xaxis
+					    },
+					    color: ['#7EC0EE'],
+					    yAxis: {
+				            type : 'value',
+		      			    //      name : '工单数(条)',
+						     //       type : 'category',
+							        name: '报修工单时间分布',
+							        nameLocation: 'center',
+							        nameGap: '25',
+							        nameTextStyle: {
+							            fontSize: 17,
+							            fontWeight:'bold'   
+							        },
+					        
+					    },
+					    series: [{
+					        data: yaxis,
+					        type: 'line',
+					          areaStyle: {
+					                normal: {type: 'default',
+					                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+					                        offset: 0,
+					                        color: 'rgba(199, 37, 50,0.2)'
+					                    }, {
+					                        offset: 1,
+					                        color: 'rgba(199, 37, 50,0.2)'
+					                    }], false)
+					                }
+					            },
+					    }]
+					};
+				var myChart = echarts.init(document.getElementById('echartsEvent2')); 
+				myChart.setOption(option);
+			}
+		});
+	}
+	function sureData6(){
+		$("#chooseDate6").hide();
+		$("#flag").val('0');
+		var css = {  
+	  		   "background-color": '#FFFFFF',
+	  		   "z-index":"0",
+	  		   "opacity":"0"
+	  		};
+			$("#css2Mask").css(css);
+		$.ajax({
+			headers    : {
+				"token" : localStorage.getItem("token")
+			},
+			url : APIHost + '/todoEvent/pieData',
+			type : 'POST',
+			async : false, //或false,是否异步
+			timeout : 3000,
+			data :{
+				type:$("#datetype6").val(),
+				createdDt:$("#startTime6").val(),
+				updatedDt:$("#endTime6").val(),
+			},
+			dataType : 'json',
+			success : function(data) {
+				var res=[];
+				for(var j in data){
+		              if(j!='repairSum'){
+						res.push({
+		                    value:data[j],
+		                    name:j 	
+								})	
+		              	}
+		     		 };
+				option = {
+					    backgroundColor: '#fff',
+					    title: {
+					        text: '报修工单数(条) :'+data["repairSum"],
+					  //      subtext: '2016年'+'1111',
+					        x: 'center',
+					        y: 'center',
+					        textStyle: {
+					            fontWeight: 'normal',
+					            fontSize: 16
+					        }
+					    },
+					    toolbox: {  
+				            show : true,  
+				            feature : {  
+				            myTool : {  
+				                    show : true,  
+				                    title : '筛选',  
+				                    icon: 'path://M837 139.3L573.2 464.6 562 478.3V853.4L462 803V478.3l-11.2-13.8L187 139.3h650m105-50H82L412 496v337.8l200 100.8V496.1L942 89.3z',
+				                    onclick : function (){  
+				                    	if($("#flag").val()=='1'){
+				                    		alert("还有未关闭的窗口!请先关闭，才能点击！");
+				                    		return;
+				                    	}
+				                    	$("#flag").val('1');
+				                    	$("#chooseDate6").show();
+				                    	$("#searchForm6").hide();
+				            			var css = {  
+				            	         		   "background-color": '#888888',
+				            	         		   "z-index":"1",
+				            	         		   "opacity":"0.3"
+				            	         		};
+				            				$("#css2Mask").css(css);
+			                    	  var obj=document.getElementById('datetype6');
+				              	        obj.options.length=0;//移除options 
+				              			$.ajax({
+				              				headers    : {
+				              					"token" : localStorage.getItem("token")
+				              				},
+				              				url : APIHost + '/todoEvent/getDates',
+				              				type : 'POST',
+				              				async : false, //或false,是否异步
+				              				timeout : 5000,
+				              				dataType : 'json',
+				              				success : function(res) {
+				              					$('#datetype6').append("<option hidden='hidden' value=''></option>");
+				              					for(i in res){
+				              	    				$('#datetype6').append("<option value="+i+">"+res[i]+"</option>");
+				              					}
+				              					$('#datetype6').append("<option  value='custom'>自定义</option>")
+				              				},
+				              				error : function() {
+				              					console.log("错误");
+				              				}
+				              			});
+				                    }  
+				                 } 
+				            }  
+				        },
+					    tooltip: {
+					        trigger: 'item',
+					        formatter: "{b}<br/>{c} ({d}%)",
+					        textStyle: {
+					            fontSize: fontSize * 1.6
+					        }
+					    },
+					    series: [{
+					        name: 'pie',
+					        type: 'pie',
+					        radius: ['40%', '60%'],
+					        hoverAnimation: false,
+					        color: ['#7EC0EE', '#7FFFD4', '#87CEFF', '#7A67EE', '#48D1CC', '#104E8B'],
+					        label: {
+					            normal: {
+					                formatter: function(params, ticket, callback) {
+					                    var total = 0; //考生总数量
+					                    var percent = 0; //考生占比
+					                    res.forEach(function(value, index, array) {
+					                        total += value.value;
+					                    });
+					                    percent = ((params.value / total) * 100).toFixed(2);
+					                    return '{white|' + params.name + '}\n{yellow|' + params.value + '}{blue|' + percent + '%}';
+					                },
+					                rich: rich
+					            },
+					        },
+					        data: res
+					    }]
+					};
+				var myChartpie = echarts.init(document.getElementById('echartsEvent3')); 
+				myChartpie.setOption(option);
+			}
+		});
+	}
+
+
+	function chosData(){
+		$("#chooseDate4").hide();
+	   	$("#repairAnalMask").css("background","#FFFFFF");
+	   	$("#flag").val('0');
+		var ctype=$("#chostype").val();
+	       var textName="已提交-已受理时间间隔";
+		if(ctype=="ytjysl"){
+			textName="已提交-已受理时间间隔";
+		}
+		if(ctype=="yslyzp"){
+			textName="已受理-已指派时间间隔";
+		}
+		if(ctype=="yzpywc"){
+			textName="已指派-已完成时间间隔";
+		}
+		if(ctype=="ywcyswc"){
+			textName="已完成-验收完成时间间隔";
+		}
+		$.ajax({
+			headers    : {
+				"token" : localStorage.getItem("token")
+			},
+			url : APIHost + '/todoEvent/repairNeedDate',
+			type : 'POST',
+			async : false, //或false,是否异步
+			timeout : 3000,
+			data :{
+				chosType:$("#chostype").val(),
+				type:$("#datetype4").val(),
+				createdDt:$("#startTime4").val(),
+				updatedDt:$("#endTime4").val(),
+			},
+			dataType : 'json',
+			success : function(data) {
+				console.log(data);
+				var x=[];
+				var y=[];
+				var avg=data['avgreg'];
+				for(var j in data){
+					if(j!='avgreg'){
+						x.push(j);
+						y.push(data[j]);
+					}
+	      		 };
+	      		option = {
+	    		        title:{
+		  				    subtext: textName+" :"+avg+"天",
+		  				  	top:'3%',
+					        subtextStyle:{
+					            fontSize:14
+				       		 }
+	    		        },
+	    		        toolbox: {  
+	    		            show : true,  
+	    		            feature : {  
+	    		            myTool : {  
+	    		                    show : true,  
+	    		                    title : '筛选',  
+	    		                    icon: 'path://M837 139.3L573.2 464.6 562 478.3V853.4L462 803V478.3l-11.2-13.8L187 139.3h650m105-50H82L412 496v337.8l200 100.8V496.1L942 89.3z',
+	    		                    onclick : function (){  
+	    		                    	if($("#flag").val()=='1'){
+	    		                    		alert("还有未关闭的窗口!请先关闭，才能点击！");
+	    		                    		return;
+	    		                    	}
+	    		                    	$("#flag").val('1');
+	    		                    	$("#chooseDate4").show();
+	    		                    	$("#searchForm4").hide();
+	    		                    	$("#repairAnalMask").css("background","#DDDDDD");
+	    		                    	  var obj=document.getElementById('datetype4');
+	    		              	        obj.options.length=0;//移除options 
+	    		              			$.ajax({
+	    		              				headers    : {
+	    		              					"token" : localStorage.getItem("token")
+	    		              				},
+	    		              				url : APIHost + '/todoEvent/getDates',
+	    		              				type : 'POST',
+	    		              				async : false, //或false,是否异步
+	    		              				timeout : 5000,
+	    		              				dataType : 'json',
+	    		              				success : function(res) {
+	    		              					$('#datetype4').append("<option hidden='hidden' value=''></option>");
+	    		              					for(i in res){
+	    		              	    				$('#datetype4').append("<option value="+i+">"+res[i]+"</option>");
+	    		              					}
+	    		              					$('#datetype4').append("<option  value='custom'>自定义</option>")
+	    		              				},
+	    		              				error : function() {
+	    		              					console.log("错误");
+	    		              				}
+	    		              			});
+	    		                    }  
+	    		                 } 
+	    		            }  
+	    		        },
+	      			    color: ['#3398DB'],
+	      			    tooltip : {
+	      			        trigger: 'axis',
+	      			        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+	      			            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+	      			        }
+	      			    },
+	      			    grid: {
+	      			        left: '3%',
+	      			        right: '4%',
+	      			        bottom: '3%',
+	      			        containLabel: true
+	      			    },
+	      			    xAxis : [
+	      			        {
+	      			            type : 'category',
+	      			            data : x,
+	      			            axisTick: {
+	      			                alignWithLabel: true
+	      			            }
+	      			        }
+	      			    ],
+	      			    yAxis : [
+	      			        {
+	      			            type : 'value',
+						        name: '报修工单数时间间隔分布',
+						        nameLocation: 'center',
+						        nameGap: '25',
+						        nameTextStyle: {
+						            fontSize: 17,
+						            fontWeight:'bold'   
+						        },
+	      			        }
+	      			    ],
+	      			    series : [
+	      			        {
+	      			            name:'数据信息',
+	      			            type:'bar',
+	      			            barWidth: '60%',
+	      			            data:y
+	      			        }
+	      			    ]
+	      			};
+
+				var myChartpie = echarts.init(document.getElementById('echartsEvent4')); 
+				myChartpie.setOption(option);
+			}
+		});
+	}
+	</script>
+	<input id="orderBy" name="orderBy" type="hidden" value="0">
+	<input type="hidden" value="0" id="flag">
+</body>
+</html>

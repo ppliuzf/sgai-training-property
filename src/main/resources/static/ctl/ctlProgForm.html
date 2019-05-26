@@ -1,0 +1,297 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+    <style>
+        .form-horizontal .control-label {
+            width: 148px;
+        }
+    </style>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+    <title>功能管理</title>
+    <meta name="decorator" content="default">
+<script type="text/javascript">
+var paramId=GetQueryString("paramId");
+// 表单验证
+   $.validator.setDefaults({
+       submitHandler: function() {
+          // 调用提交
+          save();
+       }
+   });
+   $().ready(function () {
+       // 在键盘按下并释放及提交后验证提交表单
+       $("#inputForm").validate({
+           errorPlacement:function(error, element){
+               error.appendTo(element.parent()); //将错误信息添加当前元素的父结点后面
+           },
+            rules: {
+            	progCode: {
+                   required: true
+               },
+               progName: {
+                   required: true
+               },
+               progPath: {
+                   required: true
+               },
+               progLevel: {
+                   required: true
+               },
+               progType: {
+                   required: true
+               },
+             /*   sbsName: {
+                   required: true
+               }, */
+               logLevel: {
+                   required: true
+               }
+             },
+           messages:{
+        	   progCode: {
+                   required: "请输入功能代码"
+               },
+               progName: {
+                   required: "请输入功能名称"
+               },
+               progPath: {
+                   required: "请输入功能路径"
+               },
+               progLevel: {
+                   required: "请选择功能级别"
+               },
+               progType: {
+                   required: "请选择功能类型"
+               },
+               /* sbsName: {
+                   required: "请选择功能模块"
+               }, */
+               logLevel: {
+                   required: "请填写日志级别"
+               }
+           }
+       });
+   })
+   
+   
+        function save(){
+		   $.jBox.confirm("确定提交吗？", "提示", function (v, h, f) {
+				if(v == 'ok'){
+					var ajax_option={
+							headers    : {
+				                 "token" : localStorage.getItem("token"),
+				             },
+				            async : false, //或false,是否异步
+							url:APIHost + '/admin/prog/ctlProg/save',//默认是form action
+							success:function(res){
+								if(res.data.msg=="success"){
+			                    	$.jBox.alert("保存成功！","提示",{closed:function(){
+			                    		window.parent.location.href = APIHost + "/ctl/ctlProgList.html";
+			                    	}});
+			                    	/* setTimeout(function(){
+			                    		//window.parent.location.href = APIHost + "/ctl/ctlProgList.html";
+                                        //关闭弹窗
+                                        closePopUp();
+                                        parent.pageload();
+			    	            	},500) */
+			                    }else if(res.data.msg=="havaData"){
+			                    	$.jBox.alert("功能代码已存在！","提示");
+			                    }else{
+			                    	$.jBox.alert("保存失败！","提示");
+			                    }
+			  				}
+				   }
+					$("#inputForm").ajaxSubmit(ajax_option);
+				}
+			})
+        }
+        
+// 获取修改数据
+   function updatepageload() {
+       //添加新tbody
+       $.ajax({
+           headers : {
+               "token" : localStorage.getItem("token"),
+           },
+           url : APIHost + '/admin/prog/ctlProg/getProg',
+           type : 'POST',
+           async : false, //或false,是否异步
+           data : {
+               id : paramId
+           },
+           timeout : 30000,
+           dataType : 'json',
+           success : function(res) {
+        	   $("#id").val(paramId);
+				$("#progCode").val(res.data.progCode);
+				$("#progCode").attr("readonly","readonly");
+				$("#progName").val(res.data.progName);
+				$("#progPath").val(res.data.progPath);
+				var select = document.getElementById("progLevel");
+				for (var i = 0; i < select.options.length; i++){  
+			        if (select.options[i].value == res.data.progLevel){
+			            select.options[i].selected = true;
+			            $("#progLevel").parent().find("span.select2-selection__rendered").html(select.options[i].text);
+			            $(".select2-selection__placeholder").css("color","#999");
+			            break;  
+			        }  
+			    }
+				var select1 = document.getElementById("progType");
+				for (var i = 0; i < select1.options.length; i++){  
+			        if (select1.options[i].value == res.data.progType){  
+			            select1.options[i].selected = true;
+			            $("#progType").parent().find("span.select2-selection__rendered").html(select1.options[i].text);
+			            break;  
+			        }  
+			    }
+				var select2 = document.getElementById("initCheckFlag");
+				for (var i = 0; i < select2.options.length; i++){  
+			        if (select2.options[i].value == res.data.initCheckFlag){  
+			            select2.options[i].selected = true;
+			            $("#initCheckFlag").parent().find("span.select2-selection__rendered").html(select2.options[i].text);
+			            break;  
+			        }  
+			    }
+				$("#logLevel").val(res.data.logLevel);
+				$("#linesPerpage").val(res.data.linesPerpage);
+				$("#remark").val(res.data.remark);
+           },
+           error : function() {
+				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+           }
+       })
+   }
+$(function(){
+	 setTimeout(function(){
+		 if(paramId != null){
+		        updatepageload();
+		    }
+	},500)
+	
+})
+       //获取跳转地址的参数
+   function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+   }  
+   
+// 关闭弹框
+   function closePopUp(){
+       $('#myModal .close', window.parent.document).click();
+   }
+    </script>
+    <script type="text/javascript">
+    	$(function(){
+    		loadDictByType("progLevel","prog_level");
+            loadDictByType("progType","prog_type");
+            loadDictByType("initCheckFlag","yesno");
+    	})
+    	
+    $(function(){
+        	autoSize();
+        })
+    	
+    </script>
+</head>
+<body>
+<form id="inputForm" class="form-horizontal" method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+    <div class="control-group">
+        <label class="control-label"> <span class="help-inline"><font color="red">*</font> </span>功能代码：</label>
+        <div class="controls">
+            <input id="progCode" name="progCode" type="text" value="" maxlength="100">
+           
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"> <span class="help-inline"><font color="red">*</font> </span>功能名称：</label>
+        <div class="controls">
+            <input id="progName" name="progName" type="text" value="" maxlength="50">
+           
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>功能路径：</label>
+        <div class="controls">
+            <input id="progPath" name="progPath" type="text" value="" maxlength="100">
+            
+        </div>
+    </div>
+	<div class="control-group">
+        <label class="control-label"> <span class="help-inline"><font color="red">*</font> </span>功能级别：</label>
+        <div class="controls">
+            <select id="progLevel" name="progLevel" class="input-xlarge select2-offscreen" tabindex="-1">
+            	<option value=""></option>
+            </select>
+           
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"> <span class="help-inline"><font color="red">*</font> </span>功能类型：</label>
+        <div class="controls">
+            <select id="progType" name="progType" class="input-xlarge select2-offscreen" tabindex="-1">
+            	<option value=""></option>
+            </select>
+           
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>日志级别：</label>
+        <div class="controls">
+            <input id="logLevel" name="logLevel" type="text" value="5" maxlength="50">
+            
+        </div>
+    </div>
+   <div class="control-group">
+        <label class="control-label">系统初始化检查标识：</label>
+        <div class="controls">
+            <select id="initCheckFlag" name="initCheckFlag" class="input-xlarge select2-offscreen" tabindex="-1">
+            	<option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">每页显示行数：</label>
+        <div class="controls">
+            <input id="linesPerpage" name="linesPerpage" type="text" value="" maxlength="50">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">备注：</label>
+        <div class="controls">
+            <!-- <textarea id="remark" name="remark" maxlength="200"  rows="3"></textarea> -->
+            <textarea id="remark" name="remark"  maxlength="200" type="text" style="overflow-y:hidden;" class="textAreas"></textarea>
+        </div>
+    </div>
+    <div class="form-actions">
+        <input id="btnCancel" class="btn" type="button" value="关 闭" onclick="closePopUp()">
+        <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">
+    </div>
+</form>
+<a style="display: none;" href="#myModal" role="button" class="btn" data-toggle="modal">查看演示案例</a>
+</body></html>

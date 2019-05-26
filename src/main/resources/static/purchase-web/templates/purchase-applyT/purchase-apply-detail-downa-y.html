@@ -1,0 +1,29 @@
+{{each items as item itemIndex}}
+<tr data-id="{{item.taskId}}" mattypeid="{{item.matTypeId}}">
+    <!-- 序号 -->
+    {{ if itemIndex+1< 10}} 
+    <td class="text-center">0{{itemIndex+1}}</td>
+    {{ else }}
+    <td class="text-center">{{itemIndex+1}}</td>
+    {{/if}}
+    <!-- 名称 -->
+    <td>
+        {{item.matName}}
+    </td>
+    <!-- 数量 -->
+    <td>
+        {{item.applyCount}}
+    </td>
+    <!-- 规格 -->
+    <td>
+        {{item.matSpec}}
+    </td>
+    <!-- 型号 -->
+    <td>
+        {{item.matTypeCode}}
+    </td>
+    <td class="text-center colo js-detail-my" name="{{item.matName}}" number="{{item.applyCount}}" guige="{{item.matSpec}}" xinghao="{{item.matTypeCode}}">
+        采购详情  
+    </td>
+</tr>
+{{/each}}

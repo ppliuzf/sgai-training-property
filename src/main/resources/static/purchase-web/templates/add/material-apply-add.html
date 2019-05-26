@@ -1,0 +1,42 @@
+{{if items.id}}
+<div class="form-group js-num">
+    <label for="infoOrgId"><span class="require"></span>申请编号</label>
+    <input type="text" class="form-control" id="infoOrgId" value="{{items.applyNo}}" maxlength="50" disabled>
+</div>
+{{/if}}
+<div class="form-group">
+    <label for="supplyTime" class="control-label faqiTime"><span class="require"></span>用料领取日期</label>
+    <div class='input-group'>    
+        <input id="supplyTime" class="form-control form_date1 " size="16" type="text" id="infoTime" value="{{items.supplyDate | dateFormat:'yyyy-MM-dd '}}" readonly>
+        <span class="input-group-addon js-date-clean"><span class="glyphicon glyphicon-remove"></span></span>
+    </div>    
+</div>
+<div class="form-group">
+    <label for="applyReason"><span class="require"></span>申请理由</label>
+    <textarea type="email" rows="4" class="form-control" id="applyReason" placeholder="请输入申请理由" maxlength="200">{{items.applyReason}}</textarea>
+    <div class="text-right js-count">0/200</div>
+</div>
+<div class="wuliao padding-L padding-R form-group">
+    <div class="margin-bt">
+        <span>选择物料</span>
+        <span class="glyphicon glyphicon-plus js-select-materiel"></span>
+    </div>
+    <div class="hidden form-inline pt15" >
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>物料名称</th>
+                <th>数量</th>
+                <th class="text-center">操作</th>
+            </tr>
+            </thead>
+            <tbody class="js-wuliao-list"></tbody>
+        </table>
+    </div>
+</div>
+<div class="form-group">
+    <label for="exampleInputFile">上传图片</label>
+    <div class="shangchuan"></div>
+    <!-- <input type="file" id="infoCover">
+    <p class="help-block">注最多上传1张图片，推荐尺寸1080*1080，图片大小不超过10M</p> -->
+</div>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>新增专项计划</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/default.css">
+    <style type="text/css">
+        .label-right{
+            padding-left: 10px;
+        }
+        .desc{
+            word-break:break-all;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row header">
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <h4 class="detailTitle">新增专项计划</h4>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-11 col-md-9 col-lg-7">
+        <div class="form-group">
+            <label for="name"><span class="require"></span>计划名称</label>
+            <input type="text" class="form-control" id="name" placeholder="" maxlength="20">
+        </div>
+        <div class="form-group">
+            <label for="type"><span class="require"></span>计划类型</label>
+            <select id="type" class="form-control" required="required">
+                <!--<option value="">项目类</option>-->
+                <!--<option value="">预算类</option>-->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="name">描述</label>
+            <textarea class="form-control counter-textarea desc" id ="confereDesc" rows="3" maxlength="100"></textarea>
+            <div class="counttask text-right"></div>
+        </div>
+        <div class="form-group">
+            <label for="name">上传图片</label>
+            <div class="js-uploader"></div>
+        </div>
+        <!--<div class="form-group">-->
+            <!--<label for="type">应用范围</label>-->
+            <!--<select id="range" class="form-control" required="required">-->
+                <!--<option value="">彩虹</option>-->
+                <!--<option value="">交大</option>-->
+            <!--</select>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+            <!--<label for="type"><span class="require"></span>责任岗位:</label>-->
+            <!--<div class="js-instant-search">-->
+                <!--<input type="text" class="form-control "  readonly="readonly" id="instant-selected" placeholder="" value="">-->
+                <!--<input type="hidden" id="instant-selected" value="">-->
+                <!--<div class="instant-search-content"></div> </div>-->
+            <!--<select id="range" class="form-control" required="required">-->
+                <!--<option value="">彩虹</option>-->
+                <!--<option value="">交大</option>-->
+            <!--</select>-->
+        <!--</div>-->
+        <div class="form-group">
+            <label for="type">参与者:</label>
+            <div class="js-dept-selector"></div>
+        </div>
+        <div class="form-group" style="display: none">
+            <div class="form-group"><label for="type">允许添加任务:</label></div>
+            <label>  <input type="radio" name="task" id="task-manager" value="1" checked title="责任人">责任人</label>
+            <label class="label-right"><input type="radio" name="task" id="task-partner" value="2" title="参与者">参与者</label>
+        </div>
+        <div>
+            <button type="button" class="btn btn-primary js-save">保存</button>
+            <button type="button" class="btn btn-primary js-save-detail">保存并关联任务</button>
+            <button type="button" class="btn btn-default js-cancel">取消</button>
+        </div>
+    </div>
+</div>
+<script src="js/lib/jquery.min.js"></script>
+<script src="js/lib/bootstrap.min.js"></script>
+<script src="js/lib/lightbox.min.js"></script>
+<script src="js/server/template.js"></script>
+<script src="../config/config.js"></script>
+<script src="js/server/utils.js"></script>
+<script src="js/controller/plan/add-plan.js"></script>
+</body>
+</html>

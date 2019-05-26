@@ -1,0 +1,31 @@
+{{each items as item idx}}
+<tr>
+    <td class="text-center">{{idx + 1 < 10 ? '0'+(idx + 1) : idx + 1}}</td>
+    <td>{{item.typeName}}</td>
+    <td>{{item.typeDescription}}</td>
+    <td>{{item.total}}</td>
+    <td>{{item.limitValue}}万</td>
+    <!--<td class="text-center act">-->
+        <!--<div class="btn-group more">-->
+            <!--<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多-->
+            <!--</button>-->
+            <!--<ul class="dropdown-menu">-->
+                <!--<li>-->
+                    <!--<a href="./type-add.html?id={{item.id}}" class="js-edit">编辑</a>-->
+                <!--</li>-->
+                 <!--{{if item.isDelete !== 3}}-->
+                <!--<li>-->
+                    <!--<a href="javascript:;" data-id="{{item.id}}" class="js-del">删除</a>-->
+                <!--</li>-->
+                 <!--{{/if}}-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</td>-->
+    <td class="text-center" style="white-space:nowrap">
+        <a href="./type-add.html?id={{item.id}}" class="js-edit">编辑</a>
+        {{if item.isDelete !== 3}}
+        <a href="javascript:;" data-id="{{item.id}}" class="js-del">删除</a>
+        {{/if}}
+    </td>
+</tr>
+{{/each}}

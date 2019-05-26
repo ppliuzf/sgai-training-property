@@ -1,0 +1,1141 @@
+<html>
+<!--[if IE 8]>
+<html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]>
+<html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8"/>
+    <title>首页</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="../static/media/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/media/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/media/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/media/css/style-metro.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/media/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/media/css/style-responsive.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/media/css/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+    <link href="../static/media/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    <link href="../static/media/css/jquery.gritter.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/media/css/daterangepicker.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/media/css/fullcalendar.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/media/css/jqvmap.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="../static/media/css/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="../static/media/css/smartMenu.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="../static/media/css/smart-font/iconfont.css" rel="stylesheet" type="text/css" media="screen"/>
+    <!-- END PAGE LEVEL STYLES -->
+    <link rel="shortcut icon" href="/static/media/image/favicon.ico"/>
+    <link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet"/>
+    <link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+    <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+    <script src="../static/media/js/jquery-smartMenu-min.js" type="text/javascript"></script>
+    <script src="../config/smart-common.js" type="text/javascript"></script>
+    <script src="../static/media/js/main.js" type="text/javascript"></script>
+    <style>
+        .table_fluid {
+            padding: 0;
+            display: flex;
+        }
+
+        .left-from {
+            width: 136px;
+            height: 545px;
+            text-align: left;
+            overflow-y: auto;
+            overflow-x: hidden;
+            background-color: #dfe2e3;
+            position: absolute;
+            left: 226px;
+            top: 112px;
+            display: none;
+        }
+
+        .scrollbar::-webkit-scrollbar {
+            width: 10px;
+            background-color: #e2e2e2;
+        }
+
+        /*定义滚动条的轨道，内阴影及圆角*/
+        .scrollbar::-webkit-scrollbar-track {
+            /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);*/
+            border-radius: 0;
+            background-color: #e2e2e2;
+            border: 1px solid #d4d4d5;
+        }
+
+        /*定义滑块，内阴影及圆角*/
+        .scrollbar::-webkit-scrollbar-thumb {
+            width: 6px !important;
+            height: 10px;
+            border-radius: 10px;
+            background-color: #bbb;
+        }
+
+        .bgul .left-bgli {
+            background-color: #1785ca;
+            color: #fff !important;
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none !important;
+            color: #6f6f6f;
+        }
+
+        a:active {
+            text-decoration: none !important;
+            /* color:#fff!important; */
+        }
+
+        .left-from ul {
+            font-size: 12px;
+            /* font-weight: bold; */
+            color: #6f6f6f;
+            margin: 0 !important;
+            list-style-type: none;
+            padding: 0 !important;
+        }
+
+        .left-from li {
+            height: 30px;
+            line-height: 30px;
+            list-style-type: none;
+            padding: 0 10px;
+        }
+
+        .left-bgli {
+            background-color: #1785ca;
+            color: #fff;
+            text-align: center;
+        }
+
+        .bgli {
+            background-color: #dfe2e3 !important;
+            color: #bdc0cb;
+            height: 32px;
+            line-height: 32px;
+        }
+
+        .left-from ul li.sec, .bgul li.tab_wrap {
+            background: #dfe2e3;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .left-from ul li.sec a, .bgul li.tab_wrap a {
+            text-decoration: none;
+            color: #6f6f6f;
+        }
+
+        .left-from ul .sec:hover, .bgul li.tab_wrap:hover {
+            background: #c1c8d6 !important;
+        }
+
+        .left-from ul li.sec:hover a, .bgul li:hover a, .bgul li.tab_wrap:hover {
+            color: #666 !important;
+        }
+
+        .navActive {
+            background: #c1c8d6 !important;
+            color: #666 !important;
+        }
+
+        .navActive a {
+            color: #666 !important;
+            font-weight: bold;
+        }
+
+        .icon_nav {
+            display: inline-block;
+            width: 14px;
+            height: 13px;
+            background-image: url(/upload/images/msg.png);
+        }
+
+        .page-sidebar-menu li.span a i {
+            color: #fff;
+        }
+
+        .page-sidebar-menu li.open ul.sub-menu li.open ul.sub-menu li a.three_menu {
+            background: #d0d0d0 !important;
+        }
+
+        #profession ul li a, #jiankong ul li a, #nengyuan ul li a {
+            display: inline-block;
+            width: 100%;
+            text-align: left;
+            padding-left: 16px;
+        }
+
+        .left-from .sec.disable, .disable {
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .threeActive {
+            display: block;
+        }
+
+        .bgli-line1, .bgli-line2 {
+            display: inline-block;
+            margin-bottom: 3px;
+            width: 9px;
+            border-top: 1px solid #bdc0cb;
+        }
+
+        .bgli-line2 {
+            width: 33px;
+        }
+
+        .tab-a {
+            font-size: 10px;
+        }
+
+
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            $(".bgul .sec").click(function () {
+                $(this).siblings('.sec').removeClass('left-bgli');  // 删除其他兄弟元素的样式
+                $(this).addClass('left-bgli');
+                $(this).children("a").css("color", "#fff");
+                $(this).siblings('.sec').children("a").css("color", "#6f6f6f");
+                /* $(this).children().children('a').css("color","red") */
+
+            });
+
+        });
+    </script>
+</head>
+
+<body class="page-header-fixed">
+<!-- 头部信息开始 -->
+<div class="header navbar navbar-inverse navbar-fixed-top">
+    <a id="alertIE" href=""></a>
+    <!-- 头部导航条 -->
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <!-- 图标开始-->
+            <a class="brand" href="#">
+                <img src="../static/media/image/logo.png" alt="logo"/>
+                <!--<img src="../static/media/image/logo-dongao.png" alt="logo"/>-->
+            </a>
+            <!-- 图标结束 -->
+            <!-- 隐藏出发开始 -->
+            <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+                <img src="../static/media/image/menu-toggler.png" alt=""/>
+            </a>
+            <!-- 隐藏出发结束 -->
+            <ul class="nav nav-tabs">
+                <!--<li class="tab-li dropdown "><a class="tab-a dropdown-toggle" href="#" data-toggle="tab"
+                                                      onclick="initMenu('科技呈现')">科技呈现</a></li>-->
+                <li class="tab-li dropdown active "><a class="tab-a dropdown-toggle" href="#" data-toggle="tab"
+                                                       onclick="initMenu('建筑管控')">建筑管控</a></li>
+                <li class="tab-li dropdown "><a class="tab-a dropdown-toggle" href="#" data-toggle="tab"
+                                                onclick="initMenu('物业管理')">物业管理</a></li>
+                <li class="tab-li dropdown"><a class="tab-a dropdown-toggle" href="#" data-toggle="tab"
+                                               onclick="initMenu('系统管理')">系统管理</a></li>
+            </ul>
+            <ul class="nav pull-right">
+
+                <!-- 信息提示2 结束 -->
+                <!-- 信息提示3 开始  -->
+                <li class="dropdown" id="header_task_bar">
+                    <a href="../sys/homeMsg.html?#task" class="dropdown-toggle" target="mainFrame"
+                       onclick="skipEventPage();">
+                        <i class="icon-tasks"></i>
+                        <span class="badge" id="sysIndexEvent"></span>
+                    </a>
+                </li>
+                <!-- 信息提示1 开始 -->
+                <li class="dropdown" id="header_notification_bar">
+                    <a href="../sys/homeMsg.html?#alm" class="dropdown-toggle" target="mainFrame"
+                       onclick="skipAlarmPage();">
+                        <i class="icon-warning-sign"></i>
+                        <span class="badge" id="sysIndexAlm"></span>
+                    </a>
+                </li>
+                <!-- 信息提示1 结束  -->
+                <!-- 信息提示2 开始  -->
+                <li class="dropdown" id="header_inbox_bar">
+                    <a href="../sys/homeMsg.html?#notice" class="dropdown-toggle" target="mainFrame"
+                       onclick="skipNoticePage()">
+                        <i class="icon-envelope"></i>
+                        <span class="badge" id="sysIndexNotice"></span>
+                    </a>
+                </li>
+
+                <!-- 信息提示3  开始  -->
+                <!-- 用户信息下拉开始 -->
+                <li class="dropdown user" style="width:auto;">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <img alt="" src="../static/media/image/avatar1_small.jpg"/>
+                        <span class="username"></span>
+                        <i class="icon-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu" style="z-index:1000;">
+                        <li id="editPwd">
+                            <a href="#" style="color:#849096;line-height: 30px;letter-spacing: 2px;">
+                                <i class="icon-user"></i>
+                                修改密码
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li style="line-height:38px;cursor: pointer;padding:14px 20px 0 20px;">
+                    <span id="loginout"><img src="../static/media/image/exit.png"></span>
+                </li>
+                <!-- 用户信息下拉结束 -->
+            </ul>
+        </div>
+    </div>
+
+    <!--  头部导航条 -->
+
+</div>
+
+<!-- 头部信息结束 -->
+<div class="copyrights">欢迎光临</div>
+
+<!-- BEGIN CONTAINER -->
+
+<div id="screen" class="page-container">
+    <!--<img src="binScream.jpg" style="width: 100%; height: 100%">-->
+    <!--
+        <iframe id="overviewFrame" name="overviewFrame" src="../overview/index.html" style="height: 100%;" scrolling="auto" frameborder="no" width="100%" allowfullscreen=true></iframe>
+    -->
+</div>
+<div id="menu" class="page-container">
+    <!-- 左侧菜单条开始 -->
+    <div class="page-sidebar nav-collapse collapse">
+        <!-- 菜单开始 -->
+        <ul id="page-sidebar-menu" class="page-sidebar-menu">
+            <li>
+                <!-- 出发按钮开始 -->
+                <div class="sidebar-toggler hidden-phone"></div>
+                <!-- 出发按钮结束 -->
+            </li>
+            <!-- <li>
+                搜索框开始
+                <form class="sidebar-search">
+                    <div class="input-box">
+                        <a href="javascript:;" class="remove"></a>
+                        <input type="text" placeholder="Search..."/>
+                        <input type="button" class="submit" value=" "/>
+                    </div>
+                </form>
+                搜索框结束
+            </li> -->
+            <!-- =======================================菜单开始 -->
+            <!-- =======================================菜单结束 -->
+        </ul>
+        <!-- 菜单结束-->
+    </div>
+    <!-- 左侧菜单条开始 -->
+    <!-- BEGIN PAGE -->
+    <div class="page-content">
+        <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+        <div id="portlet-config" class="modal hide">
+            <div class="modal-header">
+                <button data-dismiss="modal" class="close" type="button"></button>
+                <h3>Widget Settings</h3>
+            </div>
+            <div class="modal-body">
+                Widget settings form goes here
+            </div>
+        </div>
+        <!-- 11BEGIN PAGE CONTAINER-->
+        <div class="container-fluid">
+            <!-- BEGIN PAGE HEADER-->
+            <div class="row-fluid">
+                <div class="span12" style="height: 48px;">
+                    <div style="background: #EDF1F2;position: fixed;left: 226px;right: 0;width: auto !important;height: 48px;z-index: 1;"
+                         class="span12">
+                        <!--==================================== 右侧标题-->
+                        <!-- <h3 class="page-title">
+                            <span>主标题</span>
+                            <small>副标题</small>
+                        </h3> -->
+                        <!--==================================== 右侧目录路径开始-->
+                        <ul class="breadcrumb clearfloat span12" id="tabstrip-menu">
+                            <li class="activeTab home_li">
+                                <i class="icon-home"></i>
+                                <a id="link_home_right" class="menu_bg three_menu" href="/sys/home.html"
+                                   target="mainFrame"><span class="title">HOME</span></a>
+                            </li>
+                        </ul>
+                        <ul style="height: 48px;visibility: hidden;width: 100%;margin-left:0;">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--=====================================右侧内容开始--->
+            <div id="mainContainer" class="row-fluid">
+                <!--==================================== 右侧内容 -->
+                <iframe id="mainFrame" name="mainFrame" src=""
+                        style="height: 100%;" scrolling="auto"
+                        frameborder="no" width="100%"></iframe>
+                <iframe src="home.html"
+                        style="position: absolute;width: 0;height: 0;opacity: "></iframe>
+            </div>
+            <!--=====================================右侧内容结束---->
+        </div>
+        <!-- 11END PAGE CONTAINER-->
+    </div>
+    <!-- END PAGE -->
+</div>
+<!--三级侧边栏-->
+<div class="left-from scrollbar" id="profession">
+    <ul class="bgul" style="list-style-type: none;">
+        <li class="bgli"><span class="bgli-line1"></span><span style="margin:0 6px;">安防管理</span><span
+                class="bgli-line2"></span></li>
+        <li class="sec navActive"><a href="/monitor/profession/professionalDefault.html" target="mainFrame">视频监控</a>
+        </li>
+        <li class="sec"><a id="menjin" href="/monitor/profession/passageway.html" target="mainFrame">出入口管理</a></li>
+        <li class="sec" style="margin-bottom:6px;"><a id="zhoujie" href="/monitor/profession/perimeter.html"
+                                                      target="mainFrame">周界管理</a></li>
+        <li class="bgli"><span class="bgli-line1"></span><span style="margin:0 6px;">消防管理</span><span
+                class="bgli-line2"></span></li>
+        <li class="sec" style="margin-bottom:6px;"><a id="xiaofang" href="/monitor/profession/fireControlMonitor.html"
+                                                      target="mainFrame">消防监控</a></li>
+        <li class="bgli"><span class="bgli-line1"></span><span style="margin:0 6px;">建筑设备管理</span><span
+                class="bgli-line1"></span></li>
+        <li class="sec"><a id="zhaoming" href="/monitor/profession/publicLighting.html" target="mainFrame">公共照明</a></li>
+        <!--  <li class="sec disable"><a href="/monitor/profession/landscapeLighting.html" target="mainFrame">景观照明</a></li> -->
+        <li class="sec"><a id="kongtiao" href="/monitor/profession/airCondition.html" target="mainFrame">空调专业</a></li>
+        <li class="sec"><a id="xinfeng" href="/monitor/profession/newTrand.html" target="mainFrame">新风专业</a></li>
+        <li class="sec"><a id="paishui" href="/monitor/profession/waterSupply.html" target="mainFrame">给排水专业</a></li>
+        <li class="sec"><a id="peidian" href="/monitor/profession/transformer.html" target="mainFrame">变配电专业</a></li>
+        <li class="sec" style="margin-bottom:6px;"><a id="dianti" href="/monitor/profession/elevator.html"
+                                                      target="mainFrame">电梯专业</a></li>
+        <!-- <li class="bgli"><span class="bgli-line1"></span><span style="margin:0 6px;">发布管理</span><span class="bgli-line2"></span></li>
+        <li class="sec disable"><a href="/monitor/profession/broadcasting.html" target="mainFrame">公共广播</a></li>
+        <li class="sec disable" style="margin-bottom:6px;"><a href="/monitor/profession/infoDiffusion.html" target="mainFrame">信息发布</a></li> -->
+        <li class="bgli"><span class="bgli-line1"></span><span style="margin:0 6px;">停车管理</span><span
+                class="bgli-line2"></span></li>
+        <!-- <li class="sec"><a href="/monitor/profession/undergroundStop.html" target="mainFrame">地下停车场</a></li> -->
+        <li class="sec"><a href="/monitor/profession/parkingResourceMonitor.html" target="mainFrame">停车资源监控</a></li>
+        <!-- <li class="sec disable" style="margin-bottom:6px;"><a href="/monitor/profession/ongroundStop.html" target="mainFrame">地上停车场</a></li> -->
+        <li class="bgli"><span class="bgli-line1"></span><span style="margin:0 6px;">能源管理</span><span
+                class="bgli-line2"></span></li>
+        <li class="sec"><a href="/monitor/profession/electricEnergy.html" target="mainFrame">电能管理</a></li>
+        <li class="sec"><a href="/monitor/profession/waterResource.html" target="mainFrame">水资源管理</a></li>
+        <li class="sec"><a href="/monitor/profession/gasControl.html" target="mainFrame">燃气管理</a></li>
+        <li class="sec"><a href="/monitor/profession/coldHeat.html" target="mainFrame">冷热量管理</a></li>
+        <li class="sec"><a href="/monitor/profession/chargeElectric.html" target="mainFrame">充电资源监控</a></li>
+    </ul>
+</div>
+<!-- 二级菜单 --
+<div class="newmenu" style="display:none;position: fixed;top:112px;left:226px;width:136spx;background:#fff;"></div>
+<!-- 二级菜单 -->
+
+
+<!--三级侧边栏-->
+<div class="left-from scrollbar" id="jiankong">
+    <!-- <div class="bgli" style="padding: 0 10px;"><span class="bgli-line1"></span><span style="margin:0 6px;">总览</span><span class="bgli-line1" style="width:59px;"></span></div> -->
+    <ul id="bgul">
+        <li class="tab_wrap"><a href="/monitor/videosurveillance/videoDefault.html" target="mainFrame">总览</a></li>
+        <li class="tab_wrap"><a href="/monitor/videosurveillance/videoC1.html" target="mainFrame">C1楼</a></li>
+        <li class="tab_wrap navActive"><a href="/monitor/videosurveillance/videoC2.html" target="mainFrame">C2楼</a></li>
+        <li class="tab_wrap disable"><a href="/monitor/videosurveillance/videoC1.html" target="mainFrame">A1楼</a></li>
+        <li class="tab_wrap disable"><a href="/monitor/videosurveillance/videoC2.html" target="mainFrame">A2楼</a></li>
+        <li class="tab_wrap disable"><a href="/monitor/videosurveillance/videoC1.html" target="mainFrame">A3楼</a></li>
+        <li class="tab_wrap disable"><a href="/monitor/videosurveillance/videoC2.html" target="mainFrame">A4楼</a></li>
+        <li class="tab_wrap disable"><a href="/monitor/videosurveillance/videoC1.html" target="mainFrame">B1楼</a></li>
+        <li class="tab_wrap disable"><a href="/monitor/videosurveillance/videoC2.html" target="mainFrame">B2楼</a></li>
+        <li class="tab_wrap disable"><a href="/monitor/videosurveillance/videoC1.html" target="mainFrame">B3楼</a></li>
+        <li class="tab_wrap disable"><a href="/monitor/videosurveillance/videoC2.html" target="mainFrame">B4楼</a></li>
+    </ul>
+</div>
+
+<!--三级侧边栏-->
+<div class="left-from scrollbar" id="nengyuan">
+    <!-- <div class="bgli" style="padding: 0 10px;"><span class="bgli-line1"></span><span style="margin:0 6px;">总览</span><span class="bgli-line1" style="width:59px;"></span></div> -->
+    <ul id="kpi">
+        <li class="tab_wrap navActive"><a href="/monitor/energykpi/energyDefault.html" target="mainFrame">总览</a></li>
+        <li class="tab_wrap"><a href="/monitor/energykpi/energyC1.html" target="mainFrame">C1楼</a></li>
+        <li class="tab_wrap"><a href="/monitor/energykpi/energyC2.html" target="mainFrame">C2楼</a></li>
+        <li class="tab_wrap"><a href="/monitor/energykpi/energyC3.html" target="mainFrame">C3楼</a></li>
+    </ul>
+</div>
+
+
+<div id="showS" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 id="myModalLabel">实时报警项</h4>
+    </div>
+    <div class="modal-body">
+        <iframe id="shIframe"></iframe>
+    </div>
+</div>
+
+
+<!-- END CONTAINER -->
+
+<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+<!-- 核心js -->
+<!-- <script src="../static/media/js/jquery-1.10.1.min.js" type="text/javascript"></script> -->
+<script src="../static/media/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+<!-- IMPORTANT! Load jquery-ui-1.10.1.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+<script src="../static/media/js/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
+<script src="../static/media/js/bootstrap.min.js" type="text/javascript"></script>
+<!--[if lt IE 9]>
+<script src="media/js/excanvas.min.js"></script>
+<script src="media/js/respond.min.js"></script>
+<![endif]-->
+<script src="../static/media/js/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="../static/media/js/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="../static/media/js/jquery.cookie.min.js" type="text/javascript"></script>
+
+
+<!-- 页面级别js -->
+<script src="../static/media/js/jquery.vmap.js" type="text/javascript"></script>
+<script src="../static/media/js/jquery.vmap.russia.js" type="text/javascript"></script>
+<script src="../static/media/js/jquery.vmap.world.js" type="text/javascript"></script>
+<script src="../static/media/js/jquery.vmap.europe.js" type="text/javascript"></script>
+<script src="../static/media/js/jquery.vmap.germany.js" type="text/javascript"></script>
+<script src="../static/media/js/jquery.vmap.usa.js" type="text/javascript"></script>
+<script src="../static/media/js/jquery.vmap.sampledata.js" type="text/javascript"></script>
+<script src="../static/media/js/jquery.flot.js" type="text/javascript"></script>
+<script src="../static/media/js/jquery.flot.resize.js" type="text/javascript"></script>
+<script src="../static/media/js/jquery.pulsate.min.js" type="text/javascript"></script>
+<script src="../static/media/js/date.js" type="text/javascript"></script>
+<script src="../static/media/js/daterangepicker.js" type="text/javascript"></script>
+<script src="../static/media/js/jquery.gritter.js" type="text/javascript"></script>
+<script src="../static/media/js/fullcalendar.min.js" type="text/javascript"></script>
+<script src="../static/media/js/jquery.easy-pie-chart.js" type="text/javascript"></script>
+<script src="../static/media/js/jquery.sparkline.min.js" type="text/javascript"></script>
+
+
+<!-- 框架自定义js -->
+<script src="../static/media/js/app.js" type="text/javascript"></script>
+<script src="../static/media/js/index.js" type="text/javascript"></script>
+<script src="../static/media/js/Show_color.js" type="text/javascript"></script>
+<script>
+
+    jQuery(document).ready(function () {
+        App.init(); // initlayout and core plugins
+        Index.init();
+        /*  Index.initJQVMAP(); // init index page's custom scripts
+         Index.initCalendar(); // init index page's custom scripts
+         Index.initCharts(); // init index page's custom scripts
+         Index.initChat();
+         Index.initMiniCharts();
+         Index.initDashboardDaterange();
+         Index.initIntro(); */
+        $(".username").html(localStorage.getItem("userName"));
+        //消息、警报、通知link
+        /*  $('.nav .dropdown a').click(function(){
+         //需要reload一下，否则不跳转页面
+         document.getElementById('mainFrame').contentWindow.location.reload(true);
+         }) */
+        init();
+    });
+
+    function skipEventPage() {
+        $("#tabstrip-menu li").removeClass("activeTab");
+        $("#tabstrip-menu li:first").addClass("activeTab");
+        $("#mainFrame").contents().find('.eventBtn')[0].click();
+    }
+
+    function skipAlarmPage() {
+        $("#tabstrip-menu li").removeClass("activeTab");
+        $("#tabstrip-menu li:first").addClass("activeTab");
+        $("#mainFrame").contents().find('.alarmBtn')[0].click();
+    }
+
+    function skipNoticePage() {
+        $("#tabstrip-menu li").removeClass("activeTab");
+        $("#tabstrip-menu li:first").addClass("activeTab");
+        $("#mainFrame").contents().find('.noticeBtn')[0].click();
+    }
+
+    $("#loginout").on("click", function () {
+        localStorage.removeItem("token");
+        location.href = APIHost + "/sys/sysLogin.html";
+    });
+    $("#editPwd").on("click", function () {
+        location.href = APIHost + "/sys/sysEditPwd.html";
+    });
+
+    // var json ='[{"children":[{"children":[],"icon":"fa fa-puzzle-piece","id":31,"menuCode":"SYS_FUNCTION","parentId":35,"text":"菜单管理","url":"views/sys/sys_function.html"},{"children":[],"icon":"fa fa-list","id":32,"menuCode":"SYS_ROLE_FUNCTION","parentId":35,"text":"菜单分配","url":"views/sys/sys_role_function.html"},{"children":[],"icon":"fa fa-user","id":50,"menuCode":"SYS_ACCOUNT","parentId":35,"text":"账户管理","url":""},{"children":[],"icon":"fa fa-user-plus","id":53,"menuCode":"SYS_ACCOUNT_USER","parentId":35,"text":"用户管理","url":"views/sys/sys_user.html"},{"children":[],"icon":"fa fa-users","id":51,"menuCode":"SYS_ACCOUNT_ROLE","parentId":35,"text":"角色管理","url":"views/sys/sys_role.html"},{"children":[],"icon":"fa fa-plug","id":30,"menuCode":"SYS_FUNCTION_MANAGER","parentId":35,"text":"菜单管理","url":""},{"children":[],"icon":"fa fa-search","id":49,"menuCode":"SYS_LOV","parentId":35,"text":"字典定义","url":"views/sys/sys_lov.html"},{"children":[],"icon":"fa fa-puzzle-piece","id":79,"menuCode":"SYS_CODE","parentId":35,"text":"代码维护","url":"views/sys/sys_code.html"}],"icon":"fa fa-gears","id":35,"menuCode":"SYS","parentId":0,"text":"基础管理","url":""},{"children":[{"children":[],"icon":"fa fa-plug","id":82,"menuCode":"PROPERTY_INFO","parentId":80,"text":"资产信息","url":"views/property/property_info.html"},{"children":[],"icon":"fa fa-plug","id":83,"menuCode":"PROPERTY_FIX","parentId":80,"text":"资产维修","url":"views/property/property_fix.html"},{"children":[],"icon":"fa fa-plug","id":84,"menuCode":"PROPERTY_BROKEN","parentId":80,"text":"资产报废","url":"views/property/property_broken.html"}],"icon":"fa fa-plug","id":80,"menuCode":"PRO_FUNCITON_LIST","parentId":0,"text":"资产管理","url":""},{"children":[{"children":[],"icon":"fa fa-plug","id":86,"menuCode":"WARNNING_CLASS","parentId":85,"text":"等级维护","url":"views/warnning/warnning_class.html"},{"children":[],"icon":"fa fa-plug","id":87,"menuCode":"WARNNING_OPT","parentId":85,"text":"报警处理","url":"views/warnning/warnning_opt.html"},{"children":[],"icon":"fa fa-plug","id":88,"menuCode":"WARNNING_EMAIL","parentId":85,"text":"邮件处理","url":"views/warnning/warnning_email.html"}],"icon":"fa fa-plug","id":85,"menuCode":"WARNNING_INFO","parentId":0,"text":"报警管理","url":""},{"children":[{"children":[],"icon":"fa fa-plug","id":90,"menuCode":"ENERGY_ANALYSIS","parentId":89,"text":"能耗分析","url":"views/energy/energy_analysis.html"},{"children":[],"icon":"fa fa-plug","id":91,"menuCode":"ENERGY_SORT","parentId":89,"text":"能耗排名","url":"views/energy/energy_rank.html"},{"children":[],"icon":"fa fa-plug","id":92,"menuCode":"ENERGY_PERCENT","parentId":89,"text":"能耗占比","url":"views/energy/energy_percent.html"}],"icon":"fa fa-plug","id":89,"menuCode":"ENERGY","parentId":0,"text":"能源管理","url":""},{"children":[{"children":[],"icon":"fa fa-plug","id":94,"menuCode":"LOG_OPT","parentId":93,"text":"操作日志","url":"views/log/log_opt.html"},{"children":[],"icon":"fa fa-plug","id":96,"menuCode":"LOG_WARNNING","parentId":93,"text":"报警日志","url":"views/log/log_warnning.html"},{"children":[],"icon":"fa fa-plug","id":95,"menuCode":"LOG_WORKING","parentId":93,"text":"运行日志","url":"views/log/log_working.html"}],"icon":"fa fa-plug","id":93,"menuCode":"LOG","parentId":0,"text":"日志管理","url":""}]'
+    // var data_json = JSON.parse(json);
+    function createMenu(html, datas) {
+        for (var i = 0; i < datas.length; i++) {
+            var data = datas[i];
+            html.push('<li>');
+            if (data.childrenMenus.length > 0) {
+                html.push('<a href="javascript:;">');
+                if (data.icon) {
+                    html.push('<i class="smartfont ' + data.icon + '"></i>');
+                }
+                html.push('<span class="title">' + data.menuName + '</span>');
+                html.push('<span class="arrow "></span></a><ul class="sub-menu">');
+                createMenu(html, data.childrenMenus);
+                html.push('</ul>')
+            } else if (data.progPath) {
+                if (data.menuName == '视频监控') {
+
+                    /* html.push('<a class="menu_bg" onclick="showVideo(' +"'"+data.progPath +"'" +')" target="mainFrame">'); */
+                    html.push('<a class="menu_bg" onclick="showVideo(' + "'" + data.progPath + "'" + ')" target="mainFrame">');
+                } else {
+                    html.push('<a class="menu_bg" onclick="initTabList(this,event)" href=' + data.progPath + '  target="mainFrame">');
+                }
+
+                if (data.icon) {
+                    html.push('<i class="smartfont ' + data.icon + '"></i>');
+                }
+                html.push('<span class="title">' + data.menuName + '</span><span class="selected"></span>');
+                html.push('</a>');
+            }
+            html.push('</li>');
+        }
+
+    }
+
+
+    var index;
+    var result = [];
+    var changeLiWidth;
+
+    function loadMenu(data_json) {
+        var html = ['<li id="link_home_li" class="nav-item start active open "><a id="link_home" href= "/sys/home.html" target="mainFrame" class="nav-link"><i class="smartfont smart-home"></i><span class="title">首页</span></a></li>'],
+            datas = [].concat(data_json);
+        createMenu(html, datas);
+        $("#page-sidebar-menu").append(html.join(''));
+
+        //首页标签切换选中效果，待优化
+        $("body").on("click", "#link_home", function () {
+            $(this).closest('li').addClass("open").siblings().removeClass("open").find(".sub-menu").css("display", "none");
+            $("#link_home_right").closest('li').addClass("activeTab").siblings().removeClass("activeTab");
+            $(".page-sidebar-menu li .arrow").removeClass("open");
+        });
+        $("#link_home_right").click(function () {
+            $(this).closest('li').addClass("activeTab").siblings().removeClass("activeTab");
+            $("#link_home").closest('li').addClass("open").siblings().removeClass("open").find(".sub-menu").css("display", "none");
+            $(".page-sidebar-menu li .arrow").removeClass("open");
+        });
+        var bigBread = [], aLinkText = '', fLinkText = '', lastLink = '', lastLinkText = '';
+        // 点击左边导航栏添加头部页签
+        $("#page-sidebar-menu").find(".menu_bg").click(function (e) {
+            findBread(this);
+            index = $(this).index(".menu_bg");
+            if ($(this).children(".title").html() == "专业视角" || $(this).children(".title").html() == "运行概览") {
+                $(this).children('.selected').addClass('selectedAngle')
+            }
+            if ($.inArray(index, result) == -1) {
+                var tabstripList = ($("#tabstrip-menu li").length);
+                if (tabstripList >= 10) {
+                    $.jBox.alert("暂只支持打开10个标签页", "提示");
+                    return
+                } else {
+                    result.push(index);
+                    $("#tabstrip-menu").append("<li id='" + index + "'>" + $(this).parent().html() + "<span onclick='closeTab(this,event)' class='closeTab'>X</span><div>" + $(this).text() + "</div></li>");
+                }
+                var tabstripWidth = $("#tabstrip-menu").width();
+                var tabstripLiWidth = 120;
+                var allListWidth = tabstripList * tabstripLiWidth + ((tabstripList - 1) * 8) + 182;
+                if (allListWidth > tabstripWidth) {
+                    changeLiWidth = (tabstripWidth - 182) / (tabstripList) - 8;
+                    $("#tabstrip-menu li").width(changeLiWidth);
+                    //$("#tabstrip-menu li span.title").width(changeLiWidth - 45);
+                }
+            }
+
+            // 给页签添加高亮效果
+            $("#page-sidebar-menu").find(".menu_bg").each(function () {
+                var tabName = $("#tabstrip-menu").find("#" + index).find(".title").text();
+                if ($(this).text() == tabName) {
+                    $("#tabstrip-menu").find(".menu_bg").parent().removeClass("activeTab");
+                    $("#tabstrip-menu").find("#" + index).addClass("activeTab");
+                }
+            })
+
+            // 头部页签添加效果
+
+            $("#tabstrip-menu").on("click", ".menu_bg", function () {
+
+                if ($(this).children(".title").html() == "专业视角") {
+                    $("#profession").addClass("threeActive");
+                    var h = $("#profession ul li.navActive a").attr("href");
+                    $(this).attr("href", h);
+                } else {
+                    $("#profession").removeClass("threeActive");
+                }
+                if ($(this).children(".title").html() == "运行概览") {
+                    $("#jiankong").addClass("threeActive");
+                    var j = $("#jiankong ul li.navActive a").attr("href");
+                    $(this).attr("href", j);
+                } else {
+                    $("#jiankong").removeClass("threeActive");
+                }
+                if ($(this).children(".title").html() == "能源kpi") {
+                    $("#nengyuan").addClass("threeActive");
+                    var n = $("#nengyuan ul li.navActive a").attr("href");
+                    $(this).attr("href", n);
+                } else {
+                    $("#nengyuan").removeClass("threeActive");
+                }
+
+                $("#tabstrip-menu li").removeClass("activeTab");
+                $(this).parent().addClass("activeTab");
+                $("#page-sidebar-menu .menu_bg").removeClass("three_menu");
+                $(getJqObjByText($(this).text())).addClass("three_menu");
+                $(getJqObjByText($(this).text())).parent().parents("li").addClass("open").siblings().removeClass("open").find(".arrow").removeClass("open");
+                $(".sub-menu").css("display", "none");
+                $(getJqObjByText($(this).text())).parents("ul").css("display", "block");
+                findBread(getJqObjByText($(this).text()));
+            })
+            setContextMenu();
+        })
+
+        function findBread(targetBread) {
+            bigBread = [];
+            aLinkText = $(targetBread).text();
+            bigBread.push(aLinkText);
+            fLinkText = $($(targetBread).parent().parent().siblings()[0]).find('span.title').text();
+            bigBread.push(fLinkText);
+            lastLink = $(targetBread).parent().parent().parent().parent().parent();
+            if (lastLink.hasClass("open")) {
+                lastLinkText = $($(targetBread).parent().parent().parent().parent().siblings()[0]).find('span.title').text();
+                bigBread.push(lastLinkText);
+            }
+            window.localStorage.setItem("bigBread", bigBread);
+        }
+
+
+        //添加模块
+        /* $("#page-sidebar-menu").children("li").eq(3).find('li').eq(2).click(function(){
+        	$(".newmenu").show();
+
+        }) */
+        /* $("#page-sidebar-menu li").each(function(){
+        	alert($(this).text());
+        	if($(this).text()=="报警管理"){
+        		$(".newmenu").show();
+        	}else{
+        		$(".newmenu").hide();
+        	}
+        }) */
+        $("body").on("click", "#page-sidebar-menu li a", function () {
+            if ($(this).attr("href") == "/monitor/videosurveillance/videoC2.html") {
+                //$("#jiankong").css("display","block");
+                $("#jiankong").addClass("threeActive");
+                $('#jiankong').scrollTop(0);
+                $("#jiankong ul li").removeClass("navActive");
+                $("#jiankong ul li a").css("color", "rgb(111, 111, 111)");
+                $("#jiankong ul li:nth-child(3)").addClass("navActive");
+            } else {
+                if ($(this).attr("href") == "javascript:;" && $("#jiankong").hasClass("threeActive")) {
+                    $("#jiankong").addClass("threeActive");
+                } else {
+                    $("#jiankong").removeClass("threeActive");
+                }
+                $('#jiankong').scrollTop(0);
+            }
+
+            if ($(this).attr("href") == "/monitor/profession/professionalDefault.html") {
+                $("#profession").addClass("threeActive");
+                $('#profession').scrollTop(0);
+                $("#profession ul li").removeClass("navActive");
+                $("#profession ul li a").css("color", "rgb(111, 111, 111)");
+                $("#profession ul li:nth-child(2)").addClass("navActive");
+
+            } else {
+                if ($(this).attr("href") == "javascript:;" && $("#profession").hasClass("threeActive")) {
+                    $("#profession").addClass("threeActive");
+                } else {
+                    $("#profession").removeClass("threeActive");
+                }
+
+                $('#profession').scrollTop(0);
+            }
+
+            if ($(this).attr("href") == "/monitor/energykpi/energyDefault.html") {
+
+                $("#nengyuan").addClass("threeActive");
+                $('#nengyuan').scrollTop(0);
+                $("#nengyuan ul a").removeClass("navActive");
+                $("#nengyuan ul a li").css("color", "rgb(111, 111, 111)");
+                $("#nengyuan ul a:nth-child(1) li").addClass("navActive");
+
+            } else {
+
+                if ($(this).attr("href") == "javascript:;" && $("#nengyuan").hasClass("threeActive")) {
+                    $("#nengyuan").addClass("threeActive");
+                } else {
+                    $("#nengyuan").removeClass("threeActive");
+                }
+                $('#nengyuan').scrollTop(0);
+            }
+
+        })
+
+
+    }
+
+    //设置鼠标右键
+    function setContextMenu() {
+        var firstMenuData = [
+            [{
+                text: "关闭其他标签页",
+                func: function () {
+                    $(this).siblings(":not('.home_li')").find(".closeTab").trigger("click");
+                    //$(this).smartMenu("none");//关闭所有标签后清除首页的
+                }
+            }, {
+                text: "关闭右侧标签页",
+                func: function () {
+                    $(this).nextAll().find(".closeTab").trigger("click");
+                    //$(this).smartMenu("none");
+                }
+            }]
+        ];
+        var centerMenuData = [
+            [{
+                text: "关闭标签页",
+                func: function () {
+                    $(this).find(".closeTab").trigger("click");
+                }
+            }, {
+                text: "关闭其他标签页",
+                func: function () {
+                    if (!$("#tabstrip-menu .home_li").hasClass("activeTab")) {
+                        $(this).find(".menu_bg")[0].click();
+                    }
+                    $(this).siblings(":not('.home_li')").find(".closeTab").trigger("click");
+                }
+            }, {
+                text: "关闭右侧标签页",
+                func: function () {
+                    $(this).nextAll().find(".closeTab").trigger("click");
+                }
+            }]
+        ];
+        var lastMenuData = [
+            [{
+                text: "关闭标签页",
+                func: function () {
+                    $(this).find(".closeTab").trigger("click");
+                }
+            }, {
+                text: "关闭其他标签页",
+                func: function () {
+                    if (!$("#tabstrip-menu .home_li").hasClass("activeTab")) {
+                        $(this).find(".menu_bg")[0].click();
+                    }
+                    $(this).siblings(":not('.home_li')").find(".closeTab").trigger("click");
+                }
+            }]
+        ];
+
+        if ($("#tabstrip-menu li").length == 1) {
+            $("#tabstrip-menu li:first").smartMenu("none");
+        } else if ($("#tabstrip-menu li").length == 2) {
+            $("#tabstrip-menu li:first").smartMenu(firstMenuData, {
+                name: "firstLabel"
+            });
+            $("#tabstrip-menu li:last").smartMenu([
+                [{
+                    text: "关闭标签页",
+                    func: function () {
+                        $(this).find(".closeTab").trigger("click");
+                    }
+                }]
+            ], {
+                name: "secondLabel"
+            });
+        } else {
+            $("#tabstrip-menu li:first").smartMenu(firstMenuData, {
+                name: "firstLabel"
+            });
+            $("#tabstrip-menu li:gt(0)").smartMenu(centerMenuData, {
+                name: "centerLabel"
+            });
+            $("#tabstrip-menu li:last:not('.home_li')").smartMenu(lastMenuData, {
+                name: "lastLabel"
+            });
+        }
+    }
+
+    // 头部页签
+    function initTabList(n, event) {
+        var labelLength = $("#tabstrip-menu li").length;
+        if (labelLength >= 10) {
+            var curTitle = $(n).text();
+            if (!$("#tabstrip-menu .title:contains('" + curTitle + "')").length) {
+                event.preventDefault();
+                return
+            } else {
+                $("#page-sidebar-menu").find(".menu_bg").removeClass("three_menu");
+                $(n).addClass("three_menu");
+            }
+        } else {
+            $("#page-sidebar-menu").find(".menu_bg").removeClass("three_menu");
+            $(n).addClass("three_menu");
+        }
+    }
+
+    // 关闭页签
+    function closeTab(i, e) {
+        var listIndex = $(i).parent().index() - 1;
+        if ($(i).parent().hasClass("activeTab")) {
+            $(i).parent().prev().find(".menu_bg")[0].click();
+        }
+        $(i).parent().remove();
+        result.splice(listIndex, 1);
+        start = $(i).parent().attr("id");
+        var tabstripWidth = $("#tabstrip-menu").width();
+        var tabstripList = ($("#tabstrip-menu li").length) - 1;
+        var allListWidth = tabstripList * changeLiWidth + ((tabstripList - 1) * 8) + 182;
+        var normalList = Math.floor((tabstripWidth - 182) / 120) + 1;
+        if (allListWidth < tabstripWidth && (tabstripList + 1) >= normalList) {
+            changeLiWidth = (tabstripWidth - 182) / (tabstripList) - 8;
+            $("#tabstrip-menu li").width(changeLiWidth);
+            //$("#tabstrip-menu li span.title").width(changeLiWidth - 45);
+        } else {
+            changeLiWidth = 120;
+            $("#tabstrip-menu li").width(changeLiWidth);
+            //$("#tabstrip-menu li span.title").width(changeLiWidth - 45);
+        }
+        setContextMenu();
+    }
+
+    //    $('#tabstrip-menu').on('click','li',function(){
+    //        $("#tabstrip-menu li").width(changeLiWidth);
+    //    })
+    //此处修改：搜索需调用，所以从loadMenu中提取出来
+    function getJqObjByText(content) {
+        var ele;
+        $("#page-sidebar-menu").find(".menu_bg:contains('" + content + "')").each(function () {
+            //if($(this).text()==content){ //注：此处不能这样判断，会取得第三个div的。
+            if ($(this).text() == content) {
+                ele = this; //此处，如果希望直接返回jquery对象，那就给 $(this) 的值
+                return false; //加上这句，在找到第一个符合的元素时跳出$.each。
+            }
+        });
+        return ele;
+    }
+
+    // 获取内部宽度赋给页签ul
+    var ulWidth = $(".row-fluid").width();
+    $("#tabstrip-menu").width(ulWidth);
+    var flag = true;
+    $(".hidden-phone").click(function () {
+        if (flag == true) {
+            $(".left-from").css("left", "35px");
+            setTimeout(function () {
+                $(".row-fluid>.span12>div").css("left", "35px");
+                ulWidth = $(".row-fluid").width() - 12;
+                var tabstripWidth = $("#tabstrip-menu").width();
+                var tabstripList = ($("#tabstrip-menu li").length) - 1;
+                var allListWidth = tabstripList * changeLiWidth + ((tabstripList - 1) * 8) + 182;
+                var normalList = Math.floor((tabstripWidth - 182) / 120) + 1;
+                if (allListWidth < tabstripWidth && (tabstripList + 1) >= normalList) {
+                    changeLiWidth = (tabstripWidth - 182) / (tabstripList) - 8;
+                    $("#tabstrip-menu li").width(changeLiWidth);
+                    //$("#tabstrip-menu li span.title").width(changeLiWidth - 45);
+                } else {
+                    changeLiWidth = 120;
+                    $("#tabstrip-menu li").width(changeLiWidth);
+                }
+            }, 10)
+            flag = false;
+        } else {
+            $(".left-from").css("left", "226px");
+            setTimeout(function () {
+                $(".row-fluid>.span12>div").css("left", "226px");
+                ulWidth = $(".row-fluid").width() - 12;
+                var tabstripWidth = $("#tabstrip-menu").width();
+                var tabstripList = ($("#tabstrip-menu li").length) - 1;
+                var allListWidth = tabstripList * changeLiWidth + ((tabstripList - 1) * 8) + 182;
+                var normalList = Math.floor((tabstripWidth - 182) / 120) + 1;
+                if (allListWidth > tabstripWidth) {
+                    changeLiWidth = (tabstripWidth - 182) / (tabstripList) - 8;
+                    $("#tabstrip-menu li").width(changeLiWidth);
+                    //$("#tabstrip-menu li span.title").width(changeLiWidth - 45);
+                } else {
+                    changeLiWidth = 120;
+                    $("#tabstrip-menu li").width(changeLiWidth);
+                }
+            }, 10)
+            flag = true;
+        }
+    })
+
+    //搜索菜单app.js
+    function searchMenu() {
+        var txt = $(".sidebar-search input[type=text]").val();
+        if ($.trim(txt) != "") {
+            var targetMenu = $(getJqObjByText(txt));
+            targetMenu.trigger("click");
+            //load iframe content
+            $('#mainFrame').attr('src', targetMenu.attr('href'));
+            //menu active style
+            targetMenu.addClass("three_menu");
+            targetMenu.parent().parents("li").addClass("open").siblings().removeClass("open");
+            $(".sub-menu").css("display", "none");
+            targetMenu.parents("ul").css("display", "block");
+        }
+    }
+
+    function init() {
+        /*$.ajax({
+            headers: {
+                "token": localStorage.getItem("token")
+            },
+            async: false,
+            type: 'POST',
+            dataType: "json",
+            timeout: 5000,
+            url: APIHost + '/admin/getMenus',
+            //contentType: "application/json; charset=utf-8",
+            success: function (res) {
+                if (res.code === 1000) {
+                } else if (res.code == 1002) {
+                    alert("发生异常");
+                    //异常状态
+                } else if (res.code == 1003) {
+                    $.jBox.alert('未登录状态，请重新登录', '提示', {
+                        closed: function () {
+                            location.href = APIHost + "/sys/sysLogin.html";
+                        }
+                    });
+                    //未登录状态
+                } else {
+                    alert("请稍后再试");
+                }
+            }
+        });*/
+        initMenu("建筑管控");
+    }
+
+    // 悬浮时候取消隐藏属性
+    $('#tabstrip-menu').on('mouseenter', 'li', function (e) {
+        e.preventDefault();
+        $('#tabstrip-menu').css('overflow', 'initial');
+        $(this).children('div').fadeIn("fast");
+        $(this).siblings().children('div').css('display', 'none');
+    })
+    // 鼠标离开时候加上隐藏属性
+    $('#tabstrip-menu').on('mouseleave', 'li', function (e) {
+        e.preventDefault();
+        $('#tabstrip-menu').css('overflow', 'hidden');
+        $('#tabstrip-menu li').children('div').css('display', 'none');
+    })
+
+
+    var nav_scroll_height = $("#mainFrame").height();
+    $("#profession,#jiankong,#nengyuan").height(nav_scroll_height)
+    // 左侧导航高度
+
+    // 窗口改变动态赋值
+    window.onresize = function () {
+        if (changeLiWidth == undefined) {
+            changeLiWidth = 120;
+        }
+        ulWidth = $(".row-fluid").width() - 12;
+        $("#tabstrip-menu").width(ulWidth);
+        var tabstripWidth = $("#tabstrip-menu").width();
+        var tabstripList = ($("#tabstrip-menu li").length) - 1;
+        var allListWidth = tabstripList * changeLiWidth + ((tabstripList - 1) * 8) + 182;
+        var normalList = Math.floor((tabstripWidth - 182) / 120) + 1;
+        if (allListWidth > tabstripWidth && (tabstripList + 1) >= normalList) {
+            changeLiWidth = (tabstripWidth - 182) / (tabstripList) - 8;
+            $("#tabstrip-menu li").width(changeLiWidth);
+            //$("#tabstrip-menu li span.title").width(changeLiWidth - 45);
+        } else if (allListWidth < tabstripWidth && (tabstripList + 1) >= normalList) {
+            changeLiWidth = (tabstripWidth - 182) / (tabstripList) - 8;
+            $("#tabstrip-menu li").width(changeLiWidth);
+            //$("#tabstrip-menu li span.title").width(changeLiWidth - 45);
+        } else {
+            changeLiWidth = 120;
+            $("#tabstrip-menu li").width(changeLiWidth);
+        }
+        var nav_scroll_height = $("#mainFrame").height();
+        $("#profession,#jiankong,#nengyuan").height(nav_scroll_height)
+    }
+
+
+    $("#profession ul").on("click", "li.sec", function () {
+        $("#profession ul  li.sec").removeClass("navActive");
+        $(this).addClass("navActive");
+    })
+    $("#bgul").on("click", "li", function () {
+        $("#bgul li").removeClass("navActive");
+        $(this).addClass("navActive");
+    })
+    $("#kpi").on("click", "li", function () {
+        $("#kpi li").removeClass("navActive");
+        $(this).addClass("navActive");
+    });
+
+
+    $("#header_task_bar").click(function () {
+        $("#jiankong").removeClass("threeActive");
+        $("#profession").removeClass("threeActive");
+    });
+    $("#header_notification_bar").click(function () {
+        $("#jiankong").removeClass("threeActive");
+        $("#profession").removeClass("threeActive");
+    });
+    $("#header_inbox_bar").click(function () {
+        $("#jiankong").removeClass("threeActive");
+        $("#profession").removeClass("threeActive");
+    });
+    showVideo = function (path) {
+        console.log(path)
+        href = window.location.href.substr(0, window.location.href.lastIndexOf("views")) + '/monitor/profession/videoList.html' + "?token=" + localStorage.getItem("token");
+        $("#alertIE").attr("href", "alert:" + href);
+        document.getElementById("alertIE").click();
+    }
+</script>
+</body>
+
+</html>
+<script type="text/javascript">
+    /**
+     * index页面上的4的展示选项.
+     */
+    function initMenu(modelType) {
+        $.ajax({
+            headers: {
+                "token": localStorage.getItem("token")
+            },
+            async: false,
+            type: 'POST',
+            data: {"modelType": modelType},
+            dataType: "json",
+            timeout: 5000,
+            url: APIHost + '/admin/getModelMenus',
+            success: function (res) {
+                if (res.code === 1000) {
+                    $("#page-sidebar-menu").empty();
+                    $("#page-sidebar-menu").html('<div class="sidebar-toggler hidden-phone"></div>');
+                    loadMenu(res.data);
+                } else if (res.code === 1002) {
+                    alert("发生异常");
+                    //异常状态
+                } else if (res.code === 1003) {
+                    $.jBox.alert('未登录状态，请重新登录', '提示', {
+                        closed: function () {
+                            location.href = APIHost + "/sys/sysLogin.html";
+                        }
+                    });
+                    //未登录状态
+                } else {
+                    alert("请稍后再试");
+                }
+            }
+        });
+    }
+
+</script>

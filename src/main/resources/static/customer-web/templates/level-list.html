@@ -1,0 +1,26 @@
+{{each items as item idx}}
+<tr>
+    <td class="text-center">{{idx | fillZero}}</td>
+    <td>{{item.levelName}}</td>
+    <td>{{item.levelDesc}}</td>
+    <!-- <td class="text-center act">
+        <div class="btn-group more">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+            <ul class="dropdown-menu">
+                <li><a href="./level-add.html?id={{item.clId}}">编辑</a></li>
+                <li>
+                    {{if item.levelType}}
+                    <a href="#" class="js-del" data-id="{{item.clId}}">删除</a>
+                    {{/if}}
+                </li>
+            </ul>
+        </div>
+    </td> -->
+    <td class="text-center">
+        <a href="./level-add.html?id={{item.clId}}">编辑</a>
+        {{if item.levelType}}
+        <a href="#" class="js-del" data-id="{{item.clId}}">删除</a>
+        {{/if}}
+    </td>
+</tr>
+{{/each}}

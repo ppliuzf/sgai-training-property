@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>我的审核</title>
+    <link rel="stylesheet" href="../../../../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../../lib/css/default.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row header">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <h4 style='margin:0px;'>我的审核</h4>
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 text-right">
+                <button class="btn btn-default" id='fh' style="margin-top:12px;">返回</button>
+            </div>
+        </div>
+
+        <form id="form">
+            <div class="filter">
+                <div class="form-inline">
+                    <div class="form-group my-review">
+                        <label for="ciNumber">请输入车牌号码</label>
+                        <input type="text" class="form-control" id="ciNumber" name="ciNumber" placeholder="请输入车牌号码">
+                    </div>
+                    <button type="button" class="btn btn-primary js-search" style='margin-top:-11px;'>查询</button>
+                    <button type="button" class="btn btn-primary js-reset" style='margin-top:-11px;'>重置</button>
+                </div>
+            </div>
+        </form>
+
+
+
+
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class='text-center' width='60'>序号</th>
+                    <th>车牌号码</th>
+                    <th>所属部门</th>
+                    <th>预约时间</th>
+                    <th>申请人</th>
+                    <th>申请日期</th>
+                    <th width='250px'>申请理由</th>
+                    <th>审核状态</th>
+                    <th class='text-center' width='80'>操作</th>
+                </tr>
+            </thead>
+            <tbody class="js-list">
+
+            </tbody>
+        </table>
+        <nav class="text-right pages"></nav>
+
+
+
+
+
+    </div>
+    <script src="../../../../lib/lib/jquery.min.js"></script>
+    <script src="../../../../lib/lib/bootstrap.min.js"></script>
+    <script src="../../../js/server/template.js"></script>
+    <script src="../../../../config/config.js"></script>
+    <script src="../../../js/server/utils.js"></script>
+    <script src="../../../js/controller/order/my-review.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<dl class="dl-horizontal">
+    {{if item.yearName}}
+    <dt>年度名称：</dt>
+    <dd>{{item.yearName}}</dd>
+    {{/if}}
+    {{if item.halfYearList}}
+    {{each item.halfYearList as halfItem}}
+    <dt>半年名称：</dt>
+    <dd>{{halfItem.halfYearName}}</dd>
+    {{each halfItem.qut as qutItem}}
+    <dt>季度名称：</dt>
+    <dd>{{qutItem.qutName}}</dd>
+    <dl class="overflow">
+    {{each qutItem.month as monthItem}}
+    <dt>月份名称：</dt>
+    <dd class="fl" style="margin-left: 0px">{{monthItem.monthName}}</dd>
+    <dd class="fl" style="margin-left: 150px">{{monthItem.startDate}} 至 {{monthItem.endDate}}</dd>
+    {{/each}}
+    </dl>
+    {{/each}}
+    {{/each}}
+    {{/if}}
+
+    {{if !item.halfYearList && item[0].halfYearName}}
+    {{each item as halfItem}}
+    <dt>半年名称：</dt>
+    <dd>{{halfItem.halfYearName}}</dd>
+    {{each halfItem.qut as qutItem}}
+    <dt>季度名称：</dt>
+    <dd>{{qutItem.qutName}}</dd>
+    <dl class="overflow">
+    {{each qutItem.month as monthItem}}
+    <dt>月份名称：</dt>
+    <dd class="fl" style="margin-left: 0px; width: 150px">{{monthItem.monthName}}</dd>
+    <dd class="fl" style="margin-left: 50px">{{monthItem.startDate}} 至 {{monthItem.endDate}}</dd>
+    {{/each}}
+    </dl>
+    {{/each}}
+    {{/each}}
+    {{/if}}
+
+    {{if !item.halfYearList && item[0].qutName}}
+    {{each item as qutItem}}
+    <dt>季度名称：</dt>
+    <dd>{{qutItem.qutName}}</dd>
+    <dl class="overflow">
+    {{each qutItem.month as monthItem}}
+    <dt>月份名称：</dt>
+    <dd class="fl" style="margin-left: 0px; width: 150px">{{monthItem.monthName}}</dd>
+    <dd class="fl" style="margin-left: 50px">{{monthItem.startDate}} 至 {{monthItem.endDate}}</dd>
+    {{/each}}
+    </dl>
+    {{/each}}
+    {{/if}}
+
+    {{if !item.halfYearList && item[0].monthName}}
+    <dl class="overflow">
+    {{each item as monthItem}}
+    <dt>月份名称：</dt>
+    <dd class="fl" style="margin-left: 0px; width: 150px">{{monthItem.monthName}}</dd>
+    <dd class="fl" style="margin-left: 50px">{{monthItem.startDate}} 至 {{monthItem.endDate}}</dd>
+    {{/each}}
+    </dl>
+    {{/if}}
+</dl>
+

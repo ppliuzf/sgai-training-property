@@ -1,0 +1,15 @@
+<ul class="select-list">
+    {{each items as item}}
+    <li data-Id="{{item.id}}">
+        <div class="input-div">
+            <input type="text" name="cre-select" class="form-control" id="sel{{item.id}}" placeholder="请输入" maxlength="10">
+        </div>
+        <div class="result-div" isHg="{{item.isHg}}">
+            <span class="remove"><a class="js-remove underline" data-Id="{{item.id}}" href="javascript:;">移除</a></span><span class="hg"><a class="js-del underline" data-Id="{{item.id}}"><i class="icon-ok"></i>合格</a></span><span class="bhg"><a class="js-hege underline" href="javascript:;" data-Id="{{item.id}}">设为合格</a></span>
+        </div>
+    </li>
+    {{/each}}
+</ul>
+<div class="create-select">
+    <span class="js-create-select"><i class="create-select-i"></i>添加选项</span>
+</div>

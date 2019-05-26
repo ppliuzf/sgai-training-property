@@ -1,0 +1,470 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link rel="stylesheet" href="../static/swiper/swiper.min.css">
+<!--分页  -->	
+<script src="../static/paginator/bootstrap-paginator.js" type="text/javascript"></script>
+<!-- 公共样式表	，公共方法 -->
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.src.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script src="../static/swiper/swiper.min.js"></script>
+<script src="../static/swiper/echarts.min.js"></script>
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+<title>目标优化</title>
+<meta name="decorator" content="default">
+<style type="text/css">
+	.caption{
+		padding: 0 8px;
+		border-bottom: 1px solid #f0f0f0;
+		overflow: hidden;
+	}
+	.caption h5{
+		float: left;
+		color: #333;
+		font-weight: normal;
+		line-height: 30px;
+	}
+	.caption .go-back{
+		margin: 5px 8px;
+	    line-height: 12px;
+	    float: right;
+	    color: #1785ca;
+	    border-color: #1785ca;
+	    border-radius: 2px;
+	    font-size: 12px;
+	    box-sizing: border-box;
+	}
+	.caption .go-back:hover{
+		color: #333;
+	}
+	.target-select-wrap .caption{
+		border-color: #f0f0f0;
+		border-width: 1px 1px 0 1px;
+		border-style: solid;
+		background-color: #fcfcfc;
+	}
+	.target-select-wrap .scroll-wrap{
+		max-height: 316px;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+	.target-select-wrap .scroll-wrap .table{
+		margin-bottom: 0;
+	}
+	.detail-btn{
+		border-color: #1785ca;
+		color: #1785ca;
+		line-height: 12px;
+		border-radius: 2px;
+		font-size: 12px;
+	}
+	.charts-wrap{
+		display: none;
+		margin-top: 16px;
+		background-color: #fcfcfc;
+    	border: 1px solid #e6e7ea;
+	}
+	.charts-wrap .swiper-button-next{
+		margin-top: -50px;
+		right: 0;
+	}
+	.charts-wrap .swiper-button-prev{
+		margin-top: -50px;
+		left: 0;
+	}
+	.charts-wrap .swiper-slide{
+		width: 50%；
+	}
+	.charts-wrap .chart-item{
+		position: relative;
+		width: 90%;
+		margin:16px auto;
+		height: 230px;
+		overflow: hidden;
+		/*background-color: #fff;*/
+	}
+	.charts-wrap .chart-item > div{
+		width: 100%;
+		height: 200px;
+		background-color: #fff;
+		border: 1px solid #e6e7ea;
+		box-sizing: border-box;
+	}
+</style>
+</head>
+<body>
+<div class="table_fluid">
+	<div class="smart_bread"><span> 运行策略模型 /</span><span> 优化记录可视化</span></div>
+	<div id="targetWrap" class="target-select-wrap">
+		<div class="caption"><h5>优化记录可视化</h5><a id="backBtn" class="btn btn-default go-back" href="javascript:;">返回</a></div>
+		<div class="scroll-wrap">
+			<table id="targetTable" class="table table-striped table-bordered table-condensed">
+				<thead>
+					<tr>
+						<!-- <th>记录编号</th> -->
+						<th>序号</th>
+						<th>优化对象</th>
+						<th>优化时间</th>
+						<th>操作人</th>
+						<th>优化效果</th>
+					</tr>
+				</thead>
+				<!-- <tbody>
+					<tr>
+						<td>A2-F4-302</td>
+						<td>冬季模式</td>
+						<td>2018-08-20 18:00</td>
+						<td>张三</td>
+						<td><a class="btn btn-default detail-btn" href="javascript:;" onclick="showCharts()">效果查看</a></td>
+					</tr>
+				</tbody> -->
+			</table>
+		</div>
+	</div>
+	<div class="charts-wrap">
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<div class="chart-item">
+						<p>优化前后能耗对比分析</p>
+						<div id="chartOne"></div>
+					</div>
+				</div>
+				<div class="swiper-slide">
+					<div class="chart-item">
+						<p>优化前后能耗对比分析</p>
+						<div id="chartTwo" ></div>
+					</div>
+				</div>
+				<!-- <div class="swiper-slide">
+					<div id="chartTwo" class="chart-item"></div>
+				</div> -->
+			</div>
+			<div class="swiper-button-next"></div>
+    		<div class="swiper-button-prev swiper-button-disabled"></div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		//设备列表分页+load
+	    pageRightContent("#targetWrap");
+	    pageload();
+	    var urlParams = getIframeParams("mainFrame");
+	    if(urlParams.page == "targetPage"){
+	    	$("#backBtn").attr("href","/ruag/ruagTargetOpt.html");
+	    }else if(urlParams.page == "oneTouchPage"){
+	    	$("#backBtn").attr("href","/ruag/ruagOneTouchOptimize.html");
+	    }
+	});
+
+	function pageload(n,s){
+		$(".charts-wrap").hide();
+		$(".page-box").css("display","none");
+	    $(".page-null").css("display","none");
+	    $("#page_div").css("display","none");
+	    $(".target-select-wrap .scroll-wrap").append("<div id='loading' class='spinner'><div class='rect1'></div><div class='rect2'></div><div class='rect3'></div><div class='rect4'></div><div class='rect5'></div></div>");
+	    //判断是否传pageSize
+	    var pageSize = $('.page-size option:selected').val();
+	    if(!$.isNumeric(s)){
+	        s = pageSize;
+	    }
+	    //删除旧tbody
+	    var contentTableSub = document.getElementById("targetTable");
+	    var oldTbody = document.getElementById("targetTbody");
+
+	    if (oldTbody != null) {
+	      contentTableSub.removeChild(oldTbody);
+	    }
+	    //添加新tbody
+	    $.ajax({
+	        headers    : {
+	            "token" : localStorage.getItem("token")
+	        },
+	        url : APIHost + '/ruag/ruag/ruagOptimizedRecord/getRecordlist',
+	        type : 'POST',
+	        async : true, //或false,是否异步
+	        data : {
+	            pageNo : n,
+	            pageSize : s
+	        },
+	        timeout : 5000,
+	        dataType : 'json',
+	        success : function(res) {
+	        	console.log(res);
+	            $('#loading').remove();
+	            if(res.code === 1000){
+	                //向页面拼接分页内容
+	                pageContent(res.data);
+	                if(res.data.list==''){
+	                    $(".page-null").css("display","block");
+	                    $(".page-box").css("display","none");
+	                }else{
+	                    $(".page-null").css("display","none");
+	                    $(".page-box").css("display","block");
+	                    $("#page_div").css("display","block");
+	                    var newTbody = document.createElement("tbody");
+	                    newTbody.setAttribute("id", "targetTbody");
+	                        
+	                    var list = res.data.list;
+	                    for (var i = 0; i < list.length; i++) {
+	                        var tr = document.createElement("tr");
+	                        
+	                      //序号
+							var td1 = document.createElement("td");
+							td1.innerHTML = i+1;
+							td1.className="order_number";
+							tr.appendChild(td1);
+							newTbody.appendChild(tr);
+	                        
+	                        
+	                        var peopertys = new Array("modelTemplateName","optimizationTime","userName");
+	                        for(var j = 0;j < peopertys.length;j++){
+	                            var td = document.createElement("td");
+	                            td.innerHTML = list[i][peopertys[j]];
+	                            tr.appendChild(td);
+	                        }
+	                        
+	                      	//操作
+                            var td12 = document.createElement("td");
+						    td12.innerHTML = '<a class="btn btn-default detail-btn" itemId="' + list[i].id + '"  onclick="showCharts(this)">效果查看</a>'
+                            tr.appendChild(td12);	                        
+	                        newTbody.appendChild(tr);
+	                    }
+	                    contentTableSub.appendChild(newTbody);
+	                }
+	            }else if(res.code ===1003){
+	                //没有登录状态
+	                $.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+	                { window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+	            }else if(res.code === 1002){
+	                //发生异常
+	                $.jBox.alert(res.msg);
+	            }else if(res.code === 1004){
+	                //结果为空
+	                $.jBox.alert(res.msg);
+	            }
+	        },
+	        error : function() {
+	            $('#loading').remove();
+	            $.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+	            console.log('错误')
+	        }
+	    })
+	}
+
+	function showCharts(self){
+		var recordId = $(self).attr("itemId")
+       	$.ajax({
+			headers: {
+                "token" : localStorage.getItem("token"),
+            },
+            url : APIHost + '/ruag/ruag/ruagEnergyCompare/getEnergyById',
+			type : 'POST',
+			async : false, //或false,是否异步
+			data : {
+				recordId : recordId,
+			},
+			timeout : 5000,
+			dataType : 'json',
+			success : function(res) {
+				if(res.code === 1000){
+					if(res.data){
+						var data = res.data;
+						if(data.length){
+							var chartsData = {
+								oldData:[],
+								newData:[],
+								timeData:[]
+							}
+							for(var i=0;i<data.length;i++){
+								var xAxis = null;
+								if(data[i].controlCode == "date"){
+									xAxis = data[i].dateTime.split(" ")[0].slice(5);
+								}else if(data[i].controlCode == "time"){
+									xAxis = data[i].dateTime.split(" ")[1].slice(0,5);
+								}
+								chartsData.oldData.push(data[i].energyAftter);
+								chartsData.newData.push(data[i].energyBefore);
+								chartsData.timeData.push(xAxis);
+							}
+							$(".charts-wrap").show();
+								var swiper = new Swiper('.swiper-container', {
+					      		spaceBetween: 0,
+					      		slidesPerView: 2,
+					      		autoHeight: true, 
+					      		pagination: {
+							        el: '.swiper-pagination',
+							        clickable: true,
+						      	},
+						      	navigation: {
+							        nextEl: '.swiper-button-next',
+							        prevEl: '.swiper-button-prev',
+						      	},
+						      	on:{
+							      	init:function(){
+							      		initEcharts(chartsData);
+							      	}
+						      	}
+						    }); 
+						}else{
+							$.jBox.alert("暂无效果图表","提示");
+						}
+					}
+				}
+			}
+		});
+	}
+
+	function initEcharts(chartsData){
+		var baseColor = ['#1785ca','#17bbca','#17ca9e','#17ca1f','#c4ca17','#ca7817','#ca1717','#ca1795','#9e17ca','#5617ca','#174aca'];
+		var option = {
+			color:baseColor,
+			title:{
+	            show:true,
+	            // text:"优化前后能耗对比分析",
+	            textStyle:{
+	                fontSize:12
+	            }
+	        },
+		    tooltip : {
+		        trigger: 'axis',
+		        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+		            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+		        }
+		    },
+		    legend: {
+		        data:['优化后','优化前'],
+		        right:20,
+		        top:10,
+		        itemWidth:10,
+		        itemHeight:10,
+		    },
+		    itemStyle:{
+		    	opacity:0.8,
+		    },
+		    barMaxWidth:20,
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    xAxis : [
+		        {
+		            type : 'category',
+		            data : chartsData.timeData
+		        }
+		    ],
+		    yAxis : [
+		        {
+		            type : 'value',
+		            name: '能耗(kwh)',
+		            splitLine:{
+		                lineStyle:{
+		                    type:"dotted"
+		                }
+		            }
+		        }
+		    ],
+		    series : [
+		        {
+		            name:'优化后',
+		            type:'bar',
+		            stack: '参数',
+		            data:chartsData.newData,
+		        },
+		        {
+		            name:'优化前',
+		            type:'bar',
+		            stack: '参数',
+		            data:chartsData.oldData,
+		        }
+		    ]
+		};
+		var chartOne = echarts.init(document.getElementById('chartOne'));
+		chartOne.setOption(option);
+     	window.addEventListener("resize",function(){
+	    	chartOne.resize();
+	   	});
+
+	   	var optionTwo = {
+		    color:baseColor,
+		    title: {
+		        show:true,
+		        // text:"优化前后能耗对比分析",
+		        textStyle:{
+		            fontSize:12
+		        }
+		    },
+		    tooltip: {
+		        trigger: 'axis',
+		        //formatter: "{b} <br> 合格率: {c}%"
+		    },
+		    legend: {
+		        data: ['优化后','优化前'],
+		        right:20,
+		        top:10,
+		    },
+		    grid: {
+		        left: '3%',
+		        right: '4%',
+		        bottom: '3%',
+		        containLabel: true
+		    },
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: false,
+		        data: chartsData.timeData
+		    },
+		    yAxis: {
+		        type: 'value',
+		        name: '能耗(kwh)',
+		    },
+		    series: [
+		        {
+		            name: '优化后',
+		            type: 'line',
+		            stack: '参数',
+		            symbolSize:8,
+		            data: chartsData.newData
+		        },
+		        {
+		            name: '优化前',
+		            type: 'line',
+		            symbolSize:8,
+		            data: chartsData.oldData
+		        }
+		    ]
+		};
+		var chartTwo = echarts.init(document.getElementById('chartTwo'));
+		chartTwo.setOption(optionTwo);
+     	window.addEventListener("resize",function(){
+	    	chartTwo.resize();
+	   	});
+	}
+</script>
+</body>
+</html>

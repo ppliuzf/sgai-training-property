@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>总览</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="" name="description"/>
+  <meta content="" name="author"/>
+  <!-- BEGIN GLOBAL MANDATORY STYLES -->
+  <link href="../static/media/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+  <link href="../static/media/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
+  <link href="../static/media/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  <!-- END GLOBAL MANDATORY STYLES -->
+  <!-- BEGIN PAGE LEVEL STYLES -->
+  <link href="../static/media/css/overviewIndex.css" rel="stylesheet" type="text/css"/>
+  <!-- END PAGE LEVEL STYLES -->
+  <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+  <script src="../static/echart/echarts.js" type="text/javascript"></script>
+  <script>
+    setFontSize();
+    //设置根元素字体
+    function setFontSize() {
+      var winWidth = $(window).width()<1366?1366:$(window).width();
+      // var rate = (winWidth / 1920) * 100;
+      var fontSize = (winWidth / 1920) * 20 + 'px';
+      $("html").css("font-size",fontSize);
+      $(window).resize(function(){
+        setFontSize();
+      })
+    };
+  </script>
+</head>
+<body>
+<div class="page-overview">
+  <div class="ov-header-wrap">
+    <div class="left">
+      <ul>
+        <li class="nav-item lx"><a class="enterfullscreen" href="javascript:;" onClick="enterfullscreen()"><img src="../static/media/image/overview/icon-fullscreen.png">数据可视化</a><a class="exitfullscreen" href="javascript:;" onClick="exitfullscreen()"><img src="../static/media/image/overview/icon-back.png">返回网页</a></li>
+        <li class="nav-item active"><a href="overview.html" target="ovContentFrame">总览</a></li>
+        <li class="nav-item"><a href="curling.html" target="ovContentFrame">冰壶馆</a></li>
+        <li class="nav-item"><a href="figureSpeedSkating.html" target="ovContentFrame">花滑/速滑馆</a></li>
+      </ul>
+    </div>
+    <!--<div class="center text-center">运行概览</div>-->
+    <div class="right">
+      <ul>
+        <li class="nav-item"><a href="iceHockey.html" target="ovContentFrame">冰球馆</a></li>
+        <li class="nav-item disabled"><a href="hotel.html" target="ovContentFrame">酒店公寓</a></li>
+        <li class="nav-item"><a href="carPark.html" target="ovContentFrame">停车场</a></li>
+        <li class="nav-item lx"><span id="curTime"></span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ov-frame-wrap">
+    <iframe id="ovContentFrame" name="ovContentFrame" src="overview.html" scrolling="auto" frameborder="no" width="100%"></iframe>
+  </div>
+</div>
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<script src="../static/media/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../static/echart/echarts.js" type="text/javascript"></script>
+<script>
+  $(document).ready(function() {
+    setTime();
+    setInterval(setTime, 1000);
+    $(".ov-header-wrap .nav-item:not(.lx) a").click(function () {
+      $('.nav-item').removeClass('active');
+      $(this).closest('.nav-item').addClass('active')
+    })
+  });
+
+  //设置根元素字体
+  function setFontSize() {
+    var winWidth = $(window).width()<1366?1366:$(window).width();
+    // var rate = (winWidth / 1920) * 100;
+    var fontSize = (winWidth / 1920) * 20 + 'px';
+    $("html").css("font-size",fontSize);
+    $(window).resize(function(){
+      setFontSize();
+    })
+  };
+
+  function formatTime(timestamp) {
+    var time = new Date(timestamp);
+    var y = time.getFullYear();
+    var m = time.getMonth()+1;
+    var d = time.getDate();
+    var h = time.getHours();
+    var mm = time.getMinutes();
+    var s = time.getSeconds();
+    return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+  }
+
+  function add0(m){return m<10?'0'+m:m }
+
+  //当前日期
+  function setTime() {
+    var time = new Date().getTime();
+    $('#curTime').text(formatTime(time));
+  }
+
+  //全屏显示主内容区域
+  function enterfullscreen() {//进入全屏
+    var element = document.documentElement
+    var requestMethod = element.requestFullScreen || //W3C
+      element.webkitRequestFullScreen || //FireFox
+      element.mozRequestFullScreen || //Chrome等
+      element.msRequestFullScreen; //IE11
+    if (requestMethod) {
+      requestMethod.call(element);
+    } else if (typeof window.ActiveXObject !== "undefined") { //for Internet Explorer
+      var wscript = new ActiveXObject("WScript.Shell");
+      if (wscript !== null) {
+        wscript.SendKeys("{F11}");
+      }
+    }
+    $('.enterfullscreen').hide();
+    $('.exitfullscreen').show();
+  }
+  function exitfullscreen() { //退出全屏
+    // 判断各种浏览器，找到正确的方法
+    var exitMethod = document.exitFullscreen || //W3C
+      document.mozCancelFullScreen || //FireFox
+      document.webkitExitFullscreen || //Chrome等
+      document.webkitExitFullscreen; //IE11
+    if (exitMethod) {
+      exitMethod.call(document);
+    } else if (typeof window.ActiveXObject !== "undefined") { //for Internet Explorer
+      var wscript = new ActiveXObject("WScript.Shell");
+      if (wscript !== null) {
+        wscript.SendKeys("{F11}");
+      }
+    }
+
+    $('.enterfullscreen').show();
+    $('.exitfullscreen').hide();
+  }
+
+  window.onresize = function() {
+    if (!isFullscreen()) {
+      //要执行的动作
+      $('.enterfullscreen').show();
+      $('.exitfullscreen').hide();
+    }
+  }
+
+  /**
+   * [isFullscreen 判断浏览器是否全屏]
+   * @return [全屏则返回当前调用全屏的元素,不全屏返回false]
+   */
+  function isFullscreen(){
+    return document.fullscreenElement    ||
+      document.msFullscreenElement  ||
+      document.mozFullScreenElement ||
+      document.webkitFullscreenElement || false;
+  }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+    <table>
+            <tbody>
+                <tr>
+                    <td class="col-lg-1 col-md-1 col-sm-1 text-center">调拨编号</td>
+                    <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.allotNo}}</td>
+                    <td class="col-lg-1 col-md-1 col-sm-1 text-center">调拨人</td>
+                    <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.allotEmpName}}</td>
+                    <td class="col-lg-1 col-md-1 col-sm-1 text-center">调拨日期</td>
+                    <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.allotDatetime | dateFormat:'yyyy-MM-dd'}}</td>
+                </tr>
+                <tr>
+                    <td class="text-center">所属部门</td>
+                    <td class="value">{{items.allotDeptName}}</td>
+                    <td class="text-center">调拨理由</td>
+                    <td class="value" colspan="3">{{items.allotReason}}</td>
+                </tr>
+                <tr>
+                    <td class="text-center">用料申请单</td>
+                    <td class="value">{{items.allotName}}</td>
+                    <td class="text-center">相关图片</td>
+                    <td class="value" colspan="3">
+                        <div class="js-imgs">
+                        {{if items.imgVoList.length>0}}   
+                            {{each items.imgVoList as item index}}
+                                <a href="{{item.allotImgUrl}}" data-lightbox="cover+{{index}}"> <img src="{{item.allotImgUrl}}" class="img" /></a>                
+                            {{/each}}
+                        {{else}}
+                            暂无
+                        {{/if}} 
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>

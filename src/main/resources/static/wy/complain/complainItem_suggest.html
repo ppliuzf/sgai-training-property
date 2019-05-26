@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>邮件管理</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <!--[if lte IE 7]>
+    <link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet"/>
+    <![endif]-->
+    <!--[if lte IE 6]>
+    <script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+    <link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+    <link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+    <script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+    <link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script src="../static/common/mustache.min.js" type="text/javascript"></script>
+    <link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/common/smart.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+    <link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript">var ctx = '/admin', ctxStatic = '../../static';</script>
+    <script src="../../config/smart-common.js" type="text/javascript"></script>
+    <script src="../static/common/commonMethod.js"></script>
+<style>
+    label{
+        width: 100px;
+    }
+    input{
+        width: 350px;
+    }
+    textarea{
+        width: 350px;
+    }
+    label.error {
+    background: url("images/unchecked.gif") no-repeat 0 0;
+    padding-left: 18px;
+    padding-bottom: 2px;
+    font-weight: bold;
+    color: #ea5200;
+    margin-left: 103px;
+}
+</style>
+</head>
+<body>
+
+<br>
+<form id="inputForm" class=" " method="post">
+    <input id="sourceKey" name="sourceKey" type="hidden" value="">
+    <input id="id" name="id" type="hidden">
+    <input id="complainStatus" name="complainStatus" type="hidden" value="1">
+    <div>
+        <label><b>投诉建议人：</b></label>
+        <input type="text" id="complainerName" name="complainerName" readonly class="query_input"/>
+    </div>
+    <div>
+        <label><b>投诉时间：</b></label>
+        <input type="text" id="complainTime" name="complainTime" readonly class="  query_input"/>
+    </div>
+    <div>
+        <label><b>投诉建议内容：</b></label>
+        <textarea name="complainContent" rows="5" readonly></textarea>
+    </div>
+    <div>
+        <label><b>内容回复：</b></label>
+        <textarea name="complainReply" rows="5"  style="resize:none;" class="required"></textarea>
+            <span class="help-inline"><font color="red">*</font> </span>
+    </div>
+    <div class="form-actions">
+        <input id="btnSubmit" class="btn btn-primary" type="submit" value="提  交">&nbsp;
+        <input id="btnCancel" class="btn " type="button" value="取  消" onclick="back()">
+    </div>
+</form>
+
+<script type="text/javascript">
+
+    var paramId = GetQueryString("itemId");
+    $.ajax({
+        headers: {
+            "token": localStorage.getItem("token"),
+        },
+        url: APIHost + '/admin/complain/findById',
+        type: 'POST',
+        async: false, //或false,是否异步
+        data: {
+            id: paramId
+        },
+        timeout: 5000,
+        dataType: 'json',
+        success: function (obj) {
+            //参数qId通过findGoodsById方法获取到Modu对象值，赋值到页面字段中
+            var data = obj.data;
+
+            for (var key in data) {
+                $("input[type='text'][name=" + key + "]").val(data[key]);
+                $("input[type='hidden'][name=" + key + "]").val(data[key]);
+                $("textarea[name=" + key + "]").val(data[key]);
+                $("select[name=" + key + "]").val(data[key]);
+            }
+        },
+        error: function () {
+            console.log('错误')
+        }
+    })
+    // 表单验证
+    $.validator.setDefaults({
+        submitHandler: function () {
+            // 调用提交
+            formSubmit();
+        }
+    });
+
+    $(document).ready(function () {
+        /*输入校验*/
+        $("#inputForm").validate({
+            rules: {},
+            message: {}
+        });
+
+    });
+
+
+    function formSubmit() {
+        $("#complainStatus").val("1");
+        var ajax_option = {
+            headers: {
+                "token": localStorage.getItem("token")
+            },
+            url: APIHost + '/admin/complain/save',//默认是form action
+            success: function (response) {
+                if (response.data.msg == "success") {
+					parent.hideDiv();
+                    parent.pageload();
+					parent.jBox.alert("保存成功 !","提示");
+                }
+            }
+            ,
+            beforeSend:function(){
+          		var loading=$('<div id="loading"></div>');
+          		$('body').append(loading);
+          		$("#btnSubmit").attr("disabled",true)
+          	},
+          	complete:function(){
+            	$("#btnSubmit").attr("disabled",false);
+            	$("#loading").hide();
+            }
+        }
+
+        $("#inputForm").ajaxSubmit(ajax_option);
+    }
+
+    function back() {
+        $('#myModal1 .close', window.parent.document).click();
+    }
+
+
+</script>
+
+</body>
+</html>

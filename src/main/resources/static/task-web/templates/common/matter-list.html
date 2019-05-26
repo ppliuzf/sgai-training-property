@@ -1,0 +1,40 @@
+<table class="matter-case js-list">
+    {{if color === 0}}
+    <thead style="background:rgba(58, 132, 196, 1)">     
+    {{else if color === 1}}
+    <thead style="background:rgba(58, 132, 196, 1)">  
+    {{else if color === 2}}
+    <thead style="background:rgba(58, 132, 196, 1)">
+    {{/if}}
+        <th style="text-align: center">{{month}}月{{day}}日 
+            {{if weekDay === 1}}星期二
+            {{else if weekDay === 2}}星期三
+            {{else if weekDay === 3}}星期四
+            {{else if weekDay === 4}}星期五
+            {{else if weekDay === 5}}星期六
+            {{else if weekDay === 6}}星期日
+            {{else if weekDay === 0}}星期一
+            {{/if}}
+            <span class="delete">&times;</span>
+        </th>
+    </thead>
+    
+    <tbody>
+        {{each items as item}}
+        <tr data-color="{{color}}" data-id="{{item.tp_id}}" data-start = "{{item.taskBeginTime}}" data-end = "{{item.taskEndTime}}" data-record="{{item.record_id}}" data-dt="{{date}}" data-executor="{{item.list_eiEmpName.join()}}">
+            <td  data-id="{{item.tp_id}}">
+                {{if color === 0}}
+                <span class="blue-line" style="background: #008CEC"></span>
+                {{else if color === 1}}
+                <span class="blue-line" style="background: #008CEC"></span>
+                {{else if color === 2}}
+                <span class="blue-line" style="background: #008CEC"></span>
+                {{/if}}
+                {{item.taskName}}
+            </td>
+           <td align="left">{{item.stat}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+    

@@ -1,0 +1,38 @@
+{{each items as item idx}}
+<tr>
+    <td>{{idx + 1}}</td>
+    <td>
+        <div class="img-text-info">
+            {{if item.roomImg}}
+            <a href="{{item.roomImg}}" data-lightbox="item-{{idx}}">
+                <img class="default-image" src="{{item.roomImg}}" onerror="this.src='./images/default_image.png'">
+            </a>
+            {{else}}
+            <a>
+                <img src="./images/default_image.png" class="default-image">
+            </a>
+            {{/if}}
+            <div href="javascript:;}" class="img-text">
+                <span>{{item.rrRoomName}}</span>
+            </div>
+        </div>
+    </td>
+    <td>{{item.rrRoomPosition}}</td>
+    <td>{{item.rrRoomPeoples}} 人</td>
+    <td>
+        <div>
+            {{if item.deviceDetailVoList.length>0}} 已启用：{{each item.deviceDetailVoList as itom }} {{if itom.rdsState==0}}
+            <span href="javascript:;" class="device-txt" data-rdsId="{{itom.rdsId}}" data-rdsState="{{itom.rdsState}}">{{itom.rdRoomDevice}}</span> {{/if}} {{/each}} {{/if}}
+        </div>
+        <div>
+            {{if item.deviceDetailVoList.length>0}}已禁用：{{each item.deviceDetailVoList as itom }}{{if itom.rdsState!=0}}
+            <span href="javascript:;" class="device-txt" data-rdsId="{{itom.rdsId}}" data-rdsState="{{itom.rdsState}}">{{itom.rdRoomDevice}}</span> {{/if}} {{/each}} {{/if}}
+        </div>
+    </td>
+    <td>{{item.miMtTimeSeg}}</td>
+    <td>{{item.createEiName}}</td>
+    <td class="text-center">
+        <a href="./order-detail.html?id={{item.id}}">查看</a>
+    </td>
+</tr>
+{{/each}}

@@ -1,0 +1,33 @@
+{{each items as item itemIndex}}
+<tr>
+    <td class="text-center"><div>{{itemIndex == 9 ? '' :'0'}}{{itemIndex+1}}</div></td>
+    <td>
+        <div class="cont">
+            <a href="budget-detail.html?id={{item.id + '&name=' + item.planName}}" class="underline dot name">{{item.recordName}}</a>
+        </div>
+    </td>
+    <td><div class="cont dot">{{item.deptName}}</div></td>
+    <td><div class="cont dot">{{item.year}}</div></td>
+    {{if item.cycle === 1}}<td><div class="cont dot">全年</div></td>{{/if}}
+    {{if item.cycle === 2}}<td><div class="cont dot">半年</div></td>{{/if}}
+    {{if item.cycle === 3}}<td><div class="cont dot">季度</div></td>{{/if}}
+    {{if item.cycle === 4}}<td><div class="cont dot">月</div></td>{{/if}}
+    <td><div class="cont dot">{{item.creatorEiEmpName}}</div></td>
+    <td><div class="cont dot">{{item.createTime}}</div></td>
+    {{if item.state === 0}}<td><div class="cont dot status">未提交</div></td>{{/if}}
+    {{if item.state === 1}}<td><div class="cont dot status">已提交</div></td>{{/if}}
+    {{if item.state === 2}}<td><div class="cont dot status">已通过</div></td>{{/if}}
+    {{if item.state === 3}}<td><div class="cont dot status">已拒绝</div></td>{{/if}}
+    {{if item.state === 4}}<td><div class="cont dot status">已撤销</div></td>{{/if}}
+    <td><div class="cont dot">{{item.approverName}}</div></td>
+    <td>{{if item.state === 2 || item.state === 3}}<div class="cont dot">{{item.approvalTime}}</div>{{/if}}</td>
+    <td class="text-center act">
+        {{if item.state !== 3 && item.state !== 4}}
+                {{if item.state===1}}<a href="javascript:;" class="js-del" data-id="{{item.id}}">撤销</a>{{/if}}
+                {{if item.state===1}}<a href="./budget-audit.html?id={{item.id}}">审核</a>{{/if}}   
+                {{if item.state===2}}<a href="./input-expend.html?id={{item.id + '&type=2'}}">录入支出</a>{{/if}}
+                {{if item.state===0}}<a href="./input-budget.html?id={{item.id + '&type=1'}}">录入预算</a>{{/if}}
+        {{/if}}
+    </td>
+</tr>
+{{/each}}

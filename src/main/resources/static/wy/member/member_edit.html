@@ -1,0 +1,438 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<!-- <link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script> -->
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../../config/smart-common.js" type="text/javascript"></script>
+<script src="../static/wy/area.js" type="text/javascript"></script>
+<title>物品借用修改</title>
+<meta name="decorator" content="default"/>
+
+    <title>物品借用修改</title>
+    <meta name="decorator" content="default">
+
+</head>
+<body>
+
+<br>
+<form id="inputForm" class="form-horizontal"  method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+
+   <div class="control-group">
+	        <label class="control-label">注册时间:</label>
+	        <div class="controls">
+	            <input id="enrollTime" name="enrollTime" class="input-mini Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});" type="text" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">登录手机号:</label>
+        <div class="controls">
+             <input id="phoneNumber" name="phoneNumber" onchange="checkPhone()" class="required" type="text" value="" maxlength="50">
+       		<span class="help-inline"><font id="checkNum" color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+	        <label class="control-label">中文姓名:</label>
+	        <div class="controls">
+	            <input id="chineseName" name="chineseName" class="required" type="text" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">联系方式:</label>
+        <div class="controls">
+            <input id="contactWay" name="contactWay" class="required" type="text" value="" maxlength="50">
+      		<span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+   <!-- <div class="control-group">
+        <label class="control-label">类型:</label>
+        <div class="controls">
+        		<select id="type" class="required" style="width:270px;"  name="type" tabindex="-1">
+    				<option value=""></option>
+    				<option value="后台">后台</option>
+    				<option value="手机APP">手机APP</option>
+    				<option value="其他">其他</option>
+    			</select>
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div> -->
+    
+    
+       <div class="control-group">
+	        <label class="control-label">状态:</label>
+	        <div class="controls">
+	        	<select id="status" class="required" style="width:270px;" name="status" tabindex="-1">
+    				<option value=""></option>
+    				<option value="正常">正常</option>
+    				<option value="锁定">锁定</option>
+    			</select>
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+         <div class="control-group">
+	        <label class="control-label">级别:</label>
+	        <div class="controls">
+	        	<select id="memberRankName" class="required" style="width:270px;" name="memberRankName" tabindex="-1">
+    				<option value=""></option>
+    				<option value="局级">局级</option>
+    				<option value="委领导">委领导</option>
+    				<option value="部长以下">部长以下</option>
+    			</select>
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">部门:</label>
+	        <div class="controls">
+	            <input id="deptName" name="deptName" class="required" type="text" value="" maxlength="50">
+	            <input id="deptCode" name="deptCode" class="required" type="hidden" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">电子邮件:</label>
+	        <div class="controls">
+	            <input id="email" name="email" class="required" type="text" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <div class="control-group">
+        	<label class="control-label">地址:</label>
+	        <div class="controls">
+	        		<select id="repairAddress1" class="input-mini" name="repairAddress1" tabindex="-1">
+	        			<option value=""></option>
+	        		</select>
+	    			<select id="repairAddress2" class="input-mini" name="repairAddress2" tabindex="-1">
+	    				<option value=""></option>
+	    			</select>
+	    			<select id="repairAddress3" class="input-mini" name="repairAddress3" tabindex="-1">
+	    				<option value=""></option>
+	    			</select>
+	    			
+	    			<input type="hidden" id="repairAddress" name="repairAddress" />
+	    			<input type="hidden" id="repairAddressCode" name="repairAddressCode" />
+	       		<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+    	</div>
+        <div class="control-group">
+	        <label class="control-label">出生年月:</label>
+	        <div class="controls">
+	            <input id="dateOfBirth" name="dateOfBirth" class="input-mini Wdate" onclick="WdatePicker()" type="text" value="" maxlength="50">
+	        	<!-- <span class="help-inline"><font color="red">*</font> </span> -->
+	        </div>
+        </div>
+        
+        <div class="control-group">
+	        <label class="control-label">毕业院校:</label>
+	        <div class="controls">
+	        	<input id="finishSchool" name="finishSchool" type="text" value="" maxlength="50"></input>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">职位:</label>
+	        <div class="controls">
+	            <input id="position" name="position" type="text" value="" maxlength="50">
+	        	<!-- <span class="help-inline"><font color="red">*</font> </span> -->
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">备注:</label>
+	        <div class="controls">
+	            <input id="remark" name="remark" type="text" value="" maxlength="50">
+	        	<!-- <span class="help-inline"><font color="red">*</font> </span> -->
+	        </div>
+        </div>
+
+    <div class="form-actions">
+    	<input id="btnSubmit" class="btn btn-primary" type="submit" value="提  交">&nbsp;
+        <input id="btnCancel" class="btn " type="button" value="取  消" onclick="back()">
+        
+    
+    </div>
+</form>
+
+    <script type="text/javascript">
+    var paramId=GetQueryString("paramId");
+    if(paramId != null){
+        setTimeout('updatepageload()',500); 
+    }
+    
+    function updatepageload(){
+    	//添加新tbody
+        $.ajax({
+            headers : {
+                "token" : localStorage.getItem("token"),
+            }, 
+            url : APIHost + '/member/findMemberById',
+            type : 'POST',
+            async : false, //或false,是否异步
+            data : {
+                id : paramId
+            },
+            timeout : 5000,
+            dataType : 'json',
+            success : function(obj) {
+            	//参数qId通过findGoodsById方法获取到Modu对象值，赋值到页面字段中
+            	console.log(obj.data);
+				$("#id").val(obj.data.id);
+				$("#enrollTime").val(obj.data.enrollTime);
+				$("#phoneNumber").val(obj.data.phoneNumber);
+				$("#chineseName").val(obj.data.chineseName);
+				$("#contactWay").val(obj.data.contactWay);
+				$("#type option").each(function() {
+					 if($(this).val() == obj.data.type){
+	                     $(this).attr("selected",true);
+	                 }
+				 })
+				 $("#status option").each(function() {
+					 if($(this).val() == obj.data.status){
+	                     $(this).attr("selected",true);
+	                 }
+				 })
+				$("#memberRankName option").each(function() {
+					 if($(this).val() == obj.data.memberRankName){
+	                     $(this).attr("selected",true);
+	                 }
+				 })
+				$("#deptName").val(obj.data.deptName); 
+				$("#email").val(obj.data.email); 
+				$("#dateOfBirth").val(obj.data.dateOfBirth);
+				$("#finishSchool").val(obj.data.finishSchool); 
+				$("#position").val(obj.data.position);
+				$("#remark").val(obj.data.remark); 
+				var re = obj.data.repairAddressCode.split('-');
+			 	var select4 = document.getElementById("repairAddress1");
+				var select5 = document.getElementById("repairAddress2");
+				var select6 = document.getElementById("repairAddress3");
+				var adss1 = re[0];
+				var adss2 = re[1];
+				var adss3 = re[2];
+				 $("#repairAddress1 option").each(function() {
+					 if($(this).val() == adss1){
+	                     $(this).attr("selected",true);
+	                    f1(adss2,adss3);
+	                 }
+				 })
+				$("#repairAddress").val(obj.data.repairAddress);
+				$("#repairAddressCode").val(obj.data.repairAddressCode);
+            },
+            error : function() {
+                console.log('错误')
+            }
+        })
+    }
+    
+    function f1(adss2,adss3){
+ 	   $.ajax({
+ 			headers    : {
+ 	               "token" : localStorage.getItem("token"),
+ 	         },
+ 			url:APIHost+"/repairInformation/getByParentCode",
+ 			type:"POST",
+ 			data:{pCode:$("#repairAddress1").val()},
+ 			success:function(obj){
+ 				for(var i = 0;i<obj.length;i++){
+ 					var city = obj[i];
+ 					$("#repairAddress2").append("<option value="+city.spaceCode+">"+city.spaceName+"</option>");
+ 					$("#repairAddress2 option").each(function() {
+ 						 if($(this).val() == adss2){
+ 			               $(this).attr("selected",true);
+ 			              f2(adss3);
+ 			           }
+ 					 })
+ 				}
+ 			}
+ 		});
+ 	   
+    }
+    function f2(adss3){
+ 	   $.ajax({
+ 			headers    : {
+ 	               "token" : localStorage.getItem("token"),
+ 	         },
+ 			url:APIHost+"/repairInformation/getByParentCode",
+ 			type:"POST",
+ 			data:{pCode:$("#repairAddress2").val()},
+ 			success:function(obj){
+ 				for(var i = 0;i<obj.length;i++){
+ 					var country = obj[i];
+ 					$("#repairAddress3").append("<option value="+country.spaceCode+">"+country.spaceName+"</option>");
+ 					 $("#repairAddress3 option").each(function() {
+ 						 if($(this).val() == adss3){
+ 			             $(this).attr("selected",true);
+ 			         }
+ 					 })
+ 				}
+ 			}
+ 		});
+ 	  
+    }
+
+    
+    
+    
+    
+var ss = true;
+ // 表单验证
+    $.validator.setDefaults({
+        submitHandler: function() {
+        	if(ss){
+        		// 调用提交
+                formSubmit();
+        	}
+        }
+    });
+    function checkPhone(){
+		 $.ajax({
+         	headers    : {
+	                 "token" : localStorage.getItem("token"),
+	             }, 
+             type:"POST",
+             async:false, 
+             url:APIHost + '/member/getPhoneNumber',
+             data:{phoneNumber: $("#phoneNumber").val()},
+             success:function(obj){
+                if(obj.data.msg == "success"){
+               	 ss = false;
+               	 $("#checkNum").text("登录手机号必须唯一");
+                }else{
+               	 ss = true;
+               	 $("#checkNum").text("*");
+                }
+             }
+         });
+	 }
+	
+	$(document).ready(function() {
+		jQuery.validator.addMethod("isphoneNum", function(value, element) {
+            var length = value.length;
+            var mobile = /^1[3|5|8]{1}[0-9]{9}$/;
+            return this.optional(element) || (length == 11 && mobile.test(value));
+        }, "请正确填写您的手机号码");
+		/*输入校验*/
+        $("#inputForm").validate({
+        	rules: {
+        		enrollTime: {
+        			required: true
+        		},
+        		phoneNumber: {
+        			required: true,
+        			isphoneNum: true
+        			
+        		},
+        		chineseName: {
+        			required: true,
+        			realName: true
+        		},
+        		contactWay: {
+        			required: true
+        		},
+        		status: {
+        			required: true
+        		},
+        		email: {
+        			required: true,
+        			email: true
+        		}
+        		
+                 },
+                 message:{
+                	 enrollTime: {
+             			required: ""
+             		},
+             		phoneNumber: {
+            			required: "",
+            			isphoneNum: ""
+            		},
+            		chineseName: {
+            			required: "",
+            			realName:""
+            		},
+            		contactWay: {
+            			required: ""
+            		},
+            		status: {
+            			required: ""
+            		},
+            		email: {
+            			required: "",
+            			email: ""
+            		}
+               }
+       });
+		
+	});
+        function formSubmit(){
+            		var ajax_option={
+	            			 headers    : {
+	           	                 "token" : localStorage.getItem("token"),
+	           	             }, 
+            				url:APIHost + '/member/save',//默认是form action
+            				beforeSend:function(){
+    			          		var loading=$('<div id="loading"></div>');
+    			          		$('body').append(loading);
+    			          		$("#btnSubmit").attr("disabled",true)
+    			          	},
+            				success:function(response){
+            					if(response.data.msg=="success"){
+            						$.jBox.alert("保存成功","提示");
+                					setTimeout(function(){
+                						//parent.location.reload();
+                                        $('#myModal .close', window.parent.document).click();
+                                        parent.pageload();
+                 	            	},500)
+            					}
+            					else if(response.msg=="exists"){
+            						$.jBox.alert("数据已存在","提示");
+            					}
+            					else{
+            						$.jBox.alert("错误","提示");
+            					}
+            					
+            				
+               				},
+               				complete:function(){
+    			            	$("#btnSubmit").attr("disabled",false);
+    			            	$("#loading").hide();
+    			            }
+                   		}
+                   		
+                   		 $("#inputForm").ajaxSubmit(ajax_option);  
+        }   
+        
+        function back(){
+        	parent.location.reload();
+        }
+        
+        //获取跳转地址的参数
+        function GetQueryString(name){
+             var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+             var r = window.location.search.substr(1).match(reg);
+             if(r!=null)return  unescape(r[2]); return null;
+        }  
+        
+    </script>
+
+</body></html>

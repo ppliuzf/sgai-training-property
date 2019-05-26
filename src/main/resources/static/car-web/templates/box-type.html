@@ -1,0 +1,21 @@
+{{each items as item itemIndex}}
+<tr>
+    <td class='text-center'>{{item.num}}</td>
+    <td>{{item.btName}}</td>
+    <td>{{item.btDesc}}</td>
+    <td>
+        {{if item.btStatus===0}}
+        <span>默认</span>
+        {{else}}
+        <span>自定义</span>
+        {{/if}}
+    </td>
+    <td class='text-center'>
+        {{if item.btStatus===0}}
+        <span style="color:#dedede;">—</span>
+        {{else}}
+        <a href="javascript:;" data-id={{item.id}}>删除</a>
+        {{/if}}
+    </td>
+</tr>
+{{/each}}

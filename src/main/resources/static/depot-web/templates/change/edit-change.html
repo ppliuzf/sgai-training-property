@@ -1,0 +1,21 @@
+<table>
+        <tbody>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">调拨编号</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.allotNo}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">用料申请单</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.allotName}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">调拨理由</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.allotReason}}</td>
+            </tr>
+            <tr>
+                <td class="text-center">上传图片</td>
+                <td class="value" colspan="5">
+                        <div class="js-imgs">
+                    {{each items.imgVoList as item index}}
+                        <img class='upload-item-inner' src="{{item.allotImgUrl}}" class="img" />
+                    {{/each}}</td>
+                        </div>
+            </tr>
+        </tbody>
+    </table>

@@ -1,0 +1,33 @@
+<table>
+        <tbody>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">出库单类型</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">
+                        {{if items.whOutType ==2 }}
+                        用料出库
+                        {{else}}
+                        调拨出库
+                        {{/if}}
+                    </td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">用料申请单</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">
+                        {{if items.whOutType ==2 }}
+                        {{items.matApplyName}}
+                        {{else}}
+                        {{items.allotName}}
+                        {{/if}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">仓库类型</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">
+                        {{if items.whType ==1 }}
+                        <div>实仓</div>
+                        {{else}}
+                        <div>虚仓</div>
+                        {{/if}}
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">仓库名称</td>
+                <td class="value" colspan="5">{{items.whName}}</td>
+            </tr>
+        </tbody>
+    </table>

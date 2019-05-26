@@ -1,0 +1,37 @@
+<div class="h350">
+    <table class="table table-bordered table-hover table1" id="tableList"> 
+        <tr>
+            <td class="valignM widM">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label for="woliaoList" class="control-label">名称</label>
+                        <select id="woliaoList" class="form-control">
+                            {{each items as item itemIndex}}
+                            <option mattypeid="{{item.matTypeId}}" value="{{itemIndex}}" data-id="{{item.id}}">{{item.matName}}</option>
+                            {{/each}}
+                        </select>
+                    </div>             
+                   
+                </div>
+                <div>规格：<span id="guige"></span></div>
+                <div>型号：<span id="xinghao"></span></div>
+                <div>数量：X<span id="shuliang"></span></div>
+            </td>
+            <td class="valignM widMy" id="tjgys">
+                <div class="tjgys form-inline">
+                    <div class="form-group dispM">
+                        <label for="suplList" class="control-label">选择供应商</label>
+                        <select id="suplList" class="comList form-control" required="required"></select>
+                    </div>
+                    <div class="form-group dispM">
+                        <label for="" class="control-label">数量&nbsp;&nbsp;&nbsp;&nbsp;</label><input id="number" class="numbers form-control" value="1" min="1" type="number"/>
+                    </div>
+                    <div class="form-group dispM">
+                        <button type="button" class="btn btn-primary btn-xs" id="add">添加</button>
+                    </div>
+                </div> 
+                
+            </td>
+        </tr>
+    </table>
+</div>

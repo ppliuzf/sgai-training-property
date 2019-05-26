@@ -1,0 +1,8 @@
+<div class="upload-item" data-url="{{url}}">
+    <a href="{{url}}" class="upload-item-inner" target="_blank" data-lightbox="{{imageGroup}}">
+        
+        <img src="{{url | formatImgUrl: size}}" alt="">
+        {{if isSetDefault}}<div class="upload-default">默认</div>{{/if}}
+    </a>
+    <a class="upload-close"><i class="icon-close"></i></a>
+</div>

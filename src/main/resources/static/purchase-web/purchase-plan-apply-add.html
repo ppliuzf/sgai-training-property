@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>新建采购任务</title>
+    <link rel="stylesheet" href="../lib/css/default.css">
+    <style>
+        .filter{
+            border:0;
+        }
+    </style>
+</head>
+<body>
+     <div class="container-fluid">
+        <div class="row header js-title">
+            <h4>新建采购任务</h4>
+        </div>
+        <div class="col-xs-12 col-sm-11 col-md-12 col-lg-12 js-main">
+            <div class="add col-xs-9 col-sm-9 col-md-9 col-lg-9 p0" id="add"></div>
+            <div class="col-xs-12 col-sm-11 col-md-12 col-lg-12 js-main">
+                    <h4 class="pt15">采购物料明细</h4>
+                    <div class="btns text-right" id="editBtn">
+                        <button type="submit" class="btn btn-primary" id="phaseWuliao">采购物料</button>
+                    </div>
+                    <div class="pt15">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr class="active">
+                                    <th width="60" class="text-center">序号</th>
+                                    <th>物料名称</th>
+                                    <th >采购数量</th>
+                                    <th >规格</th>
+                                    <th >型号</th>
+                                </tr>
+                            </thead>
+                            <tbody class="js-list" id="wuliaoList"></tbody>
+                        </table>
+                        <nav class="text-right pages"></nav>
+                    </div>
+                </div>
+            <div class="col-xs-12 col-sm-11 col-md-12 col-lg-12 p0">
+                 <button type="submit" class="btn btn-primary" id='save'>保存</button>
+                <button type="submit" class="btn btn-default" id="cancle">取消</button>
+            </div>
+        </div>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="../lib/lib/bootstrap-datetimepicker.min.js"></script>
+    <script src="../lib/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../lib/lib/lightbox.min.js"></script>
+    <script src="./js/controller/purchase-paln-detail/purchase-plan-apply-add.js"></script>
+</body>
+</html>

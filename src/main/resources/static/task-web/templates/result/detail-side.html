@@ -1,0 +1,69 @@
+<h4>基础信息</h4>
+<dl class="item">
+    <dt>计划名称</dt>
+    <dd class="cont">{{items.recordName}}</dd>
+</dl>
+<dl class="item">
+    <dt>任务模板名称</dt>
+    <dd class="cont">{{items.templateName}}</dd>
+</dl>
+<dl  class="item">
+    <dt>状态</dt>
+    {{if status == 1}}<dd class="cont">未开始</dd>{{/if}}
+    {{if status == 2}}<dd class="cont">执行中</dd>{{/if}}
+    {{if status == 3}}<dd class="cont">已逾期</dd>{{/if}}
+    {{if status == 4}}<dd class="cont">已完成</dd>{{/if}}
+</dl>
+<dl  class="item">
+    <dt>任务开始时间</dt>
+    <dd class="cont">{{ items.taskBeginTime | dateFormat:'yyyy-MM-dd hh:mm'}}</dd>
+</dl>
+<dl  class="item">
+    <dt>任务结束时间</dt>
+    <dd class="cont">{{ items.taskEndTime | dateFormat:'yyyy-MM-dd hh:mm'}}</dd>
+</dl>
+<dl  class="item">
+    <dt>成果描述</dt>
+    <dd class="cont">{{items.desc}}</dd>
+</dl>
+<dl  class="item">
+    <dt>责任人</dt>
+    <dd class="cont">{{items.dutyPerson}}</dd>
+</dl>
+<dl  class="item">
+    <dt>任务范围</dt>
+    {{if items.taskScopeType}}
+    {{if treeData.spaceData}}
+        <dd class="cont">空间主数据：</dd>
+        {{each treeData.spaceData as spaceItem}}
+        <dd class="cont ml20">
+            {{spaceItem.name}}
+        </dd>
+        {{/each}}
+    {{/if}}
+    {{if treeData.materielData}}
+        <dd class="cont">物料主数据：</dd>
+        {{each treeData.materielData as matItem}}
+        <dd class="cont ml20">
+            {{matItem.name}}
+        </dd>
+        {{/each}}
+    {{/if}}
+    {{if treeData.equipmentData}}
+        <dd class="cont">设备主数据：</dd>
+        {{each treeData.equipmentData as equItem}}
+        <dd class="cont ml20">
+            {{equItem.name}}
+        </dd>
+        {{/each}}
+    {{/if}}
+    {{if treeData.supplierData}}
+        <dd class="cont">供应商主数据：</dd>
+        {{each treeData.supplierData as supItem}}
+        <dd class="cont ml20">
+            {{supItem.supplierName}}
+        </dd>
+        {{/each}}
+    {{/if}}
+    {{/if}}
+</dl>

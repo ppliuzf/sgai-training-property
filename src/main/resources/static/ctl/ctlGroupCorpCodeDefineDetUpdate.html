@@ -1,0 +1,240 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+    <title>自定义项修改</title>
+    <meta name="decorator" content="default">
+    <script type="text/javascript">
+	var selectedType=null;
+    var typeList=new Object();
+    $.validator.setDefaults({
+        submitHandler: function() {
+           // 调用提交
+           formSubmit();
+        }
+    });
+	$(document).ready(function() {
+		/*输入校验*/
+        $("#inputForm").validate({
+            rules: {
+           	 codeType: {
+                   required: true,
+                   minlength: 1
+               },
+               codeTypeName: {
+                   required: true,
+                   minlength: 1
+               },
+               codeCode: {
+                   required: true,
+                   minlength: 1
+               }
+             },
+             message:{
+           	  codeType: {
+                   required: "请输入代码",
+                   minlength:"代码最小长度为1"
+               },
+               codeTypeName: {
+                   required: "请输入代码名称",
+                   minlength: "代码名最小长度为1"
+               },
+               codeCode: {
+                   required: "请输入代码名称",
+                   minlength: "代码名最小长度为1"
+               }
+           },
+            errorPlacement:function(error, element){
+                error.appendTo(element.parent());
+            }
+       });
+		/*获取url传值*/
+		var url=location.search;
+	   
+	    var param =url.split("?")[1];
+	    var idValue = decodeURIComponent(param).split("=")[1];
+	 
+		
+	    
+		
+		
+			selectedType=$("#codeType").val();
+		 	$.ajax({ //获取数据校验唯一性
+		 		headers    : {
+  	                 "token" : localStorage.getItem("token"),
+  	             },
+    			url : APIHost+'/admin/ctlCodeDet/getListType',
+    			type : 'POST',
+    			async : false, //或false,是否异步
+    			timeout : 30000,
+    			dataType : 'json',
+    			data:{
+    				id:idValue
+    			},
+    			success : function(response) {
+    				typeList = response.data.list;
+    				for (var i = 0; i < typeList.length; i++) {
+    					$('#codeType').attr('value',typeList[i].codeType);
+    				$('#codeCode').attr('value',typeList[i].codeCode);
+    				$('#codeName').attr('value',typeList[i].codeName);
+    				if(typeList[i].sysFlag=="Y"){
+						$('#s2id_sysFlag').find('span.select2-chosen').html("Y");
+						$("#sysFlag").attr('value',"Y");
+					}
+					else{
+						$('#s2id_sysFlag').find('span.select2-chosen').html("N");
+						$("#sysFlag").attr('value',"N");
+					}
+    				if(typeList[i].enabledFlag=="Y"){
+						$('#s2id_enabledFlag').find('span.select2-chosen').html("Y");
+						$("#enabledFlag").attr('value',"Y");
+					}
+					else{
+						$('#s2id_enabledFlag').find('span.select2-chosen').html("N");
+						$("#enabledFlag").attr('value',"N");
+					}
+    				
+    				$('#baseDesc').attr('value',typeList[i].baseDesc);
+    				$('#id').attr('value',typeList[i].id);
+    				$('#baseDesc').attr('value',typeList[i].baseDesc);
+    			
+    				}
+    			},
+    			error : function() {
+    				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+    			}
+    		});
+		
+	});
+
+	
+        
+        
+        function formSubmit(){
+	
+        	if($("#codeType").val()!="null"){
+        		
+        		var ajax_option={
+        				headers    : {
+       	                 "token" : localStorage.getItem("token"),
+       	             },
+        				url:APIHost + '/admin/ctlCodeDet/save',//默认是form action
+        				success:function(response){
+        					if(response.msg=="success"){
+        						$.jBox.alert("保存成功","提示",{closed:function(){
+        							selectedType=$("#codeType").val();
+        							window.parent.location.href = APIHost + "/ctl/ctlGroupCorpCodeDefineDet.html?paramId="+selectedType;
+        						}});
+        					}
+        					else if(response.msg=="exists"){
+        						$.jBox.alert("代码已存在","提示");
+        					}else{
+        						$.jBox.alert("服务器错误，请联系管理员","提示");
+        					}
+           				}
+               		}
+               		
+               		 $("#inputForm").ajaxSubmit(ajax_option);
+        	
+        
+        		   	
+        	}
+        	else{
+        		alert("选择代码类别");
+        	}
+            	
+        	 
+        }
+        function back(){
+        	//parent.location.reload();
+            $('#myModalEdit .close', window.parent.document).click();
+        }
+        $(function(){
+        	autoSize();
+        })
+        
+    </script>
+</head>
+<body>
+<form id="inputForm" class="form-horizontal" action=APIHost+"/admin/ctlCodeDet/DetUpdate" method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+
+    <div class="control-group">
+        <label class="control-label">  <span class="help-inline"><font color="red">*</font> </span>代码类别：</label>
+        <div class="controls">
+            <input id="codeType" name="codeType" readonly class="required userName" type="text" value="" maxlength="50" disabled="disabled">
+          
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>代码：</label>
+        <div class="controls">
+            <input id="codeCode" name="codeCode" class="required userName" type="text" value="" maxlength="50">
+            
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>代码名称：</label>
+        <div class="controls">
+            <input id="codeName" name="codeName" class="required userName" type="text" value="" maxlength="50">
+            
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"> <span class="help-inline"><font color="red">*</font> </span>系统内置：</label>
+        <div class="controls">
+               <select id="sysFlag" name="sysFlag" class="input-large select2-offscreen" tabindex="-1">
+                <option value="Y">Y</option>
+                <option value="N">N</option>
+            </select>
+           
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">开启：</label>
+        <div class="controls">
+            <select id="enabledFlag" name="enabledFlag" class="input-large select2-offscreen" tabindex="-1">
+                <option value="Y">Y</option>
+                <option value="N">N</option>
+            </select>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">备注：</label>
+        <div class="controls">
+            <!-- <input id="baseDesc" name="baseDesc" class="required userName" type="text" value="" maxlength="50"> -->
+            <textarea id="baseDesc" name="baseDesc"  maxlength="50" type="text" style="overflow-y:hidden;" class="textAreas required userName"></textarea>
+            </select>
+      	</div>
+	</div>
+    <div class="form-actions" style="position:absolute;bottom:0;left:0;right:0;margin:0;">
+      <input id="btnCancel" class="btn" type="button" value="关 闭" onclick="back()">
+        <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+    </div>
+</form>
+
+</body></html>

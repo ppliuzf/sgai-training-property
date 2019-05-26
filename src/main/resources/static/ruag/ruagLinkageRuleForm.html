@@ -1,0 +1,268 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+<link href="../static/jquery-ztree/3.5.12/css/zTreeStyle/zTreeStyle.min.css" rel="stylesheet" type="text/css"/>
+<script src="../static/jquery-ztree/3.5.12/js/jquery.ztree.all-3.5.min.js" type="text/javascript"></script>
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var ctx = '/admin', ctxStatic='/static';
+</script>
+<meta name="decorator" content="default">
+<script type="text/javascript">
+var paramId=GetQueryString("paramId");
+	//表单验证
+	$.validator.setDefaults({
+	    submitHandler: function() {
+	       // 调用提交
+	       save();
+	    }
+	});
+	$().ready(function () {
+	    // 在键盘按下并释放及提交后验证提交表单
+	    $("#inputForm").validate({
+	    	errorPlacement:function(error, element){
+				error.appendTo(element.parent()); //将错误信息添加当前元素的父结点后面
+			},
+	         rules: {
+	            spaceName: {
+	                required: true
+	            },
+	            linkageName: {
+	                required: true
+	            }
+	          },
+	        messages:{
+	            spaceName: {
+	                required: "请输入区域名称"
+	            },
+	            linkageName: {
+	                required: "请输入联动名称"
+	            }
+	        }
+	    });
+	})
+ 
+     // 关闭弹框
+     function closePopUp(){
+         $('#myModals .close', window.parent.document).click();
+     }
+
+     function save(){
+     	var myDate = new Date();
+     	var str = (myDate * 1).toString();
+     	var length = str.length;
+     	var p_Number = str.substr(length-4,4);
+     	 $.jBox.confirm("确定提交吗？", "提示", function (v, h, f) { 
+ 			 if(v == 'ok'){ 
+ 				var ajax_option={
+         				headers    : {
+         	                 "token" : localStorage.getItem("token"),
+         	             },
+         				url:APIHost + "/ruag/ruag/ruagLinkageRule/save",//默认是form action
+         				async : false, //或false,是否异步
+         				success:function(res){
+         					if(res.data.msg == "success"){
+         						$.jBox.alert('保存成功', '提示',{ closed: function ()
+        							{window.parent.location.href = APIHost + "/ruag/ruagLinkageRuleList.html";} });
+         					}else if(res.data.msg == "haveData"){
+         						$.jBox.alert("该联动名称已存在!","提示");
+         					}else if(res.data.msg == "failed"){
+         						$.jBox.alert("提交失败!","提示");
+         					}
+           				}
+               		}
+         		$("#inputForm").ajaxSubmit(ajax_option);
+ 		 	} 
+ 	 	}) 
+     }
+     
+  	// 关闭弹框
+     function closePopUp(){
+         $('#myModal .close', window.parent.document).click();
+     }
+   //textarea 拉伸
+     $(function () {
+         autoSize();
+     })
+ 
+	$(function() {
+		if(paramId!=null){
+    		$('#myModal #myModalLabel', window.parent.document).text("联动规则修改");
+    	}else{
+    		$('#myModal #myModalLabel', window.parent.document).text("联动规则新增");
+    	}
+		if (paramId != null) {
+			 //添加新tbody
+	        $.ajax({
+	            headers : {
+	                "token" : localStorage.getItem("token"),
+	            },
+	            url : APIHost + '/ruag/ruag/ruagLinkageRule/getRuagLinkageRule',
+	            type : 'POST',
+	            async : false, //或false,是否异步
+	            data : {
+	                id : paramId
+	            },
+	            timeout : 5000,
+	            dataType : 'json',
+	            success : function(res) {
+	            	$("#id").val(paramId);
+					$("#spaceCode").val(res.data.spaceCode);
+					$("#oldSpaceCode").val(res.data.spaceCode);
+					$("#spaceName").val(res.data.spaceName);
+					$("#linkageCode").val(res.data.linkageCode);
+					$("#linkageName").val(res.data.linkageName);
+					$("#linkageDesc").val(res.data.linkageDesc);
+	            },
+	            error : function() {
+					$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+	            }
+	        })
+		}
+	})
+	
+	 //获取跳转地址的参数
+    function GetQueryString(name){
+		var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+		var r = window.location.search.substr(1).match(reg);
+		if(r!=null)return  unescape(r[2]); return null;
+  	}
+	//加载位置树
+	function initTree() {
+			var setting = {
+				data : {
+					simpleData : {
+						enable : true,
+						idKey : "id",
+						pIdKey : "pId",
+						rootPId : 0
+					}
+				},
+				callback : {
+					onClick: zTreeOnCheck
+				}
+			};
+			$.ajax({
+				headers : {"token" : localStorage.getItem("token")},
+				url : APIHost + '/admin/mdm/mdmSpaceTree/getSpaceList',
+				type : 'POST',
+				async : false,
+				data : {
+				},
+				timeout : 5000,
+				dataType : 'json',
+				success : function(res) {
+					/* if(res.code === 1000){
+						//成功返回 */
+					/* var data = res.data; */
+					var tree = $.fn.zTree.init($("#spaceTree"), setting, res);
+					var treeObj=tree.transformToArray(tree.getNodes());
+					tree.expandAll(false);
+					/* }else if(res.code ===1003){
+						//没有登录状态
+						$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+							{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+					}else if(res.code === 1002){
+						//发生异常
+						$.jBox.alert(res.msg);
+					}else if(res.code === 1004){
+						//结果为空
+						$.jBox.alert(res.msg);
+					} */
+				},
+				error : function() {
+					$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+				}
+			});
+		}
+	 function showTree(){
+		if($(".spaceTree").css("display")=="none"){
+		initTree();
+		$("#spaceName").val("");
+		$(".spaceTree").css("display","block");
+		var top = $("#spaceName").position().top+34;
+	    var left = $("#spaceName").position().left;
+	 	$(".spaceTree").css({top:top,left:left});
+		}else{
+			   $(".spaceTree").css("display", "none");
+		   }
+	 }
+	 /* $(".spaceTree").mouseenter(function(){
+			    $(this).mouseleave(function(event){
+				$(this).hide();
+				$("#positionSearch").val(names); 
+			    $("#spaceCode").val(codes);
+			});
+		}); */
+		function zTreeOnCheck(event, treeId, treeNode) {
+			var treeObj=$.fn.zTree.getZTreeObj("spaceTree");
+			var name = treeNode.name;
+	 	    var childNodes = treeObj.transformToArray(treeNode); 
+	        var nodes = ""; 
+	        for(i = 0; i < childNodes.length; i++) { 
+	                   nodes+=childNodes[i].id+","; 
+	        } 
+	        $("#spaceCodes").val(nodes);
+	        $("#spaceName").val(name);
+	        $("#spaceCode").val(treeNode.id);
+	        $(".spaceTree").hide();
+	    }
+</script>
+<body>
+<form id="inputForm" class="form-horizontal" method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" >
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+    <input id="spaceCode" name="spaceCode" type="hidden" value="" maxlength="25">
+    <input id="spaceCodes" name="spaceCodes" type="hidden" value="" >
+    <input id="oldSpaceCode" name="oldSpaceCode" type="hidden" value="" >
+    <input id="linkageCode" name="linkageCode" type="hidden" value=""  >
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>区域名称：</label>
+        <div class="controls">
+            <input id="spaceName" name="spaceName" type="text" value="" maxlength="25" onclick="showTree()" readonly="readonly" style="cursor:pointer" placeholder="请选择">
+            <div class="spaceTree" style="display:none;position:absolute; background-color:White;border-bottom: #c3daf9 1px solid; border-left: #c3daf9 1px solid; width: 231px; border-top: #c3daf9 1px solid; border-right: #c3daf9 1px solid;height:200px;overflow: auto">
+				<div id="spaceTree" class="ztree"></div>
+				</div>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>联动名称：</label>
+        <div class="controls">
+            <input id="linkageName" name="linkageName" type="text" value="" maxlength="25" >
+        </div>
+    </div>
+    <div class="control-group" style="margin-bottom: 0px;">
+        <label class="control-label">备注：</label>
+        <div class="controls">
+        	<textarea id="linkageDesc" name="linkageDesc"  maxlength="100"  style="overflow-y:hidden;" class="textAreas"></textarea>
+        </div>
+    </div>
+    <div class="form-actions">
+        <input id="btnCancel" class="btn" type="button" value="关 闭" onclick="closePopUp()">
+        <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">
+    </div>
+</form>
+</body></html>

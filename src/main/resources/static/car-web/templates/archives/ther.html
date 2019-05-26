@@ -1,0 +1,12 @@
+{{each items as item itemIndex}}
+<tr>
+    <td style="text-align:center;">{{itemIndex+1 < 10 ? "0" + (itemIndex+1) : itemIndex+1}}</td>
+    <td class="word-warp">{{item.punishTime}}</td>
+    <td class="word-warp">{{item.punishType }}</td>
+    <td class="word-warp">{{item.punishUserName }}</td>
+    <td class="word-warp">{{item.punishUserPhoneNum }}</td>
+    <td class="word-warp">{{item.punishContent }}</td>    
+    <td class="word-warp">{{item.punishDesc}}</td>
+</tr>
+{{/each}}
+

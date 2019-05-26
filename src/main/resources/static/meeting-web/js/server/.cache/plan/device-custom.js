@@ -1,0 +1,2 @@
+/*TMODJS:{"version":1,"md5":"1e1a26e4c9b0bda8ada8e7e845361243"}*/
+template('plan/device-custom','<div class="form-group"> <div class="input-group"> <input type="text" class="form-control" maxlength="20"> <div class="input-group-addon js-device-remove"><i class="glyphicon glyphicon-remove"></i></div> </div> </div>');

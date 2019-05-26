@@ -1,0 +1,24 @@
+{{each items as item}}
+<tr>
+    <td class="text-center">
+        {{if item.num
+        <10}} 0{{item.num}} {{else}} {{item.num}} {{/if}} </td>
+            <td>
+                {{item.pcName}}
+            </td>
+            <td>{{item.taskType}}</td>
+            <td>{{item.asType}}</td>
+            <td>
+                <div class="text-ellipsis" >{{item.pcDesc}}</div>
+            </td>
+            
+            <td class="text-center">
+                <a class="js-edit" data-id="{{item.pcId}}" href="pages/major/edit-major.html?id={{item.pcId}}">编辑</a>
+                {{if item.isDefault}}
+                <a class="disabled" data-id="{{item.pcId}}">删除</a>
+                {{else}}
+                <a class="js-del underline" href="javascript:;" data-id="{{item.pcId}}">删除</a>
+                {{/if}}
+            </td>
+</tr>
+{{/each}}

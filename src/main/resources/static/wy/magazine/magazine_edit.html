@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>修改杂志报刊信息</title>
+	
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+	<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+    <link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+    <link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+    <script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script src="../static/common/mustache.min.js" type="text/javascript"></script>
+    <link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/common/smart.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+    <link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript">var ctx = '/admin', ctxStatic='../../static';</script>
+    <script src="../../config/smart-common.js" type="text/javascript"></script>
+  
+</head>
+<body>
+	<form id="inputForm" class="form-horizontal"  method="post" novalidate="novalidate">
+	    <input id="id" name="id" type="hidden" value=""/>
+	
+	    <div class="control-group">
+	        <label class="control-label">杂志/报刊名称:</label>
+	        <div class="controls">
+	           <input id="magazineName" name="magazineName"  type="text" value="" maxlength="50">
+	           <font color="red">*</font>
+	        </div>
+	    </div>
+	    <div class="control-group">
+	        <label class="control-label">编码:</label>
+	        <div class="controls">
+	            <input id="encoder" name="encoder"  type="text" value="" maxlength="7">
+	            <font color="red">*</font>
+	        </div>
+	    </div>
+	    <div class="control-group">
+	        <label class="control-label">添加时间:</label>
+	        <div class="controls">
+	             <input id="createdDate" name="createdDate" class="Wdate" type="text" value="" maxlength="50" onclick="WdatePicker();" >
+	             <font color="red">*</font>
+	        </div>
+	    </div>
+	    <div class="control-group">
+	        <label class="control-label">添加人:</label>
+	        <div class="controls">
+	            <input id="personName" name="personName" class="required userName" type="text" value="" maxlength="50" disabled>
+	      		<font color="red">*</font>
+	        </div>
+	    </div>
+	    <div class="control-group">
+	        <label class="control-label">备注:</label>
+	        <div class="controls">
+	        	<textarea id="remarks" name="remarks" rows="5" cols="40" style="width:270px;resize:none"></textarea>
+	        </div>
+	    </div>
+	    <div class="form-actions"  style="margin-top:-11px;">
+	    	<input id="btnSubmit" class="btn btn-primary" type="submit" value="保  存">&nbsp;
+	        <input id="btnCancel" class="btn " type="button" value="返  回"  onclick="back()">
+		</div>
+	</form>
+	
+	<script type="text/javascript">
+				
+		// 获取Parent页面传来的参数(<paramId>Entity实际id)
+		var entityID=GetQueryString("paramId");
+		if(entityID != null){
+			updatepageload();
+		}
+		// 接收Parent页面携带的数据
+		function GetQueryString(name){
+	        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	        var r = window.location.search.substr(1).match(reg);
+	        if(r!=null)return  unescape(r[2]); return null;
+	    }
+		// 传入id参数通过findById方法获取到对象数据并赋值到页面字段中
+	    function updatepageload(){
+	       $.ajax({
+	    	   headers : { "token" : localStorage.getItem("token")},
+	           url : APIHost + '/magazineInfo/findMagazineInfoById',
+	           type : 'POST',
+	           async : false, //或false,是否异步
+	           data : {
+	               id : entityID
+	           },
+	           timeout : 5000,
+	           dataType : 'json',
+	           success : function(res) {
+	        	    if (res.data != null){
+						$("#id").val(res.data.id);
+						$("#magazineName").val(res.data.magazineName);
+						$("#encoder").val(res.data.encoder);
+						$("#createdDate").val(res.data.createdDate);
+						$("#personName").val(res.data.personName);
+						$("#remarks").val(res.data.remarks);
+	        	    } else if(res.code === 1003){
+	        	    	parent.hideDiv();
+	        	    	parent.jBox.alert('请先登录', '提示',{closed: function (){window.parent.location.href= APIHost + "/sys/sysLogin.html";}});
+					} else {
+	                	parent.hideDiv();
+	                	parent.jBox.alert("操作无效 , 请联系管理员调试 !","提示");
+	                }
+	           }
+	       });
+	    }
+		// 开启表单验证,调用表单提交
+	    $.validator.setDefaults({
+	        submitHandler: function () {
+	            formSubmit();
+	        }
+	    });
+		
+	    // 表单输入校验
+		$(document).ready(function() {
+	        $("#inputForm").validate({
+	        	rules: {
+	        		magazineName:{
+	                	required: true
+	                },
+	                encoder:{
+	                	required: true,
+	                    number:true
+	                },
+	                createdDate:{
+	                	required: true
+	                },
+	                personName:{
+	                	required: true
+	                },
+	                remarks:{
+	                	required: false
+	                }
+              	}
+	  		});
+	    });
+		
+		// 提交表单
+		function formSubmit(){
+	   		var saveData={
+				headers : {"token" : localStorage.getItem("token")},
+				url:APIHost + '/magazineInfo/save',
+				success:function(response){
+					if (response.data.msg == "success") {
+	                    parent.pageload();
+						parent.hideDiv();
+						parent.jBox.alert("保存成功 !","提示");
+	                } else if (response.data.msg == "exist") {
+	                	parent.jBox.alert("您好 , 此编码已占用 , 请重新输入  !","提示");
+	                } else {
+	                	parent.hideDiv();
+	                	parent.jBox.alert("操作无效 , 请联系管理员调试 !","提示");
+	                }
+	    		},
+	            beforeSend:function(){
+	          		var loading=$('<div id="loading"></div>');
+	          		$('body').append(loading);
+	          		$("#btnSubmit").attr("disabled",true)
+	          	},
+	          	complete:function(){
+	            	$("#btnSubmit").attr("disabled",false);
+	            	$("#loading").hide();
+	            }
+	   		}
+	   		$("#inputForm").ajaxSubmit(saveData);  
+	    }   
+		// 取消保存请求		
+        function back(){parent.hideDiv();}
+	</script>
+	
+</body>
+</html>

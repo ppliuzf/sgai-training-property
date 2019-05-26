@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>任务计划详情</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/default.css">
+    <style type="text/css">
+        html,body, .item-detail{
+            height: 100%;
+        }
+        .act,
+        .inp a {
+            cursor: pointer;
+        }
+        /*.act,*/
+        /*.inp .disabled a{*/
+        /*color: #aeaeae;*/
+        /*}*/
+        .poin-td a{
+            cursor: pointer;
+        }
+        .js-detail-left{
+            height: calc(100% - 70px);
+            border-right:1px solid #ddd;
+        }
+        .act .disabled{
+            color: #aeaeae;
+        }
+        .item{
+            word-wrap: break-word;
+            word-break: normal;
+        }
+        .selectPer {
+            display: none;
+        }
+        /*.js-detail-left label{*/
+            /*color: #808c8b;*/
+        /*}*/
+        .dropdown-menu{
+            min-width: 94px;
+        }
+        .color-txt{
+            color: #777e8c;
+        }
+        .js-del{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid item-detail">
+    <div class="row header">
+            <h4>任务计划详情</h4>
+            <div class="btns text-right">
+                <span href="javascript;" class="btn btn-default js-btn-back">返回</span>
+            </div>
+    </div>
+   <div class="row item-detail">
+       <div class="col-md-2 js-detail-left"><!-- /左 -->
+
+       </div>
+       <div class="col-md-10"> <!-- /右 -->
+           <div class="row header">
+                   <h4>相关任务</h4>
+               <div class="btns text-right">
+                   <!-- <a href="#"><button type="button" class="btn btn-primary js-manage-step">阶段管理</button></a> -->
+                <!-- <a href="/pages/scheme/set-scheme.html?id=67d2bb9b413247d5a509ce44795d671c&taskName=988pp">
+                    <button type="button" id="go-task-detail" class="btn btn-primary go-task-detail">跳转任务模板详情</button>
+                </a> -->
+                   
+                   <a href="#"><button type="button" id="js-add-task" class="btn btn-primary js-add-task">关联任务模板</button></a>
+               </div>
+           </div>
+           <table class="table table-bordered table-hover add-table">
+               <thead>
+               <tr>
+                   <th width='60'>序号</th>
+                   <th>任务模板</th>
+                   <th>任务类型</th>
+                   <th>是否重复</th>
+                   <th>重复方式</th>
+                   <th>状态</th>
+                   <th>开始时间</th>
+                   <th>截止时间</th>
+                  
+                   <th class="text-center" width="98">操作</th>
+               </tr>
+               </thead>
+               <tbody class="js-detail-right js-sort"></tbody>
+               </table>
+           <!--<div class="js-detail-right js-sort"></div>-->
+       </div>
+   </div>
+</div>
+<script src="../../js/lib/jquery.min.js"></script>
+<script src="../../js/lib/bootstrap.min.js"></script>
+<script src="../../js/server/template.js"></script>
+<script src="../../../config/config.js"></script>
+<script src="../../js/server/utils.js"></script>
+<script src="../../js/controller/plan/detail.js"></script>
+</body>
+</html>

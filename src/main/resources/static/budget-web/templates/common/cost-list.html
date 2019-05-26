@@ -1,0 +1,17 @@
+{{each items as item itemIndex}}
+<tr>
+    <td class="text-center"><div>{{itemIndex == 9 ? '' :'0'}}{{itemIndex+1}}</div></td>
+    <td><div class="cont dot">{{item.aaa || item.itemName}}</div></td>
+    <td><div class="cont dot">{{item.itemCode}}</div></td>
+    <td><div class="cont dot" style="max-width: 900px;word-wrap:break-word;">{{item.description}}</div></td>
+    <td class="text-center act">
+        <!-- <div class="btn-group more">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+            <ul class="dropdown-menu"> -->
+                    <a href="./cost-add.html?id={{item.id + '&name=' + item.itemName}}">编辑</a>
+                    <a class="js-del" data-id="{{item.id}}">删除</a>
+            <!-- </ul>
+        </div> -->
+    </td>
+</tr>
+{{/each}}

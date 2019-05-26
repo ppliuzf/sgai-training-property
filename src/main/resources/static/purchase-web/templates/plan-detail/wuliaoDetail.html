@@ -1,0 +1,26 @@
+{{each items as item}}
+<tr class="materiel-item" data-id="{{item.id}}">
+    <td class="valignM wlde">
+        {{if item.materiel}}
+        <div class="name">名称：{{item.materiel}}</div>
+        {{else}}
+        <div class="name">名称：{{item.matName}}</div>
+        {{/if}}
+        {{if item.spec}}
+        <div>规格：{{item.spec}}</div>
+        {{else}}
+        <div class="name">名称：{{item.matSpec}}</div>
+        {{/if}}
+        <div class="xinghao1" xinghao="{{item.matTypeCode}}">型号：{{item.matTypeCode}}</div>
+    </td>
+    {{if item.number}}
+    <td class="valignM numw" width="120px">数量：X {{item.number}}</td>
+    {{else}}
+    <td class="valignM numw" width="120px">数量：X {{item.applyCount}}</td>
+    {{/if}}
+    
+    <td class="valignM text-center" width="140px">
+        <button type="submit" class="btn btn-primary js-del1 underline">删除</button>
+    </td>
+</tr> 
+{{/each}}

@@ -1,0 +1,13 @@
+{{each items as item}}
+<tr>
+    <td class="text-center">
+        <input type="checkbox" name="choose" id="{{item.id}}" supplier_name="{{item.name}}">
+    </td>
+    {{if item.index<10}}
+    <td class="text-center"><div class="cont dot" title="0{{item.index}}">0{{item.index}}</div></td>
+    {{else}}
+    <td class="text-center"><div class="cont dot" title="{{item.index}}">{{item.index}}</div></td>
+    {{/if}}
+    <td><div>{{item.name}}</div></td>
+</tr>
+{{/each}}

@@ -1,0 +1,8 @@
+{{each items as item}}
+<tr class="materiel-item" data-name="{{item.maName}}" data-id="{{item.maId}}" data-num="{{item.maCount}}" data-type="{{item.maTypeName}}" data-typeId="{{item.maTypeId}}" data-code="{{item.maCode}}">
+    <td>{{item.maName}}</td>
+    <!--<td><input class="form-control" type="text" value="{{item.maCount}}" maxlength="5" placeholder="请输入物料数" style="width: 100%;"></td>-->
+    <!--<td class="js-maCount" contenteditable="true">{{item.maCount}}</td>-->
+    <td style="text-align: center"><a class="js-del" data-id="{{item.maId}}">删除</a></td>
+</tr>
+{{/each}}

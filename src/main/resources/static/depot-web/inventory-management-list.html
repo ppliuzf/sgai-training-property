@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>库存查询</title>
+    <link rel="stylesheet" href="./css/default.css">
+</head>
+
+<body class="main1">
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>库存查询</h4>
+        </div>
+        <!-- 搜索 -->
+        <div class="form-inline filter">
+            <div class="form-group">
+                <label for="keyWords">搜索仓库 </label>
+                <input type="text" class="form-control" id="keyWords" placeholder="请输入搜索内容">
+            </div>
+            <div class="form-group">
+                <label for="keyWords">搜索物料 </label>
+                <input type="text" class="form-control" id="keyWords1" placeholder="请输入搜索内容">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary js-search">查询</button>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th width="60" class="text-center">序号</th>
+                    <th width="">编号</th>
+                    <th width="">仓库名称</th>
+                    <th width="">仓库类型</th>
+                    <th width="">仓库地址</th>
+                    <th width="">仓库GIS</th>
+                    <th width="">物料编号</th>
+                    <th width="">物料名称</th>
+                    <th width="100">账存数量</th>
+                </tr>
+            </thead>
+            <tbody class="js-list"></tbody>
+        </table>
+        <nav class="text-right pages"></nav>
+
+    </div>
+    <script src="./js/lib/jquery.min.js"></script>
+    <script src="./js/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/check/inventory-management-list.js"></script>
+</body>
+</html>

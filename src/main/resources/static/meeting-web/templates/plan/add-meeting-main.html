@@ -1,0 +1,121 @@
+<!-- <div class="row margin-bt">
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-5">会议室名称：
+        <span>{{rrRoomName}}</span>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-2">可容纳人数：
+        <span>{{rrRoomPeoples}}人</span>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-5">会议室设施：
+        <div>
+            {{if deviceDetailVoList.length>0}} 已启用：{{each deviceDetailVoList as itom }} {{if itom.rdsState==0}}
+            <span href="javascript:;" class="device-txt" data-rdsId="{{itom.rdsId}}" data-rdsState="{{itom.rdsState}}">{{itom.rdRoomDevice}}</span> {{/if}} {{/each}} {{/if}}
+        </div>
+        <div>
+            {{if deviceDetailVoList.length>0}}已禁用：{{each deviceDetailVoList as itom }}{{if itom.rdsState!=0}}
+            <span href="javascript:;" class="device-txt" data-rdsId="{{itom.rdsId}}" data-rdsState="{{itom.rdsState}}">{{itom.rdRoomDevice}}</span> {{/if}} {{/each}} {{/if}}
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-5">预约会议时间：
+        <span>{{meetingTime + ' ' + time}}</span>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-2">发起人：
+        <span>{{loginUserName}}</span>
+    </div>
+</div> -->
+<div class="infos-detail">
+        <table>
+            <tbody>
+                <tr>
+                    <td class="col-lg-2 col-md-2 col-sm-2 text-center">会议室名称：</td>
+                    <td class="col-lg-2 col-md-3 col-sm-3 value">{{rrRoomName}}</td>
+                    <td class="col-lg-2 col-md-2 col-sm-2 text-center">可容纳人数：</td>
+                    <td class="col-lg-2 col-md-3 col-sm-3 value">{{rrRoomPeoples}}人</td>
+                    <!-- <td class="col-lg-5 col-md-5 col-sm-5 text-center" colspan="2">会议室设施：</td> -->
+                </tr>
+                <!-- <tr>
+                    <td class="text-center" colspan="4" rowspan="2"></td>
+                    <td class="text-center"> {{if deviceDetailVoList.length>0}} 已启用：</td>
+                    <td class="value">
+                        {{each deviceDetailVoList as itom }}{{if itom.rdsState==0}}
+                        <span href="javascript:;" class="device-txt" data-rdsId="{{itom.rdsId}}" data-rdsState="{{itom.rdsState}}">{{itom.rdRoomDevice}}</span>
+                        {{/if}} {{/each}} {{/if}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center"> {{if deviceDetailVoList.length>0}}已禁用：</td>
+                    <td class="value">
+                        {{each deviceDetailVoList as itom }}{{if itom.rdsState!=0}}
+                        <span href="javascript:;" class="device-txt" data-rdsId="{{itom.rdsId}}" data-rdsState="{{itom.rdsState}}">{{itom.rdRoomDevice}}</span> {{/if}} {{/each}} {{/if}}
+                    </td>
+                </tr> -->
+                <!-- <tr>
+                    <td class="text-center" colspan="4" rowspan="2"></td>
+                    {{if deviceDetailVoList.length>0}}
+                    <td class="text-center">  已启用：</td>
+                    <td class="value text-center">
+                        
+                            {{each deviceDetailVoList as itom }} {{if itom.rdsState==0}}
+                            <span href="javascript:;" class="device-txt" data-rdsId="{{itom.rdsId}}" data-rdsState="{{itom.rdsState}}">{{itom.rdRoomDevice}}</span>
+                        {{/if}} {{/each}} 
+                
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center"> 已禁用：</td>
+                    <td class="value text-center">
+                
+                        {{each deviceDetailVoList as itom }}{{if itom.rdsState!=0}}
+                        <span href="javascript:;" class="device-txt" data-rdsId="{{itom.rdsId}}" data-rdsState="{{itom.rdsState}}">{{itom.rdRoomDevice}}</span> 
+                        {{/if}} {{/each}}
+
+                    </td>
+                </tr>
+                {{/if}} -->
+                <tr>
+                        <td class=" text-center" rowspan="2">会议室设备：</td>
+                        <!-- <td class="text-center" colspan="" rowspan=""></td> -->
+                        {{if deviceDetailVoList.length>0}}
+                        <td class="value"> 已启用：</td>
+                        <td class="value text-center" colspan="2">
+        
+                            {{each deviceDetailVoList as itom }} {{if itom.rdsState==0}}
+                            <span href="javascript:;" class="device-txt" data-rdsId="{{itom.rdsId}}" data-rdsState="{{itom.rdsState}}" style="color: #31708f;">{{itom.rdRoomDevice}}</span>
+                            {{/if}} {{/each}}
+        
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="value"> 已禁用：</td>
+                        <td class="value text-center" colspan="2">
+        
+                            {{each deviceDetailVoList as itom }}{{if itom.rdsState!=0}}
+                            <span href="javascript:;" class="device-txt" data-rdsId="{{itom.rdsId}}" data-rdsState="{{itom.rdsState}}" style="color: #31708f;">{{itom.rdRoomDevice}}</span>
+                            {{/if}} {{/each}}
+        
+                        </td>
+                    </tr>
+        
+                    {{/if}}
+                {{if deviceDetailVoList.length == 0}}
+                <tr>
+                    <td colspan="2" class="value" style="text-align: center">无</td>
+                </tr>
+                {{/if}}
+                <tr>
+                    <td class="text-center">预约会议时间：</td>
+                    <td class="value">{{meetingTime + ' ' + time}}</td>
+                    <td class="text-center">发起人：</td>
+                    <td class="value" colspan="3">{{loginUserName}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <style>
+        /* .text-center,.value{
+            font-size: 12px;
+            display: block;  显示
+            display:none;   隐藏
+        } */
+    </style>

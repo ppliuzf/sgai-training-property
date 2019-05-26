@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>总览</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="" name="description"/>
+  <meta content="" name="author"/>
+  <!-- BEGIN GLOBAL MANDATORY STYLES -->
+  <link href="../static/media/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+  <link href="../static/media/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
+  <link href="../static/media/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  <!-- END GLOBAL MANDATORY STYLES -->
+  <!-- BEGIN PAGE LEVEL STYLES -->
+  <link href="../static/media/css/overviewIndex.css" rel="stylesheet" type="text/css"/>
+  <!-- END PAGE LEVEL STYLES -->
+  <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+  <script src="../static/echart/echarts.js" type="text/javascript"></script>
+  <script>
+    setFontSize();
+    //设置根元素字体
+    function setFontSize() {
+      var winWidth = $(window).width()<1366?1366:$(window).width();
+      // var rate = (winWidth / 1920) * 100;
+      var fontSize = (winWidth / 1920) * 20 + 'px';
+      $("html").css("font-size",fontSize);
+      $(window).resize(function(){
+        setFontSize();
+      })
+    };
+  </script>
+</head>
+<body class="overview-frame">
+<div class="ov-main-wrap">
+  <div class="left-0">
+    <div class="ov-box mg-b-16" style="height: 40.7%;">
+      <div class="ov-box-deco">
+        <div class="ov-box-angle">
+          <span class="lt"></span>
+          <span class="rt"></span>
+          <span class="rb"></span>
+          <span class="lb"></span>
+        </div>
+        <div class="ov-line">
+          <span class="ht"></span>
+          <span class="vr"></span>
+          <span class="hb"></span>
+          <span class="vl"></span>
+        </div>
+      </div>
+      <div class="ov-box-title">报警信息</div>
+      <div class="ov-box-body">
+        <ul class="ov-list ov-alarm-list">
+          <li class="ov-list-item header">
+            <span>序号</span>
+            <span>报警位置</span>
+            <span>报警类型</span>
+            <span>时间</span>
+            <!--<span>定位</span>-->
+          </li>
+          <div id="alarmList">
+            <!--<li class="ov-list-item warning">
+              <span>1</span>
+              <span>冰壶馆</span>
+              <span>A类型</span>
+              <span>14:00</span>
+            </li>
+            <li class="ov-list-item warning">
+              <span>2</span>
+              <span>冰壶馆</span>
+              <span>A类型</span>
+              <span>15:00</span>
+            </li>
+            <li class="ov-list-item warning">
+              <span>3</span>
+              <span>冰壶馆</span>
+              <span>A类型</span>
+              <span>15:00</span>
+            </li>
+            <li class="ov-list-item warning">
+              <span>4</span>
+              <span>冰壶馆</span>
+              <span>A类型</span>
+              <span>15:00</span>
+            </li>
+            <li class="ov-list-item warning">
+              <span>5</span>
+              <span>冰壶馆</span>
+              <span>A类型</span>
+              <span>15:00</span>
+            </li>-->
+          </div>
+        </ul>
+      </div>
+    </div>
+    <div class="ov-box" style="height: calc(100% - 40.7% - 0.8rem);">
+      <div class="ov-box-deco">
+        <div class="ov-box-angle">
+          <span class="lt"></span>
+          <span class="rt"></span>
+          <span class="rb"></span>
+          <span class="lb"></span>
+        </div>
+        <div class="ov-line">
+          <span class="ht"></span>
+          <span class="vr"></span>
+          <span class="hb"></span>
+          <span class="vl"></span>
+        </div>
+      </div>
+      <div class="ov-box-title">能耗统计</div>
+      <div class="ov-statistic-item">
+        <div class="statistic-item mg-b-16">
+          <div class="figure">
+            <img src="../static/media/image/overview/electricity.png">
+          </div>
+          <div class="text">
+            <label class="ov-label">总能耗（电）</label>
+            <p class="ov-number lx"><span class="totalelec">0</span><span class="unit">kW·h</span></p>
+            <div class="ov-line-h"></div>
+            <label class="ov-label">当日累计能耗</label>
+            <p class="ov-number"><span class="energyToday">0</span><span class="unit">kW·h</span></p>
+          </div>
+        </div>
+        <div class="statistic-item ov-water">
+          <div class="figure">
+            <img src="../static/media/image/overview/water.png">
+          </div>
+          <div class="text">
+            <label class="ov-label">总能耗（水）</label>
+            <p class="ov-number lx"><span class="totalWater">0</span><span class="unit">t</span></p>
+            <div class="ov-line-h"></div>
+            <label class="ov-label">当日累计能耗</label>
+            <p class="ov-number"><span class="waterToday">0</span><span class="unit">t</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="right-0">
+    <div class="top">
+      <div class="left-1">
+        <div class="ov-box mg-b-16" style="height: calc(52% - 0.4rem);">
+          <div class="ov-box-deco">
+            <div class="ov-box-angle">
+              <span class="lt"></span>
+              <span class="rt"></span>
+              <span class="rb"></span>
+              <span class="lb"></span>
+            </div>
+            <div class="ov-line">
+              <span class="ht"></span>
+              <span class="vr"></span>
+              <span class="hb"></span>
+              <span class="vl"></span>
+            </div>
+          </div>
+          <div class="ov-box-title">场馆环境</div>
+          <div class="ov-environment">
+            <div class="environment-item">
+              <div class="env-gauge">
+                <div id="gaugeTemperature"></div>
+                <span class="ov-unit">单位℃</span>
+              </div>
+            </div>
+            <div class="environment-item">
+              <div class="env-gauge red">
+                <div id="gaugeHumidity"></div>
+                <span class="ov-unit">单位%</span>
+              </div>
+            </div>
+            <div class="environment-item">
+              <div class="env-gauge">
+                <div id="gaugePM25"></div>
+                <span class="ov-unit">单位μg/m³</span>
+              </div>
+            </div>
+            <div class="environment-item">
+              <div class="env-gauge">
+                <div id="gaugeCO2"></div>
+                <span class="ov-unit">单位ppmv</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ov-box" style="height: calc(48% - 0.4rem)">
+          <div class="ov-box-deco">
+            <div class="ov-box-angle">
+              <span class="lt"></span>
+              <span class="rt"></span>
+              <span class="rb"></span>
+              <span class="lb"></span>
+            </div>
+            <div class="ov-line">
+              <span class="ht"></span>
+              <span class="vr"></span>
+              <span class="hb"></span>
+              <span class="vl"></span>
+            </div>
+          </div>
+          <div class="ov-box-title">暖通空调</div>
+          <div class="ov-air-overview">
+            <div class="air-item">
+              <div class="icon air"><img src="../static/media/image/overview/icon-air.png"></div>
+              <label class="ov-label">空调机组开启量</label>
+              <div class="air-num-wrap">
+                <span class="ov-number lx"><span id="acOpenNum">0</span><span class="unit">台</span></span><span class="ov-line-v"></span><span class="ov-number "><span>5</span><span class="unit">台</span></span>
+              </div>
+              <span class="ov-legend">（开启数/总数）</span>
+            </div>
+            <div class="air-item">
+              <div class="icon fan"><img src="../static/media/image/overview/icon-fan.png"></div>
+              <label class="ov-label">风机盘管开启量</label>
+              <div class="air-num-wrap">
+                <span class="ov-number lx"><span id="atfcOpenNum">0</span><span class="unit">台</span></span><span class="ov-line-v"></span><span class="ov-number "><span>170</span><span class="unit">台</span></span>
+              </div>
+              <span class="ov-legend">（开启数/总数）</span>
+            </div>
+            <div class="air-item">
+              <div class="icon freshAir"><img src="../static/media/image/overview/icon-freshAir.png"></div>
+              <label class="ov-label">新风机组开启量</span></label>
+              <div class="air-num-wrap">
+                <span class="ov-number lx"><span id="atfuOpenNum">0</span><span class="unit">台</span></span><span class="ov-line-v"></span><span class="ov-number "><span>3</span><span class="unit">台</span></span>
+              </div>
+              <span class="ov-legend">（开启数/总数）</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="right-1">
+        <div class="ov-box"  style="height: 100%">
+          <div class="ov-box-deco">
+            <div class="ov-box-angle">
+              <span class="lt"></span>
+              <span class="rt"></span>
+              <span class="rb"></span>
+              <span class="lb"></span>
+            </div>
+            <div class="ov-line">
+              <span class="ht"></span>
+              <span class="vr"></span>
+              <span class="hb"></span>
+              <span class="vl"></span>
+            </div>
+          </div>
+          <div class="ov-box-title">制冰系统</div>
+          <div class="ice-overview">
+            <div class="title">
+              <img class="icon" src="../static/media/image/overview/icon-snow.png">
+              <label class="ov-label">制冰机<span>（开启数/总数）</span></label>
+            </div>
+            <div class="text">
+              <span class="ov-number lx"><span id="astOpenNum">0</span><span class="unit">台</span></span><span class="ov-line-v"></span><span class="ov-number "><span>8</span><span class="unit">台</span></span>
+            </div>
+          </div>
+          <ul id="iceMakerList" class="ov-list ov-ice-list">
+            <!--<li class="ov-list-item">
+              <span>1号制冰机</span>
+              <span class="status">运行</span>
+            </li>
+            <li class="ov-list-item">
+              <span>2号制冰机</span>
+              <span class="status">运行</span>
+            </li>
+            <li class="ov-list-item warning">
+              <span>3号制冰机</span>
+              <span class="status">停止</span>
+            </li>
+            <li class="ov-list-item">
+              <span>4号制冰机</span>
+              <span class="status">运行</span>
+            </li>
+            <li class="ov-list-item">
+              <span>5号制冰机</span>
+              <span class="status">运行</span>
+            </li>
+            <li class="ov-list-item">
+              <span>6号制冰机</span>
+              <span class="status">运行</span>
+            </li>
+            <li class="ov-list-item closed">
+              <span>7号制冰机</span>
+              <span class="status">停止</span>
+            </li>
+            <li class="ov-list-item closed">
+              <span>8号制冰机</span>
+              <span class="status">停止</span>
+            </li>-->
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="bottom">
+      <div class="ov-box" style="height: 100%">
+        <div class="ov-box-deco">
+          <div class="ov-box-angle">
+            <span class="lt"></span>
+            <span class="rt"></span>
+            <span class="rb"></span>
+            <span class="lb"></span>
+          </div>
+          <div class="ov-line">
+            <span class="ht"></span>
+            <span class="vr"></span>
+            <span class="hb"></span>
+            <span class="vl"></span>
+          </div>
+        </div>
+        <div class="ov-box-title">能耗分析</div>
+        <div class="ov-analysis">
+          <ul class="ov-tabs">
+            <li class="ov-tab active" data-type="analysisWater"><span class="ov-check"></span>水</li>
+            <li class="ov-tab" data-type="analysisElectricity"><span class="ov-check"></span>电</li>
+            <!--<li class="ov-tab" data-type="analysisGas"><span class="ov-check"></span>燃气</li>-->
+          </ul>
+          <div class="ov-tab-contents">
+            <div class="ov-tab-content active" data-type="analysisWater">
+              <div class="analysis-item">
+                <div class="analysis-overview">
+                  <label class="ov-label">累计总能耗（水）</label>
+                  <div class="ov-number lx"><span class="totalWater">0</span><span class="unit">t</span></div>
+                  <div class="ov-line-h"></div>
+                  <span style="float: left;width: 50%">
+                      <label class="ov-label">今日能耗<span>（t）</span></label>
+                      <span class="ov-number waterToday">0</span>
+                    </span>
+                  <span class="ov-line-v"></span>
+                  <span style="float: right;width: 50%">
+                      <label class="ov-label">昨日能耗<span>（t）</span></label>
+                      <span class="ov-number waterYesterday">0</span>
+                    </span>
+                </div>
+              </div>
+              <div class="analysis-item">
+                <h5 class="chart-title">今日时段能耗（水）</h5>
+                <!--<h5 class="chart-title">同比昨日能耗（水）</h5>-->
+                <div id="chartBarOfWater" class="chart-box"></div>
+              </div>
+              <div class="analysis-item">
+                <h5 class="chart-title">过去7天能耗走势（水）</h5>
+                <div id="chartLineOfWater" class="chart-box"></div>
+              </div>
+            </div>
+            <div class="ov-tab-content" data-type="analysisElectricity">
+              <div class="analysis-item">
+                <div class="analysis-overview">
+                  <label class="ov-label">累计总能耗（电）</label>
+                  <div class="ov-number lx"><span class="totalelec">0</span><span class="unit">kW·h</span></div>
+                  <div class="ov-line-h"></div>
+                  <span style="float: left;width: 50%">
+                      <label class="ov-label">今日能耗<span>（kW·h）</span></label>
+                      <span class="ov-number energyToday">0</span>
+                    </span>
+                  <span class="ov-line-v"></span>
+                  <span style="float: right;width: 50%">
+                      <label class="ov-label">昨日能耗<span>（kW·h）</span></label>
+                      <span class="ov-number energyYesterday">0</span>
+                    </span>
+                </div>
+              </div>
+              <div class="analysis-item">
+                <h5 class="chart-title">今日时段能耗（电）</h5>
+                <!--<h5 class="chart-title">同比昨日能耗（电）</h5>-->
+                <div id="chartBarOfElec" class="chart-box"></div>
+              </div>
+              <div class="analysis-item">
+                <h5 class="chart-title">过去7天能耗走势（电）</h5>
+                <div id="chartLineOfElec" class="chart-box"></div>
+              </div>
+            </div>
+            <!--<div class="ov-tab-content" data-type="analysisGas">
+              <div class="analysis-item">
+                <div class="analysis-overview">
+                  <label class="ov-label">累计总能耗（燃气）</label>
+                  <div class="ov-number lx"><span>65,232</span><span class="unit">M³</span></div>
+                  <div class="ov-line-h"></div>
+                  <span style="float: left;width: 50%">
+                      <label class="ov-label">今日能耗<span>（M³）</span></label>
+                      <span class="ov-number">4349</span>
+                    </span>
+                  <span class="ov-line-v"></span>
+                  <span style="float: right;width: 50%">
+                      <label class="ov-label">昨日能耗<span>（M³）</span></label>
+                      <span class="ov-number">4349</span>
+                    </span>
+                </div>
+              </div>
+              <div class="analysis-item">
+                <h5 class="chart-title">同比昨日能耗（燃气）</h5>
+                <div id="chartBarOfGas" class="chart-box"></div>
+              </div>
+              <div class="analysis-item">
+                <h5 class="chart-title">过去7天能耗走势（燃气）</h5>
+                <div id="chartLineOfGas" class="chart-box"></div>
+              </div>
+            </div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../static/media/js/overview.js" type="text/javascript"></script>
+<script src="../config/config.js" type="text/javascript"></script>
+<script>
+  $(document).ready(function() {
+    changeTabs()
+  });
+
+  var webSocket = null;
+  if('WebSocket' in window){
+    webSocket = new WebSocket(websocketWS);
+  }else{
+    alert('Not support websocket')
+  }
+  webSocket.onerror = function (event) {
+    onError(event);
+  };
+  webSocket.onopen = function (event) {
+    onOpen(event);
+  };
+  webSocket.onmessage = function(event){
+    onMessage(event);
+  }
+  function onError(event){
+    console.log(event)
+  }
+  function onOpen(event){
+    // webSocket.send();// 握手信息
+  }
+  function onMessage(event){
+    var data = JSON.parse(event.data);
+    console.log(data)
+    if (data.type == 1){
+      // 报警信息
+      createAlarmList(data.almDockingData)
+    }else if(data.type == 2){
+      // 能耗总量
+      $(".totalelec").text(toThousands(data.overview.totalelec))
+      $(".totalWater").text(toThousands(data.overview.totalWater))
+
+      // 设备开启量
+      $("#acOpenNum").text(data.overview.acOpenNum); //空调
+      $("#astOpenNum").text(data.overview.astOpenNum);// 制冰机
+      $("#atfcOpenNum").text(data.overview.atfcOpenNum); // 风机盘管
+      $("#atfuOpenNum").text(data.overview.atfuOpenNum); // 新风机组
+
+      // 温度
+      setGaugeTemp(data.overview.averageT.toFixed(1),'overview');
+      // 湿度
+      setGaugeHumidity(data.overview.averageH.toFixed(1),'overview');
+      // PM2.5
+      setGaugePM25(data.overview.averagePM25.toFixed(0),'overview');
+      // CO2
+      setGaugeCO2(data.overview.averageCO2.toFixed(0),'overview');
+
+      // 制冰机运行状态
+      createIceMakerList(data.iceMakerList)
+
+    }else if(data.type == 3){
+      // 进出场
+    }else if(data.type == 4){
+      // 近7天
+      setElecDayData(data.energyDay,'total');
+
+      // 日消耗
+      setElecHourData(data.energyHour,'total');
+
+      // 当日累计 电
+      $(".energyToday").text(data.energyToday.total.toFixed(0));
+
+      // 昨日累计 电
+      $(".energyYesterday").text(data.energyYesterday.total.toFixed(0));
+
+    }else if(data.type == 5){
+      // 近7天
+      setWaterDayData(data.waterDay,'total');
+
+      // 日消耗
+      setWaterHourData(data.waterHour,'total');
+
+      // 当日累计 水
+      $(".waterToday").text(data.waterToday.total.toFixed(0));
+
+      // 昨日累计 水
+      $(".waterYesterday").text(data.waterYesterday.total.toFixed(0));
+    }
+  }
+
+  function createIceMakerList(data) {
+    $("#iceMakerList").empty();
+    if(!data.length) return
+    for(var i=0;i<data.length;i++){
+      var item = data[i],
+        status = item.status,
+      statusClass = '';
+      if(status == '0'){
+        status = '运行';
+        statusClass = ''
+      }else {
+        status = '停止'
+        statusClass = 'closed'
+      }
+
+      var html = '<li class="ov-list-item '+statusClass+'">' +
+        '              <span>'+item.name+'</span>' +
+        '              <span class="status">'+status+'</span>' +
+        '            </li>';
+      $("#iceMakerList").append(html)
+    }
+  }
+
+</script>
+</body>
+</html>

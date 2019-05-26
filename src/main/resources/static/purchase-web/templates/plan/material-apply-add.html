@@ -1,0 +1,13 @@
+<div class="form-inline js-materiel-list">
+    {{each items as item}}
+        {{if item.isChecked}}
+        <div class="form-group">
+            <input type="checkbox" class="warn-btn" data-applycount="1" data-matname="{{item.matName}}" data-matspec="{{item.spec}}" data-mattypecode="{{item.matTypeCode}}" data-mattypename="{{item.getMatName}}" data-mattypeid="{{item.id}}" data-isChecked="true" checked>&nbsp;{{item.matName}}
+        </div>
+        {{else}}
+        <div class="form-group">
+            <input type="checkbox" class="warn-btn" data-applycount="1" data-matname="{{item.matName}}" data-matspec="{{item.spec}}" data-mattypecode="{{item.matTypeCode}}" data-mattypename="{{item.getMatName}}" data-mattypeid="{{item.id}}" data-isChecked="false">&nbsp;{{item.matName}}
+        </div>
+        {{/if}}
+    {{/each}}
+    </div>

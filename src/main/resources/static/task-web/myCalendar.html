@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>任务执行管理</title>
+    <link rel="stylesheet" href="css/default.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        *{
+            margin: 0px;  
+            padding: 0px;  
+        }
+        ul,li{
+            list-style: none;
+        }
+        ul{
+            width: 100%;
+        }
+        li{
+            width: 14.28%;
+            float: left;
+            height: 130px;
+            border-top: 3px solid #3A84C4;
+            border-right: 2px solid #DEDDDD;
+            text-align: right;
+        }
+        ul li:last-of-type{
+            border-right: none;
+        }
+        .weekTittle li{
+            border: none;
+            height: 20px;
+            color: #999999;
+            text-align: center;
+        }
+        .curDate{
+            color: #999999;
+        }
+        .fl{
+            float: left;
+        }
+        .fr{
+            float: right;
+        }
+        .select-ul .select-date-li{
+            width: 74px;
+            height:24px;
+            line-height: 24px;
+            border: 1px solid #3A84C4;
+            color: #3A84C4;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+        }
+        .select-ul .select-date-li.js-cur-date{
+            background-color: #3A84C4;
+            width: 48px;
+            color: white;
+        }
+        .nowDay{
+            background-color: #E5F3FB;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row header">
+        <h4>任务执行结果</h4>
+    </div>
+    <div class="row js-top-date"></div>
+    <div class="calendarOuter">
+        <ul class="weekTittle">
+            <li>星期日</li> 
+            <li>星期一</li>
+            <li>星期二</li>
+            <li>星期三</li>
+            <li>星期四</li>
+            <li>星期五</li>
+            <li>星期六</li>
+        </ul>
+    </div> 
+</div>
+<script src="js/lib/jquery.min.js"></script>
+<script src="js/lib/bootstrap.min.js"></script>
+<script src="js/lib/bootstrap-datetimepicker.min.js"></script>
+<script src="js/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="js/server/template.js"></script>
+<script src="../config/config.js"></script>
+<script src="js/server/utils.js"></script>
+<script src="js/controller/result/myCalendar.js"></script>
+</body>
+</html>

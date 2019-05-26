@@ -1,0 +1,58 @@
+{{each items as item index}}
+<tr>
+    {{ if index+1 < 10}}
+    <td class="text-center" >0{{index+1}}</td>
+    {{ else }}
+    <td class="text-center" >{{index+1}}</td>
+    {{ /if }}
+    <td><a href="in-detail.html?id={{item.id}}&type={{item.whInStat}}">{{item.whInNo}}</a></td>
+    <!-- 需求单号 -->
+    {{if item.whInType ==1}}
+        <td>{{item.allotName}}</td>
+    {{else}}
+        <td>{{item.orderId}}</td>
+    {{/if}}
+    {{if item.whInType ==1}}
+        <td>调拨入库</td>
+    {{else}}
+        <td>采购入库</td>
+    {{/if}}
+    <td>{{item.whName}}</td>
+    {{if item.whType ==1}}
+        <td>实仓</td>
+    {{else}}
+        <td>虚仓</td>
+    {{/if}}
+    <td>{{item.outDatetime | dateFormat:'yyyy-MM-dd'}}</td>
+    <td>{{item.outEmpName}}</td>
+    {{if item.whInStat ==1}}
+        <td>未入库</td>
+        <td class="text-center act">
+                <a href="edit-in.html?id={{item.id}}&type={{item.whInType}}" class="storageBtn">入库</a>
+                <a href="#" ids="{{item.id}}" class="undoBtn">撤销</a>
+            <!-- <div class="btn-group more">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+                <ul class="dropdown-menu">
+                    <li><a href="edit-in.html?id={{item.id}}&type={{item.whInType}}" class="storageBtn">入库</a></li>
+                    <li><a href="#" ids="{{item.id}}" class="undoBtn">撤销</a></li>
+                </ul>
+            </div> -->
+        </td>
+    {{else if item.whInStat ==2}}
+        <td>部分入库</td>
+        <td class="text-center act">
+            <a href="edit-in.html?id={{item.id}}&type={{item.whInType}}" class="storageBtn">入库</a>
+            <!-- <div class="btn-group more">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+                <ul class="dropdown-menu">
+                    <li><a href="edit-in.html?id={{item.id}}&type={{item.whInType}}" class="storageBtn">入库</a></li>
+                </ul>
+            </div> -->
+        </td>
+    {{else}}
+        <td>全部入库</td>
+        <td></td>
+    {{/if}}
+    
+</tr>
+{{/each}}

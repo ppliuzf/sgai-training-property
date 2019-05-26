@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>会议室位置维护</title>
+    <link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row header">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                <h4>会议室位置维护</h4>
+            </div>
+            <div class="btns text-right">
+                <!-- <a href="./location-add.html" class="btn btn-primary add-meeting-room">新建位置</a> -->
+                <button type="button" class="btn btn-primary" onClick="window.open('./location-add.html','_self')">新建位置</button>
+            </div>
+        </div>
+        <!-- <div class="act text-right">
+            <a class="btn btn-primary disabled js-del-multi">批量删除</a>
+        </div> -->
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <!-- <th width="70"><label><input type="checkbox" class="js-list-select-all"> 全选</label></th> -->
+                    <th width="50">序号</th>
+                    <th>位置名称</th>
+                    <th width="50%">描述</th>
+                    <th width="120" class="text-center">操作</th>
+                </tr>
+            </thead>
+            <tbody class="js-list">
+            </tbody>
+        </table>
+        <nav class="text-right pages"></nav>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/location-list.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!--组织树页面结构模板-->
+<div class="dept-selector clearfix">
+    <div class="selector pull-left">
+        <div class="path js-dept-path">
+            <div class="item">
+                <a href="javascript:" class="root" data-id="">关联对象</a>
+            </div>
+        </div>
+        <div class="js-dept-select-all select-all">
+            <label><input type="checkbox" class="select-all-inp"> 全选</label>
+        </div>
+        <div class="content">
+            <ul class="js-dept-tree"></ul>
+            <ul class="js-dept-search-result"></ul>
+        </div>
+        <div class="js-dept-cover cover"></div>
+    </div>
+    <div class="shower pull-right">
+        <div class="shower-content">
+            <div class="header">已选择</div>
+            <ul class="js-dept-shower"></ul>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    .dept-selector .path{
+        padding-top: 10px;
+    }
+    /*.dept-selector .content{*/
+        /*top: 50px;*/
+    /*}*/
+</style>

@@ -1,0 +1,171 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store"> 
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css"
+	type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js"
+	type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css"
+	type="text/css" rel="stylesheet"> 
+<!--分页  -->	
+<script src="../static/paginator/bootstrap-paginator.js" type="text/javascript"></script>
+<!-- 公共样式表	 -->
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js"
+	type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css"
+	type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js"
+	type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css"
+	rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js"
+	type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js"
+	type="text/javascript"></script>
+<link href="../static/My97DatePicker/skin/WdatePicker.css"
+	rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css"
+	rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../config/smart-common.js"
+	type="text/javascript"></script>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='../static';</script>
+    <title>设备型号</title>
+    <meta name="decorator" content="default">
+</head>
+<body>
+<div class="table_fluid">
+	<table id="privilegeTabless" class="table table-bordered">
+      <thead>
+        <tr>
+          <th></th>
+          <th>型号代码</th>
+          <th>型号名称</th>
+        </tr>
+      </thead>
+    </table>
+ </div>
+<script type="text/javascript">
+var classCode=GetQueryString("classCode");
+        function pageload(n, s){
+			if(classCode == ""){
+				$.jBox.alert("请选择设备分类！","提示");
+				return false;
+			}
+            $('#myModal').modal('show');
+            //删除旧tbody
+            var contentTableSub = document.getElementById("privilegeTabless");
+            var oldTbody = document.getElementById("privilegeTbodyss");
+            if (oldTbody != null) {
+                contentTableSub.removeChild(oldTbody);
+            }
+            //添加新tbody
+            $.ajax({
+                headers    : {
+                    "token" : localStorage.getItem("token"),
+                },
+                url : APIHost + "/admin/mdm/devicesmodel/mdmDevicesModel/getListDevicesModel?classCode=" + classCode,
+                type : 'POST',
+                async : false, //或false,是否异步
+                data : {
+                    pageNo : n,
+                    pageSize : s
+                },
+                timeout : 30000,
+                dataType : 'json',
+                success : function(res) {
+                	//向页面拼接分页内容
+    				pageContent(res.data);
+                    var newTbody = document.createElement("tbody");
+                    newTbody.setAttribute("id", "privilegeTbodyss");
+                    var list = res.data.list;
+                    
+                    for (var i = 0; i < list.length; i++) {
+                        var tr = document.createElement("tr");
+                        var td0 = document.createElement("td");
+                        td0.innerHTML = "<input type='radio' name ='optionsRadios' data-code='"+list[i].modelCode+"' value='"+list[i].devicesModel+"'/>"
+                        tr.appendChild(td0);
+                      	//类型代码
+                        var td1 = document.createElement("td");
+                        td1.innerHTML = list[i].modelCode;
+                        tr.appendChild(td1);
+                        
+                      	//类型名称
+                        var td2 = document.createElement("td");
+                        td2.innerHTML = list[i].devicesModel;
+                        tr.appendChild(td2);
+                        
+                        newTbody.appendChild(tr);
+                    }
+                    contentTableSub.appendChild(newTbody);
+                  //table下每一行tr选中高亮
+    				inputCheck();
+    				
+    				//调用操作按钮方法
+    				handelBtn();
+                },
+                error : function() {
+                    console.log('错误')
+                }
+            })
+        }
+        
+        $(document).ready(function() {
+    		//左侧分页内容
+    		pageRightContent();
+    		pageload();
+
+    	});
+        function pageRightContent(){
+        	var pageRightContent='<div class="row-fluid">'
+        		/*+'<h3 class="page-null">暂无数据！</h3>'
+        		+'<div class="page-box span3" style="padding-top: 15px;">'
+        		+'<span id="pageNow"></span><span>-</span><span id="allPage"></span>页&nbsp;&nbsp;<span>共<span id="allNum"></span>项</span>&nbsp;&nbsp;'
+        		+'<select class="page-size">'
+        		+'<option value="10">10</option>'
+        		+'<option value="20">20</option>'
+        		+'<option value="50">50</option>'
+        		+'<select>&nbsp;项/页'
+        		+'</div>'*/
+        		+'<div id="page_div">'
+        		+'</div>'
+        		+'</div>';
+        	$(".table_fluid").append(pageRightContent);
+
+        	$(".page-size").on("change",function(){
+        		pageSize = this.value;
+        		$("#pageSize").val(pageSize);
+        		pageload(page,pageSize);
+        	});
+
+        };
+        function addModuCode(){
+            var length=$("input[name ='optionsRadios']:checked").length;
+            if(length==0){
+                $.jBox.alert("请设备分类！","提示");
+            }else{
+                var devicesModel = $("input[name ='optionsRadios']:checked").val();
+                var modelCode = $("input[name ='optionsRadios']:checked").attr("data-code");
+                window.localStorage.setItem("devicesModel",devicesModel);
+                window.localStorage.setItem("modelCode",modelCode);
+                $('#myModalTable .close', window.parent.document).click();
+            }   
+        }
+        
+        //获取跳转地址的参数
+        function GetQueryString(name){
+    	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+    	     var r = window.location.search.substr(1).match(reg);
+    	     if(r!=null)return  unescape(r[2]); return null;
+    	}
+	</script>
+</body>
+</html>

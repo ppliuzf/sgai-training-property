@@ -1,0 +1,71 @@
+{{each items as item index}}
+<tr data-id="{{item.id}}">
+    {{ if index+1
+    < 10}} <td class="text-center">0{{index+1}}</td>
+        {{ else }}
+        <td class="text-center">{{index+1}}</td>
+        {{ /if }}
+        <td>
+            <a class="underline detailMy point" data-id="{{item.ivtNo}}" data-state="{{item.matStat}}">{{item.ivtNo}}</a>
+        </td>
+        <td class="wrap">
+            {{if item.ivtTitle}} {{item.ivtTitle}} {{else}} -- {{/if}}
+        </td>
+        <td>
+            {{item.ivtPlanBegin | dateFormat:'yyyy-MM-dd hh:mm:ss'}}
+        </td>
+        <td>
+            {{item.ivtPlanEnd | dateFormat:'yyyy-MM-dd hh:mm:ss'}}
+        </td>
+        <td>
+            {{item.ivtExecBegin | dateFormat:'yyyy-MM-dd hh:mm:ss'}}
+        </td>
+        <td>
+            {{item.ivtExecEnd | dateFormat:'yyyy-MM-dd hh:mm:ss'}}
+        </td>
+        <td>
+            {{if item.matStat == 1}} 未开始 {{else if item.matStat == 2}} 盘点中 {{else}} 已完成 {{/if}}
+        </td>
+        <!-- 盘点ren -->
+        <td>
+            {{item.gg}}
+        </td>
+        <!-- 执行人 -->
+        <td>
+            {{item.ivtExecEmpName}}
+        </td>
+        <td class="actList js-act text-center act">
+            {{if item.matStat !== 3}} {{if item.matStat == 1}}
+            <a class="js-act1 underline curs" data-id="{{item.ivtNo}}" data-state="{{item.matStat}}">执行</a>
+            <a class="js-edit underline curs" data-id="{{item.ivtNo}}">编辑</a>
+            <a class="js-del underline curs" data-id="{{item.ivtNo}}">删除</a>
+            {{else}}
+            <a class="js-act1 underline curs" data-id="{{item.ivtNo}}" data-state="{{item.matStat}}">执行</a>
+            {{/if}}
+            <!-- <div class="btn-group more">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多
+            </button>
+            <ul class="dropdown-menu">
+                {{if item.matStat == 1}}
+                <li>
+                    <a class="js-act1 underline"  data-id="{{item.id}}" data-state="{{item.matStat}}">执行</a>
+                </li>
+                <li>
+                    <a class="js-edit underline" data-id="{{item.id}}">编辑</a>
+                </li>
+                <li>
+                    <a class="js-del underline" data-id="{{item.id}}">删除
+
+                    </a>
+                </li>
+                {{else}}
+                <li>
+                    <a class="js-act1 underline" data-id="{{item.id}}" data-state="{{item.matStat}}">执行</a>
+                </li>
+                {{/if}}
+            </ul>
+        </div> -->
+            {{/if}}
+        </td>
+</tr>
+{{/each}}

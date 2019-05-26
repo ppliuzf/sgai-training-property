@@ -1,0 +1,44 @@
+{{each items.planStageVoList as item}}
+{{if items.planStageVoList.length > 1}}
+<tr><td colspan="9"><h5><b>{{item.stageName}}</b></h5></td></tr>
+{{/if}}
+{{each item.planTaskVoList as task}}
+<tr class="item sort-{{item.id}} {{task.id}}" data-id="{{task.id}}">
+    {{if items.status == 'dtj'}}
+    <td><a href="purchase-plan-apply-add.html?rwId={{task.id}}&id={{items.id}}">{{task.taskPuchaseName || "--"}}</a></td>
+    {{else}}
+    <td>{{task.taskPuchaseName || "--"}}</td>
+    {{/if}}
+    <td>{{task.taskNo || "--"}}</td>
+    <td>{{task.taskPurchaseDate  | dateFormat: 'yyyy-MM-dd'}}</td>
+    <td>{{task.taskEndDate | dateFormat: 'yyyy-MM-dd'}}</td>
+    <td>{{task.taskEmpName || "--"}}</td>
+    <td>{{task.taskDate  | dateFormat: 'yyyy-MM-dd'}}</td>
+    {{if items.status == 'dtj'}}
+    <td class="text-center">
+        <!-- <div class="btn-group more">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+            <ul class="dropdown-menu">
+                {{if  task.taskNeedStatus != '1'}}
+                    <li><a class="js-del underline" data-taId="{{task.id}}">移除</a></li>
+                {{/if}}
+                <li><a class="js-down underline js-movedown" data-id="{{task.id}}">下移</a></li>
+                <li><a class="js-up underline" data-id="{{task.id}}">上移</a></li>
+                <li><a class="js-moveto underline" data-id="{{task.id}}">移动至</a></li>
+            </ul>
+        </div> -->
+        {{if  task.taskNeedStatus != '1'}}
+            <a class="js-del underline" data-taId="{{task.id}}">移除</a>
+        {{/if}}
+        <a class="js-down underline js-movedown" data-id="{{task.id}}">下移</a>
+        <a class="js-up underline" data-id="{{task.id}}">上移</a>
+        <a class="js-moveto underline" data-id="{{task.id}}">移动至</a>
+    </td>
+    {{else}}
+    <td class="js-act text-center act">
+        <a class="underline js-detail" data-id="{{task.id}}">采购详情</a>
+    </td>
+    {{/if}}
+</tr>
+{{/each}}
+{{/each}}

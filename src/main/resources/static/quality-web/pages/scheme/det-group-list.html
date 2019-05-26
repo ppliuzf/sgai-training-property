@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>品质管理-检验项分组</title>
+    <link rel="stylesheet" href="../../css/default.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        .title {
+            font-size: 16px;
+        }
+
+        .filter {
+            margin: 20px 0;
+        }
+
+        .form-group, .form-control {
+            width: 100% !important;
+            margin: 0;
+        }
+
+        .disabled {
+            color: #777e8c;
+        }
+
+        .average {
+            width: 20%;
+            text-align: left;
+        }
+
+        .table {
+            margin-bottom: 30px;
+        }
+
+        tbody {
+            border-bottom: #ddd 1px solid;
+        }
+
+        .myBtn {
+            height: 42px;
+            width: 200px;
+            text-align: left;
+            color: #3F94FC;
+            border: none;
+            outline: none;
+            /*background-color: #f6f5f5;*/
+            background-color: #fff;
+        }
+
+        .form-inline .form-group {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row header">
+        <h4>检验项分组</h4>
+        <div class="btns text-right">
+            <button class="btn btn-default js-btn-back">返回</button>
+        </div>
+    </div>
+    <div class="js-main">
+        <p class="title">可关联检验项</p>
+        <div class="p-sort det-group-list"></div>
+        <button type="button" class="myBtn" data-toggle="modal" data-target="#createGroup">
+            <span class="glyphicon glyphicon-plus circle"></span>
+            <span>新建组</span>
+        </button>
+    </div>
+</div>
+<!-- 新建浮层 -->
+<div class="modal fade" id="createGroup" tabindex="-1" role="dialog" aria-labelledby="createGroupLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="createGroupLabel">请输入组名称</h4>
+            </div>
+            <div class="modal-body">
+                <div class="filter">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="groupName" name="groupName" maxlength="10"
+                                   placeholder="请输入组名称">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary js-add-group">保存</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 移动至浮层 -->
+<div class="modal fade" id="moveToGroup" tabindex="-1" role="dialog" aria-labelledby="moveToGroupLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="moveToGroupLabel">移动至</h4>
+            </div>
+            <div class="modal-body">
+                <select id="moveGroup" class="js-move-group form-control" name="moveGroup"></select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary js-move-det">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../js/lib/jquery.min.js"></script>
+<script src="../../js/lib/bootstrap.min.js"></script>
+<script src="../../js/lib/lightbox.min.js"></script>
+<script src="../../js/server/template.js"></script>
+<script src="../../../config/config.js"></script>
+<script src="../../js/server/utils.js"></script>
+<script src="../../js/controller/scheme/det-group-list.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{{each items as item index}}
+<tr>
+    {{if (index+1)<10}}
+    <td class="text-center">{{'0'+(index+1)}}</td>
+    {{else}}
+    <td class="text-center">{{index+1}}</td>
+    {{/if}}
+    <!-- 编号 -->
+    <td>{{item.whNo}}</td>
+    <!-- 仓库名称 -->
+    <td>{{item.whName}}</td>
+    <!-- 仓库类型 -->
+    {{if item.whType == 1}}
+    <td>实仓</td>
+    {{else if item.whType == 2}}
+    <td>虚仓</td>
+    {{/if}}
+    <!-- 仓库地址 -->
+    {{if item.whAddress}}
+    <td>{{item.whAddress}}</td>
+    {{else}}
+    <td>--</td>
+    
+    {{/if}}
+    <!-- 仓库GIS -->
+    {{if item.whLatitude && item.whLongitude}}
+    <td>{{item.whLatitude}},{{item.whLongitude}}</td>
+    {{else}}
+    <td>--</td>
+    {{/if}}
+    <!-- 物料编号 -->
+    <td></td>
+    <!-- 物料名称 -->
+    <td>{{item.matName}}</td>
+    <!-- 帐存数量 -->
+    <td>{{item.matNum}}</td>
+    
+</tr>
+{{/each}}

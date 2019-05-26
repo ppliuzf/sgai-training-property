@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>客户档案</title>
+    <link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/css/easyui.css">
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>客户详情</h4>
+            <div class="btns text-right">
+                <!-- <a href="./archives-list.html" class="btn btn-default">返回</a> -->
+                <button onclick="window.location.href='./archives-list.html'" class="btn btn-default">返回</button>
+            </div>
+        </div>
+        <div class="">
+            <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h5>基本信息</h5>
+            </div> -->
+            <div class="js-detail"></div>
+        </div>
+        <ul class="nav nav-tabs">
+            <li role="presentation" class="active">
+                <button href="#">证件信息</button>
+            </li>
+            <li role="presentation">
+                <button href="#">事件信息</button>
+            </li>
+            <li role="presentation">
+                <button href="#">车辆信息</button>
+            </li>
+        </ul>
+        <div class="js-tabs-items">
+            <div class="js-tab-item">
+                <div class="text-right">
+                    <button class="btn btn-primary js-card-add">新增证件</button>             
+                </div>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th width="60" class="text-center">编号</th>
+                            <th>证件类型</th>
+                            <th>证件号码</th>
+                            <th width="92" class="text-center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody class="js-cards"></tbody>
+                </table>
+            </div>
+            <div class="js-tab-item hide">
+                <div class="text-right">
+                    <button class="btn btn-primary js-event-add">新增事件</button>
+                </div>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th width="60" class="text-center">序号</th>
+                            <th>编号</th>
+                            <th>类别</th>
+                            <th>类型</th>
+                            <th>联系人</th>
+                            <th>联系电话</th>
+                            <th>创建时间</th>
+                            <th>状态</th>
+                            <th width="140" class="text-center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody class="js-events"></tbody>
+                </table>
+            </div>
+            <div class="js-tab-item hide">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th width="60" class="text-center">编号</th>
+                            <th>车牌号码</th>
+                            <th>车辆品牌</th>
+                            <th>车辆型号</th>
+                            <th>车辆颜色</th>
+                            <th>荷载人数</th>
+                            <!-- <th width="92" class="text-center">操作</th> -->
+                        </tr>
+                    </thead>
+                    <tbody class="js-cars"></tbody>
+                </table>
+                <nav class="text-right pages"></nav>
+            </div>
+        </div>
+
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="../lib/lib/bootstrap-datetimepicker.min.js"></script>
+    <script src="../lib/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="../config/config.js"></script>
+    <script type="text/javascript" src="../lib/lib/jquery.easyui.min.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/archives-detail.js"></script>
+</body>
+
+</html>

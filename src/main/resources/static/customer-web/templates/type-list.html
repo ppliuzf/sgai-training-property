@@ -1,0 +1,26 @@
+{{each items as item idx}}
+<tr>
+    <td class="text-center">{{idx | fillZero}}</td>
+    <td>{{item.typeName}}</td>
+    <td>{{item.typeDesc}}</td>
+    <!-- <td class="text-center act">
+        <div class="btn-group more">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+            <ul class="dropdown-menu">
+                <li><a href="./type-add.html?id={{item.ctId}}">编辑</a></li>
+                <li>
+                    {{if item.typeStatus === 1}}
+                    <a href="#" data-id="{{item.ctId}}" class="js-del">删除</a>
+                    {{/if}}
+                </li>
+            </ul>
+        </div>
+    </td> -->
+    <td class="text-center">
+        <a href="./type-add.html?id={{item.ctId}}" class="js-edit" data-id="1">编辑</a>
+        {{if item.typeStatus === 1}}
+        <a href="#" data-id="{{item.ctId}}" class="js-del">删除</a>
+        {{/if}}
+    </td>
+</tr>
+{{/each}}

@@ -1,0 +1,32 @@
+<table>
+        <tbody>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">入库单类型</td>
+                <td class="col-lg-5 col-md-5 col-sm-5 value">
+                    {{if items.whInType == 1}}
+                        调拨入库
+                    {{else}}
+                        采购入库
+                    {{/if}}</td>
+                {{if items.whInType == 1}}
+                    <td class="col-lg-1 col-md-1 col-sm-1 text-center">调拨单</td>
+                    <td class="col-lg-5 col-md-5 col-sm-5 value">{{items.allotName}}</td>
+                {{else}}
+                    <td class="col-lg-1 col-md-1 col-sm-1 text-center">采购单</td>
+                    <td class="col-lg-5 col-md-5 col-sm-5 value">{{items.orderName}}</td>
+                {{/if}}
+            </tr>
+            <tr>
+                <td class="text-center">仓库类型</td>
+                <td class="value">
+                    {{if items.whType == 1}}
+                        实仓
+                    {{else}}
+                        虚仓
+                    {{/if}}</td>
+                <td class="text-center">仓库名称</td>
+                <td class="value">{{items.whName}}</td>
+            </tr>
+        </tbody>
+    </table>
+    

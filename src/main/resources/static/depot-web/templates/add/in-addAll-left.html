@@ -1,0 +1,51 @@
+<div class="outOrder">
+        <ul>
+            {{if statu && items}}
+                {{if statu == 1}}
+                {{each items as item}}
+                    <li data-id={{item.id}}>
+                        <label>
+                            <input type="checkbox">
+                            <span>{{item.allotNo}}</span>
+                        </label>
+                        <a href="javascript:void(0);" class="js-out  right">入库</a>
+                    </li>
+                {{/each}}
+                {{else}}
+                    {{each items as item}}
+                    <li data-id={{item.id}}>
+                        <label>
+                            <input type="checkbox">
+                            <span>{{item.orderNo}}</span>
+                        </label>
+                        <a href="javascript:void(0);" class="js-out  right">入库</a>
+                    </li>
+                    {{/each}}
+                {{/if}}
+            {{else}}
+                <li style="text-align:center;">暂无入库单数据</li>
+            {{/if}}
+        </ul>
+    </div>
+    <style>
+        .outOrder{
+            height: 600px;
+            overflow: auto;
+            margin-bottom: 15px;
+        }
+        ul,li{
+            list-style: none;
+            padding: 0;
+        }
+        .right{
+            float:right;
+            margin-right:10px;
+        }
+        a.checked.js-out{
+            color: #0099FF;
+        }
+        a.js-out{
+            color: #aaa;
+        }
+    </style>
+    

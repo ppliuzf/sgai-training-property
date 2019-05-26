@@ -1,0 +1,212 @@
+ <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<div id="cal-day-box">
+	<div class="row-fluid clearfix cal-row-head">
+		<div class="span1 col-xs-1 cal-cell"><%= cal.locale.time %></div>
+		<div class="span11 col-xs-11 cal-cell"><%= cal.locale.events %></div>
+	</div>
+	<% if(all_day.length) {%>
+		<div class="row-fluid clearfix cal-day-hour">
+			<div class="span1 col-xs-1"><b><%= cal.locale.all_day %></b></div>
+			<div>
+	        <button type="button" id="order"  class='btn btn-info btn-xs'  onclick='showOrder(this)'><font size="1">指令</font></button>
+	        </div>
+			<div class="span11 col-xs-11">
+				<% _.each(all_day, function(event){ %>
+					<div class="day-highlight dh-<%= event['class'] %>">
+					<% if (event.status ==3) { %>
+				    <font size="1"><%= event.title %>&nbsp;&nbsp;</font><br>
+					<% } else if(event.status ==0) {%>
+					 <a href="<%= event.url ? event.url : 'javascript:void(0)' %>" id="<%= event.id %>" class="<%= event['class'] %>"
+					class="pull-left event <%= event['class'] %>" data-toggle="tooltip" itemId="<%= event.calendarId %>" onclick='showModelDetails(this)'><font size="1" style="color:red"><%= event.title %>&nbsp;&nbsp;</font></a><br>
+					<% } else if(event.status ==1) {%>
+					 <a href="<%= event.url ? event.url : 'javascript:void(0)' %>" id="<%= event.id %>" class="<%= event['class'] %>"
+					class="pull-left event <%= event['class'] %>" data-toggle="tooltip" itemId="<%= event.calendarId %>" onclick='showModelDetails(this)'><font size="1" style="color:green"><%= event.title %>&nbsp;&nbsp;</font></a><br>
+					<% }%>
+					</div>
+				<% }); %>
+			</div>
+		</div>
+	<% }; %>
+</div>
+	<div class="modal fade"  id="temporaryModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
+	    <div class="modal-dialog" style="width:100%;border-radius:10px;padding-right:300px">
+	        <div class="modal-content" style="border-radius:10px;">
+	            <div class="modal-header" style="background-color:#337ab7 !important;">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="closeModal">×</button>
+	                <h4 class="modal-title" id="myTemporaryModel"></h4>
+	            </div>
+	            <input type="hidden"  id="workmodelIds" name="workmodelIds"> 
+	           
+	            <div class="modal-body" style="padding-left:25%;padding-right:25%">
+				<form  id="workModelform" class="form-horizontal">
+						<input type="hidden" id="workModelId_1" name="id">
+						<input type="hidden" id="date" name="date">
+						<div class="form-group" style="margin-bottom:3px;">
+							<label class="col-sm-2 control-label" for="workModeName">模式名称</label>
+							<div class="col-sm-8">
+							<select class="form-control" id="modelTemplateId_1" name="modelTemplateId" > 
+						    </select>
+							</div>
+						</div>
+						<div class="form-group" id="newTimeStart_1" style="margin-bottom:3px;">
+							<label class="col-sm-2 control-label" for="timeStart">开始时间</label>
+							<div class="col-sm-8">
+							<input class="form-control"  type="text" id="timeStart_1" name="timeStart" onclick="WdatePicker({dateFmt:'HH:mm',isShowClear:false})">
+							</div>
+						</div>
+						<div class="form-group" id="newTimeEnd_1" style="margin-bottom:3px;">
+							<label class="col-sm-2 control-label" for="timeEnd">结束时间</label>
+							<div class="col-sm-8">
+							<input class="form-control"  type="text" id="timeEnd_1" name="timeEnd" onclick="WdatePicker({dateFmt:'HH:mm',isShowClear:false})">
+							</div>
+						</div>
+	             		</form>
+	
+				</div>
+	            <div class="modal-footer butCenter" style="text-align: center;">
+	                <button type="button" class="btn btn-primary" onclick="saveTimeModel()">提交</button>
+	            	<button type="button" class="btn btn-default" onclick="closePopUp()" data-dismiss="modal">关闭</button>
+	            </div>
+				</div> 
+	        </div>
+	    </div>
+       <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		 <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h4 id="myModalLabel">设备管理</h3>
+		 </div>
+		<div class="modal-body">
+	  		<iframe id="Iframe"></iframe>
+	    </div>
+	</div>
+	<div id="myModal2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width:80%;">
+		 <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h4 id="myModalLabel">指令管理</h3>
+		 </div>
+		<div class="modal-body">
+	  		<iframe id="Iframe2"></iframe>
+	    </div>
+	</div>
+<Script type="text/javascript"> 
+	function showModelDetails(index){
+		editItem(index,'itemId','ruag/ruagWorkModelTree','myModal','Iframe',600,337);
+	}
+	function showOrder(index){
+		editItem(index,'itemId','ruag/ruagDeviceCalendarInstctionListDay','myModal2','Iframe2',1000,400);
+	}
+	//模式日历添加
+	var date
+    temporaryModel = function(dateTime){
+		$("#temporaryModel").css("display","block");
+    	date=dateTime;
+		var nowDate=new Date(getMyDate(new Date().getTime())).getTime();
+		var calendarDate=new Date(date).getTime();
+		if(calendarDate<nowDate){
+			$("#Temporary").attr({"disabled":"disabled"});
+		}else{
+    	$("#temporaryModel").modal({
+    		keyboard:true
+    	});
+    }
+    	showTemporaryModels();
+    }
+	function showTemporaryModels(){
+		$.ajax({
+			  headers : {
+	                 "token" : localStorage.getItem("token"),
+	             },   
+			url : APIHost+'/ruag/ruag/ruagModelTemplate/getList',
+			type : 'POST',
+			async : false, //或false,是否异步
+			data : {
+				"controlCode":"time",
+				
+			},
+			timeout : 5000,
+			dataType : 'json',
+			success : function(res) {
+				if(res.code === 1000){
+				//成功返回
+				$("#modelTemplateId_1").empty();
+				$("#modelTemplateId_1").append("<option value=''></option>");
+				var data = res.data;
+				for(var i=0;i<data.length;i++){
+    				$("#modelTemplateId_1").append("<option value='"+data[i].id+"'>"+data[i].workModeName+"</option>");
+    			}
+			}else if(res.code ===1003){
+						//没有登录状态
+						$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+							{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+					}else if(res.code === 1002){
+						//发生异常
+						$.jBox.alert(res.msg);
+					}else if(res.code === 1004){
+						//结果为空
+						$.jBox.alert(res.msg);
+					}
+			},
+			error : function() {
+				console.log('错误')
+			}
+		})
+	}
+	function saveTimeModel(){
+    	$.ajax({
+			headers : {"token" : localStorage.getItem("token")},
+			url : APIHost + '/ruag/ruag/ruagModelCalendar/saveTimeModel',
+			type : 'POST',
+			async : false,
+			data : {
+				 date:date,
+				 modelTemplateId:$("#modelTemplateId_1").val(),
+				 timeStart:$("#timeStart_1").val(),
+				 timeEnd:$("#timeEnd_1").val(),
+			},
+			timeout : 5000,
+			dataType : 'json',
+			success : function(res) {
+				if(res.code === 1000){
+					if(res.data.msg=="success"){
+						//提示删除成功
+						$.jBox.alert('新建成功', '提示',{ closed: function ()
+							{window.location.href= APIHost + "/ruag/ruagModelCalendar.html";}});
+					}
+				}else if(res.code ===1003){
+					//没有登录状态
+					$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+						{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+				}else if(res.code === 1002){
+					//发生异常
+					$.jBox.alert(res.msg);
+				}else if(res.code === 1004){
+					//结果为空
+					$.jBox.alert(res.msg);
+				}
+			},
+			error : function() {
+				console.log('错误')
+			}
+		});
+    }
+	 // 关闭弹框
+    function closePopUp(){
+       $('#temporaryModel .close', window.parent.document).click();
+    }
+    //获得年月日      得到日期oTime  
+    function getMyDate(str){  
+        var oDate = new Date(str),  
+        oYear = oDate.getFullYear(),  
+        oMonth = oDate.getMonth()+1,  
+        oDay = oDate.getDate(),  
+        oTime = oYear +'-'+ getzf(oMonth) +'-'+ getzf(oDay) ;//最后拼接时间  
+        return oTime;  
+    };  
+    //补0操作  
+    function getzf(num){  
+        if(parseInt(num) < 10){  
+            num = '0'+num;  
+        }  
+        return num;  
+    }   
+</script>

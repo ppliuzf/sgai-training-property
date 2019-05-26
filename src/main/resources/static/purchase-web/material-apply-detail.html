@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>用料申请</title>
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+<body>
+     <div class="container-fluid">
+        <div class="row header">
+            <div class="js-title">
+                <h4>用料申请</h4>
+            </div>
+            <div class="btns text-right js-btn1">
+                <button type="button" class="btn btn-primary js-bj">编辑</button>
+                <button type="button" class="btn btn-primary js-bt-ch">撤回</button>
+                <button type="submit" class="btn btn-default js-back">返回</button>
+            </div>
+            <div class="btns text-right js-btn2 hide">
+                    <button type="button" class="btn btn-primary js-lq">领取用料</button>
+                    <button type="submit" class="btn btn-default js-back">返回</button>
+                </div>
+            <div class="btns text-right hide js-btn3">
+                <button type="submit" class="btn btn-default js-back">返回</button>
+            </div>
+        </div>       
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 js-main infos-detail" id="order">
+        </div>
+        <div class="col-xs-12 col-sm-11 col-md-12 col-lg-12 js-main">
+            <h4 class="pt15">物料明细</h4>
+            <div class="pt15">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr class="active">
+                            <th class="text-center" width="60">序号</th>
+                            <th>物料名称</th>
+                            <th>物料数量</th>
+                            <th>规格</th>
+                        </tr>
+                    </thead>
+                    <tbody class="js-list" id="materielList"></tbody>
+                </table>
+                <nav class="text-right pages"></nav>
+            </div>
+        </div>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="../lib/lib/lightbox.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/material-apply-detail.js"></script>
+</body>
+</html>

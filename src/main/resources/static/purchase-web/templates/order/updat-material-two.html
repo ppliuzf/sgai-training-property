@@ -1,0 +1,31 @@
+<div class="h350">
+    <table class="table table-bordered table-hover" id="tableList">
+        {{each items.matDetailVoList as item}}
+        
+        <tr >
+            <td class="valignM">
+                <!-- <div class="col-sm-4"><img src='images.jpg'></div> -->
+                <div>名称{{item.matName}}</div>
+                <div>规格{{item.matSpec}}</div>
+                <div>型号{{item.matTypeCode}}</div>
+            </td>
+            <td class="valignM" width="120px">数量X {{item.applyCount}}</td>
+            <td class="valignM">
+                选择供应商
+                <select class="comList">
+                    {{each items.comList as lists}}
+                        {{if item.supplyComId == lists.id}}
+                            <option selected="selected" names = '{{lists.comName}}' id='{{lists.id}}'>{{lists.comName}}</option>
+                        {{else}}
+                            <option id='{{lists.id}}' names = '{{lists.comName}}'>{{lists.comName}}</option>
+                        {{/if}}
+                    {{/each}}
+                </select>
+            </td>
+            <td class="valignM" width="120px">
+                <input type="number" class="numbers" applyCount="{{item.applyCount}}" value="{{item.buyCount}}" min="0" max="{{item.applyCount}}" />
+            </td>
+        </tr>
+        {{/each}}
+    </table>
+</div>

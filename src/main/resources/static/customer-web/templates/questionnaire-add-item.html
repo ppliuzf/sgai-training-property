@@ -1,0 +1,11 @@
+{{each items as item}}
+<div class="form-group js-group">
+    <div class="input-group">
+        <div class="input-group-addon js-group-num"></div>
+        <input type="text" class="form-control js-item" maxlength="200" value="{{item}}" placeholder="文本，最大支持200">
+        <a class="btn input-group-addon js-questionnaire-item-del">
+            <i class="glyphicon glyphicon-remove"></i>
+        </a>
+    </div>
+</div>
+{{/each}}

@@ -1,0 +1,11 @@
+{{each items as item index}}
+    {{if item.dataId != items.id}}  
+    <div class='form-inline pt15 item s{{item.dataId}}' data-id="{{item.dataId}}">    
+        <input type="text" value="{{item.stageName}}" class="form-control" placeholder="请输入阶段名称" maxlength="20">
+                <span class="glyphicon glyphicon-arrow-down ml15 point js-down" data-id="s{{item.dataId}}"></span> 
+                <span class="glyphicon glyphicon-arrow-up ml15 point js-up" data-id="s{{item.dataId}}"></span> 
+                <span class="glyphicon glyphicon-remove ml15 point js-remove" data-id="s{{item.dataId}}" data-pId="{{item.dataId}}"></span> 
+    </div> 
+    {{/if}}
+{{/each}}
+   

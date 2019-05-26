@@ -1,0 +1,155 @@
+{{each items as item index}}
+<tr ids='{{item.id}}'>
+    <td class="text-center">{{index+1}}</td>
+    
+    {{ if item.planStat == 1}}
+        <td><a href='javascript:;' status='dtj' id='{{item.id}}' class="jumpDetail">{{item.planName}}</a></td>
+    {{ else if item.planStat == 2}}
+        <td><a href='javascript:;' status='dsh' id='{{item.id}}' class="jumpDetail">{{item.planName}}</a></td>
+    {{ else if item.planStat == 3}}
+        <td><a href='javascript:;' status='yjj' id='{{item.id}}' class="jumpDetail">{{item.planName}}</a></td>
+    {{ else if item.planStat == 4}}
+        <td><a href='javascript:;' status='ytg' id='{{item.id}}' class="jumpDetail">{{item.planName}}</a></td>
+    {{/if}}
+    
+    {{if item.planType == 1}}
+    <td>采购类</td>
+    {{ else}}
+    <td></td>
+    {{/if}}
+    <td>{{item.planDate | dateFormat:'yyyy-MM-dd'}}</td>
+    <td>{{item.planEmpName}}</td>
+    <td>{{item.dept}}</td>
+    {{ if item.planStat == 1}}
+    <td>待提交</td>
+    {{ else if item.planStat == 2}}
+    <td>待审核</td>
+    {{ else if item.planStat == 3}}
+    <td>已拒绝</td>
+    {{ else if item.planStat == 4}}
+    <td>已通过</td>
+    {{/if}}
+
+    {{if item.buyerEmpName}}
+        <td>{{item.buyerEmpName}}</td>
+    {{else}}
+        <td>--</td>
+    {{/if}}
+
+    {{if item.planStat == 3 || item.planStat == 4}}
+    <td>{{item.approveDate | dateFormat:'yyyy-MM-dd'}}</td>
+    {{else}}
+        <td>--</td>
+    {{/if}}
+
+    <td class="actList js-act text-center act">
+        {{ if item.planStat == 1}}
+            <a href="javascript:void(0)" class="js-tb-lq sutmbitBtn">提交</a>
+            <a href="javascript:void(0)" class="js-tb-lq delBtn">删除</a>
+        <!-- <div class="btn-group more">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="javascript:void(0)" class="js-tb-lq sutmbitBtn">提交</a>
+                </li> 
+                <li>
+                    <a href="javascript:void(0)" class="js-tb-lq delBtn">删除</a>
+                </li>
+            </ul>
+        </div> -->
+        {{ else if item.planStat == 2}}
+            <a href="javascript:void(0)" class="js-tb-lq cancelBtn">撤销</a>
+            <a href="javascript:void(0)" class="js-tb-lq delBtn">删除</a>
+        <!-- <div class="btn-group more">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="javascript:void(0)" class="js-tb-lq cancelBtn">撤销</a>
+                    </li> 
+                    <li>
+                        <a href="javascript:void(0)" class="js-tb-lq delBtn">删除</a>
+                    </li>
+                </ul>
+            </div> -->
+        {{/if}}
+    </td>
+</tr>
+{{/each}}
+<!--
+<tr>
+    <td class="text-center">1</td>
+    <td><a href='javascript:;' status='dtj' class="jumpDetail">测试一</a></td>
+    <td>采购类</td>
+    <td>2017-07-12</td>
+    <td>胡佳旭</td>
+    <td>投资管理部</td>
+    <td>待提交</td>
+    <td>-</td>
+    <td>-</td>
+    <td class="actList js-act text-center act">
+        <div class="btn-group more">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+            <ul class="dropdown-menu">     
+                    <li>
+                        <a href="javascript:void(0)" class="js-tb-lq sutmbitBtn">提交</a>
+                    </li> 
+                    <li>
+                        <a href="javascript:void(0)" class="js-tb-lq delBtn">删除</a>
+                    </li>  
+            </ul>
+        </div>
+    </td>
+</tr>
+<tr>
+        <td class="text-center">2</td>
+        <td><a href='javascript:;' status='dsh' class="jumpDetail">测试一</a></td>
+        <td>采购类</td>
+        <td>2017-07-12</td>
+        <td>胡佳旭</td>
+        <td>投资管理部</td>
+        <td>待审核</td>
+        <td>-</td>
+        <td>-</td>
+        <td class="actList js-act text-center act">
+            <div class="btn-group more">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+                <ul class="dropdown-menu">     
+                    <li>
+                        <a href="javascript:void(0)" class="js-tb-lq cancelBtn">撤消</a>
+                    </li> 
+                    <li>
+                        <a href="javascript:void(0)" class="js-tb-lq delBtn">删除</a>
+                    </li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="text-center">3</td>
+        <td><a href='javascript:;' status='ytg' class="jumpDetail">测试一</a></td>
+        <td>采购类</td>
+        <td>2017-07-12</td>
+        <td>胡佳旭</td>
+        <td>投资管理部</td>
+        <td>已通过</td>
+        <td>张三</td>
+        <td>2018-01-01</td>
+        <td class="actList js-act text-center act">
+        </td>
+    </tr>
+    <tr>
+        <td class="text-center">4</td>
+        <td><a href='javascript:;' status='yjj' class="jumpDetail">测试一</a></td>
+        <td>采购类</td>
+        <td>2017-07-12</td>
+        <td>胡佳旭</td>
+        <td>投资管理部</td>
+        <td>已拒绝</td>
+        <td>张三</td>
+        <td>2018-01-01</td>
+        <td class="actList js-act text-center act">
+            
+        </td>
+    </tr>
+-->

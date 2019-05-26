@@ -1,0 +1,420 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+<title>机构管理员管理</title>
+<meta name="decorator" content="default">
+<style>
+  .select2-container{
+  	width:206px
+  }
+  .wdate{
+ 		 width:206px
+  }
+  .form-horizontal .control-label {
+  	width: 135px;
+  }
+</style>
+<script type="text/javascript">
+   		 var paramId;
+    	 var startDate;
+		 var endDate;
+        $(document).ready(function () {
+        	paramId=GetQueryString("paramId");
+        	if(paramId!=null){
+        		$(".userPass").hide();
+        		updatepageload();
+        		$('#myModal #myModalLabel', window.parent.document).text("机构管理员修改");
+        	}else{
+        		$('#myModal #myModalLabel', window.parent.document).text("机构管理员新增");
+        	}
+        	
+        });
+        // 关闭弹框
+        function closePopUp(){
+           $('#myModal .close', window.parent.document).click();
+        }
+        //加载修改数据
+        function updatepageload(){
+        $.ajax({
+    		headers    : {
+                "token" : localStorage.getItem("token"),
+            },
+    		url :APIHost+'/admin/user/ctlUser/findById',
+    		type : 'POST',
+    		async : false, //或false,是否异步
+    		data : {
+    			"userIds": paramId
+
+    		},
+    		timeout : 30000,
+    		dataType : 'json',
+    		success : function(res) {
+    			if(res.code === 1000){
+				//成功返回
+				var data = res.data;
+    			item=data.ctlUser;
+    			startDate=data.startDate;
+    			endDate=data.endDate;
+    			$("#id").val(item.id);
+    			$("#comCode").val(item.comCode);
+    			$("#userCode").val(item.userCode);
+    			$("#userCode").attr("readonly","readonly");
+    			$("#userName").val(item.userName);
+    			$("#userPass").val(item.userPass);
+    			$("#userType").val(item.userType);
+    			$("#startDate").val(startDate);
+    			$("#endDate").val(endDate);
+    			var select = document.getElementById("ipLimitedFlag");
+				for (var i = 0; i < select.options.length; i++){  
+			        if (select.options[i].value == item.ipLimitedFlag){
+			            select.options[i].selected = true;
+			            $("#select2-ipLimitedFlag-container").html(select.options[i].text);
+			            break;  
+			        }  
+			    }  
+    			var select2 = document.getElementById("pnLimitedFlag");
+				for (var i = 0; i < select2.options.length; i++){  
+			        if (select2.options[i].value == item.pnLimitedFlag){
+			            select2.options[i].selected = true;
+			            $("#select2-pnLimitedFlag-container").html(select2.options[i].text);
+			            break;  
+			        }  
+			    } 
+				if($("#pnLimitedFlag").val()=="Y"){
+					$(".permitNum").show();
+				}
+    			$("#permitNum").val(item.permitNum);
+    			var select3 = document.getElementById("authMode");
+				for (var i = 0; i < select3.options.length; i++){  
+			        if (select3.options[i].value == item.authMode){
+			            select3.options[i].selected = true;
+			            $("#select2-authMode-container").html(select3.options[i].text);
+			            break;  
+			        }  
+			    } 
+    			var select4 = document.getElementById("menuType");
+				for (var i = 0; i < select4.options.length; i++){  
+			        if (select4.options[i].value == item.menuType){
+			            select4.options[i].selected = true;
+			            $("#select2-menuType-container").html(select4.options[i].text);
+			            break;  
+			        }  
+			    } 
+    			var select5 = document.getElementById("colorType");
+				for (var i = 0; i < select5.options.length; i++){  
+			        if (select5.options[i].value == item.colorType){
+			            select5.options[i].selected = true;
+			            $("#select2-colorType-container").html(select5.options[i].text);
+			            break;  
+			        }  
+			    } 
+    			$("#remarks2").val(item.remarks2);
+    			}else if(res.code ===1003){
+    				//没有登录状态
+    				$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+    					{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+    			}else if(res.code === 1002){
+    				//发生异常
+    				$.jBox.alert(res.msg);
+    			}else if(res.code === 1004){
+    				//结果为空
+    				$.jBox.alert(res.msg);
+    			}
+    		},
+    		error : function() {
+				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+    		}
+    	})
+        }
+        //获取跳转地址的参数
+        function GetQueryString(name){
+             var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+             var r = window.location.search.substr(1).match(reg);
+             if(r!=null)return  unescape(r[2]); return null;
+        }
+        function saveItem(){
+          $.jBox.confirm("确定提交吗？", "提示", function (v, h, f) {
+            if(v == 'ok'){
+              $("#inputForm").ajaxSubmit({
+             headers : {
+                     "token" : localStorage.getItem("token"),
+                 },   
+            url : APIHost+'/admin/user/ctlUser/save',
+          type : 'POST',
+          async : false, //或false,是否异步
+          data : {
+          },
+          timeout : 30000,
+          dataType : 'json',
+              success:function (res) {
+                if(res.code === 1000){
+            //成功返回
+            var data = res.data;
+                  if(data.msg=="success"){
+                  //提示删除成功
+              $.jBox.alert('保存成功', '提示',{ closed: function ()
+                {   closePopUp();
+                                var pageSize = $('.page-size', window.parent.document).find("option:selected").val();
+                                parent.pageload(1,pageSize); } });
+                  }else if(data.msg=="repeat"){
+                    $.jBox.alert("用户代码已存在！","提示")
+                  }else if(data.msg=="faild"){
+                    $.jBox.alert("保存失败！","提示")
+                  }
+                }else if(res.code ===1003){
+                //没有登录状态
+                $.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+                  { window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+              }else if(res.code === 1002){
+                //发生异常
+                $.jBox.alert(res.msg);
+              }else if(res.code === 1004){
+                //结果为空
+                $.jBox.alert(res.msg);
+              }
+                  
+              }
+            });
+            }
+          })
+        	
+        } 
+        $(function(){
+        	autoSize();
+        })
+    </script>
+</head>
+<body>
+<form id="inputForm" name="addForm" class="form-horizontal"  method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+    <input id="comCode" name="comCode" type="hidden" value="">
+    <input id="userType" name="userType" class="required" type="hidden" value="M" maxlength="100">
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>用户代码：</label>
+        <div class="controls">
+            <input id="userCode" name="userCode" class="required" type="text" value="" maxlength="100">
+    	</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>用户名称：</label>
+        <div class="controls">
+            <input id="userName" name="userName" class="required" type="text" value="" maxlength="100">
+    	</div>
+    </div>
+    <div class="control-group userPass">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>用户密码：</label>
+        <div class="controls">
+            <input id="userPass" name="userPass" class="required" type="text" value="" maxlength="100">
+    	</div>
+    </div>
+     <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>有效开始时间：</label>
+        <div class="controls">
+            <input id="startDate" name="startDate" class="required input-mini Wdate" type="text" value="" maxlength="50" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});">
+        </div>
+   	</div>
+     <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>有效结束时间：</label>
+        <div class="controls">
+            <input id="endDate" name="endDate" class="required input-mini Wdate" type="text" value="" maxlength="50" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',isShowClear:false});">
+       		
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>是否限制IP：</label>
+        <div class="controls">
+	        <select id="ipLimitedFlag" name="ipLimitedFlag">
+		        <option value="">  </option>
+		        <option value="N">否</option>
+				<option value="Y">是</option>
+	        </select>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>是否限制并发数：</label>
+        <div class="controls">
+	        <select id="pnLimitedFlag" name="pnLimitedFlag">
+		        <option value="">  </option>
+				<option value="Y">是</option>
+				<option value="N">否</option>
+	        </select>
+        </div>
+    </div>
+    <div class="control-group permitNum">
+        <label class="control-label">允许并发数：</label>
+        <div class="controls">
+            <input id="permitNum" name="permitNum" class="required" type="text" value="" maxlength="50">
+           <!--  <span class="help-inline"><font color="red">*</font> </span> -->
+        </div>
+    </div>
+     <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>认证模式：</label>
+        <div class="controls">
+	        <select id="authMode" name="authMode">
+		        <option value="">  </option>
+				<option value="A">CA认证</option>
+				<option value="B">URL认证</option>
+	        </select>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>界面风格：</label>
+        <div class="controls">
+	        <select id="menuType" name="menuType">
+		        <option value="">  </option>
+				<option value="default">outLook</option>
+				<option value="menun">menun</option>
+	        </select>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>颜色风格：</label>
+        <div class="controls">
+	        <select id="colorType" name="colorType">
+		        <option value="">  </option>
+				<option value="red">红色系</option>
+				<option value="blue">蓝色系</option>
+	        </select>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">备注：</label>
+        <div class="controls">
+            <!-- <input id="remarks2" name="remarks2"  type="text" value="" maxlength="50"> -->
+           	<textarea id="remarks2" name="remarks2"  maxlength="500" type="text" style="overflow-y:hidden;" class="textAreas"></textarea>
+        </div>
+    </div>
+    <div class="form-actions">
+        <input id="btnCancel" class="btn" type="button" value="关闭" onclick="closePopUp()">
+        <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">
+    </div>
+</form>
+<script>
+// 表单验证
+$.validator.setDefaults({
+    submitHandler: function() {
+       // 调用提交
+    	saveItem();
+    }
+});
+$().ready(function () {
+	 jQuery.validator.methods.compareDate = function(value, element, param) {  
+         var startDate = jQuery(param).val();
+         var date1 = new Date(Date.parse(startDate.replace("-", "/")));  
+         var date2 = new Date(Date.parse(value.replace("-", "/")));  
+         return date1 < date2;  
+     };
+    // 在键盘按下并释放及提交后验证提交表单
+    	 $("#inputForm").validate({
+    		 focusInvalid:false, 
+    		 errorPlacement: function(error, element) {
+     			// Append error within linked label
+     			$(element).parent().append( error );
+     		},
+             rules: {
+            	 userCode: {
+                    required: true,
+                    minlength: 1,
+                    maxlength:6
+                },
+                userName: {
+                    required: true,
+                    minlength: 1
+                },
+                userPass: {
+                    required: true,
+                },
+                userType: {
+                    required: true,
+                },
+                startDate: {
+                    required: true,
+                },
+                endDate: {
+                    required: true,
+                    compareDate: "#startDate",
+                },
+                ipLimitedFlag: {
+                    required: true,
+                },
+                pnLimitedFlag: {
+                    required: true,
+                },
+                authMode:{
+                	 required: true,
+                },
+              },
+            messages:{
+            	 userCode: {
+            		 required: "请输入机构用户代码",
+                     minlength: "机构用户代码必需由六个字母组成"
+                 },
+                 userName: {
+                	 required: "请输入机构用户名称",
+                     minlength: "机构用户名称最低一个字"
+                 },
+                 userPass: {
+                	 required: "请输入机构用户密码",
+                 },
+                 userType: {
+                     required: "请选择用户类型",
+                 },
+                 startDate: {
+                     required: "请选择有效开始时间",
+                 },
+                 endDate: {
+                     required: "请选择有效截止时间",
+                     compareDate: "结束日期必须大于开始日期!"  
+                 },
+                 ipLimitedFlag: {
+                     required: "请选择是否限制ip",
+                 },
+                 pnLimitedFlag: {
+                     required: "请选择是否允许并发数",
+                 },
+                 authMode:{
+                	 required: "请选择认证模式",
+                },
+            }
+    });
+   
+})
+</script>
+<script type="text/javascript">
+$(".permitNum").hide();
+//是否允许并发数change事件
+$('#pnLimitedFlag').on('change',function(){
+//判断是否选取prompt属性，无返回值；
+if($(this).val()=="Y"){
+	$(".permitNum").show();
+	}else{
+	$(".permitNum").hide();	
+	$("#permitNum").empty();
+	}
+});
+</script>
+</body></html>

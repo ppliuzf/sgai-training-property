@@ -1,0 +1,29 @@
+<div class="matter-posit">
+    <ul class="matter-item" data-color = "{{colorStatus}}">
+        {{if items.length <= 4}}
+            {{each items as item}}
+            <li data-id="{{item.tp_id}}" 
+                data-record="{{item.record_id}}" 
+                data-counti = "{{countI}}" 
+                data-countj = "{{countJ}}"
+                data-executor = "{{item.list_eiEmpName.join()}}"
+                data-dt = "{{date}}"
+                data-start = "{{item.taskBeginTime}}"
+                data-end = "{{item.taskEndTime}}"
+            >
+                <span>{{item.taskName}}</span>
+                <a>{{item.stat}}</a>
+            </li>
+            {{/each}}
+        {{else}}
+            {{each items as item index}}
+                {{if index < 3}}
+                <li data-id="{{item.tp_id}}" data-record="{{item.record_id}}" data-dt = "{{date}}" data-executor = "{{item.list_eiEmpName.join()}}" data-start = "{{item.taskBeginTime}}" data-end = "{{item.taskEndTime}}"><span>{{item.taskName}}</span>
+                    <a>{{item.stat}}</a>
+                </li>
+                {{/if}}
+            {{/each}}
+        <p class="matter-all"><a class="cur-p" data-counti = "{{countI}}" data-countj = "{{countJ}}" data-color = "{{colorStatus}}">还有{{items.length-3}}个内容</a></p>
+        {{/if}}
+    </ul>
+</div>

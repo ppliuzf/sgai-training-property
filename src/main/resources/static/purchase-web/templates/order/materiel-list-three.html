@@ -1,0 +1,21 @@
+{{each items.matDetailVoList as item index}}
+<tr>
+    {{ if index+1 < 10}}
+        <td class="text-center">0{{index+1}}</td>
+    {{ else }}
+        <td class="text-center">{{index+1}}</td>
+    {{/if}}
+    <td>{{item.matName}}</td>
+    <td>{{item.supplyComName}}</td>
+    <td>{{item.applyCount}}</td>
+    <!-- <td>{{item.matSpec}}</td> -->
+    <td>{{item.matTypeCode}}</td>
+    {{if item.applyCount - item.buyCount == item.applyCount}}
+        <td>未采购</td>
+    {{else if item.applyCount - item.buyCount > 0 }}
+        <td>部分采购</td>
+    {{else if item.applyCount - item.buyCount == 0 }}
+        <td>全部采购</td>
+    {{/if}}
+</tr>
+{{/each}}

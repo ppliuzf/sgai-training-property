@@ -1,0 +1,20 @@
+{{each items as item itemIndex}}
+<tr>
+    <td>{{item.num}}</td>
+    <td>
+        <div class="cont">
+            <!--<a href="detail.html?id={{item.id + '&name=' + item.recordName}}" title="{{item.recordName}}" class="underline dot name">{{item.recordName}}</a>-->
+            {{if type}}
+            <a href="./pages/plan/detail.html?id={{item.id + '&name=' + item.recordName}}&&type=1" title="{{item.recordName}}" class="underline dot name">{{item.recordName}}</a>
+            {{else}}
+            <a href="./pages/plan/detail.html?id={{item.id + '&name=' + item.recordName}}" title="{{item.recordName}}" class="underline dot name">{{item.recordName}}</a>
+            {{/if}}
+        </div>
+    </td>
+    <td><div class="cont dot" title="{{item.createTime | dateFormat:'yyyy-MM-dd'}}">{{item.createTime | dateFormat:'yyyy-MM-dd'}}</div></td>
+    <td><div class="cont dot" title="{{item.raCreatorEiEmpName}}">{{item.creatorEiEmpName}}</div></td>
+    <!-- <td class="text-center">
+        <a href="#" class="js-del" data-id="{{item.id}}">删除</a>
+    </td> -->
+</tr>
+{{/each}}

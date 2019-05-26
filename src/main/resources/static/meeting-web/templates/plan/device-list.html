@@ -1,0 +1,23 @@
+<div class="pop-device-list">
+    {{each items as item}}
+    <div class="form-inline" data-id="{{item.id}}">
+        <div class="form-group" data-id="{{item.id}}" data-name="{{item.rdRoomDevice}}" data-status="0">
+            <input class='check-device' type="checkbox">&nbsp;{{item.rdRoomDevice}}
+        </div>
+        <!-- <div class=" form-group switch">
+            <input type="checkbox" checked class="checkout" data-id="{{item.id}}">
+        </div> -->
+        <div class="form-group">
+            {{if item.rrState === 1}}
+            <a class="js-device-remove">
+                <i class="glyphicon glyphicon-remove"></i>
+            </a>{{/if}}
+        </div>
+    </div>
+    {{/each}}
+</div>
+<div class="pop-device-custom">
+    <div class="js-device-user form-inline"></div>
+    <a class="js-device-add">
+        <i class="glyphicon glyphicon-plus"></i> 自定义添加</a>
+</div>

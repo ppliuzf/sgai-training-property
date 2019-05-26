@@ -1,0 +1,186 @@
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="infos-detail">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="col-lg-1 col-md-1 col-sm-1 text-center">计划名称</td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 value">{{items.recordName}}</td>
+                        <td class="col-lg-1 col-md-1 col-sm-1 text-center">检验项名称</td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 value" colspan="3">{{items.tiName}}</td>
+                        
+                    </tr>
+                    <tr>
+                        <td class="col-lg-1 col-md-1 col-sm-1 text-center">专业范畴</td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 value">{{items.pcName}}</td>
+                        <td class="col-lg-1 col-md-1 col-sm-1 text-center">创建人</td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 value">{{items.createEiName}}</td>
+                        <td class="col-lg-1 col-md-1 col-sm-1 text-center">创建时间</td>
+                        <td class="col-lg-2 col-md-2 col-sm-2 value">{{items.createTime | dateFormat: 'yyyy-MM-dd hh:mm'}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">任务标准:</td>
+                        <td class="value" colspan="7">{{items.tiStandard}}</td>
+                    </tr>
+                    <tr>
+                        <td class="value" colspan="8">
+                            <div class="row form-group">
+                                {{each items.enclosures as item}}
+                                <div class="col-sm-1 col-md-1">
+                                    <a href="{{item.riImgUrl}}" data-lightbox="fuck"><img src="{{item.riImgUrl}}" width="80"></a>
+                                </div>
+                                {{/each}}
+                         </div>
+                        </td>
+                    </tr>
+                   <!-- <tr>
+                        <td class="text-center">后面没了</td>
+                        <td class="value">那怎么办呢？</td>
+                        <td class="text-center"></td>
+                        <td class="value"></td>
+                        <td class="text-center"></td>
+                        <td class="value"></td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+        <!-- <div class="row">
+            <div class="col-sm-4 col-md-3">
+                <dl>
+                    <dt>检验项名称:</dt>
+                    <dd>{{items.tiName}}</dd>
+                </dl>
+            </div>
+            <div class="col-sm-4 col-md-3">
+                <dl>
+                    <dt>专业范畴:</dt>
+                    <dd>{{items.pcName}}</dd>
+                </dl>
+            </div>
+            <div class="col-sm-4 col-md-3">
+                <dl>
+                    <dt>创建人:</dt>
+                    <dd>{{items.createEiName}}</dd>
+                </dl>
+            </div>
+            <div class="col-sm-4 col-md-3">
+                <dl>
+                    <dt>创建时间:</dt>
+                    <dd>{{items.createTime | dateFormat: 'yyyy-MM-dd hh:mm'}}</dd>
+                </dl>
+            </div>
+            <div class="col-sm-10 col-md-10">
+                <dl>
+                    <dt>任务标准:</dt>
+                    <dd>{{items.tiStandard}}</dd>
+                </dl>
+            </div>
+        </div>
+                <div class="row form-group">
+                        {{each items.enclosures as item}}
+                        <div class="col-sm-1 col-md-1">
+                            <a href="{{item.riImgUrl}}" data-lightbox="fuck"><img src="{{item.riImgUrl}}" width="80"></a>
+                        </div>
+                        {{/each}}
+                 </div> -->
+    {{if items.tiIsInput ==1}}
+
+    <div class="mgtop10">
+        <div class="row">
+            <div class="col-sm-4 col-md-3">
+                <dl>
+                    <dt>执行结果:</dt>
+                        <dd class="task-result">
+                            {{each dataTiOptions as item}}
+                                <p>
+                                {{if (fromPage ==1 && items.tiStatus==0)}}
+                                    <input type="radio" name="result" class="r-checked">
+                                {{/if}}
+                                     {{if item == items.tiStandardOption}}
+                                        {{if items.tiStatus == 1}}
+                                            <span class="icon icon0">√</span>
+                                        {{else}}
+                                                <span class="icon">√</span>
+                                        {{/if}}
+                                    {{else}}
+                                        {{if items.tiStatus == 2&&items.tiInputResult==item}}
+                                             <span class="icon icon1">×</span>
+                                        {{else}}
+                                             <span class="icon">×</span>
+                                        {{/if}}
+                                    {{/if}}
+                                <b>{{item}}</b>
+                                </p>
+                            {{/each}}
+                            <p class="error hidden">
+                                <input type="checkbox" name="" class="change-checked"><b>是否发起缺陷整改</b>
+                            </p>
+                        </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+    {{else}}
+    <div class="mgtop10">
+         <div class="row">
+            <div class="col-sm-4 col-md-3">
+                <dl>
+                    <dt>执行结果:</dt>
+                        <dd class="task-result">
+                            <p>
+                            数量单位：{{items.tiUnit}}
+                            </p>
+                            <p>
+                            正常范围:{{items.tiMin}}----{{items.tiMax}}
+                            </p>
+                            {{if items.tiInputResult==''||items.tiInputResult==null}}
+                            <p>
+                            请输入正常值:<input type="number" class="ipt-number js-num"/>
+                            </p>
+                            {{else}}
+                            <p>
+                            输入值:{{items.tiInputResult}}
+                            </p>
+                            {{/if}}
+                            {{if fromPage ==1}}
+                            <p class="error hidden">
+                                <input type="checkbox" name="" class="change-checked"/><b>是否发起缺陷整改</b>
+                            </p>
+                            {{/if}}
+                        </dd>
+                </dl>
+            </div>
+        </div>
+
+    </div>
+    {{/if}}
+    <div class="row change-list hidden">
+            <div class="col-sm-4 col-md-3">
+                <dl>
+                    <dt>缺陷整改责任人:</dt>
+                    <dd>{{(items.dutyEmpNames).join(',')}}</dd>
+                </dl>
+            </div>
+            <div class="col-sm-4 col-md-3">
+                <dl>
+                    <dt>完工期限:</dt>
+                    <dd>{{items.tiLimitTime}}
+                        {{if items.tiFinshUnit ==1}}
+                        天
+                        {{else if items.tiFinshUnit ==2}}
+                        小时
+                        {{else}}
+                        分钟
+                        {{/if}}
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-sm-4 col-md-3">
+                <dl>
+                    <dt>整改要求:</dt>
+                    <dd>{{items.tiRectificationRequirements}}</dd>
+                </dl>
+            </div>
+            </div>
+
+</div>

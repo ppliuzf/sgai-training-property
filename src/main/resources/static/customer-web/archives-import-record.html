@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>客户档案</title>
+    <link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>导入记录</h4>
+            <div class="btns text-right">
+                <!-- <a href="./archives-import.html" class="btn btn-default">返回</a> -->
+                <button onclick="window.location.href='./archives-import.html'" class="btn btn-default">返回</button>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>导入时间</th>
+                    <th>导入人姓名</th>
+                    <th>文件名称</th>
+                    <th>导入状态</th>
+                    <th>导入结果</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody class="js-list"></tbody>
+        </table>
+        <nav class="text-right pages"></nav>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/archives-import-record.js"></script>
+</body>
+</html>

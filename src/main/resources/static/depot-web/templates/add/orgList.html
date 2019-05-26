@@ -1,0 +1,14 @@
+
+<div class="form-inline js-org-list">
+    {{each items as item}}
+    {{if item.isChecked}}
+    <div class="form-group add">
+        <input type="checkbox" name="checkbox"  data-typeid="{{item.id}}" data-name = "{{item.name}}" checked = "checked" data-isChecked="true">&nbsp;{{item.name}}
+    </div>
+    {{else}}
+    <div class="form-group add">
+            <input type="checkbox" name="checkbox"  data-typeid="{{item.id}}" data-name = "{{item.name}}" data-isChecked = "false">&nbsp;{{item.name}}
+        </div>
+    {{/if}}
+    {{/each}}
+</div>

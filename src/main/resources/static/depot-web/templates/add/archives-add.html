@@ -1,0 +1,53 @@
+<div class="form-group">
+    <label><b>基础信息 </b></label>
+</div>
+<div class="form-group">
+    <label for="infoOrgId"><span class="require"></span>仓库名称 </label>
+    <input type="text" class="form-control" id="whName" value="{{items.whName}}" maxlength="20">
+</div>
+<div class="form-group">
+    <label for="supplyTime" class="control-label faqiTime"><span class="require"></span>仓库类型</label>
+    <select name="" id="whType" class="form-control" value = {{items.whType}} >
+        {{if items.whType == 1}}
+        <option value="1" selected>实仓</option>
+        <option value="2">虚仓</option>
+        {{else}}
+        <option value="1" >实仓</option>
+        
+        <option value="2" selected>虚仓</option>
+        {{/if}}
+    </select>
+</div>
+<div class="form-group">
+    <label for="infoOrgId">仓库地址 </label>
+    <input type="text" class="form-control" id="whAddress" value="{{items.whAddress}}" maxlength="50">
+</div>
+{{if items.whLatitude && items.whLongitude}}
+<div class="form-group">
+    <label for="infoOrgId">仓库GIS </label>
+    <input type="text" class="form-control" id="whGIS" value="{{items.whLatitude}},{{items.whLongitude}}" maxlength="50">
+</div>
+{{else}}
+<div class="form-group">
+    <label for="infoOrgId">仓库GIS </label>
+    <input type="text" class="form-control" id="whGIS"  maxlength="50">
+</div>
+{{/if}}
+<div class="wuliao padding-L padding-R form-group">
+    <div class="margin-bt">
+        <label id="chooseOrg" class="point">
+            <span><b>关联组织</b></span>&nbsp;
+            <form class="tree-form" role="form" id="tree-rxmj" novalidate>
+                <!--<ul id="tt" class="easyui-tree" data-options="url:'./js/server/tree_data2.json',method:'get',animate:true,checkbox:true"></ul>-->
+                <ul id="tt" class="easyui-tree" data-options="method:'get',animate:false,checkbox:true"></ul>
+                <!--<ul id="tt" class="easyui-tree" data-options="method:'get',animate:true,checkbox:true"></ul>-->
+            </form>
+        </label>
+    </div>
+</div>
+<div class="form-group">
+    <label for="remark">备注 </label>
+    <textarea type="email" rows="4" class="form-control" id="whDesc" maxlength="200">{{items.whDesc}}</textarea>
+    <div class="text-right js-count">0/200</div>
+</div>
+

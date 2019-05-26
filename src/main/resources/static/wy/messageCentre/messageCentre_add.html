@@ -1,0 +1,393 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../../config/smart-common.js" type="text/javascript"></script>
+<script src="../static/ckeditor/ckeditor.js" type="text/javascript"></script>
+	<style type="text/css">
+		label {
+		   font-size: 14px !important;
+		   font-family:微软雅黑;
+		} 
+		span{
+		  font-size: 14px !important;
+		}
+		</style>
+</head>
+<body>
+
+<br>
+<form id="inputForm" class="form-horizontal"  method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" />
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+<table >
+<tr>
+		<td class="control-group">
+	        <label class="control-label">标题:</label>
+	        <div class="controls">
+	            <input id="newsTitle" name="newsTitle"  type="text" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </td>
+     
+        <td class="control-group">
+	        <label class="control-label">摘要:</label>
+	        <div class="controls">
+	        	<input id="newsAbstract" name="newsAbstract"  type="text" style="width:270px;"/>
+	        	<span class="help-inline"><font color="red">*</font> </span>	
+	        	
+	        </div>
+        </td>
+    </tr>  
+    <tr>  
+        <td class="control-group">
+	        <label class="control-label">公告类型:</label>
+	        <div class="controls">
+		        	<select id="newsType" name="newsType" class="input-xlarge select2-offscreen" tabindex="-1">
+		            	<option value=""></option>
+		            	<option value="0">通知</option>
+		            	<option value="1">新闻</option>
+		            </select>
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </td>
+        <td class="control-group">
+	        <label class="control-label">发布范围:</label>
+	        <div class="controls">
+		        	<select id="range" name="range" class="input-xlarge select2-offscreen" tabindex="-1">
+		            	<option value=""></option>
+		            	<option value="0">公开，全部可见 </option>
+		            	<option value="1">部分可见 </option>
+		            </select>
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </td>
+       
+        
+    
+         </tr>
+         <tr>
+        <td class="control-group">
+	        <label class="control-label">紧急程度:</label>
+	        <div class="controls">
+		        	<select id="emergencyStatus" name="emergencyStatus" class="input-xlarge select2-offscreen" tabindex="-1">
+		            	<option value=""></option>
+		            	<option value="0">一般 </option>
+		            	<option value="1">紧急 </option>
+		            </select>
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </td>
+        
+        
+        <td class="control-group">
+	        <label class="control-label">需要审核:</label>
+	        <div class="controls">
+		        	<select id="newsCheckYesOrNo" name="newsCheckYesOrNo" class="input-xlarge select2-offscreen" tabindex="-1">
+		            	<option value=""></option>
+		            	<option value="0">是</option>
+		            	<option value="1">否</option>
+		            </select>
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </td>
+       
+      
+        </tr>
+       
+        <tr>
+             <td class="control-group" id="ra" style="display: none;">
+	        <label class="control-label">接收人:</label>
+	        <div class="controls">
+		        	<input id="receptName" name="receptName"  type="text" value="" maxlength="50">
+		        	<input id="receptId" name="receptId"  type="hidden" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </td>
+           <td class="control-group" id="ch" style="display: none;">
+	        <label class="control-label">审核人:</label>
+	        <div class="controls">
+		        	<input id="checkerName" name="checkerName"  type="text" value="" maxlength="50">
+		        	<input id="checkerId" name="checkerId"  type="hidden" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </td>
+        </tr>
+         </table>
+        <div class="control-group">
+        <label class="control-label">正文:</label>
+	        <div class="controls">
+	        	<textarea rows="30" cols="50" name="" placeholder="请输入内容" id="editor01"></textarea>
+	        	<input type="hidden" name="newsContent" id="newsContent">
+	        </div>
+        </div>
+       <!--  <div class="ul-form" style="overflow: hidden">
+            <div style="float: left">
+            <span class="btn btn-success fileinput-button">
+                <span id="spanUpload">上传</span>
+                <input id="upfile" name="upfile" type="file" class="btn btn-success" onchange="importExcelData()" style="display:none"/>
+            </span>
+            </div>
+        </div> -->
+      <div class="control-group">
+        <label class="control-label">上传图片:</label>
+	        <div class="controls">
+	        <input type="button" value="请选择图片" style="width:80px;height:30px;" id="spanUpload">
+	        <input id="upfile" name="upfile" type="file" class="btn btn-success" onchange="importExcelData(this)" style="display:none" accept="image/jpg,image/jpeg,image/png,image/bmp"/>
+            <div id="image" style="width:390px;height:280px; background:#CCCCCC; float:left;">
+             <img src="__PUBLIC__/images/tu.png" />
+            </div>
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <input type="hidden" id="cover" name="cover" value="">
+    <div class="form-actions">
+    	<input id="btnSubmit" type="submit" class="btn btn-primary" value="提  交">&nbsp;
+        <input id="btnCancel" class="btn " type="button" value="取  消" onclick="back()">
+    </div>
+</form>
+<div id="myModals" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		 <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h4 id="myModalLabel">审核人</h4>
+		 </div>
+		<div class="modal-body">
+	  		<iframe id="mIframe"></iframe>
+	    </div>
+</div>
+<div id="myModalss" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		 <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h4 id="myModalLabel">接收人</h4>
+		 </div>
+		<div class="modal-body">
+	  		<iframe id="mIframe1"></iframe>
+	    </div>
+</div>
+
+
+   <script type="text/javascript">
+   var editor;
+   $(function(){
+		
+		editor = CKEDITOR.replace("editor01",{
+			 image_previewText: ' ',//预览区域显示内容  
+			 filebrowserImageUploadUrl: APIHost+'/news/CKEditor/uploadFile'
+		});
+	});
+	
+
+ // 表单验证
+    $.validator.setDefaults({
+        submitHandler: function() {
+        	for ( instance in CKEDITOR.instances ) {
+				CKEDITOR.instances[instance].updateElement();
+			}
+           // 调用提交
+           formSubmit();
+        }
+    });
+	
+	$(document).ready(function() {
+		$("#spanUpload").click(function () {
+            $("#upfile").click();
+        })
+		
+		
+		
+		/*输入校验*/
+        $("#inputForm").validate({
+        	rules: {
+                newsTitle:{
+                	required: true
+                },
+                newsAbstract:{
+                	required: true
+                },
+                newsType:{
+                	required: true
+                },
+                checkerName:{
+                	required: true
+                },
+                range:{
+                	required: true
+                },
+                receptName:{
+                	required: true
+                }
+                ,
+                emergencyStatus:{
+                	required: true
+                }
+                ,
+                newsCheckYesOrNo:{
+                	required: true
+                },
+                cover:{
+                	required: true
+                }
+                
+                 },
+                 message:{
+                   newsTitle:{
+                   		required: ""
+                   },
+                   newsAbstract:{
+                   		required: ""
+                   },
+                   newsType:{
+                   	required: ""
+                   },
+                   checkerName:{
+                   	required: ""
+                   }
+               }
+       });
+		
+	});
+        function formSubmit(){
+        	// var CText=CKEDITOR.instances.WORK_INTRODUCTION.document.getBody().getText(); //取得纯文本       
+        //	var CText = editor.document.getBody().getText();
+        	var CText = CKEDITOR.instances.editor01.getData();
+        	$("#newsContent").val(CText);
+        	
+            		var ajax_option={
+            				headers    : {
+	          	                 "token" : localStorage.getItem("token"),
+	          	             }, 
+            				url:APIHost + '/newsManage/save',//默认是form action
+            				beforeSend:function(){
+    			          		var loading=$('<div id="loading"></div>');
+    			          		$('body').append(loading);
+    			          		$("#btnSubmit").attr("disabled",true)
+    			          	},
+            				success:function(response){
+            					console.log(response);
+            					if(response.data.msg=="success"){
+            						$.jBox.alert("保存成功","提示");
+                					setTimeout(function(){
+                						//parent.location.reload();
+                                        //$('#myModal .close', window.parent.document).click();
+                                        //parent.pageload();
+                                        window.location.href = "messageCentre_list.html";
+                 	            	},500)
+            					}
+            					else if(response.msg=="exists"){
+            						$.jBox.alert("数据已存在","提示");
+            					}
+            					else{
+            						$.jBox.alert("错误","提示");
+            					}
+               				},
+               				complete:function(){
+    			            	$("#btnSubmit").attr("disabled",false);
+    			            	$("#loading").hide();
+    			            }
+                   		}
+                   		
+                   		 $("#inputForm").ajaxSubmit(ajax_option);  
+        }   
+        
+        function back(){
+        	window.location.href = "messageCentre_list.html";
+        }
+        
+        $('#newsCheckYesOrNo').change(function(){
+        	if($("#newsCheckYesOrNo option:selected").val() == 0){
+        		$("#ch").show();
+        	}
+        	if($("#newsCheckYesOrNo option:selected").val() == 1){
+        		$("#ch").hide();
+        		$("#checkerName").val("");
+        		$("#checkerId").val("");
+        		
+        	}
+        })
+        
+        
+         $('#range').change(function(){
+        	if($("#range option:selected").val() == 1){
+        		$("#ra").show();
+        	}
+        	if($("#range option:selected").val() == 0){
+        		$("#ra").hide();
+        		$("#receptName").val("");
+        		$("#receptId").val("");
+        		
+        	}
+        })
+        
+        $("#checkerName").click(function(){  
+    		var url = APIHost + "/wy/messageCentre/news_checker_person.html";
+    		$('#myModals').modal('show');
+        	$("#mIframe").attr("src",url);
+        	$("#mIframe").css("height","400px");
+      });
+        $("#receptName").click(function(){  
+    		var url = APIHost + "/wy/messageCentre/news_recept_person.html";
+    		$('#myModalss').modal('show');
+        	$("#mIframe1").attr("src",url);
+        	$("#mIframe1").css("height","400px");
+      });
+        function importExcelData(obj) {
+        	var imgFile = obj.files[0];
+    	    var fr = new FileReader();
+    	    fr.onload = function() {
+    	        document.getElementById('image').getElementsByTagName('img')[0].src = fr.result;
+    	    };
+    	    fr.readAsDataURL(imgFile);
+        	
+            var formData = new FormData();
+            var content = document.getElementById("upfile").files[0];
+            formData.append("upfile", content);
+            $.ajax({
+                headers: {
+                    "token": localStorage.getItem("token"),
+                },
+                url: APIHost + '/newsManage/uploadFile?sourceType=main',
+                type: 'POST',
+                async: false,
+                data: formData,
+                // 告诉jQuery不要去处理发送的数据
+                processData: false,
+                // 告诉jQuery不要去设置Content-Type请求头
+                contentType: false,
+                dataType:"json",
+                success: function (res) {
+                	$("#cover").val(res.data.newFileName);
+                  // alert(res.data.newFileName)
+                    if (res.data.msg == 'success') {
+                      //  $.jBox.alert("导入成功!", "提示");
+                        setTimeout(function () {
+                            pageload();
+                        }, 500)
+                    } else {
+                        $.jBox.alert("导入失败", "提示");
+                    }
+                }
+            });
+        } 
+    </script>
+
+</body></html>

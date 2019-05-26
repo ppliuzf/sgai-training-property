@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>新增出库单</title>
+    <link rel="stylesheet" href="./css/default.css">
+    <style>
+        .filter{
+            border:0;
+        }
+    </style>
+</head>
+
+<body class="main2">
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>新增出库单</h4>
+        </div>
+        <!-- 搜索 -->
+        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 js-main">
+            <div id="stepOne" class="stepOne"></div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 js-main">
+            <div id="stepTwo" class="stepTwo" ></div>
+            <div class="form-group">
+                 <button type="submit" class="btn btn-primary" id='save'>保存</button>
+                <button type="submit" class="btn btn-default" id="cancle">取消</button>
+            </div>
+        </div>
+
+    </div>
+    <script src="./js/lib/jquery.min.js"></script>
+    <script src="./js/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/out/out-add.js"></script>
+</body>
+</html>

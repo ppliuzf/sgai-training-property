@@ -1,0 +1,2090 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<link href="../static/media/css/event/event_style.css" type="text/css" rel="stylesheet">
+<link href="../static/media/css/common/common_style.css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<!-- <link href="../static/common/smart.min.css" type="text/css" rel="stylesheet"> -->
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js"	type="text/javascript"></script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+<script src="../static/paginator/bootstrap-paginator.js" type="text/javascript"></script>
+<script	src="/static/echart/echarts.js" 	type="text/javascript"></script>
+<!-- <link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/> -->
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+   
+<title>首页-添加图表</title>
+<meta name="decorator" content="default">
+<style>
+	.nav-content{
+		position: relative;
+		height: 35px;
+	}
+	.nav-content .nav-tabs{
+		margin-bottom: 0;
+		border-bottom: 0;
+	}
+	.nav-content .nav-tabs>li>a{
+		width: 120px;
+		height: 36px;
+		font-size: 16px;
+		color: #8a92a8;
+		text-align: center;
+		background-color: #edeff5;
+		border-top: 4px solid #d6dbea;
+		border-bottom: 1px solid #ddd;
+		box-sizing: border-box;
+	}
+	.nav-content .nav-tabs>.active>a{
+		color: #666;
+		background-color: #fff;
+		border-top: 4px solid #3399cc;
+		border-bottom: 0;
+	}
+	.tab-content{
+		overflow: hidden;
+		border: 1px solid #E0E0E0;
+		border-radius: 0 4px 4px 4px;
+		-webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.075);
+		-moz-box-shadow: inset 0 0 4px rgba(0,0,0,0.075);
+		box-shadow: 0 0 4px rgba(0,0,0,0.075);
+	}
+	.tab-content .tab-pane{
+		padding: 10px;
+		overflow: hidden;
+	}
+	.nav-tabs a .badge{
+		font-size: 12px;
+		font-weight: 300;
+		text-align: center;
+		height: 14px;
+		background-color: #e02222;
+		padding: 2px 6px 2px 6px;
+		-webkit-border-radius: 12px !important;
+		-moz-border-radius: 12px !important;
+		border-radius: 12px !important;
+		text-shadow: none !important;
+		margin-left: 4px;
+		vertical-align: text-top;
+	}
+	.tab-content .table{
+		border: 1px solid #ddd;
+	}
+	.tab-content .table th{
+		font-size: 14px;
+		color: #666;
+		background:#fff;
+	}
+	.tab-content .table th,
+	.tab-content .table td{
+		padding: 0 8px;
+		height: 36px;
+		line-height: 36px;
+		text-align: left;
+		border-top: 0;
+		border-right: 1px solid #ddd;
+		box-sizing: border-box;
+	}
+	.tab-content .table td{
+		font-size: 12px;
+		color: #999;
+		min-width: 130px;
+	}
+	.tab-content .table tr:nth-child(odd){
+		background-color: #f9f9f9;
+	}
+	.tab-content .table tr:nth-child(even){
+		background-color: #fff;
+	}
+	.tab-content .table tr th:first-child{
+		text-align: center;
+	}
+	.tab-content .table tr th:last-child,
+	.tab-content .table tr td:last-child{
+		text-align: center;
+	}
+	.tab-content .table tr td:first-child{
+		width: 56px;
+		min-width: 56px;
+		max-width: 56px;
+		color: #666;
+		text-align: center;
+		font-weight: bold;
+	}
+	.tab-content .table tr td:nth-child(2){
+		width: 166px;
+	}
+	.tab-content .table .actions{
+		width: 200px;
+		padding: 0;
+	}
+	.table .actions button{
+		float: left;
+		line-height: 14px;
+		padding: 0 10px;
+		font-size: 12px;
+		color: #3399cc;
+		border: 0;
+		border-left: 1px solid #3399cc;
+		background-color: transparent;
+	}
+	.table tr .actions button:first-child{
+		border-left: 0;
+	}
+	.table .actions button:hover{
+		font-weight: bold;
+	}
+	.table .msg-box{
+		max-height: 72px;
+		overflow-y: auto;
+		line-height: 20px;
+		padding: 6px;
+		box-sizing: border-box;
+		max-width: 700px;
+	}
+	#nodeContent table{
+		width: 432px;
+		margin: 0 auto;
+	}
+	@media (max-width: 1200px) {
+		.table .msg-box{
+			max-width: 520px;
+		}
+	}
+</style>
+</head>
+<body>
+<div class="home_content">
+	<div class="nav-content">
+		<ul class="nav nav-tabs">
+			<li class="active"><a class="eventBtn" href="#task" data-toggle="tab">事件<span class="badge" id="event_total"></span></a></li>
+			<li><a class="alarmBtn" href="#alm" data-toggle="tab">报警<span class="badge" id="alm_total"></span></a></li>
+			<li><a class="noticeBtn" href="#notice" data-toggle="tab">通知<span class="badge" id="notice_total"></span></a></li>
+		</ul>
+	</div>
+	<div id="tabContent" class="tab-content">
+		<div id="task" class="tab-pane fade in active">
+			<table class="table" id="userPassTable">
+				<thead>
+					<tr>
+						<th>序号</th>
+						<th>编号</th>
+						<th>时间</th>
+						<th>详细内容</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+			<!--<tbody>
+				 <tr>
+					<td>1</td>
+					<td>2017-12-02   13:35:45</td>
+					<td>风机盘管滴水报修                 C1楼5层报告厅</td>
+					<td class="actions">
+						<button type="button">接受</button>
+						<button type="button">异常关闭</button>
+					</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>2017-11-30   08:40:09</td>
+					<td>新风机组发出异响                   C2楼三层走廊</td>
+					<td class="actions">
+						<button type="button">接受</button>
+						<button type="button">异常关闭</button>
+					</td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td>2017-11-15   18:23:12</td>
+					<td>路灯高频闪光                            C区东门路口</td>
+					<td class="actions">
+						<button type="button">修改</button>
+						<button type="button">催办</button>
+						<button type="button">异常关闭</button>
+					</td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td>2017-11-30   08:40:09</td>
+					<td>公共座椅损坏                          C2楼一层大厅</td>
+					<td class="actions">
+						<button type="button">修改</button>
+						<button type="button">催办</button>
+						<button type="button">异常关闭</button>
+					</td>
+				</tr> 
+				</tbody> -->
+			</table>
+			
+			
+			<!-- <div class="row-fluid">
+			       <div style="padding-top: 15px" class="span6">
+			       <span id="pageNow">1</span>
+			       <span>-</span><span id="allPage">2</span>页&nbsp;&nbsp;<span>共<span id="allNum">14</span>项</span>&nbsp;&nbsp;<select class="page-size"><option value="10">10</option><option value="20">20</option><option value="50">50</option></select>&nbsp;项/页</div><div id="page_div" class="pagination nomargin pagination-custom"><ul><li class="active"><a title="当前页">1</a></li><li><a title="跳至第2页">2</a></li><li><a title="下一页">下一页</a></li><li><a title="尾页">尾页</a></li></ul></div></div>
+		 -->
+		</div>
+		<div id="alm" class="tab-pane fade">
+			<table class="table" id="almTable">
+				<thead>
+				<tr>
+					<th>序号</th>
+					<th>编号</th>
+					<th>时间</th>
+					<th>详细内容</th>
+					<th>操作</th>
+				</tr>
+				</thead>
+				<!-- <tbody>
+				<tr>
+					<td>1</td>
+					<td>2017-12-02   13:35:45</td>
+					<td>风机盘管滴水报修                 C1楼5层报告厅</td>
+					<td class="actions">
+						<button type="button">接受</button>
+						<button type="button">异常关闭</button>
+					</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>2017-11-30   08:40:09</td>
+					<td>新风机组发出异响                   C2楼三层走廊</td>
+					<td class="actions">
+						<button type="button">接受</button>
+						<button type="button">异常关闭</button>
+					</td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td>2017-11-15   18:23:12</td>
+					<td>路灯高频闪光                            C区东门路口</td>
+					<td class="actions">
+						<button type="button">修改</button>
+						<button type="button">催办</button>
+						<button type="button">异常关闭</button>
+					</td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td>2017-11-30   08:40:09</td>
+					<td>公共座椅损坏                          C2楼一层大厅</td>
+					<td class="actions">
+						<button type="button">修改</button>
+						<button type="button">催办</button>
+						<button type="button">异常关闭</button>
+					</td>
+				</tr>
+				</tbody> -->
+			</table>
+		</div>
+		<div id="notice" class="tab-pane fade">
+			<table class="table" id="noticeTable">
+				<thead>
+				<tr>
+					<th>序号</th>
+					<th>时间</th>
+					<th>详细内容</th>
+					<th>操作</th>
+				</tr>
+				</thead>
+				<!-- <tbody>
+				<tr>
+					<td>1</td>
+					<td>2017-12-02   13:35:45</td>
+					<td>风机盘管滴水报修                 C1楼5层报告厅</td>
+					<td class="actions">
+						<button type="button">接受</button>
+						<button type="button">异常关闭</button>
+					</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>2017-11-30   08:40:09</td>
+					<td>新风机组发出异响                   C2楼三层走廊</td>
+					<td class="actions">
+						<button type="button">接受</button>
+						<button type="button">异常关闭</button>
+					</td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td>2017-11-15   18:23:12</td>
+					<td>路灯高频闪光                            C区东门路口</td>
+					<td class="actions">
+						<button type="button">修改</button>
+						<button type="button">催办</button>
+						<button type="button">异常关闭</button>
+					</td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td>2017-11-30   08:40:09</td>
+					<td>公共座椅损坏                          C2楼一层大厅</td>
+					<td class="actions">
+						<button type="button">修改</button>
+						<button type="button">催办</button>
+						<button type="button">异常关闭</button>
+					</td>
+				</tr>
+				</tbody> -->
+			</table>
+		</div>
+	</div>
+	
+	<!-- Modal -->
+	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h4>事件处理</h4>
+		</div>
+		<div class="modal-body" style="max-height: 410px;">
+			<div id="nodeContent"></div>
+		</div>
+	</div>
+	<div class="modal fade hide" id="almConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" style="width: 425px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">报警确认</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="control-group">
+                        <label class="control-label">报警编号：</label>
+                        <div class="controls">
+                            <input type="text" id="recordNum2" class="input-medium" name="recordNum"
+                                   readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">报警时间：</label>
+                        <div class="controls">
+                            <input type="text" id="alarmTime" class="input-medium" name="alarmTime" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">报警等级：</label>
+                        <div class="controls">
+                            <input type="text" id="levelName" class="input-medium" name="levelName" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">报警类别：</label>
+                        <div class="controls">
+                            <input type="text" id="alermTypeName" class="input-medium" name="alermTypeName"
+                                   readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">报警源：</label>
+                        <div class="controls">
+                            <input type="text" id="spaceName" class="input-medium" name="spaceName" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">当前状态：</label>
+                        <div class="controls">
+                            <input type="text" id="states2" class="input-medium" name="states" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">报警信息：</label>
+                        <div class="controls">
+                            <input type="text" id="alarmMsg" class="input-medium" name="alarmMsg" readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                    	<input id="btnCancel" class="btn" type="button" onclick="closePopUp()" value="关闭">
+						<input id="btnCancel" class="btn btn-primary" type="button" value="确认" onclick="confirmItem()">
+                	</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade hide" id="almProcess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" style="width: 425px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">报警处理</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="control-group">
+                        <label class="control-label">确认时间：</label>
+                        <div class="controls">
+                            <input type="text" id="alarmTimeProcess" class="input-medium" name="alarmTime"
+                                   readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">确认人：</label>
+                        <div class="controls">
+                            <input type="text" id="confirmMan" class="input-medium" name="levelName"
+                                   readonly="readonly">
+                        </div>
+                    </div>
+                    <div class="control-group" id="remarkDiv">
+                        <label class="control-label">处理信息：</label>
+                        <div class="controls">
+                            <textarea placeholder="请输入" id="remarks" name="remarks" class="textAreas"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                    	<input id="btnCancel" class="btn" type="button" onclick="closePopUp()" value="关闭">
+						<input id="btnCancel" class="btn btn-primary" type="button" value="处理" onclick="processItem()">
+                	</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade hide" id="almEnd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     style="width: 425px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">报警终止</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="control-group" id="remarkDiv">
+                        <label class="control-label">终止原因：</label>
+                        <div class="controls">
+                        	<textarea style="/*height: 92px;*/" placeholder="请输入" id="remarksEnd" name="remarks" class="textAreas"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                    	<input id="btnCancel" class="btn" type="button" onclick="closePopUp()" value="关闭">
+						<input id="btnCancel" class="btn btn-primary" type="button" value="终止" onclick="endItem()">
+                	</div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+         <div id="myModalProcess" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" style="width: 613px;">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4>进度查看</h4>
+        </div>
+        <div class="modal-body" style="overflow: auto;width: 100%;">
+            <div>
+                <ul class="progress-wrap"></ul>
+                <ul class="processDetail"></ul>
+                <div class="form-actions" style="margin: 0;">
+                    <!-- <input style="/* background-color: #1785ca; color: white;border: 1px solid #1785ca; */margin-right:32px;" id="btnCancel" class="btn" type="button" value="关  闭" data-dismiss="modal" aria-hidden="true"> -->
+                    <input class="btn" type="button" value="关 闭" data-dismiss="modal" aria-hidden="true" style="margin-right:32px;">
+                    <input style="display:none;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="tipModal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div id="tipContent">
+    </div>
+</div>
+<div class="modal fade hide" id="showNotice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width: 426px;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" >×</button>
+                        <h4 class="modal-title">通知</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                         <input id="noticeId" name="noticeId" type="hidden" value="">
+                            <div class="control-group" id="remarkDiv">
+                                <label class="control-label">通知内容</label>
+                                 <div class="controls">
+                        			<textarea style="/*height: 92px;*/" readOnly="readOnly" id="noticeInfo" name="noticeInfo" class="textAreas"></textarea>
+                       			 </div>
+                            </div>
+                        </form>
+                         <div class="form-actions">
+                            <input class="btn" type="button" data-dismiss="modal" aria-hidden="true" value="取消">
+					    	<input id="btnQuery" class="btn btn-primary" type="submit" onclick="haveRead()" value="已阅"> 
+                            </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+<script>
+
+var arrStates = new Array();
+var arrcompCategory = new Array();
+var arrTitleProcess = new Array();
+var arrTypeProcess = new Array();
+var emCode ='';
+var emType ='';
+var comStatus ='';
+var beginTime = '';
+var returnType = "";
+var userData = "";
+	$(document).ready(function(){
+		
+		//事件左侧分页
+		pageForEvent();
+		
+		//报警左侧分页
+		pageForAlm();
+		//通知左侧分页
+		pageForNotice();
+		var verify = verifyAlarmUser();
+		if(verify == true){
+			findAlm();//初始化事件
+		}else{
+			$("#alm_total").html("0");
+			$(".row-fluid .page-null").css("display","block");
+			$(".row-fluid .page-box").css("display","none");
+		}
+		// 查找事件
+		findEvent();
+		//加载通知
+		findNotice();
+		//激活首页选中的tab
+		var curTab = window.location.href.split('?')[1];
+		$('.nav-tabs a[href='+curTab+']').tab("show");
+		$('body').scrollTop(0);
+	});
+	function  findEvent(n,s){
+		$("#task .page-box").css("display","none");
+		$("#task .page-null").css("display","none");
+		$("#task #page_div").css("display","none");
+		$("#task .table_fluid").append("<div class='spinner loading'><div class='rect1'></div><div class='rect2'></div><div class='rect3'></div><div class='rect4'></div><div class='rect5'></div></div>");
+		var pageSize = $('#task .page-size option:selected').val();
+		if(!$.isNumeric(s)){
+			s = pageSize;
+		}
+		//删除旧tbody
+		var contentTableSub = document.getElementById("userPassTable");
+		var oldTbody = document.getElementById("userPassTbody");
+		if (oldTbody != null) {
+			contentTableSub.removeChild(oldTbody);
+		}
+		$.ajax({
+			headers    : {
+				"token":localStorage.getItem("token")
+			},
+			url : APIHost + '/admin/ctl/ctlChart/findEventForIndexByPage',//事件查找
+			type : 'POST',
+			async : true, //或false,是否异步
+			timeout : 5000,
+			data : {
+				"pageNo" : n ,
+				"pageSize" : s
+			},
+			dataType : 'json',
+			//contentType: "application/json; charset=utf-8",
+			success : function(res) {
+				$('#task .loading').remove();
+				if(res.code === 1000){
+					if(res.data.page.count==0){
+						//分页
+						//pageForEvent();
+						// $("#task .row-fluid").css("display","none");
+					}
+					// 拼接事件
+					pageContentEvent(res.data.page);//分页
+					$("#event_total").html(res.data.page.count);
+				    var newTbody = document.createElement("tbody");
+					newTbody.setAttribute("id", "userPassTbody");
+					var list = res.data.page.list;
+					
+					if(list==''){
+						$("#task .page-null").css("display","block");
+						$("#task .page-box").css("display","none");
+					}else {
+						$("#task .page-null").css("display", "none");
+						$("#task .page-box").css("display", "block");
+						$("#task #page_div").css("display", "block");
+						for (var i = 0; i < list.length; i++) {
+							if(list[i].emType=="WX"){
+								 arrStates = ["待核实", "待指派", "待处理", "已完成", "已终止"];
+							     arrcompCategory = ["设备类", "保养类", "服务类"];
+							     arrTitleProcess = ["核实","指派", "处理"];
+							     arrTypeProcess = {"BX": "保修","WX": "维修","JX": "检修","BY": "保养","ZDBJ": "自动报警"}
+							}else if(list[i].emType=="AB"){
+								  arrStates = ["待核实", "待指派", "待处理", "已完成", "已终止"];
+							      arrcompCategory = ["设备类", "保养类", "服务类"];
+							      arrTitleProcess = ["核实","指派", "处理"];
+							}else if(list[i].emType=="TS"){
+								 arrStates = ["待指派", "待处理", "待回访", "已完成", "已终止"];
+						         arrcompCategory = ["设备类", "保养类", "服务类"];
+						         arrTitleProcess = ["指派", "处理", "回访"];
+							}
+							var tr = document.createElement("tr");
+							//序号
+							var td1 = document.createElement("td");
+							td1.innerHTML = i + 1;
+							tr.appendChild(td1);
+							//编号
+							var td22 = document.createElement("td");
+							/* if(list[i].emState=='4'){ */
+								td22.innerHTML = list[i].emCode;
+							/* }else{
+								td22.innerHTML = "<a style='cursor:pointer' onclick = 'getProcess(\""+ list[i].emCode +"\" , \""+ list[i].emState +"\")'>"+list[i].emCode+"</a>";
+							} */
+							tr.appendChild(td22);
+							//时间
+							var td2 = document.createElement("td");
+							td2.innerHTML = list[i].emTime;
+							tr.appendChild(td2);
+							//详细内容
+							var td3 = document.createElement("td");
+							td3.innerHTML = "<div class='msg-box'>" + list[i].emContent + "</div>";
+							tr.appendChild(td3);
+							//操纵
+							var td12 = document.createElement("td");
+							td12.innerHTML = '<span onclick = \"allTProcess(\'' + list[i].emCode + '\',\'' + list[i].emType + '\',\'' +list[i].emState + '\');\">查看进度</span>'
+                            + '<span onclick = \"getProcess(\'' + list[i].emCode + '\',\'' + list[i].emType + '\',\'' +list[i].emState + '\');">'
+                            + arrStates[parseInt(list[i].emState)].slice(1)
+                            + '</span>'
+                            + '<span onclick = \"endProcess(\'' + list[i].emCode  + '\',\'' + list[i].emType + '\',\'' + list[i].emState +'\',\'' + list[i].id + '\');\">'
+                            + '终止</span>';
+							//td12.className="actions";
+							tr.appendChild(td12);
+							newTbody.appendChild(tr);
+						}
+						contentTableSub.appendChild(newTbody);
+						//table下每一行tr选中高亮
+						inputCheck();
+						//调用操作按钮方法
+						handelBtn();
+					}
+				}else if(res.code ===1003){
+					//没有登录状态
+				/* 	$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+					{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } }); */
+				}else if(res.code === 1002){
+					//发生异常
+					$.jBox.alert(res.msg,"提示");
+				}
+			},
+			error : function() {
+				console.log("错误");
+			}
+		});
+		
+	}
+	
+	// n pageNo  s pageSize
+	function  findAlm(n,s){
+		$("#alm .page-box").css("display","none");
+		$("#alm .page-null").css("display","none");
+		$("#alm #page_div").css("display","none");
+		$("#alm .table_fluid").append("<div class='spinner loading'><div class='rect1'></div><div class='rect2'></div><div class='rect3'></div><div class='rect4'></div><div class='rect5'></div></div>");
+		var pageSize = $('#alm .page-size option:selected').val();
+		if(!$.isNumeric(s)){
+			s = pageSize;
+		}
+		//删除旧tbody
+		var contentTableSub = document.getElementById("almTable");
+		var oldTbody = document.getElementById("almTbody");
+		if (oldTbody != null) {
+			contentTableSub.removeChild(oldTbody);
+		}
+		$.ajax({
+			headers    : {
+				"token":localStorage.getItem("token")
+			},
+			url : APIHost + '/admin/ctl/ctlChart/findAlmForIndexByPage',//事件查找
+			type : 'POST',
+			async : true, //或false,是否异步
+			timeout : 5000,
+			data : {
+				"pageNo" : n ,
+				"pageSize" : s
+			},
+			dataType : 'json',
+			//contentType: "application/json; charset=utf-8",
+			success : function(res) {
+				$('#alm .loading').remove();
+				if(res.code === 1000){
+					if(res.data.page.count==0){	
+						//pageForAlm();
+						$("#alm .table-fluid").css("display","none");
+					}
+					// 拼接事件
+					pageContentAlm(res.data.page);
+					$("#alm_total").html(res.data.page.count);
+				    var newTbody = document.createElement("tbody");
+					newTbody.setAttribute("id", "almTbody");
+					var list = res.data.page.list;
+					if(list==''){
+						$("#alm .page-null").css("display","block");
+						$("#alm .page-box").css("display","none");
+					}else {
+						$("#alm .page-null").css("display", "none");
+						$("#alm .page-box").css("display", "block");
+						$("#alm #page_div").css("display", "block");
+						for (var i = 0; i < list.length; i++) {
+							var tr = document.createElement("tr");
+							//序号
+							var td1 = document.createElement("td");
+							td1.innerHTML = i + 1;
+							tr.appendChild(td1);
+							//报警编号
+							var td2 = document.createElement("td");
+						    td2.innerHTML = list[i].recordNum;
+							tr.appendChild(td2);
+							//时间
+							var td3 = document.createElement("td");
+							td3.innerHTML = list[i].alarmTime;
+							tr.appendChild(td3);
+							//详细内容
+							var td4 = document.createElement("td");
+							td4.innerHTML = "<div class='msg-box'>" + list[i].alarmMsg + "</div>";
+							tr.appendChild(td4);
+							//操纵
+							var td15 = document.createElement("td");
+							var td15=document.createElement("td");
+							if(list[i].states=="10"){
+								td15.innerHTML= '<span itemId="'+list[i].id+'" onclick="addClick(this)">'
+										+'生成事件</span>'
+										+'<span itemId="'+list[i].id+'" onclick="almConfirm(this)" >'
+										+'确认</span>'
+										+'<span itemId="'+list[i].id+'" onclick="almEnd(this)">'
+										+'终止</span>';
+							}else if(list[i].states=="20"){
+								if(list[i].emCode===null){
+									td15.innerHTML=	'<span class="blue" itemId="' + list[i].id + '" onclick="showProcessAlm(\'' + list[i].recordNum + '\');\">查看进度</span>'
+										    +'<span itemId="'+list[i].id+'" onclick="almProcess(this)">'
+											+'处理</span>'
+											+'<span itemId="'+list[i].id+'" onclick="almEnd(this)">'
+											+'终止</span>';
+								}else{
+									td15.innerHTML='<span itemId="'+list[i].recordNum+'" onclick="checkEvent(this)">查看进度</span>'
+										    +'<span itemId="'+list[i].recordNum+'" onclick="getEvent(this)">'
+											+'处理</span>'
+											+'<span itemId="'+list[i].recordNum+'" onclick="endClick(this)">'
+											+'终止</span>';
+								}
+							}
+							td15.className="actions";
+							tr.appendChild(td15);
+							newTbody.appendChild(tr);
+					}
+						contentTableSub.appendChild(newTbody)
+						;
+						//table下每一行tr选中高亮
+						inputCheck();
+						//调用操作按钮方法
+						handelBtn();
+					}
+				}else if(res.code ===1003){
+					//没有登录状态
+				/* 	$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+					{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } }); */
+				}else if(res.code === 1002){
+					//发生异常
+					$.jBox.alert(res.msg,"提示");
+				}
+			},
+			error : function() {
+				//$.jBox.alert("系统错误，请重试","提示");
+				console.log("错误");
+			}
+		});
+		
+	}
+	//加载通知
+	function  findNotice(n,s){
+		$("#notice .page-box").css("display","none");
+		$("#notice .page-null").css("display","none");
+		$("#notice #page_div").css("display","none");
+		$("#notice .table_fluid").append("<div class='spinner loading'><div class='rect1'></div><div class='rect2'></div><div class='rect3'></div><div class='rect4'></div><div class='rect5'></div></div>");
+		var pageSize = $('#notice .page-size option:selected').val();
+		if(!$.isNumeric(s)){
+			s = pageSize;
+		}
+		//删除旧tbody
+		var contentTableSub = document.getElementById("noticeTable");
+		var oldTbody = document.getElementById("noticeTbody");
+		if (oldTbody != null) {
+			contentTableSub.removeChild(oldTbody);
+		}
+		$.ajax({
+			headers    : {
+				"token" : localStorage.getItem("token")
+			},
+			url : APIHost + '/admin/ctl/ctlNotice/findByUserCode',//事件查找
+			type : 'POST',
+			async : false, //或false,是否异步
+			timeout : 5000,
+			data : {
+				"pageNo" : n ,
+				"pageSize" : s,
+				"readFlag":"all"
+			},
+			dataType : 'json',
+			//contentType: "application/json; charset=utf-8",
+			success : function(res) {
+				$('#notice .loading').remove();
+				if(res.code === 1000){
+					if(res.data.count==0){	
+						//pageForAlm();
+						$("#notice .table-fluid").css("display","none");
+					}
+					// 拼接事件
+					pageContentNotice(res.data);
+					$("#notice_total").html(res.data.count);
+					$("#sysIndexNotice",window.parent.document).html(res.data.count);
+				    var newTbody = document.createElement("tbody");
+					newTbody.setAttribute("id", "noticeTbody");
+					var list = res.data.list;
+					if(res.data.list==''){
+						$("#notice .page-null").css("display","block");
+						$("#notice .page-box").css("display","none");
+					}else {
+						$("#notice .page-null").css("display", "none");
+						$("#notice .page-box").css("display", "block");
+						$("#notice #page_div").css("display", "block");
+						for (var i = 0; i < list.length; i++) {
+							var tr = document.createElement("tr");
+							//序号
+							var td1 = document.createElement("td");
+							td1.innerHTML = i + 1;
+							tr.appendChild(td1);
+							//时间
+							var td3 = document.createElement("td");
+							td3.innerHTML = list[i].noticeTime;
+							tr.appendChild(td3);
+							//详细内容
+							var td4 = document.createElement("td");
+							td4.innerHTML = "<div class='msg-box'>" + list[i].noticeInfo + "</div>";
+							tr.appendChild(td4);
+							//操纵
+							var td15 = document.createElement("td");
+							var td15=document.createElement("td");
+							if(list[i].readFlag=="Y"){
+								td15.innerHTML= '<span>'
+										+'已阅</span>'
+							}else if(list[i].readFlag=="N"){
+									td15.innerHTML=	'<span class="blue" itemId="' + list[i].id + '" onclick="showNotice(\'' + list[i].id + '\');\">查看</span>'
+							}
+							td15.className="actions";
+							tr.appendChild(td15);
+							newTbody.appendChild(tr);
+					}
+						contentTableSub.appendChild(newTbody)
+						;
+						//table下每一行tr选中高亮
+						inputCheck();
+						//调用操作按钮方法
+						handelBtn();
+					}
+				}else if(res.code ===1003){
+					//没有登录状态
+				/* 	$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+					{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } }); */
+				}else if(res.code === 1002){
+					//发生异常
+					$.jBox.alert(res.msg,"提示");
+				}
+			},
+			error : function() {
+				//$.jBox.alert("系统错误，请重试","提示");
+				console.log("错误");
+			}
+		});
+	}
+	//事件分页
+	var pageSizeEvent;
+	var pageEvent;
+	function pageContentEvent(data){
+		var allPageNum = Math.ceil(data.count/data.pageSize);
+		var pageEvent = data.pageNo;
+		$("#pageNowEvent").html(pageEvent);
+		$("#allNumEvent").html(data.count);
+		$("#allPageEvent").html(allPageNum);
+		if(allPageNum == 0){
+			allPageNum = null;
+		}
+		options = {
+		    size:"normal",
+		    currentPage: pageEvent,
+		    totalPages:allPageNum,
+		    numberOfPages:10,
+		    onPageClicked: function(e,originalEvent,type,pageEvent){
+		    	findEvent(pageEvent,pageSizeEvent)
+		    }
+		};
+		$("#page_div_event").bootstrapPaginator(options);
+	}
+	
+	function pageForEvent(){
+		var pageRightContent='<div class="row-fluid">'
+		+'<h3 class="page-null">暂无数据！</h3>'
+		+'<div style="padding-top: 15px" class="page-box span6">'
+		+'<span id="pageNowEvent"></span><span>-</span><span id="allPageEvent"></span>页&nbsp;&nbsp;<span>共<span id="allNumEvent"></span>项</span>&nbsp;&nbsp;'
+		+'<select class="page-size-event  page-size">'
+			+'<option value="10">10</option>'
+			+'<option value="20">20</option>'
+			+'<option value="50">50</option>'
+		+'<select>&nbsp;项/页'
+		+'</div>'
+		+'<div id="page_div_event" style="text-align: right;">'
+		+'</div>'
+		+'</div>';
+		$("#task").append(pageRightContent);
+
+		$(".page-size-event").on("change",function(){
+			var pageSizeEvent = this.value;
+			findEvent(pageEvent,pageSizeEvent);
+		});
+	}
+	
+	
+	
+	//报警分页
+	var pageSizeAlm;
+	var pageAlm;
+	function pageContentAlm(data){
+		var allPageNum = Math.ceil(data.count/data.pageSize);
+		var pageAlm = data.pageNo;
+		$("#pageNowAlm").html(pageAlm);
+		$("#allNumAlm").html(data.count);
+		$("#allPageAlm").html(allPageNum);
+		if(allPageNum == 0){
+			allPageNum = null;
+		}
+		options = {
+		    size:"normal",
+		    currentPage: pageAlm,
+		    totalPages:allPageNum,
+		    numberOfPages:10,
+		    onPageClicked: function(e,originalEvent,type,pageAlm){
+		    	findAlm(pageAlm,pageSizeAlm)
+		    }
+		};
+		$("#page_div_alm").bootstrapPaginator(options);
+	}
+	
+	function pageForAlm(){
+		var pageRightContent='<div class="row-fluid">'
+		+'<h3 class="page-null">暂无数据！</h3>'
+		+'<div style="padding-top: 15px" class="page-box span6">'
+		+'<span id="pageNowAlm"></span><span>-</span><span id="allPageAlm"></span>页&nbsp;&nbsp;<span>共<span id="allNumAlm"></span>项</span>&nbsp;&nbsp;'
+		+'<select class="page-size-alm  page-size">'
+			+'<option value="10">10</option>'
+			+'<option value="20">20</option>'
+			+'<option value="50">50</option>'
+		+'<select>&nbsp;项/页'
+		+'</div>'
+		+'<div id="page_div_alm" style="text-align: right;">'
+		+'</div>'
+		+'</div>';
+		$("#alm").append(pageRightContent);
+
+		$(".page-size-alm").on("change",function(){
+			var pageSizeAlm = this.value;
+			findAlm(pageAlm,pageSizeAlm);
+		});
+		
+	}
+	var pageSizeNotice;
+	var pageNotice;
+	function pageContentNotice(data){
+		var allPageNum = Math.ceil(data.count/data.pageSize);
+		var pageNotice = data.pageNo;
+		$("#pageNowNotice").html(pageNotice);
+		$("#allNumNotice").html(data.count);
+		$("#allPageNotice").html(allPageNum);
+		if(allPageNum == 0){
+			allPageNum = null;
+		}
+		options = {
+		    size:"normal",
+		    currentPage: pageNotice,
+		    totalPages:allPageNum,
+		    numberOfPages:10,
+		    onPageClicked: function(e,originalEvent,type,pageNotice){
+		    	findNotice(pageNotice,pageSizeNotice)
+		    }
+		};
+		$("#page_div_notice").bootstrapPaginator(options);
+	}
+	
+	function pageForNotice(){
+		var pageRightContent='<div class="row-fluid">'
+		+'<h3 class="page-null">暂无数据！</h3>'
+		+'<div style="padding-top: 15px" class="page-box span6">'
+		+'<span id="pageNowNotice"></span><span>-</span><span id="allPageNotice"></span>页&nbsp;&nbsp;<span>共<span id="allNumNotice"></span>项</span>&nbsp;&nbsp;'
+		+'<select class="page-size-notice  page-size">'
+			+'<option value="10">10</option>'
+			+'<option value="20">20</option>'
+			+'<option value="50">50</option>'
+		+'<select>&nbsp;项/页'
+		+'</div>'
+		+'<div id="page_div_notice" style="text-align: right;">'
+		+'</div>'
+		+'</div>';
+		$("#notice").append(pageRightContent);
+
+		$(".page-size-notice").on("change",function(){
+			var pageSizeNotice = this.value;
+			findNotice(pageNotice,pageSizeNotice);
+		});
+		
+	}
+	//终止流程
+	function endProcess(code,type,states,id,alm){
+		if(alm=="alm"){
+			returnType = "homeAlm";
+		}else{
+			returnType = "homeEvent";
+		}
+		emType=type;
+		emCode=code;
+		$('#myModal').modal({backdrop: 'static', keyboard: false});
+		$('#myModal').modal('show');
+		$("#endNodeDiv").hide();
+		
+		//删除旧tbody
+		var oldTbody = document.getElementById("wfInstanceChildDiv");
+		if (oldTbody != null) {
+			oldTbody.remove();
+		}
+		
+		$.ajax({
+			headers    : {
+                "token":localStorage.getItem("token")
+            },
+			url : APIHost + endUrl,
+			type : 'GET',
+			async : false, //或false,是否异步
+			dataType : 'html',
+			timeout : 5000,
+			success : function(data) {
+				$("#nodeContent").html(data); 
+				$("#complId").val(id);
+                $("#emCode").val(code);
+                $("#emType").val(emType);
+			}
+		})
+	}
+	
+	//投诉处理弹出框
+	// 查看详情
+    function allTProcess(code, type, states) {
+		var complCode = code;
+		var params = {
+        		emCode:code
+    	     }
+		if(type=="WX"){
+			 $('#myModalProcess').modal('show');
+		        $(".progress-wrap").html('');
+		        $(".processDetail").html('');
+		        $.ajax({
+		            headers: {
+		            	'Content-Type': 'application/json;charset=UTF-8',
+		                "token": localStorage.getItem("token"),
+		            },
+		            url: APIHost + '/admin/wf/wfinstancerecord/wfInstanceRecord/getListProcess',
+		            type: 'POST',
+		            async: false,
+		            data: JSON.stringify(params),
+		            dataType: 'json',
+		            success: function (res) {
+		                var processStopList = res.data;
+		                var processStopStr = '';
+		                var tIndex = 0;
+		                for (var i = 0; i < processStopList.length; i++) {
+		                    if (processStopList[i].stepStat == "1") {
+		                        tIndex = i;
+		                    }
+		                    if (processStopList[i].stepStat == "2") {
+		                        var nowList = '<li class="progress-one"><div class="progress-line"></div><div class="progress-content"><span class="progress-text">' + processStopList[i].stepName + '</span></div></li>';
+		                        processStopStr += nowList;
+		                    } else {
+		                        var nowList = '<li class="progress-one"><div class="progress-line grey"></div><div class="progress-content"><span class="progress-text red">' + processStopList[i].stepName + '</span></div></li>';
+		                        processStopStr += nowList;
+		                    }
+		                }
+		                $(".progress-wrap").append(processStopStr);
+		                var progressEndAdress = ['/admin/em/emprocess/emProcess/getProcess', 
+		                	'/admin/em/emassign/emAssign/getAssignByCode',
+		                	'/admin/em/emconfirm/emConfirm/getByCode',
+		                	'/admin/emRepairList/getByCode'].reverse();
+		                var tprogressEndAdress = progressEndAdress.slice(0, tIndex);
+		                var processStopAdressStr = '';
+		                var stopData = {};
+		                for (var j = 0; j < tprogressEndAdress.length; j++) {
+		                    if (j <= 2) {
+		                    	stopData = {emCode: code};
+		                    } else {
+		                    	stopData = {complCode: code};
+		                    };
+		                    $.ajax({
+		                        headers: {
+		                        	'Content-Type': 'application/json;charset=UTF-8',
+		                            "token": localStorage.getItem("token"),
+		                        },
+		                        url: APIHost + tprogressEndAdress[j],
+		                        type: 'POST',
+		                        async: false,
+		                        data:JSON.stringify(stopData),
+		                        dataType: 'json',
+		                        success: function (res) {
+		                        	var creatModel = [
+	                            		{
+	                            			url: "/admin/emRepairList/getByCode",
+	                            			titleProcess: "创建",
+	                            			timeProcess: "createdDt",
+	                            			content: [
+	                                    		{"title": "事件编号", "name": "emCode"},{"title": "事件类型", "name": "emType"},
+	                                    		{"title": "报案人", "name": "repairPerson"},{"title": "联系电话", "name": "telphone"},
+	                                    		{"title": "投诉地址", "name": "address"},{"title": "附件详情", "name": "files"},
+	                                    		{"title": "备注", "name": "repairDesc"}
+	                                    	]
+	                            		},
+	                            		{
+	                            			url: "/admin/em/emconfirm/emConfirm/getByCode",
+	                            			titleProcess: "核实",
+	                            			timeProcess: "confirmDate",
+	                            			content: [
+	                                    		{"title": "核实时间", "name": "confirmDate"},{"title": "核实人", "name": "confirmPerson"},
+	                                    		{"title": "备注", "name": "remarks"}
+	                                    	]
+	                            		},
+	                            		{
+	                            			url: "/admin/em/emassign/emAssign/getAssignByCode",
+	                            			titleProcess: "指派",
+	                            			timeProcess: "assignDatetime",
+	                            			content: [
+	                                    		{"title": "指派给", "name": "assignPerson"},{"title": "指派说明", "name": "assignDesc"}
+	                                    	]
+	                            		},
+	                            		{
+	                            			url: "/admin/em/emprocess/emProcess/getProcess",
+	                            			titleProcess: "处理",
+	                            			timeProcess: "repairDatetime",
+	                            			content: [
+	                                    		{"title": "处理时间", "name": "repairDatetime"},{"title": "处理说明", "name": "repairContent"}
+	                                    	]
+	                            		},
+	                            		{
+	                            			url: "/admin/em/emended/emEnded/getByCode",
+	                            			titleProcess: "<font color='red'>终止</font>",
+	                            			timeProcess: "endTime",
+	                            			content: [
+	                                    		{"title": "终止时间", "name": "endTime"},{"title": "操作人", "name": "operator"},
+	                                    		{"title": "终止原因", "name": "endReason"}
+	                                    	]
+	                            		}
+	                            	];
+	                            	for (var itemProcess of creatModel) {
+	                            		if (tprogressEndAdress[j] == itemProcess.url) {
+	                            			var dataProcess = res;
+	                            			if (itemProcess.titleProcess == "处理") {timer = dataProcess[0][itemProcess.timeProcess]}else {timer = dataProcess[itemProcess.timeProcess]};
+	                            			processStopAdressStr += '<li class="clearfix"><div class="time">' + timer.split(' ')[0] + '<br>' + timer.split(' ')[1] + '</div>'
+	                                        				 + '<div class="title"><div class="line"></div><div class="text">'+ itemProcess.titleProcess +'</div><div class="line"></div></div><div class="processTable"><table>';
+	                                        				 if (itemProcess.titleProcess != "处理") {
+	                                     				        for (var itemContent of itemProcess.content) {
+	                                     				            if (dataProcess[itemContent.name]) {
+	                                     				                if (itemContent.name == "emType") {
+	                                     				                    processStopAdressStr += '<tr><td>' + itemContent.title + '：</td><td>' + arrTypeProcess[dataProcess[itemContent.name]] + '</td></tr>'
+	                                     				                } else if (itemContent.name == "files") {
+	                                     				                    var imageData = dataProcess[itemContent.name];
+	                                     				                    processStopAdressStr += '<tr><td>' + itemContent.title + '：</td><td>';
+	                                     				                    for (var k = 0; k < imageData.length; k++) {
+	                                     				                        processStopAdressStr += '<img onclick="checkImage(this);" class="imageFileStyle" src="' + FILEHost + imageData[k].fileLoc + imageData[k].fileName + '">'
+	                                     				                    }
+	                                     				                    processStopAdressStr += '</td></tr>';
+	                                     				                } else {
+	                                     				                    processStopAdressStr += '<tr><td>' + itemContent.title + '：</td><td>' + dataProcess[itemContent.name] + '</td></tr>'
+	                                     				                }
+	                                     				            }
+	                                     				        }
+	                                     				    } else {
+	                                     				        for (var g = 0; g < dataProcess.length; g++) {
+	                                     				            for (var itemLast of itemProcess.content) {
+	                                     				                if (dataProcess[g][itemLast.name]) {
+	                                     				                    processStopAdressStr += '<tr><td>' + itemLast.title + '：</td><td>' + dataProcess[g][itemLast.name] + '</td></tr>';
+	                                     				                }
+	                                     				            }
+	                                     				        }
+	                                     				    }				 
+	                                    	processStopAdressStr += '</table></div><span class="verticalLine"></span></li>';
+	                            		}
+	                            	}
+
+		                        }
+		                    })
+		                }
+		                $(".processDetail").append(processStopAdressStr);
+		            }
+		        })
+		}else if(type=="AB"){
+			 $('#myModalProcess').modal('show');
+	            $(".progress-wrap").html('');
+	            $(".processDetail").html('');
+	            $.ajax({
+	                headers: {
+	                    "token": localStorage.getItem("token"),
+	                },
+	                url: APIHost + '/admin/wf/wfinstancerecord/wfInstanceRecord/getListProcess',
+	                type: 'POST',
+	                async: false,
+	                data: {
+	                    "emCode": complCode
+	                },
+	                dataType: 'json',
+	                success: function (res) {
+	                    var processStopList = res.data;
+	                    var processStopStr = '';
+	                    var tIndex = 0;
+	                    for (var i = 0; i < processStopList.length; i++) {
+	                        if (processStopList[i].stepStat == "1") {
+	                            tIndex = i;
+	                        }
+	                        if (processStopList[i].stepStat == "2") {
+	                            var nowList = '<li class="progress-one"><div class="progress-line"></div><div class="progress-content"><span class="progress-text">' + processStopList[i].stepName + '</span></div></li>';
+	                            processStopStr += nowList;
+	                        } else {
+	                            var nowList = '<li class="progress-one"><div class="progress-line grey"></div><div class="progress-content"><span class="progress-text red">' + processStopList[i].stepName + '</span></div></li>';
+	                            processStopStr += nowList;
+	                        }
+	                    }
+	                    $(".progress-wrap").append(processStopStr);
+	                    var tProgressSata = {};
+	                    var tProcessTableStr = '';
+	                    var progressEndAdress = ['/admin/em/emprocess/emProcess/getProcess', 
+	                    	'/admin/em/emassign/emAssign/getAssignByCode',
+	                    	'/admin/em/emconfirm/emConfirm/getByCode',
+	                    	'/admin/emSecuRecord/getEmSecuRecord'].reverse();
+	                    var tprogressEndAdress = progressEndAdress.slice(0, tIndex);
+	                    for (var j = 0; j < tprogressEndAdress.length; j++) {
+	                        if (j <= 2) {
+	                            tProgressSata = {emCode: complCode};
+	                        } else {
+	                            tProgressSata = {complCode: complCode};
+	                        };
+	                        $.ajax({
+	                            headers: {
+	                                "token": localStorage.getItem("token"),
+	                            },
+	                            url: APIHost + tprogressEndAdress[j],
+	                            type: 'POST',
+	                            async: false,
+	                            data: tProgressSata,
+	                            dataType: 'json',
+	                            success: function (res) {
+	                                if (tprogressEndAdress[j] == '/admin/em/emprocess/emProcess/getProcess') {
+	                                    tProcessTableStr += '<li class="clearfix"><div class="time">' + res[0].repairDatetime.split(' ')[0] + '<br>' + res[0].repairDatetime.split(' ')[1] + '</div>'
+	                                        + '<div class="title"><div class="line"></div><div class="text">处理</div><div class="line"></div></div><div class="processTable"><table>';
+	                                    for (var k = 0; k < res.length; k++) {
+	                                        tProcessTableStr += '<tr><td>完成时间：</td><td>' + res[k].repairDatetime + '</td></tr><tr><td>处理说明：</td>'
+	                                            + '<td>' + res[k].repairContent + '</td></tr>';
+	                                    }
+	                                    tProcessTableStr += '</table></div><span class="verticalLine"></span></li>';
+	                                } else if (tprogressEndAdress[j] == '/admin/em/emassign/emAssign/getAssignByCode') {
+	                                    tProcessTableStr += '<li class="clearfix"><div class="time">' + res.assignDatetime.split(' ')[0] + '<br>' + res.assignDatetime.split(' ')[1] + '</div>'
+	                                        + '<div class="title"><div class="line"></div><div class="text">指派</div><div class="line"></div></div><div class="processTable">'
+	                                        + '<table><tr><td>指派给：</td><td>' + res.assignPerson + '</td></tr><tr><td>备注：</td>'
+	                                        + '<td>' + res.assignDesc + '</td></tr></table></div><span class="verticalLine"></span></li>';
+	                                } else if (tprogressEndAdress[j] == '/admin/em/emconfirm/emConfirm/getByCode') {
+	                                	tProcessTableStr += '<li class="clearfix"><div class="time">' + res.confirmDate.split(' ')[0] + '<br>' + res.confirmDate.split(' ')[1] + '</div>'
+	                                    + '<div class="title"><div class="line"></div><div class="text">核实</div><div class="line"></div></div><div class="processTable">'
+	                                    + '<table><tr><td>核实时间：</td><td>' + res.confirmDate.split(' ')[0] + '</td></tr>'
+	                                    +'<tr><td>核实人：</td><td>' + res.confirmPerson + '</td></tr>'
+	                                    +'<tr><td>备注：</td>'
+	                                    + '<td>' + res.remarks + '</td></tr></table></div><span class="verticalLine"></span></li>';
+	                                }else {
+	                                	tProcessTableStr += '<li class="clearfix"><div class="time">' + res.createdDt.split(' ')[0] + '<br>' + res.createdDt.split(' ')[1] + '</div>'
+	                                    + '<div class="title"><div class="line"></div><div class="text">创建</div><div class="line"></div></div><div class="processTable">'
+	                                    + '<table><tr><td>事件编号：</td><td>' + res.emCode + '</td></tr>'
+	                                    + '<tr><td>安保类型：</td><td>' + res.emType + '</td></tr>'
+	                                    + '<tr><td>报案人：</td><td>' + res.reportPerson + '</td></tr>'
+	                                    + '<tr><td>联系电话：</td><td>' + res.telphone + '</td></tr>'
+	                                    + '<tr><td>投诉地址：</td><td>' + res.address + '</td></tr>'
+	                                    + '<tr><td>投诉内容：</td><td>' + res.reportContent + '</td></tr>'
+	                                    if(res.remarks) {
+	                                    	tProcessTableStr += '<tr><td>备注</td><td>' + res.remarks + '</td></tr>';
+	                                    }
+	                                    tProcessTableStr += '</table></div><span class="verticalLine"></span></li>';
+	                                }
+
+	                            }
+	                        })
+	                    }
+	                    $(".processDetail").append(tProcessTableStr);
+	                }
+	            })
+		}else if(type=="TS"){
+			 $('#myModalProcess').modal('show');
+	            $(".progress-wrap").html('');
+	            $(".processDetail").html('');
+	            $.ajax({
+	                headers: {
+	                    "token": localStorage.getItem("token"),
+	                },
+	                url: APIHost + '/admin/wf/wfinstancerecord/wfInstanceRecord/getListProcess',
+	                type: 'POST',
+	                async: false,
+	                data: {
+	                    "emCode": complCode
+	                },
+	                dataType: 'json',
+	                success: function (res) {
+	                    var processStopList = res.data;
+	                    var processStopStr = '';
+	                    var tIndex = 0;
+	                    for (var i = 0; i < processStopList.length; i++) {
+	                        if (processStopList[i].stepStat == "1") {
+	                            tIndex = i;
+	                        }
+	                        if (processStopList[i].stepStat == "2") {
+	                            var nowList = '<li class="progress-one"><div class="progress-line"></div><div class="progress-content"><span class="progress-text">' + processStopList[i].stepName + '</span></div></li>';
+	                            processStopStr += nowList;
+	                        } else {
+	                            var nowList = '<li class="progress-one"><div class="progress-line grey"></div><div class="progress-content"><span class="progress-text red">' + processStopList[i].stepName + '</span></div></li>';
+	                            processStopStr += nowList;
+	                        }
+	                    }
+	                    $(".progress-wrap").append(processStopStr);
+	                    var tProgressSata = {};
+	                    var tProcessTableStr = '';
+	                    var progressEndAdress = ['/admin/em/emComplaintsReturn/getComplaintsReturn', '/admin/em/emprocess/emProcess/getProcess', '/admin/em/emassign/emAssign/getAssignByCode', '/admin/emComplaints/getEmComplaints'].reverse();
+	                    var tprogressEndAdress = progressEndAdress.slice(0, tIndex);
+	                    for (var j = 0; j < tprogressEndAdress.length; j++) {
+	                        if (j == 0) {
+	                            tProgressSata = {complCode: complCode};
+	                        } else {
+	                            tProgressSata = {emCode: complCode};
+	                        }
+	                        ;
+	                        $.ajax({
+	                            headers: {
+	                                "token": localStorage.getItem("token"),
+	                            },
+	                            url: APIHost + tprogressEndAdress[j],
+	                            type: 'POST',
+	                            async: false,
+	                            data: tProgressSata,
+	                            dataType: 'json',
+	                            success: function (res) {
+	                                if (tprogressEndAdress[j] == '/admin/em/emprocess/emProcess/getProcess') {
+	                                    tProcessTableStr += '<li class="clearfix"><div class="time">' + res[0].repairDatetime.split(' ')[0] + '<br>' + res[0].repairDatetime.split(' ')[1] + '</div>'
+	                                        + '<div class="title"><div class="line"></div><div class="text">处理</div><div class="line"></div></div><div class="processTable"><table>';
+	                                    for (var k = 0; k < res.length; k++) {
+	                                        tProcessTableStr += '<tr><td>完成时间：</td><td>' + res[k].repairDatetime + '</td></tr><tr><td>处理说明：</td>'
+	                                            + '<td>' + res[k].repairContent + '</td></tr>';
+	                                    }
+	                                    tProcessTableStr += '</table></div><span class="verticalLine"></span></li>';
+	                                } else if (tprogressEndAdress[j] == '/admin/em/emassign/emAssign/getAssignByCode') {
+	                                    tProcessTableStr += '<li class="clearfix"><div class="time">' + '2018-05-23' + '<br>' + '08:30' + '</div>'
+	                                        + '<div class="title"><div class="line"></div><div class="text">指派</div><div class="line"></div></div><div class="processTable">'
+	                                        + '<table><tr><td>指派给：</td><td>' + res.assignPerson + '</td></tr><tr><td>备注：</td>'
+	                                        + '<td>' + res.assignDesc + '</td></tr></table></div><span class="verticalLine"></span></li>';
+	                                } else {
+	                                    tProcessTableStr += '<li class="clearfix"><div class="time">' + res.data.complTime.split(' ')[0] + '<br>' + res.data.complTime.split(' ')[1] + '</div>'
+	                                        + '<div class="title"><div class="line"></div><div class="text">创建</div><div class="line"></div></div><div class="processTable">'
+	                                        + '<table><tr><td>事件编号：</td><td>' + res.data.complCode + '</td></tr>'
+	                                        + '<tr><td>投诉类别：</td><td>' + arrcompCategory[parseInt(res.data.compCategory)] + '</td></tr>'
+	                                        + '<tr><td>投诉人：</td><td>' + res.data.complPerson + '</td></tr>'
+	                                        + '<tr><td>联系电话：</td><td>' + res.data.telphone + '</td></tr>'
+	                                        + '<tr><td>投诉地址：</td><td>' + res.data.address + '</td></tr>'
+	                                        + '<tr><td>投诉内容：</td><td>' + res.data.complContent + '</td></tr>'
+	                                        if(res.data.desc) {
+	                                        	tProcessTableStr += '<tr><td>备注</td><td>' + res.data.desc + '</td></tr>';
+	                                        }
+	                                        tProcessTableStr += '</table></div><span class="verticalLine"></span></li>';
+	                                }
+
+	                            }
+	                        })
+	                    }
+	                    $(".processDetail").append(tProcessTableStr);
+	                }
+	            })
+		}
+    }
+    function getProcess(code, type, status,alm) {
+    	 var params = {
+         		emCode:code
+     	     }
+    	var params = {
+        		emCode:code
+    	     }
+    	if(alm=="alm"){
+			returnType = "homeMsgAlm";
+		}else{
+			returnType = "homeMsgEvent";
+		}
+    	emCode = code;
+    	emType = type;
+        $('#myModal').modal({backdrop: 'static', keyboard: false});
+        $('#myModal').modal('show');
+        var oldDiv = document.getElementById("nodeContent");
+        oldDiv.innerHTML = "";
+        $("#myModal .modal-header h4").text(arrTitleProcess[parseInt(status)]);
+        $.ajax({
+            headers: {
+            	'Content-Type': 'application/json;charset=UTF-8',
+                "token": localStorage.getItem("token"),
+            },
+            url: APIHost + '/admin/wf/wfinstancerecord/wfInstanceRecord/getListProcess',
+            type: 'POST',
+            async: true, //或false,是否异步
+            data: JSON.stringify(params),
+            timeout: 5000,
+            dataType: 'json',
+            success: function (res) {
+            	var list = res.data;
+            	console.log(list);
+                var stepUrl = "", instanceId = "", emCode = "", emType = "";
+                for (var i = 0; i < list.length; i++) {
+                    if (list[i].stepStat == "1") {
+                        stepUrl = list[i].stepUrl, instanceId = list[i].instanceId, emCode = list[i].emCode, emType = list[i].emType;
+                        $("#myModalLabel").text(list[i].stepName);
+                        continue;
+                    }
+                }
+                loadNodeContent(stepUrl, instanceId, emCode, emType);
+            },
+            error: function () {
+                console.log('错误')
+            }
+        })
+    }
+	
+	//加载节点数据内容
+	function loadNodeContent(url,instanceId,emCode,emType){
+		if(url != null && url != ""){
+			$.ajax({
+				headers    : {
+	                "token" : localStorage.getItem("token"),
+	            },
+				url : APIHost + url,
+				type : 'GET',
+				async : false, //或false,是否异步
+				data : {
+					"instanceId" : instanceId,
+					"emCode" : emCode,
+					"emType" : emType
+				},
+				timeout : 5000,
+				dataType : 'html',
+				success : function(data) {
+	                $("#nodeContent").html(data);
+	                $("#id").val($("#complCode").val());
+	                $("#instanceId").val(instanceId);
+	                $("#emCode").val(emCode);
+	                $("#emType").val(emType);
+				},
+				error : function() {
+					console.log('错误')
+				}
+			})
+		}
+	}
+	function getEvent(index){
+		var code = $(index).attr("itemId");
+		$.ajax({
+			headers    : {
+                "token" : localStorage.getItem("token"),
+            },
+			url : APIHost +'/admin/emRepairList/getList',
+			type : 'POST',
+			async : true, //或false,是否异步
+			data : {
+				"fromNum":code
+			},
+			timeout : 5000,
+			dataType : 'json',
+			success : function(data) {
+				item=data;
+				emCode = item[0].emCode;
+				comStatus = item[0].status;
+				getProcess(emCode,item[0].emType,item[0].status,"alm");
+			}
+		})
+	}
+	function checkEvent(index){
+		var code = $(index).attr("itemId");
+		$.ajax({
+			headers    : {
+                "token" : localStorage.getItem("token"),
+            },
+			url : APIHost +'/admin/emRepairList/getList',
+			type : 'POST',
+			async : true, //或false,是否异步
+			data : {
+				"fromNum":code
+			},
+			timeout : 5000,
+			dataType : 'json',
+			success : function(data) {
+				item=data;
+				allTProcess(item[0].emCode,item[0].emType,item[0].states);
+			}
+		})
+	}
+	function endClick(index){
+		var code = $(index).attr("itemId");
+		$.ajax({
+			headers    : {
+                "token" : localStorage.getItem("token"),
+            },
+			url : APIHost +'/admin/emRepairList/getList',
+			type : 'POST',
+			async : true, //或false,是否异步
+			data : {
+				"fromNum":code
+			},
+			timeout : 5000,
+			dataType : 'json',
+			success : function(data) {
+				endProcess(data[0].emCode,data[0].emType,data[0].states,data[0].id,"alm");
+			}
+		})
+	}
+	function addClick(index){
+		var id=$(index).attr("itemId");
+			$.ajax({
+				headers    : {
+	                "token" : localStorage.getItem("token"),
+	            },
+				url : APIHost + '/admin/alm/almRecordList/generateEvents',
+				type : 'POST',
+				async : true, //或false,是否异步
+				data : {
+					id:id
+				},
+				timeout : 5000,
+				dataType : 'json',
+				success : function(res) {
+					if(res.code === 1000){
+						//成功返回
+						var data = res.data;
+						if(data.msg=="success"){
+							//没有登录状态
+							$.jBox.alert('维修事件已生成,事件编号为：' + data.emCode, '提示',{ closed: function ()
+								{findAlm(1,10)} });
+
+						}else{
+							$.jBox.alert("生成维修事件失败！","提示");
+						}
+					}else if(res.code ===1003){
+						//没有登录状态
+						$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+							{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+					}else if(res.code === 1002){
+						//发生异常
+						$.jBox.alert(res.msg);
+					}else if(res.code === 1004){
+						//结果为空
+						$.jBox.alert(res.msg);
+					}
+				},
+				error : function() {
+					console.log('错误')
+				}
+			})
+	}
+	// 关闭弹框
+	   function closePopUp(){
+	        $('.close').click();
+	    }    
+	 //报警处理
+       var id;
+
+       function almConfirm(index) {
+           id = $(index).attr("itemId");
+           $('#almConfirm').modal({backdrop: 'static', keyboard: false});
+           $("#almConfirm").modal("show");
+           getAlmById();
+       }
+
+       function almProcess(index) {
+    	   autoSize();
+           id = $(index).attr("itemId");
+           $('#almProcess').modal({backdrop: 'static', keyboard: false});
+           $("#almProcess").modal("show");
+           getMsgById("20");
+       }
+		function showProcessAlm (recordNum) {
+			$('#myModalProcess').modal('show');
+           $(".progress-wrap").html('');
+           $(".processDetail").html('');
+			$.ajax({
+               headers: {
+                   "token": localStorage.getItem("token"),
+               },
+               url: APIHost + '/admin/alm/almRecordHisList/getList',
+               type: 'POST',
+               async: true, //或false,是否异步
+               data: {
+                   "recordNum": recordNum,
+               },
+               timeout: 5000,
+               dataType: 'json',
+               success: function (res) {
+               	console.log(res);
+               	var titleAlmArr = {"10": "接收", "20": "确认", "30":"终止", "40": "处理"}
+               	var showAlmListD = res.data.list;
+               	var almStr = '';
+                   var processStopStr = '';
+               	if(showAlmListD.length) {
+               		for(var i = 0; i < showAlmListD.length; i ++) {
+               			var almData = showAlmListD[i];
+               			getHisMsgById(almData.id);
+               			console.log(userData);
+               			console.log(userData.person);
+               			if(almData.states == "10") {
+               				var nowList = '<li class="progress-one"><div class="progress-line"></div><div class="progress-content"><span class="progress-text">' + titleAlmArr[almData.states] + '</span></div></li>';
+                               processStopStr += nowList;
+               				almStr += '<li class="clearfix"><div class="time">' + almData.createdDt.split(' ')[0] + '<br>' + almData.createdDt.split(' ')[1] + '</div>'
+	                            + '<div class="title"><div class="line"></div><div class="text">'+ titleAlmArr[almData.states] +'</div><div class="line"></div></div><div class="processTable">'
+	                            + '<table><tr><td>处理时间：</td><td>' + almData.createdDt.split(' ')[0] + '</td></tr>'
+	                            +'<tr><td>报警级别：</td><td>' + almData.levelName + '</td></tr>'
+	                            +'<tr><td>报警编号：</td><td>' + almData.recordNum + '</td></tr>'
+	                            +'<tr><td>报警分类：</td><td>' + almData.alermTypeName + '</td></tr>'
+	                            +'<tr><td>设备编码：</td><td>' + almData.devicesCode + '</td></tr>';
+	                            if(showAlmListD[i].remarks) {
+	                            	almStr += '<tr><td>备注：</td><td>' + almData.remarks + '</td></tr>';
+	                            }
+	                            almStr += '</table></div><span class="verticalLine"></span></li>';
+               			}else if (almData.states == "20"){
+               				var nowList = '<li class="progress-one"><div class="progress-line"></div><div class="progress-content"><span class="progress-text">' + titleAlmArr[almData.states] + '</span></div></li>';
+                            processStopStr += nowList;
+            				almStr += '<li class="clearfix"><div class="time">' + almData.createdDt.split(' ')[0] + '<br>' + almData.createdDt.split(' ')[1] + '</div>'
+	                            + '<div class="title"><div class="line"></div><div class="text">'+ titleAlmArr[almData.states] +'</div><div class="line"></div></div><div class="processTable">'
+	                            + '<table><tr><td>确认时间：</td><td>' + almData.createdDt.split(' ')[0] + '</td></tr>'
+	                            +'<tr><td>确认人：</td><td>' + userData.person + '</td></tr>'
+	                            if(showAlmListD[i].remarks) {
+	                            	almStr += '<tr><td>备注：</td><td>' + almData.remarks + '</td></tr>';
+	                            }
+	                            almStr += '</table></div><span class="verticalLine"></span></li>';
+               			}else if(almData.states == "40"){
+               				var nowList = '<li class="progress-one"><div class="progress-line"></div><div class="progress-content"><span class="progress-text">' + titleAlmArr[almData.states] + '</span></div></li>';
+                            processStopStr += nowList;
+            				almStr += '<li class="clearfix"><div class="time">' + almData.createdDt.split(' ')[0] + '<br>' + almData.createdDt.split(' ')[1] + '</div>'
+	                            + '<div class="title"><div class="line"></div><div class="text">'+ titleAlmArr[almData.states] +'</div><div class="line"></div></div><div class="processTable">'
+	                            + '<table><tr><td>处理时间：</td><td>' + almData.createdDt.split(' ')[0] + '</td></tr>'
+	                            +'<tr><td>处理人：</td><td>' + userData.person + '</td></tr>'
+	                            if(showAlmListD[i].remarks) {
+	                            	almStr += '<tr><td>处理信息：</td><td>' + almData.remarks + '</td></tr>';
+	                            }
+	                            almStr += '</table></div><span class="verticalLine"></span></li>';
+               			}else {
+               				var nowList = '<li class="progress-one"><div class="progress-line red"></div><div class="progress-content"><span class="progress-text">终止</span></div></li>';
+                               processStopStr += nowList;
+               				almStr += '<li class="clearfix"><div class="time">' + almData.createdDt.split(' ')[0] + '<br>' + almData.createdDt.split(' ')[1] + '</div>'
+	                            + '<div class="title"><div class="line"></div><div class="text red">终止</div><div class="line"></div></div><div class="processTable">'
+	                            + '<table><tr><td>终止时间：</td><td>' + almData.createdDt.split(' ')[0] + '</td></tr>'
+	                            +'<tr><td>终止人：</td><td>' + userData.person + '</td></tr>'
+	                            +'<tr><td>终止原因：</td><td>' + almData.remarks + '</td></tr>'
+	                            +'</table></div><span class="verticalLine"></span></li>';
+               			}
+               		}
+               	}
+               	$(".progress-wrap").append(processStopStr);
+                   $(".processDetail").append(almStr);
+               }
+			})
+		}
+       function showProcess(index) {
+           id = $(index).attr("itemId");
+           $('#processTail').modal({backdrop: 'static', keyboard: false});
+           $("#processTail").modal("show");
+           getMsgById("40");
+       }
+
+       function showEnd(index) {
+           id = $(index).attr("itemId");
+           $('#endTail').modal({backdrop: 'static', keyboard: false});
+           $("#endTail").modal("show");
+           getMsgById("30");
+       }
+
+       function almEnd(index) {
+    	   autoSize();
+   		id = $(index).attr("itemId");
+           $('#almEnd').modal({backdrop: 'static', keyboard: false});
+           $("#almEnd").modal("show");
+       }
+       function getAlmById() {
+           $.ajax({
+               headers: {
+                   "token": localStorage.getItem("token"),
+               },
+               url: APIHost + '/admin/alm/almRecordList/getById',
+               type: 'POST',
+               data: {
+                   "id": id
+               },
+               async: true, //或false,是否异步
+               timeout: 5000,
+               dataType: 'json',
+               success: function (res) {
+                   if (res.code === 1000) {
+                       //成功返回
+                       var data = res.data;
+                       $("#recordNum2").val(data.recordNum);
+                       $("#alarmTime").val(data.alarmTime);
+                       $("#levelName").val(data.levelName);
+                       $("#alermTypeName").val(data.alermTypeName);
+                       $("#spaceName").val(data.spaceName + " " + data.devicesName);
+                       if (data.states == "10") {
+                           $("#states2").val("已接收");
+                       } else if (data.states == "20") {
+                           $("#states2").val("处理中");
+                       } else if (data.states == "30") {
+                           $("#states2").val("终止");
+                       } else {
+                           $("#states2").val("已处理");
+                       }
+
+                       $("#alarmMsg").val(data.alarmMsg);
+                   } else if (res.code === 1003) {
+                       //没有登录状态
+                       $.jBox.alert('您没有登录状态，请先登录', '提示', {
+                           closed: function () {
+                               window.parent.location.href = APIHost + "/sys/sysLogin.html";
+                           }
+                       });
+                   } else if (res.code === 1002) {
+                       //发生异常
+                       $.jBox.alert(res.msg);
+                   } else if (res.code === 1004) {
+                       //结果为空
+                       $.jBox.alert(res.msg);
+                   }
+               }
+           })
+       }
+
+       function confirmItem() {
+           $.ajax({
+               headers: {
+                   "token": localStorage.getItem("token"),
+               },
+               url: APIHost + '/admin/alm/almRecordList/almProcess',
+               type: 'POST',
+               data: {
+                   "id": id,
+                   "states": "20",
+                   "remarks": $("#remarks").val()
+               },
+               async: false, //或false,是否异步
+               timeout: 5000,
+               dataType: 'json',
+               success: function (res) {
+                   console.log(res);
+                   if (res.code === 1000) {
+                       //成功返回
+                       var data = res.data;
+                       if (data.msg == "success") {
+                       	tip("/static/media/image/tip/tip.png","确认成功");
+                           setTimeout(function () {
+                        	   $("#almConfirm").modal("hide");
+                           		findAlm(1,10);
+                           },2000)
+                       } else {
+                           $.jBox.alert('确认失败！', '提示')
+                       }
+                   } else if (res.code === 1003) {
+                       //没有登录状态
+                       $.jBox.alert('您没有登录状态，请先登录', '提示', {
+                           closed: function () {
+                               window.parent.location.href = APIHost + "/sys/sysLogin.html";
+                           }
+                       });
+                   } else if (res.code === 1002) {
+                       //发生异常
+                       $.jBox.alert(res.msg);
+                   } else if (res.code === 1004) {
+                       //结果为空
+                       $.jBox.alert(res.msg);
+                   }
+               }
+           })
+       }
+
+       function endItem() {
+       	if(!$("#remarksEnd").val()) {
+       		$.jBox.alert("请输入终止原因", "提示");
+       	}else {
+       		$.ajax({
+                   headers: {
+                       "token": localStorage.getItem("token"),
+                   },
+                   url: APIHost + '/admin/alm/almRecordList/almProcess',
+                   type: 'POST',
+                   data: {
+                       "id": id,
+                       "states": "30",
+                       "remarks": $("#remarksEnd").val()
+                   },
+                   async: false, //或false,是否异步
+                   dataType: 'json',
+                   success: function (res) {
+                       if (res.code === 1000) {
+                           //成功返回
+                           var data = res.data;
+                           if (data.msg == "success") {
+                           	tip("/static/media/image/tip/tip.png","提交成功");
+                               setTimeout(function () {
+                            	   $("#almEnd").modal("hide");
+                            	   findAlm(1,10);
+                               },2000)
+                           } else {
+                               $.jBox.alert('终止失败！', '提示')
+                           }
+
+                       } else if (res.code === 1003) {
+                           //没有登录状态
+                           $.jBox.alert('您没有登录状态，请先登录', '提示', {
+                               closed: function () {
+                                   window.parent.location.href = APIHost + "/sys/sysLogin.html";
+                               }
+                           });
+                       } else if (res.code === 1002) {
+                           //发生异常
+                           $.jBox.alert(res.msg);
+                       } else if (res.code === 1004) {
+                           //结果为空
+                           $.jBox.alert(res.msg);
+                       }
+                   }
+               })
+       	}
+       }
+
+       function processItem() {
+       	if(!$("#remarks").val()) {
+       		$.jBox.alert("请输入处理信息", "提示");
+       	}else {
+       		$.ajax({
+                   headers: {
+                       "token": localStorage.getItem("token"),
+                   },
+                   url: APIHost + '/admin/alm/almRecordList/almProcess',
+                   type: 'POST',
+                   data: {
+                       "id": id,
+                       "states": "40",
+                       "remarks": $("#remarks").val()
+                   },
+                   async: true, //或false,是否异步
+                   timeout: 5000,
+                   dataType: 'json',
+                   success: function (res) {
+                       if (res.code === 1000) {
+                           //成功返回
+                           var data = res.data;
+                           if (data.msg == "success") {
+                           	tip("/static/media/image/tip/tip.png","请求成功");
+                               setTimeout(function () {
+                            	   $("#almProcess").modal("hide");
+                            	   findAlm(1,10);
+                               },2000)
+                           } else {
+                               $.jBox.alert('处理失败！', '提示')
+                           }
+
+                       } else if (res.code === 1003) {
+                           //没有登录状态
+                           $.jBox.alert('您没有登录状态，请先登录', '提示', {
+                               closed: function () {
+                                   window.parent.location.href = APIHost + "/sys/sysLogin.html";
+                               }
+                           });
+                       } else if (res.code === 1002) {
+                           //发生异常
+                           $.jBox.alert(res.msg);
+                       } else if (res.code === 1004) {
+                           //结果为空
+                           $.jBox.alert(res.msg);
+                       }
+                   }
+               })
+       	}
+       }
+       function getMsgById(states) {
+           $.ajax({
+               headers: {
+                   "token": localStorage.getItem("token"),
+               },
+               url: APIHost + '/admin/alm/almRecordList/getMsgById',
+               type: 'POST',
+               data: {
+                   "id": id
+               },
+               async: true, //或false,是否异步
+               timeout: 5000,
+               dataType: 'json',
+               success: function (res) {
+                   if (res.code === 1000) {
+                       //成功返回
+                       var data = res.data;
+                       console.log(data);
+                       if (states == "20") {
+                           $("#alarmTimeProcess").val(data.date);
+                           $("#confirmMan").val(data.person);
+                       } else if (states == "40") {
+                           $("#processTime2").val(data.date);
+                           $("#processMan").val(data.person);
+                           $("#remarksProcess").val(data.remarks);
+                       } else if (states == "30") {
+                           $("#alarmTimeEnd").val(data.date);
+                           $("#endMan").val(data.person);
+                           $("#remarksEnd2").val(data.remarks);
+                       }
+                   } else if (res.code === 1003) {
+                       //没有登录状态
+                       $.jBox.alert('您没有登录状态，请先登录', '提示', {
+                           closed: function () {
+                               window.parent.location.href = APIHost + "/sys/sysLogin.html";
+                           }
+                       });
+                   } else if (res.code === 1002) {
+                       //发生异常
+                       $.jBox.alert(res.msg);
+                   } else if (res.code === 1004) {
+                       //结果为空
+                       $.jBox.alert(res.msg);
+                   }
+               }
+           })
+       }
+       function getHisMsgById(hid) {
+           $.ajax({
+               headers: {
+                   "token": localStorage.getItem("token"),
+               },
+               url: APIHost + '/admin/alm/almRecordHisList/getMsgById',
+               type: 'POST',
+               data: {
+                   "id": hid
+               },
+               async: false, //或false,是否异步
+               timeout: 5000,
+               dataType: 'json',
+               success: function (res) {
+                   if (res.code === 1000) {
+                       //成功返回
+                       userData = res.data;
+                   } else if (res.code === 1003) {
+                       //没有登录状态
+                       $.jBox.alert('您没有登录状态，请先登录', '提示', {
+                           closed: function () {
+                               window.parent.location.href = APIHost + "/sys/sysLogin.html";
+                           }
+                       });
+                   } else if (res.code === 1002) {
+                       //发生异常
+                       $.jBox.alert(res.msg);
+                   } else if (res.code === 1004) {
+                       //结果为空
+                       $.jBox.alert(res.msg);
+                   }
+               }
+           })
+       }
+    //通知操作
+   	function showNotice(id){alert
+		fingByNoticeId(id);
+		$('#showNotice').modal({backdrop: 'static', keyboard: false});
+	    $("#showNotice").modal("show");
+	}
+	function haveRead(id){
+		$.ajax({
+			headers    : {
+				"token" : localStorage.getItem("token")
+			},
+			url : APIHost + '/admin/ctl/ctlNotice/haveRead',//事件查找
+			type : 'POST',
+			async : false, //或false,是否异步
+			timeout : 5000,
+			data : {
+				id:$("#noticeId").val(),
+			},
+			dataType : 'json',
+			//contentType: "application/json; charset=utf-8",
+			success : function(res) {
+				if(res.code === 1000){
+					if(res.data.msg=='success'){
+						 $("#showNotice").modal("hide");
+	                 	   findNotice(1,10);
+					}
+				}else if(res.code ===1003){
+					//没有登录状态
+				 	$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+					{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+				}
+			},
+			error : function() {
+				console.log("错误");
+			}
+		});
+	}
+	function  fingByNoticeId(id){
+		$.ajax({
+			headers    : {
+				"token" : localStorage.getItem("token")
+			},
+			url : APIHost + '/admin/ctl/ctlNotice/findById',//事件查找
+			type : 'POST',
+			async : false, //或false,是否异步
+			timeout : 5000,
+			data : {
+				id:id
+			},
+			dataType : 'json',
+			//contentType: "application/json; charset=utf-8",
+			success : function(res) {
+				if(res.code === 1000){
+					$("#noticeId").val(id);
+					$("#noticeInfo").val(res.data.noticeInfo);
+				}else if(res.code ===1003){
+					//没有登录状态
+				/* 	$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+					{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } }); */
+				}
+			},
+			error : function() {
+				console.log("错误");
+			}
+		});
+	}
+
+</script>
+<script type="text/javascript">
+	var ctx = '/admin', ctxStatic = '/static';
+	var ListHtml = "/em/emComplaintsList.html";
+	var FormHtml = "/em/emComplaintsForm.html";
+	var GetList = '/admin/emComplaints/getListEmComplaints';
+	var DeleteList = '/admin/emComplaints/delete';
+	var updateUrl = '/admin/emComplaints/updateComplaint';
+	var endUrl = '/admin/em/emended/emEnded/form';
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!-- 用料申请单 -->
+<div class="form-inline js-materiel-list h200">
+    {{each items as item index}}
+    {{if item.isChecked == 1}}
+    <div class="form-group add">
+        <input type="radio" name="radio" class="warn-btn" data-index="{{index}}" data-typeid="{{item.orderNo}}" ids='{{item.id}}' checked = "checked">
+        <span>{{item.orderNo}}</span>
+    </div>
+    {{else}}
+    <div class="form-group add">
+            <input type="radio" name="radio" class="warn-btn" data-index="{{index}}" data-typeid="{{item.orderNo}}" ids='{{item.id}}' >
+            <span>{{item.orderNo}}</span>
+        </div>
+        {{/if}}
+    {{/each}}
+</div>

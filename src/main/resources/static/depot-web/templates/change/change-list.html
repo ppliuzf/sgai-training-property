@@ -1,0 +1,47 @@
+{{each items as item index}}
+<tr>
+    {{ if index+1 < 10}}
+    <td class="text-center" >0{{index+1}}</td>
+    {{ else }}
+    <td class="text-center" >{{index+1}}</td>
+    {{ /if }}
+    <td><a href="change-detail.html?id={{item.id}}&type={{item.whAllotStat}}">{{item.allotNo}}</a></td>
+    <td>{{item.allotEmpName}}</td>
+    <td class="wrap">{{item.allotDeptName}}</td>
+    
+    {{if item.allotReason == null}}
+        <td>--</td>
+    {{ else }}
+        <td class="wrap">{{item.allotReason}}</td>
+    {{/if}}
+    <td>{{item.allotDatetime | dateFormat:'yyyy-MM-dd'}}</td>
+    {{if item.whAllotStat == 1}}
+        <td>未调拨</td>
+        <td class="text-center act">
+                <a href="edit-change.html?id={{item.id}}" class="storageBtn">调拨</a>
+                <a href="#" ids="{{item.id}}" class="undoBtn">撤回</a>
+            <!-- <div class="btn-group more">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+                <ul class="dropdown-menu">
+                    <li><a href="edit-change.html?id={{item.id}}" class="storageBtn">调拨</a></li>
+                    <li><a href="#" ids="{{item.id}}" class="undoBtn">撤回</a></li>
+                </ul>
+            </div> -->
+        </td>
+    {{ else if item.whAllotStat == 2}}
+        <td>部分调拨</td>
+        <td class="text-center act">
+                <a href="edit-change.html?id={{item.id}}" class="storageBtn">调拨</a>
+            <!-- <div class="btn-group more">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+                <ul class="dropdown-menu">
+                    <li><a href="edit-change.html?id={{item.id}}" class="storageBtn">调拨</a></li>
+                </ul>
+            </div> -->
+        </td>
+    {{ else if item.whAllotStat == 3}}
+        <td>全部调拨</td>
+        <td></td>
+    {{/if}}
+</tr>
+{{/each}}

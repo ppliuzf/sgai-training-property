@@ -1,0 +1,422 @@
+ <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>邮件管理</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]
+    <link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+    <link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+    <script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script src="../static/common/mustache.min.js" type="text/javascript"></script>
+    <link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/common/smart.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+    <link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript">var ctx = '/admin', ctxStatic='../../static';</script>
+    <script src="../../config/smart-common.js" type="text/javascript"></script>
+    <style>
+        select {
+            width: 143px;
+        }
+
+        input {
+            width: 130px;
+        }
+
+        textarea{
+            width: 398px;
+        }
+        		
+        			        label.error {
+		    background: url(../static/jquery-validation/1.11.0/images/unchecked.gif) no-repeat 85px 3px;
+		    padding-left: 4px;
+		    padding-bottom: 2px;
+		    font-weight: bold;
+		    color: #ea5200;
+		    display: block;
+		    margin-left: 10px;
+		    width:160px !important;
+		}
+				.help-block, .help-inline {
+		    color: #aaa;
+		    position: absolute;
+		    right: -10px;
+		    top: 3px;
+		}
+				.form-search .ul-form li {
+		    float: left;
+		    height: 35px;
+		    line-height: 35px;
+		    list-style: none;
+		     position: relative;
+		}
+    </style>
+</head>
+<body>
+
+<br>
+<form id="inputForm" class="breadcrumb form-search form-horizontal" method="post" novalidate="novalidate"  style="height: 200px;">
+    <input id="id" name="id" type="hidden"/>、
+    <input type="hidden" id="hidden0" value="0"/>
+    <input type="hidden" id="checkNumber" value=""/>
+     <input type="hidden" id="trueOrFalse" value="0"/>
+    
+    <script type="text/javascript">top.$.jBox.closeTip();</script>
+    <ul class="ul-form"  style="margin-top: -62px;height:54px;">
+        <li>
+           
+                <label>接收人:</label>
+                <input id="resiverName" class="required " name="receptUserId" type="text" value="" maxlength="50">
+                <span class="help-inline"><font color="red">*</font> </span>
+   
+        </li>
+        <li>
+            <label>份数:</label>
+            <input id="recNumber0" name="recNumber" class="required" type="text" value="" maxlength="50" onchange="checkNumber1(0)">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </li>
+    </ul>
+     <ul class="ul-form" style="display:none " id="hidden1"  style="margin-top: -20px !important;">
+        <li>
+            
+                <label>接收人:</label>
+                <input id="receptUserId1" class="required " name="receptUserId" type="text" value="" maxlength="50">
+                <span class="help-inline"><font color="red">*</font> </span>
+           
+        </li>
+        <li>
+            <label>份数:</label>
+            <input id="recNumber1" name="recNumber" class="required" type="text" value="" maxlength="50" onchange="checkNumber1(1)">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </li>
+    </ul>
+     <ul class="ul-form" style="display:none " id="hidden2">
+        <li>
+         
+                <label>接收人:</label>
+                <input id="receptUserId2" class="required " name="receptUserId" type="text" value="" maxlength="50">
+                <span class="help-inline"><font color="red">*</font> </span>
+          
+        </li>
+        <li>
+            <label>份数:</label>
+            <input id="recNumber2" name="recNumber" class="required" type="text" value="" maxlength="50" onchange="checkNumber1(2)">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </li>
+    </ul>
+     <ul class="ul-form" style="display:none " id="hidden3">
+        <li>
+           
+                <label>接收人:</label>
+                <input id="receptUserId3" class="required " name="receptUserId" type="text" value="" maxlength="50">
+                <span class="help-inline"><font color="red">*</font> </span>
+           
+        </li>
+        <li>
+            <label>份数:</label>
+            <input id="recNumber3" name="recNumber" class="required" type="text" value="" maxlength="50" onchange="checkNumber1(3)">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </li>
+    </ul>
+     <ul class="ul-form" style="display:none " id="hidden4">
+        <li>
+            
+                <label>接收人:</label>
+                <input id="receptUserId4" class="required " name="receptUserId" type="text" value="" maxlength="50">
+                <span class="help-inline"><font color="red">*</font> </span>
+          
+        </li>
+        <li>
+            <label>份数:</label>
+            <input id="recNumber4" name="recNumber" class="required" type="text" value="" maxlength="50" onchange="checkNumber1(4)">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </li>
+    </ul>
+    <div class="small_btn" style='text-align:left; margin-top: 5px;'>
+        <label class="control-label">添加</label>
+	            <button id="btnInsert" class="btn btn-primary btn_icon small_blue" type="button" value="新增"  onclick="add();"><i class="icon-plus"></i></button>
+	    <button id="btnInsert" class="btn btn-primary btn_icon small_blue"
+				type="button" value="新增" onclick="reduce();">
+				<i class="icon-minus"></i>
+			</button>
+	     </div>
+    <div class="form-actions">
+        <input id="btnSubmit" class="btn btn-primary" type="submit" value="提  交">&nbsp;
+        <input id="btnCancel" class="btn " type="button" value="取  消" onclick="back()">
+    </div>
+</form>
+<script type="text/javascript">
+    var paramId=GetQueryString("paramId");
+    if(paramId != null){
+        updatepageload();
+    }
+
+    function updatepageload(){
+        //添加新tbody
+        $.ajax({
+              headers : {
+             "token" : localStorage.getItem("token"),
+             },
+            url : APIHost + '/admin/email/findById',
+            type : 'POST',
+            async : false, //或false,是否异步
+            data : {
+                id : paramId
+            },
+            timeout : 5000,
+            dataType : 'json',
+            success : function(obj) {
+                //参数qId通过findGoodsById方法获取到Modu对象值，赋值到页面字段中
+                var data=obj.data;
+               for(var key in data){
+                   $("[name=" + key + "]").val(data[key]);
+               }
+            },
+            error : function() {
+                console.log('错误')
+            }
+        })
+    }
+    // 表单验证
+    $.validator.setDefaults({
+        submitHandler: function () {
+            // 调用提交
+            formSubmit();
+        }
+    });
+
+    $(document).ready(function () {
+        /*输入校验*/
+        $("#inputForm").validate({
+            rules: {
+                sendTime: {
+                    required: true
+                },
+                departmentName: {
+                    required: true
+                },
+                resiverName: {
+                    required: true
+                },
+                phone: {
+                    required: true
+                },
+                expressCompanyName: {
+                    required: true
+                },
+                expressNumber: {
+                    required: true
+                },
+                successorName: {
+                    required: true
+                },
+                signerName: {
+                    required: true
+                },
+                receiptTime: {
+                    required: true
+                }
+            },
+            message: {
+                sendTime: {
+                    required: "必输"
+                },
+                departmentName: {
+                    required: "必输"
+                },
+                resiverName: {
+                    required: "必输"
+                },
+                phone: {
+                    required: "必输"
+                },
+                expressCompanyName: {
+                    required: "必输"
+                },
+                expressNumber: {
+                    required: "必输"
+                },
+                successorName: {
+                    required: "必输"
+                },
+                signerName: {
+                    required: "必输"
+                },
+                receiptTime: {
+                    required: "必输"
+                }
+            }
+        });
+
+    });
+    function formSubmit() {
+    	var i=$('#hidden0').val();
+    	for(var j=1;j<=i;j++){
+    		var receptUserId=$('#receptUserId'+j).val();
+    		if(receptUserId==''){
+    			  $.jBox.alert("页面信息不能为空", "提示");
+    			 return;
+    		}
+    		var recNumber=$('#recNumber'+j).val();
+    		if(recNumber==''){
+  			  $.jBox.alert("页面信息不能为空", "提示");
+  			 return;
+  		}
+    	}
+    	var total=0;
+    	for(var k=0;k<=i;k++){
+    		var l=$('#recNumber'+k).val();
+    		total+=Number(l);
+    	}
+    	
+    	var check=$("#checkNumber").val();
+    	if(total>Number(check)){
+    		parent.jBox.alert("所填份数总和不能大于核对份数 !","提示");
+    		return;
+    	}
+        var ajax_option = {
+            headers: {
+                "token": localStorage.getItem("token")
+            },
+            url: APIHost + '/paperConfirm/save',//默认是form action
+            data : {
+            	subId : entityID,
+	               
+	           },
+	           beforeSend:function(){
+	          		var loading=$('<div id="loading"></div>');
+	          		$('body').append(loading);
+	          		$("#btnSubmit").attr("disabled",true)
+	          	},
+            success: function (response) {
+            	if (response.data.msg == "success") {
+					parent.hideDiv();
+					parent.jBox.alert("保存成功 !","提示");
+                    parent.pageload();
+                }else if (response.data.msg == "fail") {
+                	parent.hideDiv();
+					parent.jBox.alert("保存失败 !","提示");
+                } else if (response.code === 1003){
+					$.jBox.alert('请先登录', '提示',{closed: function (){window.parent.location.href= APIHost + "/sys/sysLogin.html";}});
+                } else {
+                    $.jBox.alert("异常状态 ,请重试 !", "提示");
+                }
+
+            },
+            complete:function(){
+            	$("#btnSubmit").attr("disabled",false);
+            	$("#loading").hide();
+            }
+        }
+
+        $("#inputForm").ajaxSubmit(ajax_option);
+    }
+
+    function back() {
+        parent.location.reload();
+    }
+    function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+    }
+  //点击新增
+    function add(){
+	  if($("#trueOrFalse").val()=='1'){
+		  parent.jBox.alert("所填份数总和不能大于核对份数 ,不能再添加了!","提示");
+	  }else{
+		  var i=$('#hidden0').val();
+			i++;
+			$('#hidden'+i).show();
+			$('#hidden0').val(i);
+	  }
+		
+    }
+  //点击减号
+    function reduce() {
+		var i = $('#hidden0').val();
+		$('#hidden' + i).hide();
+		$("#receptUserId"+ i).val("");
+		$("#recNumber"+ i).val("");
+		i--;
+		$('#hidden0').val(i);
+	}
+ // 获取Parent页面传来的参数(<paramId>Entity实际id)
+	var entityID=GetQueryString("paramId");
+	if(entityID != null){
+		updatepageload();
+	}
+	// 接收Parent页面携带的数据
+	function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+    }
+	//校验所填份数不能大于核对份数
+	function checkNumber1(num){
+		//$("#btnInsert").removeAttr("disabled");
+		$("#trueOrFalse").val("0");
+		
+		var recNumber=$("#recNumber"+num).val();
+	
+		
+	    $.ajax({
+            headers : {
+           "token" : localStorage.getItem("token"),
+           },
+          url : APIHost + '/magazine/findMagazineById',
+          type : 'POST',
+          async : false, //或false,是否异步
+          data : {
+              id : entityID
+          },
+          timeout : 5000,
+          dataType : 'json',
+          success : function(obj) {
+              //参数qId通过findGoodsById方法获取到Modu对象值，赋值到页面字段中
+              var checkNumber=obj.data.checkNumber;
+             
+              $("#checkNumber").val(checkNumber);
+            var i=$('#hidden0').val();
+      		var total=0;
+          	for(var k=0;k<=i;k++){
+          		var l=$('#recNumber'+k).val();
+          		total+=Number(l);
+          	}
+          	
+          	var check=$("#checkNumber").val();
+          	if(total>Number(check)){
+          	   $("#recNumber"+num).val("");
+           	   parent.jBox.alert("所填份数总和不能大于核对份数 !","提示");
+          		
+          	}
+             if(total==Number(check)){
+            	 parent.jBox.alert("所填份数总和等于核对份数，不能再添加了 !","提示");
+            	// $("#btnInsert").attr("disabled","true");
+            	 $("#trueOrFalse").val("1");
+             }
+           
+          },
+          error : function() {
+              console.log('错误')
+          }
+      })
+	
+	}
+</script>
+
+</body>
+</html> 

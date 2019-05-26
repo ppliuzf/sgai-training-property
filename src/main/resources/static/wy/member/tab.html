@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+	<meta http-equiv="Expires" content="0">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-store">
+	<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+	<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+	<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+	<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+	
+	<!--分页  -->	
+	<script src="../static/paginator/bootstrap-paginator.js" type="text/javascript"></script>
+	<!-- 公共样式表	，公共方法 -->
+	<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+	<script src="../static/media/js/main.js" type="text/javascript"></script>
+	
+	<link href="../static/jquery-select2/3.4/select2.min.css" rel="stylesheet">
+	<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+	<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+	<link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+	<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+	<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="../static/jquery-select2/3.4/select2.min.js" type="text/javascript"></script>
+	<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+	<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.src.js" type="text/javascript"></script>
+	<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+	<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+	<script src="../static/common/smart.min.js" type="text/javascript"></script>
+	<script src="../../config/smart-common.js" type="text/javascript"></script>
+	<style>
+	    li{
+	    	list-style:none;
+	    }
+        .oranger a {
+            height:46px;
+            display:inline-block;
+        }
+        .centera {
+            padding:20px;
+            overflow:hidden;
+        }
+        #tablea {
+            height: 100%;    
+        }
+        .box {
+            display:none;
+        }
+	</style>
+	<script type="text/javascript">
+		var paramId=GetQueryString("paramId");
+		$(function(){
+		     $("#lllll").css("background","gray");
+			updatepageload();
+			$("#a").attr("src","member_incident_show.html?paramId="+paramId);
+			$("#b").attr("src","member_car_show.html?paramId="+paramId);
+		    $(".tablea").find(".box:first").show();    //为每个BOX的第一个元素显示
+		    $("#oranger a").on("mouseover",function(){ //给a标签添加事件
+		        var index=$(this).index();  //获取当前a标签的个数
+		        $(this).parent().next().find(".box").hide().eq(index).show(); //返回上一层，在下面查找css名为box隐藏，然后选中的显示
+		        $(this).addClass("hover").siblings().removeClass("hover"); //a标签显示，同辈元素隐藏
+		        $("#llll").css("background","gray");
+		        $("#lllll").css("background","gray");
+		    })
+		    $("button").mouseleave(function(){
+		    	//  $("button").css("background-color","");
+		    	 $(this).css("background-color","");
+		    	});
+		})
+		
+		function updatepageload(){
+		    	//添加新tbody
+		        $.ajax({
+		            headers : {
+		                "token" : localStorage.getItem("token"),
+		            }, 
+		            url : APIHost + '/member/findMemberById',
+		            type : 'POST',
+		            async : false, //或false,是否异步
+		            data : {
+		                id : paramId
+		            },
+		            timeout : 5000,
+		            dataType : 'json',
+		            success : function(obj) {
+		            	//参数qId通过findGoodsById方法获取到Modu对象值，赋值到页面字段中
+		            	console.log(obj.data);
+						$("#id").val(obj.data.id);
+						$("#enrollTime").val(obj.data.enrollTime);
+						$("#phoneNumber").val(obj.data.phoneNumber);
+						$("#chineseName").val(obj.data.chineseName);
+						if(obj.data.type==1){
+							$("#type").val('后台');
+						}
+						if(obj.data.type==2){
+							$("#type").val('手机APP');
+						}
+						
+						$("#memberRankName").val(obj.data.memberRankName);
+						$("#email").val(obj.data.email); 
+						$("#dateOfBirth").val(obj.data.dateOfBirth);
+		            },
+		            error : function() {
+		                console.log('错误')
+		            }
+		        })
+		    }
+		//获取跳转地址的参数
+		function GetQueryString(name){
+		     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+		     var r = window.location.search.substr(1).match(reg);
+		     if(r!=null)return  unescape(r[2]); return null;
+		}
+		function back(){
+			window.location.href = "member_list.html";
+		}
+	</script>     
+</head>
+<body>
+
+<div class="table_fluid" style="height: 217px;>
+	<div class="table_infor">
+		<div class="table_title">
+			<i class="icon-table"></i><span>会员信息</span>
+		<button type="button" onclick="back()" class="btn btn-primary btn_middle small_blue" style = "margin-left:980px;">返回</button>
+		</div>
+		<div style="margin-top: 50px;">
+			<form id="searchForm" class="breadcrumb form-search" >
+				<table style="width: 66%;" cellpadding="5px" cellspacing="5px" >
+					<tr>
+						<td> 
+							<label>姓名：</label>
+						</td>
+						<td>
+							<input type="text" style="" class="input_query" id="chineseName" name="chineseName" />
+						</td >
+						<td>
+							<label>出生日期：</label>
+						</td>
+						<td>
+							<input type="text"  class="input_query" id="dateOfBirth" name="dateOfBirth" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label>电话：</label>
+						</td>
+						<td>
+							<input type="text"  class="input_query" id="phoneNumber" name="phoneNumber" />
+						</td>
+						<td>
+							<label>类型：</label>
+						</td>
+						<td>
+							<input type="text"  class="input_query" id="type" name="type" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label>注册时间：</label>
+						</td>
+						<td>
+							<input type="text"  class="input_query" id="enrollTime" name="enrollTime" /><br/>
+						</td>
+						<td>	
+							<label>级别：</label>
+						</td>
+						<td>
+				    		<input type="text"  class="input_query" id="memberRankName" name="memberRankName" />
+			    		</td>
+					</tr>
+					<tr>
+						<td>
+							<label>邮箱：</label>
+						</td>
+						<td>
+							<input type="text"  class="input_query" id="email" name="email" />
+						</td>
+					</tr>
+		    	</table>
+			</form>
+		</div>
+	</div>
+	
+	<!-- <div style="margin-top: 20px;">
+	   	<label><li>姓名：</label><input type="text" class="input_query" id="chineseName" name="chineseName" />
+    	<input type="hidden" class="input_query" id="id" name="id" />
+    	<label><li>注册时间：</label><input type="text" class="input_query" id="enrollTime" name="enrollTime" />
+    	<label><li>电话：</label><input type="text" class="input_query" id="phoneNumber" name="phoneNumber" />
+    	<label><li>邮箱：</label><input type="text" class="input_query" id="email" name="email" />
+    	<label><li>出生日期：</label><input type="text" class="input_query Wdate" id="dateOfBirth" name="dateOfBirth" />
+    	<label><li>类型：</label><input type="text" class="input_query" id="type" name="type" />
+    	<label><li>级别：</label><input type="text" class="input_query Wdate" id="memberRankName" name="memberRankName" />
+	</div> -->
+ 
+    
+	<div class="oranger" id="oranger" style="margin-left: 35px;">
+	   <a href="javascript:;"><button id="llll"type="button"  class="btn btn-primary btn_medium small_blue ">事件信息</button></a>
+       <a href="javascript:;"><button  id="lllll" type="button"  class="btn btn-primary btn_medium small_blue ">车辆信息</button></a>
+    </div>
+    <div id="tablea" class="tablea" style="height: 700px;">
+        <div class="box" style="height: 420px;"><iframe id="a" src=""></iframe></div>
+        <div class="box" style="height: 420px;"><iframe id="b" src=""></iframe></div>
+    </div>
+
+
+</body>
+</html>

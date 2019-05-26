@@ -1,0 +1,45 @@
+{{each items as item}}
+    <table class="table table-hover text-center p-item d{{item.id}} js-table" data-id="{{item.id}}">
+    <thead>
+    <tr>
+        <th class="average header">{{item.name}}</th>
+        <th class="average"></th>
+        <th class="average"></th>
+        <th class="average"></th>
+        <th class="average text-center" dd="{{item.index}}" d="{{item.nofz}}">
+            {{if item.name !== '未分组' && item.index !== item.nofz}}
+            <!--不是后一位-->
+            <span><a class="js-up underline" href="javascripg:;" data-id="d{{item.id}}">上移</a></span>
+            <span><a class="js-down underline js-movedown" href="javascripg:;" data-id="d{{item.id}}">下移</a></span>
+            <span><a class="js-delete-group underline" href="javascripg:;" data-id="{{item.id}}">删除</a></span>
+            {{else if item.name !== '未分组' && item.index === item.nofz}}
+            <!--最后一位-->
+            <span><a class="js-up underline" href="javascripg:;" data-id="d{{item.id}}">上移</a></span>
+            <span><a class="underline btn disabled" href="javascripg:;" data-id="d{{item.id}}">下移</a></span>
+            <span><a class="js-delete-group underline" href="javascripg:;" data-id="{{item.id}}">删除</a></span>
+            {{else}}
+            {{/if}}
+        </th>
+    </tr>
+    </thead>
+    {{if item.list.length > 0}}
+    <tbody class="s-sort">
+    {{each item.list as ditem}}
+    <tr class="item s-item s{{ditem.id}}" data-id="{{ditem.id}}">
+        <td class="average">{{ditem.name}}</td>
+        <td class="text-ellipsis text-center" style="width: 300px">
+            <div class="text-ellipsis text-center" style="width: 300px">{{ditem.standard}}</div>
+        </td>
+        <td class="average">{{ditem.answerTypeDesc}}</td>
+        <td class="average">
+            <span><a class="js-s-up underline" href="javascripg:;" data-id="s{{ditem.id}}">上移</a></span>
+            <span><a class="js-s-down underline js-movedown" href="javascripg:;" data-id="s{{ditem.id}}">下移</a></span>
+            <span><a class="js-move-to underline" href="javascripg:;" data-id="{{ditem.id}}">移动至</a></span>
+        </td>
+        <td class="average"></td>
+    </tr>
+    {{/each}}
+    </tbody>
+    {{/if}}
+</table>
+{{/each}}

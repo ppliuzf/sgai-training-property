@@ -1,0 +1,28 @@
+<div class="form-group">
+    <label for="phase"><span class="require"></span>阶段</label>
+    <div id="select"></div>
+</div>
+<div class="form-group">
+        <label for="purchaseName"><span class="require"></span>采购名称</label>
+       <input type="text" placeholder="请输入采购名称" id="purchaseName" class="form-control" value="{{items.taskPuchaseName }}" maxlength="20">
+    </div>
+<div class="form-group">
+    <label for="taskPurchaseDate" class="control-label faqiTime"><span class="require"></span>采购日期</label>
+    <div class="input-group">    
+        <input id="taskPurchaseDate" class="form-control form_date1 " size="16" type="text"  value="{{items.taskPurchaseDate  | dateFormat:'yyyy-MM-dd '}}" readonly>
+        <span class="input-group-addon js-date-clean"><span class="glyphicon glyphicon-remove"></span></span>
+    </div>    
+</div>
+<div class="form-group">
+        <label for="taskEndDate " class="control-label faqiTime"><span class="require"></span>结束日期</label>
+        <div class="input-group">    
+            <input id="taskEndDate" class="form-control form_date2 " size="16" type="text" value="{{items.taskEndDate  | dateFormat:'yyyy-MM-dd '}}" readonly>
+            <span class="input-group-addon js-date-clean"><span class="glyphicon glyphicon-remove"></span></span>
+        </div>    
+    </div>
+<div class="form-group">
+    <label for="taskOpinion">申请理由</label>
+    <textarea type="email" rows="4" class="form-control" id="taskOpinion" placeholder="请输入申请理由" maxlength="200">{{items.taskOpinion}}</textarea>
+    <div class="text-right js-count">0/200</div>
+</div>
+

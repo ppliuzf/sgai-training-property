@@ -1,0 +1,3 @@
+{{each items as item}}
+<option value="{{item.value}}" {{item.value == eid && 'selected'}} data-limit={{item.limit}}>{{item.title}}</option>
+{{/each}}

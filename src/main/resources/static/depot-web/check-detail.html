@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>盘点详情</title>
+    <link rel="stylesheet" href="./css/default.css">
+    <style>
+            .filter{
+                border:0;
+            }
+        </style>
+</head>
+
+<body id="main">
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>盘点详情-<span id="status"></span></h4>
+            <div class="btns text-right">
+                <button type="submit" class="btn btn-primary hidden" id="act">执行</button>
+                <button type="submit" class="btn btn-primary hidden" id="edit">编辑</button>
+                <button type="submit" class="btn btn-primary hidden" id="delete">删除</button>
+                <button type="submit" class="btn btn-default" id="back">返回</button>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 js-main infos-detail"></div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p0">
+            <h4 class="pt15 pull-left">盘点物料：</h4>
+            <div class="form-inline filter pull-right pt15">
+                <div class="form-group" style="margin-right: 0">
+                    <select id="detailCangKu" class="form-control" required="required">
+                        <option value="">全部仓库</option>
+                    </select>
+                </div>
+            </div>
+            <div class="pt15">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr class="active">
+                            <th width="60" class="text-center">序号</th>
+                            <th width="">仓库</th>
+                            <!-- <th width="">物料编号</th> -->
+                            <th width="">物料名称</th>
+                            <th width="80">账存数量</th>
+                            <th width="80">实存数量</th>
+                            <th width="80">差异量</th>
+                        </tr>
+                    </thead>
+                    <tbody class="js-list"></tbody>
+                </table>
+                <nav class="text-right pages"></nav>
+            </div>
+        </div>
+    </div>
+    <script src="./js/lib/jquery.min.js"></script>
+    <script src="./js/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/deptTree.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/check/check-detail.js"></script>
+</body>
+
+</html>

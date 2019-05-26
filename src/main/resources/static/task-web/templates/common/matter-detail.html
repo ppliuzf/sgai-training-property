@@ -1,0 +1,65 @@
+<table class="matter-detail matter-case">
+    {{if color === 0}}
+    <thead style="background: rgba(58, 132, 196, 1)">
+        <th class="detail-title" width="100%">
+            {{title}}
+            <span class="delete">&times;</span>
+        </th>
+    </thead>
+    {{else if color === 1}}
+    <thead style="background: rgba(58, 132, 196, 1)">
+        <th class="detail-title" width="100%">
+            {{title}}
+            <span class="delete">&times;</span>
+        </th>
+    </thead>
+    {{else if color === 2}}
+    <thead style="background: rgba(58, 132, 196, 1)">
+        <th class="detail-title" width="100%">
+            {{title}}
+            <span class="delete">&times;</span>
+        </th>
+    </thead>
+    {{/if}}
+    <tbody>
+        <tr>
+            <td>任务状态：</td>
+            <td>{{state}}</td>
+        </tr>
+        <tr>
+            <td>开始时间：</td>
+            <td>{{begin | dateFormat:'yyyy-MM-dd hh:mm'}}</td>
+        </tr>
+        <tr>
+            <td>截止时间：</td>
+            <td>{{end | dateFormat:'yyyy-MM-dd hh:mm'}}</td>
+        </tr>
+        <tr>
+            <td>执行人：</td>
+            <td width="150" class="executor" title="{{executor}}">{{executor}}</td>
+        </tr>
+        <tr>
+            <td data-id="{{id}}">
+            {{if color === 0}}
+                {{if state == '已完成' || isMyTask}}
+                    <button class="taskBtn" style="background: rgba(58, 132, 196, 1)" data-dt="{{dt}}"  data-record="{{record_id}}" data-state="{{state}}">任务详情</button>
+                {{else}}
+                    <button class="taskBtn" style="background: rgba(58, 132, 196, 1)" data-dt="{{dt}}" data-record="{{record_id}}" data-state="{{state}}">执行任务</button>
+                {{/if}}
+            {{else if color === 1}}
+                {{if state == '已完成' || isMyTask}}
+                    <button class="taskBtn" style="background: rgba(58, 132, 196, 1)" data-dt="{{dt}}" data-record="{{record_id}}" data-state="{{state}}">任务详情</button>
+                {{else}}
+                    <button class="taskBtn" style="background: rgba(58, 132, 196, 1)" data-dt="{{dt}}" data-record="{{record_id}}" data-state="{{state}}">执行任务</button>
+                {{/if}}
+            {{else if color === 2}}
+                {{if state == '已完成' || isMyTask}}
+                    <button class="taskBtn" style="background: rgba(58, 132, 196, 1)" data-dt="{{dt}}" data-record="{{record_id}}" data-state="{{state}}">任务详情</button>
+                {{else}}
+                    <button class="taskBtn" style="background: rgba(58, 132, 196, 1)" data-dt="{{dt}}" data-record="{{record_id}}" data-state="{{state}}">执行任务</button>
+                {{/if}}
+            {{/if}}
+            </td>
+        </tr>
+    </tbody>
+</table>

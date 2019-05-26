@@ -1,0 +1,169 @@
+<dl>
+    <dt>
+        <h3 class="wrap-word">{{smName}}</h3>
+        <div class="meta">结束时间：{{smEndTime}}</div>
+    </dt>
+    <dd class="detail-box">
+        <div class="item">
+            <h4 style="font-size: 14px;" class="wrap-word" id="wrap-word" data-cou="{{smCount}}" data-sq="{{sqNo}}">
+                第{{sqNo}}题：{{sqTopic}}
+            </h4>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="panel-title">调查结果</h1>
+                </div>
+                <div class="panel-body">
+                    {{if sqType===2}}
+                    <div class="container-fluid">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">序号</th>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">IP地址</th>
+                                    <th class="text-center">答题人姓名</th>
+                                    <th class="text-center">答题人手机号</th>
+                                    <th class="text-center">投票时间</th>
+                                    <th width="92" class="text-center">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody class="js-list" id="text-detail">
+                                {{each textAnswerVoPageInfo.list as data index}}
+                                <tr>
+                                    <td class="text-center">{{index+1}}</td>
+                                    <td class="text-center">{{data.userId}}</td>
+                                    <td width="350" class="text-center">{{data.ip}}</td>
+                                    <td class="text-center">{{data.userName}}</td>
+                                    <td class="text-center">{{data.userPhone}}</td>
+                                    <td class="text-center">{{data.saAnswerTime}}</td>
+                                    <td class="text-center text-detail" data-txt="{{data.saContent}}" data-toggle="modal" data-target="#quest-result-modal">
+                                        <a href="javascript:;">查看详情</a>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                        <nav class="text-right pages"></nav>
+
+                        {{else}}
+                        <ul class="q-list  col-xs-12 col-sm-11 col-md-6 col-lg-6">
+                            {{each optionInfoPageInfo.list as data}}
+                            <li class="wrap-word">
+                                <span>{{data.saContent}}</span>
+                                <div class="row">
+                                    <div class=" col-xs-10 col-sm-9 col-md-6 col-lg-6">
+                                        <div class="progress">
+                                            <div class="progress-bar {{data.color}}" role="progressbar" aria-valuenow="{{data.scale}}" aria-valuemin="0" aria-valuemax="100" style='width:{{data.scale}}'>
+                                                <span class="sr-only ">({{data.scale}})</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-2 col-lg-2 ">
+                                        <span>{{data.count}}票</span>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-2 col-lg-2 ">
+                                        <span>({{data.scale}})</span>
+                                    </div>
+                                    <div class="col-xs-1 col-sm-1 col-md-2 col-lg-2 ">
+                                        <a href="javascript:;" data-toggle="modal" data-target="#quest-result-modal" class="res-modal" data-saContent="{{data.saContent}}" data-count="{{data.count}}" data-scale="{{data.scale}}" data-color="{{data.color}}">详情</a>
+                                    </div>
+                                </div>
+                            </li>
+                            {{/each}}
+                        </ul>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-11 col-md-9 col-lg-7">
+                <div class="btn-toolbar" role="toolbar" aria-label="...">
+                    <div class="btn-group" role="group">
+                        {{if sqNo===1&&smCount===1}}
+                        <button type="button" data-cla="result-up" class="btn  btn-primary btn-sm disabled">上一题</button> {{else if sqNo===1&&smCount!==1}}
+                        <button type="button" data-cla="result-up" class="btn  btn-primary btn-sm disabled">上一题</button> {{else}}
+                        <button type="button" data-cla="result-up" class="btn  btn-primary btn-sm result-up">上一题</button> {{/if}}
+                    </div>
+                    <div class="btn-group" role="group">
+                        {{if sqNo===1&&smCount===1}}
+                        <button type="button" data-cla="result-next" class="btn  btn-primary btn-sm disabled">下一题</button> {{else if sqNo===smCount&&smCount!==1}}
+                        <button type="button" data-cla="result-next" class="btn  btn-primary btn-sm disabled">下一题</button> {{else}}
+                        <button type="button" data-cla="result-next" class="btn  btn-primary btn-sm result-next">下一题</button>{{/if}}
+                    </div>
+                    <div class="btn-group dropup" role="group">
+                        {{if sqNo===1&&smCount===1}}
+                        <button type="button" class="btn btn-primary dropdown-toggle btn-sm disabled"> 跳至</button> {{else}}
+                        <button type="button" class="btn btn-primary dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">跳至</button>
+                        <ul class="dropdown-menu" id="pageNum">
+                            {{each arrayNo as data}}
+                            <li>
+                                {{if data.index==sqNo}}
+                                <a href='javascript:;' data-cla='result-page' data-page="{{data.index}}" class='result-page'></a>
+                                 {{else}}
+                                <a href='javascript:;' data-cla='result-page' data-page="{{data.index}}" class='result-page'>第{{data.index}}题</a>{{/if}}
+                            </li>
+                            {{/each}}
+                        </ul>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+    </dd>
+</dl>
+<style>
+    .dropdown-menu{
+        max-height: 200px;
+        overflow: scroll;
+    }
+    .success, .info, .striped, .danger, .warning{
+        background-color: #6EA9E2
+    }
+    /* .info{
+        background-color:  #2F7DCA
+    }
+    .striped{
+        background-color: #7F4ED8
+    }
+    .danger{
+        background-color: #4F3DAE
+    }
+    .warning{
+        background-color: #2B1E76
+    } */
+    .meta {
+        color: #666;
+        font-size: 12px
+    }
+    
+    .detail-box {
+        padding-top: 10px;
+    }
+    .panel-title{
+        font-size: 14px;
+        color: #666;
+        font-weight: 600
+    }
+    .wrap-word {
+        word-wrap: break-word;
+        font-size: 14px;
+        color: #666;
+        font-weight: 600
+    }
+
+    .tip-txt {
+        font-size: 14px;
+    }
+    
+    .q-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .q-list {
+        padding: 0 0 10px 15px;
+    }
+    
+    .q-list li {
+        padding-bottom: 10px;
+    }
+</style>

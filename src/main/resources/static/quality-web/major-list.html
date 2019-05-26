@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>品质管理-专业范畴</title>
+    <link rel="stylesheet" href="css/default.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row header">
+        <h4>专业范畴</h4>
+        <div class="btns text-right">
+            <a href="pages/major/edit-major.html" class="btn btn-primary">新增专业范畴</a>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover add-tab">
+        <thead>
+        <tr>
+            <th width="60" class="text-center">序号</th>
+            <th>图标</th>
+            <th>专业范畴名称</th>
+            <th>检验对象</th>
+            <th style="width: 600px">描述</th>
+            <th  width="92" class="text-center act">操作</th>
+        </tr>
+        </thead>
+        <tbody class="js-list"></tbody>
+    </table>
+    <nav class="text-right pages"></nav>
+</div>
+<script src="js/lib/jquery.min.js"></script>
+<script src="js/lib/bootstrap.min.js"></script>
+<script src="js/server/template.js"></script>
+<script src="../config/config.js"></script>
+<script src="js/server/utils.js"></script>
+<script src="js/controller/major/major-list.js"></script>
+</body>
+</html>

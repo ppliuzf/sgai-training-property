@@ -1,0 +1,93 @@
+<div class="middle-p">
+    {{if items[0].allYear}}
+    <div class="form-inline mb26">
+        <div class="form-group">
+            <label for="text">年度名称：</label>
+            <input type="text" class="form-control" id="yearName" placeholder="">
+        </div>
+    </div>
+    {{/if}}
+    {{each items as item itemIndex}}
+    {{if item.allYear || item.allHalfYear}}
+    <div class="form-inline mb26">
+        <div class="form-group">
+            <label for="text">半年名称：</label>
+            <input type="text" class="form-control halfYearName" placeholder="">
+        </div>
+        {{if item.allHalfYear && itemIndex === 0}}
+        <div class="form-group">
+            <button type="button" class="btn btn-default js-add-halfYear">添加</button>
+        </div>
+        {{/if}}
+        {{if item.allHalfYear && itemIndex !== 0}}
+        <div class="form-group">
+            <button type="button" class="btn btn-default js-del-halfYear" del-index={{itemIndex}}>删除</button>
+        </div>
+        {{/if}}
+    </div>
+    {{/if}}
+    <div>
+        {{each item.qut as qutItem qutItemIndex}}
+        {{if item.allYear || item.allHalfYear || item.allqut}}
+        <div class="form-inline mb26">
+            <div class="form-group">
+                <label for="text">季度名称：</label>
+                <input type="text" class="form-control qutName"  placeholder="">
+            </div>
+            {{if item.allqut && qutItemIndex === 0}}
+            <div class="form-group">
+                <button type="button" class="btn btn-default js-add-qut">添加</button>
+            </div>
+            {{/if}}
+            {{if item.allqut && qutItemIndex !== 0}}
+            <div class="form-group">
+                <button type="button" class="btn btn-default js-del-qut" del-index={{qutItemIndex}}>删除</button>
+            </div>
+            {{/if}}
+        </div>
+        
+        {{/if}}
+        <div>
+            {{each qutItem.month as monthItem monthItemIndex}}
+            <div class="form-inline mb26 ">
+                <div class="form-group">
+                    <label for="text">月份名称：</label>
+                    <input type="text" class="form-control month-name" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="type">开始日期</label>
+                    <div class="input-group start-time-date">
+                        <input type="text" class="form-control js-date start-input" readonly data-date-format="yyyy-mm-dd">
+                        <span class="input-group-addon js-date-clean">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="type">结束日期</label>
+                    <div class="input-group end-time-date">
+                        <input type="text" class="form-control js-date end-input" readonly data-date-format="yyyy-mm-dd">
+                        <span class="input-group-addon js-date-clean">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </span>
+                    </div>
+                </div>
+                {{if item.allMonth && monthItemIndex === 0}}
+                <div class="form-group">
+                    <button type="button" class="btn btn-default js-add-month">添加</button>
+                </div>
+                {{/if}}
+                {{if item.allMonth && monthItemIndex !== 0}}
+                <div class="form-group">
+                    <button type="button" class="btn btn-default js-del-month" del-index={{monthItemIndex}}>删除</button>
+                </div>
+                {{/if}}
+            </div>
+            {{/each}}
+        </div>
+        
+        {{/each}}
+    </div>
+    {{/each}}
+
+</div>

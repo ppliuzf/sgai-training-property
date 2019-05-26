@@ -1,0 +1,373 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<!-- 公共样式表	，公共方法 -->
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+    <script type="text/javascript">top.$.jBox.closeTip();</script>
+<title>用户IP管理</title>
+<meta name="decorator" content="default">
+</head>
+<body>
+<form id="inputForm" class="form-horizontal"  method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+    <input id="userCode" name="userCode" type="hidden" value="">
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>机构：</label>
+        <div class="controls">
+            <select id="comCode" name="comCode" class="input-large select2-offscreen"  onchange="getUsers(this)">
+            </select>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>用户：</label>
+        <div class="controls">
+            <select id="userName" name="userName" class="input-medium" onchange="getUserCode(this)">
+            </select>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"> <span class="help-inline"><font color="red">*</font> </span>IP地址：</label>
+        <div class="controls">
+             <input id="ipAddress" name="ipAddress" class="required ipAddress" type="text" value="" maxlength="50">
+           
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">备注：</label>
+        <div class="controls">
+            <textarea id="remark" name="remark"  maxlength="50" type="text" style="overflow-y:hidden;" class="textAreas  userName"></textarea>
+        	
+        </div>
+    </div>
+	<div class="control-group">
+		<label class="control-label">可用：</label>
+		<div class="controls">
+			<select id="enabledFlag" name="enabledFlag" class="input-large select2-offscreen" tabindex="-1">
+			<option value="Y">Y</option>
+			<option value="N">N</option>
+			</select>
+		</div>
+   	</div>
+    <div class="form-actions">
+        <input id="btnCancel" class="btn" type="button" value="关 闭" onclick="closePopUp()">
+		<input id="btnSubmit" class="btn btn-primary" type="submit"  value="保 存">&nbsp;
+    </div>
+</form>
+
+</body>
+<script type="text/javascript">
+	var userCode=null;
+	var ipAddress=null;
+    var userList=new Object();
+    function page(n, s) {
+		pageload(n, s);
+		return false;
+	}	
+    
+    $(function(){
+    	$('#myModal #myModalLabel', window.parent.document).text("用户IP修改");
+    	autoSize("textAreas");
+    })
+    
+	$(document).ready(function() {
+        getComps();
+		/*获取url传值*/
+		var url=location.search;
+	    var param =url.split("?")[1];
+		idVal = param.split("=")[1];
+		pageload();
+	});
+	
+   	function pageload(n, s) {
+       	$.ajax({
+       		headers    : {
+ 	                 "token" : localStorage.getItem("token"),
+ 	             },
+   			url : APIHost+'/admin/ctlUserIp/getListUserIp',
+   			type : 'POST',
+   			async : false, //或false,是否异步
+   			data : {
+   				pageNo : n,
+   				pageSize : s,
+   				id : idVal
+   			},
+   			timeout : 30000,
+   			dataType : 'json',
+   			success : function(response) {
+				var data = response.data;
+   				userList = data.list;
+ 				for (var i = 0; i < userList.length; i++) {
+   				if(idVal == userList[i].id) {	
+   					$("#userCode").attr('value',userList[i].userCode);
+   					$("#ipAddress").attr('value',userList[i].ipAddress);
+   					$("#remark").attr('value',userList[i].remark);
+   					$('#id').attr('value',userList[i].id);
+                    var select2 = document.getElementById("comCode");
+                    getUsers(userList[i].comCode);
+                    for (var j = 0; j < select2.options.length; j++){
+                        if (select2.options[j].value == userList[i].comCode){
+                            select2.options[j].selected = true;
+                            $("#select2-comCode-container").html(select2.options[j].text);
+                            break;
+                        }
+                    }
+                    var select3= document.getElementById("userName");
+                    for (var j = 0; j < select3.options.length; j++){
+                        console.log(select3.options[j].value);
+                        if (select3.options[j].value == userList[i].userCode){
+                            select3.options[j].selected = true;
+                            $("#select2-userName-container").html(select3.options[j].text);
+                            $("#userCode").val(userList[i].userCode);
+                            break;
+                        }
+                    }
+                    if(userList[i].enabledFlag=="Y"){
+   						$('#select2-enabledFlag-container').html("Y");
+   						$("#enabledFlag").attr('value',"Y");
+   					}
+   					else{
+   						$('#select2-enabledFlag-container').html("N");
+   						$("#enabledFlag").attr('value',"N");
+   					}
+				 }
+   			    }
+   			},
+   			error : function() {
+				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+   			}
+   		});
+     }
+        
+    function save(){
+       	$.jBox.confirm("确定保存吗？", "提示", function (v, h, f) {
+       	if(v == 'ok'){
+       		var ajax_option={
+       				headers    : {
+      	                 "token" : localStorage.getItem("token"),
+      	             },
+       				url:APIHost + '/admin/ctlUserIp/UserUpdate',//默认是form action
+       				success:function(response){
+					var data = response.data;
+       				if(data.msg=="success"){
+						closePopUp();
+						parent.pageload();
+                        $.jBox.alert("修改成功！","提示")
+       				}else{
+                        $.jBox.alert("修改失败！","提示")
+       				  }
+          				}
+              		}
+               $("#inputForm").ajaxSubmit(ajax_option);
+       	 }
+       	})
+    }
+    //加载机构
+    function getComps(){
+        $.ajax({
+            headers    : {
+                "token" : localStorage.getItem("token"),
+            },
+            url : APIHost+'/admin/ctl/comp/ctlComp/getAllListComp',
+            type : 'POST',
+            async : false, //或false,是否异步
+            timeout : 30000,
+            dataType : 'json',
+            success : function(res) {
+                if(res.code === 1000){
+                    //成功返回
+                    var data = res.data;
+                    $("#comCode").empty();
+                    $("#comCode").append("<option></option>")
+                    for(var key in data){
+                        console.log(data[key]);
+                        $("#comCode").append("<option value="+key+">"+data[key]+"</option>");
+                    }
+                }else if(res.code ===1003){
+                    //没有登录状态
+                    $.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+                        { window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+                }else if(res.code === 1002){
+                    //发生异常
+                    $.jBox.alert(res.msg);
+                }else if(res.code === 1004){
+                    //结果为空
+                    $.jBox.alert(res.msg);
+                }
+            },
+            error : function() {
+                $.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+            }
+        });
+    }
+    //某机构下的用户
+    function getUsers(i){
+        $.ajax({
+            headers    : {
+                "token" : localStorage.getItem("token"),
+            },
+            url : APIHost+'/admin/user/ctlUser/getUsersByCom',
+            type : 'POST',
+            data:{comCode:$(i).val()},
+            async : false, //或false,是否异步
+            timeout : 30000,
+            dataType : 'json',
+            success : function(res) {
+                if(res.code === 1000){
+                    //成功返回
+                    var data = res.data;
+                    $("#userName").empty();
+                    $("#userName").append("<option></option>")
+                    if(data.length>0){
+                        for(var i =0;i<data.length;i++) {
+                            if($('#userName').find("option[value="+data[i].userCode+"]").length==0) //选项去重
+                                $("#userName").append("<option value="+data[i].userCode+">"+data[i].userName+"</option>");
+                        }
+                    }
+                }else if(res.code ===1003){
+                    //没有登录状态
+                    $.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+                        { window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+                }else if(res.code === 1002){
+                    //发生异常
+                    $.jBox.alert(res.msg);
+                }else if(res.code === 1004){
+                    //结果为空
+                    $.jBox.alert(res.msg);
+                }
+            },
+            error : function() {
+                $.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+            }
+        });
+    }
+    function getUsers(comCode){
+        $.ajax({
+            headers    : {
+                "token" : localStorage.getItem("token"),
+            },
+            url : APIHost+'/admin/user/ctlUser/getUsersByCom',
+            type : 'POST',
+            data:{comCode:comCode},
+            async : false, //或false,是否异步
+            timeout : 30000,
+            dataType : 'json',
+            success : function(res) {
+                if(res.code === 1000){
+                    //成功返回
+                    var data = res.data;
+                    $("#userName").empty();
+                    $("#userName").append("<option></option>")
+                    if(data.length>0){
+                        for(var i =0;i<data.length;i++) {
+                            if($('#userName').find("option[value="+data[i].userCode+"]").length==0) //选项去重
+                                $("#userName").append("<option value="+data[i].userCode+">"+data[i].userName+"</option>");
+                        }
+                    }
+                }else if(res.code ===1003){
+                    //没有登录状态
+                    $.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+                        { window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+                }else if(res.code === 1002){
+                    //发生异常
+                    $.jBox.alert(res.msg);
+                }else if(res.code === 1004){
+                    //结果为空
+                    $.jBox.alert(res.msg);
+                }
+            },
+            error : function() {
+                $.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+            }
+        });
+    }
+    function getUserCode(i){
+        $("#userCode").val($(i).val())
+    }
+   function closePopUp(){
+        $('#myModal .close', window.parent.document).click();
+    }
+</script>
+<script type="text/javascript">
+    // 表单验证
+    $.validator.setDefaults({
+        submitHandler: function() {
+            // 调用提交
+            save();
+        }
+    });
+    // 验证ip地址
+    jQuery.validator.addMethod("ip", function(value, element) {
+        var ip = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+        return this.optional(element) || (ip.test(value) && (RegExp.$1 < 256 && RegExp.$2 < 256 && RegExp.$3 < 256 && RegExp.$4 < 256));
+    }, "IP地址格式错误");
+
+    $().ready(function () {
+        // 在键盘按下并释放及提交后验证提交表单
+        $("#inputForm").validate({
+            errorPlacement: function(error, element) {
+                // Append error within linked label
+                $(element).parent().append( error );
+            },
+            rules: {
+                comp: {
+                    required: true,
+                    minlength: 1
+                },
+                userName: {
+                    required: true,
+                    minlength: 1
+                },
+                ipAddress: {
+                    ip:true,
+                    required: true,
+                    minlength: 1
+                },
+                enabledFlag: {
+                    required: true,
+                    minlength: 1
+                }
+
+            },
+            messages:{
+                comp: {
+                    required: "请选择机构",
+                    minlength: 1
+                },
+                userName: {
+                    required: "请选择用户",
+                },
+                ipAddress: {
+                    required: "请输入ip地址"
+                },
+                enabledFlag: {
+                    required: "请选择是否可用"
+                }
+            }
+        });
+    })
+</script>
+</html>

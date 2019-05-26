@@ -1,0 +1,92 @@
+{{each items as item itemIndex}}
+<tr data-id="{{item.id}}">
+    <!-- 序号 -->
+    {{ if itemIndex+1< 10}} 
+    <td class="text-center">0{{itemIndex+1}}</td>
+    {{ else }}
+    <td class="text-center">{{itemIndex+1}}</td>
+    {{/if}}
+    <!-- 订单编号 -->
+    <td>
+        <a class="underline js-detail" data-id="{{item.id}}" status="{{item.orderStat}}" status-f="{{item.invoiceState}}">{{item.orderNo}}</a>
+    </td>
+    <!-- 订单类型 -->
+    <td>
+        {{if item.orderType == 1}} 需求订单 {{else if item.orderType == 2}} 计划采购 {{/if}}
+    </td>
+    <!-- 申请单号 -->
+    <td>
+        {{if item.applyNo}}
+        {{item.applyNo}}
+        {{else}}
+        --
+        {{/if}}
+    </td>
+    <!-- 申请人 -->
+    <td>
+        {{if item.orderEmpName}} {{item.orderEmpName}} {{else}} -- {{/if}}
+    </td>
+    <!-- 申请日期 -->
+    <td>
+        {{if item.orderDate}}
+        {{item.orderDate | dateFormat:'yyyy-MM-dd'}}
+        {{else}}
+        --
+        {{/if}}
+    </td>
+    <!-- 采购状态 -->
+    <td>
+        {{if item.orderStat == 1}} 未采购 {{else if item.orderStat == 2}} 采购中 {{else}} 已完成 {{/if}}
+    </td>
+    <!-- 供应商名称 -->
+    <td>
+        {{item.supplyComName}}
+    </td>
+    <!-- 发票状态 -->
+    <td>
+        {{if item.invoiceState == 1}} 未开具 {{else}} 已开具 {{/if}}
+    </td>
+    <!-- 操作 -->
+    <td class="js-act text-center act">
+        {{if item.invoiceState == 1}}
+            {{if item.orderStat == 2}}
+                
+                    <a class="underline js-compelet" data-id="{{item.id}}">确认收货</a>
+                
+                {{else if item.orderStat == 3 }}
+                
+                    {{if item.invoiceState == 1}}
+                    <a class="underline js-bills" data-id="{{item.id}}">开具发票</a>
+                    {{/if}}
+                
+                {{else if item.orderStat == 1}}
+                
+                    <a class="underline js-start" data-id="{{item.id}}">开始采购</a>
+               
+                {{/if}}
+        <!-- <div class="btn-group more">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+            
+            <ul class="dropdown-menu">
+                {{if item.orderStat == 2}}
+                <li>
+                    <a class="underline js-compelet" data-id="{{item.id}}">确认收货</a>
+                </li>
+                {{else if item.orderStat == 3 }}
+                <li>
+                    {{if item.invoiceState == 1}}
+                    <a class="underline js-bills" data-id="{{item.id}}">开具发票</a>
+                    {{/if}}
+                </li>
+                {{else if item.orderStat == 1}}
+                <li>
+                    <a class="underline js-start" data-id="{{item.id}}">开始采购</a>
+                </li>
+                {{/if}}
+            </ul>
+            
+        </div> -->
+        {{/if}}
+    </td>
+</tr>
+{{/each}}

@@ -1,0 +1,72 @@
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<div class="cal-month-day <%= cls %>" id="cal-month-day" onclick="selectedDate(this)">
+    <div class="pull-right">
+      <!-- <button type="button" id="" class='btn btn-info btn-xs small_blue' onclick='temporaryModel("<%=data_day%>")'style="">配置</button>
+	  <button type="button" id=""  class='btn btn-info btn-xs small_blue'  itemId="<%=data_day%>" onclick='showOrder(this)'style="">指令</button><br> -->
+	  <span class="" id="<%= data_day %>" data-cal-date="<%= data_day %>" data-cal-view="day" data-toggle="tooltip" title="<%= tooltip %>"><%= day %>
+	  </span>
+	</div>
+	<% if (events.length > 0) { %>
+		<%if(events.length>3){var targetEvents=events;targetEvents=targetEvents.slice(0,3)}else{targetEvents=events}%>
+		<div class="list" data-cal-start="<%=start %>" data-cal-end="<%= end %>">
+			<% _.each(targetEvents, function(event) { %>			
+			<% if (event.status ==3) {%>
+				    <p size="1" style="color:#999"><%= event.title %>&nbsp;&nbsp;</p>
+					<% } else if(event.status ==0) {%>
+					<a href="<%= event.url ? event.url : 'javascript:void(0)' %>" id="<%= event.id %>" class="<%= event['class'] %>"
+					class="pull-left event <%= event['class'] %>" data-toggle="tooltip" itemId="<%= event.calendarId %>" onclick='showModelDetails(this)'><p style="color:#333"><%= event.title %></p></a>
+					<% } else if(event.status ==1) {%>
+					 <a href="<%= event.url ? event.url : 'javascript:void(0)' %>" id="<%= event.id %>" class="<%= event['class'] %>"
+					class="pull-left event <%= event['class'] %>" data-toggle="tooltip" itemId="<%= event.calendarId %>" onclick='showModelDetails(this)'><p style="color:#1785ca"><%= event.title %></p></a>
+					<% }%>
+			<% }); %>
+		</div>
+		<%if(events.length>3){%>
+			<div class="more-detail"><span onclick="showMoreDetail(this)">还有<%=events.length-3%>个日程</span></div>
+			<div class="mini-model">
+				<div class="header">
+					<%var dayArr = data_day.split("-");var day = Number(dayArr[1])+"-"+dayArr[2];var today = new Array('星期日','星期一','星期二','星期三','星期四','星期五','星期六');
+			var date = new Date(data_day);var week = today[date.getDay()]; %>
+					<span class="day"><%= day %></span>
+					<span class="week"><%= week %></span>
+					<a href="javascript:;"><i class="icon-remove"></i></a>
+				</div>
+				<div class="body">
+					<% _.each(events, function(event) {%>
+						<%var index =event.title.indexOf(":"); %>
+						<%if(index!=-1){var title = event.title.slice(0,index);var date = event.title.slice(index+1,event.title.length)}else{var title=event.title;var date = null}%>
+						<!-- <div class="item">
+							<%if(date){%>
+								<span class="date"><%= date %></span>
+							<%}%>
+							<span><%= title %></span>
+						</div> -->
+						<% if (event.status ==3) {%>
+						    <div class="item" size="1" style="color:#999">
+								<%if(date){%>
+									<span class="date"><%= date %></span>
+								<%}%>
+								<span><%= title %></span>
+							</div>
+							<% } else if(event.status ==0) {%>
+							 <a href="<%= event.url ? event.url : 'javascript:void(0)' %>" id="<%= event.id %>" class="item" itemId="<%= event.calendarId %>" onclick='showModelDetails(this)' style="color:#333;">
+								<%if(date){%>
+									<span class="date"><%= date %></span>
+								<%}%>
+								<span><%= title %></span>
+							</a>
+							<% } else if(event.status ==1) {%>
+							 <a href="<%= event.url ? event.url : 'javascript:void(0)' %>" id="<%= event.id %>" class="item" itemId="<%= event.calendarId %>" onclick='showModelDetails(this)' style="color:#1785ca;">
+								<%if(date){%>
+									<span class="date"><%= date %></span>
+								<%}%>
+								<span><%= title %></span>
+							</a>
+							<% }%>
+					<% })%>
+				</div>
+			</div>
+		<%}%>
+	<% } %>
+</div>
+      

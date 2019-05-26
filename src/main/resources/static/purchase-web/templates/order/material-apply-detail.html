@@ -1,0 +1,33 @@
+<table>
+        <tbody>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">申请编号</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.applyNo}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">申请人</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.applyEmpName}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">部门</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.applyDeptName}} </td>
+            </tr>
+            <tr>
+                <td class="text-center">申请日期</td>
+                <td class="value">{{if items.applyDate}}
+                        {{items.applyDate | dateFormat:'yyyy-MM-dd'}}
+                        {{else}}
+                        --
+                {{/if}}</td>
+                <td class="text-center">申请理由</td>
+                <td class="value" colspan="3">{{items.applyReason}}</td>
+            </tr>
+            <tr>
+                <td class="text-center">拒绝理由</td>
+                <td class="value" colspan="5">{{if items.approveOption}}
+                        {{items.approveOption}}
+                        {{else}}
+                        暂无
+                        {{/if}}
+                </td>
+                <!-- <td class="text-center">相关图片</td>
+                <td class="value" colspan="3">{{if items.imgUrl}}{{/if}}</td> -->
+            </tr>
+        </tbody>
+    </table>

@@ -1,0 +1,52 @@
+{{each items.planStageVoList as item index}}
+        {{if items.planStageVoList.length > 1}}
+        <tr><td colspan="9"><h5><b>{{item.stageName}}</b></h5></td></tr>
+        {{/if}}
+        <tr>
+                {{each item.planTaskVoList as itemList index}}
+                <tr>
+                        <td class="text-center">{{index+1 < 10 ? "0" + (index+1) : index+1}}</td>
+                        <td>{{itemList.taskPuchaseName}}</td>
+                        <td>{{itemList.taskNo}}</td>
+                        <td>{{itemList.taskPurchaseDate | dateFormat:'yyyy-MM-dd'}}</td>
+                        <td>{{itemList.taskEndDate | dateFormat:'yyyy-MM-dd'}}</td>
+                        <td>{{itemList.taskEmpName}}</td>
+                        <td>{{itemList.taskDate | dateFormat:'yyyy-MM-dd'}}</td>
+                        <td class="actList js-act text-center act"> 
+                                        <a href="javascript:void(0)" id='{{itemList.id}}' class="js-tb-lq checkList">查看明细</a>
+                                <!-- <div class="btn-group more"> 
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button> 
+                                        <ul class="dropdown-menu">
+                                                <li> <a href="javascript:void(0)" id='{{itemList.id}}' class="js-tb-lq checkList">查看明细</a> </li> 
+                                       </ul> 
+                                </div>  -->
+                        </td>
+                </tr>
+                {{/each}}
+        </tr>
+        
+{{/each}}
+<!--
+<tr>
+        <td colspan='9' class='head'>
+                阶段二
+        </td>
+</tr>
+<tr>
+        <td>一季度采购计划</td>
+        <td>CL-000001</td>
+        <td>20170928</td>
+        <td>20170928</td>
+        <td>未开始</td>
+        <td>胡佳旭</td>
+        <td>20170928</td>
+        <td class="actList js-act text-center act"> 
+                <div class="btn-group more"> 
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button> 
+                        <ul class="dropdown-menu"> 
+                                <li> <a href="javascript:void(0)" class="js-tb-lq checkList">查看明细</a> </li> 
+                        </ul> 
+                </div> 
+        </td>
+</tr>
+-->

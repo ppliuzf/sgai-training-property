@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>仓存盘点</title>
+    <link rel="stylesheet" href="./css/default.css">
+    <style>
+            .glyphicon{
+                font-family:'Glyphicons Halflings' !important;
+            }
+        </style>
+</head>
+
+<body class="main1">
+    <div class="container-fluid">
+        <div class="row header">
+            <!-- <div class="row header"> -->
+                <h4>库存盘点</h4>
+                <div class="btns text-right">
+                     <button type="button" class="btn btn-primary js-add">新建盘点工单</button>
+                </div>
+            <!-- </div> -->
+        </div>
+        <!-- 搜索 -->
+        <div class="form-inline filter">
+            <div class="form-group">
+                <label for="keyWords">搜索内容 </label>
+                <input type="text" class="form-control" id="keyWords" placeholder="请输入搜索主题">
+            </div>
+            <div class="form-group">
+                <label for="dtp_input5" class="control-label faqiTime">所属月份 </label>
+                <div class="input-group">
+                    <input id="time" class="form-control form_date5 " size="16" type="text" data-date-format="yyyy-MM" readonly>
+                    <span class="input-group-addon js-date-clean"><span class="glyphicon glyphicon-remove"></span></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="type">工单状态 </label>
+                <select id="type" class="form-control" required="required">
+                    <option value="4">全部</option>
+                    <option value="1">未开始</option>
+                    <option value="2">盘点中</option>
+                    <option value="3">已完成</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary js-search">查询</button>
+            </div>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="table table-bordered table-hover" style="min-width:1300px;">
+                <thead>
+                    <tr class="active">
+                        <th width="60" class="text-center">序号</th>
+                        <th width="140">单号</th>
+                        <th width="300">主题</th>
+                        <th>计划开始时间</th>
+                        <th>计划结束时间</th>
+                        <th>盘点开始时间</th>
+                        <th>盘点结束时间</th>
+                        <th width="80">工单状态</th>
+                        <th width="100">盘点人</th>
+                        <th width="100">盘点执行人</th>
+                        <th width="92" class="text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody class="js-list"></tbody>
+            </table>
+        </div>
+        <nav class="text-right pages"></nav>
+    </div>
+    <script src="./js/lib/jquery.min.js"></script>
+    <script src="./js/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/lib/bootstrap-datetimepicker.min.js"></script>
+    <script src="./js/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="./js/controller/check/check-list.js"></script>
+
+</body>
+</html>

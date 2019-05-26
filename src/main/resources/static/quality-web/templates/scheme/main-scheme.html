@@ -1,0 +1,42 @@
+{{each items as item}}
+    <tr data-id="{{item.id}}">
+        <td class="text-center">
+            {{if item.num<10}}
+            0{{item.num}}
+            {{else}}
+            {{item.num}}
+            {{/if}}
+        </td>
+        <td>
+            <div class="cont dot" title="{{item.name}}">
+                <a href="../check/detail-check.html?id={{item.htiId}}" class="underline js-view" title="{{item.name}}">{{item.name}}</a>
+            </div>
+        </td>
+        <td>
+            <div class="cont dot">{{item.groupName}}</div>
+        </td>
+        <td>
+            <div class="text-ellipsis text-center" style="max-width: 300px">{{item.standard ? item.standard : '无'}}</div>
+        </td>
+        <td>
+            <div class="cont dot" >{{item.answerTypeDesc}}</div>
+        </td>
+        <td>
+            <div class="cont dot">{{item.createName}}</div>
+        </td>
+        <td>
+            <div class="cont dot">{{item.createTime | dateFormat: 'yyyy-MM-dd'}}</div>
+        </td>
+        <td class="text-center act">
+            <div class="btn-group more">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多 <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <span><a class="js-cancel-relate underline" data-id="{{item.id}}">取消关联</a></span>
+                    </li>
+                </ul>
+            </div>
+
+        </td>
+    </tr>
+{{/each}}

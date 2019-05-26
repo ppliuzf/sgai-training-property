@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>邮件管理</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+    <link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+    <link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+    <script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script src="../static/common/mustache.min.js" type="text/javascript"></script>
+    <link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/common/smart.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+    <link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript">var ctx = '/admin', ctxStatic='../../static';</script>
+    <script src="../../config/smart-common.js" type="text/javascript"></script>
+    <script src="../static/common/commonMethod.js"></script>
+    <style>
+        select{
+            height: 37px !important;
+            width: 286px;
+        }
+    </style>
+
+</head>
+<body>
+
+<br>
+<form id="inputForm" class="form-horizontal" method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden"/>
+    <input id="floorId" name="floorId" type="hidden"/>
+    <script type="text/javascript">top.$.jBox.closeTip();</script>
+    <div></div>
+    <div class="control-group">
+        <label class="control-label">会议室名称：</label>
+        <div class="controls">
+            <input id="meetingName" placeholder="请输入" class="required" name="meetingName" type="text" value="" maxlength="50">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">会议室地点:</label>
+        <div class="controls">
+            <input id="meetingAddress" placeholder="请输入" class="required" name="meetingAddress"  type="text" value="" maxlength="50">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">会议类型:</label>
+        <div class="controls">
+        <select  id="meetingType" class="required"  name="meetingType"   maxlength="50">
+            <option  value="" >请选择</option>
+            <option  value="普通" >普通</option>
+            <option  value="多媒体" >多媒体</option>
+        </select>
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">会议服务类型:</label>
+        <div class="controls">
+            <select  id="meetingServiceType" class="required"  name="meetingServiceType"   maxlength="50">
+                <option  value="" >请选择</option>
+                <option  value="可预约" >可预约</option>
+                <option  value="只服务" >只服务</option>
+            </select>
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="form-actions">
+        <input id="btnSubmit" class="btn btn-primary" type="submit" value="提  交">&nbsp;
+        <input id="btnCancel" class="btn " type="button" value="取  消" onclick="back()">
+    </div>
+</form>
+
+<script type="text/javascript">
+
+    var paramId=GetQueryString("paramId");
+    $.ajax({
+        headers : {
+            "token" : localStorage.getItem("token"),
+        },
+        url : APIHost + '/admin/meetingRoom/findById',
+        type : 'POST',
+        async : false, //或false,是否异步
+        data : {
+            id : paramId
+        },
+        timeout : 5000,
+        dataType : 'json',
+        success : function(obj) {
+            var meetingRoom=obj.data;
+            $("#id").val(meetingRoom.id);
+            $("#floorId").val(meetingRoom.floorId);
+            $("#meetingName").val(meetingRoom.meetingName);
+            $("#meetingAddress").val(meetingRoom.meetingAddress);
+            $("#meetingType").val(meetingRoom.meetingType);
+            $("#meetingServiceType").val(meetingRoom.meetingServiceType);
+        },
+        error : function() {
+            console.log('错误')
+        }
+    })
+    // 表单验证
+    $.validator.setDefaults({
+        submitHandler: function () {
+            // 调用提交
+            formSubmit();
+        }
+    });
+
+    $(document).ready(function () {
+        /*输入校验*/
+        $("#inputForm").validate({
+            rules: {
+                meetingName: {
+                    required: true
+                },
+                meetingAddress: {
+                    required: true
+                },
+                meetingType: {
+                    required: true
+                },
+                meetingServiceType: {
+                    required: true
+                }
+            },
+            message: {
+                meetingName: {
+                    required: "必输"
+                },
+                meetingAddress: {
+                    required: "必输"
+                },
+                meetingType: {
+                    required: "必输"
+                },
+                meetingServiceType: {
+                    required: "必输"
+                }
+            }
+        });
+
+    });
+
+
+    function formSubmit() {
+        if(!paramId){
+            alert("未选择建筑单体");
+            return;
+        }
+        var ajax_option = {
+            headers:{
+                "token":localStorage.getItem("token")
+            },
+            url: APIHost + '/admin/meetingRoom/save',//默认是form action
+            beforeSend:function(){
+          		var loading=$('<div id="loading"></div>');
+          		$('body').append(loading);
+          		$("#btnSubmit").attr("disabled",true)
+          	},
+            success: function (meetingRoom) {
+                var floorId = parent.$("#floor").val();
+                parent.queryMeetingRoomByFloorId(floorId);
+               
+				parent.hideDiv();
+				parent.jBox.alert("保存成功 !","提示");
+            },
+            complete:function(){
+            	$("#btnSubmit").attr("disabled",false);
+            	$("#loading").hide();
+            }
+        }
+
+        $("#inputForm").ajaxSubmit(ajax_option);
+    }
+
+    function back() {
+        $('#myModalEdit .close', window.parent.document).click();
+    }
+
+</script>
+
+</body>
+</html>

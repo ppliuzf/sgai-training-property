@@ -1,0 +1,256 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../../config/smart-common.js" type="text/javascript"></script>
+</head>
+<body>
+
+<br>
+<form id="inputForm" class="form-horizontal"  method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" />
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+
+        <div class="control-group">
+        <label class="control-label">物品名称:</label>
+        <div class="controls">
+             <input id="itemName" name="itemName" class="required" type="text" value="" maxlength="50">
+       		<span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+	        <label class="control-label">数量:</label>
+	        <div class="controls">
+	            <input id="amount" name="amount" class="required" type="text" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">借用人:</label>
+        <div class="controls">
+            <input id="borrower" name="borrower" class="required" type="text" value="" maxlength="50">
+      		<span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <!-- <div class="control-group">
+        <label class="control-label">日期:</label>
+        <div class="controls">
+           <input id="borrowDate" name="borrowDate" class="required" onclick="WdatePicker()" type="text" value="" maxlength="50">
+        	<span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div> -->
+    <div class="control-group">
+        <label class="control-label">借用部门:</label>
+        <div class="controls">
+                	<select id="deptName" name="deptName" class="input-small" tabindex="-1">
+	            	<option value=""></option>
+	            	<option value="奥组委">奥组委</option>
+	            	<option value="总值">总值</option>
+	            	<option value="保洁">保洁</option>
+	            	<option value="其他">其他</option>
+	            </select>
+            <input id="deptCodes" name="deptCodes"  type="hidden" value="10" maxlength="50">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    
+    
+       <div class="control-group">
+	        <label class="control-label">电话:</label>
+	        <div class="controls">
+	            <input id="phone" name="phone"   type="text" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">借用时间:</label>
+	        <div class="controls">
+	            <input id="borrowTime" name="borrowTime" class="input-mini Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});" type="text" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">经办人:</label>
+	        <div class="controls">
+	            <input id="manager" name="manager" class="required" type="text" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">归还时间:</label>
+	        <div class="controls">
+	            <input id="regainTime" name="regainTime" class="input-mini Wdate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});" class="required" type="text" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">值班人:</label>
+	        <div class="controls">
+	            <input id="watch" name="watch" class="required" type="text" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        
+        <div class="control-group">
+	        <label class="control-label">备注:</label>
+	        <div class="controls">
+	        	<textarea id="remark" name="remark" rows="5" cols="40" style="width:270px;resize:none"></textarea>
+	            <!-- <input id="remark" name="remark"  type="text" value="" maxlength="50"> -->
+	        </div>
+        </div>
+
+    <div class="form-actions">
+    	<input id="btnSubmit" class="btn btn-primary" type="submit" value="提  交">&nbsp;
+        <input id="btnCancel" class="btn " type="button" value="取  消" onclick="back()">
+    </div>
+</form>
+
+   <script type="text/javascript">
+	
+
+ // 表单验证
+    $.validator.setDefaults({
+        submitHandler: function() {
+           // 调用提交
+           formSubmit();
+        }
+    });
+	
+	$(document).ready(function() {
+		/*输入校验*/
+        $("#inputForm").validate({
+        	rules: {
+                deptName:{
+                	required: true
+                },
+                itemName:{
+                	required: true
+                },
+                borrower:{
+                	required: true,
+                	realName: true
+                },
+            	 phone: {
+            		  required: true,
+	                    rangelength: [8,11],
+	                    number:true
+                 },
+                amount:{
+             	   required: true,
+                   number:true
+                },
+                borrowTime:{
+                	required: true
+                },
+                regainTime:{
+                	required: true
+                },
+                watch:{
+                	required: true,
+                	realName: true
+                },
+                manager:{
+                	required: true,
+                	realName: true
+                }
+                 },
+                 message:{
+                   deptName:{
+                   		required: ""
+                   },
+                   itemName:{
+                   		required: ""
+                   },
+                   borrower:{
+                   		required: "",
+                   		realName: ""
+                   },
+                   phone: {
+                	   required: "请输入电话",
+                       minlength: "电话长度须为8-11位数字"
+                   },
+                   amount:{
+                	   required: "",
+                       number:""
+                   },
+                   borrowTime:{
+                   		required: ""
+                   },
+                   regainTime:{
+                   		required: ""
+                   },
+                   watch:{
+                   		required: "",
+                   		realName: ""
+                   },
+                   manager:{
+                   		required: "",
+                   		realName: ""
+                   }
+               }
+       });
+		
+	});
+        function formSubmit(){
+            		var ajax_option={
+            				headers    : {
+	          	                 "token" : localStorage.getItem("token"),
+	          	             }, 
+	          	            beforeSend:function () {
+	          	                var loading = $('<div id="loading"></div>');
+	          	                $('body').append(loading);
+	          	                $("#btnSubmit").attr("disabled",true);
+
+	          	            },
+            				url:APIHost + '/goodsBorrow/save',//默认是form action
+            				success:function(response){
+            					if(response.data.msg=="success"){
+            						parent.hideDiv();
+            	                    parent.pageload();
+            						parent.jBox.alert("保存成功 !","提示");
+            					}
+            					else if(response.msg=="exists"){
+            						$.jBox.alert("数据已存在","提示");
+            					}
+            					else{
+            						$.jBox.alert("错误","提示");
+            					}
+            					
+            				
+               				},
+	                      complete: function () {
+	                          $("#btnSubmit").attr("disabled",false);
+	                          $("#loading").hide();
+	                      }
+                   		}
+                   		
+                   		 $("#inputForm").ajaxSubmit(ajax_option);  
+        }   
+        
+        function back(){
+        	parent.location.reload();
+        }
+        
+    </script>
+
+</body></html>

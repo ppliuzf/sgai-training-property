@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>处理采购申请</title>
+    <link rel="stylesheet" href="../lib/css/default.css">
+    <style>
+        .tableBox{
+            overflow-y: auto;
+            height: auto;
+        }
+
+        #tableChange{
+            margin: 0;
+        }
+
+        .pt15{
+            position: relative;
+            z-index: 10;
+            border-top:1px solid #ccc;
+            top: -2px;
+        }
+
+        #wlmx,#shdxx,#fpxx{
+            display: inline-block;
+            width: 120px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+        }
+        #shdxx,#fpxx{
+            margin-left: -10px;
+        }
+
+        .cur{
+            background: #fff;
+            border:1px solid #ccc;
+            border-bottom:0;
+            border-radius: 5px 5px 0 0;
+            position:relative;
+            z-index: 15;
+        }
+
+
+    </style>
+</head>
+<body id="main">
+    <div class="container-fluid">
+        <div class="row header">
+            <div class="js-title">
+                <h4 class="deal hidden">采购订单详情-已完成</h4>
+                <h4 class="dealing hidden">采购订单详情-采购中</h4>
+                <h4 class="nodeal hidden">采购订单详情-未采购</h4>
+            </div>
+            <div class="btns text-right">
+                <button type="submit" class="btn btn-primary hidden" id="startPur">开始采购</button>
+                <button type="submit" class="btn btn-primary hidden" id="confirmPur">确认收货</button>
+                <button type="submit" class="btn btn-primary hidden" id="billsPur">开具发票</button>
+                <button type="submit" class="btn btn-default" id="back">返回</button>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 js-main-up infos-detail">
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 tableBox" >
+            <h4 class="p15" id="tableChange">
+                <span class="mr20 selectMain" id="wlmx">物料明细<i class='wlmx'></i></span>
+                <span class="mr20" id="shdxx">收货单信息<i class='shdxx'></i></span>
+                <span class="mr20" id="fpxx">发票信息<i class='fpxx'></i></span>
+            </h4>
+            <div class="pt15" id="wlmxtable">
+                <table class="table table-bordered table-hover">
+                    <thead>
+
+                        <tr class="active">
+                            <th width="60" class="text-center">序号</th>
+                            <th width="">物料名称</th>
+                            <th width="">物料数量</th>
+                            <th width="">规格</th>
+                            <th width="">型号</th>
+                        </tr>
+                    </thead>
+                    <tbody class="js-main-down" id="materielList"></tbody>
+                </table>
+                <nav class="text-right pages"></nav>
+            </div>
+            <div class="pt15 hidden" id="shdxxtablt">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr class="active">
+                            <th width="">收货人</th>
+                            <th width="">收货日期</th>
+                            <th width="">入库仓库</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="sPeo"></td>
+                            <td id="sTime"></td>
+                            <td id="sRk"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pt15 hidden" id="fpxxtable">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr class="active">
+                            <th width="" >名称</th>
+                            <th width="">纳税人识别号</th>
+                            <th width="">地址</th>
+                            <th width="">电话</th>
+                            <th width="">金额</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td id="nameC"></td>
+                            <td id="numberC"></td>
+                            <td id="addressC"></td>
+                            <td id="phoneC"></td>
+                            <td id="moneyC"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="../lib/lib/lightbox.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/deptTree.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/purchase-orderT/purchase-order-del.js"></script>
+</body>
+
+</html>

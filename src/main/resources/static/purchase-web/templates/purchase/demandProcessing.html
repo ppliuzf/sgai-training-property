@@ -1,0 +1,59 @@
+{{each items as item}}
+<tr data-id="{{item.id}}">
+    {{ if item.number1 < 10}}
+        <td class="text-center">0{{item.number1}}</td>
+    {{ else }}
+        <td class="text-center">{{item.number1}}</td>
+    {{/if}}
+    <!-- 申请编号 -->
+    <td>
+        <a class="underline js-detail" data-id="{{item.id}}">{{item.applyNo}}</a>
+    </td>
+    <!-- 申请人 -->
+    <td>
+        {{item.applyEmpName}}
+    </td>
+    <!-- 所属部门 -->
+    <td>
+        {{item.applyDeptName}}
+    </td>
+    <!-- 申请理由 -->
+    <td class="js-reason">
+        {{item.applyReason}}
+    </td>
+    <!-- 申请日期 -->
+    <td>
+        {{item.applyDate | dateFormat:'yyyy-MM-dd'}}
+    </td>
+    
+    <!-- 需求状态 -->
+    <td>
+        {{if item.matStat === 1}}
+        已提交
+        {{/if}}
+        {{if item.matStat === 2}} 已通过 {{/if}}
+        {{if item.matStat === 3}} 已拒绝 {{/if}}
+        {{if item.matStat === 4}} 已撤回 {{/if}}
+    </td>
+    <!-- 用料审批人 -->
+    <td>
+        {{item.approveEmpName}}
+    </td>
+    <!-- 审批时间 -->
+    <td>
+        {{item.approveDate | dateFormat:'yyyy-MM-dd'}}
+    </td>
+    <!-- 操作 -->
+    <td class="actList js-act act">
+        <div class="btn-group more">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多
+                    </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="underline js-chuli" >处理</a>
+                </li>
+            </ul>
+        </div>
+    </td>
+</tr>
+{{/each}}

@@ -1,0 +1,26 @@
+{{each items as item index}}
+<tr data-id="{{item.id}}">
+    {{ if index+1 < 10}}
+    <td class="text-center" >0{{index+1}}</td>
+    {{ else }}
+    <td class="text-center" >{{index+1}}</td>
+    {{ /if }}
+    <td>{{item.operationName}}</td>
+    <td>{{item.operationTime | dateFormat:'yyyy-MM-dd'}}</td> 
+    {{if item.operationType == 1}}
+    <td>未入库</td>
+    {{ else if item.operationType == 2}}
+    <td>部分入库</td>
+    {{ else if item.operationType == 3}}
+    <td>全部入库</td>
+    {{/if}}
+    <td class="text-center act">
+        <div class="btn-group more">
+                <a href="javascript:;" class="checkDetail" ids="{{item.opeationMatId}}" names="{{item.operationName}}" times = '{{item.operationTime}}' types = '{{item.operationType}}'  >查看详情</a>
+            <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+            <ul class="dropdown-menu">
+                <li><a href="javascript:;" class="checkDetail">查看详情</a></li>
+            </ul> -->
+        </div>
+    </td>
+{{/each}}

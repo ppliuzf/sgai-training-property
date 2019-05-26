@@ -1,0 +1,17 @@
+{{each items as item idx}}
+<tr>
+    <!-- <td><input type="checkbox" data-id="{{item.rpId}}" class="js-list-select-single"></td> -->
+    <td>{{idx + 1}}</td>
+    <td>{{item.rpPositionName}}</td>
+    <td>{{item.rpPositionDesc}}</td>
+    <td class="text-center">
+        <!-- <div class="btn-group"> -->
+            <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">查看更多 <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a href="javascript:;" class="js-del" data-id="{{item.rpId}}">删除</a></li>
+            </ul> -->
+        <!-- </div> -->
+            <a href="javascript:;" class="js-del" data-id="{{item.rpId}}" class="js-del" data-id="1">删除</a>
+    </td>
+</tr>
+{{/each}}

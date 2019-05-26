@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>入库单详情</title>
+    <link rel="stylesheet" href="./css/default.css">
+</head>
+<body id="main">
+        <div class="container-fluid">
+            <div class="row header">
+                <h4 class="hide notStorage">入库单详情-未入库</h4>
+                <h4 class="hide partStorage">入库单详情-部分入库</h4>
+                <h4 class="hide allStorage">入库单详情-全部入库</h4>
+                <div class="btns text-right">
+                    <button type="submit" class="btn btn-primary hide storageBtn">入库</button>
+                    <button type="submit" class="btn btn-primary hide undoBtn">撤销</button>
+                    <button type="submit" class="btn btn-default" id="cancel">返回</button>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 js-main">
+                <div class="form-group">
+                    <label><b>基础信息 </b></label>
+                </div>
+                <div id = "detailCont" class="infos-detail">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-11 col-md-12 col-lg-12 js-main">
+                <h4 class="pt15">
+                    <ul class="title-list">
+                        <li class="materielList curr">用料明细</li>
+                        <li class="ingoingList">入库记录</li>
+                    </ul>
+                </h4>
+                <div class="text-right hide" id="editStatus">
+                    <button type="button" class="btn btn-primary" id="purchase">采购材料</button>
+                </div>
+                <div class="contentList">
+                        <div class="pt15 list">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr class="active">
+                                        <th width="60" class="text-center">序号</th>
+                                        <th>材料名称</th>
+                                        <th>材料规格</th>
+                                        <!--<th>材料型号</th>-->
+                                        <th width="120">采购数量</th>
+                                        <th width="120">入库数量</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="js-list" id="materielList"></tbody>
+                            </table>
+                            <nav class="text-right pages1"></nav>
+                        </div>
+                        <div class="pt15 list" style="display:none;">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr class="active">
+                                        <th width="60" class="text-center">序号</th>
+                                        <th>操作人</th>
+                                        <th>操作时间</th>
+                                        <th>操作类型</th>
+                                        <th width="92" class="text-center">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="js-list" id="ingoingList"></tbody>
+                            </table>
+                            <nav class="text-right pages2"></nav>
+                        </div>
+                </div>
+
+            </div>
+        </div>
+
+    <script src="./js/lib/jquery.min.js"></script>
+    <script src="./js/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/deptTree.js"></script>
+    <script src="./js/server/utils.js"></script>
+
+
+    <script src="./js/controller/in/in-detail.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>出入库查询</title>
+    <link rel="stylesheet" href="./css/default.css">
+    <style>
+            .glyphicon{
+                font-family:'Glyphicons Halflings' !important;
+            }
+        </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>出入库查询</h4>
+        </div>
+         <!-- 搜索 -->
+         <div class="form-inline filter">
+            <div class="form-group">
+                <label class="control-label" for="time1">创建时间（起） </label>
+                <div class="input-group">
+                    <input id="time1" data-date-format="yyyy-MM-dd HH:ii" format="yyyy-MM-dd HH:ii" class="form-control form_date" size="16" type="text" id="infoTime" readonly>
+                    <span class="input-group-addon js-date-clean"><span class="glyphicon glyphicon-remove"></span></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dtp_input5" class="control-label faqiTime">创建时间（止） </label>
+                <div class='input-group'>
+                    <input id="time2" class="form-control form_date1 " size="16" type="text" data-date-format="yyyy-MM-dd" readonly>
+                    <span class="input-group-addon js-date-clean"><span class="glyphicon glyphicon-remove"></span></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary js-search">查询</button>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th width="60" class="text-center">序号</th>
+                    <th width="150">单号</th>
+                    <th width="150">类型</th>
+                    <th>仓库名称</th>
+                    <th width="80">仓库类型</th>
+                    <th>创建时间</th>
+                    <th width="150">操作人</th>
+                    <th width="100">订单状态</th>
+                </tr>
+            </thead>
+            <tbody class="js-list"></tbody>
+        </table>
+        <nav class="text-right pages"></nav>
+    </div>
+    <script src="./js/lib/jquery.min.js"></script>
+    <script src="./js/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/lib/bootstrap-datetimepicker.min.js"></script>
+    <script src="./js/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="./js/controller/out/out-and-in-list.js"></script>
+</body>
+</html>

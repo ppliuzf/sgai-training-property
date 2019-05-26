@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>预算计划</title>
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+<style type="text/css">
+    .start-plan.btn{
+        float: right;
+        margin-bottom: 30px;
+        /* margin-right: 28px; */
+    }
+    .place-empty{
+        display: inline-block;
+        width: 9px;
+    }
+    input.form-control.w196{
+        width: 196px;
+    }
+    .dropdown-menu>li>a{
+        cursor: pointer;
+    }
+</style>
+<body>
+<div class="container-fluid">
+    <div class="row header">
+        <h4>预算计划</h4>
+    </div>
+    <div class="filter">
+
+        <div class="form-box">
+            <div class="form-group form-inline">
+                <div class="form-group">
+                    <label for="">计划名称: </label>
+                    <input id="planName" type="text" class="form-control w196" placeholder="请输入计划名称" maxlength="20">
+                </div>
+                <div class="form-group">
+                    <label for="">申报人:
+                        <i class="place-empty"></i>
+                    </label>
+                    <input id="declarant" type="text" class="form-control w196" placeholder="请输入申报人" maxlength="20">
+                </div>
+                <div class="form-group">
+                    <label for="">预算年度: </label>
+                    <select id="predictYear" class="form-control w64p"  style="width: 196px">
+                    </select>
+                </div>
+            <!-- </div>
+            <div class="form-group form-inline"> -->
+                <div class="form-group">
+                    <label for="">预算周期: </label>
+                    <select id="predictPeriod" class="form-control w64p" style="width: 196px"></select>
+                </div>
+                <div class="form-group">
+                    <label for="">计划状态: </label>
+                    <select id="planStatus" class="form-control w64p" style="width: 196px">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary js-determine">搜索</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-primary start-plan">发起计划</button>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th class="text-center" width="60">序号</th>
+            <th>计划名称</th>
+            <th>计划部门</th>
+            <th>预算年度</th>
+            <th>预算周期</th>
+            <th>申报人</th>
+            <th>申报日期</th>
+            <th>计划状态</th>
+            <th>审核人</th>
+            <th>审核日期</th>
+            <th class="text-center" width="92">操作</th>
+        </tr>
+        </thead>
+        <tbody class="js-list"></tbody>
+    </table>
+    <div class="pages text-right"></div>
+</div>
+<script src="../lib/lib/jquery.min.js"></script>
+<script src="../lib/lib/bootstrap.min.js"></script>
+<script src="./js/server/template.js"></script>
+<script src="./js/server/template-helper.js"></script>
+<script src="../config/config.js"></script>
+<script src="./js/server/utils.js"></script>
+<script src="./js/controller/budget-plan-list.js"></script>
+<script src="../lib/lib/bootstrap-datetimepicker.min.js"></script>
+<script src="../lib/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+</body>
+</html>

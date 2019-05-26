@@ -1,0 +1,328 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/media/js/ckupload.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+    <title>子系统管理</title>
+    <meta name="decorator" content="default">
+     <style>
+        .form-horizontal .control-label{
+            width: 105px;
+        }
+    </style>
+    <script type="text/javascript">
+   		var paramId;
+        $(document).ready(function () {
+        	$(".order").hide();
+        	paramId=GetQueryString("paramId");
+        	if(paramId!=null){
+        		updatepageload();
+        		$(".order").show();
+        		$('#myModal #myModalLabel', window.parent.document).text("子系统修改");
+        	}else{
+        		$('#myModal #myModalLabel', window.parent.document).text("子系统新增");
+        	}
+        });
+        
+        //获取跳转地址的参数
+        function GetQueryString(name){
+             var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+             var r = window.location.search.substr(1).match(reg);
+             if(r!=null)return  unescape(r[2]); return null;
+        }
+        function saveItem(){
+        	$("#inputForm").ajaxSubmit({
+        		  headers    : {
+                     "token" : localStorage.getItem("token"),
+                 }, 
+        		url : APIHost+"/admin/ctl/ctlBusinessDefine/save",
+    			type : 'POST',
+    			async : false, //或false,是否异步
+    			data : {},
+    			timeout : 30000,
+    			dataType : 'json',
+        		success: function (res) {
+        		  if(res.code === 1000){
+        			var data = res.data;
+               		if(data.msg=="success"){
+               			$.jBox.alert('保存成功', '提示',{ closed: function ()
+    						{var url =APIHost+ "/ctl/ctlBusinessDefineList.html";
+                	   		window.parent.location.href = url;}});
+              		}else if(data.msg=="repeat"){
+              			$.jBox.alert("该系统代码已存在，请重新填写！","提示")
+               		}else if(data.msg=="faild"){
+               			$.jBox.alert("保存失败！","提示")
+               		}
+        		  }else if(res.code ===1003){
+						//没有登录状态
+						$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+							{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+					}else if(res.code === 1002){
+						//发生异常
+						$.jBox.alert(res.msg);
+					}else if(res.code === 1004){
+						//结果为空
+						$.jBox.alert(res.msg);
+					}
+        		}
+            });
+        }
+        // 关闭弹框
+        function closePopUp(){
+            $('#myModal .close', window.parent.document).click();
+        }
+        //加载修改数据
+        function updatepageload(){
+        	  $.ajax({
+        	   		 headers    : {
+        	                "token" : localStorage.getItem("token"),
+        	            },
+        				url :APIHost+'/admin/ctl/ctlBusinessDefine/findById',
+        				type : 'POST',
+        				async : false, //或false,是否异步
+        				data : {
+        					"id": paramId
+
+        				},
+        				timeout : 30000,
+        				dataType : 'json',
+        				success : function(res) {
+        					if(res.code === 1000){
+        						var item = res.data;
+        						$("#busiCode").attr("readonly","reaonly");
+            					$("#id").val(item.id);
+            					$("#busiCode").val(item.busiCode);
+            					$("#busiName").val(item.busiName);
+            					$("#busiIoc").val(item.busiIoc);
+            					$("#bannerImg").val(item.bannerImg);
+            					$("#backImg").val(item.backImg);
+            					$("#displayOrder").val(item.displayOrder);
+            					$("#orderOld").val(item.displayOrder);
+            					$("#busiDesc").val(item.busiDesc);
+            					riskStr = "notNull";
+                                $("#busiIoc1").children().html("notNull");
+                                imagePreview("busiIoc",true);
+                                $("#bannerImg1").children().html("notNull");
+                                imagePreview("bannerImg",true);
+                                $("#backImg1").children().html("notNull");
+                                imagePreview("backImg",true);
+        					}else if(res.code ===1003){
+        						//没有登录状态
+        						$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+        							{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+        					}else if(res.code === 1002){
+        						//发生异常
+        						$.jBox.alert(res.msg);
+        					}else if(res.code === 1004){
+        						//结果为空
+        						$.jBox.alert(res.msg);
+        					}
+        					
+        				},
+        				error : function() {
+        					$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+        				}
+        			})
+        }
+    </script>
+</head>
+<body>
+<!-- <ul class="nav nav-tabs">
+    <li><a href="">子系统添加</a></li>
+</ul>
+<br> -->
+<form id="inputForm" name="inputForm" class="form-horizontal"  method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+    <input id="orderOld" name="orderOld" type="hidden" value="">
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>系统代码:</label>
+        <div class="controls">
+            <input id="busiCode" name="busiCode" class="required" type="text" value="" maxlength="10">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>系统名称:</label>
+        <div class="controls">
+            <input id="busiName" name="busiName" class="required" type="text" value="" maxlength="10">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">系统图标:</label>
+        <div class="controls">
+            <input id="busiIoc" name="busiIoc" class="required " type="hidden" value="" maxlength="100">
+            <ol id="busiIoc1" name="busiIoc1" class="required ">
+               <li style="list-style:none;padding-top:5px;">无</li>
+           </ol>
+           <a href="javascript:" onclick="imageFinderOpen('busiIoc',this)" class="btn">选择</a>&nbsp;
+           <a href="javascript:" onclick="riskDelAll('busiIoc');" class="btn">清除</a>
+        </div>
+    </div>
+    <div class="control-group" >
+        <label class="control-label">系统访问banner:</label>
+        <div class="controls">
+            <input id="bannerImg" name="bannerImg" type="hidden" value="" maxlength="100" minlength="3" class="required">
+            <ol id="bannerImg1">
+               <li style="list-style:none;padding-top:5px;">无</li>
+           </ol>
+           <a href="javascript:" onclick="imageFinderOpen('bannerImg',this);" class="btn">选择</a>&nbsp;
+           <a href="javascript:" onclick="riskDelAll('bannerImg');" class="btn">清除</a>
+        </div>
+    </div> 
+    <div class="control-group" style="margin-bottom:8px;">
+        <label class="control-label">系统背景图片:</label>
+        <div class="controls">
+            <input id="backImg" name="backImg" type="hidden" value="" maxlength="100" minlength="3" class="required">
+            <ol id="backImg1">
+               <li style="list-style:none;padding-top:5px;">无</li>
+           </ol>
+           <a href="javascript:" onclick="imageFinderOpen('backImg',this);" class="btn">选择</a>&nbsp;
+           <a href="javascript:" onclick="riskDelAll('backImg');" class="btn">清除</a>
+        </div>
+    </div>
+    <div class="control-group order">
+        <label class="control-label">显示顺序:</label>
+        <div class="controls">
+            <input id="displayOrder" name="displayOrder"  type="text" value="" maxlength="10">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">描述:</label>
+        <div class="controls">
+            <input id="busiDesc" name="busiDesc" type="text" value="" maxlength="100">
+        </div>
+    </div>
+    <div class="form-actions">
+    	<input id="btnCancel" class="btn" type="button" value="关闭" onclick="closePopUp()">
+        <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">
+    </div>
+</form>
+<script>
+// 表单验证
+$.validator.setDefaults({
+    submitHandler: function() {
+       // 调用提交
+       saveItem();
+    }
+});
+$().ready(function () {
+    // 在键盘按下并释放及提交后验证提交表单
+    $("#inputForm").validate({
+         rules: {
+            busiCode: {
+                required: true,
+                minlength: 1,
+                maxlength:10
+            },
+            busiName: {
+                required: true,
+                minlength: 1
+            },
+            busiIoc1: {
+                required: true,
+            },
+            bannerImg1: {
+                required: true,
+            },
+            backImg1: {
+                required: true,
+            },
+          },
+        messages:{
+        	busiCode: {
+                required: "请输入子系统代码",
+                minlength: "子系统代码必需由10个字母组成"
+            },
+            busiName: {
+                required: "请输入子系统名称",
+                minlength: "子系统名称最低一个字"
+            },
+            busiIoc1: {
+                required: "请选择图标",
+            },
+            bannerImg1: {
+                required: "请选择系统banner",
+            },
+            backImg1: {
+                required: "请选择背景图片",
+            },
+        },
+         errorPlacement:function(error, element){
+            error.appendTo(element.parent()); //将错误信息添加当前元素的父结点后面
+        }
+    });
+})
+</script>
+<!--  <script type="text/javascript">
+ 		//附件选择
+ 		    var str
+           	function imageFinderOpen(str1){//
+ 			    str=str1
+           		var date = new Date(), year = date.getFullYear(), month = (date.getMonth()+1)>9?date.getMonth()+1:"0"+(date.getMonth()+1);
+           		var url = "/static/ckfinder/ckfinder.html?type=images&start=images:/photo/"+year+"/"+month+
+           			"/&action=js&func=imageSelectAction&cb=imageCallback&dts=0&sm=1";
+           		windowOpen(url,"文件管理",1000,700);
+           	}
+           	function imageSelectAction(fileUrl, data, allFiles){
+           		var url="", files=ckfinderAPI.getSelectedFiles();
+           		for(var i=0; i<files.length; i++){
+           			url += files[i].getUrl();
+           			if (i<files.length-1) url+="|";
+           		}
+           		$("#"+str).val(url);
+           		
+           		imagePreview(str);
+           	}
+           	function imageCallback(api){
+           		ckfinderAPI = api;
+           	}
+           	function imageDel(obj){
+           		var url = $(obj).prev().attr("url");
+           		$("#"+str).val($("#"+str).val().replace("|"+url,"","").replace(url+"|","","").replace(url,"",""));
+           		imagePreview(str);
+           	}
+           	function imageDelAll(){
+           		$("#busiIoc").val("");
+           		$("#bannerImg").val("");
+           		$("#backImg").val("");
+           		imagePreview(str);
+           	}
+           	function imagePreview(str){
+           		var li, urls = $("#"+str).val().split("|");
+           		$("#"+str+1).children().remove();
+           		for (var i=0; i<urls.length; i++){
+           			if (urls[i]!=""){
+           				li = "<li><img src=\""+urls[i]+"\" url=\""+urls[i]+"\" style=\"max-width:100px;max-height:100px;_height:100px;border:0;padding:3px;\">";//
+           				li += "&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"imageDel(this);\">×</a></li>";
+           				$("#"+str+1).append(li);
+           			}
+           		}
+           		if ($("#"+str+1).text() == ""){
+           			$("#"+str+1).html("<li style='list-style:none;padding-top:5px;'>无</li>");
+           		}
+           	}
+           </script> -->
+</body></html>

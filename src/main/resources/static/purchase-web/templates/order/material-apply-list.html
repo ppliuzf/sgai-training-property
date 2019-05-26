@@ -1,0 +1,85 @@
+{{each items as item index}}
+<tr data-id="{{item.id}}">
+        {{ if index+1< 10}} 
+        <td class="text-center">0{{index+1}}</td>
+        {{ else }}
+        <td class="text-center">{{index+1}}</td>
+        {{/if}} {{if item.matStat == 1}}
+        <td>
+            <a href="./material-apply-detail.html?status=1&infoId={{item.id}}">{{item.applyNo}}</a>
+        </td>
+        {{else if item.matStat == 2}}
+        <td>
+            <a href="./material-apply-detail.html?status=2&infoId={{item.id}}">{{item.applyNo}}</a>
+        </td>
+        {{else if item.matStat == 3}}
+        <td>
+            <a href="./material-apply-detail.html?status=3&infoId={{item.id}}">{{item.applyNo}}</a>
+        </td>
+        {{else if item.matStat == 4}}
+        <td>
+            <a href="./material-apply-detail.html?status=4&infoId={{item.id}}">{{item.applyNo}}</a>
+        </td>
+        {{else if item.matStat == 5}}
+        <td>
+            <a href="./material-apply-detail.html?status=5&infoId={{item.id}}">{{item.applyNo}}</a>
+        </td>
+        {{/if}}
+        <td>{{item.applyEmpName}}</td>
+        <td>{{item.applyDeptName}}</td>
+        <td class="js-reason">{{item.applyReason}}</td>
+        <td>
+            {{if item.applyDate}} {{item.applyDate | dateFormat:'yyyy-MM-dd'}} {{else}} -- {{/if}}
+        </td>
+        <td>
+            {{if item.supplyDate}} {{item.supplyDate | dateFormat:'yyyy-MM-dd'}} {{else}} -- {{/if}}
+        </td>
+        {{if item.matStat == 1}}
+        <td class="js-status">已提交</td>
+        {{else if item.matStat == 2}}
+        <td class="js-status">已通过</td>
+        {{else if item.matStat == 3}}
+        <td class="js-status">已拒绝</td>
+        {{else if item.matStat == 4}}
+        <td class="js-status">已撤销</td>
+        {{else }}
+        <td class="js-status">已领取</td>
+        {{/if}}
+        <td>{{item.approveEmpName}}</td>
+        <td>
+            {{if item.approveDate }} {{item.approveDate | dateFormat:'yyyy-MM-dd'}} {{else}} -- {{/if}}
+        </td>
+        {{if item.matStat == 1}}
+        <td class="actList js-act text-center act">
+            <a href="./material-apply-add.html?infoId={{item.id}}" class="js-tb-bj underline">编辑</a>
+            <a href="javascript:void(0)" class="js-tb-ch underline">撤回</a>
+        </td>
+        <!-- <div class="btn-group more">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+            <ul class="dropdown-menu">     
+                    <li>
+                        <a href="./material-apply-add.html?infoId={{item.id}}" class="js-tb-bj underline">编辑</a>
+                    </li>  
+                    <li>
+                        <a href="javascript:void(0)" class="js-tb-ch underline" >撤回</a></td>
+                    </li>  
+            </ul>
+        </div> -->
+        </td>
+        {{else if item.matStat == 2}}
+        <td class="actList js-act text-center act">
+            <a href="javascript:void(0)" class="js-tb-lq">领取用料</a>
+            <!-- <div class="btn-group more">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+            <ul class="dropdown-menu">     
+                    <li>
+                        <a href="javascript:void(0)" class="js-tb-lq">领取用料</a>
+                    </li>  
+            </ul>
+        </div> -->
+        </td>
+        {{else}}
+        <td class="actList js-act"></td>
+        {{/if}}
+</tr>
+{{/each}}

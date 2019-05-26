@@ -1,0 +1,57 @@
+<table style="margin-bottom:20px;">
+        <tbody>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">申请编号</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">
+                    {{if items.applyNo}}
+                        <div>{{items.applyNo}}</div>
+                        {{else}}
+                        <div>--</div>
+                        {{/if}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">订单类型</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{if items.orderType == 1}}
+                        <div>需求订单</div>
+                        {{else}}
+                        <div>计划采购</div>
+                        {{/if}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">订单编号</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">
+                        {{if items.orderNo}}
+                        <div>{{items.orderNo}}</div>
+                         {{else}}
+                        <div>--</div>
+                        {{/if}}
+                </td>
+            </tr>
+            <tr>
+                <td class="text-center">申请人</td>
+                <td class="value">{{if items.orderEmpName}}
+                        <div>{{items.orderEmpName}}</div>
+                        {{else}}
+                        <div>--</div>
+                        {{/if}}</td>
+                <td class="text-center">申请日期</td>
+                <td class="value">{{if items.orderDate}}
+                        <div>{{items.orderDate | dateFormat:'yyyy-MM-dd'}}</div>
+                        {{else}}
+                        <div>--</div>
+                        {{/if}}
+                    </td>
+                    <td class="text-center">部门</td>
+                <td class="value">{{if items.buyerApproveEmpName}}
+                        <div>{{items.buyerApproveEmpName}}</div>
+                        {{else}}
+                        <div>--</div>
+                        {{/if}}
+                    </td>
+            </tr>
+            <tr>    
+                <td class="text-center">供应商</td>
+                <td class="value" colspan="5"> {{if items.supplyComName}}
+                        <div>{{items.supplyComName}}</div>
+                        {{else}}
+                        <div>--</div>
+                        {{/if}}</td>
+            </tr>
+        </tbody>
+    </table>

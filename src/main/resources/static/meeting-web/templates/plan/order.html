@@ -1,0 +1,46 @@
+{{each items as item idx}}
+<tr>
+    <td class='text-center'>{{idx+1 < 10 ? "0" + (idx+1) : idx+1}}</td>
+    <td>
+        <div class="img-text-info">
+            {{if item.roomImg}}
+            <a href="{{item.roomImg}}" target="_blank" data-lightbox="item-{{idx}}">
+                <img class="default-image" src="{{item.roomImg}}" onerror="this.src='./images/default_image.png'">
+            </a>
+            {{else}}
+            <a>
+                <img src="./images/default_image.png" class="default-image">
+            </a>
+            {{/if}}
+            <span class="img-text">{{item.rrRoomName}}</span>
+        </div>
+    </td>
+    <td>{{item.rrRoomPosition}}</td>
+    <td>{{item.rrRoomPeoples}}人</td>
+    <td>
+        <div>
+            {{if item.deviceDetailVoList.length>0}} 已启用：{{each item.deviceDetailVoList as itom }} {{if itom.rdsState==0}}
+            <span class="device-txt" data-rdsId="{{itom.rdsId}}" data-rdsState="{{itom.rdsState}}">{{itom.rdRoomDevice}}</span> {{/if}} {{/each}} {{/if}}
+        </div>
+        <div>
+            {{if item.deviceDetailVoList.length>0}}已禁用：{{each item.deviceDetailVoList as itom }}{{if itom.rdsState!=0}}
+            <span class="device-txt" data-rdsId="{{itom.rdsId}}" data-rdsState="{{itom.rdsState}}">{{itom.rdRoomDevice}}</span> {{/if}} {{/each}} {{/if}}
+        </div>
+    </td>
+    <!-- <td>
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">查看更多
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="javascript:;" class="js-order" data-id="{{item.id}}">预定</a>
+                </li>
+            </ul>
+        </div>
+    </td> -->
+    <td class="text-center">
+        <a href="javascript:;" class="js-order" data-id="{{item.id}}">预定</a>
+    </td>
+</tr>
+{{/each}}

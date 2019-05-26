@@ -1,0 +1,56 @@
+<div class="form-group clearfix">
+    <!--
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <h5><b>订单来源</b></h5>
+        {{if items.orderType == 1}}
+        <div>需求订单</div>
+        {{ else if items.orderType == 2}}
+        <div>主动采购</div>
+        {{/if}}
+    </div>
+-->
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 p0">
+        <h5><b>需求编号</b></h5>
+        <div>{{items.applyNo}}</div>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <h5><b>申请人</b></h5>
+        <div>{{items.applyEmpName}}</div>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <h5><b>部门</b></h5>
+        <div>{{items.applyDeptName}}</div>
+    </div>
+</div>
+<div class="form-group clearfix">
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 p0">
+        <h5><b>申请日期</b></h5>
+        <div>{{items.applyDate | dateFormat:'yyyy-MM-dd'}}</div>
+        
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <h5><b>用料审核人</b></h5>
+        <div>{{items.approveEmpName}}</div>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <h5><b>审核日期</b></h5>
+        <div> {{items.approveDate | dateFormat:'yyyy-MM-dd'}}</div>
+    </div>
+</div>
+<div class="form-group clearfix">
+    
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p0">
+        <h5><b>申请理由</b></h5>
+        <div class="wrap">{{items.applyReason}}</div>
+    </div>
+</div>
+<!-- <div class="form-group clearfix">
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <h5><b>制单人</b></h5>
+        <div>{{items.orderEmpName}}</div>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+        <h5><b>制单日期</b></h5>
+        <div>{{items.orderDate | dateFormat:'yyyy-MM-dd'}}</div>
+    </div>
+</div> -->

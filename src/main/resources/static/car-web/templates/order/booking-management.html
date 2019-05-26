@@ -1,0 +1,44 @@
+{{each items as item}}
+<tr style="vertical-align:middle">
+    <td class='text-center'>{{item.num}}</td>
+    <td class='cli my-reservation' data-id={{item.riCarId}}>
+        <a href="./pages/order/my-reservation/details-of-reservation.html?id={{item.id}}&status={{item.riAuditStatus}}">{{item.riUserName}} </a>
+    </td>
+    <td>{{item.ciDepartment}}</td>
+    <td>{{item.riUseStart}}</td>    
+    <td>{{item.remarks}}</td>
+    <td>{{item.ciNumber}}</td>
+    <td>{{item.ciBrand }}</td>
+    <td>{{item.ciModel }}</td>
+    <td>{{item.ciColor }}</td>
+    <td>{{item.ciBoxTypeName }}</td>
+    <td>{{item.ciDisplacement }}</td>
+    <td>{{item.ciLoadNumber }}</td>
+    {{if item.riAuditStatus === 0}}
+    <td>未提交</td>
+    {{else if item.riAuditStatus === 1}}
+    <td>已提交</td>
+    {{else if item.riAuditStatus === 2}}
+    <td>已通过</td>
+    {{else if item.riAuditStatus === 3}}
+    <td>已拒绝</td>
+    {{else if item.riAuditStatus === 4}}
+    <td>已归还</td>
+    {{else if item.riAuditStatus === 5}}
+    <td>归还中</td>
+    {{else}}
+    <td>已取消</td>
+    {{/if}} {{if item.riAuditStatus == 1}}
+    <td class='text-center'>
+        <a href='javascript:;' class="js-edit1" data-id={{item.id}}>取消预约</a>
+    </td>
+    {{else if item.riAuditStatus == 2}}
+    <td class='text-center'>
+        <a href='javascript:;' class="js-edit2" data-id={{item.id}} data-ricarid={{item.riCarId}}>归还车辆</a>
+    </td>
+    {{else}}
+    <td class='text-center'>-</td>
+    {{/if}}
+</tr>
+
+{{/each}}

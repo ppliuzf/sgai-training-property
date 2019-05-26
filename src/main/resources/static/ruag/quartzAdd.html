@@ -1,0 +1,961 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/cron/jquery.easyui.min.js" type="text/javascript"></script>
+<script src="../static/cron/cron.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+<title>新增加任务调度</title>
+<meta name="decorator" content="default">
+<style type="text/css">
+    .spinner {
+        display: inline-block;
+        white-space: nowrap;
+        margin: 0;
+        padding: 0;
+        border-width: 1px;
+        border-style: solid;
+        overflow: hidden;
+        vertical-align: middle;
+    }
+    .spinner .spinner-text {
+        font-size: 12px;
+        border: 0px;
+        line-height: 20px;
+        height: 20px;
+        margin: 0;
+        padding: 0 2px;
+        *margin-top: -1px;
+        *height: 18px;
+        *line-height: 18px;
+        _height: 18px;
+        _line-height: 18px;
+        vertical-align: baseline;
+    }
+    .spinner-arrow {
+        display: inline-block;
+        overflow: hidden;
+        vertical-align: top;
+        margin: 0;
+        padding: 0;
+    }
+    .spinner-arrow-up,
+    .spinner-arrow-down {
+        opacity: 0.6;
+        filter: alpha(opacity=60);
+        display: block;
+        font-size: 1px;
+        width: 18px;
+        height: 10px;
+    }
+    .spinner-arrow-hover {
+        opacity: 1.0;
+        filter: alpha(opacity=100);
+    }
+    .spinner-arrow-up {
+        background: url('../static/cron/images/spinner_arrows.png') no-repeat 1px center;
+    }
+    .spinner-arrow-down {
+        background: url('../static/cron/images/spinner_arrows.png') no-repeat -15px center;
+    }
+    .spinner {
+        border-color: #D4D4D4;
+    }
+    .spinner-arrow {
+        background-color: #F2F2F2;
+    }
+    .spinner-arrow-hover {
+        background-color: #e6e6e6;
+    }
+    .control-group{
+        margin: 0 10px;
+    }
+    .cron-box{
+        margin-top: 10px;
+    }
+    .cron-box .nav-tabs{
+        margin-bottom: 0;
+    }
+    .tab-content{
+        border: 1px solid #ddd;
+        border-top: 0;
+        padding: 10px;
+    }
+    .cron-box .line{
+        line-height: 32px;
+        margin-bottom: 8px;
+    }
+    .cron-box .imp{
+        line-height: 32px;
+    }
+    .imp input[type="checkbox"]{
+        margin-left: 15px;
+    }
+    .imp input[type="checkbox"]:first-child{
+        margin-left: 22px;
+    }
+    .cron-box .spinner{
+        border-color: #ccc;
+        border-radius: 4px;
+        height: 32px!important;
+        line-height: 30px;
+        box-sizing: border-box;
+    }
+    .spinner .spinner-text{
+        height: 24px!important;
+        line-height: 24px!important;
+    }
+    .spinner .spinner-arrow{
+        height: 24px!important;
+    }
+    .spinner-arrow-up{
+        height: 12px!important;
+    }
+    .spinner-arrow-down{
+        height: 12px!important;
+    }
+    .expression-box{
+        margin-top: 20px;
+    }
+    .expression-box td{
+        padding: 6px;
+        font-size: 14px;
+    }
+    .expression-box input{
+        margin: 0;
+        border:1px solid #ccc;
+        border-radius: 4px;
+        height: 32px;
+        line-height: 32px;
+    }
+    .col
+    {
+        width: 85px;
+    }
+</style>
+
+
+<script type="text/javascript">
+
+var dataJobName;
+var dataJobGroup;
+var paramId;
+var startDate;
+var endDate;
+$(document).ready(function () {
+	var paramId = GetQueryString("paramId");
+	dataJobName = GetQueryString("dataJobName");
+	dataJobGroup = GetQueryString("dataJobGroup");
+    loadDataForSelect();
+    if(paramId!=null && paramId !=""){
+        modifyPageLoad();
+        btnFan();
+        $("#id").val("edit");
+        $('#myModal #myModalLabel', window.parent.document).text("修改");
+    }else{
+        $('#myModal #myModalLabel', window.parent.document).text("新增");
+    }
+
+});
+function closePopUp(){
+    $('#myModal .close', window.parent.document).click();
+}
+
+function modifyPageLoad(){
+	$.ajax({
+		headers    : {
+            "token" : localStorage.getItem("token"),
+        },
+		url : APIHost+'/ruag/scheduler/getOne',
+		type : 'POST',
+		async : false, //或false,是否异步
+		data : {
+			jobName: dataJobName,
+			jobGroup: dataJobGroup
+		},
+		timeout : 5000,
+		dataType : 'json',
+		success : function(res) {
+			$("#jobName").val(res.data.list[0].jobName);
+			$("#description").val(res.data.list[0].description);
+			$("#className").val(res.data.list[0].className);
+			$("#cron").val(res.data.list[0].cronExpression);
+		},
+		error : function() {
+			console.log('错误')
+		}
+	});
+}
+//获取跳转地址的参数
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  decodeURI(r[2]); return null;
+} 
+
+</script>
+</head>
+<body>
+<form id="inputForm" class="form-horizontal"  method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+
+    <div class="control-group">
+        <label class="control-label">任务名称:</label>
+        <div class="controls">
+            <input id="jobName" name="jobName" type="text" value="">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">描述：</label>
+        <div class="controls">
+            <input id="description" name="description" type="text" value="">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">执行任务的类(完整路径  包含包名)：</label>
+        <div class="controls">
+            <input id="className" name="className" type="text" value="">
+        </div>
+    </div>
+</form>
+
+<!----------------------------- 分割线 ----- --------->
+<div class="control-group">
+    <label class="control-label">请填写任务执行周期：</label>
+    <div class="cron-box">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#second" data-toggle="tab">秒</a></li>
+            <li><a href="#minute" data-toggle="tab">分钟</a></li>
+            <li><a href="#hour" data-toggle="tab">小时</a></li>
+            <li><a href="#day" data-toggle="tab">日</a></li>
+            <li><a href="#month" data-toggle="tab">月</a></li>
+            <li><a href="#week" data-toggle="tab">周</a></li>
+            <li><a href="#year" data-toggle="tab">年</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="second" class="tab-pane fade in active">
+                <div class="line">
+                    <input type="radio" checked="checked" name="second" onclick="everyTime(this)">
+                    每秒 允许的通配符[, - * /]</div>
+                <div class="line">
+                    <input type="radio" name="second" onclick="cycle(this)">
+                    周期从
+                    <input class="numberspinner" style="width: 60px;" data-options="min:1,max:58" value="1"
+                           id="secondStart_0">
+                    -
+                    <input class="numberspinner" style="width: 60px;" data-options="min:2,max:59" value="2"
+                           id="secondEnd_0">
+                    秒</div>
+                <div class="line">
+                    <input type="radio" name="second" onclick="startOn(this)">
+                    从
+                    <input class="numberspinner" style="width: 60px;" data-options="min:0,max:59" value="0"
+                           id="secondStart_1">
+                    秒开始,每
+                    <input class="numberspinner" style="width: 60px;" data-options="min:1,max:59" value="1"
+                           id="secondEnd_1">
+                    秒执行一次</div>
+                <div class="line">
+                    <input type="radio" name="second" id="sencond_appoint">
+                    指定</div>
+                <div class="imp secondList">
+                    <input type="checkbox" value="0">00
+                    <input type="checkbox" value="1">01
+                    <input type="checkbox" value="2">02
+                    <input type="checkbox" value="3">03
+                    <input type="checkbox" value="4">04
+                    <input type="checkbox" value="5">05
+                    <input type="checkbox" value="6">06
+                    <input type="checkbox" value="7">07
+                    <input type="checkbox" value="8">08
+                    <input type="checkbox" value="9">09
+                </div>
+                <div class="imp secondList">
+                    <input type="checkbox" value="10">10
+                    <input type="checkbox" value="11">11
+                    <input type="checkbox" value="12">12
+                    <input type="checkbox" value="13">13
+                    <input type="checkbox" value="14">14
+                    <input type="checkbox" value="15">15
+                    <input type="checkbox" value="16">16
+                    <input type="checkbox" value="17">17
+                    <input type="checkbox" value="18">18
+                    <input type="checkbox" value="19">19
+                </div>
+                <div class="imp secondList">
+                    <input type="checkbox" value="20">20
+                    <input type="checkbox" value="21">21
+                    <input type="checkbox" value="22">22
+                    <input type="checkbox" value="23">23
+                    <input type="checkbox" value="24">24
+                    <input type="checkbox" value="25">25
+                    <input type="checkbox" value="26">26
+                    <input type="checkbox" value="27">27
+                    <input type="checkbox" value="28">28
+                    <input type="checkbox" value="29">29
+                </div>
+                <div class="imp secondList">
+                    <input type="checkbox" value="30">30
+                    <input type="checkbox" value="31">31
+                    <input type="checkbox" value="32">32
+                    <input type="checkbox" value="33">33
+                    <input type="checkbox" value="34">34
+                    <input type="checkbox" value="35">35
+                    <input type="checkbox" value="36">36
+                    <input type="checkbox" value="37">37
+                    <input type="checkbox" value="38">38
+                    <input type="checkbox" value="39">39
+                </div>
+                <div class="imp secondList">
+                    <input type="checkbox" value="40">40
+                    <input type="checkbox" value="41">41
+                    <input type="checkbox" value="42">42
+                    <input type="checkbox" value="43">43
+                    <input type="checkbox" value="44">44
+                    <input type="checkbox" value="45">45
+                    <input type="checkbox" value="46">46
+                    <input type="checkbox" value="47">47
+                    <input type="checkbox" value="48">48
+                    <input type="checkbox" value="49">49
+                </div>
+                <div class="imp secondList">
+                    <input type="checkbox" value="50">50
+                    <input type="checkbox" value="51">51
+                    <input type="checkbox" value="52">52
+                    <input type="checkbox" value="53">53
+                    <input type="checkbox" value="54">54
+                    <input type="checkbox" value="55">55
+                    <input type="checkbox" value="56">56
+                    <input type="checkbox" value="57">57
+                    <input type="checkbox" value="58">58
+                    <input type="checkbox" value="59">59
+                </div>
+            </div>
+            <div id="minute" class="tab-pane fade">
+                <div title="分钟">
+                    <div class="line">
+                        <input type="radio" checked="checked" name="min" onclick="everyTime(this)">
+                        分钟 允许的通配符[, - * /]</div>
+                    <div class="line">
+                        <input type="radio" name="min" onclick="cycle(this)">
+                        周期从
+                        <input class="numberspinner" style="width: 60px;" data-options="min:1,max:58" value="1"
+                               id="minStart_0">
+                        -
+                        <input class="numberspinner" style="width: 60px;" data-options="min:2,max:59" value="2"
+                               id="minEnd_0">
+                        分钟</div>
+                    <div class="line">
+                        <input type="radio" name="min" onclick="startOn(this)">
+                        从
+                        <input class="numberspinner" style="width: 60px;" data-options="min:0,max:59" value="0"
+                               id="minStart_1">
+                        分钟开始,每
+                        <input class="numberspinner" style="width: 60px;" data-options="min:1,max:59" value="1"
+                               id="minEnd_1">
+                        分钟执行一次</div>
+                    <div class="line">
+                        <input type="radio" name="min" id="min_appoint">
+                        指定</div>
+                    <div class="imp minList">
+                        <input type="checkbox" value="0">00
+                        <input type="checkbox" value="1">01
+                        <input type="checkbox" value="2">02
+                        <input type="checkbox" value="3">03
+                        <input type="checkbox" value="4">04
+                        <input type="checkbox" value="5">05
+                        <input type="checkbox" value="6">06
+                        <input type="checkbox" value="7">07
+                        <input type="checkbox" value="8">08
+                        <input type="checkbox" value="9">09
+                    </div>
+                    <div class="imp minList">
+                        <input type="checkbox" value="10">10
+                        <input type="checkbox" value="11">11
+                        <input type="checkbox" value="12">12
+                        <input type="checkbox" value="13">13
+                        <input type="checkbox" value="14">14
+                        <input type="checkbox" value="15">15
+                        <input type="checkbox" value="16">16
+                        <input type="checkbox" value="17">17
+                        <input type="checkbox" value="18">18
+                        <input type="checkbox" value="19">19
+                    </div>
+                    <div class="imp minList">
+                        <input type="checkbox" value="20">20
+                        <input type="checkbox" value="21">21
+                        <input type="checkbox" value="22">22
+                        <input type="checkbox" value="23">23
+                        <input type="checkbox" value="24">24
+                        <input type="checkbox" value="25">25
+                        <input type="checkbox" value="26">26
+                        <input type="checkbox" value="27">27
+                        <input type="checkbox" value="28">28
+                        <input type="checkbox" value="29">29
+                    </div>
+                    <div class="imp minList">
+                        <input type="checkbox" value="30">30
+                        <input type="checkbox" value="31">31
+                        <input type="checkbox" value="32">32
+                        <input type="checkbox" value="33">33
+                        <input type="checkbox" value="34">34
+                        <input type="checkbox" value="35">35
+                        <input type="checkbox" value="36">36
+                        <input type="checkbox" value="37">37
+                        <input type="checkbox" value="38">38
+                        <input type="checkbox" value="39">39
+                    </div>
+                    <div class="imp minList">
+                        <input type="checkbox" value="40">40
+                        <input type="checkbox" value="41">41
+                        <input type="checkbox" value="42">42
+                        <input type="checkbox" value="43">43
+                        <input type="checkbox" value="44">44
+                        <input type="checkbox" value="45">45
+                        <input type="checkbox" value="46">46
+                        <input type="checkbox" value="47">47
+                        <input type="checkbox" value="48">48
+                        <input type="checkbox" value="49">49
+                    </div>
+                    <div class="imp minList">
+                        <input type="checkbox" value="50">50
+                        <input type="checkbox" value="51">51
+                        <input type="checkbox" value="52">52
+                        <input type="checkbox" value="53">53
+                        <input type="checkbox" value="54">54
+                        <input type="checkbox" value="55">55
+                        <input type="checkbox" value="56">56
+                        <input type="checkbox" value="57">57
+                        <input type="checkbox" value="58">58
+                        <input type="checkbox" value="59">59
+                    </div>
+                </div>
+            </div>
+            <div id="hour" class="tab-pane fade">
+                <div class="line">
+                    <input type="radio" checked="checked" name="hour" onclick="everyTime(this)">
+                    小时 允许的通配符[, - * /]</div>
+                <div class="line">
+                    <input type="radio" name="hour" onclick="cycle(this)">
+                    周期从
+                    <input class="numberspinner" style="width: 60px;" data-options="min:0,max:23" value="0"
+                           id="hourStart_0">
+                    <!----->
+                    <input class="numberspinner" style="width: 60px;" data-options="min:2,max:23" value="2"
+                           id="hourEnd_1">
+                    小时</div>
+                <div class="line">
+                    <input type="radio" name="hour" onclick="startOn(this)">
+                    从
+                    <input class="numberspinner" style="width: 60px;" data-options="min:0,max:23" value="0"
+                           id="hourStart_1">
+                    小时开始,每
+                    <input class="numberspinner" style="width: 60px;" data-options="min:1,max:23" value="1"
+                           id="hourEnd_1">
+                    小时执行一次</div>
+                <div class="line">
+                    <input type="radio" name="hour" id="hour_appoint">
+                    指定</div>
+                <div class="imp hourList">
+                    AM:
+                    <input type="checkbox" value="0">00
+                    <input type="checkbox" value="1">01
+                    <input type="checkbox" value="2">02
+                    <input type="checkbox" value="3">03
+                    <input type="checkbox" value="4">04
+                    <input type="checkbox" value="5">05
+                    <input type="checkbox" value="6">06
+                    <input type="checkbox" value="7">07
+                    <input type="checkbox" value="8">08
+                    <input type="checkbox" value="9">09
+                    <input type="checkbox" value="10">10
+                    <input type="checkbox" value="11">11
+                </div>
+                <div class="imp hourList">
+                    PM:
+                    <input type="checkbox" value="12">12
+                    <input type="checkbox" value="13">13
+                    <input type="checkbox" value="14">14
+                    <input type="checkbox" value="15">15
+                    <input type="checkbox" value="16">16
+                    <input type="checkbox" value="17">17
+                    <input type="checkbox" value="18">18
+                    <input type="checkbox" value="19">19
+                    <input type="checkbox" value="20">20
+                    <input type="checkbox" value="21">21
+                    <input type="checkbox" value="22">22
+                    <input type="checkbox" value="23">23
+                </div>
+            </div>
+            <div id="day" class="tab-pane fade">
+                <div class="line">
+                    <input type="radio" checked="checked" name="day" onclick="everyTime(this)">
+                    日 允许的通配符[, - * / L W]</div>
+                <div class="line">
+                    <input type="radio" name="day" onclick="unAppoint(this)">
+                    不指定</div>
+                <div class="line">
+                    <input type="radio" name="day" onclick="cycle(this)">
+                    周期从
+                    <input class="numberspinner" style="width: 60px;" data-options="min:1,max:31" value="1"
+                           id="dayStart_0">
+                    <!----->
+                    <input class="numberspinner" style="width: 60px;" data-options="min:2,max:31" value="2"
+                           id="dayEnd_0">
+                    日</div>
+                <div class="line">
+                    <input type="radio" name="day" onclick="startOn(this)">
+                    从
+                    <input class="numberspinner" style="width: 60px;" data-options="min:1,max:31" value="1"
+                           id="dayStart_1">
+                    日开始,每
+                    <input class="numberspinner" style="width: 60px;" data-options="min:1,max:31" value="1"
+                           id="dayEnd_1">
+                    天执行一次</div>
+                <div class="line">
+                    <input type="radio" name="day" onclick="workDay(this)">
+                    每月
+                    <input class="numberspinner" style="width: 60px;" data-options="min:1,max:31" value="1"
+                           id="dayStart_2">
+                    号最近的那个工作日</div>
+                <div class="line">
+                    <input type="radio" name="day" onclick="lastDay(this)">
+                    本月最后一天</div>
+                <div class="line">
+                    <input type="radio" name="day" id="day_appoint">
+                    指定</div>
+                <div class="imp dayList">
+                    <input type="checkbox" value="1">1
+                    <input type="checkbox" value="2">2
+                    <input type="checkbox" value="3">3
+                    <input type="checkbox" value="4">4
+                    <input type="checkbox" value="5">5
+                    <input type="checkbox" value="6">6
+                    <input type="checkbox" value="7">7
+                    <input type="checkbox" value="8">8
+                    <input type="checkbox" value="9">9
+                    <input type="checkbox" value="10">10
+                    <input type="checkbox" value="11">11
+                    <input type="checkbox" value="12">12
+                    <input type="checkbox" value="13">13
+                    <input type="checkbox" value="14">14
+                    <input type="checkbox" value="15">15
+                    <input type="checkbox" value="16">16
+                </div>
+                <div class="imp dayList">
+                    <input type="checkbox" value="17">17
+                    <input type="checkbox" value="18">18
+                    <input type="checkbox" value="19">19
+                    <input type="checkbox" value="20">20
+                    <input type="checkbox" value="21">21
+                    <input type="checkbox" value="22">22
+                    <input type="checkbox" value="23">23
+                    <input type="checkbox" value="24">24
+                    <input type="checkbox" value="25">25
+                    <input type="checkbox" value="26">26
+                    <input type="checkbox" value="27">27
+                    <input type="checkbox" value="28">28
+                    <input type="checkbox" value="29">29
+                    <input type="checkbox" value="30">30
+                    <input type="checkbox" value="31">31
+                </div>
+            </div>
+            <div id="month" class="tab-pane fade">
+                <div class="line">
+                    <input type="radio" checked="checked" name="mouth" onclick="everyTime(this)">
+                    月 允许的通配符[, - * /]</div>
+                <div class="line">
+                    <input type="radio" name="mouth" onclick="unAppoint(this)">
+                    不指定</div>
+                <div class="line">
+                    <input type="radio" name="mouth" onclick="cycle(this)">
+                    周期从
+                    <input class="numberspinner" style="width: 60px;" data-options="min:1,max:12" value="1"
+                           id="mouthStart_0">
+                    <!----->
+                    <input class="numberspinner" style="width: 60px;" data-options="min:2,max:12" value="2"
+                           id="mouthEnd_0">
+                    月</div>
+                <div class="line">
+                    <input type="radio" name="mouth" onclick="startOn(this)">
+                    从
+                    <input class="numberspinner" style="width: 60px;" data-options="min:1,max:12" value="1"
+                           id="mouthStart_1">
+                    日开始,每
+                    <input class="numberspinner" style="width: 60px;" data-options="min:1,max:12" value="1"
+                           id="mouthEnd_1">
+                    月执行一次</div>
+                <div class="line">
+                    <input type="radio" name="mouth" id="mouth_appoint">
+                    指定</div>
+                <div class="imp mouthList">
+                    <input type="checkbox" value="1">1
+                    <input type="checkbox" value="2">2
+                    <input type="checkbox" value="3">3
+                    <input type="checkbox" value="4">4
+                    <input type="checkbox" value="5">5
+                    <input type="checkbox" value="6">6
+                    <input type="checkbox" value="7">7
+                    <input type="checkbox" value="8">8
+                    <input type="checkbox" value="9">9
+                    <input type="checkbox" value="10">10
+                    <input type="checkbox" value="11">11
+                    <input type="checkbox" value="12">12
+                </div>
+            </div>
+            <div id="week" class="tab-pane fade">
+                <div class="line">
+                    <input type="radio" checked="checked" name="week" onclick="everyTime(this)">
+                    周 允许的通配符[, - * / L #]</div>
+                <div class="line">
+                    <input type="radio" name="week" onclick="unAppoint(this)">
+                    不指定</div>
+                <div class="line">
+                    <input type="radio" name="week" onclick="startOn(this)">
+                    周期 从星期<input class="numberspinner" style="width: 60px;" data-options="min:1,max:7"
+                                 id="weekStart_0" value="1">
+                    <!----->
+                    <input class="numberspinner" style="width: 60px;" data-options="min:2,max:7" value="2"
+                           id="weekEnd_0"></div>
+                <div class="line">
+                    <input type="radio" name="week" onclick="weekOfDay(this)">
+                    第<input class="numberspinner" style="width: 60px;" data-options="min:1,max:4" value="1"
+                            id="weekStart_1">
+                    周 的星期<input class="numberspinner" style="width: 60px;" data-options="min:1,max:7"
+                                id="weekEnd_1" value="1"></div>
+                <div class="line">
+                    <input type="radio" name="week" onclick="lastWeek(this)">
+                    本月最后一个星期<input class="numberspinner" style="width: 60px;" data-options="min:1,max:7"
+                                   id="weekStart_2" value="1"></div>
+                <div class="line">
+                    <input type="radio" name="week" id="week_appoint">
+                    指定</div>
+                <div class="imp weekList">
+                    <input type="checkbox" value="1">1
+                    <input type="checkbox" value="2">2
+                    <input type="checkbox" value="3">3
+                    <input type="checkbox" value="4">4
+                    <input type="checkbox" value="5">5
+                    <input type="checkbox" value="6">6
+                    <input type="checkbox" value="7">7
+                </div>
+            </div>
+            <div id="year" class="tab-pane fade">
+                <div class="line">
+                    <input type="radio" checked="checked" name="year" onclick="unAppoint(this)">
+                    不指定 允许的通配符[, - * /] 非必填
+                </div>
+                <div class="line">
+                    <input type="radio" name="year" onclick="everyTime(this)">
+                    每年</div>
+                <div class="line">
+                    <input type="radio" name="year" onclick="cycle(this)">周期 从
+                    <input class="numberspinner" style="width: 90px;" data-options="min:2013,max:3000"
+                           id="yearStart_0" value="2013">-
+                    <input class="numberspinner" style="width: 90px;" data-options="min:2014,max:3000"
+                           id="yearEnd_0" value="2014">
+                </div>
+            </div>
+        </div>
+        <div class="expression-box" data-options="region:'south',border:false">
+            <fieldset>
+                <legend class="h4" >表达式</legend>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>
+                        </td>
+                        <td align="center">
+                            秒
+                        </td>
+                        <td align="center">
+                            分钟
+                        </td>
+                        <td align="center">
+                            小时
+                        </td>
+                        <td align="center">
+                            日
+                        </td>
+                        <td align="center">
+                            月<br />
+                        </td>
+                        <td align="center">
+                            星期
+                        </td>
+                        <td align="center">
+                            年
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            表达式字段:
+                        </td>
+                        <td>
+                            <input type="text" name="v_second" class="col" value="*" readonly="readonly" />
+                        </td>
+                        <td>
+                            <input type="text" name="v_min" class="col" value="*" readonly="readonly" />
+                        </td>
+                        <td>
+                            <input type="text" name="v_hour" class="col" value="*" readonly="readonly" />
+                        </td>
+                        <td>
+                            <input type="text" name="v_day" class="col" value="*" readonly="readonly" />
+                        </td>
+                        <td>
+                            <input type="text" name="v_mouth" class="col" value="*" readonly="readonly" />
+                        </td>
+                        <td>
+                            <input type="text" name="v_week" class="col" value="?" readonly="readonly" />
+                        </td>
+                        <td>
+                            <input type="text" name="v_year" class="col" readonly="readonly" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Cron 表达式:</td>
+                        <td colspan="6">
+                           <input id="cron" type="text" name="cron" style="width: 100%;" value="* * * * * ?" >
+                        </td>
+                        <td><input type="button" value="反解析到UI " id="btnFan" onclick="btnFan()"/></td>
+                    </tr>
+                    <tr >
+                        <td colspan="8" >最近5次运行时间:</td>
+                    </tr>
+                    <tr>
+                        <td colspan="8" id="runTime">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+            <div style="text-align: center; margin-top: 5px;">
+                <script type="text/javascript">
+                    /*killIe*/
+                    $.parser.parse($("body"));
+                    var cpro_id = "u1331261";
+
+                    function btnFan() {
+                        //获取参数中表达式的值
+                        var txt = $("#cron").val();
+                        if (txt) {
+                            var regs = txt.split(' ');
+                            $("input[name=v_second]").val(regs[0]);
+                            $("input[name=v_min]").val(regs[1]);
+                            $("input[name=v_hour]").val(regs[2]);
+                            $("input[name=v_day]").val(regs[3]);
+                            $("input[name=v_mouth]").val(regs[4]);
+                            $("input[name=v_week]").val(regs[5]);
+
+                            initObj(regs[0], "second");
+                            initObj(regs[1], "min");
+                            initObj(regs[2], "hour");
+                            initDay(regs[3]);
+                            initMonth(regs[4]);
+                            initWeek(regs[5]);
+
+                            if (regs.length > 6) {
+                                $("input[name=v_year]").val(regs[6]);
+                                initYear(regs[6]);
+                            }
+                        }
+                    }
+
+                    function initObj(strVal, strid) {
+                        var ary = null;
+                        var objRadio = $("input[name='" + strid + "']");
+                        if (strVal == "*") {
+                            objRadio.eq(0).attr("checked", "checked");
+                        } else if (strVal.split('-').length > 1) {
+                            ary = strVal.split('-');
+                            objRadio.eq(1).attr("checked", "checked");
+                            $("#" + strid + "Start_0").numberspinner('setValue', ary[0]);
+                            $("#" + strid + "End_0").numberspinner('setValue', ary[1]);
+                        } else if (strVal.split('/').length > 1) {
+                            ary = strVal.split('/');
+                            objRadio.eq(2).attr("checked", "checked");
+                            $("#" + strid + "Start_1").numberspinner('setValue', ary[0]);
+                            $("#" + strid + "End_1").numberspinner('setValue', ary[1]);
+                        } else {
+                            objRadio.eq(3).attr("checked", "checked");
+                            if (strVal != "?") {
+                                ary = strVal.split(",");
+                                for (var i = 0; i < ary.length; i++) {
+                                    $("." + strid + "List input[value='" + ary[i] + "']").attr("checked", "checked");
+                                }
+                            }
+                        }
+                    }
+
+                    function initDay(strVal) {
+                        var ary = null;
+                        var objRadio = $("input[name='day']");
+                        if (strVal == "*") {
+                            objRadio.eq(0).attr("checked", "checked");
+                        } else if (strVal == "?") {
+                            objRadio.eq(1).attr("checked", "checked");
+                        } else if (strVal.split('-').length > 1) {
+                            ary = strVal.split('-');
+                            objRadio.eq(2).attr("checked", "checked");
+                            $("#dayStart_0").numberspinner('setValue', ary[0]);
+                            $("#dayEnd_0").numberspinner('setValue', ary[1]);
+                        } else if (strVal.split('/').length > 1) {
+                            ary = strVal.split('/');
+                            objRadio.eq(3).attr("checked", "checked");
+                            $("#dayStart_1").numberspinner('setValue', ary[0]);
+                            $("#dayEnd_1").numberspinner('setValue', ary[1]);
+                        } else if (strVal.split('W').length > 1) {
+                            ary = strVal.split('W');
+                            objRadio.eq(4).attr("checked", "checked");
+                            $("#dayStart_2").numberspinner('setValue', ary[0]);
+                        } else if (strVal == "L") {
+                            objRadio.eq(5).attr("checked", "checked");
+                        } else {
+                            objRadio.eq(6).attr("checked", "checked");
+                            ary = strVal.split(",");
+                            for (var i = 0; i < ary.length; i++) {
+                                $(".dayList input[value='" + ary[i] + "']").attr("checked", "checked");
+                            }
+                        }
+                    }
+
+                    function initMonth(strVal) {
+                        var ary = null;
+                        var objRadio = $("input[name='mouth']");
+                        if (strVal == "*") {
+                            objRadio.eq(0).attr("checked", "checked");
+                        } else if (strVal == "?") {
+                            objRadio.eq(1).attr("checked", "checked");
+                        } else if (strVal.split('-').length > 1) {
+                            ary = strVal.split('-');
+                            objRadio.eq(2).attr("checked", "checked");
+                            $("#mouthStart_0").numberspinner('setValue', ary[0]);
+                            $("#mouthEnd_0").numberspinner('setValue', ary[1]);
+                        } else if (strVal.split('/').length > 1) {
+                            ary = strVal.split('/');
+                            objRadio.eq(3).attr("checked", "checked");
+                            $("#mouthStart_1").numberspinner('setValue', ary[0]);
+                            $("#mouthEnd_1").numberspinner('setValue', ary[1]);
+
+                        } else {
+                            objRadio.eq(4).attr("checked", "checked");
+
+                            ary = strVal.split(",");
+                            for (var i = 0; i < ary.length; i++) {
+                                $(".mouthList input[value='" + ary[i] + "']").attr("checked", "checked");
+                            }
+                        }
+                    }
+
+                    function initWeek(strVal) {
+                        var ary = null;
+                        var objRadio = $("input[name='week']");
+                        if (strVal == "*") {
+                            objRadio.eq(0).attr("checked", "checked");
+                        } else if (strVal == "?") {
+                            objRadio.eq(1).attr("checked", "checked");
+                        } else if (strVal.split('/').length > 1) {
+                            ary = strVal.split('/');
+                            objRadio.eq(2).attr("checked", "checked");
+                            $("#weekStart_0").numberspinner('setValue', ary[0]);
+                            $("#weekEnd_0").numberspinner('setValue', ary[1]);
+                        } else if (strVal.split('-').length > 1) {
+                            ary = strVal.split('-');
+                            objRadio.eq(3).attr("checked", "checked");
+                            $("#weekStart_1").numberspinner('setValue', ary[0]);
+                            $("#weekEnd_1").numberspinner('setValue', ary[1]);
+                        } else if (strVal.split('L').length > 1) {
+                            ary = strVal.split('L');
+                            objRadio.eq(4).attr("checked", "checked");
+                            $("#weekStart_2").numberspinner('setValue', ary[0]);
+                        } else {
+                            objRadio.eq(5).attr("checked", "checked");
+                            ary = strVal.split(",");
+                            for (var i = 0; i < ary.length; i++) {
+                                $(".weekList input[value='" + ary[i] + "']").attr("checked", "checked");
+                            }
+                        }
+                    }
+
+                    function initYear(strVal) {
+                        var ary = null;
+                        var objRadio = $("input[name='year']");
+                        if (strVal == "*") {
+                            objRadio.eq(1).attr("checked", "checked");
+                        } else if (strVal.split('-').length > 1) {
+                            ary = strVal.split('-');
+                            objRadio.eq(2).attr("checked", "checked");
+                            $("#yearStart_0").numberspinner('setValue', ary[0]);
+                            $("#yearEnd_0").numberspinner('setValue', ary[1]);
+                        }
+                    }
+
+                </script>
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--  ------------------------- 分割线 ------------------------ -->
+<div class="form-actions">
+    <input id="btnCancel" class="btn" type="button" value="关 闭" onclick="closePopUp()">&nbsp;
+    <input id="btnSubmit" class="btn btn-primary" type="button" onclick="formSubmit()" value="保 存">
+</div>
+
+
+<script type="text/javascript">
+
+    function formSubmit(){
+        $.ajax({
+            headers : {
+                "token" : localStorage.getItem("token"),
+            },
+            url : APIHost + '/ruag/scheduler/add',  //保存quartz
+            type : 'POST',
+            async : false,
+            data : {
+                id : $("#id").val(),
+                jobName : $("#jobName").val(),
+                cronExpression : $("#cron").val(),
+                description : $("#description").val(),
+                className : $("#className").val(),
+            },
+            dataType : 'json',
+            success:function(res){
+                if(res.code=="1001"){
+                    $.jBox.alert('成功保存任务', '提示',{
+                        closed: function (){
+                            window.parent.location.href= APIHost +
+                                    "/ruag/index.html"; } });
+                }else{
+                    $.jBox.alert(res.msg ,"提示");
+                }
+            }
+        })
+    }
+
+    function loadDataForSelect(){
+    }
+
+</script>
+</body>
+</html>

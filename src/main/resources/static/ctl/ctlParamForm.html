@@ -1,0 +1,241 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<!-- 公共样式表	，公共方法 -->
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js"
+	type="text/javascript"></script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+     <title>系统参数管理</title>
+    <meta name="decorator" content="default">
+</head>
+<body>
+<br>
+<form id="inputForm" class="form-horizontal" action=APIHost+"/admin/ctlParam/ParamSave" method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+
+    <div class="control-group">
+        <span class="control-label">子系统:</span>
+        <div class="controls">
+           <select id="sbsCode" name="sbsCode" class="input-medium" tabindex="-1">
+		   </select>
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+        <span class="control-label">参数代码:</span>
+        <div class="controls">
+            <input id="paraCode" name="paraCode" class="required userName" type="text" value="" maxlength="50">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+        <span class="control-label">参数描述:</span>
+        <div class="controls">
+            <input id="paraDesc" name="paraDesc" class="required userName" type="text" value="" maxlength="50">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+        <span class="control-label">参数级别:</span>
+        <div class="controls">
+            <select id="paraLevel" name="paraLevel" class="input-large select2-offscreen" tabindex="-1">
+                <option value="S">系统级别S</option>
+                <option value="E">企业级别E</option>
+            </select>
+        </div>
+    </div>
+       <div class="control-group">
+        <span class="control-label">值类型:</span>
+        <div class="controls">
+            <select id="paraDatatype" name="paraDatatype" class="input-large select2-offscreen" tabindex="-1">
+            </select>
+        </div>
+    </div>
+        <div class="control-group">
+        <span class="control-label">缺省值:</span>
+        <div class="controls">
+            <input id="defauleValue" name="defauleValue" class="required userName" type="text" value="" maxlength="50">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="form-actions">
+        <input id="btnCancel" class="btn" type="button" value="关 闭" onclick="closePopUp()">
+        <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">
+    </div>
+</form>
+</body>
+<script>
+// 表单验证
+$.validator.setDefaults({
+    submitHandler: function() {
+       // 调用提交
+        save();
+    }
+});
+$().ready(function () {
+    // 在键盘按下并释放及提交后验证提交表单
+    $("#inputForm").validate({
+         rules: {
+            sbsCode: {
+                required: true,
+                minlength: 1,
+                maxlength:6
+            },
+            paraCode: {
+                required: true,
+                minlength: 1
+            },
+            paraDesc: {
+                required: true,
+                minlength: 1
+            },
+            paraLevel: {
+                required: true,
+                minlength: 1
+            },
+            paraDatatype: {
+                required: true,
+                minlength: 1
+            },
+            defauleValu: {
+                required: true,
+                minlength: 1,
+                maxlength:120
+            },
+          },
+        messages:{
+            sbsCode: {
+                required: "请输入子系统",
+            },
+            paraCode: {
+                required: "请输入参数代码",
+                minlength: "功能名称最低一个字"
+            },
+            paraDesc: {
+                required: "请输入参数描述",
+                minlength: "功能名称最低一个字"
+            },
+            paraLevel: {
+                required: "请选择参数级别",
+            },
+            paraDatatype: {
+                required: "请选择值类型",
+            },
+            defauleValu: {
+                required: "请输入缺省值",
+                minlength: "功能名称最低一个字"
+            },
+        }
+    });
+})
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({ //从ctl_code_det获取值类型列表
+        		headers    : {
+  	                 "token" : localStorage.getItem("token"),
+  	             },
+    			url : APIHost+'/admin/ctlParam/getCodeType',
+    			type : 'POST',
+    			async : false, //或false,是否异步
+
+    			timeout : 30000,
+    			dataType : 'json',
+    			success : function(response) {
+					console.log(response);
+					var data = response.data;
+    				for(string in data) {
+    					
+    					$("#paraDatatype").append("<option value="+data[string]+">"+data[string]+"</option>"); 
+    				}
+    
+     			},
+    			error : function() {
+    				console.log('错误')
+    			}
+    	});
+    	$.ajax({ //获取modu表的数据，子系统ID映射为sbsName
+    					headers    : {
+          	                 "token" : localStorage.getItem("token"),
+          	             },
+    	    			url : APIHost+'/admin/ctlModu/getListModu',
+    	    			type : 'POST',
+    	    			async : false, //或false,是否异步
+    	    			data : {
+    	    			},
+    	    			timeout : 30000,
+    	    			dataType : 'json',
+    	    			success : function(response) {
+							var data = response.data;
+    	    				moduList = data.list;
+    	    				for (var i = 0; i < moduList.length; i++) {
+    	    					var sbsName=moduList[i].sbsName;
+    	    					if($('#sbsCode').find("option[value="+sbsName+"]").length==0) //子系统选项去重
+    	    					$("#sbsCode").append("<option value="+sbsName+">"+sbsName+"</option>"); 
+    	    				}
+    	    				
+    	    			},
+    	    			error : function() {
+    	    				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+    	    			}
+    	});
+    });
+    function save(){
+             if (confirm("你确定提交吗？")){
+       		    for (var i = 0; i < moduList.length; i++) {
+					if($('#sbsCode').val()==moduList[i].sbsName){
+						$('#sbsCode').find("option:selected").attr('value',moduList[i].sbsCode);
+					//alert($('#sbsCode').val());
+					}
+				}
+        		var ajax_option={
+        				 headers    : {
+        	                 "token" : localStorage.getItem("token"),
+        	             },
+        				url:APIHost + '/admin/ctlParam/ParamSave',//默认是form action
+        				success:function(response){
+								var data = response.data;
+        						if(data.msg=="success"){
+                                    closePopUp();
+                                    parent.pageload();
+								}
+        						else{
+        							alert("添加失败");
+								}
+           				}
+               		}
+               		
+               	$("#inputForm").ajaxSubmit(ajax_option);
+      
+            }
+        
+    }
+
+    // 关闭弹框
+    function closePopUp(){
+        $('#myModal .close', window.parent.document).click();
+    }
+</script>
+</html>

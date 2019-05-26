@@ -1,0 +1,255 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+    <title>对象删除规则维护</title>
+    <meta name="decorator" content="default">
+    <style>
+    	.form-horizontal .control-label {
+   			 width: 136px;
+		}
+    </style>
+</head>
+<body>
+<form id="inputForm" class="form-horizontal" method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+    <div class="control-group">
+        <label class="control-label"> <span class="help-inline"><font color="red">*</font> </span>系统代码:</label>
+        <div class="controls">
+            <input id="sbsCode" name="sbsCode" type="text" value="" maxlength="100">
+           
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">  <span class="help-inline"><font color="red">*</font> </span>待删除表:</label>
+        <div class="controls">
+            <input id="oprTableName" name="oprTableName" type="text" value="" maxlength="50">
+          
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"> <span class="help-inline"><font color="red">*</font> </span>引用表:</label>
+        <div class="controls">
+            <input id="tableName" name="tableName" type="text" value="" maxlength="50">
+           
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>待删除表的关联字段:</label>
+        <div class="controls">
+            <input id="oprColumnName" name="oprColumnName" type="text" value="" maxlength="50">
+            
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>引用表的关联字段:</label>
+        <div class="controls">
+            <input id="columnName" name="columnName" type="text" value="" maxlength="50">
+            
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>待删除表的机构字段:</label>
+        <div class="controls">
+            <input id="oprColumnComCode" name="oprColumnComCode" type="text" value="" maxlength="50">
+            
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><span class="help-inline"><font color="red">*</font> </span>引用表的机构字段:</label>
+        <div class="controls">
+            <input id="columnComCode" name="columnComCode" type="text" value="" maxlength="50">
+            
+        </div>
+    </div>
+    <div class="control-group" style="margin-bottom:15px;">
+        <label class="control-label"> <span class="help-inline"><font color="red">*</font> </span>提示描述:</label>
+        <div class="controls">
+            <input id="promptDesc" name="promptDesc" type="text" value="" maxlength="50">
+           
+        </div>
+    </div>
+    <div class="form-actions">
+        <input id="btnCancel" class="btn" type="button" value="关 闭" onclick="closePopUp()">
+        <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">
+    </div>
+</form>
+<script>
+// 表单验证
+$.validator.setDefaults({
+    submitHandler: function() {
+       // 调用提交
+       save();
+    }
+});
+$().ready(function () {
+    // 在键盘按下并释放及提交后验证提交表单
+    $("#inputForm").validate({
+    	 errorPlacement: function(error, element) {
+  			// Append error within linked label
+  			$(element).parent().append( error );
+  		},
+         rules: {
+        	 sbsCode: {
+                required: true
+            },
+            oprTableName: {
+                required: true,
+                minlength: 1
+            },
+            tableName: {
+                required: true,
+                minlength: 1
+            },
+            oprColumnName: {
+                required: true,
+                minlength: 1
+            },
+            columnName: {
+                required: true,
+                minlength: 1
+            },
+            oprColumnComCode: {
+                required: true,
+                minlength: 1
+            },
+            columnComCode: {
+                required: true,
+                minlength: 1
+            },
+            promptDesc: {
+                required: true,
+                minlength: 1,
+                maxlength:120
+            },
+          },
+          sbsCode:{
+            sbsCode: {
+                required: "请输入模块编码"
+            },
+            oprTableName: {
+                required: "请输入删除表"
+            },
+            tableName: {
+                required: "请输入引用表"
+            },
+            oprColumnName: {
+                required: "请输入删除表对应字段名"
+            },
+            columnName: {
+                required: "请输入引用表对应字段名"
+            },
+            oprColumnComCode: {
+                required: "请输入删除表对应机构字段名"
+            },
+            columnComCode: {
+                required: "请输入引用表对应机构字段名"
+            },
+            promptDesc: {
+                required: "请输入详细描述",
+                minlength: "描述不可为空"
+            },
+        }
+    });
+})
+</script>
+<script type="text/javascript">
+    var paramId=GetQueryString("paramId");
+    //获取跳转地址的参数
+    function GetQueryString(name){
+         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+         var r = window.location.search.substr(1).match(reg);
+         if(r!=null)return  unescape(r[2]); return null;
+    }
+
+    // 获取修改数据
+    function updatepageload() {
+        //添加新tbody
+        $.ajax({
+            headers : {
+                "token" : localStorage.getItem("token"),
+            },
+            url : APIHost + '/admin/ctlDelCheck/findByIdDelCheck',
+            type : 'POST',
+            async : false, //或false,是否异步
+            data : {
+                ids : paramId
+            },
+            timeout : 30000,
+            dataType : 'json',
+            success : function(res) {
+                $("#id").val(res.data.id),
+                $("#sbsCode").val(res.data.sbsCode),
+                $("#oprTableName").val(res.data.oprTableName),
+                $("#tableName").val(res.data.tableName),
+                $("#oprColumnName").val(res.data.oprColumnName),
+                $("#columnName").val(res.data.columnName),
+                $("#oprColumnComCode").val(res.data.oprColumnComCode),
+                $("#columnComCode").val(res.data.columnComCode),
+                $("#promptDesc").val(res.data.promptDesc)
+            },
+            error : function() {
+				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+            }
+        })
+    }
+    if(paramId != null){
+        updatepageload();
+    }
+    
+    function save(){
+    	if (confirm("你确定提交吗？")){
+    		var ajax_option={
+    				headers    : {
+    	                 "token" : localStorage.getItem("token"),
+    	             },
+    				url:APIHost + '/admin/ctlDelCheck/save',//默认是form action
+    				success:function(res){
+    					if(res.data.message=="success"){
+                         	$.jBox.alert("保存成功！","提示");
+                         	setTimeout(function(){
+                         		//window.parent.location.href = APIHost + "/ctl/ctlDelCheckList.html";
+                                closePopUp();
+                                parent.pageload();
+         	            	},500)
+                         }else if(res.data.message=="repeat"){
+                         	$.jBox.alert("数据已存在！","提示");
+                         }else{
+                         	$.jBox.alert("保存失败！","提示");
+                         }
+       				}
+           		}
+    		$("#inputForm").ajaxSubmit(ajax_option);
+        }
+        
+    }
+
+    // 关闭弹框
+    function closePopUp(){
+        $('#myModal .close', window.parent.document).click();
+    }
+</script>
+</body></html>

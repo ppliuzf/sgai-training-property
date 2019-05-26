@@ -1,0 +1,522 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <meta name="decorator" content="default">
+    <title>一键优化</title>
+    
+    <link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+    <link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+    <link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+    <link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+	<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/media/css//event/event_style.css" type="text/css" rel="stylesheet">
+    
+    <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../static/paginator/bootstrap-paginator.js" type="text/javascript"></script>
+    <script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+    <script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.src.js" type="text/javascript"></script>
+    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+    <script src="../static/common/mustache.min.js" type="text/javascript"></script>
+    <script src="../static/common/smart.min.js" type="text/javascript"></script>
+    <script src="../config/smart-common.js" type="text/javascript"></script>
+    <script src="../static/media/js/main.js" type="text/javascript"></script>
+    <script src="../static/echart/echarts.common.min.js"></script>
+    <script src="../static/echart/echarts-liquidfill.js"></script>
+    <style>
+    	.table_fluid{
+    		min-width: 1060px;
+    		overflow-x: auto;
+    	}
+    	.opt-header{
+    		width: 100%;
+    		height: 194px;
+    		border:1px solid #f2f2f2;
+    		background:#fcfcfc;
+    	}
+    	.opt-header-left,.opt-header-middle{
+    		float: left;
+    	}
+    	.opt-header-right{
+    		float: right;
+    	}
+    	.opt-header-left{
+    		margin-left:4%;
+    		width: 176px;
+    		position: relative;
+    	}
+    	.opt-header-middle{
+    		margin-left:5%;
+    		margin-top: 50px;
+    	}
+    	.opt-header-middle h2{
+			font-weight: normal;
+			color: #5b5b5b;
+			padding-bottom: 10px;
+			font-size: 26px;
+    	}	
+    	.opt-header-right{
+    		float: right;
+    		margin-right:8%;
+    		margin-top: 70px;
+    	}
+    	.opt-header-right .opt-header-btn{
+			display: inline-block;
+			padding: 10px 28px;
+			border-radius: 20px;
+			background: #1785ca;
+			font-size: 24px;
+			color: #e9f1f6;
+			float: left;
+			cursor: pointer;
+    	}
+    	.opt-header-right .opt-header-btn:hover,.body-list-4th div:hover{
+    		/*box-shadow: 5px 5px 5px #cccccc;*/
+    		background:#0362fd;
+    	}
+    	.opt-header-right .opt-header-record{
+    		padding: 5px 20px;
+    		background:none;
+    		color:#1785ca;
+    		border:2px solid #1785ca;
+    		margin-left:20px;
+    		font-size: 18px;
+    		margin-top:4px;
+    	}
+    	.opt-header-right .opt-header-record:hover{
+			background:#e5e5e5;
+    	}
+    	.opt-header-right .opt-header-nodeal{
+		    background: none;
+		    color: #1758ca;
+	        padding: 16px 0 2px 0px;
+		    border-bottom: 2px solid #1785ca;
+		    border-radius: inherit;
+		    margin-right: 18px;
+		    font-size: 16px;
+		    display: none;
+		    font-size: 12px;
+    	}
+    	.opt-header-right .opt-header-nodeal:hover{
+    		background:none;
+    		color: #0362fd;
+    	}
+    	.opt-tit{
+    		margin: 10px 0;
+    		font-size: 14px;
+    		display: none;
+    	}
+    	.opt-find-content{
+    		margin-left: 5px;
+    		vertical-align: middle;
+    	}
+    	.opt-num{
+    		color:#d82d18;
+    	}
+    	.opt-body-list{
+    		width: 100%;
+    		display: flex;
+    		background:#fcfcfc;
+    		margin-bottom: 15px;
+    		animation: gradual 0.5s linear 0s; 
+    	}
+    	.body-list{
+    		float: left;
+		    padding: 5px 5px;
+		    border: 1px solid #f2f2f2;
+		    flex:1;  
+    	}
+    	.body-list-1st{
+    		flex: 0.8;
+    	}
+    	.body-list-2nd{
+    		flex: 2.8;
+    	}
+    	.body-list-4th{
+    		flex: 0.6;
+    	}
+    	.body-list-2nd span,.body-list-2nd ul{
+    		display: inline-block;
+    		list-style: none;
+    		padding: 0;
+    		margin:0;
+    	}
+    	.body-list-2nd ul li{
+    		display: inline-block;
+    		margin-left:8px;
+    	}
+    	.body-list-1st span{
+    		color:#1b88cc;
+    	}
+    	.body-list-1st,.body-list-2nd,.body-list-3rd{
+    		line-height: 24px;
+    	}
+    	.body-list-2nd,.body-list-3rd,.body-list-4th{
+    		text-align: center;
+    	}
+    	.body-list-4th div{
+    		display: inline-block;
+    		padding: 2px 22px;
+    		background: #1785ca;
+    		color: #ffffff;
+    		border-radius: 20px;
+    		cursor: pointer;
+    	}
+    	.body-list-3rd a{
+    		text-decoration: underline;
+    	}
+    	.opt-header-scanComplete{
+    		display: none;
+    		color: #878787;
+    		font-size: 16px;
+    	}
+    	.opt-body .opt-body-list:last-child{
+			margin-bottom:0;
+    	}
+    	.opt-body{
+    		overflow-y: auto;
+    		font-size: 12px;
+    	}
+    	.opt-header-left ul li{
+    		list-style:none;
+    	}
+		.opt-excircle{
+		    position: absolute;
+	        top: -3px;
+    		left: -12px;
+		}
+		.excircleRotate{
+			animation: excircleRotate 1.5s linear 0s infinite; 
+		}
+		@keyframes excircleRotate{
+			100%{ transform: rotate(360deg); }
+		}
+		@keyframes gradual{
+			0%{
+				opacity: 0;
+			}
+			20%{
+				opacity: 0.2;
+			}
+			40%{
+				opacity: 0.4;
+			}
+			80%{
+				opacity: 0.8;
+			}
+			100%{
+				opacity: 1;
+			}
+		}
+    </style>
+</head>
+<body>
+<div class="table_fluid">
+	<div class="smart_bread">
+		<span> 运行策略模型 /</span><span> 一键优化</span>
+	</div>
+	<div class="opt-header">
+		<div class="opt-header-left">
+			<div id="mainEchart" style= "width:100%;height: 100%"></div>
+			<canvas id="canvas" class="opt-excircle" width="200" height="200">
+			</canvas>
+			<!-- <div class="opt-excircle" id="excircle"></div> -->
+		</div>
+		<div class="opt-header-middle">
+			<!-- <h2 id="optHeader" style="margin-top:23px;">智能优化，保持运行合理</h2> -->
+			<h2 id="optHeader" style="margin-top:23px;">扫描完成共有<span id="optHeaderNum"></span>个可优化选项</h2>
+		</div>
+		<div class="opt-header-right">
+			<!-- <div class="opt-header-btn opt-header-nodeal">暂不处理</div> -->
+			<div class="opt-header-btn" onclick="executeOpt()">一键优化</div>
+			<div class="opt-header-btn opt-header-record" onclick="goOptRecord()">优化记录</div>
+		</div>
+	</div>
+	<div class="opt-tit"><img src="../static/media/image/opt-warn.png" alt=""><span class="opt-find-content">发现<span id="optNum" class="opt-num">0</span>个可优化选项</span></div>
+	<div id="optSelection" class="opt-body scrollbar"></div>
+</div>
+<script>
+	$(document).ready(function(){
+		
+		oneTouchOptimize();
+	})
+</script>
+<script>
+	function oneTouchOptimize(){	
+		$(".opt-excircle").addClass("excircleRotate");
+		$("#optSelection").append("<div id='loading' class='spinner'><div class='rect1'></div><div class='rect2'></div><div class='rect3'></div><div class='rect4'></div><div class='rect5'></div></div>");
+		$.ajax({
+	        headers    : {
+	            "token" : localStorage.getItem("token")
+	        },
+	        url : APIHost + '/ruag/ruag/ruagModelTemplate/getListYouHua',
+	        type : 'POST',
+	        async : true, //或false,是否异步
+	        data : {
+	            status:'1',
+	        },
+	        timeout : 5000,
+	        dataType : 'json',
+	        success : function(res) {
+	        	$('#loading').remove();
+	        	if(res.code === 1000){
+		        	createOptlist(res);
+	        	}else if(res.code ===1003){
+					//没有登录状态
+					$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+						{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+				}else if(res.code === 1002){
+					//发生异常
+					$.jBox.alert(res.msg);
+				}else if(res.code === 1004){
+					//结果为空
+					$.jBox.alert(res.msg);
+				}
+	        },
+	        error : function() {
+	        	$('#loading').remove();
+	        	$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+	            console.log('错误')
+	        }
+	    })
+	}
+
+	function createOptlist(res){
+		$("#optSelection").empty();
+		var list = res.data.list;
+		// $(".opt-header-scanComplete,.opt-tit").show();
+		if(list.length){
+			$(".opt-tit").show();
+			$("#optHeader").html('扫描完成共有<span id="optHeaderNum"></span>个可优化选项');
+			if(list.length<=5){
+				waterPolo(10,88); //动态水球
+			}else if(list.length>5 && list.length<=10){
+				waterPolo(20,70);
+			}else if(list.length>10){
+				waterPolo(10,60);
+			}
+			for(var i=0;i<list.length;i++){
+    			var html = '<div class="opt-body-list"><div class="body-list body-list-1st"><input type="checkbox" name ="modeName"  value="' + list[i].id +'"/><span>'+list[i].workModeName+'</span></div><div class="body-list body-list-2nd"><span>可优化目标:</span><ul><li><input type="checkbox" name="optParam" value="DEVICE-PROF-2018-00007" checked>空调开启时间</li><li><input type="checkbox" name="optParam" value="DEVICE-PROF-2018-00008" checked>新风机组数量</li><li><input type="checkbox" name="optParam" value="DEVICE-PROF-2018-00016" checked>照明启停时间</li><li><input type="checkbox" name="optParam" value="DEVICE-PROF-2018-00024" checked>电梯启停时间</li></ul></div><div class="body-list body-list-3rd"><span>预计效果：</span><a href="javascript:;" onclick="show(this)">可视化对比分析</a></div><div class="body-list body-list-4th"><div onclick="executeOptSingle(this)">确认优化</div></div></div>';
+    			delayAppend(html,i)
+    		}
+    		setTimeout(function(){$(".opt-excircle").removeClass("excircleRotate");},300*list.length);
+		}else{
+			waterPolo(0,100);
+			$(".opt-excircle").removeClass("excircleRotate");
+			$(".opt-tit").hide();
+			$("#optHeader").html('智能优化，保持运行合理');
+		}
+	}
+
+	function delayAppend(html,i){
+		setTimeout(function(){
+			$("#optNum").text(i+1);
+			$("#optHeaderNum").text(i+1);
+			$("#optSelection").append(html)
+		},300*i);
+	}
+	function getOptObj(){
+		//优化对象   objStr
+		var obj = document.getElementsByName("modeName");
+		var objStr = "";
+	    for(k in obj){
+	        if(obj[k].checked)
+	        	objStr+=(obj[k].value)+",";
+	    }
+	    return objStr
+	}
+	function getOptTarget(){
+		//优化目标   targetStr
+	    var obj = document.getElementsByName("optParam");
+	    targetStr = "";
+	    for(k in obj){
+	        if(obj[k].checked)
+	        	targetStr+=(obj[k].value)+",";
+	    }
+	    return targetStr
+	}
+	function show(self){
+		var objStr = $(self).closest('.opt-body-list').find("[name='modeName']").val(),
+		target = $(self).closest('.opt-body-list').find("[name='optParam']");
+
+	    var targetStr = "";
+	    for(var i=0;i<target.length;i++){
+	    	if(target[i].checked){
+	    		targetStr+=(target[i].value)+",";
+	    	}
+	    }
+
+	   	if(objStr!=''&&targetStr!=''){
+		   	var obj={
+              	objStr:objStr,
+              	targetStr:targetStr,
+  		 	};
+      		sessionStorage.setItem('optimizationParams', JSON.stringify(obj));
+      		$("#mainFrame",window.parent.document).attr("src","/ruag/ruagOptPreview.html?page=oneTouchPage");
+	   	}else{
+		   	$.jBox.alert("请选择优化对象和优化目标","提示");
+	   	}
+	}
+
+	function executeOptSingle(self){
+		var objStr = $(self).closest('.opt-body-list').find("[name='modeName']").val(),
+		target = $(self).closest('.opt-body-list').find("[name='optParam']");
+
+	    var targetStr = "";
+	    for(var i=0;i<target.length;i++){
+	    	if(target[i].checked){
+	    		targetStr+=(target[i].value)+",";
+	    	}
+	    }
+
+	   	if(objStr!=''&&targetStr!=''){
+		   	$.ajax({	
+				headers    : {
+	                "token" : localStorage.getItem("token"),
+	            },
+	            url : APIHost + '/ruag/ruag/ruagOptimizationParameterSet/updateParamter',
+				type : 'POST',
+				async : false, //或false,是否异步
+				data : {
+					"objStr" : objStr,
+					"targetStr" : targetStr
+				},
+				timeout : 5000,
+				dataType : 'json',
+				success : function(res) {
+					if(res.code === 1000){
+						$.jBox.alert("执行优化成功！","成功");
+					}
+				}
+			})
+	   	}else{
+		   	$.jBox.alert("请选择优化对象和优化目标","提示");
+	   	}
+	}
+
+	function executeOpt(){
+		var objStr = getOptObj(),
+		targetStr = getOptTarget();
+    	if(objStr!=''&&targetStr!=''){
+		   	$.ajax({	
+				headers    : {
+	                "token" : localStorage.getItem("token"),
+	            },
+	            url : APIHost + '/ruag/ruag/ruagOptimizationParameterSet/updateParamter',
+				type : 'POST',
+				async : false, //或false,是否异步
+				data : {
+					"objStr" : objStr,
+					"targetStr" : targetStr
+				},
+				timeout : 5000,
+				dataType : 'json',
+				success : function(res) {
+					if(res.code === 1000){
+						$.jBox.alert("执行优化成功！","成功");
+					}
+				}
+			})
+	   	}else{
+		   	$.jBox.alert("请选择优化对象和优化目标","提示");
+	   	}
+	}
+
+	// 动态计算优化选项的高
+	function computeOptHeight(){
+		var bodyHeight = $("body").height();
+		var spilthHight = $(".smart_bread").height() + $(".opt-header").height() + $(".opt-tit").height();
+		var listBodyHeight = (bodyHeight - spilthHight)-45;
+		$(".opt-body").height(listBodyHeight);
+	}
+	computeOptHeight();
+	window.onresize = function(){
+		computeOptHeight();
+	}
+
+	// 水球
+	function waterPolo(min,max){
+		var randomValue = (Math.floor(Math.random()*min)+max)/100;
+		var myChart = echarts.init(document.getElementById('mainEchart'));
+		var option = {
+		    series: [{
+		        type: 'liquidFill',
+		        data: [{
+		            value: randomValue,
+		        }, randomValue-0.1],
+		        label: {
+		            normal: {
+	            	    formatter:function(res){
+	            	    	var dataVal = res.data.value;
+	            	    	var val = '';
+	            	    	val = dataVal * 100 + "分";
+	            	    	return val;
+	            	    },
+		                textStyle:{
+	                        color:'#e9f1f6',  //默认背景下的文字颜色
+	                        insideColor:'#1785ca', //水波背景下的文字颜色
+	                        fontSize:36,   //字体大小
+	                    }
+		            }
+		        },
+		        radius: '80%',
+		        color:['#45BFF2','#65CEEB'],
+		        itemStyle: {//容器内部颜色透明度等
+		            normal: {
+		                opacity: 0.5
+		            },
+		            emphasis: {
+		                opacity: 0.1
+		            }
+		        },
+		        outline: {
+		            borderDistance: 0,//border向内占据的空间 不是width
+		            itemStyle: {
+		                borderWidth: 0,
+		                // borderColor: '#0f0',border颜色通过判断修改
+		                    // shadowBlur: 20,//
+		                    // shadowColor: 'rgba(255, 0, 0, 1)'
+		            }
+		        },
+		        
+				backgroundStyle: {//背景
+		            borderWidth: 0,
+		            borderColor: '#45BFF2',
+		            color: '#45BFF2',
+		            opacity:0.9
+		        }
+		    }]
+		};
+		myChart.setOption(option);
+		var cv=document.getElementById("canvas");
+		var ctx = cv.getContext("2d");
+		ctx.save();
+		ctx.translate(cv.width/2,cv.height/2);
+		ctx.rotate(290*Math.PI/180);
+		ctx.beginPath();
+		ctx.arc(75,0,1.5,0*Math.PI,2*Math.PI,true);
+		ctx.fillStyle="#60b2ed";
+		ctx.fill();
+		ctx.closePath();
+		ctx.arc(0,0,75,0,40*Math.PI/180,true);
+		ctx.strokeStyle="#60b2ed";
+		ctx.stroke();
+		ctx.restore();
+	}
+	
+	function goOptRecord(){
+		$("#mainFrame",window.parent.document).attr("src","/ruag/ruagTargetRecord.html?page=oneTouchPage");
+	}
+</script>
+</body>
+</html>

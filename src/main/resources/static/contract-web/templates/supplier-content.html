@@ -1,0 +1,22 @@
+{{each items as item}}
+<span class="js-del-device fcol" data-id="{{item.supplier_id}}">{{item.supplier_name}}<i class="del"></i></span>
+{{/each}}
+<style>
+    .fcol{
+        color:black;
+    }
+    .del{
+        background: url('images/close.png')no-repeat darkgray;
+        background-size: 10px 10px;
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        margin-left: 4px;
+        cursor: pointer;
+        transition: 0.5s;
+        border-radius: 50%;
+    }
+    .del:hover{
+        transform: rotate(90deg);
+    }
+</style>

@@ -1,0 +1,130 @@
+<dl class="show-quest">
+    <dt>
+        <h3 class="wrap-word">{{surveyMainVo.smName}}</h3>
+        <div class="meta">结束时间：{{surveyMainVo.smEndTime}}</div>
+    </dt>
+    {{each surveyQuestionDetailVoList as item}}
+    <dd class="detail-box">
+        <div class="item">
+            <h4 style="font-size: 16px;" class="wrap-word" data-cou="{{smCount}}" data-sq="{{sqNo}}" data-sqtype="{{item.sqType}}">
+                第{{item.sqNo}}题：{{item.sqTopic}}
+            </h4>
+        </div>
+        {{if item.sqType==0}} {{each item.saContentList as idem}}
+        <!-- 单选题 -->
+        <div class="checkbox">
+            <label>
+                <input type="radio" class="answerZ" value="{{idem}}" name="{{item.sqNo}}" data-name="{{item.sqNo}}" flag=t rue data-sqid="{{item.sqId}}"
+                    data-sqtype="{{item.sqType}}">
+                <span class="Zanswer">{{idem}}</span>
+            </label>
+        </div>
+        {{/each}} {{else if item.sqType==1}} {{each item.saContentList as idem}}
+        <!-- 多选题 -->
+        <div class="checkbox">
+            <label style="padding-left: 40px">
+                <input type="checkbox" class="answerO" value="{{idem}}" name="{{item.sqNo}}" data-name="{{item.sqNo}}" flag=t rue data-sqid="{{item.sqId}}"
+                    data-sqtype="{{item.sqType}}">
+                <span class="Oanswer">{{idem}}</span>
+            </label>
+        </div>
+        {{/each}}{{else}}
+        <div class="form-group">
+            <!-- 阐述题 -->
+            <textarea id="desc" rows="4" class="form-control  answerText" maxlength="200" data-name="{{item.sqNo}}" data-sqid="{{item.sqId}}"
+                data-sqtype="{{item.sqType}}"></textarea>
+            <div class="text-right js-count">0/200</div>
+        </div>
+        {{/if}}
+    </dd>
+
+    {{/each}}
+    <dd>
+        <div class="form-group">
+            <button class="btn btn-primary js-save">下一步</button>
+            <button class="btn btn-default js-close">取消</button>
+        </div>
+    </dd>
+</dl>
+<dl class="hide-query">
+    <div class="row clearfix">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <label for="name">
+                <span class="require"></span>问卷人姓名</label>
+            <input type="text" name="userName" id="userName" maxlength="20" class="form-control">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row clearfix">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <label for="Mobile">
+                    <span class="require"></span>问卷人手机</label>
+                <input type="number" name="userPhone" maxlength="11" id="userPhone" class="form-control" oninput="if(value.length>11)value=value.slice(0,11)">
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary js-saves trims" role="button">保存</button>
+        <button class="btn btn-primary js-Entry trims" role="button">保存并录入下一条</button>
+        <button class="btn btn-default js-cancel">上一步</button>
+    </div>
+</dl>
+<style>
+    /* .answerZ,.answerO{
+        margin-left: 50%;
+    } */
+    input {
+        position: relative;
+        *top: 1px;
+        margin: 0 4px 0 0;
+        *margin: 0 0 0 -4px;
+    }
+
+    .red-query {
+        color: red;
+    }
+
+    .hide-query {
+        display: none;
+    }
+
+    .show-query {
+        display: block;
+    }
+
+    .meta {
+        color: #666;
+    }
+
+    .detail-box {
+        padding-top: 10px;
+    }
+
+    .wrap-word {
+        word-wrap: break-word;
+    }
+
+    .tip-txt {
+        font-size: 14px;
+    }
+
+    .q-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .q-list {
+        padding: 0 0 10px 15px;
+    }
+
+    .q-list li {
+        padding-bottom: 10px;
+    }
+
+    .modal-body,.Zanswer,.Oanswer{
+        overflow-y: auto;
+        word-wrap: break-word;
+        word-break: normal;
+    }
+</style>

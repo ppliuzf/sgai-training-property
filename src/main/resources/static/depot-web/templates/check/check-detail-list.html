@@ -1,0 +1,21 @@
+{{each items as item itemIndex}}
+<tr data-id="{{item.orderNumber}}">
+    {{ if itemIndex+1 < 10}}
+    <td class="text-center" >0{{itemIndex+1}}</td>
+    {{ else }}
+    <td class="text-center" >{{itemIndex+1}}</td>
+    {{ /if }}
+    <td whid="{{item.whId}}">{{item.whName}}</td>
+    <!-- <td>{{item.orderNumber}}</td> -->
+    <td mattypeid="{{item.matTypeId}}">{{item.matName}}</td>
+    {{if item.matDiffNum < 0}}
+    <td class="red">{{item.matNum}}</td>
+    <td class="red">{{item.matRealNum}}</td>
+    <td class="red">{{item.matDiffNum}}</td>
+    {{else}}  
+    <td>{{item.matNum}}</td>
+    <td>{{item.matRealNum}}</td>
+    <td>{{item.matDiffNum}}</td>
+    {{/if}}
+</tr>
+{{/each}}

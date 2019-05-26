@@ -1,0 +1,15 @@
+<div class="deptVos-list">
+    <div class="checkbox deptVos-item js-checked-all">
+        <label>
+            <input type="checkbox"> 全选
+        </label>
+    </div>
+    {{each items as item}}
+    <div class="checkbox deptVos-item">
+        <label>
+            <input type="checkbox" data-id="{{item.empCode}}" data-title="{{item.title}}">
+            <i class="glyphicon glyphicon-user"></i> {{item.lastname}}
+        </label>
+    </div>
+    {{/each}}
+</div>

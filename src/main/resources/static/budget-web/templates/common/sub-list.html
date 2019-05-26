@@ -1,0 +1,52 @@
+{{each items as item itemIndex}}
+<tr>
+    <td class="desc">
+        {{if item.childList && item.childList.length > 0}}
+        <span class="glyphicon glyphicon-plus icon-span fs identify group-length-{{itemIndex}}" data-attr="group-next-{{itemIndex}}" data-index="{{itemIndex}}"></span>
+        {{/if}}
+        {{item.shortName}}
+    </td>
+    <td title="{{item.levels}}">一级科目</td>
+    <td>{{item.codeNumber}}</td>
+    <td class="desc">{{item.description}}</td>
+    <td class="text-center act">
+                {{if item.levels!=3}}<a href="./sub-add.html?id={{item.id + '&name=' + item.shortName + '&add=' + 1 + '&levels=' + item.levels}}">新增下级</a>{{/if}}
+                <a href="./sub-add.html?id={{item.id + '&name=' + item.shortName + '&edit=' +1 + '&levels=' + item.levels}}">编辑</a>
+                <a class="js-del" data-id="{{item.id}}">删除</a>
+    </td>
+</tr>
+    {{if item.childList && item.childList.length != 0}}
+        {{each item.childList as i twoIndex}}
+            <tr class= "desc {{group-next-{{itemIndex}} group-next group-hide-{{itemIndex}}" data-attr="group-length-{{itemIndex}}">
+                <td style="padding-left: 30px">
+                    {{if i.childList && i.childList.length > 0}}
+                    <span class="glyphicon glyphicon-plus icon-span fs identifyTwo glyphicon-plus-{{twoIndex}} group-len-{{itemIndex}}-{{twoIndex}}" data-attr="group-last-{{itemIndex}}-{{twoIndex}}" data-show="glyphicon-plus-{{twoIndex}}"  data-style="group-last-{{itemIndex}}-{{twoIndex}}"></span>
+                    {{/if}}
+                    {{i.shortName}}
+                </td>
+                <td title="{{i.levels}}">二级科目</td>
+                <td>{{i.codeNumber}}</td>
+                <td class="desc">{{i.description}}</td>
+                <td class="text-center act">
+                    {{if item.levels!=3}}<a href="./sub-add.html?id={{i.id + '&name=' + i.shortName + '&add=' + 1 + '&levels=' + i.levels}}">新增下级</a>{{/if}}
+                    <a href="./sub-add.html?id={{i.id + '&name=' + i.shortName + '&edit=' +1 + '&levels=' + i.levels}}">编辑</a>
+                    <a class="js-del" data-id="{{i.id}}">删除</a>
+                </td>
+            </tr>
+                {{if i.childList && i.childList.length != 0}}
+                {{each i.childList as itemSr IndexThree}}
+                <tr class="desc group-last group-last-{{twoIndex}} group-last-{{itemIndex}}-{{twoIndex}} group-hide-{{itemIndex}}" data-attr="group-len-{{itemIndex}}-{{twoIndex}}">
+                    <td style="padding-left: 60px">{{itemSr.shortName}}</td>
+                    <td title="itemSr.levels">三级科目</td>
+                    <td>{{itemSr.codeNumber}}</td>
+                    <td class="desc">{{itemSr.description}}</td>
+                    <td class="text-center act">
+                        <a href="./sub-add.html?id={{itemSr.id + '&name=' + itemSr.shortName + '&edit=' + 1+ '&levels=' + itemSr.levels}}">编辑</a>
+                        <a class="js-del" data-id="{{itemSr.id}}">删除</a>
+                    </td>
+                </tr>
+                {{/each}}
+                {{/if}}
+        {{/each}}
+{{/if}}
+{{/each}}

@@ -1,0 +1,23 @@
+{{each items as item index}}
+<tr>
+    <td class="text-center">{{index+1 < 10 ? "0" + (index+1) : index+1 | fillZero}}</td>
+    <td>{{item.code || '--'}}</td>
+    <td>{{item.category || '--'}}</td>
+    <td>{{item.type == 'TS'? '投诉事件': item.type == 'AB'? '安保事件': item.type == 'WX'? '维修事件': '--'}}</td>
+    <td>{{item.personRecord || '--'}}</td>
+    <td>{{item.telphone || '--'}}</td>
+    <td>{{item.time || '--'}}</td>
+    <td>{{item.type == 'TS' ? (item.states == "0" ? "待指派" : item.states == "1" ? "待处理" : item.states == 2 ? "待回访" : item.states == 3 ? "已完成" : "已终止") : (item.states == "0" ? "待核实" : item.states == "1" ? "待指派" : item.states == 2 ? "待处理" : item.states == 3 ? "已完成" : "已终止")}}</td>
+    <td class="text-center">
+        <a href="#" class="js-event-check" data-code="{{item.code}}" data-codetype="{{item.codeType}}">查看进度</a>
+        <a href="#" class="js-event-operate" data-code="{{item.code}}" data-states="{{item.states}}" data-type="{{item.type}}">{{item.type == 'TS' ? (item.states == "0" ? "指派" : item.states == "1" ? "处理" : item.states == 2 ? "回访" : "") : (item.states == "0" ? "核实" : item.states == "1" ? "指派" : item.states == 2 ? "处理" : "")}}</a>
+        <a href="#" class="js-event-del co-red" data-code="{{item.code}}" data-states="{{item.states}}" data-type="{{item.type}}">{{item.states == "3" ? "" : item.states == "4" ? "" : "终止"}}</a>
+    </td>
+</tr>
+{{/each}}
+
+<style>
+    .co-red {
+        color: red;
+    }
+</style>

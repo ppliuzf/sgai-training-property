@@ -1,0 +1,234 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<!--[if lte IE 6]><link href="../static/bootstrap/bsie/css/bootstrap-ie6.min.css" type="text/css" rel="stylesheet" />
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+ <script src="../static/media/js/main.js" type="text/javascript"></script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='../static';</script>
+    <title>设备运行参数</title>
+    <meta name="decorator" content="default">
+    <style>
+    	.addParamDiv{
+    	content:'';
+    	display:table;
+    	clear:both;
+    	margin-top:10px;
+    	}
+    	.control-group .addParamDiv:first-child{
+    		margin-top:0;
+    	}
+    </style>
+<script type="text/javascript">
+//表单验证
+$.validator.setDefaults({
+    submitHandler: function() {
+       // 调用提交
+       save();
+    }
+})
+   $().ready(function () {
+       // 在键盘按下并释放及提交后验证提交表单
+       $("#inputForm").validate({
+            rules: {
+            	classCode: {
+                   required: true,
+               }
+             },
+           messages:{
+        	   classCode: {
+                   required: "请输入设备类型编码"
+               }
+           }
+       });
+   })
+        function save(){
+			$.jBox.confirm("确定提交吗？", "提示", function (v, h, f) {
+				if(v == 'ok'){
+					var content = $(".addParamDiv");
+					var taskName="";
+					$.each(content,function(i,item){
+						var paramCode = $(this).find("input[name='paramCode']").val();
+						var paramName = $(this).find("input[name='paramName']").val();
+                        var switchFlag = $(this).find("select[name='switchFlag']").val();
+                        console.log(switchFlag);
+						if(paramCode =="" || paramCode==null){
+							$.jBox.alert("请填写第" + (i+1)+"行参数代码","提示");
+							return false;
+						}else if(paramName =="" || paramName==null){
+							$.jBox.alert("请填写第" + (i+1)+"行参数名称","提示");
+							return false;
+						}else{
+							taskName +=  paramCode + "," + paramName + ","+switchFlag+";";
+							if((i+1)==content.length){
+								$("input[name='deviceParams']").val(taskName);
+								var ajax_option={
+										headers    : {
+							                 "token" : localStorage.getItem("token"),
+							             },
+										url:APIHost + '/admin/mdm/mdmdeviceparameter/mdmDeviceParameter/save',//默认是form action
+										success:function(res){
+											console.log(res);
+											if(res.data.msg=="success"){
+												
+												 $.jBox.alert("保存成功","提示",{closed:function(){
+													 closePopUp();
+		    	                            	}}); 
+							                	/*  $.jBox.alert("保存成功","提示");
+							                	closePopUp();  */
+							                	 
+							                	/* setTimeout(function(){
+							                		pageloadparams(1,10,res.data.classCode);
+							            		},500)  */
+							                	//pageloadparams(1,10,res.data.classCode);
+							            		$('.btn_list .listsAdd', window.parent.document).click();
+							                }else if(res.data.msg=="haveCode"){
+							                	$.jBox.alert("参数编码已存在！","提示");
+							                }else if(res.data.msg=="haveCodes"){
+							                	$.jBox.alert("提交的参数编码重复！","提示");
+							                }else if(res.data.msg=="haveName"){
+							                	$.jBox.alert("参数名称已存在！","提示");
+							                }else if(res.data.msg=="haveNames"){
+							                	$.jBox.alert("提交的参数名称重复！","提示");
+							                }else{
+							                	$.jBox.alert("保存失败","提示");
+							                }
+											}
+							   		}
+								$("#inputForm").ajaxSubmit(ajax_option);
+							}
+						}
+					});
+				}
+			})			
+        }
+
+//关闭弹框
+function closePopUp(){
+    $('#myModal .close', window.parent.document).click();
+}
+		
+	//增加参数框
+	function addParameter(){
+		var parameterDiv = document.getElementById("parameterDiv");
+		//添加一行
+		 //var newTr = facilityInfo.insertRow();
+		 //设置列内容和属性
+		 var content = "<div class='addParamDiv'>"
+		 		+"<input name='paramCode' type='text' style='float:left;width:107px;' value='' maxlength='50' placeholder='参数编码'>"
+		      	+"<input name='paramName' type='text' style='float:left;width:107px;margin-left:5px;' value='' maxlength='50' placeholder='参数名称'>"
+                +"<select name='switchFlag' style='float:left;width:107px;margin-left:5px;'>"
+                +" <option value='N'>非开关参数</option>"
+                +" <option value='Y'>开关参数</option>"
+                +"</select>"
+		      	+"<input type='button' style='float:left;width:45px;height:25px;border-radius:5px;margin:5px;background-color:#1785ca;border-style:none;color:fff;' value='删除' onClick='deleteRow(this);' />"
+		      	+"</div>";
+		 parameterDiv.insertAdjacentHTML("beforeEnd",content);
+	}
+	
+	//删除参数框
+	function deleteRow(obj){
+		$(obj).parent().remove();
+	}
+	
+     
+    </script>
+    <script type="text/javascript">
+    $(function(){
+    	//获取跳转地址的参数
+ 	   function GetQueryString(name){
+ 		  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); 
+ 		   //如果地址栏中出现中文则进行编码    
+ 		    var r = encodeURI(window.location.search).substr(1).match(reg);  
+ 		    if (r != null) {  
+ 		        //将中文编码的字符重新变成中文
+ 		        return decodeURI(unescape(r[2]));  
+ 		    }  
+ 		    return null;
+ 	   }
+    	
+    	var profCode=GetQueryString("profCode");
+    	var profName=GetQueryString("profName");
+    	var classCode=GetQueryString("classCode");
+    	var className=GetQueryString("className");
+    	console.log(profName);
+    	$("#deviceProfCode").val(profCode);
+    	$("#deviceProfName").val(profName);
+    	$("#deviceClassCode").val(classCode);
+    	$("#deviceClassName").val(className);
+    })
+    
+     $(function(){
+    	autoSize();
+    })
+    </script>
+</head>
+<body>
+<!-- <ul class="nav nav-tabs">
+    <li><a href="">设备运行参数维护</a></li>
+</ul> -->
+<form id="inputForm" class="form-horizontal" method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+    <input id="equipmentType" name="equipmentType" type="hidden" value="">
+    <input type="hidden" name="deviceParams" value="" />
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+    <div class="control-group">
+        <label class="control-label"><font color="red">*</font>专业名称：</label>
+        <div class="controls">
+        	<input type="hidden" id="deviceProfCode" name="deviceProfCode" value="">
+            <input id="deviceProfName" name="deviceProfName" readonly="readonly" type="text" value="">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label"><font color="red">*</font>设备类型：</label>
+        <div class="controls">
+        	<input type="hidden" id="deviceClassCode" name="deviceClassCode" value="">
+            <input id="deviceClassName" name="deviceClassName" readonly="readonly" type="text" value="" maxlength="50">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">参数：</label>
+        <div class="controls" id="parameterDiv">
+        	<div class="addParamDiv">
+	            <input name="paramCode" type="text" style="float:left;width:107px;" value="" maxlength="50" placeholder="参数编码">
+	            <input name="paramName" type="text" style="float:left;width:107px;margin-left:5px;" value="" maxlength="50" placeholder="参数名称">
+                <select name="switchFlag" style="float:left;width:107px;">
+                    <option value="N">非开关参数</option>
+                    <option value="Y">开关参数</option>
+                </select>
+	            <input type="button" style="float:left;width:45px;height:25px;border-radius:5px;margin:5px;background-color:#1785ca;border-style:none;color:fff;" value="增加" onClick="addParameter();"/>
+            </div>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">备注：</label>
+        <div class="controls">
+           <!--  <input id="remarks" name="remarks" type="text" value="" maxlength="50"> -->
+             <textarea id="remarks" name="remarks"  maxlength="100"  style="overflow-y:hidden;" class="textAreas"></textarea>
+        </div>
+    </div>
+    <div class="form-actions"  style="margin-top: 0px;">
+        <input id="btnCancel" class="btn" type="button" value="关 闭" onclick="closePopUp()">
+        <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">
+    </div>
+</form>
+</body></html>

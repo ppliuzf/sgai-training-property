@@ -1,0 +1,34 @@
+{{each items as item}}
+<tr data-id="{{item.id}}">
+    <!-- 序号 -->
+    {{ if item.number1 < 10}}
+    <td class="text-center" >0{{item.number1}}</td>
+    {{ else }}
+    <td class="text-center" >{{item.number1}}</td>
+    {{ /if }}
+    <!-- 标题 -->
+    <td>
+        <div class="titleList2 cont dot" title="{{item.infoTitle}}">{{item.infoTitle}}</div>
+    </td>
+    <!-- 摘要 -->
+    <td>
+        <div class="sumList2 cont dot"><a href="./receive-list-detail.html?id={{item.id}}" class="underline js-view" title="{{item.infoSummary}}">{{item.infoSummary}}</a></div>
+    </td>
+    <!-- 类型 -->
+    <td>
+        <div class="typeList cont dot">
+        {{if item.infoUrgency === 1}}
+        紧急
+        {{else}}
+        一般
+        {{/if}}
+        </div>
+    </td>
+    <!-- 发布人 -->
+    <td>
+        <div class="peopleList cont dot" title="item.infoCreatorName">
+            {{item.infoCreatorName || '--'}}
+        </div>
+    </td>
+</tr>
+{{/each}}

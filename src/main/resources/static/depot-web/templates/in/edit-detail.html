@@ -1,0 +1,32 @@
+    <table>
+            <tbody>
+                <tr>
+                    <td class="col-lg-1 col-md-1 col-sm-1 text-center">入库单类型</td>
+                    <td class="col-lg-3 col-md-3 col-sm-3 value"> 
+                        {{if items.whInType == 1}}
+                            <div class='types' type='{{items.whInType}}'>调拨入库</div>
+                        {{else}}
+                            <div class='types' type='{{items.whInType}}'>采购入库</div>
+                        {{/if}}</td>
+                        {{if items.type == 1}}
+                    <td class="col-lg-1 col-md-1 col-sm-1 text-center">调拨单</td>
+                    <td class="col-lg-3 col-md-3 col-sm-3 value"><div class="allocation-list" id="{{items.allotId}}">{{items.allotName}}</div></td>
+                    {{else}}
+                    <td class="col-lg-1 col-md-1 col-sm-1 text-center">采购单</td>
+                    <td class="col-lg-3 col-md-3 col-sm-3 value"><div class='purchase-order' id="{{items.orderId}}">{{items.orderName}}</div></td>
+                    {{/if}}
+                    <td class="col-lg-1 col-md-1 col-sm-1 text-center">仓库类型</td>
+                    <td class="col-lg-3 col-md-3 col-sm-3 value">
+                            {{if items.whType == 1}}
+                            <div class='warehouse-type'>实仓</div>
+                        {{else}}
+                            <div class='warehouse-type'>虚仓</div>
+                        {{/if}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-center">仓库名称</td>
+                    <td class="value" colspan="5"><div class='warehouse-name' id="{{items.whId}}" whInStat='{{items.whInStat}}' whInNo="{{items.whInNo}}">{{items.whName}}</div></td>
+                </tr>
+            </tbody>
+        </table>

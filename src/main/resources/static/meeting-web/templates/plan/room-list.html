@@ -1,0 +1,52 @@
+{{each items as item idx}}
+<tr>
+    <!-- <td><input type="checkbox" class="js-list-select-single" data-id="{{item.rrId}}"></td> -->
+    <td class="text-center">{{idx+1 < 10 ? "0" + (idx+1) : idx+1}}</td>
+    <td>
+        <div class="img-text-info">
+            {{if item.roomImg}}
+            <a href="{{item.roomImg}}" data-lightbox="item-{{idx}}">
+                <img class="default-image" src="{{item.roomImg}}" onerror="this.src='./images/default_image.png'">
+            </a>
+            {{else}}
+            <a>
+                <img src="./images/default_image.png" class="default-image">
+            </a>
+            {{/if}}
+            <label class="img-text" style="font-weight:100">
+                <span>{{item.rrRoomName}}</span>
+            </label>
+        </div>
+    </td>
+    <td>{{item.rrRoomPosition}}</td>
+    <td>{{item.rrRoomPeoples}}人</td>
+    <td>
+        <div>
+            {{if item.deviceDetailVoList.length>0}} 已启用：{{each item.deviceDetailVoList as itom }} {{if itom.rdsState==0}}
+            <a href="javascript:;" class="device-txt" data-rdsId="{{itom.rdsId}}" data-rdsState="{{itom.rdsState}}">{{itom.rdRoomDevice}}</a> {{/if}} {{/each}} {{/if}}
+        </div>
+        <div>
+            {{if item.deviceDetailVoList.length>0}}已禁用：{{each item.deviceDetailVoList as itom }}{{if itom.rdsState!=0}}
+            <a href="javascript:;" class="device-txt" data-rdsId="{{itom.rdsId}}" data-rdsState="{{itom.rdsState}}">{{itom.rdRoomDevice}}</a> {{/if}} {{/each}} {{/if}}
+        </div>
+    </td>
+    <td>{{item.rrAdminName || '-'}}</td>
+    <td>
+        <!-- <div class="switch">
+            <div class="switch-inner">
+                <input type="checkbox" {{item.rrRoomState==1 && 'checked'}} class="js-status" data-id="{{item.rrId}}">
+            </div>
+        </div> -->
+        <div class="switch">
+                <div class="switch-inner">
+                    <input type="checkbox" {{item.rrRoomState==1 && 'checked'}} class="js-status" data-id="{{item.rrId}}">
+                </div>
+        </div>   
+    </td>
+    <td class="text-center">
+            <a href="javascript:;" onClick="window.open('./editor.html?id={{item.id}}','_self')"class="js-editor">编辑</a>
+            <a href="javascript:;" data-id="{{item.rrId}}" data-state="{{item.rrRoomState}}" class="js-del" data-id="1">删除</a>
+            <a href="javascript:;" onClick="window.open('./reserve-message.html?id={{item.id}}','_self')"class="js-editor">预定信息</a>
+    </td>
+</tr>
+{{/each}}

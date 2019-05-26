@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+<!-- <link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/> -->
+<script src="../config/smart-common.js" type="text/javascript"></script>
+<!-- 日历css -->
+<link rel="stylesheet" type="text/css" media="all" href="../static/bootstrap/dist/css/daterangepicker.css" />
+<!--分页  -->	
+<script src="../static/paginator/bootstrap-paginator.js" type="text/javascript"></script>
+<!-- 公共样式表	，公共方法 -->
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<!-- 日历JS -->
+<script type="text/javascript" src="../static/bootstrap/dist/js/moment.js"></script>
+<script type="text/javascript" src="../static/bootstrap/dist/js/daterangepicker.js"></script>
+<!-- <script type="text/javascript" src="../static/bootstrap/dist/js/locales/bootstrap-datetimepicker.zh-CN.js"></script> -->
+<title>运行策略修改</title>
+<style>
+.form-group {
+    margin-bottom: 25px;
+    height: 30px;
+}
+.form-group span {
+    float: left;
+    margin-top: 5px;
+    margin-right: 5px;
+    color: #747474;
+}
+.form-group2 input, .form-group3 {
+    width: 331px;
+    float: right;
+}
+.weekCheck1 {
+    display: inline-block;
+    float: left;
+    width: 85%;
+}
+.weekCheck1 input {
+    margin-left: 31px;
+}
+.modal-content {
+    position: relative;
+    background-color: #eee !important;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #999;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 0 !important;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+    box-shadow: 0 3px 9px rgba(0,0,0,.5);
+}
+.modal-footer {
+    text-align: center;
+    border: none;
+    background-color: #fff;
+    padding: 10px;
+}
+/* .row {
+    margin-right: 0px;
+    margin-left: 0;
+    margin-top: 0px;
+    padding-left: 25px;
+    padding-right: 30px;
+    padding-top: 20px;
+}
+.modal-body{
+padding: 0;
+} */
+.modal-body button, .modal-footer button {
+    width: 66px !important;
+    background: #0362fd !important;
+    border: 1px solid #0362fd !important;
+    margin-left: 15px;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    border-radius: 4px !important;
+    color: #fff !important;
+}
+.weekCheck1{
+	width:300px;
+}
+.demo { position: relative; }
+.demo i {
+      position: absolute; bottom: -25px; right: 0px; top: auto; cursor: pointer;
+    }
+.row{
+  margin-left: 0;
+  padding: 15px 30px 0px 30px;
+}
+</style>
+</head>
+  <script type="text/javascript">
+  var paramId;
+  $(document).ready(function () {
+    paramId=GetQueryString("paramId");
+	updatepageload();
+  	updateConfig();
+  });
+  
+  //获取跳转地址的参数
+  function GetQueryString(name){
+       var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+       var r = window.location.search.substr(1).match(reg);
+       if(r!=null)return  unescape(r[2]); return null;
+  }
+  //加载修改数据
+  function updatepageload(){
+  	  $.ajax({
+  	   		 headers    : {
+  	                "token" : localStorage.getItem("token"),
+  	            },
+  				url :APIHost+'/ruag/ruag/ruagModelTemplate/getById',
+  				type : 'POST',
+  				async : false, //或false,是否异步
+  				data : {
+  					"id": paramId
+
+  				},
+  				timeout : 5000,
+  				dataType : 'json',
+  				success : function(res) {
+  					if(res.code === 1000){
+  						var item = res.data;
+      					$("#id").val(item.id);
+      					$("#modelName_1").val(item.workModeName);
+      					$("#strategyCode").val(item.strategyCode);
+      					$("#modelKind_1").val(item.strategyType);
+      					$("#controlCode").val(item.controlCode);
+      					$("#modelType_1").val(item.controlType);
+      					$("#modelDegree_1").val(item.modelDegree);
+      					$("#myDate2").val(item.startDate+"-"+item.endDate);
+      					checkWeek(item.workTime);
+  					}else if(res.code ===1003){
+  						//没有登录状态
+  						$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+  							{ window.location.href= APIHost + "/sys/sysLogin.html"; } });
+  					}else if(res.code === 1002){
+  						//发生异常
+  						$.jBox.alert(res.msg);
+  					}else if(res.code === 1004){
+  						//结果为空
+  						$.jBox.alert(res.msg);
+  					}
+  					
+  				},
+  				error : function() {
+  					$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+  				}
+  			})
+  }
+  function saveItem(){
+	  getWorkTimeRange();
+    	$("#modeltemplateform").ajaxSubmit({
+    		  headers    : {
+                 "token" : localStorage.getItem("token"),
+             }, 
+    		url : APIHost+"/ruag/ruag/ruagModelTemplate/save",
+			type : 'POST',
+			async : false, //或false,是否异步
+			data : {
+			},
+			timeout : 5000,
+			dataType : 'json',
+    		success: function (res) {
+    			console.log(res);
+    		  if(res.code === 1000){
+    			var data = res.data;
+           		if(data.msg=="success"){
+           			$.jBox.alert('保存成功', '提示',{ closed: function ()
+						{var url =APIHost+ "/ruag/ruagModelIndex.html";
+            	   		window.location.href = url;}});
+          		}else if(data.msg=="repeat"){
+          			$.jBox.alert("该策略名称已存在，请重新填写！","提示")
+           		}else if(data.msg=="faild"){
+           			$.jBox.alert("保存失败！","提示")
+           		}
+    		  }else if(res.code ===1003){
+						//没有登录状态
+						$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+							{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+					}else if(res.code === 1002){
+						//发生异常
+						$.jBox.alert(res.msg);
+					}else if(res.code === 1004){
+						//结果为空
+						$.jBox.alert(res.msg);
+					}
+    		}
+        });
+    }
+  </script>
+<body>
+	            <div class="row">
+	            	<form id="modeltemplateform"  method="post">
+	            	    <input type="hidden"  id="workTime" name="workTime">
+						<input type="hidden" id="id" name="id" >
+						<div class="form-group form-group2">
+						    <span>名称:</span>
+						    <input type="text" readonly="readonly" id="modelName_1" class="form-control"  name="workModeName" required="required" >
+					  	</div>
+					  	<div id="newmodelModelkind_1" class="form-group form-group2">
+					  	    <span>策略类型:</span>
+					  	    <input readonly= "readonly" id="strategyCode" name="strategyCode" class="form-control" type="hidden">
+							<input type="text" disabled= "true " id="modelKind_1" name="strategyType" class="form-control">
+					  	</div>
+					  	<div id="newmodelModelType_1" class="form-group form-group2">
+					  	    <span>控制类型:</span>
+					  	    <input  readonly= "readonly " id="controlCode" name="controlCode" class="form-control" type="hidden">
+							<input type="text" disabled= "true " id="modelType_1" name="controlType" class="form-control">
+					  	</div>
+					  	<div id="newmodelDegree_1" class="form-group form-group2">
+					  	    <span>策略等级:</span>
+							<input type="text" readonly= "true" id="modelDegree_1" name="modelDegree" class="form-control" title="请选择模式等级，0等级最高，5等级最低" >
+					  	</div>
+						 <div class="form-group form-group2" id="myDate">
+						    <span>起止时间:</span>
+						    <div class="demo">
+                    <input type="text" id="myDate2" name="seDate" class="form-control">
+                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                </div>
+                <div style="clear: both"></div>
+					  	</div> 
+					  	<div class="form-group " id=weekchoose>
+					  	   <span>星期设置:</span>
+					  	   <div class="weekCheck1">
+						  <!--  <input type="text" id="workTime" class="form-control" placeholder="工作时间" name="workTime" required="required">  -->
+						    <input type="checkbox" multiple="multiple" name="workTime2" value='星期一'>周一
+						    <input type="checkbox" multiple="multiple" name="workTime2" value="星期二">周二
+							<input type="checkbox" multiple="multiple" name="workTime2" value="星期三">周三
+							<input type="checkbox" multiple="multiple" name="workTime2" value="星期四">周四
+							<input type="checkbox" multiple="multiple" name="workTime2" value="星期五">周五
+							<input type="checkbox" multiple="multiple" name="workTime2" value="星期六">周六
+							<input type="checkbox" multiple="multiple" name="workTime2" value="星期日">周日
+							</div> 
+					  	</div>						  					  	  					  	
+				  	</form>
+				</div>
+	            <div class="modal-footer butCenter"> 
+	                 <button type="button" class="btn " id="addModelBtn3" onclick="saveItem()">提交</button>
+	           		 <button type="button" class="btn btn-default" onclick="closePopUp()" data-dismiss="modal">关闭</button>
+	            </div>
+ <script src="../static/jquery/jquery.cxselect.js"></script>
+ <script type="text/javascript">
+ // 关闭弹框
+ function closePopUp(){
+     $('#myModal2 .close', window.parent.document).click();
+ }
+ $(".cards_item").remove();
+ var chckBox2;
+ var num2;
+ function checkWeek(workTime2){
+	 var arr2=workTime2.split("，");
+	  chckBox2 = document.getElementsByName("workTime2");
+	  num2 = chckBox2.length;
+	   if($("#controlCode").val()=="time"){
+		   $("#myDate").css("display","none");
+		   $("#weekchoose").css("display","none");
+	    }else{
+	      $("#myDate").css("display","");
+	 	  $("#weekchoose").css("display","");
+	 	 for(var i=0;i<arr2.length; i++){
+			    for(var index =0 ; index<num2 ; index++){ 
+			    		if(arr2[i]== chckBox2[index].value){
+			    	    $(chckBox2[index]).attr("checked",true); 
+			    	    break;
+			    	}
+			    }
+			    } 
+	    }
+ }
+ 
+   function getWorkTimeRange(){
+	   var chk_worktime="";
+	  /*  chckBox = document.getElementsByName("workTime2");  */ 
+	   for(var index =0 ; index<num2; index++){ 
+		   if(chckBox2[index].checked){
+			   chk_worktime+= chckBox2[index].value + ",";                
+           }  
+   }
+	   $("#workTime").val(chk_worktime);
+   }
+</script>
+<script type="text/javascript">
+		  function updateConfig() {
+	            $('#myDate2').daterangepicker(  
+	                {  
+	                // startDate: moment().startOf('day'),  
+	                //endDate: moment(),  
+	                //minDate: '01/01/2012',    //最小时间  
+	                //maxDate : moment(), //最大时间   
+	                //dateLimit : {  
+	                    //days : 30  
+	                //}, //起止时间的最大间隔  
+	                showDropdowns : true,  
+	                showWeekNumbers : false, //是否显示第几周  
+	                timePicker : false, //是否显示小时和分钟  
+	                timePickerIncrement : 60, //时间的增量，单位为分钟  
+	                timePicker12Hour : false, //是否使用12小时制来显示时间  
+	               /*  ranges : {  
+	                    //'最近1小时': [moment().subtract('hours',1), moment()],  
+	                    '今日': [moment().startOf('day'), moment()],  
+	                    '昨日': [moment().subtract('days', 1).startOf('day'), moment().subtract('days', 1).endOf('day')],  
+	                    '最近7日': [moment().subtract('days', 6), moment()],  
+	                    '最近30日': [moment().subtract('days', 29), moment()]  
+	                }, */  
+	                opens : 'right', //日期选择框的弹出位置  
+	                buttonClasses : [ 'btn btn-default' ],  
+	                applyClass : 'btn-small btn-primary blue',  
+	                cancelClass : 'btn-small',    
+	                separator : ' to ',  
+	                locale : {  
+	                    applyLabel : '确定',  
+	                    cancelLabel : '取消',  
+	                    fromLabel : '起始时间',  
+	                    toLabel : '结束时间',
+	                    format : 'YYYY/MM/DD', //控件中from和to 显示的日期格式
+	                    customRangeLabel : '自定义',  
+	                    daysOfWeek : [ '日', '一', '二', '三', '四', '五', '六' ],  
+	                    monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月',  
+	                            '七月', '八月', '九月', '十月', '十一月', '十二月' ],  
+	                    firstDay : 1  
+	                }  
+	            }, function(start, end, label) {//格式化日期显示框  
+	                  
+	               $('#myDate2 span').html(start.format('yyyy-MM-dd') + ' - ' + end.format('yyyy-MM-dd')); 
+	           });  
+	        } 
+  </script>
+</body>
+</html>
+	

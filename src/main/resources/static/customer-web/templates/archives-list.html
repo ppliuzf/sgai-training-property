@@ -1,0 +1,22 @@
+{{each items as item idx}}
+<tr>
+    <td class="text-center">{{idx | fillZero}}</td>
+    <td><a href="./archives-detail.html?id={{item.prId}}">{{item.prName}}</a></td>
+    <td>{{item.prPhoneFirst}}</td>
+    <td>{{item.ctName}}</td>
+    <td>{{item.clName}}</td>
+    <!-- <td class="text-center act">
+        <div class="btn-group more">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+            <ul class="dropdown-menu">
+                <li><a href="./archives-add.html?id={{item.prId}}">编辑</a></li>
+                <li><a href="#" class="js-del" data-id="{{item.prId}}">删除</a></li>
+            </ul>
+        </div>
+    </td> -->
+    <td class="text-center">
+        <a href="./archives-add.html?id={{item.prId}}" class="js-edit" data-id="1">编辑</a>
+        <a href="#" class="js-del" data-id="{{item.prId}}">删除</a>
+    </td>
+</tr>
+{{/each}}

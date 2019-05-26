@@ -1,0 +1,29 @@
+{{each items as item index}}
+<tr data-id="{{item.id}}">
+    {{ if index+1 < 10}}
+    <td class="text-center" >0{{index+1}}</td>
+    {{ else }}
+    <td class="text-center" >{{index+1}}</td>
+    {{ /if }}
+    <td>{{item.whInOutNo}}</td>  
+    {{if item.inOutType  == 0}}
+    <td>出库</td>
+    {{else}}
+    <td>入库</td>
+    {{/if}}
+    <td>{{item.whName}}</td>
+    {{if item.whType  == 1}}
+    <td>实仓</td>
+    {{else}}
+    <td>虚仓</td>
+    {{/if}}
+    <td>{{item.createdDt | dateFormat:'yyyy-MM-dd hh:mm'}}</td>
+    <td>{{item.inOutEmpName}}</td>
+    {{if item.whStat == 1}}
+    <td>未{{if item.inOutType  == 0}}出{{else}}入{{/if}}库</td>
+    {{else if item.whStat == 2}}
+    <td>部分{{if item.inOutType  == 0}}出{{else}}入{{/if}}库</td>
+    {{else}}
+    <td>全部{{if item.inOutType  == 0}}出{{else}}入{{/if}}库</td>
+    {{/if}}
+{{/each}}

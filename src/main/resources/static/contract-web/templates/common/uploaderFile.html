@@ -1,0 +1,18 @@
+<div class="upload-file">
+    <form id="upload-form" enctype="multipart/form-data">
+        <input type="file" name="file" id="upload" accept="{{type}}">
+    </form>
+    {{if maxLength === 1}}
+    <div class="upload-btn_wrap">
+        <span class="upload-btn reset">{{btnTips}}</span>
+    </div>
+    {{else}}
+    <div class="upload-btn_wrap">
+        <strong class={{isRequire ? "require": ""}}>{{title}}</strong><span class="upload-btn">{{btnTips}}</span>
+    </div>
+    {{/if}}
+    <div class="upload-file-items"></div>
+    {{if tips !== ''}}
+    <div class="upload-file-tips">{{tips}}</div>
+    {{/if}}
+</div>

@@ -1,0 +1,382 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css"
+	type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js"
+	type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css"
+	type="text/css" rel="stylesheet">
+
+<!-- 公共样式表	 -->
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+	
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css"
+	type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js"
+	type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css"
+	rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.src.js"
+	type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js"
+	type="text/javascript"></script>
+<link href="../static/My97DatePicker/skin/WdatePicker.css"
+	rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css"
+	rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<link
+	href="../../static/jquery-ztree/3.5.12/css/zTreeStyle/zTreeStyle.min.css"
+	rel="stylesheet" type="text/css" />
+<script src="../static/jquery-ztree/3.5.12/js/jquery.ztree.all-3.5.min.js"
+	type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js"
+	type="text/javascript"></script>
+<script src="../static/jquery-params/jquery.params.js"
+	type="text/javascript"></script>
+<script src="../config/smart-common.js"
+	type="text/javascript"></script>
+<script type="text/javascript">
+	var ctx = '/admin', ctxStatic = '/static';
+</script>
+<title>菜单管理</title>
+<meta name="decorator" content="default">
+<script type="text/javascript">
+    $(document).ready(function() { 
+    	makeBread();
+    	initTree();
+    	setMenuFormReadonlyTure();
+	    $("#saveBtn").attr("disabled",true);
+	    $("#progButton").addClass("disabled ");
+    });
+    
+    function initTree(){
+    	var setting = {
+                
+                data: {
+                	    simpleData: {
+        			    enable: true,
+        			    idKey: "id",
+        			    pIdKey: "pId",
+        			    rootPId: 0
+        		        }
+                }, 
+                callback: {onClick: zTreeOnClick}
+
+            };
+    	$.ajax({
+    		headers : {"token" : localStorage.getItem("token")},
+			url : APIHost+'/admin/menu/ctlMenu/getMenuList',
+			type : 'POST',
+			async : false, //或false,是否异步
+			data : {},
+			timeout : 30000,
+			dataType : 'json',
+			success : function(data) {
+		        var tree = $.fn.zTree.init($("#menuTree"), setting, data);
+		        tree.expandAll(false);
+			},
+			error : function() {
+				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+			}
+		});
+    }
+    
+    var currentTreeNode;
+    function zTreeOnClick(event, treeId, treeNode) {
+    	currentTreeNode = treeNode;
+	    var id = treeNode.id;
+	    clearMenuForm();
+	    getMenuData(id);
+	    setMenuFormReadonlyTure();
+	    $("#saveBtn").attr("disabled",true);
+	    $("#progButton").addClass("disabled ");
+	}
+    
+    function getMenuData(id){
+    	$.ajax({
+    		headers : {"token" : localStorage.getItem("token")},
+			url : APIHost+'/admin/menu/ctlMenu/form',
+			type : 'POST',
+			async : false, //或false,是否异步
+			data : {
+				menuCode:id
+			},
+			timeout : 30000,
+			dataType : 'json',
+			success : function(data) {
+				$("#id").val(data.id);
+				$("#menuCode").val(data.menuCode);
+				$("#menuName").val(data.menuName);
+				$("#parentMenuCode").val(data.parentMenuCode);
+				$("#parentMenuName").val(data.parentMenuName);
+				$("#progName").val(data.progName);
+				$("#progCode").val(data.progCode);
+				$("#progLevel").val(data.progLevel);
+				$("#sbsName").val(data.sbsName);
+				$("#displayOrder").val(data.displayOrder);
+				$("#remarks").val(data.remarks);
+				$("#icon").val(data.icon);
+
+			},
+			error : function() {
+				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+			}
+		});
+    }
+    
+    function clearMenuForm(){
+    	$(".required").val('');
+    }
+    
+    function setMenuFormReadonlyTure(){
+    	$(".required").attr("readonly",true);
+    }
+    
+    function setMenuFormReadonlyFalse(){
+    	$(".required").attr("readonly",false);
+    }
+    
+    function addSiblingNode(){
+    	clearProg();
+    	var treeObj = $.fn.zTree.getZTreeObj("menuTree");
+    	clearMenuForm();
+    	var parentNode = currentTreeNode==null?null:currentTreeNode.getParentNode();
+    	if(parentNode==null){
+    		$("#parentMenuCode").val('0');
+    		$("#parentMenuName").val('无');
+    	}else{
+    		$("#parentMenuCode").val(parentNode.id);
+    		$("#parentMenuName").val(parentNode.name);
+    	}
+    	setMenuFormReadonlyFalse();
+    	$("#saveBtn").attr("disabled",false);
+    	$("#progButton").removeClass("disabled ");
+    }
+    
+    function clearProg(){
+    	$("#progName").val("");
+    	$("#progCode").val("");
+    	$("#progLevel").val("");
+    	$("#sbsName").val("");
+    }
+    
+    function addChildNode(){
+    	clearProg();
+    	clearMenuForm();
+    	setMenuFormReadonlyFalse();
+    	var treeObj = $.fn.zTree.getZTreeObj("menuTree");
+    	$("#parentMenuCode").val(currentTreeNode.id);
+    	$("#parentMenuName").val(currentTreeNode.name);
+    	$("#saveBtn").attr("disabled",false);
+    	$("#progButton").removeClass("disabled ");
+    }
+    
+    function modifyNode(){
+    	zTreeOnClick(null,null,currentTreeNode);
+    	setMenuFormReadonlyFalse();
+    	$("#saveBtn").attr("disabled",false);
+    	$("#progButton").removeClass("disabled ");
+    }
+    
+    function deleteNode(){
+    	var treeObj = $.fn.zTree.getZTreeObj("menuTree");
+    	var id=currentTreeNode==null?null:currentTreeNode.id;
+    	if(id!=null){
+    		$.jBox.confirm("确定删除吗?(注:子节点也会被删除)", "提示", function (v, h, f) {
+    		    if (v == 'ok'){
+    		    	$.ajax({
+    		    		headers : {"token" : localStorage.getItem("token")},
+    					url : APIHost+'/admin/menu/ctlMenu/delete',
+    					type : 'POST',
+    					async : false,
+    					data : {
+    						menuCode:id
+    					},
+    					timeout : 30000,
+    					dataType : 'json',
+    					success : function(data) {
+    						$.jBox.alert(data.msg,"提示");
+    						initTree();
+    					},
+    					error : function() {
+    						$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+    					}
+    				});
+    		    }    		       		       
+    		});
+    	}
+    }
+    
+    
+	function saveNode() {
+		$("#inputForm").attr("action", APIHost + "/admin/menu/ctlMenu/save");
+		$("#inputForm").ajaxSubmit({
+			headers : {"token" : localStorage.getItem("token")},
+			success : function(data) {
+				$.jBox.alert(data.msg,"提示");
+				initTree();
+			}
+		});
+	}
+
+	function showProgTree() {
+		if($("#saveBtn").attr("disabled")){
+			return;
+		}
+		if ($("#progButton").hasClass("disabled")) {
+			return true;
+		}
+		$.jBox.open("iframe:"
+				+ APIHost
+				+ "/sys/tagTreeselect.html?urlData="
+				+ encodeURIComponent(APIHost
+						+ "/admin/menu/ctlMenu/getProgList?type=2"), "选择功能",
+				300, 420, {
+					ajaxData : {
+						selectIds : $("#progCode").val()
+					},
+					id:"selectFunJbox",
+					width:400,
+					buttons : {
+						"关闭" : true,
+						"清除":"clear",
+						"确定" : "ok"
+					},
+					buttonsFocus:2,
+					submit : function(v, h, f) {
+						if (v == "ok") {
+							var tree = h.find("iframe")[0].contentWindow.tree;
+							nodes = tree.getSelectedNodes();
+							if (nodes[0].isParent) {
+								$.jBox.alert("不能选择父节点(" + nodes[0].name
+										+ ")请重新选择。","提示");
+								return false;
+							}
+							$("#progCode").val(nodes[0].id);
+							$("#progName").val(nodes[0].name);
+							$("#progLevel").val(nodes[0].plevel);
+							$("#sbsName").val(nodes[0].getParentNode()==null?"":nodes[0].getParentNode().name);
+						}
+						else if (v=="clear"){
+							$("#progCode").val("");
+							$("#progName").val("");
+							$("#progLevel").val("");
+							$("#sbsName").val("");
+		                }
+					}
+				});
+	}
+</script>
+<style>
+.ztree li a.curSelectedNode{padding-top:0;background-color:#f6f6f6;color:red;height:16px;border:1px #ddd solid;opacity:.8;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px}
+	.scroll-box{
+		position: absolute;
+		top: 38px;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		overflow-y: auto;
+		height: auto;
+	}
+</style>
+</head>
+<body>
+<div class="table_fluid">
+	<div class="smart_bread"></div>
+<!-- 	<div class="table_infor">
+		<div class="table_title">
+			<i class="icon-table"></i><span>菜单定义</span>
+		</div>
+	</div> -->
+	<div class="breadcrumb form-search ">
+	<button id="addSiblingBtn" class="btn btn-primary btn_medium small_blue" type="button" value="增加同级" onclick="addSiblingNode()">增加同级</button>
+	<button id="addChildBtn" class="btn btn-primary btn_medium small_blue" type="button" value="增加下级" onclick="addChildNode()">增加下级</button>
+	<button id="modifyBtn" class="btn btn-primary btn_medium small_blue" type="button" value="修改节点" onclick="modifyNode()">修改节点</button>
+	<button id="delBtn" class="btn btn-primary btn_medium small_blue" type="button" value="删除节点" onclick="deleteNode()">删除节点</button>
+	</div>
+	<div class="left" style="height:72%;">
+		<div class="menutree_title">修改菜单树</div>
+		<div class="tree_box scroll-box">
+			<div id="menuTree" class="ztree" style="margin-top: 3px; float: left;">
+			</div>
+		</div>
+	</div>
+	<div class="right" style="height:72%;">
+		<div class="menutree_title">修改菜单树</div>
+		<div class="scroll-box">
+			<form id="inputForm" class="form-horizontal" method="post" style="padding: 0;margin: 0;">
+				<input id="id" name="id" type="text" class="required query_input" style="visibility:hidden">
+				<div class="control-group tree_input">
+					<label class="label_size lable_tree">上级菜单：</label>
+					<input id="parentMenuCode" name="parentMenuCode" type="text" style="display:none;">
+					<input id="parentMenuName" name="parentMenuName" readonly="readonly" class="query_input">
+				</div>
+				<div class="control-group tree_input">
+					<label class="label_size lable_tree"><span class="help-inline"><font color="red">*</font> </span>菜单代码：</label>
+					<input id="menuCode" name="menuCode" class="required query_input" type="text"
+						   value="" maxlength="100">
+					
+				</div>
+				<div class="control-group tree_input">
+					<label class="label_size lable_tree"><span class="help-inline"><font color="red">*</font></span>菜单名称：</label>
+					<input id="menuName" name="menuName" class="required query_input" type="text"
+						   value="" maxlength="100">
+					
+				</div>
+				<div class="control-group tree_input">
+					<label class="label_size lable_tree">功能名称：</label>
+					<input id="progName" class="required query_input"  name="progName" readonly="readonly" type="text"
+						   readonly="readonly" onclick="showProgTree()" class="query_input">
+					<!-- <a id="progButton" href="javascript:showProgTree()" class="btn " style="">&nbsp;
+						<i class="icon-search"></i>&nbsp;
+					</a>&nbsp;&nbsp; -->
+				</div>
+				<div class="control-group tree_input">
+					<label class="label_size lable_tree">功能代码：</label>
+					<input id="progCode" name="progCode" readonly="readonly" class="query_input">
+				</div>
+				<div class="control-group tree_input">
+					<label class="label_size lable_tree">功能级别：</label>
+					<input id="progLevel" name="progLevel" readonly="readonly" class="query_input">
+				</div>
+				<div class="control-group tree_input">
+					<label class="label_size lable_tree">所属子系统：</label>
+					<input id="sbsName" name="sbsName" readonly="readonly" class="query_input">
+				</div>
+				<div class="control-group tree_input">
+					<label class="label_size lable_tree">同层序号：</label>
+					<input id="displayOrder" name="displayOrder" class="required query_input" type="text" value="" maxlength="100">
+				</div>
+				<div class="control-group tree_input">
+					<label class="label_size lable_tree">图标：</label>
+					<input id="icon" name="icon" class="required query_input" type="text" value="" maxlength="100">
+				</div>
+				<div class="control-group tree_input">
+					<label class="label_size lable_tree">备注：</label>
+					<input id="remarks" name="remarks" class="required query_input" type="text" value="" maxlength="100">
+				</div>
+			</form>
+			<div style="margin:24px 0;text-align:center;">
+				<button id="saveBtn" class="btn btn-primary btn_middle small_blue" type="button" value="保存" onclick="saveNode()">保存</button>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

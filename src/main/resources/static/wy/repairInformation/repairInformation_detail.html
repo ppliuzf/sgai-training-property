@@ -1,0 +1,217 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../../config/smart-common.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+<br>
+<form id="inputForm" class="form-horizontal"  method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+    <input id="repairAddress" name="repairAddress" type="hidden" value="">
+    <input id="detailAddress" name="detailAddress" type="hidden" value="">
+    <input id="repairAddressCode" name="repairAddressCode" type="hidden" value="">
+    <input id="pictNames"  name="pictNames"  type="hidden"  value="">
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+
+	<div class="control-group">
+        <label class="control-label">订单号:</label> 
+        <input id="orderNumber" name="orderNumber" type="text" readonly="readonly" style="border: 0px;">
+    </div>
+    <div class="control-group">
+        <label class="control-label">报修人:</label>
+        <input id="repairPeopleName" name="repairPeopleName" type="text" readonly="readonly" style="border: 0px;">
+        <input id="repairPeopleId" name="repairPeopleId" type="hidden" readonly="readonly" style="border: 0px;">
+    </div>
+    <div class="control-group">
+        <label class="control-label">联系电话:</label>
+             <input id="repairPhone" name="repairPhone" type="text" readonly="readonly" style="border: 0px;">
+    </div>
+    <div class="control-group">
+        <label class="control-label">报修详细地址:</label>
+        <input id="repairDetailAddress" name="repairDetailAddress" type="text" readonly="readonly" style="border: 0px;">
+    </div>
+    <!-- <div class="control-group">
+        <label class="control-label">事件来源:</label>
+        <input id="incidentSource" name="incidentSource" type="text" readonly="readonly" style="border: 0px;">
+    </div> -->
+    <div class="control-group">
+        <label class="control-label">事件级别:</label>
+        <input id="incidentRank" name="incidentRank" type="text" readonly="readonly" style="border: 0px;">
+        <input id="emergenciesType" name="emergenciesType" type="hidden" readonly="readonly" style="border: 0px;">
+    </div>
+    <div class="control-group">
+        <label class="control-label">报修类型:</label>
+             <input id="repairType" name="repairType" type="text" readonly="readonly" style="border: 0px;">
+             <input id="repairTypeCode" name="repairTypeCode" type="hidden" readonly="readonly" style="border: 0px;">
+    </div>
+    <div class="control-group">
+        <label class="control-label">预约时间:</label>
+             <input id="appointmentTime" name="appointmentTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false})" type="text" readonly="readonly" style="border: 0px;">
+             	到
+             <input id="appointmentTimeGo" name="appointmentTimeGo" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false})" type="text" readonly="readonly" style="border: 0px;">	
+    </div>
+    <div class="control-group">
+        <label class="control-label">设备信息:</label>
+             <input id="repairEquipment" name="repairEquipment" type="text" readonly="readonly" style="border: 0px;">
+             <input id="repairEquipmentIds" name="repairEquipmentIds" type="hidden" readonly="readonly" style="border: 0px;">
+    </div>
+    <div class="control-group">
+        <label class="control-label">故障描述:</label>
+             <input id="faultDescription" name="faultDescription" type="text" readonly="readonly" style="border: 0px;">
+             <input id="remark" name="remark" type="hidden" readonly="readonly" style="border: 0px;">
+    </div>
+
+
+    <div class="form-actions">
+    	<input id="btnSubmit" class="btn btn-primary" type="submit" value="提  交">&nbsp;
+        <input id="btnCancel" class="btn " type="button" value="取  消" onclick="back()">
+    </div>
+</form>
+
+    <script type="text/javascript">
+    
+    //var tt = decodeURI(window.location).split("&")[8].split("=")[1];
+    
+	$("#repairPeopleName").val(decodeURI(window.location).split("&")[0].split("=")[1]);
+	$("#repairPhone").val(decodeURI(window.location).split("&")[1].split("=")[1]);
+	var a = decodeURI(window.location).split("&")[2].split("=")[1];
+	var b = decodeURI(window.location).split("&")[3].split("=")[1];
+	$("#incidentRank").val(decodeURI(window.location).split("&")[4].split("=")[1]);
+	$("#emergenciesType").val(decodeURI(window.location).split("&")[5].split("=")[1]);
+	$("#repairType").val(decodeURI(window.location).split("&")[6].split("=")[1]);
+	$("#appointmentTime").val(decodeURI(window.location).split("&")[7].split("=")[1]);
+	$("#repairEquipment").val(decodeURI(window.location).split("&")[8].split("=")[1]);
+	$("#faultDescription").val(decodeURI(window.location).split("&")[9].split("=")[1]);
+	$("#repairEquipmentIds").val(decodeURI(window.location).split("&")[10].split("=")[1]);
+	$("#repairAddressCode").val(decodeURI(window.location).split("&")[11].split("=")[1]);
+	$("#repairPeopleId").val(decodeURI(window.location).split("&")[12].split("=")[1]);
+	//$("#incidentSource").val(decodeURI(window.location).split("&")[13].split("=")[1]);
+	$("#remark").val(decodeURI(window.location).split("&")[13].split("=")[1]);
+	$("#appointmentTimeGo").val(decodeURI(window.location).split("&")[14].split("=")[1]);
+	$("#repairTypeCode").val(decodeURI(window.location).split("&")[15].split("=")[1]);
+	$("#pictNames").val(decodeURI(window.location).split("&")[16].split("=")[1]);
+	$("#repairDetailAddress").val(a+"-"+b);
+	$("#repairAddress").val(a);
+	$("#detailAddress").val(b);
+	//alert($("#remark").text())
+    
+	$(function(){  
+		getDatas(); 
+	});  
+	
+	
+        function back(){
+        	parent.location.reload();
+        }
+        //获取跳转地址的参数
+
+        /* function GetQueryString(name){       	
+             var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+             var r = window.location.search.substr(1).match(reg);         
+             if(r!=null)return  unescape(r[2]); return null;
+        } */ 
+        
+      function getDatas(){  
+	      var myDate = new Date();
+	      //获取当前年
+	      var year=myDate.getFullYear();
+	      //获取当前月
+	      var month=myDate.getMonth()+1;
+	      //获取当前日
+	      var date=myDate.getDate(); 
+	      var h=myDate.getHours();       //获取当前小时数(0-23)
+	      var m=myDate.getMinutes();     //获取当前分钟数(0-59)
+	      var s=myDate.getSeconds();  
+	      var now=year+''+p(month)+""+p(date)+""+p(h)+''+p(m)+""+p(s);
+	      $("#orderNumber").val(now);
+      }
+      function p(s) {
+    	    return s < 10 ? '0' + s: s;
+      }
+      
+   // 表单验证
+      $.validator.setDefaults({
+          submitHandler: function() {
+             // 调用提交
+             formSubmit();
+          }
+      });
+  	
+  	$(document).ready(function() {
+  		/*输入校验*/
+          $("#inputForm").validate({
+          	rules: {
+                  
+                   },
+                   message:{
+                 	 
+                 }
+         });
+  		
+  	});
+      function formSubmit(){
+  		var ajax_option={
+  			beforeSend:function (){
+  				var loading = $('<div id="loading" ></div>')
+  	    		$('body').append(loading);
+  				$("#btnSubmit").attr("disabled",true);
+  	    	  },
+  				headers    : {
+ 	                 "token" : localStorage.getItem("token"),
+ 	             }, 
+  				url:APIHost + '/repairInformation/saveRepair',//默认是form action
+  				success:function(response){
+  					/* $("#btnSubmit").attr('disabled',true); */
+  					console.log(response);
+  					if(response.data.msg=="success"){
+  						$.jBox.alert("保存成功","提示");
+      					setTimeout(function(){
+      						//parent.location.reload();
+                              $('#myModal .close', window.parent.document).click();
+                              parent.location.reload();
+       	            	},500)
+  					}
+  					else if(response.msg=="exists"){
+  						$.jBox.alert("数据已存在","提示");
+  					}
+  					else{
+  						$.jBox.alert("错误","提示");
+  					}
+  					
+  				
+     				},
+	 	            complete:function (){
+	 	    			 $("#btnSubmit").attr("disabled",false);
+	 	    			 $("#loading").hide();
+	 	            }
+         		}
+  		
+         		
+         		 $("#inputForm").ajaxSubmit(ajax_option);  
+} 
+    </script>
+
+</body></html>

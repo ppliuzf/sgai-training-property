@@ -1,0 +1,2 @@
+/*TMODJS:{"version":1,"md5":"1aa246ba35023f76aa25a8124d6d1f36"}*/
+template('tree-branch','<form class="tree-form" role="form" id="tree-rxmj" novalidate> <ul id="tt" class="easyui-tree"></ul> </form>');

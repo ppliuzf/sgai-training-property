@@ -1,0 +1,552 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js"  type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css"  type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js"  type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js"  type="text/javascript"></script>
+<link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css"  rel="stylesheet">
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<script src="../static/jquery-params/jquery.params.js" type="text/javascript"></script>
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/media/js/ckupload.js" type="text/javascript"></script>
+<!-- 公共样式表	 -->
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var ctx = '/admin', ctxStatic = '../static';
+</script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+<script src="../static/common/validator-common.js" type="text/javascript"></script>
+<title>空间详细信息和新增修改</title>
+<meta name="decorator" content="default"/>
+<style type="text/css">
+	.form-horizontal .control-label{
+		width:100px;
+		text-align:right;
+	}
+	.form-horizontal .form-actions{
+		background:none;
+		border-top:0;
+		text-align: center;
+	}
+	.small_blue{
+		background: #1785ca!important;
+		border: 1px solid #1785ca!important;
+		margin-left:10px!important;
+		box-shadow:none!important;
+	}
+</style>
+</head>
+<body>
+	<form id="updateForm"  action= "/admin/paramcomp/ctlParamComp/save" method="post" class="form-horizontal">
+		<span id="rightUpTile"></span>
+		<div id="spaceNodeCodeDiv" class="control-group">
+			<label class="control-label"><span class="help-inline"><font color="red">*</font> </span>空间编码：</label>
+			<div class="controls">
+			    <input id="spaceNodeCode" name="spaceNodeCode" type="text" maxlength="40" class="query_input"/>
+			</div>
+		</div>
+		<div class="control-group">
+		<input id="id" name="id" type="text" style="display:none;" maxlength="10" class="query_input"/>
+			<label class="control-label">上级空间：</label>
+			<div class="controls">
+				<input id="spaceParentNodeCode" name="spaceParentNodeCode"  hidden=true style="display:none;" readOnly="readOnly"  class="query_input"/>
+			   
+			    <input id="spaceParentNodeName" name="spaceParentNodeName" type="text" readOnly="readOnly"  class="query_input"/>
+			</div>
+		</div>
+	   <div class="control-group nodeTypeTrue">
+	        <label class="control-label "><span class="help-inline"><font color="red">*</font> </span>空间类型：</label>
+	        <div class="controls">
+	            <select id="spaceNodeType" name="spaceNodeType" disabled ="true" class="query_input select2-offscreen" tabindex="-1">
+	            <option></option>
+	            </select>
+	        </div>
+       </div>
+       <div class="control-group park area build floor room">
+	        <label class="control-label">属性选项：</label>
+	        <div class="controls">
+	            <select id="spaceNodeProperty" name="spaceNodeProperty" disabled ="true" class="query_input select2-offscreen" tabindex="-1">
+	            <option></option>
+	            </select>
+	        </div>
+       </div>
+		<div class="control-group park area build floor room">
+			<label class="control-label">空间名称：</label>
+			<div class="controls">
+				<input id="spaceNodeName" name="spaceNodeName" type="text" readOnly="true" maxlength="20" class="query_input" onkeyup = "ValidateValue(this)" />
+			</div>
+		</div>
+		<div class="control-group area build">
+			<label class="control-label ">空间用途：</label>
+			<div class="controls">
+			    <input id="spaceNodeUse" name="spaceNodeUse" type="text" readOnly="true" maxlength="40" class="query_input"/>
+			</div>
+		</div>
+		<div class="control-group area">
+			<label class="control-label">空间级别：</label>
+			<div class="controls">
+			    <input id="spaceNodeLevel" name="spaceNodeLevel" type="text" readOnly="true" maxlength="40" class="query_input"/>
+			</div>
+		</div>
+		
+		<div class="control-group park">
+            <label class="control-label">图片：</label>
+            <div class="controls" style="margin-bottom: 20px;">
+              <input id="image" name="viewImge" maxlength="255" class="input-xlarge" type="hidden" value="">
+	          <ol id="imagePreview">
+	              <li style="list-style:none;padding-top:5px;">无</li>
+	          </ol>
+              <a href="javascript:" onclick="imageFinderOpen('imagePreview','files');" id="imageFinderOpen" disabled ="true" class="btn">选择</a>&nbsp;
+              <a href="javascript:" onclick="imageDelAll();" id="imageDelAll"  disabled ="true" class="btn">清除</a>
+             </div>
+        </div>
+        
+		<div class="control-group park area">
+			<label class="control-label">空间规划章程：</label>
+			<div class="controls">
+			    <input id="spaceNodePlanChar" name="spaceNodePlanChar" type="text" readOnly="true"  class="query_input"/>
+			</div>
+		</div>
+		<div class="control-group park area">
+			<label class="control-label">空间规划年份：</label>
+			<div class="controls">
+			    <input id="spaceNodePlanYear" name="spaceNodePlanYear" type="text" readOnly="true" maxlength="50" class="query_input "/>
+			</div>
+		</div>
+		<div class="control-group build room">
+			<label class="control-label">空间建筑面积：</label>
+			<div class="controls">
+			    <input id="spaceNodeBuildArea" name="spaceNodeBuildArea" type="text" readOnly="true" maxlength="20" class="query_input number"/>
+			</div>
+		</div>
+		<div class="control-group build">
+			<label class="control-label">空间楼层：</label>
+			<div class="controls">
+			    <input id="spaceNodeFloorCount" name="spaceNodeFloorCount" type="text" readOnly="true"  maxlength="10" class="query_input"/>
+			</div>
+		</div>
+		<div class="control-group park build">
+			<label class="control-label">空间经度：</label>
+			<div class="controls">
+			    <input id="longiTude" name="longiTude" readOnly="true"  type="text" maxlength="10" class="query_input number"/>
+			</div>
+		</div>
+		
+		<div class="control-group park build">
+			<label class="control-label">空间纬度：</label>
+			<div class="controls">
+			    <input id="latiTude" name="latiTude" readOnly="true"  type="text" maxlength="10" class="query_input number"/>
+			</div>
+		</div>
+		
+		<div class="form-actions">
+			<button id="saveNode" type="submit" class="btn btn-primary btn_middle small_blue" disabled="true"  value="保 存">保存</button>
+		</div>
+	</form>
+
+<script type="text/javascript">
+    //校验
+	$.validator.setDefaults({
+	   submitHandler: function() {
+	      // 调用提交
+	      updateProg();
+	   }
+	});
+	
+	$(document).ready(function () {
+	  $("#updateForm").validate({
+		  rules: {
+			  spaceNodeCode: {
+				  /*notChinese: true,*/
+				  required: true
+			  },
+			  spaceNodeType: {
+	                required: true
+	            },
+	            spaceNodeName: {
+	                required: true
+	            }
+	          },
+	        messages:{
+	        	spaceNodeCode: {
+	        		required: "请填写空间编码"
+	        	},
+	        	spaceNodeType: {
+	                required: "请选择空间类型"
+	            },
+	            spaceNodeName: {
+	                required: "请填写空间名称"
+	            }
+	        },
+		  errorPlacement:function(error, element){
+			  error.appendTo(element.parent());
+		  }
+	  });
+	});
+	
+	//获得参数
+	var paramId = GetQueryString("id");
+	var parentNodeCode= GetQueryString("parentNodeCode");
+	var parentNodeName= GetQueryString("parentNodeName"); 
+	$("#spaceNodeCode").attr("readOnly",true);
+	//var parentNodeCode= $.query.get("parentNodeCode");
+	//var parentNodeName= $.query.get("parentNodeName"); 
+	//optype 区分新增同级 和新增下级
+	var  optype = GetQueryString("optype"); 
+	if(paramId ==""){
+		$("#spaceNodeCode").attr("readOnly",false);
+		if(optype =="sibling"){
+			loadDictForChild("spaceNodeType","space_type",parentNodeCode);
+		}else if(optype =="child"){
+			loadDictForChild("spaceNodeType","space_type",parentNodeCode);
+		}
+		// 新增同级或下级
+		$("#spaceParentNodeCode").val(parentNodeCode);
+		$("#spaceParentNodeName").val(parentNodeName);
+		enableSave();
+		$("#spaceNodeType").attr("disabled",false);
+		enableWrite();
+		$(".area").hide();
+		$(".build").hide();
+		$(".floor").hide();
+		$(".room").hide();
+		$(".park").hide();
+// 		$("#spaceNodeCodeDiv").hide();
+	}else{
+		  //初始化下拉
+	    loadDictForChild("spaceNodeType","space_type",0);
+		  // 显示结点信息
+		  //顶级结点 不显示
+		if(paramId =='0'){
+			//document.body.innerText = "";
+			var height = $("#updateForm").height()+30;
+			$("#rightUpFrame",window.parent.document).css('height',height);
+			$("#spaceParentNodeName").show();
+			$("#spaceNodeType").show();
+		}else{
+	      // 非顶级结点
+			$.ajax({
+				headers : {
+		            "token" : localStorage.getItem("token"),
+		        },
+				url : APIHost + '/admin/mdm/mdmSpaceTree/getNodeInfo', //根据id获得 5种space的信息
+				type : 'POST',
+				data : {
+					id : paramId
+				},
+				dataType : 'json',
+				success : function(res) {
+					if(res.code === 1000){
+						//结点信息赋值    判断 nodeType 显示各个节点的类型    点击修改后 nodeType是不能修改的
+						if(res.data){
+							$("#spaceParentNodeCode").val(res.data.spaceParentNodeCode);
+							$("#spaceParentNodeName").val(parentNodeName);
+							$("#spaceNodeCode").val(res.data.spaceNodeCode);
+							$("#spaceNodeName").val(res.data.spaceNodeName);
+							$("#id").val(res.data.id);
+
+// 							$("#spaceNodeCodeDiv").hide();
+							if(res.data.spaceNodeType == "PARK"){
+								$("#spaceNodeUse").val(res.data.spaceNodeUse);
+								$("#spaceNodeLevel").val(res.data.spaceNodeLevel);
+								$("#spaceNodePlanChar").val(res.data.spaceNodePlanChar);
+								$("#spaceNodePlanYear").val(res.data.spaceNodePlanYear);
+								$("#longiTude").val(res.data.longiTude);
+								$("#latiTude").val(res.data.latiTude);
+								$("#spaceNodeProperty").val(res.data.spaceNodeProperty);
+								$("#spaceNodeType").val(res.data.spaceNodeType);
+								$("#id").val(res.data.id);
+								$("#spaceNodeName").val(res.data.spaceNodeName);
+								$(".area").hide();
+								$(".build").hide();
+								$(".floor").hide();
+								$(".room").hide();
+								$(".park").show();
+							}else if(res.data.spaceNodeType == "AREA"){
+								$("#spaceNodeUse").val(res.data.spaceNodeUse);
+								$("#spaceNodeLevel").val(res.data.spaceNodeLevel);
+								$("#spaceNodePlanChar").val(res.data.spaceNodePlanChar);
+								$("#spaceNodePlanYear").val(res.data.spaceNodePlanYear);
+								$("#spaceNodeBuildArea").val(res.data.spaceNodeBuildArea);
+								$("#spaceNodeProperty").val(res.data.spaceNodeProperty);
+								$("#spaceNodeType").val(res.data.spaceNodeType);
+								$("#id").val(res.data.id);
+								$("#spaceNodeName").val(res.data.spaceNodeName);
+								$(".build").hide();
+								$(".floor").hide();
+								$(".room").hide();
+								$(".park").hide();
+								$(".area").show();
+							}else if(res.data.spaceNodeType == "BUILD"){
+								$("#spaceNodeUse").val(res.data.spaceNodeUse);
+								$("#spaceNodeBuildArea").val(res.data.spaceNodeBuildArea);
+								$("#spaceNodeFloorCount").val(res.data.spaceNodeFloorCount);
+								$("#longiTude").val(res.data.longiTude);
+								$("#latiTude").val(res.data.latiTude);
+								$("#spaceNodeProperty").val(res.data.spaceNodeProperty);
+								$("#spaceNodeType").val(res.data.spaceNodeType);
+								$("#id").val(res.data.id);
+								$("#spaceNodeName").val(res.data.spaceNodeName);
+								$(".area").hide();
+								$(".floor").hide();
+								$(".room").hide();
+								$(".park").hide();
+								$(".build").show();
+							}else if(res.data.spaceNodeType == "FLOOR"){
+								$("#spaceNodeUse").val(res.data.spaceNodeUse);
+								$("#spaceNodeProperty").val(res.data.spaceNodeProperty);
+								$("#spaceNodeType").val(res.data.spaceNodeType);
+								$("#id").val(res.data.id);
+								$("#spaceNodeName").val(res.data.spaceNodeName);
+								$(".area").hide();
+								$(".build").hide();
+								$(".room").hide();
+								$(".park").hide();
+								$(".floor").show();
+							}else if(res.data.spaceNodeType == "ROOM"){
+								$("#spaceNodeBuildArea").val(res.data.spaceNodeBuildArea);
+								$("#spaceNodeProperty").val(res.data.spaceNodeProperty);
+								$("#spaceNodeType").val(res.data.spaceNodeType);
+								$("#spaceNodeName").val(res.data.spaceNodeName);
+								$("#id").val(res.data.id);
+
+								$(".area").hide();
+								$(".build").hide();
+								$(".floor").hide();
+								$(".park").hide();
+								$(".room").show();
+							}
+						}
+						
+						var height = $("#updateForm").height()+30;
+						$("#rightUpFrame",window.parent.document).css('height',height);
+					}else{
+						$.jBox.alert("修改失败！","提示");
+					  }
+				}
+			 })
+		}
+	}
+	
+    //获取跳转地址的参数
+    function GetQueryString(name){
+         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+         var r = window.location.search.substr(1).match(reg);
+         if(r!=null)return  decodeURI(r[2]); return null;
+    } 
+	
+	  //增加下级结点时的nodeType选项
+	function loadDictForChild(sltId,dateType,nodeCode){
+		var select = document.getElementById(sltId);	
+		$.ajax({
+			headers : {"token" : localStorage.getItem("token")},
+			url : APIHost + '/admin/ctlCodeDet/getListTypeCode',
+			type : 'POST',
+			async : false,
+			data : {
+				pageNo:1,
+				pageSize:100,
+				code_type:dateType,
+				node_code:nodeCode
+			},
+			timeout : 30000,
+			dataType : 'json',
+			success : function(result) {
+				var data = result.data.list;
+				console.log(data);
+				if(data){
+					for(var i=0; i<data.length; i++){
+						var option = document.createElement("option");
+						option.value = data[i].codeCode;
+						option.text = data[i].codeName;
+						select.appendChild(option);
+					}
+				}
+			}
+		  });
+	 }
+	
+	  
+	function enableSave(){
+		$("#saveNode").attr("disabled",false);
+	}
+	
+	function rightUpTitleSibling(){
+		$("#rightUpTile").html("新增同级");
+	}
+	
+	function rightUpTitleChild(){
+		$("#rightUpTile").html("新增下级");
+	}
+	
+	function enableWrite(){
+		$(".park input").attr("readOnly",false);
+		$(".area input").attr("readOnly",false);
+		$(".build input").attr("readOnly",false);
+		$(".floor input").attr("readOnly",false);
+		$(".room input").attr("readOnly",false);
+// 		$("#spaceNodeCode").attr("readOnly",true);
+		$("#spaceNodeProperty").attr("disabled",false);
+		
+		$("#imageFinderOpen").attr("disabled",false);
+		$("#imageDelAll").attr("disabled",false);
+	}
+	
+	$('#spaceNodeType').on('change',function(){
+		//判断是否选取prompt属性，无返回值；
+		if($(this).val()=="PARK"){
+			//园区级
+			$(".area").hide();
+			$(".build").hide();
+			$(".floor").hide();
+			$(".room").hide();
+			$(".park").show();
+			enableWrite();
+		 }else if($(this).val()=="AREA" ){
+			 //区域级
+			$(".build").hide();
+			$(".floor").hide();
+			$(".room").hide();
+			$(".park").hide();
+			$(".area").show();
+			enableWrite();
+		 }else if($(this).val()=="BUILD"){
+			 //楼宇级别
+			$(".area").hide();
+			$(".floor").hide();
+			$(".room").hide();
+			$(".park").hide();
+			$(".build").show();
+			enableWrite();
+		 }else if($(this).val()=="FLOOR"){
+			 // 楼层级别
+			$(".area").hide();
+			$(".build").hide();
+			$(".room").hide();
+			$(".park").hide();
+			$(".floor").show();
+			enableWrite();
+		 }else if($(this).val()=="ROOM"){
+			 // 房间级别
+			$(".area").hide();
+			$(".build").hide();
+			$(".floor").hide();
+			$(".park").hide();
+			$(".room").show();
+			enableWrite();
+		 }
+		var height = $("#updateForm").height()+30;
+		$("#rightUpFrame",window.parent.document).css('height',height);
+	});
+
+	function ValidateValue(textbox) {  
+	    var IllegalString = "[`~!#$^&*()=|{}':;',\\[\\].<>/?~！#￥……&*（）——|{}【】‘；：”“'。，、？]‘’@%+";  
+	    var textboxvalue = textbox.value;  
+	    var index = textboxvalue.length - 1;  
+	  
+	    var s = textbox.value.charAt(index);  
+	  
+	    if (IllegalString.indexOf(s) >= 0) {  
+	        s = textboxvalue.substring(0, index);  
+	        textbox.value = s;  
+	    }  
+	  
+	}
+		
+	function updateProg() {
+        var paraValue = $("#paraValue").val();
+        if (paraValue == "") {
+          alert("请填写功能代码！", "提示");
+        } else {
+          if ($("#spaceNodeType").val() == "ROOM") {
+            if ($("#spaceNodeBuildArea").val() != "") {
+              var ajax_option = {
+                headers: { 
+                  "token": localStorage.getItem("token"),
+                },
+                url: APIHost + '/admin/mdm/mdmSpaceTree/saveSpace',//保存空间
+                dataType: 'json',
+                success: function (res) {
+                  console.log(res);
+                  if (res.code === 1001) {
+                	  $.jBox.alert(res.msg, "提示", {
+                          closed: function () {
+                        	  window.parent.location.href = APIHost + "/mdm/mdmSpaceTree.html";
+                          }
+                      });
+                  } else if (res.code === 1002) {
+                    //  room类型的空间新增下级结点 提示
+                    $.jBox.alert(res.msg);
+                  } else if (res.code === 2000) {
+                    $.jBox.alert(res.msg);
+
+                  } else {
+                    $.jBox.alert("保存失败！", "提示");
+                  }
+                }
+              }
+              $("#updateForm").ajaxSubmit(ajax_option);
+            } else {
+              $.jBox.alert("请填写面积！", "提示");
+            }
+          } else { 
+            var ajax_option = {
+              headers: {
+                "token": localStorage.getItem("token"),
+              },
+              url: APIHost + '/admin/mdm/mdmSpaceTree/saveSpace',//保存空间
+              dataType: 'json',
+              success: function (res) {
+                if (res.code === 1001) {
+                  	  $.jBox.alert(res.msg, "提示", {
+                            closed: function () {
+                            	 window.parent.location.href = APIHost + "/mdm/mdmSpaceTree.html";
+                            }
+                        });
+                } else if (res.code === 1000) {
+                  $.jBox.alert(res.msg);
+                } else if (res.code === 1002) {
+                  //  room类型的空间新增下级结点 提示
+                  $.jBox.alert(res.msg);
+                } else if (res.code === 2000) {
+                  $.jBox.alert(res.msg);
+
+                } else {
+                  $.jBox.alert("保存失败！", "提示");
+                }
+              }
+              
+            }
+            $("#updateForm").ajaxSubmit(ajax_option);
+          }
+        }
+      }
+       
+</script>
+<script type="text/javascript">
+ 	$(function(){
+ 		//alert(parentNodeCode);
+ 		loadDictByType("spaceNodeProperty","space_property");
+ 	})
+</script>
+
+<script type="text/javascript">
+   
+</script>	
+	
+</body>
+</html>

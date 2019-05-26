@@ -1,0 +1,19 @@
+<div class="set-name">{{name}}</div>
+<ul>
+    {{each items as item}}
+    <li class="js-multi-select-item item set-li" data-id="{{item.id}}">{{item.text}}</li>
+    {{/each}}
+</ul>
+<style>
+    .set-name,.set-li{
+        font-size: 14px;
+        white-space:nowrap;
+        color: #333;
+    }
+    .set-li{
+        color: 	#7B7B7B;
+    }
+    ul{
+        padding-left: 20px;
+    }
+</style>

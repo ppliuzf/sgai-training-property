@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>预约管理</title>
+    <link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+
+
+<body>
+    <div class="container-fluid">
+        <div class="row header">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <h4 style="margin:0px;">预约管理</h4>
+            </div>
+        </div>
+        <form id="form">
+            <div class="filter">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label for="itemName">预约人：</label>
+                        <input type="text" class="form-control" id="itemName" name="itemName" placeholder="请输入预约人">
+                    </div>
+                    <div class="form-group">
+                        <label for="state">预约状态：</label>
+                        <select name="state" id="state" class="select-pc form-control">
+                            <option value="0">全部</option>
+                            <option value="1">已提交</option>
+                            <option value="2">已通过</option>
+                            <option value="3">已拒绝</option>
+                            <option value="4">已归还</option>
+                            <option value="5">归还中</option> 
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="startDate">预约日期：</label>
+                        <div class="input-group">
+                            <input type="text" id="startDate" class="form-control" name="startDate" placeholder="请选择预约时间" readonly>
+                            <span class="input-group-addon js-date-clean">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary js-search">搜索</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    
+
+
+
+
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class='text-center' width='60'>序号</th>
+                    <th>预约人</th>
+                    <th>部门</th>
+                    <th>预约日期</th>
+                    <th>预约时间</th>
+                    <th>预约车辆</th>
+                    <th>车辆品牌</th>
+                    <th>车辆型号</th>
+                    <th>车辆颜色</th>
+                    <th>变速箱类型</th>
+                    <th>排量</th>
+                    <th>荷载人数</th>
+                    <th>预约状态</th>
+                    <th class='text-center' width="92">操作</th>
+                </tr>
+            </thead>
+            <tbody class="js-list"></tbody>
+        </table>
+
+        <nav class="text-right pages"></nav>
+
+
+    </div>
+
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="../lib/lib/bootstrap-datetimepicker.min.js"></script>
+    <script src="../lib/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="./js/controller/order/booking-management.js"></script>
+
+</body>
+
+</html>

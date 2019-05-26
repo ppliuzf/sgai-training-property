@@ -1,0 +1,476 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <!--分页  -->
+    <script src="../static/paginator/bootstrap-paginator.js" type="text/javascript"></script>
+    <!-- 公共样式表	，公共方法 -->
+    <link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+    <script src="../static/media/js/main.js" type="text/javascript"></script>
+    <link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+    <link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+    <link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+    <link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+    <script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.src.js" type="text/javascript"></script>
+    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+    <script src="../static/common/mustache.min.js" type="text/javascript"></script>
+    <script src="../static/common/smart.min.js" type="text/javascript"></script>
+    <script src="../../config/smart-common.js" type="text/javascript"></script>
+    <script src="../static/common/commonMethod.js"></script>
+    <script type="text/javascript">
+        var ctx = '/admin', ctxStatic = '../../static';
+    </script>
+    <title>会议室服务</title>
+    <meta name="decorator" content="default">
+    <style>
+
+        .meetingArea {
+            border: 1px solid #ccc;
+            height: 150px;
+            width: 264px;
+            float: left;
+            margin: 10px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        h4 {
+            margin-left: 20px;
+            margin-top: 10px;
+            color: #0d0d0d;
+            margin-bottom: 10px;
+        }
+
+        .meetingPlace, .meetingType {
+            height: 20px;
+        }
+
+        .cFoot {
+            border-top: 1px solid #ccc;
+            height: 25px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .span03, .span04 {
+            height: 25px;
+            line-height: 25px;
+        }
+
+        .span04 {
+            float: right;
+            margin-right: 20px;
+        }
+
+        .span03 {
+            float: left;
+        }
+
+        a, .meetingRoomAdd {
+            cursor: pointer;
+        }
+
+        .meetingRoomAdd {
+            width: 266px;
+            height: 140px;
+            text-align: center;
+            line-height: 129px;
+            font-size: 136px;
+            color: #ccc;
+        }
+
+        .canOrder {
+
+        }
+
+        .onlyService {
+            color: #5D11BE;
+        }
+
+        .fl {
+            float: left;
+        }
+
+        .fr {
+            float: right;
+            color: #ff0000;
+        }
+
+        .fa {
+            display: inline-block;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .meetTime ul li {
+            float: left;
+            list-style: none;
+            width: 33.33333%;
+            text-align: center;
+        }
+
+        .meetTime ul {
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div class="table_fluid">
+    <div class="table_title" style="float: none">
+        <i class="icon-table"></i><span>会议室服务</span>
+    </div>
+    <form id="searchForm" class="breadcrumb form-search form-horizontal" method="post">
+        <ul class="ul-form">
+            <li>
+                <label>建筑单体：</label>
+                <select id="floor" style="width:206px;height:31px" name="floor" class="input-xlarge select2-offscreen"
+                        tabindex="-1">
+                    <option value=""></option>
+                </select>
+
+            </li>
+            <li>
+                <label>日期：</label>
+                <input type="text" class="query_input Wdate" name="searchTime" id="searchTime" onclick="WdatePicker()">
+            </li>
+            <!-- <li>
+                 <label>登记时间：</label>
+                 <input type="text" class="query_input" id="sendTime" name="sendTime"
+                                            onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd' })" maxlength="50"/>
+             </li>
+             -->
+            <li class="btns">
+                <input id="btnSubmitMeet"  style="display:none;"class="btn btn-primary btn_middle small_blue"
+                       type="button" value="查询" onclick="queryByforeiKey();">
+            </li>
+            <li class="clearfix"></li>
+        </ul>
+    </form>
+    <div id="meetingViews">
+    </div>
+</div>
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 id="myModalLabel">新增会议室</h4>
+    </div>
+    <div class="modal-body">
+        <iframe id="Iframe"></iframe>
+    </div>
+</div>
+<div id="myModalEdit" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 id="myModalEditLabel">修改会议室信息</h4>
+    </div>
+    <div class="modal-body">
+        <iframe id="IframeEdit"></iframe>
+    </div>
+</div>
+<script type="text/javascript">
+	var floor = GetQueryString("floorId");
+    $(function () {
+        var today = new Date().format("yyyy-MM-dd hh:mm:ss");
+        today = today.substring(0, today.indexOf(" "))
+        $("#searchTime").val(today)
+         btnPermit1("meetRoom.html");
+    })
+    function btnPermit1(progPath){
+    	 $.ajax({
+   		  headers    : {
+               "token" : localStorage.getItem("token"),
+           }, 
+   		url : APIHost + '/admin/btnPermit',
+   		type : 'POST',
+   		async : false, //或false,是否异步
+   		data : {
+   			url : progPath  //参数是当前页名称
+   		},   
+   		timeout : 5000,
+   		dataType : 'json',
+   		success : function(res) {
+   			if(res.data.length >0){
+   				for(var i = 0; i<res.data.length;i++){
+   		    		$("#"+res.data[i].progCode).css('display',''); 
+   		    		 $("."+res.data[i].progCode).css('display','');
+   		    	 }
+   			}else{
+   				$("button").css('display','');
+   				$("input[type='button']").css('display','');
+   			}
+   	    	
+   		},
+   		error : function() {
+   			console.log('错误')
+   		}
+   	})
+    }
+    var editNode;
+    $.ajax({
+        headers: {
+            "token": localStorage.getItem("token"),
+        },
+        url: APIHost + '/admin/meetingRoom/getByParentCode',
+        type: 'POST',
+        async: false, //或false,是否异步
+        timeout: 5000,
+        dataType: 'json',
+        success: function (nodes) {
+            var str = '<option value=""></option>';
+            for (var i = 0; i < nodes.length; i++) {
+                var node = nodes[i];
+                str += '<option value="' + node.id + '">' + node.spaceName + '</option>'
+            }
+            $("#floor").html(str);
+			if(floor!=null){
+	            var select1 = document.getElementById("floor");
+				for (var i = 0; i < select1.options.length; i++){  
+			        if (select1.options[i].value == floor){  
+			            select1.options[i].selected = true;
+			            break;  
+			        }  
+				}
+				queryByforeiKey();
+			}
+
+        },
+        error: function () {
+            console.log('错误')
+        }
+    })
+
+    function addMeetingRoom(index) {
+        editItem(index, 'itemId', 'wy/meet/meetRoom_add', 'myModal', 'Iframe', 337);
+    }
+
+    function edits(event, index) {
+        event.stopPropagation();
+        event.preventDefault();
+        editNode = $(index).parents(".meetingArea");
+        editItem(index, 'itemId', 'wy/meet/meetRoom_edit', 'myModalEdit', 'IframeEdit', 337);
+    }
+
+    function queryByforeiKey() {
+        var floorId = $("#floor").val();
+        if (!floorId) {
+            alert("请选择建筑单体")
+            return
+        }
+        queryMeetingRoomByFloorId(floorId);
+    }
+
+    function queryMeetingRoomByFloorId(floorId) {
+    
+        $.ajax({
+            headers: {
+                "token": localStorage.getItem("token"),
+            },
+            url: APIHost + '/admin/meetingRoom/queryByCondition',
+            type: 'POST',
+            async: false, //或false,是否异步
+            timeout: 5000,
+            dataType: 'json',
+            data: {"floorId": floorId, "searchTime": $("#searchTime").val()},
+            success: function (meetingRooms) {
+                var str = "";
+                for (var i = 0; i < meetingRooms.length; i++) {
+                    var meetingRoom = meetingRooms[i];
+                    var meetings = meetingRoom.meetings;
+                    //判断是否约满
+                    var fullFlag = booleanFull(meetings);
+                    if (meetingRoom.meetingServiceType == "可预约") {
+                        str += '<div class="meetingArea" itemId="' + meetingRoom.id + '" onclick="yuyue(this)">';
+                    } else if (meetingRoom.meetingServiceType == "只服务") {
+                        str += '<div class="meetingArea" itemId="' + meetingRoom.id + '" onclick="service(this)">';
+                    }
+                    str += '<div class="meetingRoomName">' +
+                        '<span class="fa">' +
+                        ' <h4 class="fl">' + meetingRoom.meetingName + '</h4>';
+                    if (fullFlag) {
+                        str += '<span class="fr">●约满</span>';
+                    }
+                    str += '</span>' +
+                        '</div>' +
+                        '<div class="meetingPlace">' +
+                        '<span class="span01">会议地点：</span>' +
+                        '<span class="span02">' + meetingRoom.meetingAddress + '</span>' +
+                        '</div>' +
+                        '<div class="meetingType">' +
+                        '<span class="span01">会议类型：</span>' +
+                        '<span class="span02">' + meetingRoom.meetingType + '</span>' +
+                        '</div>' +
+                        '<div class="meetTime">' +
+                        '<ul>';
+                    for (var j = 0; j < meetings.length; j++) {
+                        if (j === 6) {
+                            break;
+                        }
+                        str += '<li>' + getHHandmm(meetings[j].beginTime) + '--' + getHHandmm(meetings[j].endTime) + '</li>'
+                    }
+                    str += '</ul>' +
+                        '</div>' +
+                        '<div class="cFoot">' +
+                        '<span class="span03">';
+                    if (meetingRoom.meetingServiceType === '可预约') {
+                        str += '<a onclick="orders()" class="canOrder">●可预约</a>'
+                    } else {
+                        str += '<a onclick="servers()" class="onlyService">●只服务</a>'
+                    }
+                    str += '</span><span class="span04"><a  itemId="' + meetingRoom.id + '" onclick="edits(event,this)">修改</a><span class="btnDeleteMeet" style="display:none;">丨</span><a class="btnDeleteMeet" style="display:none;" itemId="' + meetingRoom.id + '" onclick="deletes(event,this)">刪除</a></span>' +
+                        '</div>' +
+                        '</div>'
+                }
+                str += '<div id="adds" class="meetingArea">' +
+                    '<div class="meetingRoomAdd" itemId="' + floorId + '"  onclick="addMeetingRoom(this)">' +
+                    '+' +
+                    '</div>' +
+                    '</div>'
+                $("#meetingViews").html(str);
+            	btnPermit1("meetRoom.html");
+            },
+            error: function () {
+                console.log('错误')
+            }
+        })
+    }
+
+    function deletes(event, node) {
+        event.stopPropagation();
+        event.preventDefault();
+        $.jBox.confirm("确定删除吗?", "", function (v, h, f) {
+            if (v == 'ok') {
+                var id = $(node).attr("itemId");
+                $.ajax({
+                    headers: {
+                        "token": localStorage.getItem("token"),
+                    },
+                    url: APIHost + '/admin/meetingRoom/delete',
+                    type: 'POST',
+                    async: false, //或false,是否异步
+                    timeout: 5000,
+                    dataType: 'json',
+                    data: {"ids": id},
+                    success: function () {
+                        $(node).parents(".meetingArea").remove();
+                    },
+                    error: function () {
+                        console.log('错误')
+                    }
+                })
+            }
+        })
+    }
+
+    function yuyue(e) {
+        var id = $(e).attr("itemId");
+        var floorId = $("#floor").val();
+        var searchTime = $("#searchTime").val();
+        location.href = APIHost + "/wy/meet/meetingSchedule.html?meetingRoomId=" + id + "&sourceType=meetingRoom&floorId="+floorId+"&searchTime="+searchTime;
+    }
+
+    function service(e) {
+        var id = $(e).attr("itemId");
+        var floorId = $("#floor").val();
+        var searchTime = $("#searchTime").val();
+        location.href = APIHost + "/wy/meet/meetingService.html?meetingRoomId=" + id + "&sourceType=meetingRoom&floorId="+floorId+"&searchTime="+searchTime;
+    }
+
+    function booleanFull(meetings) {
+        //判断是否约满
+        if (meetings.length === 0) {
+            return false;
+        } else if (meetings.length === 1) {
+            var meeting = meetings[0];
+            var beginTime = meeting.beginTime;
+            var endTime = meeting.endTime;
+            var bmm = getMinites(beginTime);
+            var emm = getMinites(endTime);
+            if (bmm > 7 * 60 + 30) {
+                return false;
+            }
+            if (emm < 20 * 60) {
+                return false;
+            }
+        } else {
+            for (var i = 0; i < meetings.length - 1; i++) {
+                var meeting1 = meetings[i];
+                var beginTime1 = meeting1.beginTime;
+                var endTime1 = meeting1.endTime;
+                var bmm1 = getMinites(beginTime1);
+                var emm1 = getMinites(endTime1);
+                var meeting2 = meetings[i + 1];
+                var beginTime2 = meeting2.beginTime;
+                var endTime2 = meeting2.endTime;
+                var bmm2 = getMinites(beginTime2);
+                var emm2 = getMinites(endTime2);
+                if (i === 0) {
+                    if (bmm1 > 7 * 60 + 30) {
+                        return false;
+                    }
+                }
+                if (i === meetings.length - 2) {
+                    if (emm2 < 20 * 60 && meeting2.meetingScale === "小型会议") {
+                        return false;
+                    }
+                    if (emm2 < 20 * 60 - 30 && meeting2.meetingScale === "中型会议") {
+                        return false;
+                    }
+                    if (emm2 < 20 * 60 - 60 && meeting2.meetingScale === "大型会议") {
+                        return false;
+                    }
+                }
+                if (bmm1 >= 7 * 60 + 30 && emm2 <= 20 * 60) {
+                    if (meeting1.meetingScale === '小型会议' && bmm2 - emm1 > 0) {
+                        return false;
+                    }
+                    if (meeting1.meetingScale === '中型会议' && bmm2 - emm1 > 30) {
+                        return false;
+                    }
+                    if (meeting1.meetingScale === '大型会议' && bmm2 - emm1 > 60) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    function getMinites(time) {
+        var bHH = parseInt(time.substring(time.indexOf(' ') + 1, time.indexOf(":")));
+        var bmm = parseInt(time.substring(time.indexOf(":") + 1));
+        var bb = bHH * 60 + bmm;
+        return bb;
+    }
+
+    function getHHandmm(time) {
+        var bHH = time.substring(time.indexOf(' ') + 1, time.indexOf(":"));
+        var bmm = time.substring(time.indexOf(":") + 1);
+        var bb = bHH + ':' + bmm;
+        return bb;
+    }
+	// 关闭"新增/修改"界面弹框(可选方案<本程序已采用>)
+	function hideDiv() {
+		$('#myModalEdit').modal('hide');
+		$('#myModal').modal('hide');
+	}
+</script>
+</body>
+</html>

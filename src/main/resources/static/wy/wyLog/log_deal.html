@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		
+		<meta name="decorator" content="default">
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	    <meta name="renderer" content="webkit">
+	    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+	    <meta http-equiv="Expires" content="0">
+	    <meta http-equiv="Cache-Control" content="no-cache">
+	    <meta http-equiv="Cache-Control" content="no-store">
+	    <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+	    <link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+	    <script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+	    <link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+	    <!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+		<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+	    <link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+	    <script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+	    <link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+	    <script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+	    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+	    <script src="../static/common/mustache.min.js" type="text/javascript"></script>
+	    <link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+	    <script src="../static/common/smart.min.js" type="text/javascript"></script>
+	    <script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+	    <link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+	    <script type="text/javascript">var ctx = '/admin', ctxStatic='../../static';</script>
+	    <script src="../../config/smart-common.js" type="text/javascript"></script>
+		
+	 	<style>
+		   select{
+		        height: 37px !important;
+		        width: 286px;
+		   } 
+         textarea{
+            width: 398px;
+            resize: none;
+        }
+		</style>
+		
+		<script type="text/javascript">
+				
+				// 开启表单验证,调用提交
+			    $.validator.setDefaults({
+			        submitHandler: function () {
+			            formSubmit();
+			        }
+			    });
+				// 提交数据
+			    function formSubmit() {
+			        var saveData = {
+			            headers: {"token": localStorage.getItem("token")},
+			            url: APIHost + '/wyLog/save',
+			            data : {
+				               id : entityID,
+				               describes:$('#describe').val(),
+				               
+				           },
+				           beforeSend:function(){
+				          		var loading=$('<div id="loading"></div>');
+				          		$('body').append(loading);
+				          		$("#btnSubmit").attr("disabled",true)
+				          	},
+			            success: function (response) {
+			            	if (response.data.msg == "success") {
+								parent.hideDiv();
+			                    parent.pageload();
+								parent.jBox.alert("保存成功!","提示");
+			                }else if (response.data.msg == "exists") {
+			                	parent.hideDiv();
+								parent.jBox.alert("数据已存在","提示");
+			                } else if (response.code === 1003){
+								$.jBox.alert('请先登录', '提示',{closed: function (){window.parent.location.href= APIHost + "/sys/sysLogin.html";}});
+			                } else {
+			                    $.jBox.alert("异常状态 ,请重试 !", "提示");
+			                }
+			            },
+			            complete:function(){
+			            	$("#btnSubmit").attr("disabled",false);
+			            	$("#loading").hide();
+			            }
+			        }
+			        $("#inputForm").ajaxSubmit(saveData);
+			    } 
+		        // 表单输入校验
+				$(document).ready(function() {
+			        $("#inputForm").validate({
+			        	rules: {
+			        		visitorDate:{
+			                	required: true
+			                },
+			                visitorName:{
+			                	required: true
+			                },
+			                idCard:{
+			                	required: true,
+			                	rangelength: [18,19],
+			                    number:true
+			                },
+			                comName:{
+			                	required: true
+			                },
+			            	phone: {
+			                    required: true,
+			                    rangelength: [8,11],
+			                    number:true
+			                },
+			                personNum:{
+			             	   required: true,
+			                   number:true
+			                },
+			                deptName:{
+			                	required: true
+			                },
+			                visitorMeet:{
+			                	required: true
+			                },
+			                visitorType:{
+			                	required: true
+			                },
+			                toerPersons:{
+			                	required: true
+			                },
+			                beginTime:{
+			                	required: true
+			                },
+			                endTime:{
+			                	required: true
+			                },
+			                remarks:{
+			                	required: false
+			                }
+	               	 	}
+	       		  });
+			});
+				
+			//取消保存请求		
+	        function back(){
+	        	parent.hideDiv();
+	        	/* parent.location.reload(); */
+	        }
+			
+	     // 获取Parent页面传来的参数(<paramId>Entity实际id)
+			var entityID=GetQueryString("paramId");
+			if(entityID != null){
+				updatepageload();
+			}
+			// 接收Parent页面携带的数据
+			function GetQueryString(name){
+		        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+		        var r = window.location.search.substr(1).match(reg);
+		        if(r!=null)return  unescape(r[2]); return null;
+		    }
+    </script>
+	</head>
+<body>
+	<form id="inputForm" class="form-horizontal"  method="post" novalidate="novalidate">
+	    <input id="id" name="id" type="hidden" value=""/>
+		<script type="text/javascript">top.$.jBox.closeTip();</script>
+            <div style="margin-top: 20px">
+        <label>处理内容:</label>
+        <textarea rows="2" id="describe" name="describe"  class="required" ></textarea>
+    </div>
+	    <div class="form-actions">
+	    	<input id="btnSubmit" class="btn btn-primary" type="submit" value="保  存" >&nbsp;
+	        <input id="btnCancel" class="btn " type="button" value="返  回"  onclick="back()">
+	    </div>
+	</form>
+	</body>
+</html>

@@ -1,0 +1,17 @@
+<div class="h350">
+    <table class="table table-bordered table-hover table1" id="tableList"> 
+        <tr>
+            <td class="valignM">
+                <div>名称：{{items[0].matName}}</div>
+                <div>规格：{{items[0].matSpec}}</div>
+                <div>型号：{{items[0].matTypeCode}}</div>
+            </td>
+            <td class="valignM">所需数量：X {{items[0].applyCount}}</td>
+            <td class="valignM">
+                {{each items as item itemIndex}}
+                <div>选择供应商：{{item.supplyComName}}<span class="pl20">数量：{{item.buyCount}}</span></div>
+                {{/each}}
+            </td>
+        </tr>
+    </table>
+</div>

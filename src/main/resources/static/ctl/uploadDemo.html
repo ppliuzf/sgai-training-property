@@ -1,0 +1,87 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"><meta name="author" content="http://jeesite.com/">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/jeesite.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/jeesite.min.js" type="text/javascript"></script>
+<!-- 公共样式表	，公共方法 -->
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+    <title></title>
+    <meta name="decorator" content="default">
+</head>
+<body>
+<form id="inputForm" class="form-horizontal" novalidate="novalidate">
+    <div class="control-group">
+        <label class="control-label">图片:</label>
+        <div class="controls">
+           <input id="image" name="photo" maxlength="255" class="input-xlarge" type="hidden" value="">
+           <ol id="imagePreview">
+               <li style="list-style:none;padding-top:5px;">无</li>
+           </ol>
+           <a href="javascript:" onclick="imageFinderOpen();" class="btn">选择</a>&nbsp;
+           <a href="javascript:" onclick="imageDelAll();" class="btn">清除</a>
+		   <script type="text/javascript">
+           	function imageFinderOpen(){//
+           		var date = new Date(), year = date.getFullYear(), month = (date.getMonth()+1)>9?date.getMonth()+1:"0"+(date.getMonth()+1);
+           		var url = "/static/ckfinder/ckfinder.html?type=images&start=images:/photo/"+year+"/"+month+
+           			"/&action=js&func=imageSelectAction&cb=imageCallback&dts=0&sm=1";
+           		windowOpen(url,"文件管理",1000,700);
+           	}
+           	function imageSelectAction(fileUrl, data, allFiles){
+           		var url="", files=ckfinderAPI.getSelectedFiles();
+           		for(var i=0; i<files.length; i++){
+           			url += files[i].getUrl();
+           			if (i<files.length-1) url+="|";
+           		}
+           		$("#image").val(url);
+           		imagePreview();
+           	}
+           	function imageCallback(api){
+           		ckfinderAPI = api;
+           	}
+           	function imageDel(obj){
+           		var url = $(obj).prev().attr("url");
+           		$("#image").val($("#image").val().replace("|"+url,"","").replace(url+"|","","").replace(url,"",""));
+           		imagePreview();
+           	}
+           	function imageDelAll(){
+           		$("#image").val("");
+           		imagePreview();
+           	}
+           	function imagePreview(){
+           		var li, urls = $("#image").val().split("|");
+           		$("#imagePreview").children().remove();
+           		for (var i=0; i<urls.length; i++){
+           			if (urls[i]!=""){
+           				li = "<li><img src=\""+urls[i]+"\" url=\""+urls[i]+"\" style=\"max-width:100px;max-height:100px;_height:100px;border:0;padding:3px;\">";//
+           				li += "&nbsp;&nbsp;<a href=\"javascript:\" onclick=\"imageDel(this);\">×</a></li>";
+           				$("#imagePreview").append(li);
+           			}
+           		}
+           		if ($("#imagePreview").text() == ""){
+           			$("#imagePreview").html("<li style='list-style:none;padding-top:5px;'>无</li>");
+           		}
+           	}
+           	imagePreview();
+           </script>
+        </div>
+    </div>
+</form>
+</body>
+</html>

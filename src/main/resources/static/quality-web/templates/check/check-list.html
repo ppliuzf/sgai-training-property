@@ -1,0 +1,30 @@
+{{each items as item}}
+<tr>
+    <td class="text-center">
+        {{if item.num<10}}
+        0{{item.num}}
+        {{else}}
+        {{item.num}}
+        {{/if}}
+    </td>
+    <td>{{item.tiName}}</td>
+    <td><div class="text-ellipsis" style="width:400px;">{{item.tiStandard ? item.tiStandard : '无' }}</div></td>
+    <td>{{item.pcName}}</td>
+    <td>{{item.tiIsInput === 0 ? '数值' : '单选'}}</td>
+    <td>{{item.createEiName}}</td>
+    <td>{{item.createTime | dateFormat:'yyyy-MM-dd hh:mm'}}</td>
+    <td class="text-center act">
+        <div class="btn-group more">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多 <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li>
+                    <span><a class="underline" data-id="{{item.tiId}}" href="pages/check/detail-check.html?id={{item.tiId}}">查看</a></span>
+                </li>
+                <li>
+                    <span><a class="js-del underline" href="javascript:;" data-id="{{item.tiId}}">删除</a></span>
+                </li>
+            </ul>
+        </div>
+    </td>
+</tr>
+{{/each}}

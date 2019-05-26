@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>客户档案</title>
+    <link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>客户列表</h4>
+            <div class="btns text-right">
+                <!-- <a href="./archives-import.html" class="btn btn-primary">导入</a>
+                <a href="./archives-add.html" class="btn btn-primary">新建客户</a> -->
+                <button onclick="window.location.href='./archives-import.html'" class="btn btn-primary">导入</button>
+                <button onclick="window.location.href='./archives-add.html'" class="btn btn-primary">新建客户</button>
+            </div>
+        </div>
+        <div class="filter">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label for="name">客户名称</label>
+                    <input type="text" class="form-control" id="name" placeholder="请输入客户名称">
+                </div>
+                <div class="form-group">
+                    <label for="type">类型</label>
+                    <select id="type" class="form-control" required="required">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                        <label for="department">部门</label>
+                        <select id="department" class="form-control" required="required">
+                            <option value="">全部</option>
+                        </select>
+                    </div>
+                <div class="form-group">
+                    <label for="level">级别</label>
+                    <select id="level" class="form-control" required="required">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary js-search">搜索</button>
+                </div>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th width="60" class="text-center">序号</th>
+                    <th>客户名称</th>
+                    <th>联系方式</th>
+                    <th>类型</th>
+                    <th>客户级别</th>
+                    <th width="92" class="text-center">操作</th>
+                </tr>
+            </thead>
+            <tbody class="js-list"></tbody>
+        </table>
+        <nav class="text-right pages"></nav>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/archives-list.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{{each items as item}}
+<tr>
+    {{if item.index<10}}
+    <td class="text-center"><div class="cont dot" title="0{{item.index}}">0{{item.index}}</div></td>
+    {{else}}
+    <td class="text-center"><div class="cont dot" title="{{item.index}}">{{item.index}}</div></td>
+    {{/if}}
+    <td>
+        <div class="cont dot HH" title="{{item.name}}">{{item.name}}</div>
+    </td>
+    <td>
+        <div class="cont dot HH" title="{{item.description}}">{{item.description}}</div>
+    </td>
+    <td>
+        <div class="cont dot" title="{{item.count}}">{{item.count}}</div>
+    </td>
+    <!--<td class="text-center act">-->
+        <!--<div class="btn-group more">-->
+            <!--<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>-->
+            <!--<ul class="dropdown-menu">-->
+                <!--<li><a href="./service-compile.html?id={{item.id}}"  class="underline js-edit" data-id="">编辑</a></li>-->
+                <!--{{if item.isDelete !== 3}}-->
+                <!--<li><a class="underline js-del" data-id="{{item.id}}" data-count="{{item.count}}">删除</a></li>-->
+                <!--{{/if}}-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</td>-->
+    <td class="text-center">
+        <a href="./service-compile.html?id={{item.id}}"  class="underline js-edit" data-id="">编辑</a>
+        {{if item.isDelete !== 3}}
+        <a href="#" class="underline js-del" data-id="{{item.id}}" data-count="{{item.count}}">删除</a>
+        {{/if}}
+    </td>
+</tr>
+{{/each}}

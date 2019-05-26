@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>编辑出库单</title>
+    <link rel="stylesheet" href="./css/default.css">
+    <style>
+        .filter{
+            border: 0;
+        }
+    </style>
+</head>
+<body id="main">
+        <div class="container-fluid">
+            <div class="row header">
+                    <h4>编辑出库单</h4>
+                    <div class="btns text-right js-btn1">
+                        <button type="submit" class="btn btn-primary" id='save'>保存</button>
+                        <button type="submit" class="btn btn-default" id="cancel1">返回</button>
+                    </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 js-main">
+                <div class="form-group">
+                    <label><b>基础信息 </b></label>
+                </div>
+                <div id = "detailCont" class="infos-detail">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-11 col-md-12 col-lg-12 js-main" id = "materielList">
+
+            </div>
+        </div>
+
+    <script src="./js/lib/jquery.min.js"></script>
+    <script src="./js/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/deptTree.js"></script>
+    <script src="./js/server/utils.js"></script>
+
+
+    <script src="./js/controller/out/out-edit.js"></script>
+</body>
+</html>

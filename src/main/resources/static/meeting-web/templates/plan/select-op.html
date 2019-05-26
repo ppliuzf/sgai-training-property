@@ -1,0 +1,3 @@
+{{each items.data as item}}
+<option value="{{item.rtName}}" {{item.id==items.rtId && 'selected'}} data-id="{{item.id}}">{{item.rtName}}</option>
+{{/each}}

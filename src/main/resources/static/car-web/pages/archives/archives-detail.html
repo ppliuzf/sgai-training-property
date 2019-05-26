@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>车辆详情</title>
+    <link rel="stylesheet" href="../../../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../lib/css/default.css">
+    <style>
+            .word{
+                overflow: hidden;
+                text-overflow:ellipsis;
+                white-space: nowrap;
+            }
+
+            .by{
+                float: right;
+                margin: 10px 0 10px 0;
+            }
+            .nav-tabs .active {
+                border-bottom: 1px #FFF solid;
+            }
+    </style>
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="row header">
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <h4 style='margin:0px'>车辆详情</h4>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-right">
+            <button type="button" class="btn btn-default btn-back xq" style='margin-top:12px;'>返回</button>
+        </div>
+    </div>
+    <div class="row js-main" style="padding:0 15px;"></div>
+    <div>
+        <div class="echart-box">
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active" id='one'>
+                    <a href="#appointment" data-toggle="tab">预约记录</a>
+                </li>
+                <li id='two'>
+                    <a href="#maintain" data-toggle="tab">保养记录</a>
+                </li>
+                <li id='ther'>
+                    <a href="#repair" data-toggle="tab">维修记录</a>
+                </li>
+                <li id='for'>
+                    <a href="#regulations" data-toggle="tab">违章记录</a>
+                </li>
+            </ul>
+        </div>
+
+
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade in active" id="appointment" style="margin-top:53px">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th class="text-center" width="60">序号</th>
+                        <th>预约人</th>
+                        <th>手机</th>
+                        <th>预约时间</th>
+                        <th>归还时间</th>
+                        <th>预约用途</th>
+                    </tr>
+                    </thead>
+                    <tbody class="js-list">
+                    </tbody>
+                </table>
+                <nav class="text-right pages"></nav>
+            </div>
+            <div class="tab-pane fade" id="maintain" style="margin-top:-1px">
+                <button class="btn btn-primary by" id='by'>新建保养记录</button>
+                <table  class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th class="text-center" width="60">序号</th>
+                        <th width="150">保养名称</th>
+                        <th width="150">保养类型</th>
+                        <th width="150">保养时间</th>
+                        <th width="150">保养单位</th>
+                        <th width="150">保养人</th>
+                        <th>备注</th>
+                    </tr>
+                    </thead>
+                    <tbody class="js-list1"></tbody>
+                </table>
+                <nav class="text-right pages"></nav>
+            </div>
+            <div class="tab-pane fade" id="repair" style="margin-top:-1px">
+                    <button class="btn btn-primary by" id='wx'>新建维修记录</button>
+                <table  class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th class="text-center" width="60">序号</th>
+                        <th width="150">维修日期</th>
+                        <th width="150">维修人</th>
+                        <th>手机号码</th>
+                        <th width="150">维修单位</th>
+                        <th>维修内容</th>
+                        <th>维修原因</th>
+                    </tr>
+                    </thead>
+                    <tbody class="js-list2">
+                    </tbody>
+                </table>
+                <nav class="text-right pages"></nav>
+            </div>
+            <div class="tab-pane fade" id="regulations" style="margin-top:-1px">
+                    <button class="btn btn-primary by" id='wz'>新建违章记录</button>
+                <table  class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th class="text-center" width="60">序号</th>
+                        <th width="150">违章日期</th>
+                        <th width="150">违章类型</th>
+                        <th width="150">违章人</th>
+                        <th>手机号码</th>
+                        <th>违章内容</th>
+                        <th>违章原因</th>
+                    </tr>
+                    </thead>
+                    <tbody class="js-list3">
+                    </tbody>
+                </table>
+                <nav class="text-right pages"></nav>
+            </div>
+            
+        </div>
+
+
+    </div>
+
+
+</div>
+<script src="../../../lib/lib/jquery.min.js"></script>
+<script src="../../../lib/lib/bootstrap.min.js"></script>
+<script src="../../js/server/template.js"></script>
+<script src="../../../config/config.js"></script>
+<script src="../../js/server/utils.js"></script>
+<script src="../../../lib/lib/bootstrap-datetimepicker.min.js"></script>
+<script src="../../../lib/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="../../js/controller/archives/archives-detail.js"></script>
+</body>
+
+</html>

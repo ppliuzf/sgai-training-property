@@ -1,0 +1,29 @@
+<div class="form-inline js-order-list">
+    {{each items as item index}}
+    {{if type == 1 || type == 2}}
+        {{if item.isChecked == 1}}
+        <div class="form-group add">
+            <input type="radio" name="radio" class="warn-btn" data-index="{{index}}" data-typeid="{{item.buyerEmpId}}" id='{{item.id}}' names='{{item.applyNo || item.allotNo}}' checked = "checked">
+            <span>{{item.applyNo || item.allotNo}}</span>
+        </div>
+        {{else}}
+        <div class="form-group add">
+            <input type="radio" name="radio" class="warn-btn" data-index="{{index}}" data-typeid="{{item.buyerEmpId}}" id='{{item.id}}' names='{{item.applyNo || item.allotNo}}'>
+            <span>{{item.applyNo || item.allotNo}}</span>
+        </div>
+        {{/if}}
+    {{else if type == 6}}
+        {{if item.isChecked == 1}}
+        <div class="form-group add">
+            <input type="radio" name="radio" class="warn-btn" data-index="{{index}}" data-typeid="{{item.buyerEmpId}}" id='{{item.id}}' names='{{item.orderNo || item.orderNo}}' checked = "checked">
+            <span>{{item.orderNo || item.orderNo}}</span>
+        </div>
+        {{else}}
+        <div class="form-group add">
+            <input type="radio" name="radio" class="warn-btn" data-index="{{index}}" data-typeid="{{item.buyerEmpId}}" id='{{item.id}}' names='{{item.orderNo || item.orderNo}}'>
+            <span>{{item.orderNo || item.orderNo}}</span>
+        </div>
+        {{/if}}
+    {{/if}}
+    {{/each}}
+</div>

@@ -1,0 +1,18 @@
+{{each items as item}}
+{{if item.periodName != '无'}}
+<div class="item s{{item.id}}" data-id="{{item.id}}">
+    <div class="form-group">
+        <span class="inp">
+            <input type="text" value="{{item.periodName}}" class="layui-input" maxlength="20">
+        </span>
+        <span class="act">
+            <a class="btn js-down" data-id="s{{item.id}}">下移</a>
+            <a class="btn js-up" data-id="s{{item.id}}">上移</a>
+            <a class="btn js-remove" data-id="{{item.recordId}}" data-pId="{{item.id}}">删除<input type="hidden" value="{{item.haveTask}}">
+            </a>
+        </span>
+    </div>
+</div>
+{{/if}}
+{{/each}}
+

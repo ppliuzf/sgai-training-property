@@ -1,0 +1,42 @@
+/*TMODJS:{"version":1,"md5":"3233fdba70964c6faa787728a1e631d0"}*/
+template('archives-detail',function($data,$filename
+/*``*/) {
+'use strict';var $utils=this,$helpers=$utils.$helpers,$escape=$utils.$escape,prName=$data.prName,prPhoneFirst=$data.prPhoneFirst,prPhoneSecond=$data.prPhoneSecond,prEmail=$data.prEmail,prSex=$data.prSex,prBirth=$data.prBirth,ctName=$data.ctName,clName=$data.clName,deptName=$data.deptName,$out='';$out+='<!-- <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3"> <p>名称：</p> <p class="customer-detail-title">';
+$out+=$escape(prName || '　');
+$out+='</p> </div> <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3"> <p>手机号：</p> <p class="customer-detail-title">';
+$out+=$escape(prPhoneFirst || '　');
+$out+='</p> </div> <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3"> <p>手机号1：</p> <p class="customer-detail-title">';
+$out+=$escape(prPhoneSecond || '　');
+$out+='</p> </div> <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3"> <p>邮箱：</p> <p class="customer-detail-title">';
+$out+=$escape(prEmail || '　');
+$out+='</p> </div> <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3"> <p>性别：</p> <p class="customer-detail-title">';
+$out+=$escape(prSex === 1 ? '男' : '女');
+$out+='</p> </div> <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3"> <p>出生日期：</p> <p class="customer-detail-title">';
+$out+=$escape($helpers. dateFormat(prBirth , 'yyyy-MM-dd'));
+$out+='</p> </div> <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3"> <p>类型：</p> <p class="customer-detail-title">';
+$out+=$escape(ctName || '　');
+$out+='</p> </div> <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3"> <p>级别：</p> <p class="customer-detail-title">';
+$out+=$escape(clName || '　');
+$out+='</p> </div> <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3"> <p>部门：</p> <p class="customer-detail-title">';
+$out+=$escape(deptName || '　');
+$out+='</p> </div> --> <div class="infos-detail"> <table> <tbody> <tr> <td class="col-lg-1 col-md-1 col-sm-1 text-center">名称</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(prName || '　');
+$out+='</td> <td class="col-lg-1 col-md-1 col-sm-1 text-center">手机号</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(prPhoneFirst || '　');
+$out+='</td> <td class="col-lg-1 col-md-1 col-sm-1 text-center">手机号1</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(prPhoneSecond || '　');
+$out+='</td> </tr> <tr> <td class="col-lg-1 col-md-1 col-sm-1 text-center">邮箱</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(prEmail || '　');
+$out+='</td> <td class="col-lg-1 col-md-1 col-sm-1 text-center">性别</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(prSex === 1 ? '男' : '女');
+$out+='</td> <td class="col-lg-1 col-md-1 col-sm-1 text-center">出生日期</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape($helpers. dateFormat(prBirth , 'yyyy-MM-dd'));
+$out+='</td> </tr> <tr> <td class="col-lg-1 col-md-1 col-sm-1 text-center">类型</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(ctName || '　');
+$out+='</td> <td class="col-lg-1 col-md-1 col-sm-1 text-center">级别</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(clName || '　');
+$out+='</td> <td class="col-lg-1 col-md-1 col-sm-1 text-center">部门</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(deptName || '　');
+$out+='</td> </tr> </tbody> </table> </div>';
+return new String($out);
+});

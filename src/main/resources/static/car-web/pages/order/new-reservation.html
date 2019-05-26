@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>新的预约</title>
+    <link rel="stylesheet" href="../../../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../lib/css/default.css">
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row header">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                <h4 style='margin:0px'>新建预约</h4>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-right">
+                <button class="btn btn-default" id='backs' style="margin-top:12px;">返回</button>
+            </div>
+        </div>
+
+        <div class="js-mian new-reservation-cn"></div>
+
+      
+            <h4 class='new-reservation-title'>预约信息</h4>
+            <div class="row">
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <div class="form-group">
+                        <label for="reser-name"><span class="require"></span>预约人姓名：</label>
+                        <input type="text" class="form-control" id="reser-name" maxlength="10" placeholder="请输入预约人姓名">
+                    </div>
+                </div>
+                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                    <div class="form-groupn">
+                        <label for="reser-tel"><span class="require"></span>预约人手机号：</label>
+                        <input type="tel" name="tel" id="tel" class="form-control" maxlength="11" placeholder="请正确输入预约人手机号">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row new-res">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="form-groupn">
+                        <label for="reser-text"><span class="require"></span>预约用途:</label>
+                        <textarea name="" id="textarea" rows="4" class="form-control" placeholder="预约用途不能超过200字" maxlength="200"></textarea>
+                        <div class="text-right js-count">0/200</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group reser-text col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                       
+                    <button type="button" class="btn btn-primary js-save">保存</button>
+                    <button type="button" class="btn btn-default js-cancel">取消</button>
+                    
+                    
+                </div>
+            </div>
+
+
+
+
+
+
+      
+    </div>
+    <script src="../../../lib/lib/jquery.min.js"></script>
+    <script src="../../../lib/lib/bootstrap.min.js"></script>
+    <script src="../../js/server/template.js"></script>
+    <script src="../../../config/config.js"></script>
+    <script src="../../js/server/utils.js"></script>
+    <script src="../../../lib/lib/bootstrap-datetimepicker.min.js"></script>
+    <script src="../../../lib/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../../js/controller/order/new-reservation.js"></script>
+</body>
+
+</html>

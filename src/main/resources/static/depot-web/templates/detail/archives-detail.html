@@ -1,0 +1,41 @@
+<table>
+    <tbody>
+        <tr>
+            <td class="col-lg-1 col-md-1 col-sm-1 text-center">仓库名称</td>
+            <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.whName}}</td>
+            <td class="col-lg-1 col-md-1 col-sm-1 text-center">编号</td>
+            <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.whNo}}</td>
+            <td class="col-lg-1 col-md-1 col-sm-1 text-center">仓库类型</td>
+            <td class="col-lg-3 col-md-3 col-sm-3 value">
+                {{if items.whType == 1}}
+                实仓
+                {{else if items.whType == 2}}
+                虚仓
+                {{/if}}
+            </td>
+        </tr>
+        <tr>
+            <td class="text-center">仓库地址</td>
+            <td class="value" colspan="3">{{items.whAddress}}</td>
+            <td class="text-center">仓库GIS</td>
+            <td class="value">{{if items.whLatitude && items.whLongitude}}
+                    {{items.whLatitude}},{{items.whLongitude}}
+                    {{else}}
+                    --
+                    {{/if}}
+                </td>
+        </tr>
+        <tr>
+            <td class="text-center">备注</td>
+            <td class="value" colspan="5">{{items.whDesc}}</td>
+        </tr>
+        <tr>
+            <td class="text-center">所属组织</td>
+            <td class="value" colspan="5"><form class="tree-form" role="form" id="tree-rxmj" novalidate>
+                    <!--<ul id="tt" class="easyui-tree" data-options="url:'./js/server/tree_data2.json',method:'get',animate:true,checkbox:true"></ul>-->
+                    <ul id="tt" class="easyui-tree" data-options="method:'get',animate:false,checkbox:false"></ul>
+                    <!--<ul id="tt" class="easyui-tree" data-options="method:'get',animate:true,checkbox:true"></ul>-->
+                </form></td>
+        </tr>
+    </tbody>
+</table>

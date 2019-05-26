@@ -1,0 +1,69 @@
+{{each items as item idx}}
+<tr>
+    <td class="text-center">{{idx+1 < 10 ? "0" + (idx+1) : idx+1}}</td>
+    <td>
+        <div class="img-text-info">
+            {{if item.roomImg}}
+            <a href="{{item.roomImg}}" data-lightbox="item-{{idx}}">
+                <img class="default-image" src="{{item.roomImg}}" onerror="this.src='./images/default_image.png'">
+            </a>
+            {{else}}
+            <a>
+                <img src="./images/default_image.png" class="default-image">
+            </a>
+            {{/if}}
+            <a href="./order-detail.html?id={{item.id}}" class="img-text">
+                <span>{{item.rrRoomName}}</span>
+            </a>
+        </div>
+    </td>
+    <td>{{item.rrRoomPosition}}</td>
+    <td>{{item.rrRoomPeoples}} 人</td>
+    <td>
+        <div>
+            {{if item.deviceDetailVoList.length>0}} 已启用：{{each item.deviceDetailVoList as itom }} {{if itom.rdsState==0}}
+            <span href="javascript:;" class="device-txt" data-rdsId="{{itom.rdsId}}" data-rdsState="{{itom.rdsState}}">{{itom.rdRoomDevice}}</span> {{/if}} {{/each}} {{/if}}
+        </div>
+        <div>
+            {{if item.deviceDetailVoList.length>0}}已禁用：{{each item.deviceDetailVoList as itom }}{{if itom.rdsState!=0}}
+            <span href="javascript:;" class="device-txt" data-rdsId="{{itom.rdsId}}" data-rdsState="{{itom.rdsState}}">{{itom.rdRoomDevice}}</span> {{/if}} {{/each}} {{/if}}
+        </div>
+    </td>
+    <td>{{item.miMtTimeSeg}}</td>
+    <td>{{item.miStatus | formatStatus}}</td>
+    <!-- <td>
+        {{if item.miStatus === 1 || item.miStatus === 2}}
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">查看更多
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                {{if item.miStatus === 1}}
+                <li>
+                    <a href="javascript:;" data-id="{{item.id}}" data-date="{{item.miMtDate}}" data-time="{{item.time}}" data-roomid="{{item.rrId}}"
+                        class="js-edit">编辑</a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-id="{{item.id}}" class="js-cancel">取消</a>
+                </li>
+                {{else if item.miStatus === 2}}
+                <li>
+                    <a href="javascript:;" data-id="{{item.id}}" class="js-end">结束</a>
+                </li>
+                {{/if}}
+            </ul>
+        </div>
+        {{/if}}
+    </td> -->
+    <td class="text-center">
+        {{if item.miStatus === 1 || item.miStatus === 2}}
+                {{if item.miStatus === 2}}
+                    <a href="javascript:;" data-id="{{item.id}}" data-date="{{item.miMtDate}}" data-time="{{item.time}}" data-roomid="{{item.rrId}}" class="js-edit">编辑</a>
+                    <a href="javascript:;" data-id="{{item.id}}" class="js-cancel" >取消</a>
+                {{else if item.miStatus === 1}}
+                    <a href="javascript:;" data-id="{{item.id}}" class="js-end">结束</a>
+                {{/if}}
+        {{/if}}
+    </td>
+</tr>
+{{/each}}

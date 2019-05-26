@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>客户档案</title>
+    <link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/css/easyui.css">
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>新建客户</h4>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-11 col-md-9 col-lg-7 js-main"></div>
+            <div class="tree">
+                <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3" style="    max-height: 600px;
+                                                                    overflow: auto;">
+                    <form class="tree-form" role="form" id="tree-rxmj" novalidate>
+                        <!--<ul id="tt" class="easyui-tree" data-options="url:'./js/server/tree_data2.json',method:'get',animate:true,checkbox:true"></ul>-->
+                        <ul id="tt" class="easyui-tree"></ul>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="../lib/lib/bootstrap-datetimepicker.min.js"></script>
+    <script src="../lib/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script type="text/javascript" src="../lib/lib/jquery.easyui.min.js"></script>
+    <script src="./js/controller/archives-add.js"></script>
+</body>
+
+</html>

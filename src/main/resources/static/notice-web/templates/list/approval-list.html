@@ -1,0 +1,77 @@
+
+{{each items as item}}
+<tr data-id="{{item.id}}">
+    <!-- 序号 -->
+    {{ if item.number1 < 10}}
+    <td class="text-center" >0{{item.number1}}</td>
+    {{ else }}
+    <td class="text-center" >{{item.number1}}</td>
+    {{ /if }}
+    <!-- 标题 -->
+    <td>
+        <div class="titleList cont dot" title="{{item.infoTitle}}">{{item.infoTitle}}</div>
+    </td>
+    <!-- 摘要 -->
+    <td>
+        <div class="sumList cont dot"><a href="./approval-list-detail.html?id={{item.id}}" class="underline js-view" title="{{item.infoSummary}}">{{item.infoSummary}}</a></div>
+    </td>
+    <!-- 发起审核时间 -->
+    <td>
+        <div class="sTimeList cont dot" title="{{if item.initApprovalTime}}{{item.initApprovalTime | dateFormat:'yyyy-MM-dd hh:mm:ss'}}{{/if}}">
+            {{if item.initApprovalTime !== 0}}
+            {{item.initApprovalTime | dateFormat:'yyyy-MM-dd hh:mm:ss'}}
+            {{else}}
+            --
+            {{/if}}
+        </div>
+    </td>
+    <!-- 发布时间 -->
+    <td>
+        <div class="fTimeList cont dot js-publish-time" title="{{if item.publishTime}}{{item.publishTime | dateFormat:'yyyy-MM-dd hh:mm:ss'}}{{/if}}">
+            {{if item.publishTime !== 0}}
+            {{item.publishTime | dateFormat:'yyyy-MM-dd hh:mm:ss'}}
+            {{else}}
+            --
+            {{/if}}
+        </div>
+    </td>
+    <!-- 发起人 -->
+    <td>
+        <div class="peopleList cont dot" title="item.infoCreatorName">
+        {{item.infoCreatorName || '--'}}
+        </div>
+    </td>
+    <!-- 状态 -->
+    <td>
+        <div class="statusList cont dot js-status" title="{{if type === 'wfq'}}{{item.infoStatus | formatStatus}}{{else}}{{item.infoStatus === 1 ? '待' : '已'}}审核{{/if}}">
+            {{item.infoStatus === 1 ? '待' : '已'}}审核
+        </div>
+    </td>
+    <!-- 操作 -->
+    <td class="actList js-act">
+        {{if item.infoStatus === 1}}
+        <a class="js-agree underline" data-id="{{item.id}}">同意</a>
+        <a class="js-refuse underline" data-id="{{item.id}}">拒绝</a>
+        <!-- <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">查看更多
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="js-agree underline" data-id="{{item.id}}">同意</a>
+                </li>
+                <li>
+                    <a class="js-refuse underline" data-id="{{item.id}}">拒绝</a>
+                </li>
+            </ul>
+        </div> -->
+        {{/if}}
+        {{if item.infoStatus === 2}}
+        已审核拒绝
+        {{/if}}
+        {{if item.infoStatus === 4 || item.infoStatus === 8}}
+        已审核通过
+        {{/if}}
+    </td>
+</tr>
+{{/each}}

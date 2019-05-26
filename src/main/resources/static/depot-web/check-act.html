@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>库存盘点</title>
+    <link rel="stylesheet" href="./css/default.css">
+    <style>
+        .filter{
+            border:0;
+        }
+        .glyphicon{
+            font-family:'Glyphicons Halflings'!important;
+        }
+    </style>
+</head>
+
+<body class="main">
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>库存盘点</h4>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 js-main p0 infos-detail "></div>
+        <!-- 执行信息 -->
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p0">
+            <div class="form-group clearfix ">
+                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 mgb p0">
+                    <label for="startTime" class="control-label faqiTime">盘点开始时间 </label>
+                    <div class="input-group">
+                        <input id="startTime" class="form-control form_date2 " size="16" type="text" data-date-format="yyyy-MM-dd" readonly>
+                        <span class="input-group-addon js-date-clean"><span class="glyphicon glyphicon-remove"></span></span>
+                    </div>
+                </div>
+                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 mgb p0">
+                    <label for="endTime" class="control-label faqiTime">盘点结束时间 </label>
+                    <div class="input-group">
+                        <input id="endTime" class="form-control form_date3 " size="16" type="text" data-date-format="yyyy-MM-dd" readonly>
+                        <span class="input-group-addon js-date-clean"><span class="glyphicon glyphicon-remove"></span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group clearfix p0">
+                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 p0">
+                    <h5>
+                        <b>盘点执行人 </b>
+                    </h5>
+                    <div class="js-instant-search"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 p0">
+            <div class="form-group clearfix">
+                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 p0">
+                    <h5>
+                        <b>差异原因 </b>
+                    </h5>
+                    <textarea type="text" rows="4" class="form-control" id="chayi" placeholder="请输入差异原因" maxlength="200">差异原因</textarea>
+                    <div class="text-right js-count"></div>
+                </div>
+            </div>
+        </div>
+        <!-- 盘点物料 -->
+        <div class="col-xs-12 col-sm-11 col-md-12 col-lg-12 p0">
+            <h4 class="pt15 pull-left">盘点物料 </h4>
+            <div class="form-inline filter pull-right pt15">
+                <div class="form-group" style="margin-right: 0">
+                    <select id="actCangKu" class="form-control" required="required">
+                        <option value="">全部仓库</option>
+                    </select>
+                </div>
+            </div>
+            <div class="pt15">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr class="active">
+                            <th width="60" class="text-center">序号</th>
+                            <th >仓库</th>
+                            <!-- <th width="120">物料编号</th> -->
+                            <th width="120">物料名称</th>
+                            <th width="80">账存数量</th>
+                            <th width="120">实存数量</th>
+                            <th width="80">差异量</th>
+                        </tr>
+                    </thead>
+                    <tbody class="js-list"></tbody>
+                </table>
+                <nav class="text-right pages"></nav>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" id="checkSave">保存</button>
+            <button type="submit" class="btn btn-default" id="checkCancle">取消</button>
+        </div>
+    </div>
+    <script src="./js/lib/jquery.min.js"></script>
+    <script src="./js/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/lib/bootstrap-datetimepicker.min.js"></script>
+    <script src="./js/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="./js/controller/check/check-act.js"></script>
+</body>
+</html>

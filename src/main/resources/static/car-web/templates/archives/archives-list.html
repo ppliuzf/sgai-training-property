@@ -1,0 +1,38 @@
+{{each items as item itemIndex}}
+<tr>
+    <td class='text-center'>{{item.num}}</td>
+    <td>
+        <a href="pages/archives/archives-detail.html?id={{item.id}}">
+            <!--{{if item.imgUrl}}-->
+              <!--<span class="arch-mar"><img src="{{item.imgUrl}}" alt="" width="50" height="50"></span>-->
+            <!--{{else}}-->
+              <!--<span></span>-->
+            <!--{{/if}}-->
+        {{item.ciNumber}}
+        </a>
+    </td>
+    <td>{{item.ciDepartment}}</td>
+    <td>{{item.ciTypeName }}</td>
+    <td>{{item.ciBrand }}</td>
+    <td>{{item.ciModel}}</td>
+    <td>{{item.ciColor }}</td>
+    <td>{{item.ciBoxTypeName }}</td>
+    <td>{{item.ciLoadNumber }}</td>
+    <td>
+        <!--{{if item.ciStatus===0 }}-->
+        <!--<button type="button" class="btn btn-sm btn-success btn-on" data-id="{{item.id}}">启用</button>-->
+        <!--{{else}}-->
+        <!--<button type="button" class="btn btn-sm btn-warning btn-off" data-id="{{item.id}}">停用</button>-->
+        <!--{{/if}}-->
+        <div class="switch">
+            <div class="switch-inner">
+                <input type="checkbox" {{item.ciStatus === 0 && 'checked'}} class="js-status" data-id="{{item.id}}" >
+            </div>
+        </div>
+    </td>
+    <td  class='text-center'>
+                <a href="pages/archives/archives-edit.html?id={{item.id}}" class="js-edit" data-id="{{item.id}}">编辑</a>
+                <a href="javascript:;" class="js-del" data-id={{item.id}}>删除</a>
+    </td>
+</tr>
+{{/each}}

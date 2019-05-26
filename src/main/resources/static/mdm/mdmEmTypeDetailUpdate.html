@@ -1,0 +1,218 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<!--[if lte IE 6]><link href="../static/bootstrap/bsie/css/bootstrap-ie6.min.css" type="text/css" rel="stylesheet" />
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+ <link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+ <script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+ <script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='../static';</script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js"
+	type="text/javascript"></script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+ <link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+  <script src="../static/media/js/main.js" type="text/javascript"></script>
+    <title>事件类型管理</title>
+    <meta name="decorator" content="default">
+    <style>
+    	.form-horizontal .control-label {
+   			 width: 117px;
+		}
+		.input-large{
+			width:234px;
+		}
+    </style>
+<script>
+// 表单验证
+$.validator.setDefaults({
+    submitHandler: function() {
+       // 调用提交
+       formSubmit();
+    }
+});
+$().ready(function () {
+    // 在键盘按下并释放及提交后验证提交表单
+    $("#inputForm").validate({
+         rules: {
+            emTypeDetailCode: {
+                required: true,
+            },
+            emTypeDetailName: {
+                required: true,
+                minlength: 1
+            },
+            remarks: {
+                required: true,
+                minlength: 1
+            }
+          },
+        messages:{
+            emTypeDetailCode: {
+                required: "请输入事件详细类型编号",
+            },
+            emTypeDetailName: {
+                required: "请输入事件详细类型名称",
+            },
+            remarks: {
+                required: "请输入备注",
+            },
+        }
+    });
+})
+</script>
+    <script type="text/javascript">
+	var id=null;
+    var InfoList=new Object();
+    function page(n, s) {
+		pageload(n, s);
+		return false;
+	}	
+	
+	$(document).ready(function() {
+		/*获取url传值*/
+		
+		var url=location.search;
+	   
+	    var param =url.split("?")[1];
+		id = param.split("=")[1];
+      	
+		pageload();
+	});
+	
+
+	
+	function pageload(n, s) {
+    	
+      
+        	$.ajax({
+        		headers    : {
+  	                 "token" : localStorage.getItem("token"),
+  	             },
+    			url : APIHost+'/admin/mdmEmTypeDetail/getListEmTypeDetail',
+    			type : 'POST',
+    			async : false, //或false,是否异步
+    			data : {
+    				pageNo : n,
+    				pageSize : s,
+    				id:id
+    				
+    			},
+    			timeout : 30000,
+    			dataType : 'json',
+    			success : function(response) {
+					var data =response.data;
+    				InfoList = data.list; 
+    				for (var i = 0; i < InfoList.length; i++) {
+    					$("#id").attr('value',InfoList[i].id);
+    					$("#emTypeDetailCode").attr('value',InfoList[i].emTypeDetailCode);
+    					$("#emTypeDetailName").attr('value',InfoList[i].emTypeDetailName);
+    					$("#remarks").attr('value',InfoList[i].remarks);
+    					if(InfoList[i].enabledFlag=="Y"){
+    						$('#select2-enabledFlag-container').html("Y");
+    						$("#enabledFlag").attr('value',"Y");
+    					}
+    					else{
+    						$('#select2-enabledFlag-container').html("N");
+    						$("#enabledFlag").attr('value',"N");
+    					}
+    		
+    				}
+    			},
+    			error : function() {
+    				console.log('错误')
+    			}
+    		});
+        	
+    
+	} 
+
+        function formSubmit(){
+	
+    		var ajax_option={
+    				headers    : {
+   	                 "token" : localStorage.getItem("token"),
+   	             },
+    				url:APIHost + '/admin/mdmEmTypeDetail/save',//默认是form action
+    				success:function(response){
+    			
+           				parent.pageload();
+						closePopUp();
+    			
+    				
+       				}
+           		}
+           		
+           		 $("#inputForm").ajaxSubmit(ajax_option);
+        	
+        
+      
+        	 
+        }
+     function closePopUp(){
+        $('#myModal .close', window.parent.document).click();
+    } 
+   //teXtarea弹框拉伸
+     $(function(){
+     	autoSize();
+     })
+    </script>
+</head>
+<body>
+<form id="inputForm" class="form-horizontal" action=APIHost+"/admin/mdmEmTypeDetail/save" method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+
+      <div class="control-group">
+        <span class="control-label">事件详细类型编号：</span>
+        <div class="controls">
+             <input id=emTypeDetailCode name="emTypeDetailCode" class="required" type="text"  maxlength="50">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+        <span class="control-label">事件详细类型名称：</span>
+        <div class="controls">
+            <input id=emTypeDetailName name="emTypeDetailName" class="required" type="text"  maxlength="50">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+        <span class="control-label">可用：</span>
+        <div class="controls">
+          <select id="enabledFlag" name="enabledFlag" class="input-large select2-offscreen" tabindex="-1">
+           <option value="Y">Y</option>
+           <option value="N">N</option>
+            </select>
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+        <span class="control-label">备注：</span>
+        <div class="controls">
+           <!--  <input id="remarks" name="remarks" class="required userName" type="text"  maxlength="50"> -->
+             <textarea id="remarks" name="remarks"  maxlength="100"  style="overflow-y:hidden;" class="required userName textAreas"></textarea>
+           	<span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+     
+    <div class="form-actions">
+        <input id="btnCancel" class="btn" type="button" value="关 闭" onclick="closePopUp()">&nbsp;
+		<input id="btnSubmit" class="btn btn-primary" type="button" onclick="formSubmit()" value="保 存">
+    </div>
+</form>
+
+</body></html>

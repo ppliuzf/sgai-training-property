@@ -1,0 +1,40 @@
+{{each items as item}}
+<tr>
+  <td class="text-center">
+      {{if item.num<10}}
+      0{{item.num}}
+      {{else}}
+      {{item.num}}
+      {{/if}}
+  </td>
+  <td>
+      {{if item.pcIcon}}
+      <img src="{{item.pcIcon}}" width="32" height="32">
+      {{else}}
+      <img src="../../images/default_image.png"  width="32" height="32">
+      {{/if}}
+  </td>
+  <td>{{item.pcName}}</td>
+  <td>{{item.asType}}</td>
+  <td>
+      <div class="text-ellipsis" style="width: 600px">{{item.pcDesc}}</div>
+  </td>
+  <td class="text-center act">
+      <div class="btn-group more">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多 <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+              <li>
+                  <span><a class="js-edit" data-id="{{item.pcId}}" href="pages/major/edit-major.html?id={{item.pcId}}">编辑</a></span>
+              </li>
+              <li>
+                  {{if item.isDefault}}
+                  <span><a class="disabled" data-id="{{item.pcId}}">删除</a></span>
+                  {{else}}
+                  <span><a class="js-del underline" href="javascript:;" data-id="{{item.pcId}}">删除</a></span>
+                  {{/if}}
+              </li>
+          </ul>
+      </div>
+  </td>
+</tr>
+{{/each}}

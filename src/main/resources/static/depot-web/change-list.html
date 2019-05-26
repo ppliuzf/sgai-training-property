@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>调拨管理</title>
+    <link rel="stylesheet" href="./css/default.css">
+</head>
+
+<body class="main2">
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>调拨管理</h4>
+            <div class="btns text-right">
+                <button type="button" class="btn btn-primary" id="addOrder">新建调拨</button>
+            </div>
+        </div>
+        <!-- 搜索 -->
+        <div class="form-inline filter">
+            <div class="form-group">
+                <label for="" class="control-label form-inline">调拨编号 </label>
+                <input id="allotNo" type="text" class="form-control" placeholder="请输入调拨编号">
+            </div>
+            <div class="form-group">
+                <button type="button" id='searchBtn' class="btn btn-primary">查询</button>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th width="60" class="text-center">序号</th>
+                    <th width="150">调拨编号</th>
+                    <th width="80">调拨人</th>
+                    <th width="150">所属部门</th>
+                    <th>调拨理由</th>
+                    <th width="120">调拨日期</th>
+                    <th width="80">状态</th>
+                    <th width="92" class="text-center">操作</th>
+                </tr>
+            </thead>
+            <tbody class="js-list"></tbody>
+        </table>
+        <nav class="text-right pages"></nav>
+    </div>
+    <script src="./js/lib/jquery.min.js"></script>
+    <script src="./js/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/change/change-list.js"></script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+{{each items as item}}
+<ul class="{{item.index === items.length ? 1:'tree-line'}} peizhi-tree tree-{{item.id}}">
+    <li>
+        {{if item.children}}
+        <div class="tree-node">
+            <span class="open-tree tree-whd" data-id="{{item.id}}">+</span>
+            <span class="tree-folder tree-whd"></span>
+            <span class="tree-whd tree-checked0"><input type="checkbox" name="choose" id="{{item.id}}" child="{{item.children.length}}" text="{{item.text}}"></span>
+            <span class="tree-whd tree-title">{{item.text}}</span>
+        </div>
+        {{else}}
+        <div class="tree-node">
+            {{if items.length === item.index}}
+            <span class="nuong tree-whd tree-joinbottom"></span>
+            {{else if item.index === 1}}
+            <span class="nuong tree-whd tree-jointop"></span>
+            {{else}}
+            <span class="nuong tree-whd tree-join"></span>
+            {{/if}}
+            <span class="tree-filer tree-whd"></span>
+            <span class="tree-whd tree-checked0"><input type="checkbox" name="choose" id="{{item.id}}"text="{{item.text}}"></span>
+            <span class="tree-whd tree-title">{{item.text}}</span>
+        </div>
+        {{/if}}
+    </li>
+    {{if item.children}}
+    <div class="tree-box-{{item.id}} tree-group">
+    </div>
+    {{/if}}
+</ul>
+{{/each}}
+<style>
+    .peizhi-tree, .peizhi-tree li{
+        padding: 0;
+        margin: 0;
+    }
+    .tree-title{
+        font-size: 12px;
+        text-decoration: none;
+        padding: 0 2px;
+        line-height: 18px;
+    }
+    .tree-node{
+        height: 18px;
+        white-space: nowrap;
+        margin: 0;
+        padding: 0;
+        font-size: 0;
+    }
+    .tree-line{
+        background: url('images/line_conn.gif') 0 0 repeat-y;
+    }
+    .tree-whd{
+        display: inline-block;
+        width: 16px;
+        height: 18px;
+        vertical-align: middle;
+        margin: 0;
+        padding: 0;
+    }
+    .modal-body .peizhi-tree {
+        margin-left: 20px;
+    }
+    .modal-body .tree-group {
+        overflow: hidden;
+        height: 0;
+        -webkit-transition: .5s;
+        -moz-transition: .5s;
+        -ms-transition: .5s;
+        -o-transition: .5s;
+        transition: .5s;
+    }
+    .modal-body li .open-tree{
+        font-size:20px;
+        cursor:pointer;
+        text-indent:-9999px ;
+        background: url('images/zTreeStandard.png') no-repeat -74px -54px/*11111111*/
+    }
+    .tree-filer{
+        background: url('images/zTreeStandard.png') no-repeat -110px -31px;
+    }
+    .tree-folder {
+        background: url('images/zTreeStandard.png') no-repeat -110px 0;
+    }
+    .tree-join {
+        background: url('images/zTreeStandard.png') no-repeat -56px -18px;
+    }
+    .tree-checked0{
+        background: url('images/tree_icons.png') no-repeat -208px -18px;
+    }
+    .tree-joinbottom {
+        background: url('images/zTreeStandard.png') no-repeat -56px -36px;
+    }
+    .tree-jointop{
+        background: url('images/zTreeStandard.png') no-repeat -56px 0px;
+    }
+    input{
+        opacity: 0;
+        cursor:pointer;
+    }
+    .modal-body{
+        max-height: 200px;
+        padding: 0;
+        overflow: auto;
+    }
+</style>

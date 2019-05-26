@@ -1,0 +1,29 @@
+
+{{each items as item itemIndex}}
+<tr>
+    <td>{{itemIndex+1}}</td>
+    <td>
+        <div class="cont dot" title="{{item.typeName}}">{{item.typeName}}</div>
+    </td>
+    <td>
+        {{if item.typeCode===0}}
+            <div class="cont dot">默认</div>
+        {{else}}
+            <div class="cont dot">自定义</div>
+        {{/if}}
+    </td>
+    <td>
+        <div class="cont dot" title="{{item.typeDesc}}">{{item.typeDesc}}</div>
+    </td>
+    <td>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">查看更多 <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li> <a href="add-type.html?id={{item.id + '&name=' + item.typeName}}">编辑</a></li>
+                <li>{{if item.typeCode===1}}<a class="js-del" data-id="{{item.id}}">删除</a>{{/if}}</li>
+            </ul>
+        </div>
+    </td>
+</tr>
+{{/each}}

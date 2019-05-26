@@ -1,0 +1,14 @@
+{{each items as item itemIndex}}
+<tr>
+    <td>{{item.num}}</td>
+    <td>
+        <div class="cont">
+            <!--<a href="detail.html?id={{item.id + '&name=' + item.recordName}}" title="{{item.recordName}}" class="underline dot name">{{item.recordName}}</a>-->
+            <a href="./pages/plan/detail.html?id={{item.id + '&name=' + item.recordName}}" title="{{item.recordName}}" class="underline dot name">{{item.recordName}}</a>
+        </div>
+    </td>
+    <td><div class="cont dot" title="{{item.raDutyEiEmpName}}">{{item.typeName}}</div></td>
+    <td><div class="cont dot" title="{{item.createTime | dateFormat:'yyyy-MM-dd'}}">{{item.createTime | dateFormat:'yyyy-MM-dd'}}</div></td>
+    <td><div class="cont dot" title="{{item.raCreatorEiEmpName}}">{{item.creatorEiEmpName}}</div></td>
+</tr>
+{{/each}}

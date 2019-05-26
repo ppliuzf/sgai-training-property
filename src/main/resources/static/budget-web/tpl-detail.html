@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>模板详情</title>
+    <link rel="stylesheet" href="../lib/css/default.css">
+    <link rel="stylesheet" href="../lib/css/tpl-detail.css">
+    <link rel="stylesheet" href="../lib/css/tpl-relation.css">
+    <style type="text/css">
+        .icon-span.glyphicon{
+            color:#999 !important;
+        }
+        .icon-span{
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 1px;
+            margin-left: -23px;
+        }
+        .icon-div{
+            padding-left: 24px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="div-top">
+        <div class="row header">
+            <h4 class="tplTitle">模板详情</h4>
+            <div class="btns text-right">
+                <button type="button" class="btn btn-default js-return">返回</button>
+            </div>
+        </div>
+        <div class="js-detail-top"></div>
+    </div>
+    
+    <div class="js-detail-mid div-mid"></div>
+    <div class="js-detail-mid-second "></div>
+    
+</div>
+<script src="../lib/lib/jquery.min.js"></script>
+<script src="../lib/lib/bootstrap.min.js"></script>
+<script src="./js/server/template.js"></script>
+<script src="../config/config.js"></script>
+<script src="./js/server/utils.js"></script>
+<script src="./js/controller/tpl-detail.js"></script>
+</body>
+</html>

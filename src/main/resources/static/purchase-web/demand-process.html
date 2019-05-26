@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>需求处理</title>
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+
+<body class="main2">
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>需求处理</h4>
+            <div class="btns text-right">
+                <button type="button" class="btn btn-default js-back">返回</button>
+            </div>
+        </div>
+        <!-- 搜索 -->
+        <div class="form-inline filter">
+            <div class="form-group">
+                <label for="keyWords" class="control-label form-inline">申请人</label>
+                <input id="keyWords" type="text" class="form-control" placeholder="请输入申请人">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary js-search">搜索</button>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th class="text-center" width="60">序号</th>
+                    <th >申请编号</th>
+                    <th width="100">申请人</th>
+                    <th width="140">部门</th>
+                    <th width="300">申请理由</th>
+                    <th width="160">申请日期</th>
+                    <th width="100">需求状态</th>
+                    <th width="100">用料审批人</th>
+                    <th width="160">审批时间</th>
+                    <th class="text-center" width="92">操作</th>
+                </tr>
+            </thead>
+            <tbody class="js-list"></tbody>
+        </table>
+        <nav class="text-right pages"></nav>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/demandProcessing.js"></script>
+</body>
+</html>

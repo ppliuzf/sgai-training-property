@@ -1,0 +1,39 @@
+<h4 style='font-size:14px;'>基础信息:</h4>
+<div class="infos-detail">
+    <table>
+        <tbody>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">车牌号码:</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{item.ciNumber}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">所属部门:</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{item.ciDepartment}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">购置日期:</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{item.ciBuyDate | dateFormat: 'yyyy-MM-dd'}}</td>    
+            </tr>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">车辆品牌:</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{item.ciBrand}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">车辆型号:</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{item.ciModel}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">车辆颜色:</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{item.ciColor}}</td>    
+            </tr>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">车辆排量:</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{item.ciDisplacement}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">变速箱类型:</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{item.ciBoxTypeName}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">荷载人数:</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{item.ciLoadNumber}}</td>    
+            </tr>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">车主(司机)姓名:</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{item.ciOwnerName}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">车主(司机)手机号:</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{item.ciOwnerPhone}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">行驶里程数:</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{item.journeyAmount}}</td>    
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>冰壶</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="" name="description"/>
+  <meta content="" name="author"/>
+  <!-- BEGIN GLOBAL MANDATORY STYLES -->
+  <link href="../static/media/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+  <link href="../static/media/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
+  <link href="../static/media/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  <!-- END GLOBAL MANDATORY STYLES -->
+  <!-- BEGIN PAGE LEVEL STYLES -->
+  <link href="../static/media/css/overviewIndex.css" rel="stylesheet" type="text/css"/>
+  <!-- END PAGE LEVEL STYLES -->
+  <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+  <script src="../static/echart/echarts.js" type="text/javascript"></script>
+  <script>
+    setFontSize();
+    //设置根元素字体
+    function setFontSize() {
+      var winWidth = $(window).width()<1366?1366:$(window).width();
+      // var rate = (winWidth / 1920) * 100;
+      var fontSize = (winWidth / 1920) * 20 + 'px';
+      $("html").css("font-size",fontSize);
+      $(window).resize(function(){
+        setFontSize();
+      })
+    };
+  </script>
+</head>
+<body class="overview-frame">
+<div class="ov-main-wrap">
+  <div class="top" style="height: 43%;overflow: hidden;margin: 0.8rem">
+    <div class="left" style="width: 43%;height: 100%;float: left;">
+      <div class="ov-box mg-b-16" style="height: 100%;">
+        <div class="ov-box-deco">
+          <div class="ov-box-angle">
+            <span class="lt"></span>
+            <span class="rt"></span>
+            <span class="rb"></span>
+            <span class="lb"></span>
+          </div>
+          <div class="ov-line">
+            <span class="ht"></span>
+            <span class="vr"></span>
+            <span class="hb"></span>
+            <span class="vl"></span>
+          </div>
+        </div>
+        <div class="ov-box-title lx">今日时段流量图</div>
+        <div class="ov-flow-chart">
+          <div id="flowChart" style="width: 100%;height: 100%"></div>
+        </div>
+      </div>
+    </div>
+    <div class="right" style="width: 57%;padding-left: 0.8rem;height: 100%;float: left;box-sizing: border-box">
+      <div class="ov-box mg-b-16" style="height: 33.2%;">
+        <div class="ov-box-deco">
+          <div class="ov-box-angle">
+            <span class="lt"></span>
+            <span class="rt"></span>
+            <span class="rb"></span>
+            <span class="lb"></span>
+          </div>
+          <div class="ov-line">
+            <span class="ht"></span>
+            <span class="vr"></span>
+            <span class="hb"></span>
+            <span class="vl"></span>
+          </div>
+        </div>
+        <div class="ov-box-title">流量情况</div>
+        <div class="ov-flow-info">
+          <div class="flow-item">
+            <label class="ov-label">
+              <img src="../static/media/image/overview/icon-flow.png">
+              <span>今日总流量</span>
+            </label>
+            <p class="ov-number lx"><span id="totalflowDay">0</span></p>
+          </div>
+          <span class="ov-line-v"></span>
+          <div class="flow-item">
+            <label class="ov-label">
+              <img src="../static/media/image/overview/icon-in.png">
+              <span>进场</span>
+            </label>
+            <p class="ov-number lx"><span id="enter">0</span></p>
+          </div>
+          <span class="ov-line-v"></span>
+          <div class="flow-item">
+            <label class="ov-label">
+              <img src="../static/media/image/overview/icon-out.png">
+              <span>出场</span>
+            </label>
+            <p class="ov-number lx"><span id="out">0</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="ov-box" style="height: calc(66.8% - 0.8rem)">
+        <div class="ov-box-deco">
+          <div class="ov-box-angle">
+            <span class="lt"></span>
+            <span class="rt"></span>
+            <span class="rb"></span>
+            <span class="lb"></span>
+          </div>
+          <div class="ov-line">
+            <span class="ht"></span>
+            <span class="vr"></span>
+            <span class="hb"></span>
+            <span class="vl"></span>
+          </div>
+        </div>
+        <div class="ov-box-title sm">车位占用率</div>
+        <div class="ov-parking-space">
+          <div class="space-info">
+            <div class="spaceRate">
+              <div id="spaceGauge" style="width: 100%;height: 100%"></div>
+            </div>
+          </div>
+          <div class="space-info">
+            <label class="ov-label">总车位数</label>
+            <p class="ov-number lx"><span id="totalNum">0</span><span class="unit">个</span></p>
+            <div class="ov-line-h"></div>
+            <label class="ov-label">总车场数</label>
+            <p class="ov-number"><span>1</span><span class="unit">个</span></p>
+          </div>
+          <div class="space-info">
+            <label class="ov-label">占用车位</label>
+            <p class="ov-number lx"><span id="useNum">0</span><span class="unit">个</span></p>
+            <div class="ov-line-h"></div>
+            <label class="ov-label">空闲车位</label>
+            <p class="ov-number"><span id="freeNum">0</span><span class="unit">个</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom" style="margin: 0 0.8rem;height: calc(100% - 43% - 1.6rem);">
+    <div class="ov-box" style="width:calc(73% - 0.8rem);height: 100%;float: left;margin-right: 0.8rem;">
+      <div class="ov-box-deco">
+        <div class="ov-box-angle">
+          <span class="lt"></span>
+          <span class="rt"></span>
+          <span class="rb"></span>
+          <span class="lb"></span>
+        </div>
+        <div class="ov-line">
+          <span class="ht"></span>
+          <span class="vr"></span>
+          <span class="hb"></span>
+          <span class="vl"></span>
+        </div>
+      </div>
+      <div class="ov-box-title lx">充电桩使用情况</div>
+      <ul id="chargingPilelist" class="charging-pile-list">
+        <li class="pile-item unused">
+          <div class="state">
+            <div class="pile-img"></div>
+            <span>空闲</span>
+          </div>
+          <div class="info">
+            <p>交流KW</p>
+            <p>1013</p>
+          </div>
+        </li>
+        <li class="pile-item unused">
+          <div class="state">
+            <div class="pile-img"></div>
+            <span>空闲</span>
+          </div>
+          <div class="info">
+            <p>交流KW</p>
+            <p>1013</p>
+          </div>
+        </li>
+        <li class="pile-item stop">
+          <div class="state">
+            <div class="pile-img"></div>
+            <span>暂停</span>
+          </div>
+          <div class="info">
+            <p>交流KW</p>
+            <p>1013</p>
+          </div>
+        </li>
+        <li class="pile-item unused">
+          <div class="state">
+            <div class="pile-img"></div>
+            <span>空闲</span>
+          </div>
+          <div class="info">
+            <p>交流KW</p>
+            <p>1013</p>
+          </div>
+        </li>
+        <li class="pile-item unused">
+          <div class="state">
+            <div class="pile-img"></div>
+            <span>空闲</span>
+          </div>
+          <div class="info">
+            <p>交流KW</p>
+            <p>1013</p>
+          </div>
+        </li>
+        <li class="pile-item stop">
+          <div class="state">
+            <div class="pile-img"></div>
+            <span>暂停</span>
+          </div>
+          <div class="info">
+            <p>交流KW</p>
+            <p>1013</p>
+          </div>
+        </li>
+        <li class="pile-item unused">
+          <div class="state">
+            <div class="pile-img"></div>
+            <span>空闲</span>
+          </div>
+          <div class="info">
+            <p>交流KW</p>
+            <p>1013</p>
+          </div>
+        </li>
+        <li class="pile-item using">
+          <div class="state">
+            <div class="pile-img"></div>
+            <span>使用中</span>
+          </div>
+          <div class="info">
+            <p>交流KW</p>
+            <p>1013</p>
+          </div>
+        </li>
+        <li class="pile-item using">
+          <div class="state">
+            <div class="pile-img"></div>
+            <span>使用中</span>
+          </div>
+          <div class="info">
+            <p>交流KW</p>
+            <p>1013</p>
+          </div>
+        </li>
+        <li class="pile-item unused">
+          <div class="state">
+            <div class="pile-img"></div>
+            <span>空闲</span>
+          </div>
+          <div class="info">
+            <p>交流KW</p>
+            <p>1013</p>
+          </div>
+        </li>
+        <li class="pile-item using">
+          <div class="state">
+            <div class="pile-img"></div>
+            <span>使用中</span>
+          </div>
+          <div class="info">
+            <p>交流KW</p>
+            <p>1013</p>
+          </div>
+        </li>
+        <li class="pile-item stop">
+          <div class="state">
+            <div class="pile-img"></div>
+            <span>暂停</span>
+          </div>
+          <div class="info">
+            <p>交流KW</p>
+            <p>1013</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="ov-box" style="width:27%;height: 100%;float: left;">
+      <div class="ov-box-deco">
+        <div class="ov-box-angle">
+          <span class="lt"></span>
+          <span class="rt"></span>
+          <span class="rb"></span>
+          <span class="lb"></span>
+        </div>
+        <div class="ov-line">
+          <span class="ht"></span>
+          <span class="vr"></span>
+          <span class="hb"></span>
+          <span class="vl"></span>
+        </div>
+      </div>
+      <div class="ov-box-title md">高峰时段排行</div>
+      <div class="ov-box-body">
+        <ul class="ov-list ov-flow-list">
+          <li class="ov-list-item header">
+            <span><i class="num"></i></span>
+            <span>时段</span>
+            <span>流量/次</span>
+          </li>
+          <div id="flowList">
+            <!--<li class="ov-list-item">
+              <span><i class="num">1</i></span>
+              <span>12:00-13:00</span>
+              <span>26</span>
+            </li>
+            <li class="ov-list-item">
+              <span><i class="num">2</i></span>
+              <span>12:00-13:00</span>
+              <span>26</span>
+            </li>
+            <li class="ov-list-item">
+              <span><i class="num">3</i></span>
+              <span>12:00-13:00</span>
+              <span>26</span>
+            </li>
+            <li class="ov-list-item">
+              <span><i class="num">4</i></span>
+              <span>12:00-13:00</span>
+              <span>26</span>
+            </li>
+            <li class="ov-list-item">
+              <span><i class="num">5</i></span>
+              <span>12:00-13:00</span>
+              <span>26</span>
+            </li>-->
+          </div>
+        </ul>
+    </div>
+  </div>
+</div>
+</div>
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<script src="../static/media/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../static/echart/echarts.js" type="text/javascript"></script>
+<script src="../static/media/js/overview.js" type="text/javascript"></script>
+<script src="../config/config.js" type="text/javascript"></script>
+<script>
+  $(document).ready(function() {
+
+  });
+
+  var webSocket = null;
+  if('WebSocket' in window){
+    webSocket = new WebSocket(websocketWS);
+  }else{
+    alert('Not support websocket')
+  }
+  webSocket.onerror = function (event) {
+    onError(event);
+  };
+  webSocket.onopen = function (event) {
+    onOpen(event);
+  };
+  webSocket.onmessage = function(event){
+    onMessage(event);
+  }
+  function onError(event){
+
+  }
+  function onOpen(event){
+    //webSocket.send();// 握手信息
+  }
+  function onMessage(event){
+    var data = JSON.parse(event.data);
+    console.log(data)
+    if(data.type == 1){
+      // 报警
+    }else if(data.type == 2){
+      // 监测数据
+      $("#totalflowDay").text(data.packing.totalflowDay); //总流量
+      $("#enter").text(data.packing.enter);  // 进场
+      $("#out").text(data.packing.out); // 出场
+      $("#totalNum").text(data.packing.totalNum); // 总车位数
+      $("#freeNum").text(data.packing.freeNum); // 空闲车位
+      $("#useNum").text(data.packing.useNum); // 占用车位
+
+      // 车位占用率 图表
+      var usingRate = (data.packing.useNum / data.packing.totalNum).toFixed(1);
+      setGaugeSpace(usingRate);
+
+      // TODO 充电桩使用情况
+
+    }else if (data.type == 3){
+      // 车流量
+      setBarData(data.intervalOrderTime); //时间排序
+      createFlowList(data.intervalOrderFlow); //流量排序
+    }else if (data.type == 4){
+
+    }
+  }
+
+  function createFlowList(data) {
+    $("#flowList").empty();
+    if(!data.length) return
+    for(var i=0;i<data.length;i++){
+      var html = '<li class="ov-list-item">' +
+        '              <span><i class="num">'+(i+1)+'</i></span>' +
+        '              <span>'+data[i].interVal+'</span>' +
+        '              <span>'+data[i].flow+'</span>' +
+        '            </li>';
+      $("#flowList").append(html);
+    }
+  }
+
+  function createChargingList(data) {
+    $("#chargingPilelist").empty()
+    if(!data.length){
+      for(var i=0;i<data.length;i++){
+        var item = data[i];
+        var state = item.state;
+        if(state == 'stop'){
+          state = '暂停'
+        }else if(state == 'uning'){
+          state = '使用中'
+        }else{
+          state = '空闲'
+        }
+        var html = '<li class="pile-item '+item.state+'">' +
+          '          <div class="state">' +
+          '            <div class="pile-img"></div>' +
+          '            <span>'+state+'</span>' +
+          '          </div>' +
+          '          <div class="info">' +
+          '            <p>交流KW</p>' +
+          '            <p>1013</p>' +
+          '          </div>' +
+          '        </li>';
+        $("#chargingPilelist").append(html)
+      }
+    }
+  }
+
+  function setBarData(data) {
+    var flowData = {
+      xAxisData: [],
+      value: []
+    }
+    for(var i = 0; i < data.length; i++){
+      var item = data[i]
+      flowData.xAxisData.push(item.interVal)
+      flowData.value.push(item.flow)
+    }
+    setBarOption(flowData)
+  }
+
+  function setBarOption(data) {
+    var chartBarOfFlow = echarts.init(document.getElementById('flowChart'));
+    var xAxisData = data.xAxisData;
+    var value = data.value
+    var typeMap = {
+      flow: {
+        name: '时段流量',
+        unit: '单位：次'
+      },
+    }
+
+    var barOption = {
+      color: ['#3398DB'],
+      tooltip : {
+        trigger: 'axis',
+        axisPointer : {
+          type : 'shadow'
+        },
+        textStyle: {
+          fontSize: 10
+        }
+      },
+      grid: {
+        top: '30px',
+        left: '10px',
+        right: '20px',
+        bottom: '5px',
+        containLabel: true
+      },
+      xAxis : [
+        {
+          type : 'category',
+          data : xAxisData,
+          axisLine: {
+            lineStyle:{
+              color: 'rgba(17,89,191,.51)',
+              width: 1,
+            }
+          },
+          axisLabel: {
+            // interval: 0,
+            textStyle:{
+              fontSize:12,
+              color: '#9fc0cc'
+            }
+          },
+          splitLine: {
+            show: false,
+            lineStyle:{
+              color: 'rgba(17,89,191,.51)',
+              width: 1,
+              type: 'solid'
+            }
+          },
+          axisTick: {
+            alignWithLabel: true,
+            length: 0
+          }
+        }
+      ],
+      yAxis : [
+        {
+          type: 'value',
+          name: typeMap.flow.unit,
+          nameTextStyle: {
+            fontSize: 10,
+            color: '#9fc0cc',
+          },
+          // max: 'dataMax',
+          axisLine: {
+            lineStyle:{
+              color: 'rgba(17,89,191,.51)',
+              width: 1
+            }
+          },
+          axisLabel: {
+            textStyle:{
+              fontSize:12,
+              color: '#9fc0cc'
+            }
+          },
+          splitLine: {
+            show: true,
+            lineStyle:{
+              color: 'rgba(17,89,191,.51)',
+              width: 1,
+              type: 'solid'
+            }
+          },
+          axisTick: {
+            alignWithLabel: true,
+            length: 0
+          }
+        }
+      ],
+      series : [
+        {
+          name:'今日'+typeMap.flow.name,
+          type:'bar',
+          barWidth: '30%',
+          itemStyle: {
+            normal: {
+              color: new echarts.graphic.LinearGradient(
+                0, 0, 0, 1, [{
+                  offset: 0,
+                  color: '#25ecc0'
+                },
+                  {
+                    offset: 1,
+                    color: '#47b1e5'
+                  }
+                ]
+              ),
+              shadowColor: 'rgba(0, 0, 0, 0.1)',
+              shadowBlur: 10
+            }
+          },
+          data:value
+        }
+      ]
+    };
+
+    chartBarOfFlow.setOption(barOption);
+    window.addEventListener("resize",function(){
+      chartBarOfFlow.resize();
+    });
+  }
+
+  //车位占用率
+  function setGaugeSpace(data) {
+    var spaceGauge=echarts.init(document.getElementById("spaceGauge"));
+
+    var angle = [269.999, -90];
+    var radius = '90%'
+    var value = data
+
+    var option = {
+      title: {
+        show: false,
+        text: '车位占用率',
+        left: '36%',
+        top: '30%',
+        textStyle: {
+          fontSize: 10,
+          color: '#42a1d4',
+          align: 'center'
+        }
+      },
+      backgroundColor: 'transparent',
+      tooltip: {
+        show: false,
+      },
+      series: [{
+        name: '刻度',
+        type: "gauge",
+        min: 0,
+        max: 100,
+        radius: radius,
+        startAngle: angle[0],
+        endAngle: angle[1],
+        splitNumber: 14,
+        axisLine: {
+          lineStyle: {
+            color: [
+              [1, "#c1c3c5"]
+            ],
+            width: 10
+          }
+        },
+        axisTick: {
+          lineStyle: {
+            color: "#fff",
+            width: 1
+          },
+          length: 0,
+          splitNumber: 1
+        },
+        axisLabel: {
+          show: false,
+          distance: -25,
+          textStyle: {
+            fontSize: 8,
+            color: '#9fc0cc'
+          }
+        },
+        splitLine: {
+          show: true,
+          length: 10,
+          lineStyle: {
+            color: '#fff',
+            width: 1
+          }
+        },
+        itemStyle: {
+          normal: {
+            color: "#818488",
+            shadowColor: 'rgba(0, 0, 0, 0.5)',
+            shadowBlur: 5
+          }
+        },
+        detail: {
+          formatter: '车位占用率',
+          offsetCenter: [0, '-23%'],
+          textStyle: {
+            fontSize: 10,
+            color: "#9fc0cc"
+          }
+        },
+        title: {
+          show: false
+        },
+        pointer: {
+          show: false
+        }
+      }, {
+        name: "内环",
+        type: "gauge",
+        min: 0,
+        max: 100,
+        radius: radius,
+        startAngle: angle[0],
+        endAngle: angle[1],
+        splitNumber: 14,
+        axisLine: {
+          lineStyle: {
+            color: [
+              [
+                value, new echarts.graphic.LinearGradient(
+                0, 0, 0, 1, [{
+                  offset: 0,
+                  color: '#b40cfa'
+                },
+                  {
+                    offset: 1,
+                    color: '#26fcca'
+                  }
+                ]
+              )
+              ],
+              [
+                1, '#115997'
+              ]
+            ],
+            width: 10,
+            shadowColor: 'rgba(0, 0, 0, 0.4)',
+            shadowBlur: 5
+          }
+        },
+        axisTick: {
+          show: false
+        },
+        axisLabel: {
+          show: false
+        },
+        splitLine: {
+          show: true,
+          length: 10,
+          lineStyle: {
+            color: '#fff',
+            width: 1
+          }
+        },
+        pointer: {
+          show: false
+        },
+        detail: {
+          fontSize: 20,
+          offsetCenter: [0, '20%'],
+          formatter: function (value) {
+            return value+'%';
+          },
+          textStyle: {
+            color: "#26fcca"
+          }
+        },
+        data:[
+          {value: value * 100}
+        ]
+      }]
+    }
+    spaceGauge.setOption(option);
+
+    window.addEventListener("resize",function(){
+      spaceGauge.resize();
+    });
+  }
+
+</script>
+</body>
+</html>

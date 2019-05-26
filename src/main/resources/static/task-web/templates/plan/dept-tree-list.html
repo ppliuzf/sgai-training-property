@@ -1,0 +1,31 @@
+<!--组织树模板-->
+{{if items && items.length}}
+{{each items as item}}
+    {{if item.disable && item.disable === 'Y' && isDisabled}}
+    <div class="item">
+        {{if item.nodeType == '0'}}
+        <i class="icon icon-checkbox-disabled"></i>
+        {{else}}
+        <i class="glyphicon glyphicon-user"></i>
+        {{/if}}
+        <span class="title">{{item.nodeName}}</span>
+    </div>
+    {{else}}
+    <li data-number="{{item.empNum}}" data-avatar="{{item.avatar}}" data-id="{{item.nodeId}}" {{item.nodeType == '0' && ' data-group="1"'}}>
+        <input type="checkbox"{{if item.nodeType == '0' && type === 'emp'}} disabled{{/if}}>
+        {{if item.nodeType == '0'}}
+        <i class="icon icon-folder"></i>
+        {{else}}
+        <i class="glyphicon glyphicon-user"></i>
+        {{/if}}
+        <span class="title" data-number="{{item.empNum}}">{{item.nodeName}}</span>
+        {{if item.nodeType == '0' && item.empNum > 0 && !isSearch}}
+        <a href="javascript:" class="inside js-dept-inside"><i class="glyphicon glyphicon-menu-right"></i></a>
+        {{/if}}
+        <div class="clicker"></div>
+    </li>
+    {{/if}}
+{{/each}}
+{{else}}
+    <li class="no-record">无记录</li>
+{{/if}}

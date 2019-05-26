@@ -1,0 +1,26 @@
+{{each items as item itemIndex}}
+<tr data-id="{{item.id}}">
+    <!-- 序号 -->
+     {{ if itemIndex+1< 10}} 
+     <td class="text-center">0{{itemIndex+1}}</td>
+    {{ else }}
+    <td class="text-center">{{itemIndex+1}}</td>
+    {{/if}}
+    <!-- 名称 -->
+    <td>
+        {{item.matName}}
+    </td>
+    <!-- 数量 -->
+    <td>
+        {{item.buyCount}}
+    </td>
+    <!-- 规格 -->
+    <td>
+        {{item.matSpec}}
+    </td>
+    <!-- 型号 -->
+    <td>
+        {{item.matTypeCode}}
+    </td>
+</tr>
+{{/each}}

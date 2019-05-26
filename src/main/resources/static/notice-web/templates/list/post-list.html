@@ -1,0 +1,98 @@
+{{each items as item index}}
+<tr data-id="{{item.id}}">
+    {{ if index+1 < 10}}
+    <td class="text-center" >0{{index+1}}</td>
+    {{ else }}
+    <td class="text-center" >{{index+1}}</td>
+    {{ /if }}
+    <!-- 标题 -->
+    <td>
+        {{if item.infoIsTop === 1 && item.infoStatus === 8}}
+        <div class="titleList1 cont dot" title="{{item.infoTitle}}"><span style="color:#337ab7;">【置顶】</span>{{item.infoTitle}}</div>
+        {{else}}
+        <div class="titleList1 cont dot" title="{{item.infoTitle}}">{{item.infoTitle}}</div>
+        {{/if}}
+    </td>
+    <!-- 摘要 -->
+    <td>
+        <div class="sumList1 cont dot"><a href="./post-list-detail.html?id={{item.id}}" class="underline js-infoSummary" title="{{item.infoSummary}}">{{item.infoSummary}}</a></div>
+    </td>
+    
+    <!-- 发起审核时间 -->
+    <td>
+        <div class="sTimeList cont dot" title="{{if item.initApprovalTime}}{{item.initApprovalTime | dateFormat:'yyyy-MM-dd hh:mm:ss'}}{{/if}}">
+        {{if item.initApprovalTime !== 0}}
+            {{item.initApprovalTime | dateFormat:'yyyy-MM-dd hh:mm:ss'}}
+        {{else}}
+            --
+        {{/if}}
+        </div>
+    </td>
+    <!-- 发布时间 -->
+    <td>
+        <div class="fTimeList cont dot js-publish-time" title="{{if item.publishTime}}{{item.publishTime | dateFormat:'yyyy-MM-dd hh:mm:ss'}}{{/if}}">
+            {{if item.publishTime !== 0}}
+                {{item.publishTime | dateFormat:'yyyy-MM-dd hh:mm:ss'}}
+            {{else}}
+                --
+            {{/if}}
+        </div>
+    </td>
+    <!-- 类型 -->
+    <td>
+        <div class="typeList cont dot">
+        {{if item.infoUrgency === 1}}
+        紧急
+        {{else}}
+        一般
+        {{/if}}
+        </div>
+    </td>
+    <!-- 审核人 -->
+    <td>
+        <div class="peopleList cont dot" title="item.approvalEmpName">
+            {{item.approvalEmpName || '--'}}
+        </div>
+    </td>   
+    <!-- 状态 -->
+    <td>
+        <div class="statusList cont dot js-status">
+        {{if item.infoStatus === 1}}
+        待审核
+        {{/if}}
+        {{if item.infoStatus === 16}}
+        已撤回
+        {{/if}}
+        {{if item.infoStatus === 2}}
+        已拒绝
+        {{/if}}
+        {{if item.infoStatus === 4}}
+        待发布
+        {{/if}}
+        {{if item.infoStatus === 8}}
+        已发布
+        {{/if}}
+        </div>
+    </td>
+    <!-- 操作 -->
+    <td class="text-center act">
+            {{if item.infoIsTop === 1 && item.infoStatus === 8}}
+                <a class="js-top underline" data-id="{{item.infoIsTop}}">取消置顶</a>
+            {{/if}}
+            {{if item.infoIsTop === 0 && item.infoStatus === 8}}
+                <a class="js-cancleTop underline" data-id="{{item.infoIsTop}}">置顶</a>
+            {{/if}}
+            {{if item.infoStatus === 1 || item.infoStatus === 8}}
+                <a class="js-revoke underline" data-id="{{item.infoId}}">撤回</a>
+            {{/if}}
+            {{if item.infoStatus === 4}}
+                <a class="js-publish underline" data-id="{{item.infoId}}">发布</a>
+                <a class="js-revoke underline" data-id="{{item.infoId}}">撤回</a>
+            {{/if}}
+            {{if item.infoStatus === 2 || item.infoStatus === 16}}
+                <a href="./add-notice.html?infoId={{item.id}}" class="js-edit underline" data-id="{{item.infoId}}">编辑</a>
+            {{/if}}
+        
+    </td>
+</tr>
+{{/each}}

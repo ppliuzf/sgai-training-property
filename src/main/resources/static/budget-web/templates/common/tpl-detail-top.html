@@ -1,0 +1,11 @@
+<dl style="float: left">
+    <dt>模板名称</dt>
+    <dd>{{item.templateName}}</dd>
+</dl>
+<dl style="float: left" class="ml200">
+    <dt>预算周期</dt>
+    {{if item.cycle === 1}}<dd>全年</dd>{{/if}}
+    {{if item.cycle === 2}}<dd>半年</dd>{{/if}}
+    {{if item.cycle === 3}}<dd>季度</dd>{{/if}}
+    {{if item.cycle === 4}}<dd>月</dd>{{/if}}
+</dl>

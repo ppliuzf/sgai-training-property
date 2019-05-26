@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>发公告</title>
+    <link rel="stylesheet" href="../lib/css/default.css">
+    <link rel="stylesheet" href="./vendor/ckeditor/samples/old/sample.css">
+    <link rel="stylesheet" href="./vendor/ckeditor/samples/toolbarconfigurator/lib/codemirror/neo.css">
+	<style>
+		.isHide {
+	    	display: none;
+		}
+	</style>
+</head>
+<body id="main">
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>新增公告</h4>
+        </div>       
+        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 js-main">
+                <div id = 'stepOneCont'>
+                    <div class="stepOne" id="stepOne"></div>
+                    <div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary" id='nextStep'>下一步</button>
+                            <button type="submit" class="btn btn-default" id="preview">预览</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="stepTwoCont" class="isHide">
+                    <div class="stepTwo" id="stepTwo"></div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" id="releaseInfo">确认发布</button>
+                        <button type="submit" class="btn btn-primary" id="releaseInfoAddInfo">发布并新增</button>
+                        <button type="submit" class="btn btn-default" id="beforeStep">上一步</button>
+                    </div>
+                </div>
+                
+        </div>
+       
+        <nav class="text-right pages"></nav>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/deptTree.js"></script>
+    <script src="./js/server/utils.js"></script>
+   
+    <!--ckeditor插件-->
+    <script src="./vendor/ckeditor/ckeditor.js"></script>
+	<script src="./vendor/ckeditor/samples/js/sample.js"></script>
+	<!--时间插件-->
+    <script src="../lib/lib/bootstrap-datetimepicker.min.js"></script>
+    <script src="../lib/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../lib/lib/lightbox.min.js"></script>
+    <script src="./js/controller/add-notice.js"></script>
+</body>
+</html>

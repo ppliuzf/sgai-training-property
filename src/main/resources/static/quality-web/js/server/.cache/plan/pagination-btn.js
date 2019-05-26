@@ -1,0 +1,2 @@
+/*TMODJS:{"version":12,"md5":"a6e51060ab78aa0e6dca7f24c2d51e8b"}*/
+template('plan/pagination-btn','<div class="col-xs-1 col-md-8 col-lg-8"></div> <ul class="pagination col-xs-11 col-md-4 col-lg-4"> <li><a href="#">上一页</a></li> <li><a href="#">1</a></li> <li><a href="#">2</a></li> <li><a href="#">3</a></li> <li><a href="#">4</a></li> <li><a href="#">5</a></li> <li><a href="#">下一页</a></li> </ul>');

@@ -1,0 +1,15 @@
+<div class="form-inline js-materiel-list4 h200">
+    {{each items as item index}} {{if item.isChecked == 7}}
+    <div class="form-group add">
+        <input id="{{item.matTypeId}}" type="checkbox" class="warn-btn" data-index="{{index}}" matname="{{item.matName}}" spec="{{item.spec}}"
+            mattypecode="{{item.matTypeCode}}" checked="checked">
+        <span>{{item.matName}}</span>
+    </div>
+    {{else if item.isChecked == 6}}
+    <div class="form-group add">
+        <input id="{{item.matTypeId}}" type="checkbox" class="warn-btn" data-index="{{index}}" matname="{{item.matName}}" spec="{{item.spec}}"
+            mattypecode="{{item.matTypeCode}}">
+        <span>{{item.matName}}</span>
+    </div>
+    {{/if}} {{/each}}
+</div>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>会议预定</title>
+    <link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row header">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                <h4>会议预定</h4>
+            </div>
+            <div class="btns text-right">
+                <!-- <a href="./order-list.html" class="btn btn-primary">我的预定</a> -->
+                <button type="button" class="btn btn-primary" onClick="window.open('./order-list.html','_self')">我的预定</button>
+            </div>
+        </div>
+        <!-- <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+            <div class="form-group">
+                <label for="start-time">开始时间:</label>
+                <select id="start-time" class="form-control"></select>
+            </div>
+            <div class="form-group">
+                <label for="end-time">结束时间:</label>
+                <select id="end-time" class="form-control"></select>
+            </div>
+                <button type="button" class="btn btn-primary" class="js-search">搜索</button>
+        </div> -->
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="week-selector"></div>
+            <div class="row" style="margin-top: 20px">
+                <div class="col-xs-4 col-sm-4 col-md-3 col-lg-3"></div>
+                <div class="col-xs-4 col-sm-4 col-md-6 col-lg-6 text-center">
+                    <div class="row ">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <label for="start-time" style="margin-top: 7px">开始时间:</label>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <select id="start-time" class="form-control"></select>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <label for="end-time" style="margin-top: 7px">结束时间:</label>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                            <select id="end-time" class="form-control"></select>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <button type="button" class="btn btn-primary js-search">搜索</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h4>会议室列表</h4>
+            <table class="table table-bordered table-hover table-striped table-list">
+                <thead>
+                    <tr>
+                        <th class='text-center' width="60">序号</th>
+                        <th>会议室名称</th>
+                        <th>会议室位置</th>
+                        <th width="100">可容纳</th>
+                        <th>设备</th>
+                        <th width="92" class="text-center">操作</th>
+                    </tr>
+                </thead>
+                <tbody class="js-list"></tbody>
+            </table>
+        </div>
+        <nav class="text-right pages"></nav>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="../lib/lib/bootstrap-datetimepicker.min.js"></script>
+    <script src="../lib/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../lib/lib/lightbox.min.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/order.js"></script>
+</body>
+
+</html>

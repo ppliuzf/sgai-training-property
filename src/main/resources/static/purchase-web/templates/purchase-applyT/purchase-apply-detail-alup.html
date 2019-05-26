@@ -1,0 +1,39 @@
+<table>
+<tbody>
+        <tr>
+            <td class="col-lg-1 col-md-1 col-sm-1 text-center">订单来源</td>
+            <td class="col-lg-3 col-md-3 col-sm-3 value">
+                {{if items.orderType == 1}}
+                    需求订单
+                    {{else}}
+                    计划采购
+                    {{/if}}</td>
+            <td class="col-lg-1 col-md-1 col-sm-1 text-center">申请人</td>
+            <td class="col-lg-3 col-md-3 col-sm-3 value">
+                {{if items.planEmpName}}
+                    {{items.planEmpName}}
+                    {{else}}
+                    --
+                    {{/if}}</td>
+            <td class="col-lg-1 col-md-1 col-sm-1 text-center">申请日期</td>
+            <td class="col-lg-3 col-md-3 col-sm-3 value">
+                    {{if items.taskPurchaseDate}}
+                    {{items.taskPurchaseDate | dateFormat:'yyyy-MM-dd'}}
+                    {{else}}
+                    --
+                    {{/if}}
+            </td>
+        </tr>
+        <tr>
+            <td class="text-center">所属部门</td>
+            <td class="value">
+                {{if items.taskDept}}
+                    {{items.taskDept}}
+                    {{else}}
+                    --
+                    {{/if}}</td>
+            <td class="text-center">申请理由</td>
+            <td class="value" colspan="3">{{items.taskOpinion}}</td>
+        </tr>
+    </tbody>
+</table>

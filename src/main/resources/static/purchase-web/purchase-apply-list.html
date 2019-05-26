@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>采购申请</title>
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+
+<body class="main2">
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>采购申请</h4>
+        </div>
+        <!-- 搜索 -->
+        <div class="form-inline filter">
+            <div class="form-group">
+                <label for="keyWords" class="control-label">申请人</label>
+                <input id="keyWords" type="text" class="form-control" placeholder="请输入申请人">
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary js-search">搜索</button>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th width="60" class="text-center">序号</th>
+                    <th width="100">申请编号</th>
+                    <th width="100">申请人</th>
+                    <th width="160">所属部门</th>
+                    <th width="">申请理由</th>
+                    <th width="160">申请日期</th>
+                    <th width="100">需求状态</th>
+                    <th width="92" class="text-center">操作</th>
+                </tr>
+            </thead>
+            <tbody class="js-list"></tbody>
+        </table>
+        <nav class="text-right pages"></nav>
+        
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/purchase-applyT/purchase-apply-list.js"></script>
+</body>
+
+</html>

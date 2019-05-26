@@ -1,0 +1,228 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+    <meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+    <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+    <!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+    <!--[if lte IE 6]><link href="../static/bootstrap/bsie/css/bootstrap-ie6.min.css" type="text/css" rel="stylesheet" />
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+    <link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+    <script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+    <link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+    <link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+    <script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script src="../static/common/mustache.min.js" type="text/javascript"></script>
+    <link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/common/smart.min.js" type="text/javascript"></script>
+    <script type="text/javascript">var ctx = '/admin', ctxStatic='../static';</script>
+    <script src="../static/jquery-form/3.51.0/jquery.form.js"
+            type="text/javascript"></script>
+    <script src="../config/smart-common.js" type="text/javascript"></script>
+    <link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+    <script src="../static/media/js/main.js" type="text/javascript"></script>
+    <title>事件类型增加</title>
+    <meta name="decorator" content="default">
+   <style>
+   		.form-horizontal .control-label{
+   			width:100px;
+   		}
+   </style>		
+    <script>
+  //获取跳转地址的参数
+    function GetQueryString(name){
+         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+         var r = window.location.search.substr(1).match(reg);
+         if(r!=null)return  unescape(r[2]); return null;
+    }
+  
+    var paramId=GetQueryString("paramId");
+        // 表单验证
+        $.validator.setDefaults({
+            submitHandler: function() {
+                // 调用提交
+                save();
+            }
+        });
+        $().ready(function () {
+            // 在键盘按下并释放及提交后验证提交表单
+            $("#inputForm").validate({
+            	errorPlacement: function(error, element) {
+        			// Append error within linked label
+        			$(element).parent().append( error );
+        		},
+                rules: {
+                    emTypeCode: {
+                        required: true,
+                        minlength: 1
+                    },
+                    emTypeName: {
+                        required: true,
+                        minlength: 1
+                    },
+                    enabledFlag: {
+                        required: true,
+                        minlength: 1
+                    },
+                    remarks: {
+                        required: true,
+                        minlength: 1
+                    }
+                },
+                messages:{
+                    emTypeCode: {
+                        required: "请输入事件类型编号",
+                    },
+                    oprTable: {
+                        required: "请输入事件类型名称",
+                    },
+                    enabledFlag: {
+                        required: "请选择可用",
+                    },
+                    remarks: {
+                        required: "请输入备注",
+                    }
+                }
+            });
+        })
+    </script>
+    <script type="text/javascript">
+        var moduList=null;
+        var paraList=null;
+
+        $(document).ready(function() {
+        	autoSize();
+        	if(paramId!=null){
+        		$('#myModal #myModalLabel', window.parent.document).text("事件类型修改");
+        	}else{
+        		$('#myModal #myModalLabel', window.parent.document).text("事件类型增加");
+        	}
+        });
+
+
+
+        function save(){
+
+            var ajax_option={
+                headers    : {
+                    "token" : localStorage.getItem("token"),
+                },
+                url:APIHost + '/admin/mdmEmType/save',//默认是form action
+                success:function(response){
+                    var data = response.data;
+                    if(data.msg=="success"){
+                    	$.jBox.alert("保存成功","提示",{ closed: function ()
+							{window.parent.location.href= APIHost + "/mdm/mdmEmType.html"; }});
+                    }
+                    else{
+                        alert("添加失败");
+                    }
+                }
+            }
+
+            $("#inputForm").ajaxSubmit(ajax_option);
+
+
+        }
+        
+      //获取修改数据
+        function updatepageload() {
+            //添加新tbody
+            $.ajax({
+                headers : {
+                    "token" : localStorage.getItem("token"),
+                },
+                url : APIHost + '/admin/mdmEmType/getEmType',
+                type : 'POST',
+                async : true, //或false,是否异步
+                data : {
+                    id : paramId
+                },
+                timeout : 30000,
+                dataType : 'json',
+                success : function(res) {
+                	$("#id").attr('value',paramId);
+					$("#emTypeCode").attr('value',res.data.emTypeCode);
+					$("#emTypeName").attr('value',res.data.emTypeName);
+					$("#remarks").attr('value',res.data.remarks);
+					if(res.data.enabledFlag=="Y"){
+						$('#select2-enabledFlag-container').html("Y");
+						$("#enabledFlag").attr('value',"Y");
+					}
+					else{
+						$('#select2-enabledFlag-container').html("N");
+						$("#enabledFlag").attr('value',"N");
+					}
+                },
+                error : function() {
+                    console.log('错误')
+                }
+            })
+        }
+      
+      
+        $(function(){
+        	 setTimeout(function(){
+        		 if(paramId != null){
+        		        updatepageload();
+        		    }
+        	},500)
+        	
+        })
+
+        function closePopUp(){
+            $('#myModal .close', window.parent.document).click();
+        }
+    </script>
+</head>
+<body>
+<form id="inputForm" class="form-horizontal" action=APIHost+"/admin/mdmEmType/save" method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+    <script type="text/javascript">top.$.jBox.closeTip();</script>
+
+    <div class="control-group">
+        <span class="control-label">事件类型编号：</span>
+        <div class="controls">
+            <input id=emTypeCode name="emTypeCode" class="required" type="text"  maxlength="50">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+        <span class="control-label">事件类型名称：</span>
+        <div class="controls">
+            <input id=emTypeName name="emTypeName" class="required" type="text"  maxlength="50">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+        <span class="control-label">可用：</span>
+        <div class="controls">
+            <select id="enabledFlag" name="enabledFlag" class="input-large select2-offscreen" tabindex="-1">
+                <option></option>
+                <option value="Y">Y</option>
+                <option value="N">N</option>
+            </select>
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+        <span class="control-label">备注：</span>
+        <div class="controls">
+          <!--   <input id="remarks" name="remarks" class="required userName" type="text"  maxlength="50"> -->
+            <textarea id="remarks" name="remarks"  maxlength="100"  style="overflow-y:hidden;" class="required userName textAreas"></textarea>
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <input id="btnCancel" class="btn" type="button" value="关 闭" onclick="closePopUp()">
+        <input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存">&nbsp;
+    </div>
+</form>
+
+</body></html>

@@ -1,0 +1,5 @@
+<select id="{{id}}" lay-filter="{{id}}" style="width: 60%; height: 30px">
+    {{each items as item}}
+    <option value="{{item.periodName}}" data-paId="{{item.id}}">{{item.periodName}}</option>
+    {{/each}}
+</select>

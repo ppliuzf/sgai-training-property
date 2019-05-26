@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>会议室类型维护</title>
+    <link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+
+<body>
+    <div class="container-fluid type-list-page">
+        <div class="row header">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                <h4>会议室类型维护</h4>
+            </div>
+            <!-- <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-right">
+                <a href="./type-list-add.html" class="btn btn-primary add-meeting-room">新建类型</a>
+            </div> -->
+            <div class="btns text-right">
+                <button type="button" class="btn btn-primary" onClick="window.open('./type-list-add.html','_self')">新建类型</button>
+            </div>
+        </div>
+        <div class="js-join"></div>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/type-list.js"></script>
+</body>
+
+</html>

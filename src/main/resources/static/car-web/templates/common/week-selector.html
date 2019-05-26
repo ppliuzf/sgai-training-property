@@ -1,0 +1,17 @@
+<div class="week-selector">
+    <div class="title text-center">{{year}}年{{month}}月</div>
+    <div class="selector">
+        <ul class="clearfix">
+            {{each items as item}}
+            <li class="{{item.day === day && 'current today'}}">
+                <div class="item">
+                    <p class="day">{{item.day}}日</p>
+                    <p class="week">周{{item.week}}</p>
+                </div>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    <a class="prev"><i class="glyphicon glyphicon-menu-left"></i></a>
+    <a class="next"><i class="glyphicon glyphicon-menu-right"></i></a>
+</div>

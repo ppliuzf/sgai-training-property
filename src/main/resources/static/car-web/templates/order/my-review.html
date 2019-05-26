@@ -1,0 +1,42 @@
+ {{each items as item}}
+<tr>
+    <td class='text-center'>{{item.num}}</td>
+    <td class='pro'>
+        <a href="already-passed.html?id={{item.id + '&riAuditStatus='+ item.riAuditStatus +'&createdDtLong='+ item.createdDtLong}}">
+        {{item.ciNumber}}</a>
+    </td>
+    <td>{{item.ciDepartment }}</td>
+    <td>{{item.riUseStart }}</td>
+    <td>{{item.riUserName }}</td>
+    <td>{{item.updatedDt}}</td>
+    <td>
+        <div style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; width:250px;">{{item.riUsePurpose }} </div>
+    </td>
+    <td>
+        {{if item.riAuditStatus === 0}}
+        <span>未提交</span> 
+        {{else if item.riAuditStatus === 1}}
+        <span>未审核</span> 
+        {{else if item.riAuditStatus === 2}}
+        <span>已通过</span> 
+        {{else if item.riAuditStatus === 3}}
+        <span>已拒绝</span> 
+        {{else if item.riAuditStatus === 5}}
+        <span>归还中</span> 
+        {{else}}
+        <span>已归还</span> 
+        {{/if}}
+    </td>
+
+
+    <td class='text-center'>
+        {{if item.riAuditStatus == 1}}
+            <a href='javascript:;' class="js-edit1" data-id={{item.id}}-{{item.riAuditStatus}}-{{item.riAuditName1}}-{{item.riAuditName}}>通过</a>
+            <a href="javascript:;" class="js-edit2" data-id={{item.id}}-{{item.riAuditStatus}}-{{item.riAuditName1}}-{{item.riAuditName}}>拒绝</a>
+        {{else}}
+        <div>-</div>
+        {{/if}}
+    </td>
+
+</tr>
+{{/each}}

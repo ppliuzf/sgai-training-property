@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>新建订单</title>
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row header">
+            <h4 class="hidden" id="creat">新建订单</h4>
+            <h4 class="hidden" id="edit">编辑订单</h4>
+            <div class="btns text-right">
+                <button type="submit" class="btn btn-primary" id="save">保存</button>
+                <button type="submit" class="btn btn-default" id="cancle">取消</button>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 js-main">
+            <form class="col-xs-9 col-sm-9 col-md-9 col-lg-9 js-main">
+                <div class="form-group">
+                    <label for="activeProcurement">
+                        订单来源
+                    </label>
+                    <input id="activeProcurement" type="text" class="form-control" placeholder="主动采购" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="">
+                        <span class="require"></span>采购人
+                    </label>
+                    <div class='form-group'>
+                        <div class="js-instant-search"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="partment">
+                        <span class="require"></span>部门
+                    </label>
+                    <div class='form-group'>
+                        <div class="js-dept-selector"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dtp_input2" class="control-label faqiTime">
+                        <span class="require"></span>采购时间</label>
+                    <div class="input-group" >
+                        <input id="fqTimeStart" data-link-format="yyyy-mm-dd" data-date="" data-date-format="yyyy-MM-dd" class="form-control  form_date2" size="16" type="text" value="" readonly>
+                        <span class="input-group-addon js-date-clean">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </span>
+                    </div>
+                    <input type="hidden" id="dtp_input2" value="" />
+                </div>
+            </form>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 js-main">
+                <h4 class="wlmxM">物料明细</h4>
+                <div class="text-right wlmx">
+                    <button type="button" class="btn btn-primary js-select-materiel">采购物料</button>
+                </div>
+                <div class="form-inline" id="mainTable">
+                    <table class="table table-bordered table-hover js-table" id="js-table">
+                        <thead>
+                            <tr class="active">
+                                <th width="60" class="text-center">序号</th>
+                                <th>物料名称</th>
+                                <th>供应商</th>
+                                <th>物料数量</th>
+                                <th>规格</th>
+                                <th>型号</th>
+                            </tr>
+                        </thead>
+                        <tbody class="js-wuliao-list"></tbody>
+                    </table>
+                    <nav class="text-right pages"></nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/deptTree.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="../lib/lib/bootstrap-datetimepicker.min.js"></script>
+    <script src="../lib/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="./js/controller/purchase-add.js"></script>
+</body>
+</html>

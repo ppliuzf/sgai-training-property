@@ -1,0 +1,38 @@
+{{each items as item itemIndex}}
+<tr data-id="{{item.id}}">
+    <!-- 序号 -->
+    {{ if itemIndex+1 < 10}}
+        <td class="text-center">0{{itemIndex+1}}</td>
+    {{ else }}
+        <td class="text-center">{{itemIndex+1}}</td>
+    {{/if}}
+    <!-- 订单编号 -->
+    <td>
+        <a class="underline js-detail" orderstat="{{item.orderStat}}" id-main="{{item.id}}">{{item.orderNo}}</a>
+    </td>
+    <!-- 订单类型 -->
+    <td>
+         {{if item.orderType === 1}} 需求订单 {{else item.orderType === 2}} 主动采购 {{/if}}
+    </td>
+    <!-- 需求单号 -->
+    <td>
+         {{item.applyNo}}
+    </td>
+    <!-- 制单人 -->
+    <td>
+         {{item.orderEmpName}}
+    </td>
+    <!-- 制单日期 -->
+    <td>
+         {{item.orderDate | dateFormat:'yyyy-MM-dd hh:mm:ss'}}
+    </td>
+    <!-- 状态 -->
+    <td>
+        {{if item.orderStat === 1}} 
+        待审核 {{else if item.orderStat === 2}} 
+        已拒绝 {{else if item.orderStat === 3 || item.orderStat === 4 || item.orderStat === 5}}
+        已通过
+        {{/if}}
+    </td>
+</tr>
+{{/each}}

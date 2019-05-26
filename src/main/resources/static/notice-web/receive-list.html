@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>我收到的</title>
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+<body class="main1">
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>我收到的</h4>
+            
+            <!-- <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-right">
+                <button type="button" class="btn btn-primary addnotice">新增公告</button>
+            </div> -->
+        </div>
+        <!-- 搜索 -->
+        <form class="form-inline filter">
+            <div class="form-group">
+                <label for="keyWords" class="control-label">搜索内容</label>
+                <input id="keyWords" type="text" class="form-control" placeholder="请输入搜索内容" maxlength="20">
+            </div>
+            <div class="form-group">
+                <label for="type" class="control-label">类型</label>
+                <select id="type" class="form-control" required="required">
+                    <option value="all">全部</option>
+                    <option value="1">紧急</option>
+                    <option value="0">一般</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary js-search">搜索</button>
+            </div>
+        </form>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th class="text-center" width="60">序号</th>
+                    <th width="400">标题</th>
+                    <th>摘要</th>
+                    <th width="60">类型</th>
+                    <th width="70">发布人</th>
+                </tr>
+            </thead>
+            <tbody class="js-list"></tbody>
+        </table>
+        <nav class="text-right pages"></nav>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/receive-list.js"></script>
+</body>
+</html>

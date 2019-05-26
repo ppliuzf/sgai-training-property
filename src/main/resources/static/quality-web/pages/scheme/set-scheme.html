@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>检验方案-配置检验方案</title>
+    <link rel="stylesheet" href="../../css/default.css">
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        html, body, .container-fluid {
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .header {
+            margin-bottom: 0;
+            box-sizing: border-box;
+        }
+
+        .js-main {
+            padding: 0;
+            height: calc(100% - 68px);
+            box-sizing: border-box;
+        }
+
+        .aside {
+            height: 100%;
+            padding: 20px 0;
+            border-right: #ddd 1px solid;
+            box-sizing: border-box;
+        }
+
+        .main-bd {
+            padding: 20px 15px;
+        }
+
+        .main-bd h4 {
+            margin: 0;
+            line-height: 34px;
+        }
+
+        .main-tit {
+            padding: 0 0 20px 0;
+        }
+
+        .aside h4 {
+            margin: 0;
+            line-height: 34px;
+        }
+
+        .item {
+            font-size: 14px;
+        }
+
+        .item p {
+            color: #777e8c;
+            margin: 0;
+        }
+
+        .item .cont {
+            color: #2b3642;
+        }
+
+        .FaDesc {
+            width: 100%;
+            white-space: normal;
+            word-break: break-all;
+            padding-right: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row header">
+        <h4>检验方案</h4>
+        <div class="btns text-right">
+            <a href="../../project-list.html" class="btn btn-default js-btn-back">返回</a>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 js-main">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 aside"></div>
+
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 main-bd">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 main-tit">
+                <h4>检验方案</h4>
+            </div>
+            <div class="text-right btns">
+                <button class="btn btn-primary js-detect-group">检验项分组</button>
+                <button type="button" class="btn btn-primary js-get-det" data-toggle="modal" data-target="#myModal">
+                    引用检验项
+                </button>
+            </div>
+            <div>
+                <table class="table table-bordered table-hover add-tab">
+                    <thead>
+                    <tr>
+                        <th width="60" class="text-center">序号</th>
+                        <th>检验项</th>
+                        <th>组</th>
+                        <th style="width: 200px">检验标准</th>
+                        <th>答案类型</th>
+                        <th>创建人</th>
+                        <th>创建时间</th>
+                        <th width="92" class="text-center act">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="js-list"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">引用检验项</h4>
+            </div>
+            <div class="modal-body">
+                <div class="filter">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label for="keyword">未关联检验项</label>
+                            <input type="text" class="form-control" id="keyword" name="keyword" placeholder="请输入检验项名称">
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary js-search">搜索</button>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered table-hover add-tab">
+                    <thead>
+                    <tr>
+                        <th width="60" class="text-center">序号</th>
+                        <th>检验项</th>
+                        <th style="width: 300px">标准</th>
+                        <th>答案类型</th>
+                        <th>创建人</th>
+                        <th>创建时间</th>
+                        <th width="92" class="text-center act">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody class="js-det-list"></tbody>
+                </table>
+                <nav class="text-right pages"></nav>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../js/lib/jquery.min.js"></script>
+<script src="../../js/lib/bootstrap.min.js"></script>
+<script src="../../js/lib/lightbox.min.js"></script>
+<script src="../../js/server/template.js"></script>
+<script src="../../../config/config.js"></script>
+<script src="../../js/server/utils.js"></script>
+<script src="../../js/controller/scheme/set-scheme.js"></script>
+</body>
+</html>

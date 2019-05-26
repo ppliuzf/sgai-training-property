@@ -1,0 +1,17 @@
+{{each items as item itemIndex}}
+<tr>
+    <td style="text-align:center;">{{itemIndex+1 < 10 ? "0" + (itemIndex+1) : itemIndex+1}}</td>
+    <td> <div class="cont dot" title="{{item.no}}"> <a href="./contract-detail.html?id={{item.id}}">{{item.no}}</a></div></td>
+    <td> <div class="cont dot HH" title="{{item.name}}">{{item.name}}</div></td>
+    <td> <div class="cont dot" title="{{item.typeName}}">{{item.typeName}}</div></td>
+    <td> <div class="cont dot" title="{{item.creatTime}}">{{item.creatTime}}</div></td>
+    <td> <div class="cont dot" title="{{item.creater}}">{{item.creater}}</div></td>
+    <td>
+        {{if item.status === 1 }}
+       <div class="cont dot" title="{{item.status}}">未签约</div>
+       {{else item.status === 2 }}
+        <div class="cont dot" title="{{item.status}}">已签约</div>
+        {{/if}}
+      </td>
+</tr>
+{{/each}}

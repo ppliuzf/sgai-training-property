@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>修改参观接待记录</title>
+	
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+	<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+    <link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+    <link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+    <script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script src="../static/common/mustache.min.js" type="text/javascript"></script>
+    <link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+    <link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript">var ctx = '/admin', ctxStatic='../../static';</script>
+    <script src="../../config/smart-common.js" type="text/javascript"></script>
+    <style>
+	   select{
+	        height: 36px !important;
+	        width: 284px;
+	   } 
+	</style>
+</head>
+<body>		 
+	<form id="inputForm" class="form-horizontal"  method="post" >
+	    <input id="id" name="id" type="hidden" value=""/>
+        
+	    <div class="control-group">
+	        <label class="control-label">预约时间:</label>
+	        <div class="controls">
+	            <input id="appTime" name="appTime"  type="text" class="Wdate" value="" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm' })" />
+	            <font color="red">*</font>
+	        </div>
+	    </div>
+	    <div class="control-group">
+	        <label class="control-label">预约人:</label>
+	        <div class="controls">
+	             <input id="appPerson" name="appPerson"  type="text" value="" />
+	             <font color="red">*</font>
+	        </div>
+	    </div>
+	    <div class="control-group">
+	        <label class="control-label">预约电话:</label>
+	        <div class="controls">
+	            <input id="appPhone" name="appPhone"  type="text" value="" />
+	      		<font color="red">*</font>
+	        </div>
+	    </div>
+       <div class="control-group">
+	        <label class="control-label">接待时间:</label>
+	        <div class="controls">
+	            <input id="receptionTime" name="receptionTime" class="Wdate" type="text" value="" onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm' })" />
+		        <font color="red">*</font>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">接待地点:</label>
+	        <div class="controls">
+	            <select id="receptionAddress" name="receptionAddress" >
+                    <option value="" selected="selected" >请选择</option>
+                    <option value="门口" >门口</option>
+                    <option value="南门" >南门</option>
+                    <option value="西门" >西门</option>
+	            </select>
+		        <font color="red">*</font>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">参观单位:</label>
+	        <div class="controls">
+	        	<input id="visitUnit" name="visitUnit"  type="text" value="" />
+	            <font color="red">*</font>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">参观人数:</label>
+	        <div class="controls">
+	            <input id="visitNumber" name="visitNumber"  type="text" value="" />
+	            <font color="red">*</font>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">领队电话:</label>
+	        <div class="controls">
+	            <input id="leaderPhone" name="leaderPhone"  type="text" value="" />
+	            <font color="red">*</font>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">参观级别:</label>
+	        <div class="controls">
+	        	<select id="visitLevel" name="visitLevel">
+	            	<option value="" selected="selected" >请选择</option>
+                    <option value="市级">市级</option>
+                    <option value="公司级">公司级</option>
+                    <option value="一般">一般</option>
+	            </select>
+	            <font color="red">*</font>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">预约参观时间:</label>
+	        <div class="controls">
+	            <input id="appVisitTime" name="appVisitTime" class="Wdate" type="text"  onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm' })" value="" >
+	            <font color="red">*</font>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">参观区域:</label>
+	        <div class="controls">
+	        	<select id="visitArea" name="visitArea">
+	            	<option value="" selected="selected" >请选择</option>
+                    <option value="南广场"  >南广场</option>
+                    <option value="料仓五层" >料仓五层</option>
+                    <option value="会议中心" >会议中心</option>
+                    <option value="展厅一层" >展厅一层</option>
+                    <option value="地下展厅" >地下展厅</option>
+	            </select>
+	            <font color="red">*</font>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">结束时间:</label>
+	        <div class="controls">
+	            <input id=overTime name="overTime" class="Wdate" type="text"  onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm' })" value="" >
+	            <font color="red">*</font>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">参观用时:</label>
+	        <div class="controls">
+	            <input id=visitingTime name="visitingTime"  type="text"  value="" >
+	            <font color="red">*</font>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">备注:</label>
+	        <div class="controls">
+	        	<textarea id="remarks" name="remarks" rows="5" cols="40" style="width:270px;resize:none"></textarea>
+	        </div>
+        </div>
+	    <div class="form-actions">
+	    	<input id="btnSubmit" class="btn btn-primary" type="submit" value="保  存">&nbsp;
+	        <input id="btnCancel" class="btn " type="button" value="返  回"  onclick="back()">
+	    </div>
+	</form>
+	
+	<script type="text/javascript">
+				
+		// 获取Parent页面传来的参数(<paramId>Entity实际id)
+		var entityID=GetQueryString("paramId");
+		if(entityID != null){
+			updatepageload();
+		}
+		// 接收Parent页面携带的数据
+		function GetQueryString(name){
+	        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	        var r = window.location.search.substr(1).match(reg);
+	        if(r!=null)return  unescape(r[2]); return null;
+	    }
+		// 传入id参数通过findGoodsById方法获取到对象数据并赋值到页面字段中
+	    function updatepageload(){
+	       $.ajax({
+	    	   headers : { "token" : localStorage.getItem("token")},
+	           url : APIHost + '/visitReception/findVisitReceptionById',
+	           type : 'POST',
+	           async : false, //或false,是否异步
+	           data : {
+	               id : entityID
+	           },
+	           timeout : 5000,
+	           dataType : 'json',
+	           success : function(res) {
+	        	    if (res.data != null){
+			           	$("#id").val(res.data.id);
+						$("#appTime").val(res.data.appTime);
+						$("#appPerson").val(res.data.appPerson);
+						$("#appPhone").val(res.data.appPhone);
+						$("#receptionTime").val(res.data.receptionTime);
+						$("#receptionAddress").val(res.data.receptionAddress);
+						$("#visitUnit").val(res.data.visitUnit); 
+						$("#visitNumber").val(res.data.visitNumber); 
+						$("#leaderPhone").val(res.data.leaderPhone);
+						$("#visitLevel").val(res.data.visitLevel); 
+						$("#appVisitTime").val(res.data.appVisitTime);
+						$("#visitArea").val(res.data.visitArea); 
+						$("#overTime").val(res.data.overTime); 
+						$("#visitingTime").val(res.data.visitingTime); 
+						$("#remarks").val(res.data.remarks);
+	        	    } else if(res.code === 1003){
+	        	    	parent.hideDiv();
+	        	    	parent.jBox.alert('请先登录', '提示',{closed: function (){window.parent.location.href= APIHost + "/sys/sysLogin.html";}});
+					} else {
+	                	parent.hideDiv();
+	                	parent.jBox.alert("异常状态 , 请联系管理员调试 !","提示");
+	                }
+	           }
+	       });
+	    }
+	   
+		 // 开启表单验证,调用提交
+	    $.validator.setDefaults({
+	        submitHandler: function () {
+	            formSubmit();
+	        }
+	    });
+		// 提交数据
+	    function formSubmit() {
+	        var saveData = {
+	            headers: {"token": localStorage.getItem("token")},
+	            url: APIHost + '/visitReception/save',
+	            success: function (response) {
+	            	if (response.data.msg == "success") {
+						parent.hideDiv();
+	                    parent.pageload();
+						parent.jBox.alert("保存成功 !","提示");
+	                }else if (response.code === 1003){
+	                	parent.hideDiv();
+	                	parent.jBox.alert('请先登录', '提示',{closed: function (){window.parent.location.href= APIHost + "/sys/sysLogin.html";}});
+	                } else {
+	                	parent.hideDiv();
+	                	parent.jBox.alert("异常状态 ,请重试 !", "提示");
+	                }
+	            },
+	            beforeSend:function(){
+	          		var loading=$('<div id="loading"></div>');
+	          		$('body').append(loading);
+	          		$("#btnSubmit").attr("disabled",true)
+	          	},
+	          	complete:function(){
+	            	$("#btnSubmit").attr("disabled",false);
+	            	$("#loading").hide();
+	            }
+	        }
+	        $("#inputForm").ajaxSubmit(saveData);
+	    } 
+        // 表单输入校验
+		$(document).ready(function() {
+	        $("#inputForm").validate({
+	        	rules: {
+	        		appTime:{
+	                	required: true
+	                },
+	                appPerson:{
+	                	required: true
+	                },
+	                appPhone:{
+	                	required: true,
+	                	rangelength: [6,11],
+	                    number:true
+	                },
+	                receptionTime:{
+	                	required: true
+	                },
+	                receptionAddress: {
+	                    required: true,
+	                },
+	                visitUnit:{
+	             	   required: true
+	                },
+	                visitNumber:{
+	                	required: true,
+	                    number:true
+	                },
+	                leaderPhone:{
+	                	required: true,
+	                	rangelength: [6,11],
+	                    number:true
+	                },
+	                visitLevel:{
+	                	required: true
+	                },
+	                appVisitTime:{
+	                	required: true
+	                },
+	                visitArea:{
+	                	required: true
+	                },
+	                overTime:{
+	                	required: true
+	                },
+	                visitingTime:{
+	                	required: true,
+	                	number:true
+	                },
+	                remarks:{
+	                	required: false
+	                }
+           	 	}
+   		 	});
+		});
+		// 取消保存请求		
+        function back(){parent.hideDiv();}
+	</script>
+</body>
+</html>

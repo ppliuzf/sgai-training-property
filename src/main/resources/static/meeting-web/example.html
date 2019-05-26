@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>请更改标题</title>
+    <link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row header">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                <h4>标题</h4>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-right">
+                <button type="button" class="btn btn-primary">按钮1</button>
+                <button type="button" class="btn btn-default">按钮2</button>
+            </div>
+        </div>
+        <div class="filter">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label for="name">文本框</label>
+                    <input type="text" class="form-control" id="name" placeholder="请输XXX">
+                </div>
+                <div class="form-group">
+                    <label for="type">选择框</label>
+                    <select id="type" class="form-control" required="required">
+                        <option value="">全部</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>类型名称</th>
+                    <th>描述</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody class="js-list"></tbody>
+        </table>
+        <nav class="text-right pages"></nav>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/example.js"></script>
+</body>
+</html>

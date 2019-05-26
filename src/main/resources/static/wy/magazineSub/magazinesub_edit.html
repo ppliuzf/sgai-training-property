@@ -1,0 +1,290 @@
+<html>
+<head>
+	<title>新增杂志/报刊信息</title>
+		
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+	<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+    <link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+    <link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+    <script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script src="../static/common/mustache.min.js" type="text/javascript"></script>
+    <link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/common/smart.min.js" type="text/javascript"></script>
+    <script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+    <link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript">var ctx = '/admin', ctxStatic='../../static';</script>
+    <script src="../../config/smart-common.js" type="text/javascript"></script>
+	<script src="../static/wy/area.js" type="text/javascript"></script>
+</head>
+<body>
+	<form id="inputForm" class="form-horizontal"  method="post" novalidate="novalidate">
+	    <input id="id" name="id" type="hidden" value=""/>
+		<script type="text/javascript">top.$.jBox.closeTip();</script>
+
+	    <div class="control-group">
+	        <label class="control-label">日期:</label>
+	        <div class="controls">
+	               <input id="signDate" class=" required Wdate" name="signDate"
+                   onclick="WdatePicker({ dateFmt: 'yyyy-MM-dd HH:mm:ss' })" type="text" value="" maxlength="50">
+	            <font color="red">*</font>
+	        </div>
+	    </div>
+	   		 <div class="control-group">
+	        <label class="control-label">签收人部门:</label>
+	        <div class="controls">
+		        <select id="signDept" class="input-xlarge  required" name="signDept">
+	                <option id="one" value=""></option>
+	                <option value="秘书行政部">秘书行政部</option>
+	                <option value="新闻宣传部">新闻宣传部</option>
+	                <option value="财务部">财务部</option>
+	                <option value="监察审计部">监察审计部</option>
+	                <option value="人力资源部">人力资源部</option>
+	                <option value="总体策划部">总体策划部</option>
+	                <option value="张家口运行中心">张家口运行中心</option>
+	                <option value="规划建设和可持续发展部">规划建设和可持续发展部</option>
+	                <option value="延庆运行中心">延庆运行中心</option>
+	                <option value="法律事务部">法律事务部</option>
+	                <option value="体育部">体育部</option>
+	                <option value="运动会服务部">运动会服务部</option>
+	                <option value="对外联络部">对外联络部</option>
+	                <option value="市场开发部">市场开发部</option>
+	                <option value="技术部">技术部</option>
+	            </select>
+	           <font color="red">*</font>
+	        </div>
+	    </div>
+	    <input type="hidden" id="createdDate" name="createdDate" />
+	    
+	    <div class="control-group">
+	        <label class="control-label">区域:</label>
+	        <div class="controls">
+        		<select id="repairAddress1" class="input-mini" name="repairAddress1" tabindex="-1">
+        			<option value=""></option>
+        		</select>
+    			<select id="repairAddress2" class="input-mini" name="repairAddress2" tabindex="-1">
+    				<option value=""></option>
+    			</select>
+    			<select id="repairAddress3" class="input-mini  required" name="repairAddress3" tabindex="-1" style="width: 81px;">
+    				<option value=""></option>
+    			</select>
+    			  <font color="red">*</font>
+    			<input type="hidden" id="repairAddress" name="repairAddress" />
+    			<input type="hidden" id="repairAddressCode" name="repairAddressCode" />
+       		<span class="help-inline"><font color="red"></font> </span>
+	        </div>
+	    </div>
+          <div class="control-group">
+	        <label class="control-label">报刊名称:</label>
+	        <div class="controls">
+	        <input id="magazine"  name="magazine"  type="text"  readonly="readonly"/>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">份数:</label>
+	        <div class="controls">
+	   				 <input  id="phr" name="phr"  type="text" />
+	        </div>
+        </div>
+	    <div class="control-group">
+	        <label class="control-label">备注:</label>
+	        <div class="controls">
+	        	<textarea id="remarks" name="remarks" rows="2" cols="40" style="width:270px;resize:none"></textarea>
+	        </div>
+	    </div>
+	    <div class="form-actions"  style="margin-top: -19px;">
+	    	<input id="btnSubmit" class="btn btn-primary" type="submit" value="保  存">&nbsp;
+	        <input id="btnCancel" class="btn " type="button" value="返  回"  onclick="back()">
+		</div>
+	</form>
+	
+	<script type="text/javascript">
+	// 获取Parent页面传来的参数(<paramId>Entity实际id)
+	var entityID=GetQueryString("paramId");
+	if(entityID != null){
+		   setTimeout('updatepageload()',500); 
+	}
+	// 接收Parent页面携带的数据
+	function GetQueryString(name){
+        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if(r!=null)return  unescape(r[2]); return null;
+    }
+	// 传入id参数通过findById方法获取到对象数据并赋值到页面字段中
+    function updatepageload(){
+       $.ajax({
+    	   headers : { "token" : localStorage.getItem("token")},
+           url : APIHost + '/magazine/findMagazineById',
+           type : 'POST',
+           async : false, //或false,是否异步
+           data : {
+               id : entityID
+           },
+           timeout : 5000,
+           dataType : 'json',
+           success : function(res) {
+        	    if (res.data != null){
+    				var select1 = document.getElementById("signDept");
+    				for (var i = 0; i < select1.options.length; i++){  
+    			        if (select1.options[i].value == res.data.signDept){  
+    			            select1.options[i].selected = true;
+    			            break;  
+    			        }  
+    			    }
+    				$("#repairAddress").val(res.data.repairAddress);
+    				var re = res.data.repairAddressCode.split('-');
+    			 	var select4 = document.getElementById("repairAddress1");
+    				var select5 = document.getElementById("repairAddress2");
+    				var select6 = document.getElementById("repairAddress3");
+    				var adss1 = re[0];
+    				var adss2 = re[1];
+    				var adss3 = re[2];
+    				 $("#repairAddress1 option").each(function() {
+    					 if($(this).val() == adss1){
+    	                     $(this).attr("selected",true);
+    	                    f3(adss2,adss3);
+    	                 }
+    				 }) 
+					$("#id").val(res.data.id);
+    				 $("#repairAddressCode").val(res.data.repairAddressCode);
+		//			$("#repairAddress").val(res.data.area);
+		//			$("#signDept").val(res.data.signDept);
+					$("#signDate").val(res.data.signDate);
+					$("#magazine").val(res.data.magazine);
+					$("#phr").val(res.data.phr);
+					$("#remarks").val(res.data.remarks);
+        	    } else if(res.code === 1003){
+        	    	parent.hideDiv();
+        	    	parent.jBox.alert('请先登录', '提示',{closed: function (){window.parent.location.href= APIHost + "/sys/sysLogin.html";}});
+				}
+           }
+       });
+    }
+		// 设置表单验证,调用表单提交
+	    $.validator.setDefaults({
+	        submitHandler: function () {
+	            formSubmit();
+	        }
+	    });
+		// 提交表单数据
+	    function formSubmit() {
+	        var saveData = {
+	            headers: {"token": localStorage.getItem("token")},
+	            url: APIHost + '/magazine/update',
+	            beforeSend:function(){
+	          		var loading=$('<div id="loading"></div>');
+	          		$('body').append(loading);
+	          		$("#btnSubmit").attr("disabled",true)
+	          	},
+	            success: function (response) {
+	            	if (response.data.msg == "success") {
+	                    parent.pageload();
+						parent.hideDiv();
+						parent.jBox.alert("保存成功 !","提示");
+	                } else if (response.code === 1003){
+	                	parent.hideDiv();
+						parent.jBox.alert('请先登录', '提示',{closed: function (){window.parent.location.href= APIHost + "/sys/sysLogin.html";}});
+	                } else if (response.data.msg == "exist") {
+	                	parent.jBox.alert("您好 ,此编码已占用, 请重新输入 !","提示");
+	                } else if (response.data.msg == "fail") {
+	                	parent.hideDiv();
+	                	parent.jBox.alert("异常状态 , 请联系管理员调试 !","提示");
+	                }
+	            },
+	            complete:function(){
+	            	$("#btnSubmit").attr("disabled",false);
+	            	$("#loading").hide();
+	            }
+	        }
+	        $("#inputForm").ajaxSubmit(saveData);
+	    } 
+	    // 表单输入校验
+		$(document).ready(function() {
+	        $("#inputForm").validate({
+	        	rules: {
+	                signDate:{
+	                	required: true
+	                },
+	                phr:{
+	                	required: true,
+	                	number:true
+	                },
+	                remarks:{
+	                	required: false
+	                }
+              	},
+	        message:{
+	        	signDate:{
+                    	required: "请填写日期"
+                },
+                phr:{
+                		required: "请填写数字"
+                },
+                remarks: {
+                    required: "备注",
+                }
+       	   }
+      		});
+	    });
+		// 取消保存请求		
+        function back(){parent.hideDiv();}
+        function f3(adss2,adss3){
+     	   $.ajax({
+     			headers    : {
+     	               "token" : localStorage.getItem("token"),
+     	         },
+     			url:APIHost+"/repairInformation/getByParentCode",
+     			type:"POST",
+     			data:{pCode:$("#repairAddress1").val()},
+     			success:function(obj){
+     				for(var i = 0;i<obj.length;i++){
+     					var city = obj[i];
+     					$("#repairAddress2").append("<option value="+city.spaceCode+">"+city.spaceName+"</option>");
+     					$("#repairAddress2 option").each(function() {
+     						 if($(this).val() == adss2){
+     			               $(this).attr("selected",true);
+     			              f4(adss3);
+     			           }
+     					 })
+     				}
+     			}
+     		});
+     	   
+        }
+        function f4(adss3){
+     	   $.ajax({
+     			headers    : {
+     	               "token" : localStorage.getItem("token"),
+     	         },
+     			url:APIHost+"/repairInformation/getByParentCode",
+     			type:"POST",
+     			data:{pCode:$("#repairAddress2").val()},
+     			success:function(obj){
+     				for(var i = 0;i<obj.length;i++){
+     					var country = obj[i];
+     					$("#repairAddress3").append("<option value="+country.spaceCode+">"+country.spaceName+"</option>");
+     					 $("#repairAddress3 option").each(function() {
+     						 if($(this).val() == adss3){
+     			             $(this).attr("selected",true);
+     			         }
+     					 })
+     				}
+     	
+     			}
+     		});
+     	  
+        }
+
+    </script>
+</body>
+</html>

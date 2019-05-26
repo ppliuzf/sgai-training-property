@@ -1,0 +1,37 @@
+{{each items as item idx}}
+<tr>
+    <td class="text-center">{{idx + 1 < 10 ? '0'+(idx + 1) : idx + 1}}</td>
+    <td>{{item.no}}</td>
+    <td>{{item.name}}</td>
+    <td>{{item.typeName}}</td>
+    <td>{{item.createDate}}</td>
+    <td>{{item.uploadBy}}</td>
+    <td>{{item.description}}</td>
+    <!--<td class="text-center act">-->
+        <!--<div class="btn-group more">-->
+            <!--<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多-->
+            <!--</button>-->
+            <!--<ul class="dropdown-menu">-->
+                <!--<li>-->
+                    <!--<a class="js-download" data-name="{{item.fileName}}" data-url="{{item.url}}">下载模板</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="./tpl-add.html?id={{item.id}}" class="js-edit">编辑</a>-->
+                <!--</li>-->
+                <!--{{if item.isDelete !== 3}}-->
+                <!--<li>-->
+                    <!--<a href="javascript:;" data-id="{{item.id}}" class="js-del">删除</a>-->
+                <!--</li>-->
+                <!--{{/if}}-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</td>-->
+    <td class="text-center" style="white-space:nowrap">
+        <a href="javascript:;" class="js-download" data-name="{{item.fileName}}" data-url="{{item.url}}">下载模板</a>
+        <a href="./tpl-add.html?id={{item.id}}" class="js-edit">编辑</a>
+        {{if item.isDelete !== 3}}
+        <a href="javascript:;" data-id="{{item.id}}" class="js-del">删除</a>
+        {{/if}}
+    </td>
+</tr>
+{{/each}}

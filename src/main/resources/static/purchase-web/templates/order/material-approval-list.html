@@ -1,0 +1,38 @@
+
+{{each items as item index}}
+<tr>
+    {{ if index+1 < 10}}
+        <td class="text-center">0{{index+1}}</td>
+    {{ else }}
+        <td class="text-center">{{index+1}}</td>
+    {{/if}}
+    {{if item.matStat == 1}}
+    <td><a href="material-approval-detail.html?status={{item.matStat}}&infoId={{item.id}}">{{item.applyNo}}</a></td>
+    {{else if item.matStat == 2}}
+    <td><a href="material-approval-detail.html?status={{item.matStat}}&infoId={{item.id}}">{{item.applyNo}}</a></td>
+    {{else }}
+    <td><a href="material-approval-detail.html?status={{item.matStat}}&infoId={{item.id}}">{{item.applyNo}}</a></td>
+    {{/if}}
+    <td>{{item.applyEmpName}}</td>
+    <td>{{item.applyDeptName}}</td>
+    <td class='js-reason'>{{item.applyReason}}</td>
+    <td>
+        {{if item.applyDate}}
+            {{item.applyDate | dateFormat:'yyyy-MM-dd'}}
+            {{else}}
+            --
+        {{/if}}
+    </td>
+    {{if item.matStat == 1}}
+    <td class="js-status">待审核</td>
+    {{else if item.matStat == 2}}
+    <td class="js-status">已通过</td>
+    {{else if item.matStat == 3}}
+    <td class="js-status">已拒绝</td>
+    {{else if item.matStat == 4}}
+    <td class="js-status">已撤销</td>
+    {{else }}
+    <td class="js-status">已通过</td>
+    {{/if}}
+</tr>
+{{/each}}

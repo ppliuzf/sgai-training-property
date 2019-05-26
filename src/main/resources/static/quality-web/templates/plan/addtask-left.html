@@ -1,0 +1,55 @@
+<div class="form-group">
+    <label for="type"><span class="require"></span>任务阶段</label>
+    <select id="step" class="form-control js-step" required="required">
+    </select>
+</div>
+<div class="form-group">
+    <label for="type"><span class="require"></span>任务类型</label>
+    <select id="type" class="form-control js-type" required="required">
+        <option value="check">检验类</option>
+    </select>
+</div>
+<div class="form-group type-range">
+    <label for="type"><span class="require"></span>专业范畴</label>
+    <select id="range" class="form-control js-range" required="required">
+    </select>
+</div>
+<div class="form-group ad-hidden type-plan">
+    <label for="type"><span class="require"></span>检验方案</label>
+    <select id="check" class="form-control js-plan" required="required">
+    </select>
+</div>
+<div class="form-group row link-con ad-hidden">
+    <div class=" col-lg-6">关联对象：</div>
+    <div class="col-lg-3">
+        <button type="button" class="btn btn-default js-set">配置</button>
+    </div>
+    <div class="link-set ad-hidden">
+    </div>
+</div>
+<div class="form-group row link-con">
+    <div class="col-lg-6 link-set-word" ></div>
+</div>
+<style type="text/css">
+    .link-con{
+        position: relative;
+    }
+    .link-set{
+            position: absolute;
+            background: #fff;
+            padding:10px;
+            left: 55%;
+            top: 35px;
+            width: 45%;
+            border:1px solid #ccc;
+            border-radius: 4px;
+            z-index: 999;
+        }
+    .ad-hidden{
+        display: none;
+    }
+    .link-set-word{
+        color: #999;
+        line-height: 22px;
+    }
+</style>

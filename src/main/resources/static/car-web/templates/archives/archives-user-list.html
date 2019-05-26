@@ -1,0 +1,16 @@
+{{each items as item itemIndex}}
+<tr>
+    <td style="text-align:center;">{{itemIndex+1 < 10 ? "0" + (itemIndex+1) : itemIndex+1}}</td>
+    <td>{{item.riUserName }}</td>
+    <td>{{item.riUserPhone }}</td>
+    <td>{{item.riUseStart | dateFormat: 'yyyy-MM-dd'}}</td>
+    <td>
+        {{if item.riAuditStatus===4}}
+        {{item.riUseEnd | dateFormat: 'yyyy-MM-dd'}}
+        {{else}}
+        <span>-</span>
+        {{/if}}
+    </td>
+    <td class="word-warp">{{item.riUsePurpose }}</td>
+</tr>
+{{/each}}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>公车预约</title>
+    <link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/css/default.css">
+    <style>
+        .panel-body p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        body{
+            margin: 0;
+            padding: 0;
+        }
+
+        .filter{
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row header">
+            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                <h4 style="margin:0px">公车预约</h4>
+            </div>
+            <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 text-right" id='btn'>
+                <button class="btn btn-primary" id='sh'>我的审核</button> 
+                <button class="btn btn-primary" id='yy'>我的预约</button>
+            </div>
+        </div>
+
+            <div class="week-selector"></div>
+            <div class="filter">
+                <div class="form-inline">
+            <div class="form-group" style="margin-top:8px">
+                <label for="start-time">选择预约的时间:</label>
+                <select id="start-time" class="form-control"></select>
+            </div>
+            <div class="form-group" style="margin-top:8px">
+                <label for="start-time">变速箱类型:</label>
+                <select class="form-control" id='bsx'>
+                </select>
+            </div>
+            <div class="form-group" style="margin-top:8px">
+                    <label for="start-time">荷载人数:</label>
+                    <input type="number" id='num' min="0" class="form-control" placeholder="请输入荷载人数">
+                </div>
+            <div class="form-group" style="margin-top:8px">
+                    <label for="start-time">排量:</label>
+                    <input type="text" id='pl' class="form-control" placeholder="请输入排量">
+            </div>
+            <button class="btn btn-primary js-search" id='oeder-chose' style="margin-top:-7px;">搜索</button>
+        </div>
+    </div>
+            <hr>
+           
+
+         
+
+            
+                <div class="js-main"></div>
+                
+            
+            <nav class="text-right pages"></nav>
+        <!--<nav class="text-right pages"></nav>-->
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/order.js"></script>
+</body>
+
+</html>

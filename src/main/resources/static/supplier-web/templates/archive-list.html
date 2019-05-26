@@ -1,0 +1,60 @@
+{{each items as item}}
+<tr>
+    <td class="text-center">
+        <div class="cont dot " title=""><input type="checkbox" name="choose" class="js-list-select-single"
+    id="{{item.id}}"></div>
+    </td>
+    {{if item.index<10}}
+    <td class="text-center "><div class="cont dot" title="0{{item.index}}">0{{item.index}}</div></td>
+    {{else}}
+    <td class="text-center "><div class="cont dot" title="{{item.index}}">{{item.index}}</div></td>
+    {{/if}}
+    <td> <div class="cont dot" title="{{item.no}}"> <a href="./archive-detail.html?id={{item.id}}">{{item.no}}</a></div></td>
+    <td> <div class="cont dot HH" title="{{item.name}}">{{item.name}}</div></td>
+    <td> <div class="cont dot" title="{{item.typeName}}">{{item.typeName}}</div></td>
+    <td> <div class="cont dot" title="{{item.contentName}}">{{item.contentName}}</div></td>
+    <!--<td> <div class="cont dot" title="{{item.levelName}}">{{item.levelName}}</div></td>-->
+    {{if item.levelId==='1'}}
+    <td> <div class="cont dot" title="{{item.levelName}}">未评级</div></td>
+    {{else}}
+    <td> <div class="cont dot" title="{{item.levelName}}">{{item.levelName}}</div></td>
+    {{/if}}
+    <td> <div class="cont dot" title="{{item.contact}}">{{item.contact}}</div></td>
+    <td> <div class="cont dot" title="{{item.phone}}">{{item.phone}}</div></td>
+    <td> <div class="cont dot HH" title="{{item.address}}">{{item.address}}</div></td>
+    <td min-width="200">
+        <!--<div class="switch" data-on-="启用" data-off="停用">-->
+            <!--<input type="checkbox" name="status" data-id="{{item.id}}" {{item.isEnabled === 1 && 'checked'}}>-->
+        <!--</div>-->
+        <div class="switch" data-on-="启用" data-off="禁用">
+            <div class="switch-inner">
+                <input type="checkbox"  type="checkbox" name="status" data-id="{{item.id}}" {{item.isEnabled === 1 && 'checked'}} style="width:140px; margin-left:-48px;">
+            </div>
+        </div>
+    </td>
+    <!--<td class="text-center act">-->
+        <!--<div class="btn-group more">-->
+            <!--<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>-->
+            <!--<ul class="dropdown-menu">-->
+                <!--<li><a href="./archive-compile.html?id={{item.id}}"  class="underline js-edit" data-id="">编辑</a></li>-->
+                <!--<li><a class="underline js-del" data-id="{{item.id}}">删除</a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</td>-->
+    <td class="text-center">
+        <a href="./archive-compile.html?id={{item.id}}"  class="underline js-edit" data-id="">编辑</a>
+        <a href="#" class="underline js-del" data-id="{{item.id}}">删除</a>
+    </td>
+</tr>
+{{/each}}
+<style>
+    td div{
+        display: -webkit-box;
+        overflow: hidden;
+        white-space: normal!important;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
+</style>

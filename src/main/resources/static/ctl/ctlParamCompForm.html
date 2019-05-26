@@ -1,0 +1,214 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+    <title>对象删除规则维护</title>
+    <meta name="decorator" content="default">
+    <style>
+    	.form-horizontal .control-label {
+   			 width: 136px;
+		}
+    </style>
+</head>
+<body>
+<form id="inputForm" class="form-horizontal" method="post" novalidate="novalidate">
+   <div class="control-group">
+			<input id="id" name="id" type="text" hidden=true style="display:none;" maxlength="10" class="required"/>
+			<label class="control-label"><span class="help-inline"><font color="red">*</font> </span>机构编码：</label>
+			<div class="controls">
+				<input id="comCode" name="comCode" type="text"  maxlength="10"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label"><span class="help-inline"><font color="red">*</font> </span>子系统编码：</label>
+			<div class="controls">
+			    <input id="sbsCode" name="sbsCode" type="text"  maxlength="10"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label"><span class="help-inline"><font color="red">*</font> </span>参数编码：</label>
+			<div class="controls">
+				<input id="paraCode" name="paraCode" type="text"  maxlength="30"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label"><span class="help-inline"><font color="red">*</font> </span>参数值：</label>
+			<div class="controls">
+				<input id="paraValue" name="paraValue" type="text"  maxlength="30"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">版本号：</label>
+			<div class="controls">
+				<input id="version" name="version" type="text"  maxlength="9" class="digits"/>
+			</div>
+		</div>
+		<div class="control-group" style="margin-bottom:15px;">
+			<label class="control-label">备注：</label>
+			<div class="controls">
+				<!-- <textarea id="remarks" name="remarks"  rows="2" maxlength="200"></textarea> -->
+				<textarea id="remarks" name="remarks"  maxlength="200" type="text" style="overflow-y:hidden;height: 32px" class="textAreas"></textarea>
+			</div>
+		</div>
+		<div class="form-actions">
+			<input id="btnCancel" class="btn" type="button" value="关 闭" onclick="closePopUp();"/>&nbsp;
+			<input id="btnSubmit" class="btn btn-primary" type="submit"  value="保 存"/>
+		</div>
+	</form>
+</form>
+<script>
+// 表单验证
+$.validator.setDefaults({
+    submitHandler: function() {
+       // 调用提交
+       save();
+    }
+});
+$().ready(function () {
+    // 在键盘按下并释放及提交后验证提交表单
+    $("#inputForm").validate({
+    	 errorPlacement: function(error, element) {
+  			// Append error within linked label
+  			$(element).parent().append( error );
+  		},
+         rules: {
+        	 comCode: {
+                required: true
+            },
+            sbsCode: {
+                required: true
+            },
+            paraCode: {
+                required: true
+            },
+            paraValue: {
+                required: true
+            },
+          },
+          messages:{
+            comCode: {
+                required: "请输入机构代码"
+            },
+            sbsCode: {
+                required: "请输入子系统编码"
+            },
+            paraCode: {
+                required: "请输入参数编码"
+            },
+            paraValue: {
+                required: "请输入参数值"
+            },
+        }
+    });
+})
+</script>
+<script type="text/javascript">
+    var paramId=GetQueryString("paramId");
+    //获取跳转地址的参数
+    function GetQueryString(name){
+         var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+         var r = window.location.search.substr(1).match(reg);
+         if(r!=null)return  unescape(r[2]); return null;
+    }
+
+    // 获取修改数据
+    function updatepageload() {
+        //添加新tbody
+        $.ajax({
+            headers : {
+                "token" : localStorage.getItem("token"),
+            },
+            url : APIHost + '/admin/ctlParamComp/getUpdateData',
+            type : 'POST',
+            async : false, //或false,是否异步
+            data : {
+                id : paramId
+            },
+            timeout : 30000,
+            dataType : 'json',
+            success : function(res) {
+            	$("#id").val(paramId);
+				$("#comCode").val(res.data.comCode);
+				$("#sbsCode").val(res.data.sbsCode);
+				$("#paraCode").val(res.data.paraCode);
+				$("#paraValue").val(res.data.paraValue);
+				$("#version").val(res.data.version);
+				$("#remarks").val(res.data.remarks);
+            },
+            error : function() {
+				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+            }
+        })
+    }
+    if(paramId != null){
+        updatepageload();
+    }
+    
+    function save(){
+    	$.jBox.confirm("确定提交吗？", "提示", function (v, h, f) {
+			if(v == 'ok'){
+				var ajax_option={
+	    				headers    : {
+	    	                 "token" : localStorage.getItem("token"),
+	    	             },
+                        async:false,
+	    				url:APIHost + '/admin/ctlParamComp/save',//默认是form action
+	    				success:function(res){
+	    					if(res.code === 1000){
+	    						console.log(res);
+	        					if(res.data.msg=="success"){
+	        						$.jBox.alert("保存成功","提示",{closed:function(){
+	                            		window.parent.location.href = APIHost + "/ctl/ctlParamCompList.html";
+	                            	}});
+	                            }else{
+	                            	$.jBox.alert("保存失败","提示");
+	                            }
+		    				}else if(res.code ===1003){
+		    					//没有登录状态
+		    					$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+		    						{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+		    				}else if(res.code === 1002){
+		    					//发生异常
+		    					$.jBox.alert(res.msg);
+		    				}else if(res.code === 1004){
+		    					//结果为空
+		    					$.jBox.alert(res.msg);
+		    				}
+	       				}
+	           		}
+				$("#inputForm").ajaxSubmit(ajax_option);
+			}
+		})
+    	
+    }
+    
+  
+
+    // 关闭弹框
+    function closePopUp(){
+        $('#myModal .close', window.parent.document).click();
+    }
+</script>
+</body></html>

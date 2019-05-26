@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>品质管理-检验方案</title>
+    <link rel="stylesheet" href="css/default.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row header">
+        <h4>检验成果管理</h4>
+    </div>
+    <form id="form">
+        <div class="filter">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label for="itemName">检验成果名称</label>
+                    <input type="text" class="form-control" id="itemName" name="itemName" placeholder="请输入检验成果名称">
+                </div>
+                <div class="form-group">
+                    <label for="pcId">专业范畴</label>
+                    <select name="pcId" id="pcId" class="select-pc form-control" name="pcId">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="startDate">创建日期</label>
+                    <div class="input-group">
+                        <input type="text" id="startDate" class="form-control" name="startDate">
+                        <span class="input-group-addon js-date-clean">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="group-add">至</div>
+                <div class="form-group">
+                    <label for="endDate"></label>
+                    <div class="input-group">
+                        <input id="endDate" class="form-control" name="endDate">
+                        <span class="input-group-addon js-date-clean">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </span>
+                    </div>
+                </div>
+                <!--<div class="form-group">-->
+                    <!--<span>-->
+                        <!--<label for="startDate">创建日期</label>-->
+                        <!--<input type="text" id="startDate" class="form-control" name="startDate">-->
+                    <!--</span>-->
+                    <!--<span>至</span>-->
+                    <!--<span>-->
+                        <!--<label for="endDate"></label>-->
+                        <!--<input id="endDate" class="form-control" name="endDate">-->
+                    <!--</span>-->
+                <!--</div>-->
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary js-search">搜索</button>
+                    <button type="button" class="btn btn-primary js-reset">重置</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <table class="table table-bordered table-hover add-tab">
+        <thead>
+        <tr>
+            <th width="60" class="text-center">序号</th>
+            <th>任务名称</th>
+            <th>专业范畴</th>
+            <th>创建人</th>
+            <th>创建时间</th>
+            <th>检验人</th>
+            <th>检验时间</th>
+            <th width="92" class="text-center act">状态</th>
+        </tr>
+        </thead>
+        <tbody class="js-list"></tbody>
+    </table>
+    <nav class="text-right pages"></nav>
+</div>
+<script src="js/lib/jquery.min.js"></script>
+<script src="js/lib/bootstrap.min.js"></script>
+<script src="js/lib/bootstrap-datetimepicker.min.js"></script>
+<script src="js/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="js/server/template.js"></script>
+<script src="../config/config.js"></script>
+<script src="js/server/utils.js"></script>
+<script src="js/controller/result/result-list.js"></script>
+</body>
+</html>

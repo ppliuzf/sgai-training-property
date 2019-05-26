@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>采购计划审批</title>
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+<body>
+     <div class="container-fluid">
+        <div class="row header">
+            <h4>采购计划审批</h4>
+        </div>
+        <!-- 搜索 -->
+        <div class="form-inline filter">
+            <div class="form-group" >
+                <label for="planName" class="control-label form-inline">计划名称</label>
+                <input id="planName" type="text" class="form-control" placeholder="请输入计划名称">
+            </div>
+            <div class="form-group">
+                <label for="planState" class="control-label form-inline">状态</label>
+                <select id="planState" class="form-control" required="required">
+                    <option value="0">全部</option>
+                    <option value="2">待审核</option>
+                    <option value="3">已拒绝</option>
+                    <option value="4">已通过</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary js-search" id="searchBtn">搜索</button>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th class="text-center" width="60">序号</th>
+                    <th width="150">计划名称</th>
+                    <th width="80">类型</th>
+                    <th width="150">创建时间</th>
+                    <th>创建人</th>
+                    <th width="110">部门</th>
+                    <th width="110">状态</th>
+                    <th width="70">审核人</th>
+                    <th width="110">审批日期</th>
+                </tr>
+            </thead>
+            <tbody class="js-list"></tbody>
+        </table>
+        <nav class="text-right pages"></nav>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/approval/purchase-plan-approval-list.js"></script>
+</body>
+</html>

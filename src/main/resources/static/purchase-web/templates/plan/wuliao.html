@@ -1,0 +1,11 @@
+{{each items as item}}
+<tr class="materiel-item" data-matName="{{item.matName}}" data-matspec="{{item.matSpec}}" data-matTypeCode="{{item.matTypeCode}}" data-matTypeName="{{item.getMatName}}" data-applyCount="{{item.applyCount}}"  data-mattypeid="{{item.matTypeId}}" data-id="{{item.id}}">
+    <td>{{item.matName}}</td>
+    {{if item.applyCount}}
+    <td><input class="form-control" type="number" value="{{item.applyCount}}"></td>
+    {{else}}
+    <td><input class="form-control" type="number" value="1"></td>
+    {{/if}}
+    <td width="92" class="text-center"><button type="button" class="btn btn-primary dropdown-toggle js-del">删除</button> </td>
+</tr>
+{{/each}}

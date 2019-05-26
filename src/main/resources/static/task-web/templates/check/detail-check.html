@@ -1,0 +1,163 @@
+<div class="row header">
+    <h4>{{items.tiName}}</h4>
+    <div class="btns text-right">
+        <button type="button" class="btn btn-default btn-back js-check-back">返回</button>
+    </div>
+</div>
+<h4>基础信息:</h4>
+<div class="infos-detail">
+    <table>
+        <tbody>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">任务项名称</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.tiName}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">任务专业</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.pcName}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">创建人</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.createEiName}}</td>
+            </tr>
+            <tr>
+                <td class="text-center">创建时间</td>
+                <td class="value">{{items.createTime | dateFormat: 'yyyy-MM-dd hh:mm'}}</td>
+                <td class="text-center"></td>
+                <td class="value"></td>
+                <td class="text-center"></td>
+                <td class="value"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="col-sm-4 col-md-3">
+                <dl>
+                    <dt>任务项名称:</dt>
+                    <dd>{{items.tiName}}</dd>
+                </dl>
+            </div>
+            <div class="col-sm-4 col-md-3">
+                <dl>
+                    <dt>任务专业:</dt>
+                    <dd>{{items.pcName}}</dd>
+                </dl>
+            </div>
+            <div class="col-sm-4 col-md-3">
+                <dl>
+                    <dt>创建人:</dt>
+                    <dd>{{items.createEiName}}</dd>
+                </dl>
+            </div>
+            <div class="col-sm-4 col-md-3">
+                <dl>
+                    <dt>创建时间:</dt>
+                    <dd>{{items.createTime | dateFormat: 'yyyy-MM-dd hh:mm'}}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div> -->
+<h4>任务标准:</h4>
+<div class="row form-group">
+    <div class="col-sm-12 col-md-12 desc">{{items.tiStandard}}</div>
+</div>
+<div class="row form-group" style="padding:10px 0;">
+    {{each items.enclosures as item}}
+    <div class="col-sm-1 col-md-1">
+        <a href="{{item.riImgUrl}}" data-lightbox="fuck"><img src="{{item.riImgUrl}}" width="80"></a>
+    </div>
+    {{/each}}
+</div>
+<h4>答案类型: <span style="font-size: 14px; color: #000;font-weight: bold;">{{items.tiIsInput === 0 ? '数值' : '单选'}}</span>
+</h4>
+{{if items.tiIsInput===0}}
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="row">
+        <dl>
+            <dt>执行结果:</dt>
+                <dd class="task-result">
+                    <p>
+                    数量单位：{{items.tiUnit}}
+                    </p>
+                    <p>
+                    正常范围:{{items.tiMin}}----{{items.tiMax}}
+                    </p>
+                    {{if sts}}
+                    <p>
+                    输入值:{{if items.tiStatus == 1}}<span class="icon icon0">√</span>{{else if items.tiStatus == 2}}<span class="icon icon1">×</span>{{/if}}{{items.tiInputResult}}
+                    </p>
+                    {{/if}}
+                </dd>
+        </dl>
+    </div>
+</div>
+{{else}}
+<ul class="answer-type">
+    {{each items.newOptions as item}}
+    <li class="task-result">
+        <p>
+            {{if item.isOk&&items.tiInputResult==item.value}}
+            <span class="icon icon0">√</span>
+            {{else if  item.isOk&&items.tiInputResult!=item.value}}
+            <span class="icon">√</span>
+            {{else if  item.isOk==0&&items.tiInputResult==item.value}}
+            <span class="icon icon1">×</span>
+            {{else if  item.isOk==0&&items.tiInputResult!=item.value}}
+            <span class="icon">×</span>
+            {{/if}}
+            {{item.value}}
+        </p>
+    </li>
+    {{/each}}
+</ul>
+{{/if}}
+{{if sts != 4 || sts==4&&items.tiStatus != 1}}
+<h4>缺陷整改:</h4>
+<div class="infos-detail">
+    <table>
+        <tbody>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">缺陷整改责任人</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.dutyEmpNames.join(",")}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">完工期限</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">
+                    {{if items.tiLimitTime }}
+                    {{items.tiLimitTime}}{{items.tiFinshUnit === 1 ? '天' : items.tiFinshUnit === 2 ? '小时' : '分钟'}}
+                    {{/if}}
+                </td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">整改要求</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{items.tiRectificationRequirements}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{{/if}}
+<!-- {{if sts != 4 || sts==4&&items.tiStatus != 1}}
+<h4>缺陷整改:</h4>
+
+<div class="row form-group">
+    <div class="col-sm-4 col-md-3 paddT">
+        <dl>
+            <dt>缺陷整改责任人:</dt>
+            <dd>{{items.dutyEmpNames.join(",")}}</dd>
+        </dl>
+    </div>
+    <div class="col-sm-4 col-md-3">
+        <dl>
+            <dt>完工期限:</dt>
+            <dd>
+                {{if items.tiLimitTime }}
+                <span>{{items.tiLimitTime}}{{items.tiFinshUnit === 1 ? '天' : items.tiFinshUnit === 2 ? '小时' : '分钟'}}</span>
+                {{/if}}
+            </dd>
+        </dl>
+    </div>
+    <div class="col-sm-4 col-md-3">
+        <dl>
+            <dt>整改要求:</dt>
+            <dd class="desc">{{items.tiRectificationRequirements}}</dd>
+        </dl>
+    </div>
+</div>
+{{/if}} -->

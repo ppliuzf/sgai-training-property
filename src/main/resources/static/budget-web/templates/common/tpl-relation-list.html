@@ -1,0 +1,24 @@
+<div style="height: 300px; overflow-y: auto">
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th class="text-center" width="48"></th>
+        <th>费项名称</th>
+        <th style="width: 100px;">费项编号</th>
+        <th>费项描述</th>
+        <!-- <th>费项状态</th> -->
+        
+    </tr>
+    </thead>
+    <tbody>
+        {{each items as item itemIndex}}
+        <tr>
+            <td class="text-center"><div><input type="checkbox" class="check-input" value="{{item.id}}" name="{{item.itemName}}">{{item.checked}}</div></td>
+            <td><div class="cont dot">{{item.itemName}}</div></td>
+            <td><div class="cont dot" width="100">{{item.itemCode}}</div></td>
+            <td><div class="cont dot">{{item.description}}</div></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+</div>

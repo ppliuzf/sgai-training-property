@@ -1,0 +1,34 @@
+{{each items as item itemIndex}}
+<tr>
+    <td class="text-center">
+        {{if item.num<10}}
+        0{{item.num}}
+        {{else}}
+        {{item.num}}
+        {{/if}}
+    </td>
+    <td><a href="../check/detail-check.html?id={{item.tiId}}&&status={{status}}&&recordId={{recordId}}">{{item.name}}</a></td>
+    <!-- <td>{{item.groupName}}</td> -->
+    <!-- <td>{{item.piIsInput == 0 ? '数值' : '单选'}}</td> -->
+    <td>
+        {{if item.piIsInput == 0 }} 数值 {{/if}}
+        {{if item.piIsInput == 1 }} 单选 {{/if}}
+    </td>
+    <td>{{item.executor}}</td>
+    <td>{{if item.executoTime&&item.executoTime!='null'}}{{ item.executoTime | dateFormat:'yyyy-MM-dd hh:mm:ss'}}{{/if}}</td>
+    <td>{{item.executoStatus}}</td>
+    <td>
+        {{if item.executeResult == 0}} 
+        未检查
+        {{else if item.executeResult == 1}}
+        合格
+        {{else if item.executeResult == 2}}
+        缺陷
+        {{/if}}
+    </td>
+    <td>{{item.remark}}</td>
+    <!--<td class="text-ellipsis text-center">-->
+        <!--<div class="text-ellipsis text-center" style="width: 100px">{{item.remark}}</div>-->
+    <!--</td>-->
+</tr>
+{{/each}}

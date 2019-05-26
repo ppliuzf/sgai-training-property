@@ -1,0 +1,322 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<!-- <link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script> -->
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../../config/smart-common.js" type="text/javascript"></script>
+<script src="../static/wy/area.js" type="text/javascript"></script>
+<title>修改客户汽车</title>
+<meta name="decorator" content="default"/>
+
+</head>
+<body>
+
+<br>
+<form id="inputForm" class="form-horizontal"  method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+
+   
+		<div class="control-group">
+	        <label class="control-label">客户姓名:</label>
+	        <div class="controls">
+	             <input id="memberName" name="memberName" class="input-mini " type="text" value="" maxlength="50">
+	             <input id="memberId" name="memberId" class="input-mini" type="hidden" value="" maxlength="50">
+        	<ul class="custom-box2"></ul>
+        	</div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">客户证件号:</label>
+        <div class="controls">
+             <input id="memberIdCard" name="memberIdCard"   type="text" value="">
+        </div>
+    </div>
+    <div class="control-group">
+	        <label class="control-label">客户车牌号:</label>
+	        <div class="controls">
+	            <input id="carNumber" name="carNumber" class="required" type="text" value="" maxlength="50">
+	        	<span class="help-inline"><font id="checkName" color="red">*</font> </span>
+	        </div>
+        </div>
+        <div class="control-group">
+        <label class="control-label">颜色:</label>
+        <div class="controls">
+            <input id="carColor" name="carColor" class="required" type="text" value="" maxlength="50">
+      		<span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">型号:</label>
+        <div class="controls">
+            <input id="carModel" name="carModel" class="required"  type="text" value="" maxlength="50">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    
+   <!--  <div class="control-group">
+        <label class="control-label">类型:</label>
+        <div class="controls">
+            <input id="carType" name="carType" class="required"  type="text" value="" maxlength="50">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div> -->
+    
+    <div class="control-group">
+        <label class="control-label">荷载人数:</label>
+        <div class="controls">
+            <input id="loadNumber" name="loadNumber" class="required"  type="text" value="" maxlength="50">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    
+    
+       <div class="control-group">
+	        <label class="control-label">维护人:</label>
+	        <div class="controls">
+	            <input id="preservePersonName" name="preservePersonName" class="required"  type="text" value="" maxlength="50">
+	            <input id="preservePersonId" name="preservePersonId" class="required"  type="hidden" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+        <div class="control-group">
+	        <label class="control-label">备注:</label>
+	        <div class="controls">
+	            <input id="remark" name="remark" type="text" value="" maxlength="50">
+	        	<span class="help-inline"><font color="red">*</font> </span>
+	        </div>
+        </div>
+       
+
+    <div class="form-actions">
+    	<input id="btnSubmit" class="btn btn-primary" type="submit" value="提  交">&nbsp;
+        <input id="btnCancel" class="btn " type="button" value="取  消" onclick="back()">
+        
+    
+    </div>
+</form>
+
+    <script type="text/javascript">
+    var paramId=GetQueryString("paramId");
+    if(paramId != null){
+        setTimeout('updatepageload()',500); 
+        repairPerson();
+    }
+    
+    function updatepageload(){
+    	//添加新tbody
+        $.ajax({
+            headers : {
+                "token" : localStorage.getItem("token"),
+            }, 
+            url : APIHost + '/carManage/findCarsById',
+			beforeSend:function(){
+          		var loading=$('<div id="loading"></div>');
+          		$('body').append(loading);
+          		$("#btnSubmit").attr("disabled",true)
+          	},
+            type : 'POST',
+            async : false, //或false,是否异步
+            data : {
+                id : paramId
+            },
+            timeout : 5000,
+            dataType : 'json',
+            success : function(obj) {
+            	//参数qId通过findGoodsById方法获取到Modu对象值，赋值到页面字段中
+				$("#id").val(obj.data.id);
+				$("#memberName").val(obj.data.memberName);
+				$("#memberId").val(obj.data.memberId);
+				$("#memberIdCard").val(obj.data.memberIdCard);
+				$("#carNumber").val(obj.data.carNumber);
+				$("#carColor").val(obj.data.carColor);
+				$("#carModel").val(obj.data.carModel);
+				$("#memberId").val(obj.data.memberId);
+				$("#preservePersonId").val(obj.data.preservePersonId);
+				$("#preservePersonName").val(obj.data.preservePersonName);
+				$("#remark").val(obj.data.remark); 
+				$("#loadNumber").val(obj.data.loadNumber);
+            },
+				complete:function(){
+            	$("#btnSubmit").attr("disabled",false);
+            	$("#loading").hide();
+            },
+            error : function() {
+                console.log('错误')
+            }
+        })
+    }
+   
+
+var ss = true;
+ // 表单验证
+    $.validator.setDefaults({
+        submitHandler: function() {
+        	if(ss){
+        		// 调用提交
+                formSubmit();
+        	}
+        }
+    });
+   /*  function checkPhone(){
+		 $.ajax({
+         	headers    : {
+	                 "token" : localStorage.getItem("token"),
+	             }, 
+             type:"POST",
+             async:false, 
+             url:APIHost + '/member/getPhoneNumber',
+             data:{phoneNumber: $("#phoneNumber").val()},
+             success:function(obj){
+                if(obj.data.msg == "success"){
+               	 ss = false;
+               	 $("#checkNum").text("登录手机号必须唯一");
+                }else{
+               	 ss = true;
+               	 $("#checkNum").text("*");
+                }
+             }
+         });
+	 } */
+	
+	$(document).ready(function() {
+		/*输入校验*/
+        $("#inputForm").validate({
+        	rules: {
+        		
+                 },
+                 message:{
+                
+               }
+       });
+		
+	});
+	
+
+        
+        
+        function formSubmit(){
+            		var ajax_option={
+	            			 headers    : {
+	           	                 "token" : localStorage.getItem("token"),
+	           	             }, 
+            				url:APIHost + '/carManage/save',//默认是form action
+            				success:function(response){
+            					if(response.data.msg=="success"){
+            						parent.hideDiv();
+            	                    parent.pageload();
+            						parent.jBox.alert("保存成功 !","提示");
+            					}
+            					else if(response.msg=="exists"){
+            						$.jBox.alert("数据已存在","提示");
+            					}
+            					else{
+            						$.jBox.alert("错误","提示");
+            					}
+               				},
+            	            beforeSend:function(){
+            	          		var loading=$('<div id="loading"></div>');
+            	          		$('body').append(loading);
+            	          		$("#btnSubmit").attr("disabled",true)
+            	          	},
+            	          	complete:function(){
+            	            	$("#btnSubmit").attr("disabled",false);
+            	            	$("#loading").hide();
+            	            }
+                   		}
+                   		
+                   		 $("#inputForm").ajaxSubmit(ajax_option);  
+        }   
+        
+        function back(){
+        	parent.location.reload();
+        }
+        
+        //获取跳转地址的参数
+        function GetQueryString(name){
+             var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+             var r = window.location.search.substr(1).match(reg);
+             if(r!=null)return  unescape(r[2]); return null;
+        }  
+        
+        function repairPerson(){
+  		   $.ajax({
+  	           headers : {
+  	               "token" : localStorage.getItem("token"),
+  	           }, 
+  	           url : APIHost + "/member/getList",
+  	           type : 'POST',
+  	           data : {
+  	           },
+  	           timeout : 5000,
+  	           dataType : 'json',
+  	           success : function(obj) {
+  	           	//参数qId通过findGoodsById方法获取到Modu对象值，赋值到页面字段中
+  	        		console.log(obj);
+  	           		var d = obj.data.list;
+  	        		for(var i = 0;i<d.length;i++){
+  						$("#memberId").append("<option value="+d[i].id+">"+d[i].chineseName+"</option>");
+  					}
+  	           },
+  	           error : function() {
+  	               console.log('错误')
+  	           }
+  	       }) 
+  	   }
+        $("#memberId").change(function(){
+			$("#memberName").val($("#memberId option:selected").text());
+	 })
+	 
+	  //姓名模糊搜索会员
+ 	   $("#memberName").keyup(function(){
+ 			var memberName = $("#memberName").val();
+ 			$(".custom-box2").css("display","block");
+ 			//ajax请求成功后拼接下拉框内容
+ 			if(memberName!=''){
+ 			$.ajax({
+ 			 		headers: {"token": localStorage.getItem("token")},
+ 				 	url : APIHost + '/repairInformation/showName',
+ 					type: "POST",
+ 					data: {repairPeopleName:memberName},
+ 					success: function(response) {
+ 						var items=response.data;
+ 						var repairPeopleHtml='';
+ 						for (i=0;i<items.length ;i++ ){
+ 							repairPeopleHtml+='<li p='+items[i].id+'>'+items[i].chineseName+'</li>';
+ 						} 
+ 						$(".custom-box2").html(repairPeopleHtml);
+ 				}
+ 		});}else{
+ 			$(".custom-box2").empty();
+ 		}
+ 		});
+ 	 //模糊查询下拉框
+ 		$(".custom-box2").on("click","li",function(){
+ 			var name=$(this).html();
+ 			var id=$(this).attr("p");
+ 			$("#memberName").val(name);
+ 			$("#memberId").val(id);			
+ 			$(".custom-box2").empty().css("display","none");
+ 		})
+        
+    </script>
+
+</body></html>

@@ -1,0 +1,11 @@
+<div class="form-inline js-materiel-list">
+    {{each items as item}}
+    <div class="form-group">
+        {{if !item.isSelect}}
+        <input type="checkbox" class="warn-btn" data-count="{{item.maCount}}" data-id="{{item.maId}}" data-name="{{item.maName}}" data-type="{{item.maTypeName}}" data-typeId="{{item.maTypeId}}" data-select="{{item.isSelect}}" data-code="{{item.maCode}}">&nbsp;{{item.maName}}
+        {{else}}
+        <input type="checkbox" class="warn-btn" data-count="{{item.maCount}}" data-id="{{item.maId}}" data-name="{{item.maName}}" data-type="{{item.maTypeName}}" data-typeId="{{item.maTypeId}}" data-select="{{item.isSelect}}" data-code="{{item.maCode}}" checked="checked">&nbsp;{{item.maName}}
+        {{/if}}
+    </div>
+    {{/each}}
+</div>

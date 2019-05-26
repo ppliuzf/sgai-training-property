@@ -1,0 +1,86 @@
+{{each items as item index}}
+<tr class="main" mattypeid="{{item.matTypeId}}"  whid="{{item.whId}}">
+    {{ if index+1 < 10}}
+    <td class="text-center" >0{{index+1}}</td>
+    {{ else }}
+    <td class="text-center" >{{index+1}}</td>
+    {{ /if }}
+    <td>{{item.whName}}</td>
+    <td class="matName">{{item.matName}}</td>
+    {{if item.matDiffNum < 0}}
+        {{if item.matDiffNum !== 0}}
+        <td class="red matNum" matnum="{{item.matNum}}">{{item.matNum}}</td>
+            {{if item.matRealNum}}
+            <td>
+                <input class="red matRealNum form-control" type="number" value="{{item.matRealNum}}">
+            </td>
+            {{else}}
+            <td>
+                <input class="red matRealNum {{item.aa}} form-control" id="" type="number" value="0">
+            </td>
+            {{/if}}
+
+            {{if state == 1}}
+            <td class="red difNum" matdiffnum="{{item.matDiffNum}}">{{item.matDiffNum}}</td>
+            {{else}}
+            <td class="red difNum" matdiffnum="{{item.matDiffNum}}">{{item.matDiffNum}}</td>
+            {{/if}}
+        {{/if}}
+
+        {{if item.matDiffNum == 0}}
+        <td class="red matNum" matnum="{{item.matNum}}">{{item.matNum}}</td>
+            {{if item.matRealNum}}
+            <td>
+                <input class="red matRealNum {{item.aa}} form-control" id="" type="number" value="{{item.matRealNum}}">
+            </td>
+            {{else}}
+            <td>
+            <input class="red matRealNum form-control" type="number" value="0">
+            </td>
+            {{/if}}
+            {{if state == 1}}
+            <td class="red difNum" matdiffnum="{{item.matDiffNum}}">{{item.matDiffNum}}</td>
+            {{else}}
+            <td class="red difNum" matdiffnum="{{item.matDiffNum}}">{{item.matDiffNum}}</td>
+            {{/if}}
+        {{/if}}
+    {{else}}
+        {{if item.matDiffNum !== 0}}
+            <td class="matNum" matnum="{{item.matNum}}">{{item.matNum}}</td>
+            {{if item.matRealNum}}
+            <td>
+                <input class=" matRealNum form-control" type="number" value="{{item.matRealNum}}">
+            </td>
+            {{else}}
+            <td>
+                <input class=" matRealNum {{item.aa}} form-control" id="" type="number" value="0">
+            </td>
+            {{/if}}
+
+            {{if state == 1}}
+            <td class=" difNum" matdiffnum="{{item.matDiffNum}}">{{item.matDiffNum}}</td>
+            {{else}}
+            <td class=" difNum" matdiffnum="{{item.matDiffNum}}">{{item.matDiffNum}}</td>
+            {{/if}}
+        {{/if}}
+
+        {{if item.matDiffNum == 0}}
+        <td class=" matNum" matnum="{{item.matNum}}">{{item.matNum}}</td>
+            {{if item.matRealNum}}
+            <td>
+                <input class=" matRealNum {{item.aa}} form-control" id="" type="number" value="{{item.matRealNum}}">
+            </td>
+            {{else}}
+            <td>
+            <input class=" matRealNum form-control" type="number" value="0">
+            </td>
+            {{/if}}
+            {{if state == 1}}
+            <td class=" difNum" matdiffnum="{{item.matDiffNum}}">{{item.matDiffNum}}</td>
+            {{else}}
+            <td class=" difNum" matdiffnum="{{item.matDiffNum}}">{{item.matDiffNum}}</td>
+            {{/if}}
+        {{/if}}
+    {{/if}}
+</tr>
+{{/each}}

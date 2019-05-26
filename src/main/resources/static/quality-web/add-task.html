@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>添加任务</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/default.css">
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+    <style>
+        .js-addtask-right{
+            border-left:1px solid #ddd;
+        }
+        .add-task-sp{
+           position: absolute;
+           top: 102px;
+           left: 49%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div>
+            <div>
+                <h4>添加任务</h4>
+            </div>
+            <div class="row">
+              <div class="col-md-2 js-addtask-left"><!-- /左 -->
+                
+              </div>
+              <div class="col-md-8 js-addtask-right"> <!-- /右 -->
+                     <div class="js-addtask-topcom"></div>
+                     
+                    <div class="js-addtask-btmcom"></div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!--浮层-->
+    <div class="modal fade" id="setItem" tabindex="-1" role="dialog" aria-labelledby="setItemLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="setItemLabel">请选择关联项</h4>
+                </div>
+                <div class="modal-body add-task">
+                    <ul class="form-group clearfix ul-type" id="ul-type">
+                    </ul >
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary js-sure">确定</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/lib/jquery.min.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/server/template.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="js/server/utils.js"></script>
+    <script src='js/lib/lightbox.min.js'></script>
+    <script src="js/controller/plan/add-task.js"></script>
+    <script src="js/lib/bootstrap-datetimepicker.min.js"></script>
+    <script src="js/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+</body>
+</html>

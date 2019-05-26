@@ -1,0 +1,14 @@
+{{each items as item}}
+<tr class="materiel-item" data-id="{{item.id}}">
+    <td class="valignM wlde">
+        <div class="name">名称：{{item.materiel}}</div>
+        <div>规格：{{item.spec}}</div>
+        <div class="xinghao1" xinghao="{{item.matTypeCode}}">型号：{{item.matTypeCode}}</div>
+    </td>
+    <td class="valignM numw" width="120px">数量：X {{item.number}}</td>
+    <td class="valignM gongyingshang" width="300px">选择供应商：{{item.supplier}}</td>
+    <td class="valignM">
+        <button type="submit" class="btn btn-primary js-del1 underline">删除</button>
+    </td>
+</tr> 
+{{/each}}

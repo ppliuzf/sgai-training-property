@@ -1,0 +1,15 @@
+<div class="inner">
+    <ul>
+        {{each list as item i}}
+        {{if i < 5}}
+        <li data-id="{{item.eiId}}" data-no="{{item.eiEmpNo}}">
+            <div class="user dot">{{item.eiEmpName}}</div>
+            <div class="dept dot">{{item.pathDeptName}}</div>
+        </li>
+        {{/if}}
+        {{/each}}
+    </ul>
+    {{if total > 5}}
+    <div class="more">合计{{total}}条搜索结果，请输入更完整的信息</div>
+    {{/if}}
+</div>

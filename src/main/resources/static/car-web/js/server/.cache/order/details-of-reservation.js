@@ -1,0 +1,44 @@
+/*TMODJS:{"version":1,"md5":"07b97fb550054c4121b4a31ee63098c6"}*/
+template('order/details-of-reservation',function($data,$filename
+/*``*/) {
+'use strict';var $utils=this,$helpers=$utils.$helpers,$escape=$utils.$escape,item=$data.item,$out='';$out+='<h4 class=\'blod\' style=\'font-size:14px;\'>基础信息</h4> <div class="infos-detail"> <table> <tbody> <tr> <td class="col-lg-1 col-md-1 col-sm-1 text-center">车牌号码：</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(item.ciNumber);
+$out+='</td> <td class="col-lg-1 col-md-1 col-sm-1 text-center">所属部门：</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(item.ciDepartment);
+$out+='</td> <td class="col-lg-1 col-md-1 col-sm-1 text-center">购置日期：</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape($helpers. dateFormat(item.ciBuyDate ,  'yyyy-MM-dd' ));
+$out+='</td> </tr> <tr> <td class="col-lg-1 col-md-1 col-sm-1 text-center">发动机号：</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(item.ciEngineNumber);
+$out+='</td> <td class="col-lg-1 col-md-1 col-sm-1 text-center">车辆品牌：</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(item.ciBrand);
+$out+='</td> <td class="col-lg-1 col-md-1 col-sm-1 text-center">车辆型号：</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(item.ciModel);
+$out+='</td> </tr> <tr> <td class="col-lg-1 col-md-1 col-sm-1 text-center">车辆颜色：</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(item.ciColor);
+$out+='</td> <td class="col-lg-1 col-md-1 col-sm-1 text-center">车辆排量：</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(item.ciDisplacement);
+$out+='</td> <td class="col-lg-1 col-md-1 col-sm-1 text-center">变速箱类型：</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(item.ciBoxTypeName);
+$out+='</td> </tr> <tr> <td class="col-lg-1 col-md-1 col-sm-1 text-center">荷载人数：</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(item.ciLoadNumber);
+$out+='</td> <td class="col-lg-1 col-md-1 col-sm-1 text-center">车主(司机)姓名：</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(item.ciOwnerName);
+$out+='</td> <td class="col-lg-1 col-md-1 col-sm-1 text-center">车主(司机)手机号：</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(item.ciOwnerPhone);
+$out+='</td> </tr> </tbody> </table> </div> <hr> <h4 class=\'blod\' style=\'font-size:14px;\'>预约信息</h4> <div class="infos-detail"> <table> <tbody> <tr> <td class="col-lg-1 col-md-1 col-sm-1 text-center">预约日期：</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(item.sTime);
+$out+='</td> <td class="col-lg-1 col-md-1 col-sm-1 text-center">预约时间：</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(item.sMinute);
+$out+='</td> <td class="col-lg-1 col-md-1 col-sm-1 text-center">预约人：</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(item.riUserName);
+$out+='</td> </tr> <tr> <td class="col-lg-1 col-md-1 col-sm-1 text-center">预约人手机号：</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(item.riUserPhone);
+$out+='</td> <td class="col-lg-1 col-md-1 col-sm-1 text-center">结束里程数：</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(item.endJourney || '-');
+$out+='</td> <td class="col-lg-1 col-md-1 col-sm-1 text-center">本次行驶公里数：</td> <td class="col-lg-3 col-md-3 col-sm-3 value">';
+$out+=$escape(item.startJourney || '-');
+$out+='</td> </tr> <tr> <td class="col-lg-1 col-md-1 col-sm-1 text-center">预约用途：</td> <td class="col-lg-3 col-md-3 col-sm-3 value" colspan="5">';
+$out+=$escape(item.riUsePurpose);
+$out+='</td> </tr> </tbody> </table> </div>';
+return new String($out);
+});

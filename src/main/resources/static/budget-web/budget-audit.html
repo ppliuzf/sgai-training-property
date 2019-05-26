@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title> 预算详情</title>
+    <link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/css/default.css">
+    <style type="text/css">
+        .dl-horizontal dd{
+            margin-left: 20px;
+        }
+        .dl-horizontal dt{
+            width: auto;
+        }
+        .ml200{
+            margin-left: 100px;
+        }
+        dt{
+            margin-bottom: 10px;
+        }
+        dd{
+            margin-bottom: 20px;
+        }
+        .txt-col{
+            border-color: #E5E5E5;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row header">
+        <h4 class="budget-state">预算详情</h4>
+        <div class="text-right btns">
+            <button type="button" class="btn btn-primary js-pass">通过</button>
+            <button type="button" class="btn btn-primary js-reject ">拒绝</button>
+            <button type="button" class="btn btn-default js-goback">返回</button>
+        </div>
+    </div>
+    <div class="js-detail-basic"></div>
+    <div>预算信息</div>
+    <div class="js-table-con">
+        <div class="js-information-con">
+            <table class="table table-bordered table-hover table-striped">
+                <thead class="js-header">
+                </thead>
+                <tbody class="js-body"></tbody> 
+            </table>
+        </div>
+    </div>
+</div>
+<script src="../lib/lib/jquery.min.js"></script>
+<script src="../lib/lib/bootstrap.min.js"></script>
+<script src="./js/server/template.js"></script>
+<script src="../config/config.js"></script>
+<script src="./js/server/utils.js"></script>
+<script src="./js/controller/budget-audit.js"></script>
+</body>
+</html>

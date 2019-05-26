@@ -1,0 +1,92 @@
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th width="60" class="text-center">序号</th>
+            <th>编号</th>
+            <th>问卷名称</th>
+            <th>创建人</th>
+            <th>创建日期</th>
+            <th>结束时间</th>
+            <th>状态</th>
+            <th width="140" class="text-center">操作</th>
+        </tr>
+    </thead>
+    <tbody class="js-lintt">
+        {{if items.length>0}}
+        {{each items as item itemIndex}}
+        <tr>
+            <td class="text-center">{{itemIndex | fillZero}}</td>
+            <td>
+                <a href="./questionnaire-detail.html?id={{item.smId}}">{{item.surveyNo}}</a>
+            </td>
+            <td class="wrap-word" width="350">{{item.smName}}</td>
+            <td>{{item.smCreatorName}}</td>
+            <td>{{item.createdDt}}</td>
+            <td>{{item.smEndTime}}</td>
+            <td>
+                {{if item.smStatus === 0}} 未开始 {{/if}} {{if item.smStatus === 1}} 进行中 {{/if}} {{if item.smStatus === 2}} 已结束 {{/if}}
+            </td>
+            <!-- <td class="text-center act">
+                <div class="btn-group more">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+                    <ul class="dropdown-menu">
+                        {{if item.smStatus === 0 || item.smStatus===null}}
+                        <li>
+                            <a href="./questionnaire-add.html?id={{item.smId}}" class="js-edit">编辑</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="js-start" data-id="{{item.smId}}">开始调查</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="js-del" data-id="{{item.smId}}">删除</a>
+                        </li>
+                        {{else if item.smStatus === 1}}
+                        <li>
+                            <a href="./questionnaire-quest.html?id={{item.smId}}" class="js-found" data-id="{{item.smId}}">录入结果</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="js-end" data-id="{{item.smId}}">结束</a>
+                        </li>
+                        {{else if item.smStatus === 2}}
+                        <li>
+                            <a href="./questionnaire-result.html?id={{item.smId}}" class="js-res">调查结果</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="js-del" data-id="{{item.smId}}">删除</a>
+                        </li>
+                        {{/if}}
+                    </ul>
+                </div>
+            </td> -->
+            <td class="text-center">
+                {{if item.smStatus === 0 || item.smStatus===null}}
+                <a href="./questionnaire-add.html?id={{item.smId}}" class="js-edit">编辑</a>
+                <a href="javascript:;" class="js-start" data-id="{{item.smId}}">开始调查</a>
+                <a href="javascript:;" class="js-del" data-id="{{item.smId}}">删除</a>
+                {{else if item.smStatus === 1}}
+                <a href="./questionnaire-quest.html?id={{item.smId}}" class="js-found" data-id="{{item.smId}}">录入结果</a>
+                <a href="javascript:;" class="js-end" data-id="{{item.smId}}">结束</a>
+                {{else if item.smStatus === 2}}
+                <a href="./questionnaire-result.html?id={{item.smId}}" class="js-res">调查结果</a>
+                <a href="javascript:;" class="js-del" data-id="{{item.smId}}">删除</a>
+                {{/if}}
+            </td>
+        </tr>
+        {{/each}}
+        {{else}}
+        <tr>
+            <td colspan="8" class="text-center">{{text || '暂无记录'}}</td>
+        </tr>
+        {{/if}}
+    </tbody>
+</table>
+{{if items.length>0}}
+<nav class="text-right pages"></nav>
+{{/if}}
+
+<style>
+    .wrap-word {
+        word-wrap: break-word;
+        word-break: break-all;
+    }
+</style>

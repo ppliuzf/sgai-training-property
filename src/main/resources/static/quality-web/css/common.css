@@ -1,0 +1,29 @@
+a {
+    text-decoration: none;
+    color: #08c;
+    cursor: pointer;
+    outline: 0
+}
+
+a:hover {
+    text-decoration: none;
+    outline: 0
+}
+
+a:active {
+    outline: 0;
+}
+
+*:focus {
+    outline: 0;
+}
+.greyline-tb{
+  border-top:1px solid #dddee3;
+  border-bottom:1px solid #dddee3;
+}
+.mgtop10{margin-top: 10px;}
+.grey-bg .box{
+  background: #f2f2f0;
+  padding:10px;
+  margin-bottom: 10px;
+}

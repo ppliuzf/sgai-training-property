@@ -1,0 +1,64 @@
+{{each items as item index}}
+<tr data-id="{{item.id}}">
+    {{ if index+1 < 10}}
+    <td class="text-center" >0{{index+1}}</td>
+    {{ else }}
+    <td class="text-center" >{{index+1}}</td>
+    {{ /if }}
+    <td><a href="./out-detail.html?infoId={{item.id}}&status={{item.whStat}}">{{item.whOutNo}}</a></td> 
+    <!-- 需求单号 -->
+    {{if item.whOutType ==1}}
+        <td>{{item.allotName}}</td>
+    {{else}}
+        <td>{{item.matApplyName}}</td>
+    {{/if}}
+    {{if item.whOutType  == 1}}
+    <td>调拨出库</td>
+    {{else if item.whOutType == 2}}
+    <td>用料出库</td>
+    {{else if item.whOutType == 6}}
+    <td>计划出库</td>
+    {{/if}}
+    <td>{{item.whName}}</td>
+    {{if item.whType  == 1}}
+    <td>实仓</td>
+    {{else}}
+    <td>虚仓</td>
+    {{/if}}
+    <td>{{item.outDatetime | dateFormat:'yyyy-MM-dd'}}</td>
+    <td>{{item.outEmpName}}</td>
+    {{if item.whStat == 1}}
+    <td>未出库</td>
+    <td class="text-center act">
+            <a href="javascript:void(0)" class="js-tb-ck">出库</a>
+            <a href="javascript:void(0)" class="js-tb-cx">撤销</a>
+        <!-- <div class="btn-group more">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+            <ul class="dropdown-menu">
+                    <li>
+                        <a href="javascript:void(0)" class="js-tb-ck">出库</a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" class="js-tb-cx">撤销</a>
+                    </li>
+            </ul>
+        </div> -->
+    </td>
+    {{else if item.whStat == 2}}
+    <td>部分出库</td>
+    <td class="text-center act">
+        <a href="javascript:void(0)" class="js-tb-ck">出库</a>
+        <!-- <div class="btn-group more">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="javascript:void(0)" class="js-tb-ck">出库</a>
+                </li>
+            </ul>
+        </div> -->
+    </td>
+    {{else}}
+    <td>全部出库</td>
+    <td> </td>
+    {{/if}}
+{{/each}}

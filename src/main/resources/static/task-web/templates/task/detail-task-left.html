@@ -1,0 +1,112 @@
+<div class="row header">
+    <div class="btns text-right">
+        <button type="button" class="btn btn-default btn-back js-check-back">返回</button>
+    </div>
+</div>
+<h4>基础信息:</h4>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row">
+            <div class="col-sm-4 col-md-3">
+                <dl>
+                    <dt>任务项名称:</dt>
+                    <dd>{{items.tiName}}</dd>
+                </dl>
+            </div>
+            <div class="col-sm-4 col-md-3">
+                <dl>
+                    <dt>任务专业:</dt>
+                    <dd>{{items.pcName}}</dd>
+                </dl>
+            </div>
+            <div class="col-sm-4 col-md-3">
+                <dl>
+                    <dt>创建人:</dt>
+                    <dd>{{items.createEiName}}</dd>
+                </dl>
+            </div>
+            <div class="col-sm-4 col-md-3">
+                <dl>
+                    <dt>创建时间:</dt>
+                    <dd>{{items.createTime | dateFormat: 'yyyy-MM-dd hh:mm'}}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+<h4>任务标准:</h4>
+<div class="row form-group">
+    <div class="col-sm-12 col-md-12 desc">{{items.tiStandard}}</div>
+</div>
+<div class="row form-group" style="padding:10px 0;">
+    {{each items.enclosures as item}}
+    <div class="col-sm-1 col-md-1">
+        <a href="{{item.riImgUrl}}" data-lightbox="fuck"><img src="{{item.riImgUrl}}" width="80"></a>
+    </div>
+    {{/each}}
+</div>
+<h4>答案类型: <span style="font-size: 14px; color: #000;font-weight: bold;">{{items.tiIsInput === 0 ? '数值' : '单选'}}</span>
+</h4>
+{{if items.tiIsInput===0}}
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="row">
+        <div class="col-sm-4 col-md-3">
+            <dl>
+                <dt>正常值下限:</dt>
+                <dd>{{items.tiMin}}</dd>
+            </dl>
+        </div>
+        <div class="col-sm-4 col-md-3">
+            <dl>
+                <dt>正常值上限:</dt>
+                <dd>{{items.tiMax}}</dd>
+            </dl>
+        </div>
+        <div class="col-sm-4 col-md-3">
+            <dl>
+                <dt>数值单位:</dt>
+                <dd>{{items.tiUnit}}</dd>
+            </dl>
+        </div>
+    </div>
+</div>
+{{else}}
+<ul class="answer-type">
+    {{each items.newOptions as item}}
+    <li>
+        {{if item.isOk}}
+        <i class="icon-ok"></i>
+        {{else}}
+        <i class="icon-error"></i>
+        {{/if}}
+        {{item.value}}
+    </li>
+    {{/each}}
+</ul>
+{{/if}}
+<h4>缺陷整改:</h4>
+
+<div class="row form-group">
+    <div class="col-sm-4 col-md-3 paddT">
+        <dl>
+            <dt>缺陷整改责任人:</dt>
+            <dd>{{items.tiPostName}}</dd>
+        </dl>
+    </div>
+    <div class="col-sm-4 col-md-3">
+        <dl>
+            <dt>完工期限:</dt>
+            <dd>
+                {{if items.tiLimitTime }}
+                <span>{{items.tiLimitTime}}{{items.tiFinshUnit === 1 ? '天' : items.tiFinshUnit === 2 ? '小时' : '分钟'}}</span>
+                {{/if}}
+            </dd>
+        </dl>
+    </div>
+    <div class="col-sm-4 col-md-3">
+        <dl>
+            <dt>整改要求:</dt>
+            <dd class="desc">{{items.tiRectificationRequirements}}</dd>
+        </dl>
+    </div>
+</div>

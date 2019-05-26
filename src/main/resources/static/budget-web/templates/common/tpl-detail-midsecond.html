@@ -1,0 +1,54 @@
+<div class="row header exit" style="border-bottom: 0">
+    <h4 class="tplTitle">数据详情</h4>
+</div>
+<div class="clearfix exit">
+    <dl class="pull-left">
+        <dt>科目名称</dt>
+    </dl>
+    <dl class="pull-left ml300">
+        <dt>关联费项</dt>
+    </dl>
+</div>
+{{each items as itemData itemIndex}}
+<div>
+    <div class="clearfix mt20">
+        <div class="icon-div pull-left w250">
+            {{if itemData.childSubjectList && itemData.childSubjectList.length !==0}}
+            <span class="icon-span glyphicon glyphicon-minus icon-span fs identify col-666"></span>
+            <span class="col-666">{{itemData.shortName}}</span>
+            {{else}}
+            <span class=" col-666">{{itemData.shortName}}</span>
+            {{/if}}
+        </div>
+        <span class="ml100 pull-left mt-2 cost-input col-666" sub-id="{{itemData.id}}" sub-code="{{itemData.codeNumber}}" sub-name="{{itemData.shortName}}" sub-index="{{itemIndex}}"></span>
+    </div>
+    {{each itemData.childSubjectList as subSecondItem subSecondIndex}}
+    <div>
+        <div class="clearfix mt20">
+            <div class="icon-div pull-left w250 pl20 pl40">
+                {{if subSecondItem.childSubjectList && subSecondItem.childSubjectList.length !==0}}
+                <span class="icon-span glyphicon glyphicon-minus icon-span fs identify col-666"></span>
+                <span class="col-666">{{subSecondItem.shortName}}</span>
+                {{else}}
+                <span class=" col-666">{{subSecondItem.shortName}}</span>
+                {{/if}}
+            </div>
+            <span class="ml100 pull-left mt-2 cost-input col-666" disabled sub-id="{{subSecondItem.id}}" sub-code="{{subSecondItem.codeNumber}}" sub-name="{{subSecondItem.shortName}}" sub-{{itemIndex}}-secondIndex="{{subSecondIndex}}"></span>
+        </div>
+        {{if subSecondItem}}
+        <div>
+            {{each subSecondItem.childSubjectList as subThirdItem subThirdIndex}}
+            <div class="clearfix mt20">
+                <div class="pull-left w250 pl60">
+                    <span class="col-666">{{subThirdItem.shortName}}</span>
+                </div>
+                <span  class="ml100 pull-left mt-2 cost-input col-666" disabled sub-id="{{subThirdItem.id}}" sub-code="{{subThirdItem.codeNumber}}" sub-name="{{subThirdItem.shortName}}" sub-{{itemIndex}}-{{subSecondIndex}}-thirdIndex="{{subThirdIndex}}"></span>
+                <!-- <input type="text" class="ml100 pull-left mt-2 cost-input" cost-data="[{'a': 1},{'b': 2},{'c': 3}]"> -->
+            </div>
+            {{/each}}
+        </div>  
+        {{/if}}
+    </div>
+    {{/each}}
+</div>
+{{/each}}

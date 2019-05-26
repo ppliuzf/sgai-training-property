@@ -1,0 +1,72 @@
+<dl>
+    <dt>基础信息：</dt>
+</dl>
+<!-- <div class="clearfix">
+    <dl class="pull-left">
+        <dt>计划名称：</dt>
+        <dd>{{item.recordName}}</dd>
+        <dt>预算年份：</dt>
+        <dd>{{item.year}}</dd>
+        <dt>申报日期：</dt>
+        <dd>{{item.createTime | dateFormat: 'yyyy-MM-dd'}}</dd>
+    </dl>
+    <dl  class="ml200 pull-left">
+        <dt>计划部门：</dt>
+        <dd>{{item.deptName}}</dd>
+        <dt>预算周期：</dt>
+        {{if item.cycle === 1}}<dd>全年</dd>{{/if}}
+        {{if item.cycle === 2}}<dd>半年</dd>{{/if}}
+        {{if item.cycle === 3}}<dd>季度</dd>{{/if}}
+        {{if item.cycle === 4}}<dd>月</dd>{{/if}}
+        {{if item.approverName}}
+        <dt>审核人：</dt>
+        <dd>{{item.approverName}}</dd>
+        {{/if}}
+    </dl>
+    <dl class="ml200 pull-left">
+        <dt>预算类型：</dt>
+        <dd>{{item.typeName}}</dd>
+        <dt>申报人：</dt>
+        <dd>{{item.creatorEiEmpName}}</dd>
+        {{if item.approvalTime}}
+        <dt>审核日期：</dt>
+        <dd>{{item.approvalTime | dateFormat: 'yyyy-MM-dd'}}</dd>
+        {{/if}}
+    </dl>
+</div> -->
+
+<div class="infos-detail mb20">
+    <table>
+        <tbody>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">计划名称：</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{item.recordName}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">计划部门：</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{item.deptName}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">预算类型：</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{item.typeName}}</td>
+            </tr>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">预算年份：</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{item.year}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">预算周期：</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">
+                    {{if item.cycle === 1}}全年{{/if}}
+                    {{if item.cycle === 2}}半年{{/if}}
+                    {{if item.cycle === 3}}季度{{/if}}
+                    {{if item.cycle === 4}}月{{/if}}
+                </td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">申报人：</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{item.creatorEiEmpName}}</td>
+            </tr>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">申报日期：</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{item.createTime | dateFormat: 'yyyy-MM-dd'}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">{{if item.approverName}}审核人：{{/if}}</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{if item.approverName}}{{item.approverName}}{{/if}}</td>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">{{if item.approvalTime}}审核日期：{{/if}}</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{if item.approvalTime}}{{item.approvalTime | dateFormat: 'yyyy-MM-dd'}}{{/if}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

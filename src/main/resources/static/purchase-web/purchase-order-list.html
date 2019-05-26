@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>采购订单</title>
+    <link rel="stylesheet" href="../lib/css/default.css">
+    <style>
+        .modal-body .filter{
+            border: 0;
+        }
+    </style>
+</head>
+<body class="main2">
+    <div class="container-fluid">
+        <div class="row header">
+            <h4>采购订单</h4>
+        </div>
+        <!-- 搜索 -->
+        <div class="form-inline filter">
+            <div class="form-group">
+                <label for="keyWords" class="control-label">订单号</label>
+                <input id="keyWords" type="text" class="form-control" placeholder="请输入订单号">
+            </div>
+            <div class="form-group">
+                <label for="type" class="control-label">订单类型</label>
+                <select id="type" class="form-control" required="required">
+                    <option value="3">全部类型</option>
+                    <option value="1">需求订单</option>
+                    <option value="2">计划采购</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="status" class="control-label">采购状态</label>
+                <select id="status" class="form-control" required="required">
+                    <option value="4">全部</option>
+                    <option value="1">未采购</option>
+                    <option value="2">采购中</option>
+                    <option value="3">已完成</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="statusFp" class="control-label">发票状态</label>
+                <select id="statusFp" class="form-control" required="required">
+                    <option value="3">全部</option>
+                    <option value="2">已开具</option>
+                    <option value="1">未开具</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary js-search">搜索</button>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th width="60" class="text-center">序号</th>
+                    <th width="">订单编号</th>
+                    <th width="">订单类型</th>
+                    <th width="">申请编号</th>
+                    <th width="">申请人</th>
+                    <th width="">申请日期</th>
+                    <th width="">采购状态</th>
+                    <th width="">供应商名称</th>
+                    <th width="">发票状态</th>
+                    <th width="92" class="text-center">操作</th>
+                </tr>
+            </thead>
+            <tbody class="js-list"></tbody>
+        </table>
+        
+        <nav class="text-right pages"></nav>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/purchase-orderT/purchase-order-list.js"></script>
+</body>
+
+</html>

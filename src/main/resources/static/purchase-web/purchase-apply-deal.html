@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>处理采购申请-未处理</title>
+    <link rel="stylesheet" href="../lib/css/default.css">
+    <style>
+        .tableBox{
+            overflow-y: auto;
+            height:auto;
+        }
+    </style>
+</head>
+
+<body id="main">
+    <div class="container-fluid">
+        <div class="row header">
+            <div>
+                <div class="js-title">
+                    <h4>处理采购申请-未处理</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 js-main-up infos-detail">
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h4 class="p15">物料明细</h4>
+            <div class="text-right">
+                <button type="button" class="btn btn-primary" id="purchase">采购物料</button>
+            </div>
+            <div class="pt15">
+                <div class="tableBox">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="active">
+                                <th width="60" class="text-center">序号</th>
+                                <th width="">物料名称</th>
+                                <th width="">所需物料数量</th>
+                                <th width="">规格</th>
+                                <th width="">型号</th>
+                                <th width="92" class="text-center">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody class="js-main-down" id="materielList"></tbody>
+                    </table>
+                </div>
+                <div class="btns">
+                    <button type="submit" class="btn btn-primary" id="save">提交</button>
+                    <button type="submit" class="btn btn-default" id="cancle">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <select id="aaa" style="display: none;"></select>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="../lib/lib/lightbox.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="./js/server/template-helper.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/deptTree.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/purchase-applyT/purchase-apply-deal.js"></script>
+</body>
+
+</html>

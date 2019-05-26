@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>模板管理</title>
+    <link rel="stylesheet" href="../lib/css/bootstrap-switch.css">
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+<style type="text/css">
+    .w120{
+        width: 120px;
+    }
+    .mw100{
+        min-width: 100px;
+    }
+    .mw150{
+        min-width: 150px;
+    }
+    .mw200{
+        min-width: 200px;
+    }
+    .w200{
+        width: 200px;
+    }
+</style>
+<body>
+<div class="container-fluid">
+    <div class="row header">
+        <h4>模板管理</h4>
+        <div class="btns text-right">
+            <button type="button" class="btn btn-primary js-add-tpl">新建模板</button>
+        </div>
+    </div>
+    <!-- </div> -->
+    <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th class="text-center" width="60">序号</th>
+            <th class="mw150">模板名称</th>
+            <th class="mw100">周期类型</th>
+            <th class="mw100">创建人</th>
+            <th class="mw100">创建时间</th>
+            <th >模板描述</th>
+            <th class="w200 text-center">状态</th>
+            <th class="text-center" width="92">操作</th>
+        </tr>
+        </thead>
+        <tbody class="js-list-data"></tbody>
+    </table>
+    <!--<div class="js-pagination-btn"></div>-->
+    <div class="pages text-right"></div>
+</div>
+<script src="../lib/lib/jquery.min.js"></script>
+<script src="../lib/lib/bootstrap.min.js"></script>
+<script src="../lib/lib/bootstrap-switch.min.js"></script>
+<script src="./js/server/template.js"></script>
+<script src="./js/server/template-helper.js"></script>
+<script src="../config/config.js"></script>
+<script src="./js/server/utils.js"></script>
+<script src="./js/controller/tpl-management.js"></script>
+<!-- <script src="./js/lib/bootstrap-datetimepicker.min.js"></script>
+<script src="./js/lib/bootstrap-datetimepicker.zh-CN.js"></script> -->
+</body>
+</html>

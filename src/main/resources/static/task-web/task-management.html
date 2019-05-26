@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>任务执行管理</title>
+    <link rel="stylesheet" href="css/default.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        *{
+            margin: 0px;  
+            padding: 0px;  
+        }
+        ul,li{
+            list-style: none;
+        }
+        ul{
+            width: 100%;
+        }
+        li{
+            width: 14.28%;
+            float: left;
+            height: 112px;
+            border-top: 3px solid #1785ca;
+            border-right:1px solid #a1a1a1;
+            text-align: right;
+        }
+        .parter:hover{
+            background-color: #ededed;
+        }
+        .other-month{
+            background-color:rgba(181,194,202,0.3)
+        }
+        ul li:last-of-type{
+            border-right: none;
+        }
+        .weekTittle li{
+            border: none;
+            height: 40px;
+            line-height: 40px;
+            /* color: #333333;
+            font-weight: bolder; */
+            text-align: left;
+            padding-left: 10px;
+            font-size: 14px;
+        }
+        .weekTittle li:hover{
+            /* background-color: #ededed; */
+        }
+        .weekTittle .weekend{
+            color: #A5413F;
+        }
+        .curDate{
+            color: #666;
+            font-size: 24px;
+            font-weight: normal;
+        }
+        .fl{
+            float: left;
+        }
+        .fr{
+            float: right;
+        }
+        .select-ul .select-date-li{
+            width: 68px;
+            height:30px;
+            line-height: 30px;
+            border: 1px solid #1785ca;
+            color: #1785ca;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            font-size: 14px;
+        }
+        .select-ul .select-date-li.js-cur-date{
+            background-color: #1785ca;
+            color: white;
+            border-left: none;
+            border-right: none;
+        }
+        .js-pre-date{
+            border-radius: 4px 0 0 4px;
+        }
+        .js-next-date{
+            border-radius: 0 4px 4px 0;
+        }
+        .nowDay{
+            /* background-color: #E5F3FB; */
+        }
+        .ml15{
+            margin-left: 15px;
+        }
+        .mr15{
+            margin-right: 15px;
+        }
+        .tody-span{
+            display: inline-block;
+            float: left;
+            width: 39px;
+            height: 20px;
+            font-size: 12px;
+            text-align: center;
+            background-color: #1785ca;
+            color: #fff;
+        }
+        .daySpan{
+            font-size: 16px;
+            color: #333;
+            margin-right: 5px;
+        }
+        .blue{
+            background: rgba(229, 243, 251, 1)!important;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row header">
+        <h4>任务执行管理</h4>
+        <div class="btns text-right">
+            <button type="button" class="btn btn-primary js-task-result">我的任务</button>
+        </div>
+    </div>
+    <div class="row js-top-date"></div>
+    <div class="calendarOuter">
+        <ul class="weekTittle">
+            <li>星期一</li>
+            <li>星期二</li>
+            <li>星期三</li>
+            <li>星期四</li>
+            <li>星期五</li>
+            <li class="weekend">星期六</li>
+            <li class="weekend">星期日</li> 
+        </ul>
+        <ul>
+            <li>
+                <div class="matter-container">
+        
+                </div>
+            </li>
+        </ul>
+    </div> 
+</div>
+<script src="js/lib/jquery.min.js"></script>
+<script src="js/lib/bootstrap.min.js"></script>
+<script src="js/lib/bootstrap-datetimepicker.min.js"></script>
+<script src="js/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="js/server/template.js"></script>
+<script src="../config/config.js"></script>
+<script src="js/server/utils.js"></script>
+<script src="js/controller/result/task-management.js"></script>
+<!-- <script src="js/controller/matter.js"></script> -->
+</body>
+</html>

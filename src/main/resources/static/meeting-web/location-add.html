@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>会议室位置维护</title>
+    <link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+<body>
+    <div class="container-fluid add-location">
+        <div class="row header">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                <h4>新建会议室位置</h4>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-11 col-md-9 col-lg-7">
+            <div class="form-group meeting-location">
+                <label for="meeting-location"><span class="require"></span>位置名称</label>
+                <input type="text" class="form-control" id="meeting-location" placeholder="请输入位置名称" maxlength="20">
+            </div>
+            <div class="form-group meeting-text">
+                <label for="meeting-text">描述</label>
+                <textarea name="" id="meeting-text" rows="4" class="form-control" placeholder="描述不能大于200字" maxlength="200"></textarea>
+                <div class="text-right js-count">0/200</div>
+            </div>
+            <!-- <a class="btn btn-primary js-save">保存</a>
+            <a class="btn btn-default js-cancel">取消</a> -->
+            <button type="button" class="btn btn-primary js-save">保存</button>
+            <button type="button" class="btn btn-default js-cancel">取消</button>
+        </div>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/location-add.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{{each items as item index}}
+<tr>
+    <td class="text-center">{{index+1 < 10 ? "0" + (index+1) : index+1 | fillZero}}</td>
+    <td>{{item.ciNumber || '--'}}</td>
+    <td>{{item.ciBrand || '--'}}</td>
+    <td>{{item.ciModel || '--'}}</td>
+    <td>{{item.ciColor || '--'}}</td>
+    <td>{{item.ciLoadNumber || '--'}}</td>
+    <!-- <td class="text-center act">
+        <div class="btn-group more">
+            <button  type="button" class="btn btn-primary js-car-del" data-ccid="{{item.id}}">删除</button>
+            <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">更多</button> -->
+    <!-- <ul class="dropdown-menu"> -->
+    <!-- <li><a href="#" class="js-car-del" data-ccid="{{item.id}}">删除</a></li> -->
+    <!-- </ul> -->
+    <!-- </div> -->
+    <!-- </td> -->
+</tr>
+{{/each}}

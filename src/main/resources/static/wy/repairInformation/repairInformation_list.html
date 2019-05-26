@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+
+<!--分页  -->
+<script src="../static/paginator/bootstrap-paginator.js" type="text/javascript"></script>
+<!-- 公共样式表	，公共方法 -->
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script src="../static/media/js/main.js" type="text/javascript"></script>
+
+<!-- <link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet"> -->
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- <script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script> -->
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.src.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<script src="../../config/smart-common.js" type="text/javascript"></script>
+<script src="../static/wy/area.js" type="text/javascript"></script>
+
+<style type="text/css">
+	.detail-close{
+		display: none;
+	}
+	.row-details{
+		cursor:pointer;
+	}
+	.form-row{
+		padding-left:15px;
+	}
+	.repair-size{
+		margin-left: 20px;
+	}
+	.content-size{
+		margin-left: 15px;
+	}
+	.battery_sty {
+	    border: 1px solid #464646;
+	    width: 15px;
+	    height: 17px;
+	    float: left;
+	    border-right: 0;
+}
+	.operate_size {
+	    width: 50px;
+	}
+	li{list-style:none;}
+        .details {
+            overflow: hidden;
+            width: 50%;
+            padding-left: 167px;
+            margin-top: 7px;
+        }
+        .details>span:nth-child(1) {
+        	color:#555555;
+        	font-family : 微软雅黑;
+            float: left;
+        }
+        .details>span:nth-child(2) {
+       		padding-left: 6px;
+       		font-family : 宋体;
+            float: left;
+        }
+        .table-striped tbody > tr:nth-child(4n+1) > td, .table-striped tbody > tr:nth-child(4n+1) > th {
+		    background-color: #f5f5f5;
+		}
+		.table-striped tbody > tr:nth-child(4n+3) > td, .table-striped tbody > tr:nth-child(4n+3) > th {
+		    background-color: #ffffff  !important;
+		}
+		.table-striped tbody > tr:hover td{
+    background-color: #E5E5E5 !important;
+}
+
+	.img-size{
+		width:100%;
+		height:72px;
+		padding:5px;
+		position:relative;
+	}
+			.s{
+    		position: absolute;
+    		left: -6px;
+    	    top: 28px;
+   			font-size: 18px;
+   			color:#0066cc;
+   			display:none;
+		}
+		.remove-sty{
+	position: absolute;
+    right: 4px;
+    top: 3px;
+    color: #000;
+    font-size: 21px;
+    padding: 5px 8px;
+    background:rgba(255,255,255,.5);
+    border-radius: 20px;
+	}
+	.ring-sty{
+	display: inline-block;
+   	width: 12px;
+    height: 12px;
+    border-radius: 10px;
+    border: 3px solid #dadada;
+    vertical-align: middle;
+    margin-right:13px;
+	}
+	.ring-detail{
+		display: inline-block;
+		text-align:left;
+		min-height:18px;
+		padding-right:20px;
+		vertical-align: middle;
+	}
+			.img_content{
+			width:100%;
+			height:100%;
+		}
+		.img-box>div img{
+			display:none;
+		}
+				.left_ward,.right_ward{
+			position: absolute;
+    		top: 140px;
+    		left: 34px;
+			display: block;
+    		color: #ddd;
+    		font-size: 27px;
+		}
+		.right_ward{
+			left:95%;
+		}
+</style>
+</head>
+<body>
+<div class="table_fluid">
+	<div class="table_infor">
+		<div class="table_title">
+				<i class="icon-table"></i><span>事件管理</span>
+		</div>
+		<div class="small_btn">
+			<button id="btnInsertRepair"  style="display:none"class="btn btn-primary btn_icon small_blue" type="button" value="新建" onclick="addNewRepair()"><i class="icon-plus"></i></button>
+			<!-- <button id="btnDelete" class="btn btn-primary btn_icon small_red" type="button" value="删除" onclick="deleteKeyAll();"><i class="icon-trash"></i></button> -->
+		</div>
+	</div>
+    <form class="breadcrumb form-search" style="margin-top: 20px;" action="">
+    	<ul class="ul-form">
+    	<li><label>订单号：</label><input type="text" class="input-medium" id="orderNumber" name="orderNumber" /></li>
+    	<li><label>报修人：</label><input type="text" class="input-small" id="repairPeopleName" name="repairPeopleName" /></li>
+    	<li><label>维修状态：</label>
+    		<select id="repairStatus" class="input-medium" name="repairStatus" tabindex="-1">
+	            	<option value=""></option>
+	            	<option value="1">已提交</option>
+	            	<option value="3">已受理</option>
+	            	<option value="4">已指派</option>
+	            	<option value="5">维修开始</option>
+	            	<option value="7">维修完成</option>
+	            	<option value="12">已评价</option>
+	            	<option value="17">退单未指派</option>
+	            	<option value="16">已关闭</option>
+	            </select></li>
+	           <li> <input type="hidden" class="input-mini" id="stas" name="stas" /></li>
+	           <li> <label>事件级别：</label>
+    			<select id="incidentRank" class="input-medium" name="incidentRank" tabindex="-1">
+	            	<option value=""></option>
+	            	<option value="紧急">紧急</option>
+	            	<option value="一般">一般</option>
+	            </select>
+	            </li>
+	            <li><label>时间从：</label><input type="text" class="input-small Wdate" id="startTime" name="beginTime"
+                                          onclick="WdatePicker()" maxlength="50"/></li>
+            <li><label>时间至：</label><input type="text" class="input-small Wdate" id="endTime" name="endTime"
+                                          onclick="WdatePicker()" maxlength="50"/></li>
+    	<li><label>报修区域：</label>
+    			<select id="repairAddress1" class="input-small" name="repairAddress1" tabindex="-1" style="margin-left: -4px">
+    				<option value=""></option>
+    			</select>
+    			<select id="repairAddress2" class="input-small" name="repairAddress2" tabindex="-1">
+    				<option value=""></option>
+    			</select>
+    			<select id="repairAddress3" class="input-small" name="repairAddress3" tabindex="-1">
+    				<option value=""></option>
+    			</select>
+    			</li>
+    			<li><input type="hidden" id="repairAddress" name="repairAddress" /></li>
+
+	          <li>  <button type="button" onclick="pageload()" class="btn btn-primary btn_middle small_blue">查询</button></li>
+	          <li>  <button type="button" onclick="emptys()" class="btn btn-primary btn_middle small_blue" style="margin-left: 32px;">清空</button></li>
+	          <li>  <button   id="exportRepair" style="display:none" type="button" onclick="exports()" class="btn btn-primary btn_middle small_blue">导出</button></li>
+      </ul>
+    </form>
+    <div>
+    <table id="privilegeTable" class="table table-striped table-bordered table-condensed">
+    	<thead>
+	    	<tr>
+	    		<th></th>
+	    		<th>进度</th>
+	    		<th>订单号</th>
+	    		<th>报修人</th>
+	    		<th>联系电话</th>
+	    		<th>报修区域</th>
+	    		<th>事件级别</th>
+	    		<th>类别</th>
+	    		<th>状态</th>
+	    		<th>操作</th>
+	    	</tr>
+    	</thead>
+    	<tbody>
+		</tbody>
+    </table>
+    </div>
+    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="width:800px;margin-left: -381px;margin-top: -42px;">
+		 <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h4 id="myModalLabel">指派人查询</h4>
+		 </div>
+		<div class="modal-body">
+	  		<iframe id="Iframe"></iframe>
+	    </div>
+	</div>
+	<div id="unusualClose" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		 <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h4 id="myModalLabel">请填写异常关闭原因</h4>
+		 </div>
+		<div class="modal-body">
+	  		<iframe id="cIframe"></iframe>
+	    </div>
+	</div>
+		<div id="waitMain" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		 <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h4 id="myModalLabel">请填写等待原因</h4>
+		 </div>
+		<div class="modal-body">
+	  		<iframe id="wIframe"></iframe>
+	    </div>
+	</div>
+	<div id="chargeback" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		 <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h4 id="myModalLabel">请填写退单原因</h4>
+		 </div>
+		<div class="modal-body">
+	  		<iframe id="bIframe"></iframe>
+	    </div>
+	</div>
+	<div id="updateRepair" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		 <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h4 id="myModalLabel">修改报修信息</h4>
+		 </div>
+		<div class="modal-body">
+	  		<iframe id="uIframe"></iframe>
+	    </div>
+	</div>
+	<div id="showS" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		 <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h4 id="myModalLabel">事件状态</h4>
+		 </div>
+		<div class="modal-body">
+	  		<iframe id="shIframe"></iframe>
+	    </div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var sta = GetQueryString("repairStatus");
+	var day = GetQueryString("flag");
+    var alarmFlag = GetQueryString("alarmFlag");
+	$(function(){
+		pageRightContent();
+		pageload();
+		 btnPermit("repairInformation_list.html");
+	});
+
+    function exports() {
+        location.href = APIHost + "/repairInformation/export?token="+localStorage.getItem("token")+"&orderNumber="
+                + $("#orderNumber").val() + "&repairPeopleName=" + $("#repairPeopleName").val()
+                + "&repairStatus=" + $("#repairStatus").val()
+                + "&repairAddress=" + $("#repairAddress").val()
+                + "&incidentRank=" + $("#incidentRank").val();
+    }
+	function pageload(n, s){
+		//判断是否传pageSize
+		var pageSize = $('.page-size option:selected').val();
+		if(!$.isNumeric(s)){
+			s = pageSize;
+		}
+		//删除旧tbody
+		var contentTableSub = document.getElementById("privilegeTable");
+		var oldTbody = document.getElementById("privilegeTbody");
+		if (oldTbody != null) {
+			contentTableSub.removeChild(oldTbody);
+		}
+		var ads="";
+		if($("#repairAddress1").val()!=""){
+			ads = $("#repairAddress1 option:selected").text();
+		}
+		if($("#repairAddress2").val()!=""){
+			ads = $("#repairAddress1 option:selected").text()+"-"+$("#repairAddress2 option:selected").text();
+		}
+		if($("#repairAddress3").val()!=""){
+			ads = $("#repairAddress1 option:selected").text()+"-"+$("#repairAddress2 option:selected").text()+"-"+$("#repairAddress3 option:selected").text();
+		}
+		var ss;
+		if(sta == "0"){
+			ss = "4";
+		}else if(sta == "1"){
+			ss = "7";
+		}else if(sta == "2"){
+			ss = "3";
+		}else if(sta == "3"){
+			ss = "1";
+		}else if(sta == "4"){
+			ss = "15";
+		}else if(sta == "5"){
+			ss = "16";
+		}
+		$.ajax({
+			headers    : {
+	            "token" : localStorage.getItem("token")
+	        },
+			url : APIHost + "/repairInformation/getLists",
+			type : 'Post',
+			async : false, //或false,是否异步
+			data : {
+				pageNo : n,
+				pageSize : s,
+				orderNumber : $("#orderNumber").val(),
+				repairPeopleName : $("#repairPeopleName").val(),
+				repairStatus : sta == null?$("#repairStatus").val():ss,
+				repairAddress : $("#repairAddress").val() ,
+				incidentRank : $("#incidentRank").val(),
+				startTime1 : $("#startTime").val(),
+				endTime1 : $("#endTime").val(),
+				repairNowToday : (day == ""||day == null)?"":day,
+				alarmFlag : (alarmFlag == "" || alarmFlag == null)?"0":alarmFlag
+			},
+			success:function (obj){
+			    alarmFlag = 0;
+				//向页面拼接分页内容
+				pageContent(obj.data);
+				var newTbody = document.createElement("tbody");
+				newTbody.setAttribute("id", "privilegeTbody");
+				var goodBo = obj.data.list;
+				for(var i = 0;i<goodBo.length;i++){
+					var goods = goodBo[i];
+					var tr = document.createElement("tr");
+					//tr.className = ""+goods.id+"";
+
+					var td12=document.createElement("td");
+					td12.innerHTML = "<span itemId='"+goods.id+"' class='row-details'>+</span>";
+					td12.className="operate_size";
+					tr.appendChild(td12);
+
+					var td11=document.createElement("td");
+					if(goods.repairStatus == '1'){
+						td11.innerHTML = box5(goods);
+					}else if(goods.repairStatus == '3'||goods.repairStatus == '17'){
+						td11.innerHTML = box1(goods);
+					}else if(goods.repairStatus == '4'||goods.repairStatus == '6'||goods.repairStatus == '5'||goods.repairStatus == '15'){
+						td11.innerHTML = box2(goods);
+					}else if(goods.repairStatus == '7'||goods.repairStatus == '8'||goods.repairStatus == '9'||goods.repairStatus == '11'){
+						td11.innerHTML = box3(goods);
+					}else if(goods.repairStatus == '10'||goods.repairStatus == '16'||goods.repairStatus == '13'){
+						td11.innerHTML = box4(goods);
+					}
+					//td11.style.width = "110px";
+					tr.appendChild(td11);
+
+					var td1 = document.createElement("td");
+					td1.innerHTML = "<a href='javascript:void(0);' itemId='"+goods.id+"' onclick='showStatus(this)'>"+goods.orderNumber+"</a>";
+					//td1.innerHTML = goods.orderNumber;
+					tr.appendChild(td1);
+
+					var td2 = document.createElement("td");
+					td2.innerHTML = goods.repairPeopleName;
+					tr.appendChild(td2);
+
+					var td3 = document.createElement("td");
+					td3.innerHTML = goods.repairPhone;
+					tr.appendChild(td3);
+
+					var td4 = document.createElement("td");
+					td4.innerHTML = goods.repairDetailAddress;
+					tr.appendChild(td4);
+
+					var td5 = document.createElement("td");
+					td5.innerHTML = goods.incidentRank;
+					tr.appendChild(td5);
+
+					var td6 = document.createElement("td");
+					td6.innerHTML = goods.repairType;
+					tr.appendChild(td6);
+
+					var td7 = document.createElement("td");
+					if(goods.repairStatus == '1'){
+						td7.innerHTML = '已提交';
+						td7.style.color = "#6495ED";
+					}else if(goods.repairStatus == '3'){
+						td7.innerHTML = '已受理';
+						td7.style.color = "	#AFEEEE";
+					}else if(goods.repairStatus == '4'){
+						td7.innerHTML = '已指派';
+						td7.style.color = "	#BC8F8F";
+					}else if(goods.repairStatus == '6'){
+						td7.innerHTML = '等待中';
+						td7.style.color = "#F0E68C";
+					}else if(goods.repairStatus == '5'){
+						td7.innerHTML = '维修开始';
+						td7.style.color = "#4682B4";
+					}else if(goods.repairStatus == '7'){
+						td7.innerHTML = '维修完成';
+						td7.style.color = "#C71585";
+					}else if(goods.repairStatus == '8'||goods.repairStatus == '9'||goods.repairStatus == '10'||goods.repairStatus == '11'){
+						if (goods.repairStatus == '8'){
+							td7.innerHTML = '功能验收合格';
+						}else if(goods.repairStatus == '9'){
+							td7.innerHTML = '功能验收不合格';
+						}else if(goods.repairStatus == '10'){
+							td7.innerHTML = '环境验收合格';
+						}else if(goods.repairStatus == '11'){
+							td7.innerHTML = '环境验收不合格';
+						}
+						td7.style.color = "#CD853F";
+					}else if(goods.repairStatus == '13'){
+						td7.innerHTML = '已评价';
+						td7.style.color =  "#7FFFAA";
+					}else if(goods.repairStatus == '14'){
+						td7.innerHTML = '已取消';
+						td7.style.color = "#FFFF00";
+					}else if(goods.repairStatus == '17'){
+						td7.innerHTML = '退单未指派';
+						td7.style.color = "#0000FF";
+					}else if(goods.repairStatus == '16'){
+						td7.innerHTML = '已关闭';
+						td7.style.color = "#BA55D3";
+					}
+					tr.appendChild(td7);
+
+					//操纵
+					var td8=document.createElement("td");
+					if(goods.repairStatus == '1'){
+						td8.innerHTML = submitStatus(goods);
+					}else if(goods.repairStatus == '3'){
+						td8.innerHTML = acceptStatus(goods);
+					}else if(goods.repairStatus == '4'){
+						td8.innerHTML = appointStatus(goods);
+					}else if(goods.repairStatus =='6'){
+						td8.innerHTML = wait(goods);
+					}else if(goods.repairStatus == '5'){
+						td8.innerHTML = maintainBeginStatus(goods);
+					}else if(goods.repairStatus == '7'){
+						td8.innerHTML = maintainFinishStatus(goods);
+					}else if(goods.repairStatus == '8'||goods.repairStatus == '9'||goods.repairStatus == '10'||goods.repairStatus == '11'){
+						td8.innerHTML = checkStatus(goods);
+					}else if(goods.repairStatus == '13'){
+						td8.innerHTML = appraiseStatus(goods);
+					}else if(goods.repairStatus == '14'){
+						td8.innerHTML = cancelStatus(goods);
+					}else if(goods.repairStatus == '17'){
+						td8.innerHTML = chargebackStatus(goods);
+					}else if(goods.repairStatus == '16'){
+						td8.innerHTML = closeStatus(goods);
+					}
+
+
+						td8.className="operate_size";
+						tr.appendChild(td8);
+					newTbody.appendChild(tr);
+
+
+					var tr2 = document.createElement("tr");
+					var td9=document.createElement("td");
+					tr2.id = goods.id;
+					td9.colSpan = "10";
+					td9.style.padding = "0";
+					td9.style.border = "0";
+					td9.innerHTML = detailRepair(goods,tr);
+					td9.className="";
+					tr2.appendChild(td9);
+					newTbody.appendChild(tr2);
+					tr2.style.display = 'none';
+
+				}
+
+				contentTableSub.appendChild(newTbody);
+				//table下每一行tr选中高亮
+				inputCheck();
+				//调用操作按钮方法
+				handelBtn();
+				//内容自适应iframe高度
+			    setIframeHeight(parent.document.getElementById('mainFrame'));
+			}
+		})
+	}
+
+	function deleteGoods(i){
+		var id = $(i).attr("itemId");
+		$.jBox.confirm("确定删除吗?", "提示", function (v, h, f) {
+			if(v == 'ok'){
+				deletebatchProcess(id);
+			}
+		})
+	}
+
+
+		var flag = true;
+		$(".row-details").live("click",function(){
+			var self = $(this);
+			var paramId = $(this).attr("itemId");
+			var tr2 = document.getElementById(paramId);
+			if(tr2.style.display = 'none'){//如果当前隐藏
+				if(flag){
+					$(this).text("-");
+					tr2.style.display='';//那么就显示
+					flag = false;
+				}else{
+					$(this).text("+");
+					tr2.style.display = 'none'//就隐藏
+					flag = true;
+				}
+
+	        }
+		});
+		function accept(index){
+			var paramId = $(index).attr("itemId");
+		}
+
+		//已提交
+		function submitStatus(goods){
+			var html = '<div class="btn-hover" style="display:inline-block;position:relative;">'
+				+'<button type="button" class="btn btn-primary 	btn_medium small_blue btn_more">查看更多'
+ 				+' <span class="caret"></span></button>'
+			+'<div class="btn_list pub-hide">'
+				+'<button itemId='+goods.id+' onclick="updateRepair(this)"  type="button" class="btn sg_middle handel_btn">'
+				+'<i class="icon-edit icon_right icon-blue"></i>修改</button>'
+			+'<button itemId='+goods.id+' onclick="accept(this)" type="button" class="btn sg_middle handel_btn">'
+				+'<i class="icon-trash icon_right icon-red"></i>受理</button>'
+			+'<button itemId='+goods.id+' onclick="closes(this)" type="button" class="btn sg_middle handel_btn">'
+				+'<i class="icon-trash icon_right icon-red"></i>异常关闭</button>'
+			+'</div>'
+	        +'</div>';
+	        return html;
+		}
+		//已受理
+		function acceptStatus(goods){
+			var html = '<div class="btn-hover" style="display:inline-block;position:relative;">'
+				+'<button type="button" class="btn btn-primary 	btn_medium small_blue btn_more">查看更多'
+ 				+' <span class="caret"></span></button>'
+			+'<div class="btn_list pub-hide">'
+				+'<button itemId='+goods.id+' onclick="appoint(this)"  type="button" class="btn sg_middle handel_btn">'
+				+'<i class="icon-edit icon_right icon-blue"></i>指派</button>'
+			+'<button itemId='+goods.id+' onclick="closes(this)" type="button" class="btn sg_middle handel_btn">'
+				+'<i class="icon-trash icon_right icon-red"></i>异常关闭</button>'
+			+'</div>'
+	        +'</div>';
+	        return html;
+		}
+		//已指派
+		function appointStatus(goods){
+			var html = '<div class="btn-hover" style="display:inline-block;position:relative;">'
+				+'<button type="button" class="btn btn-primary 	btn_medium small_blue btn_more">查看更多'
+ 				+' <span class="caret"></span></button>'
+			+'<div class="btn_list pub-hide">'
+				+'<button itemId='+goods.id+' onclick="waitMaintain(this)"  type="button" class="btn sg_middle handel_btn">'
+				+'<i class="icon-edit icon_right icon-blue"></i>等待维修</button>'
+				+'<button itemId='+goods.id+' onclick="beginMaintain(this)" type="button" class="btn sg_middle handel_btn">'
+				+'<i class="icon-trash icon_right icon-red"></i>开始维修</button>'
+				+'<button itemId='+goods.id+' onclick="chargeback(this)" type="button" class="btn sg_middle handel_btn">'
+				+'<i class="icon-trash icon_right icon-red"></i>退单</button>'
+			+'<button itemId='+goods.id+' onclick="closes(this)" type="button" class="btn sg_middle handel_btn">'
+				+'<i class="icon-trash icon_right icon-red"></i>异常关闭</button>'
+			+'</div>'
+	        +'</div>';
+	        return html;
+		}
+		//等待中
+		function wait(goods){
+			var html = '<div class="btn-hover" style="display:inline-block;position:relative;">'
+				+'<button type="button" class="btn btn-primary 	btn_medium small_blue btn_more">查看更多'
+ 				+' <span class="caret"></span></button>'
+			+'<div class="btn_list pub-hide">'
+				+'<button itemId='+goods.id+' onclick="beginMaintain(this)" type="button" class="btn sg_middle handel_btn">'
+				+'<i class="icon-trash icon_right icon-red"></i>开始维修</button>'
+				+'<button itemId='+goods.id+' onclick="chargeback(this)" type="button" class="btn sg_middle handel_btn">'
+				+'<i class="icon-trash icon_right icon-red"></i>退单</button>'
+			+'<button itemId='+goods.id+' onclick="closes(this)" type="button" class="btn sg_middle handel_btn">'
+				+'<i class="icon-trash icon_right icon-red"></i>异常关闭</button>'
+			+'</div>'
+	        +'</div>';
+	        return html;
+		}
+		//维修开始
+		function maintainBeginStatus(goods){
+			var html = '<div class="btn-hover" style="display:inline-block;position:relative;">'
+				+'<button type="button" class="btn btn-primary 	btn_medium small_blue btn_more">查看更多'
+ 				+' <span class="caret"></span></button>'
+			+'<div class="btn_list pub-hide">'
+				+'<button itemId='+goods.id+' onclick="maintainFinishWork(this)"  type="button" class="btn sg_middle handel_btn">'
+				+'<i class="icon-edit icon_right icon-blue"></i>维修完成</button>'
+			+'<button itemId='+goods.id+' onclick="closes(this)" type="button" class="btn sg_middle handel_btn">'
+				+'<i class="icon-trash icon_right icon-red"></i>异常关闭</button>'
+			+'</div>'
+	        +'</div>';
+	        return html;
+		}
+		//维修完成
+		function maintainFinishStatus(goods){
+			var html ="<span>订单已完成</span>";
+	        return html;
+		}
+		//已验收
+		function checkStatus(goods){
+			var html ="<span>维修完成</span>";
+	        return html;
+		}
+		//已评价
+		function appraiseStatus(goods){
+			var html ="<span>已完成评价</span>";
+	        return html;
+		}
+		//已取消
+		function cancelStatus(goods){
+			var html ="<span>订单已取消</span>";
+	        return html;
+		}
+		//退单
+		function chargebackStatus(goods){
+			var html = '<div class="btn-hover" style="display:inline-block;position:relative;">'
+				+'<button type="button" class="btn btn-primary 	btn_medium small_blue btn_more">查看更多'
+ 				+' <span class="caret"></span></button>'
+			+'<div class="btn_list pub-hide">'
+				+'<button itemId='+goods.id+' onclick="appoint(this)"  type="button" class="btn sg_middle handel_btn">'
+				+'<i class="icon-edit icon_right icon-blue"></i>指派</button>'
+			+'<button itemId='+goods.id+' onclick="closes(this)" type="button" class="btn sg_middle handel_btn">'
+				+'<i class="icon-trash icon_right icon-red"></i>异常关闭</button>'
+			+'</div>'
+	        +'</div>';
+	        return html;
+		}
+		//已关闭
+		function closeStatus(goods){
+			var html ="<span>异常关闭,订单已完成</span>";
+	        return html;
+		}
+
+		function detailRepair(goods,tr){
+			//修改tr颜色
+			showTrColor(goods,tr);
+			//偶数tr具体报修信息状态
+			var html = "<table id='repair-detail' style='width:100%;'>"
+				+"<tr>"
+				+"<td style='text-align:left;width:50%;height:300px;background:#e3e3e3;'>"
+					+"<div id='divdetai' style='float: left; display: block;'>"
+						+"<div class='form-row'>"
+							+"<div style='display:inline-block;vertical-align:middle;width:200px;'><span class='repair-size'><b>订单号:</b></span><span class='content-size'>"+goods.orderNumber+"</span></div>"
+							+"<div style='display:inline-block;vertical-align:middle;'><span class='repair-size'><b>报修人:</b></span><span class='content-size'>"+goods.repairPeopleName+"</span></div>"
+						+"</div><br/>"
+						+"<div class='form-row'>"
+							+"<div style='display:inline-block;vertical-align:middle;width:200px;'><span class='repair-size'><b>联系电话:</b></span><span class='content-size'>"+goods.repairPhone+"</span></div>"
+							+"<div style='display:inline-block;vertical-align:middle;'><span class='repair-size'><b>事件级别:</b></span><span class='content-size'>"+(goods.incidentRank == '一般'? goods.incidentRank:(goods.incidentRank+"--"+goods.emergenciesType))+"</span></div>"
+						+"</div><br/>"
+						+"<div class='form-row'>"
+							+"<div style='display:inline-block;vertical-align:middle;width:200px;'><span class='repair-size'><b>事件来源:</b></span><span class='content-size'>"+getIncidentSource(goods.incidentSource)+"</span></div>"
+							+"<div style='display:inline-block;vertical-align:middle;'><span class='repair-size'><b>报修类型:</b></span><span class='content-size'>"+goods.repairType+"</span></div>"
+						+"</div><br/>"
+						+"<div class='form-row'>"
+							+"<div style='display:inline-block;vertical-align:middle;width:200px;'><span class='repair-size'><b>受理人员:</b></span><span class='content-size'>"+(goods.acceptPerson == null?"未指定":goods.acceptPerson)+"</span></div>"
+							+"<div style='display:inline-block;vertical-align:middle;'><span class='repair-size'><b>维修人员:</b></span><span class='content-size'>"+(goods.maintainPerson == null?"未指定":goods.maintainPerson)+"</span></div>"
+						+"</div><br/>"
+						+"<div class='form-row'>"
+							+"<div style='display:inline-block;vertical-align:middle;width:200px;'><span class='repair-size'><b>维修人电话:</b></span><span class='content-size'>"+(goods.maintainPersonTelepno == 'null'||goods.maintainPersonTelepno == null?"无":goods.maintainPersonTelepno)+"</span></div>"
+							+"<div style='display:inline-block;vertical-align:middle;'><span class='repair-size'><b>到场时间:</b></span><span class='content-size'>"+(goods.maintainShowUpDate == null?"未指定":goods.maintainShowUpDate)+"</span></div>"
+						+"</div><br/>"
+						+"<div class='form-row'>"
+							+"<span class='repair-size'><b>预约时间:</b></span><span class='content-size'>"+goods.appointmentTime+"--"+goods.appointmentTimeGo+"</span>"
+						+"</div><br/>"
+						+"<div class='form-row'>"
+							+"<span class='repair-size'><b>报修地址:</b></span><span class='content-size'>"+(goods.repairAddress+"-"+goods.detailAddress)+"</span>"
+						+"</div><br/>"
+						+"<div class='form-row'>"
+						+"<span class='repair-size'><b>计划维修时间:</b></span>"
+						+"<span class='content-size'>"+(goods.planMaintainDate == null?"未指定":goods.planMaintainDate)+"</span>"
+					+"</div><br/>"
+						+"<div class='form-row'>"
+							+"<span class='repair-size'><b>故障描述:</b></span>"
+							+"<span class='content-size'>"+goods.faultDescription+"</span>"
+						+"</div><br/>"
+					+"</div></br/>"
+					+"<div class='img-box' style='display:none;position:relative;height:287px;'>"
+						+"<div class='img_content'>";
+						console.log(goods);
+						if(goods.pictNames!=null){
+					    	var pics=goods.pictNames;
+					    	var pic=pics.split(",");
+					    	for(var j=0;j<pic.length;j++){
+					    		html+= "<img src="+pic[j]+" style='width:100%;height:100%;'/>"
+					    	}
+					    }
+					html+="</div>";
+
+					var html2="<i class='icon-chevron-left left_ward'></i>"
+						+"<i class='icon-chevron-right right_ward'></i>"
+						+"<i class='icon-remove remove-sty'></i>"
+					+"</div>"
+				+"</td>"
+				+"<td style='background:#dadada;width:9%;'>"
+					+"<div class='img-small'>显示图片";
+					if(goods.pictNames!=null){
+					    	var pics=goods.pictNames;
+					    	var pic;
+					    	if(pics.indexOf(",") != -1){
+								pic=pics.split(",");
+								for(var j=0;j<pic.length;j++){
+									html2+="<div class='img-size'>"
+											+"<img src="+pic[j]+" style='width:100%;height:100%;'/>"
+											+"<span class='s'>◆</span>"
+											+"</div>"
+								}
+							}else{
+								html2+="<div class='img-size'>"
+										+"<img src="+pics+" style='width:100%;height:100%;'/>"
+										+"<span class='s'>◆</span>"
+										+"</div>"
+							}
+
+					    }
+					html2+="</div>"
+								+"</td>";
+			var html1="<td style='padding-left:30px;width:41%;background:#e3e3e3;'>"
+					+"<table>"
+						+"<tbody class='order-track'>";
+							if(goods.repairRecords != null){
+								var recordList = goods.repairRecords;
+								for(var j = 0;j < recordList.length;j++){
+									html1 += "<tr>"
+										+"<td style='width:40px;position:relative;background:#e3e3e3;'>"
+											+"<span class='ring-sty' style='position: relative; z-index: 101; border: 3px solid rgb(0, 102, 204);'>"
+											+"</span>"
+										+"</td>"
+										+"<td style='background:#e3e3e3;text-align:left;'>"
+							        		+"<span class='ring-detail'>"+recordList[j].repairLog+"</span>"
+							      		+"</td>"
+							      		+"<td style='width:160px;background:#e3e3e3;text-align:left;'>"
+											+"<span class='ring-time'>"+recordList[j].presentDate+"</span>"
+										+"</td>"
+									+"</tr>"
+								}
+							}
+						html1+="</tbody>"
+					+"</table>"
+				+"</td>"
+			+"</tr>"
+	+"</table>";
+
+	return html+html2+html1;
+	}
+	//受理
+	function accept(index){
+		var id = $(index).attr("itemId");
+		var repairStatus = "1";
+		$.jBox.confirm("确定受理该维修单吗?", "提示", function (v, h, f) {
+			if(v == 'ok'){
+				upRepairStatus(id,repairStatus);
+			}
+		})
+	}
+	//指派
+	function appoint(index){
+		var id = $(index).attr("itemId");
+		var repairStatus = "4";
+		var url = APIHost + "/wy/repairInformation/repair_appoint_person.html?repairId="+id;
+		$('#myModal').modal('show');
+    	$("#Iframe").attr("src",url);
+    	$("#Iframe").css("height","400px");
+	}
+	//异常关闭
+	function closes(index){
+		var id = $(index).attr("itemId");
+		var repairStatus = "异常关闭";
+		var url = APIHost + "/wy/repairInformation/repair_close_cause.html?repairId="+id;
+		$('#unusualClose').modal('show');
+    	$("#cIframe").attr("src",url);
+    	$("#cIframe").css("height","200px");
+	}
+	//等待维修
+		function waitMaintain(index){
+		var id = $(index).attr("itemId");
+		var url = APIHost + "/wy/repairInformation/wait_maintain_cause.html?repairId="+id;
+		$('#waitMain').modal('show');
+    	$("#wIframe").attr("src",url);
+    	$("#wIframe").css("height","200px");
+	}
+
+	//开始维修
+	function beginMaintain(index){
+		var id = $(index).attr("itemId");
+		var repairStatus = "2";
+		$.jBox.confirm("确认开始维修?", "提示", function (v, h, f) {
+			if(v == 'ok'){
+				upRepairStatus(id,repairStatus);
+			}
+		})
+	}
+	function upRepairStatus(id,repairStatus){
+		var reurl;
+		if(repairStatus == "1"){
+			reurl = APIHost + "/repairInformation/acceptRepair";
+		}else if(repairStatus == "2"){
+			reurl = APIHost + "/repairInformation/repairStart";
+		}else if(repairStatus == "3"){
+			reurl = APIHost + "/repairInformation/repairFinish";
+		}
+		$.ajax({
+			headers    : {
+	            "token" : localStorage.getItem("token")
+	        },
+	        async : "false",
+			url : reurl,
+			type : 'Post',
+			async : false, //或false,是否异步
+			beforeSend:function(){
+          		var loading=$('<div id="loading"></div>');
+          		$('body').append(loading);
+          		$("#btnSubmit").attr("disabled",true)
+          	},
+			complete:function(){
+            	$("#btnSubmit").attr("disabled",false);
+            	$("#loading").hide();
+            },
+			data : {
+				id : id,
+				repairStatus : repairStatus
+			},
+			success:function (obj){
+				if(obj.code === 1000){
+					pageload();
+					$("#loading").hide();
+					$("#loading").remove();
+				}
+			}
+		});
+	}
+	//维修完成
+	function maintainFinishWork(index){
+		var id = $(index).attr("itemId");
+		var repairStatus = "3";
+		$.jBox.confirm("确定维修已完成吗?", "提示", function (v, h, f) {
+			if(v == 'ok'){
+				upRepairStatus(id,repairStatus);
+			}
+		})
+	}
+	//退单
+	function chargeback(index){
+		var id = $(index).attr("itemId");
+		var url = APIHost + "/wy/repairInformation/repair_chargeback_cause.html?repairId="+id;
+		$('#chargeback').modal('show');
+    	$("#bIframe").attr("src",url);
+    	$("#bIframe").css("height","200px");
+	}
+	//修改
+	function updateRepair(index){
+		var id = $(index).attr("itemId");
+		editItem(index,'itemId','wy/repairInformation/repairInformation_edit','updateRepair','uIframe',400);
+	}
+	//新增维修事件
+	function addNewRepair(){
+		window.location.href="repairInformation_add.html";
+	}
+
+	function emptys(){
+		$("input[type='text']").val("");
+		$("#repairAddress").val("");
+		$("#repairAddress1 option:first").prop("selected", 'selected');
+		$("#repairAddress2 option:first").prop("selected", 'selected');
+		$("#repairAddress3 option:first").prop("selected", 'selected');
+		$("#repairStatus option:first").prop("selected", 'selected');
+		$("#incidentRank option:first").prop("selected", 'selected');
+        var obj=document.getElementById('repairAddress2');
+        obj.options.length=0;//移除options
+        var obj=document.getElementById('repairAddress3');
+        obj.options.length=0;//移除options
+	}
+
+
+	$(".table tr:even").css("background-color","green");
+
+
+	function box1(goods){
+		var html = '<div style="width:100px;">'
+					+'<div id="battery1" class="battery_sty" style="border-radius:3px 0 0 3px;background: #00BF00;"></div>'
+					+'<div id="battery2" class="battery_sty" style="border-radius:3px 0 0 3px;"></div>'
+					+'<div id="battery3" class="battery_sty" style="border-radius:3px 0 0 3px;"></div>'
+					+'<div id="battery4" class="battery_sty" style="border-right:1px solid #464646;border-radius:0 3px 3px 0;"></div>'
+					+'<div>25%</div>'
+					+'</div>';
+        return html;
+	}
+	function box2(goods){
+		var html = '<div style="width:100px;">'
+			+'<div id="battery1" class="battery_sty" style="border-radius:3px 0 0 3px;background: #00BF00;"></div>'
+			+'<div id="battery2" class="battery_sty" style="border-radius:3px 0 0 3px;background: #00BF00;"></div>'
+			+'<div id="battery3" class="battery_sty" style="border-radius:3px 0 0 3px;"></div>'
+			+'<div id="battery4" class="battery_sty" style="border-right:1px solid #464646;border-radius:0 3px 3px 0;"></div>'
+			+'<div>50%</div>';
+			+'</div>'
+		return html;
+	}
+	function box3(goods){
+		var html = '<div style="width:100px;">'
+			+'<div id="battery1" class="battery_sty" style="border-radius:3px 0 0 3px;background: #00BF00;"></div>'
+			+'<div id="battery2" class="battery_sty" style="border-radius:3px 0 0 3px;background: #00BF00;"></div>'
+			+'<div id="battery3" class="battery_sty" style="border-radius:3px 0 0 3px;background: #00BF00;"></div>'
+			+'<div id="battery4" class="battery_sty" style="border-right:1px solid #464646;border-radius:0 3px 3px 0;"></div>'
+			+'<div>75%</div>';
+			+'</div>'
+		return html;
+	}
+	function box4(goods){
+		var html = '<div style="width:104px;">'
+			+'<div id="battery1" class="battery_sty" style="border-radius:3px 0 0 3px;background: #00BF00;"></div>'
+			+'<div id="battery2" class="battery_sty" style="border-radius:3px 0 0 3px;background: #00BF00;"></div>'
+			+'<div id="battery3" class="battery_sty" style="border-radius:3px 0 0 3px;background: #00BF00;"></div>'
+			+'<div id="battery4" class="battery_sty" style="border-right:1px solid #464646;border-radius:0 3px 3px 0;background: #00BF00;"></div>'
+			+'<div>100%</div>';
+			+'</div>'
+		return html;
+	}
+	function box5(goods){
+		var html = '<div style="width:100px;">'
+			+'<div id="battery1" class="battery_sty" style="border-radius:3px 0 0 3px;"></div>'
+			+'<div id="battery2" class="battery_sty" style="border-radius:3px 0 0 3px;"></div>'
+			+'<div id="battery3" class="battery_sty" style="border-radius:3px 0 0 3px;"></div>'
+			+'<div id="battery4" class="battery_sty" style="border-right:1px solid #464646;border-radius:0 3px 3px 0;"></div>'
+			+'<div>0%</div>'
+			+'</div>';
+		return html;
+	}
+
+	function getIncidentSource(incidentSource){
+		if("1" == incidentSource){
+			return "pc端提报";
+		}else if("2" == incidentSource){
+			return "app端提报";
+		}else if("3" == incidentSource){
+			return "检修转事件";
+		}else if("4" == incidentSource){
+		    return "报警事件";
+		}else{
+			return "其他";
+		}
+	}
+
+	//查看维修数据状态
+	function showStatus(index){
+		var id = $(index).attr("itemId");
+		var url = APIHost + "/wy/repairInformation/repair_show_status.html?id="+id;
+		$('#showS').modal('show');
+    	$("#shIframe").attr("src",url);
+    	$("#shIframe").css("height","400px");
+
+	}
+
+	 //tr显示颜色
+	function showTrColor(goods,tr){
+		var submitDate;
+		var recordList = goods.repairRecords;
+		for(var h = 0;h < recordList.length;h++){
+			if(recordList[h].repairStatus == "1"){
+				submitDate = recordList[h].presentDate;
+			}
+		}
+		var now = new Date();
+		var date = new Date(submitDate);
+		var diff = now.diff(date);
+		if(diff <= 7){
+			if(goods.repairStatus != "10"||goods.repairStatus != "13"){
+				tr.style.background = "#F43816";
+			}
+		}else if(diff > 7&&diff <= 14){
+			if(goods.repairStatus != "10"||goods.repairStatus != "13"){
+				tr.style.background = "#3E8EF6";
+			}
+		}else if(diff>14){
+			if(goods.repairStatus != "10"||goods.repairStatus != "13"){
+				tr.style.background = "#B431F3";
+			}
+		}
+	}
+
+	Date.prototype.diff = function(date){
+		  return (this.getTime() - date.getTime())/(24 * 60 * 60 * 1000);
+	}
+
+	 //获取跳转地址的参数
+	    function GetQueryString(name){
+	        var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	        var r = window.location.search.substr(1).match(reg);
+	        if(r!=null)return  unescape(r[2]); return null;
+	   }
+	  //图片点击放大
+
+
+		$(function(){
+	//		$('.order-track').children(':first-child').children(':first-child').children('.ring-sty').css("border","3px solid #0066cc");
+			var i;
+			$('.img-size').click(function(){
+				$(this).css("background-color","#0066cc");
+				i=$(this).index();
+				$(this).siblings().css("background-color","transparent");
+				$(this).children('.s').css("display","block");
+				$(this).siblings().children('.s').css("display","none");
+				/* var imgSrc=$(this).children('img').attr("src"); */
+				var imgParent=$(this).parents('td').prev();
+				imgParent.children().css("display","none");
+				imgParent.children(".img-box").css("display","block");
+				//imgParent.children(".img-box").siblings("display","none");
+				$(imgParent.children(".img-box").children(".img_content").children("img")[i]).css("display","inline-block").siblings().css("display","none");
+				imgParent.children(".img-box i").css("display","block");
+				$(".left_ward").css("display","block");
+				$(".right_ward").css("display","block");
+				$(".remove-sty").css("display","block");
+			});
+			 //点击向左按钮
+			 $(".left_ward").click(function(){
+				$($(this).prev().children("img")[i]).css("display","none");
+				 if(i==0){
+					 i=($(this).prev().children().length)-1;
+				 }else{
+					 i--;
+				 }
+				 $($(this).prev().children("img")[i]).css("display","inline-block");
+				 var img_sl=$($(this).parents("td").next().find(".img-size")[i]);
+				 img_sl.css("background-color","#0066cc");
+				 img_sl.children(".s").css("display","block");
+				 img_sl.siblings().css("background-color","transparent");
+				 img_sl.siblings().children(".s").css("display","none");
+			 });
+
+			 //点击向右按钮
+			 $(".right_ward").click(function(){
+				 $($(this).prev().prev().children("img")[i]).css("display","none");
+				 if(i==($(this).prev().prev().children().length)-1){
+					 i=0;
+				 }else{
+					 i++;
+				 }
+				 $($(this).prev().prev().children("img")[i]).css("display","inline-block").siblings().css("display","none");;
+				 var img_sr=$($(this).parents("td").next().find(".img-size")[i]);
+				 img_sr.css("background-color","#0066cc");
+				 img_sr.children(".s").css("display","block");
+				 img_sr.siblings().css("background-color","transparent");
+				 img_sr.siblings().children(".s").css("display","none");
+			 });
+
+				$('.remove-sty').click(function(){
+					$(this).parent().css("display","none").siblings().css("display","inline-block");
+				});
+		});
+
+		//列表内容打开收起
+		$(".row-details").click(function(){
+		var self = $(this)
+		self.toggleClass("row-details-close row-details-open");
+		self.parents("tr").next().toggleClass("detail-close");
+		$(".img-box").css("display","none");
+		$(".img-box").siblings().css("display","block");
+		});
+		$(function(){
+			$(".order-track").children(":first-child").children(":first-child").children("div").remove();
+		});
+
+
+
+</script>
+  </body>
+</html>

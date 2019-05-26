@@ -1,0 +1,545 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+    <link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+
+    <link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+    <link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+    <script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+    <link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+    <script src="../static/common/mustache.min.js" type="text/javascript"></script>
+    <link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+    <script src="../static/common/smart.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var ctx = '/admin', ctxStatic = '/static';
+    </script>
+    <script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+    <script src="../config/smart-common.js" type="text/javascript"></script>
+    <script src="../static/paginator/bootstrap-paginator.js" type="text/javascript"></script>
+    <script src="../static/echart/echarts.js" type="text/javascript"></script>
+    <link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+    <script src="../static/media/js/main.js" type="text/javascript"></script>
+    <title>首页-添加图表</title>
+    <meta name="decorator" content="default">
+    <style>
+        .nav-content {
+            position: relative;
+            height: 35px;
+        }
+
+        .nav-content .nav-tabs {
+            margin-bottom: 0;
+            border-bottom: 0;
+        }
+
+        .nav-content .nav-tabs > li > a {
+            width: 120px;
+            height: 36px;
+            font-size: 16px;
+            color: #8a92a8;
+            text-align: center;
+            background-color: #edeff5;
+            border-top: 4px solid #d6dbea;
+            border-bottom: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        .nav-content .nav-tabs > .active > a {
+            color: #666;
+            background-color: #fff;
+            border-top: 4px solid #3399cc;
+            border-bottom: 0;
+        }
+
+        .nav-content .actions {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
+        .tab-content {
+            overflow: hidden;
+            border: 1px solid #E0E0E0;
+            border-radius: 0 4px 4px 4px;
+            -webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.075);
+            -moz-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.075);
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.075);
+        }
+
+        .tab-content .tab-pane {
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        .book-item {
+            float: left;
+            border-radius: 2px;
+            box-sizing: border-box;
+            display: inline-block;
+            font-family: arial, sans-serif;
+            font-size: 12px;
+            height: 240px;
+            line-height: 100%;
+            margin: 10px 1%;
+            opacity: 1;
+            overflow: hidden;
+            position: relative;
+            vertical-align: top;
+            white-space: nowrap;
+            width: 48%;
+        }
+
+        .book-item:hover {
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .book-title {
+            padding: 0 10px;
+            width: 100%;
+            height: 35px;
+            border-bottom: 1px solid #ddd;
+            box-sizing: border-box;
+        }
+
+        .book-title img {
+            width: 20px;
+            height: 20px;
+            margin-left: 6px;
+            margin-top: 6px;
+            float: left;
+        }
+
+        .book-title p {
+            height: 34px;
+            line-height: 34px;
+            text-indent: 3px;
+            color: #666;
+            margin: 0;
+            float: left;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .mask {
+            width: 100%;
+            height: 240px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #3366cc;
+            opacity: .3;
+            display: none;
+        }
+
+        .icheckbox {
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -15px;
+            border-radius: 15px;
+            background-color: rgba(250, 250, 250, .5);
+            display: none;
+            z-index: 9999;
+        }
+
+        .icheckbox.selected {
+            background-image: url("/static/media/image/arrow.png");
+            background-size: 38px 38px;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .icheckbox:hover {
+            cursor: pointer;
+        }
+
+        .icheckbox input {
+            position: absolute;
+            display: none;
+            top: 30px;
+        }
+
+        .book-item .main {
+            width: 100%;
+            height: 205px;
+        }
+    </style>
+</head>
+<body>
+<div class="home_content">
+    <div class="nav-content">
+        <ul class="nav nav-tabs">
+            <!--   <li><a href="#building" data-toggle="tab">楼宇</a></li>
+              <li><a href="#environment" data-toggle="tab">环境</a></li>
+              <li><a href="#energy" data-toggle="tab">能源</a></li>
+              <li><a href="#traffic" data-toggle="tab">交通</a></li>
+              <li><a href="#property" data-toggle="tab">物业</a></li> -->
+        </ul>
+        <div class="actions">
+            <a id="clearSelectAll" class="btn" href="javascript:;">清除选择</a>
+            <a class="btn btn-primary small_blue" href="javascript:;" onclick="saveItem()">确认选择</a>
+        </div>
+    </div>
+
+    <div id="tabContent" class="tab-content">
+        <!-- <div id="building" class="tab-pane fade">
+            <div class="book-item">
+                <div class="book-title">
+                    <p>首钢自动化</p>
+                </div>
+                <div class="main"></div>
+                <div class="mask">
+                </div>
+                <div class="icheckbox">
+                    <input class="checkItem" type="checkbox" name="building" value="air-conditioning">
+                </div>
+            </div>
+            <div class="book-item">
+                <div class="book-title">
+                    <p>首钢自动化</p>
+                </div>
+                <div class="main"></div>
+                <div class="mask">
+                </div>
+                <div class="icheckbox">
+                    <input class="checkItem" type="checkbox" name="building" value="water">
+                </div>
+            </div>
+            <div class="book-item">
+                <div class="book-title">
+                    <p>首钢自动化</p>
+                </div>
+                <div class="main"></div>
+                <div class="mask">
+                </div>
+                <div class="icheckbox">
+                    <input class="checkItem" type="checkbox" name="building" value="electric-month">
+                </div>
+            </div>
+            <div class="book-item">
+                <div class="book-title">
+                    <p>首钢自动化</p>
+                </div>
+                <div class="main"></div>
+                <div class="mask">
+                </div>
+                <div class="icheckbox">
+                    <input class="checkItem" type="checkbox" name="building" value="electric-week">
+                </div>
+            </div>
+        </div> -->
+        <!-- <div id="environment" class="tab-pane fade">
+            <div class="book-item">
+                <div class="book-title">
+                    <p>首钢自动化</p>
+                </div>
+                <div class="main"></div>
+                <div class="mask">
+                </div>
+                <div class="icheckbox">
+                    <input class="checkItem" type="checkbox" name="environment" value="environment">
+                </div>
+            </div>
+        </div> -->
+        <!-- <div id="energy" class="tab-pane fade">
+            <div class="book-item">
+                <div class="book-title">
+                    <p>首钢自动化</p>
+                </div>
+                <div class="main"></div>
+                <div class="mask">
+                </div>
+                <div class="icheckbox">
+                    <input class="checkItem" type="checkbox" name="energy" value="energy">
+                </div>
+            </div>
+        </div> -->
+        <!-- <div id="traffic" class="tab-pane fade">
+            <div class="book-item">
+                <div class="book-title">
+                    <p>首钢自动化</p>
+                </div>
+                <div class="mask">
+                </div>
+                <div class="icheckbox">
+                    <input class="checkItem" type="checkbox" name="traffic" value="traffic">
+                </div>
+            </div>
+        </div> -->
+        <!-- <div id="property" class="tab-pane fade">
+            <div class="book-item">
+                <div class="book-title">
+                    <p>首钢自动化</p>
+                </div>
+                <div class="mask">
+                </div>
+                <div class="icheckbox">
+                    <input class="checkItem" type="checkbox" name="property" value="property">
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+
+        init();
+        //激活首页选中的tab
+        initDataWithChecked();
+        var curTab = window.location.href.split('?')[1];
+        var curTabs = window.location.href.split('?');
+        console.log(window.location.href);
+        console.log(curTab);
+        console.log(curTabs);
+        $('.nav-tabs a[href=' + curTab + ']').tab("show");
+    });
+
+    function init() {
+        var bookItem = $(".book-item");
+
+        //遮罩渐入渐出
+        $("#tabContent").on("mouseenter", ".book-item", function () {
+            $(this).find('.mask').slideDown(300);
+            $(this).find('.icheckbox').fadeIn(100);
+        });
+        $("#tabContent").on("mouseleave", ".book-item", function () {
+            if (!$(this).find('.checkItem').is(':checked')) {
+                $(this).find('.mask').fadeOut();
+                $(this).find('.icheckbox').hide();
+            }
+        });
+
+        //标志已选择项
+        $("#tabContent").on('click', '.icheckbox', function () {
+            if (!$(this).children('input[type = checkbox]').is(':checked')) {
+                $(this).addClass("selected").children('input[type = checkbox]').attr('checked', true);
+                console.log(this);
+                ids.push($(this).children('input[type = checkbox]').val());// 选择的时候 添加选择图表到数组中
+                console.log("ids:" + ids);
+            } else {
+                $(this).removeClass("selected").children('input[type = checkbox]').attr('checked', false);
+                console.log(this);
+                ids.remove($(this).children('input[type = checkbox]').val()); //从数据中删除选中的
+                console.log("ids:" + ids);
+            }
+        });
+        //清除所有tab内的选中
+        $('#clearSelectAll').click(function () {
+            $('.book-item .icheckbox').each(function () {
+                $(this).removeClass("selected").children('input[type = checkbox]').attr('checked', false);
+                $(this).siblings('.mask').fadeOut();
+                $(this).hide();
+            });
+            ids.splice(0, ids.length);//清空数据
+        });
+        //tab切换初始化图表
+        $('a[data-toggle="tab"]').on('shown', function (e) {
+            //e.target 当前活动的标签
+            //e.relatedTarget 上一个选择的标签
+            //var href = $(e.target).attr("href");
+            //var type = href.substr(1,href.length);
+            //initActiveTabChart();
+        });
+    }
+
+    //存放 用户勾选的图表
+    var ids = new Array();
+
+    // 从后台获得数据  ：  当前角色下面的图表   / 当前用户分配到的图表
+    function initDataWithChecked() {
+
+        console.log("测试方法");
+        $.ajax({
+            headers: {
+                "token": localStorage.getItem("token"),
+            },
+            url: APIHost + '/admin/ctl/ctlChart/findChartBothRoleAndUser',   //同时获得两种图表 1 用户本身的图表 2 角色的图表
+            type: 'POST',
+            async: false, //或false,是否异步
+            timeout: 5000,
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            success: function (res) {
+                console.log(res);
+                if (res.code === 1000) {
+                    // 生成tab标签 及下面的图表
+                    createCharts(res.data);
+                    console.log("ids:" + ids);
+                } else if (res.code === 1003) {
+                    //没有登录状态
+                    /* $.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+                    { window.parent.location.href= APIHost + "/sys/sysLogin.html"; } }); */
+                } else if (res.code === 1002) {
+                    //发生异常
+                    $.jBox.alert(res.msg, "提示");
+                } else if (res.code === 1004) {
+                    //结果为空
+                    $.jBox.alert(res.msg, "提示");
+                }
+            },
+            error: function () {
+                //$.jBox.alert("系统错误，请重试","提示");
+                console.log("错误");
+            }
+        });
+    }
+
+    // 初始化 图表----初始化图表
+    function createCharts(datas) {
+        console.log(datas);
+        for (var i = 0; i < datas.length; i++) {
+            var data = datas[i];
+            var tab = '<li><a href=#' + data.id + ' data-toggle="tab">' + data.chartName + '</a></li>';
+            $(".nav-tabs").append(tab);
+            var tabPane = '<div id=' + data.id + ' class="tab-pane"></div>';
+            $("#tabContent").append(tabPane);
+            if (data.childrenCharts.length > 0) {
+                var chartItems = []
+                for (var j = 0; j < data.childrenCharts.length; j++) {
+                    var chartData = data.childrenCharts[j];
+                    // 判断用户是否选择过
+                    var chartItem;
+                    if (data.childrenCharts[j].tick == '0') {
+                        //未勾选过
+                        chartItem = '<div class="book-item">' +
+                            '<div class="book-title">' +
+                            '<p>' + chartData.chartName + '</p>' +   //chartData.option.title.text
+                            '</div>' +
+                            '<div id=' + chartData.id + ' class="main"></div>' +
+                            '<div class="mask"></div>' +
+                            '<div class="icheckbox">' +
+                            '<input class="checkItem" type="checkbox" name=' + chartData.chartCode + ' value=' + data.chartCode + '&' + chartData.chartCode + '>' +
+                            '</div>' +
+                            '</div>';
+                    } else {
+                        //已经勾选过
+                        chartItem = '<div class="book-item">' +
+                            '<div class="book-title">' +
+                            '<p>' + chartData.chartName + '</p>' +   //chartData.option.title.text
+                            '</div>' +
+                            '<div id=' + chartData.id + ' class="main"></div>' +
+                            '<div class="mask" style="display:block"></div>' +
+                            '<div class="icheckbox selected" style="display:block">' +
+                            '<input class="checkItem" type="checkbox" name=' + chartData.chartCode + ' value=' + data.chartCode + '&' + chartData.chartCode + ' checked="checked">' +
+                            '</div>' +
+                            '</div>';
+                        ids.push(data.chartCode + '&' + chartData.chartCode);
+                        console.log(ids);
+                    }
+                    console.log("chart:" + chartItem);//打印
+                    $('#' + data.id).append(chartItem);
+                    var chartWidth = ($("#tabContent").width() - 20) * 0.48;
+                    $("#" + chartData.id).css({"width": chartWidth});
+                    var chart = echarts.init(document.getElementById(chartData.id));
+                    if (chartData.option != null) {
+                        chart.setOption(eval("(" + chartData.option + ")"));
+                    }
+                }
+            }
+        }
+        $(".nav-tabs a:first").tab("show");//当没有参数的时候 左侧第一个会被选中
+    }
+
+
+    /* function save(){
+        var selectArr = [];
+        $('.book-item input[type = checkbox]').each(function(){
+            if($(this).attr("checked")){
+                selectArr.push({"name":$(this).attr("name"),"value":$(this).val()})
+            }
+        });
+        var map = {},
+                data = [];
+        for(var i = 0; i < selectArr.length; i++){
+            var ai = selectArr[i];
+            if(!map[ai.name]){
+                data.push({
+                    name: ai.name,
+                    value: [ai.value]
+                });
+                map[ai.name] = ai;
+            }else{
+                for(var j = 0; j < data.length; j++){
+                    var dj = data[j];
+                    if(dj.name == ai.name){
+                        dj.value.push(ai.value);
+                        break;
+                    }
+                }
+            }
+        }
+        console.log(data);
+    } */
+
+
+    //保存角色选定的图表
+    function saveItem() {
+        if (ids.length == 0) {
+            ids = "";
+        }
+        $.ajax({
+            headers: {
+                "token": localStorage.getItem("token"),
+            },
+            url: APIHost + '/admin/ctl/ctlChart/saveChartForHome',//默认是form action
+            data: {
+                "params": ids,
+            },
+            traditional: true,
+            type: "POST",
+            success: function (res) {
+                ids = [];
+                if (res.code === 1000) {
+                    //成功返回
+                    window.parent.location.href = APIHost + "/sys/sysIndex.html";
+                } else if (res.code === 1003) {
+                    //没有登录状态
+                    $.jBox.alert('您没有登录状态，请先登录', '提示', {
+                        closed: function () {
+                            window.parent.location.href = APIHost + "/sys/sysLogin.html";
+                        }
+                    });
+                } else if (res.code === 1002) {
+                    //发生异常
+                    $.jBox.alert(res.msg);
+                } else if (res.code === 1004) {
+                    //结果为空
+                    $.jBox.alert(res.msg);
+                }
+            },
+            error: function () {
+                ids = [];
+                console.log('错误')
+            }
+        })
+    }
+
+    Array.prototype.indexOf = function (val) {
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] == val)
+                return i;
+        }
+        return -1;
+    };
+
+    Array.prototype.remove = function (val) {
+        var index = this.indexOf(val);
+        if (index > -1) {
+            this.splice(index, 1);
+        }
+    };
+</script>
+</body>
+</html>

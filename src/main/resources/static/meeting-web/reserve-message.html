@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>预定信息</title>
+    <link rel="stylesheet" href="../lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../lib/css/default.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row header">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                <h4 class="meeting-title">预定信息</h4>
+            </div>
+            <div class="btns text-right">
+                <!-- <a href="./order-list.html" class="btn btn-primary">我的预定</a> -->
+                <!-- <button type="button" class="btn btn-primary" onClick="window.open('./order-list.html','_self')">我的预定</button> -->
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="week-selector"></div>
+            <h4></h4>
+            <table class="table table-bordered table-hover table-striped table-list">
+                <thead>
+                    <tr>
+                        <th>预定会议时间</th>
+                        <th>预约人</th>
+                        <th>会议主题</th>
+                        <th>会议摘要</th>
+                    </tr>
+                </thead>
+                <tbody class="js-list"></tbody>
+            </table>
+        </div>
+        <nav class="text-right pages"></nav>
+    </div>
+    <script src="../lib/lib/jquery.min.js"></script>
+    <script src="../lib/lib/bootstrap.min.js"></script>
+    <script src="./js/server/template.js"></script>
+    <script src="../lib/lib/bootstrap-datetimepicker.min.js"></script>
+    <script src="../lib/lib/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="../lib/lib/lightbox.min.js"></script>
+    <script src="../config/config.js"></script>
+    <script src="./js/server/utils.js"></script>
+    <script src="./js/controller/reserve-message.js"></script>
+</body>
+
+</html>

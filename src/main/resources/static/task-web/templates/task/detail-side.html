@@ -1,0 +1,24 @@
+<h4>任务项列表</h4>
+<div class="task-side">
+{{each items.lists as item}}
+    {{if item.taskId == items.uncheckedTaskId}}
+    <dl class="item checked">
+    {{else}}
+    <dl class="item">
+    {{/if}}
+
+    <dt></dt>
+    <dd class="cont js-opt" data-id="{{item.taskId}}">
+        {{if item.status ==2}}
+        <span class="error">{{item.desc}}</span>
+        {{else}}
+        <span>{{item.desc}}</span>
+        {{/if}}
+    {{item.taskName}}</dd>
+</dl>
+{{/each}}
+<!-- <dl  class="item">
+    <dt>电梯门</dt>
+    <dd class="cont"><span>已完成</span>01/08 预留孔洞</dd>
+</dl> -->
+</div>

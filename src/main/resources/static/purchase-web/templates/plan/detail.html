@@ -1,0 +1,34 @@
+<table class="table table-bordered table-hover table1" id="tableList"> 
+    <thead>
+        <tr>
+            <th class="text-center" width="60">序号</th>
+            <th>名称</th>
+            <th>数量</th>
+            <th>规格</th>
+            <th>型号</th>
+        </tr>
+    </thead>
+    <tbody>
+            {{each items as item itemIndex}}
+            <tr>
+                {{ if itemIndex+1 < 10}} 
+                <td class="text-center">0{{itemIndex+1}}</td>
+                {{ else }}
+                <td class="text-center">{{itemIndex+1}}</td>
+                {{/if}}
+                <td>
+                    {{item.matName}}
+                </td>
+                <td>
+                    {{item.applyCount}}
+                </td>
+                <td>
+                    {{item.matSpec}}
+                </td>
+                <td>
+                    {{item.matTypeCode }}
+                </td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>

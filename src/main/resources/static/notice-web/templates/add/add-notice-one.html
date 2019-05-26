@@ -1,0 +1,61 @@
+<div class="form-group">
+        <label for="exampleInputEmail1"><span class="require"></span>标题</label>
+        <input type="text" class="form-control" id="infoTitle" value="{{items.infoTitle}}" placeholder="请输入标题" maxlength="50">
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1"><span class="require"></span>摘要</label>
+        <textarea type="email" rows="4" class="form-control" id="infoSummary" placeholder="请输入摘要" maxlength="200">{{items.infoSummary}}</textarea>
+        <div class="conttask text-right"></div>
+    </div>
+    <!-- <div class="form-group">
+        <label for="exampleInputFile">封皮</label>
+        <div class="shangchuan"></div>
+    </div> -->
+    <div class="form-group">
+        <div class="checkbox">
+            <label>
+                {{if items.infoTimePublish == 1}}
+                <input type="checkbox" id="infoTimePublish" checked="checked"  name="infoTimePublish" > 预约发布
+                {{else  items.infoTimePublish == 0}}
+                <input type="checkbox" id="infoTimePublish"  name="infoTimePublish" > 预约发布
+                {{/if}}
+            </label>
+        </div>
+        {{if items.infoTimePublish == 1}}
+        <div class="" id="releaseTime">
+        {{else}}
+        <div class="isHide" id="releaseTime">
+        {{/if}}
+            <label class="control-label">发布时间:</label>
+            <div class="input-group">
+                <input id="publishTime" data-date-format="yyyy-MM-dd HH:ii" format="yyyy-MM-dd HH:ii" class="form-control form_date" size="16" type="text" id="infoTime" value="{{items.publishTime | dateFormat:'yyyy-MM-dd hh:mm'}}" readonly>
+                <span class="input-group-addon js-date-clean"><span class="glyphicon glyphicon-remove"></span></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>发布到：</label>
+        <label id="publicType">
+            {{ if items.visibilityScopeArr}}
+                {{each items.visibilityScopeArr as item index}}
+                    {{ if item.checked == 1}}
+                        <input type="checkbox" id="{{item.id}}" checked="checked" name="" value = '{{item.name}}' > {{item.name}}&nbsp;&nbsp;
+                    {{else}}
+                        <input type="checkbox" id="{{item.id}}"  name="" value = '{{item.name}}' > {{item.name}}&nbsp;&nbsp;
+                    {{/if}}
+                {{/each}}
+                
+            {{else}}
+            <input type="checkbox" id="appPublic" checked="checked"  value = 'APP' > APP&nbsp;&nbsp;
+            <input type="checkbox" id="pcPublic" checked="checked"  value = 'PC' > PC&nbsp;&nbsp;
+            <input type="checkbox" id="pcPublic" value='投屏'> 投屏
+            {{/if}}
+        </label>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputEmail1"><span class="require"></span>正文</label>
+        
+        <div id='infoContent' name="infoContent"></div>
+    </div>
+    <div class="previewContent">
+    </div>

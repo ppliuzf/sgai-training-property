@@ -1,0 +1,48 @@
+<table class="table table-bordered table-hover table-striped table-list">
+    <thead>
+        <tr>
+            <th width='60' class="text-center">序号</th>
+            <th >类型名称</th>
+            <th >描述</th>
+            <!-- <th class="col-xs-2 col-sm-2 col-md-2 col-lg-2">类型</th> -->
+            <th class=" text-center" width='92'>操作</th>
+        </tr>
+    </thead>
+    <tbody class="js-list">
+        {{if items.length>0}} 
+            {{each items as item idx}}
+            <tr>
+                <td style="text-align:center;" >{{idx+1 < 10 ? "0" + (idx+1) : idx+1}}</td>
+                <td >{{item.rtName}}</td>
+                <td >{{item.rtTypeDesc}}</td>
+                <!-- <td class="col-xs-2 col-sm-2 col-md-2 col-lg-2">{{item.rtTypeName}}</td> -->
+                <td class="text-center">
+                    <!-- <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-2 col-lg-offset-2">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">查看更多
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="javascript:;" data-id="{{item.id}}" data-delete="{{item.mayDelete}}" class="js-del">删除</a>
+                                </li>
+                                <li>
+                                    <a href="./type-list-add.html?id={{item.id}}" data-id="{{item.id}} " data-state="{{item.rrRoomState}}">编辑</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div> -->
+                    <a href="./type-list-add.html?id={{item.id}}" data-id="{{item.id}} " data-state="{{item.rrRoomState}}" class="js-edit" data-id="1" >编辑</a>
+                    <a href="javascript:;" data-id="{{item.id}}" data-delete="{{item.mayDelete}}" class="js-del" class="js-del" data-id="1">删除</a>
+                </td>
+            </tr>
+            {{/each}} 
+        {{else}}
+        <tr>
+            <td  colspan="5" style="text-align: center">暂无数据</td>
+        </tr>
+        {{/if}}
+    </tbody>
+</table>
+{{if items.length>0}}
+<div class="pages" style="float:right;"></div>{{else}}{{/if}}

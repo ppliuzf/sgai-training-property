@@ -1,0 +1,51 @@
+<table style="margin-bottom:20px;">
+        <tbody>
+            <tr>
+                <td class="col-lg-1 col-md-1 col-sm-1 text-center">姓名</td>
+                <td class="col-lg-2 col-md-2 col-sm-2 value">{{obj.operationName}}</td>
+                <td class="col-lg-2 col-md-2 col-sm-2 text-center">操作时间</td>
+                <td class="col-lg-3 col-md-3 col-sm-3 value">{{obj.operationTime | dateFormat:'yyyy-MM-dd'}}</td>
+                <td class="col-lg-2 col-md-2 col-sm-2 text-center">操作类型</td>
+                <td class="col-lg-2 col-md-2 col-sm-2 value">
+                        {{if obj.operationType == 1}}
+                        未出库
+                        {{ else if obj.operationType == 2}}
+                        部分出库
+                        {{ else if obj.operationType == 3}}
+                        全部出库
+                        {{/if}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+<div class="js-main">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th width="60" class="text-center">序号</th>
+                    <th>物料名称</th>
+                    <th>物料数量</th>
+                </tr>
+            </thead>
+            <tbody class="js-list" id="outgoingList">
+                {{if items.length >0 }}
+                    {{each items as item index}}
+                    <tr>
+                        {{ if index+1 < 10}}
+                        <td class="text-center" >0{{index+1}}</td>
+                        {{ else }}
+                        <td class="text-center" >{{index+1}}</td>
+                        {{ /if }}
+                        <td>{{item.matName}}</td>
+                        <td>{{item.matCount}}</td>
+                    </tr>
+                    {{/each}}
+                {{ else }}
+                <tr>
+                    <td class="text-center" colspan='3'>暂无数据</td>
+                </tr>
+                {{/if}}
+            </tbody>
+        </table>
+        <nav class="text-right pages"></nav>
+    </div>

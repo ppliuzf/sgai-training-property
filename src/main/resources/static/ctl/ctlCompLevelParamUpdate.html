@@ -1,0 +1,153 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<meta name="renderer" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10">
+<meta http-equiv="Expires" content="0"><meta http-equiv="Cache-Control" content="no-cache"><meta http-equiv="Cache-Control" content="no-store">
+<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/css_cerulean/bootstrap.min.css" type="text/css" rel="stylesheet">
+<script src="../static/bootstrap/2.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+<!--[if lte IE 7]><link href="../static/bootstrap/2.3.1/awesome/font-awesome-ie7.min.css" type="text/css" rel="stylesheet" /><![endif]-->
+<script src="../static/bootstrap/bsie/js/bootstrap-ie.min.js" type="text/javascript"></script><![endif]-->
+<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script><link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+<script src="../static/common/mustache.min.js" type="text/javascript"></script>
+<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+<script src="../static/common/smart.min.js" type="text/javascript"></script>
+<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">var ctx = '/admin', ctxStatic='/static';</script>
+<script src="../static/jquery-form/3.51.0/jquery.form.js"
+	type="text/javascript"></script>
+<script src="../config/smart-common.js" type="text/javascript"></script>
+    <title>机构参数管理</title>
+    <meta name="decorator" content="default">
+    <script type="text/javascript">
+	var id=null;
+	var paraCode=null;
+    var list=new Object();
+    function page(n, s) {
+		pageload(n, s);
+		return false;
+	}	
+	
+	$(document).ready(function() {
+		/*获取url传值*/
+		var url=location.search;
+	   
+	    var param =url.split("?")[1];
+	    idValue = decodeURIComponent(param.split("=")[1]);
+		
+
+	
+	
+	$.ajax({
+		headers    : {
+               "token" : localStorage.getItem("token"),
+           },
+		url : APIHost+'/admin/ctlParamComp/findLocalList',
+		type : 'POST',
+		async : false, //或false,是否异步
+		data : {
+			id:idValue
+		},
+		timeout : 30000,
+		dataType : 'json',
+		success : function(response) {
+			list = response.data.list; 
+			for (var i = 0; i < list.length; i++) {
+				
+				$("#sbsCode").attr('value',list[i].sbsCode);
+				$("#paraCode").attr('value',list[i].paraCode);
+				$("#comCode").attr('value',list[i].comCode);
+				$("#paraValue").attr('value',list[i].paraValue);
+				$('#id').attr('value',list[i].id);
+	
+			}
+		},
+		error : function() {
+			$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+		}
+	});
+	});
+        function formSubmit(){
+        	if($('#comCode').val()!="选择机构"&&$('#sbsCode').val()!="选择子系统"&&$('#paraValue').val()!=""&&$('#paraCode')!="选择参数代码"){
+        		var ajax_option={
+        				headers    : {
+       	                 "token" : localStorage.getItem("token"),
+       	             },
+        				url:APIHost + '/admin/ctlParamComp/ParaUpdate',//默认是form action
+        				success:function(response){
+        				if(response.data.msg=="success"){
+        					parent.location.reload();
+        				}else{
+        				  alert("修改失败！");
+        				  }
+           				}
+               		}
+               		
+               		 $("#inputForm").ajaxSubmit(ajax_option);
+        		
+      
+        	 }
+        	else{
+        		alert("补全信息");
+        	}
+       
+        }
+    
+    function back(){
+    	//parent.location.reload();
+		$('#myModalEdit .close', window.parent.document).click();
+    }
+    </script>
+</head>
+<body>
+<form id="inputForm" class="form-horizontal" action=APIHost+"/admin/ctlParamComp/ParaUpdate" method="post" novalidate="novalidate">
+    <input id="id" name="id" type="hidden" value="">
+<script type="text/javascript">top.$.jBox.closeTip();</script>
+
+  	 <div class="control-group">
+        <label class="control-label">机构:</label>
+        <div class="controls">
+             <input id="comCode" name="comCode" class="required userName" type="text" value="" maxlength="50" readonly ="readonly">
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label class="control-label">子系统:</label>
+        <div class="controls">
+           <input id="sbsCode" name="sbsCode" class="required userName" type="text" value="" maxlength="50" readonly ="readonly">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <label class="control-label">参数代码:</label>
+        <div class="controls">
+           <input id="paraCode" name="paraCode" class="required userName" type="text" value="" maxlength="50" readonly ="readonly">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+		</div>
+
+
+        <div class="control-group">
+        <label class="control-label">参数值:</label>
+        <div class="controls">
+            <input id="paraValue" name="paraValue" class="required userName" type="text" value="" maxlength="50">
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
+    </div>
+    <div class="form-actions">
+    <input id="btnCancel" class="btn" type="button" value="关 闭" onclick="back()">
+        <input id="btnSubmit" class="btn btn-primary" type="button" onclick="formSubmit()" value="保 存">&nbsp;
+        
+    </div>
+</form>
+
+</body></html>

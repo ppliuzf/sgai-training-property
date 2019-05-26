@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <title>阶段管理</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/default.css">
+    <style type="text/css">
+        .act,
+        .inp a {
+            cursor: pointer;
+        }
+        .poin-td a{
+            cursor: pointer;
+        }
+        .act .disabled{
+            color: #aeaeae;
+        }
+        .selectPer {
+            display: none;
+        }
+        #switcher{
+            margin-left: 10px;
+        }
+        .inp input{
+            width: 60%;
+        }
+        .js-add{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row header">
+            <h4>阶段管理</h4>
+    </div>
+    <div class="filter">
+        <div class="step-header form-group">
+            <h4 class="title">阶段管理<input type="checkbox" class="js-checkbox" id="switcher" lay-skin="switch" lay-filter="switcher"></h4>
+        </div>
+        <div class="step-body approve-con" style="display: none;">
+            <div class="items js-list"></div>
+            <div class="form-group">
+                <!--<button class="btn btn-primary js-add">添加</button>-->
+                <a class="js-add">添加</a>
+            </div>
+        </div>
+        <div>
+            <button type="button" class="btn btn-primary js-save">保存</button>
+            <button type="button" class="btn btn-default js-cancel">取消</button>
+        </div>
+    </div>
+</div>
+<script src="../../js/lib/jquery.min.js"></script>
+<script src="../../js/lib/bootstrap.min.js"></script>
+<script src="../../js/server/template.js"></script>
+<script src="../../../config/config.js"></script>
+<script src="../../js/server/utils.js"></script>
+<script src="../../js/controller/plan/step.js"></script>
+</body>
+</html>

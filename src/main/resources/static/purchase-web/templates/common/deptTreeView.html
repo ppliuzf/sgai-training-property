@@ -1,0 +1,30 @@
+<!--组织树页面结构模板-->
+<div class="dept-selector layui-form">
+    <div class="selector">
+        <div class="search">
+            <i class="icon icon-search"></i>
+            <input type="text" name="" id="" class="layui-input js-dept-search" placeholder="搜索部门" maxlength="15">
+            <i class="icon icon-cancel js-dept-search-cancel"></i>
+        </div>
+        <div class="path js-dept-path">
+            <div class="item">
+                <a href="javascript:" class="underline root" data-id="">通讯录</a>
+            </div>
+        </div>
+        <div class="js-dept-select-all select-all">
+            <input type="checkbox" name="" id="" lay-skin="km-checkbox" lay-filter="selectAll">
+            <span>全选</span>
+        </div>
+        <div class="content">
+            <ul class="js-dept-tree"></ul>
+            <ul class="js-dept-search-result"></ul>
+        </div>
+        <div class="js-dept-cover cover"></div>
+    </div>
+    <div class="shower">
+        <div class="shower-content">
+            <div class="header">已选择</div>
+            <ul class="js-dept-shower"></ul>
+        </div>
+    </div>
+</div>

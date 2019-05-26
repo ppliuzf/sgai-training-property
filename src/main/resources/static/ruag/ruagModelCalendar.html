@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>运行策略日程表</title>
+	<meta charset="utf-8">
+	<meta name="description" content="Full view calendar component for twitter bootstrap with year, month, week, day views.">
+	<meta name="keywords" content="jQuery,Bootstrap,Calendar,HTML,CSS,JavaScript,responsive,month,week,year,day">
+	<meta name="author" content="Serhioromano">
+	<script src="../static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="../static/bootstrap_calendar/components/bootstrap2/css/bootstrap.css">
+	<link rel="stylesheet" href="../static/bootstrap_calendar/components/bootstrap2/css/bootstrap-responsive.css">
+	<link rel="stylesheet" href="../static/bootstrap_calendar/css/calendar.css">
+	<link href="../static/common/smart.min.css" type="text/css" rel="stylesheet">
+	<link href="../static/bootstrap/2.3.1/awesome/font-awesome.min.css" type="text/css" rel="stylesheet">
+	<link href="../static/common/smart.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+	<link href="../static/jquery-jbox/2.3/Skins/Bootstrap/jbox.min.css" rel="stylesheet">
+	<!-- <script type="text/javascript" src="../static/bootstrap_calendar/components/jquery/jquery.min.js"></script> -->
+	<script src="../static/jquery-jbox/2.3/jquery.jBox-2.3.min.js" type="text/javascript"></script>
+	<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+	<link href="../static/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" type="text/css">
+	<script src="../config/smart-common.js" type="text/javascript"></script>
+	<script src="../static/media/js/main.js" type="text/javascript"></script>
+	<link href="../static/jquery-validation/1.11.0/jquery.validate.min.css" type="text/css" rel="stylesheet">
+	<script src="../static/jquery-validation/1.11.0/jquery.validate.min.js" type="text/javascript"></script>
+	<script src="../static/jquery-form/3.51.0/jquery.form.js" type="text/javascript"></script>
+	<link href="../static/jquery-select2/4.0/select2.min.css" rel="stylesheet">
+	<script src="../static/jquery-select2/4.0/select2.min.js" type="text/javascript"></script>
+	<script src="../static/jquery-select2/4.0/zh-CN.js" type="text/javascript"></script>
+	<script src="../static/common/smart.min.js" type="text/javascript"></script>
+	<style type="text/css">
+		#superModal{
+			top:0px!important;
+		}
+		.container{
+	   		width: 100%;
+	   	}
+	   	.container >.smart_bread,
+	   	.container >.page-header{
+	   		padding:0 20px;
+	   	}
+		.page-header{
+			margin: 0 0 10px;
+			border-bottom:0;
+		}
+		.page-header h3{
+			font-size: 24px;
+		    color: #666;
+		    font-weight: normal;
+		    line-height: 30px;
+		}
+		.calendar-control .btn{
+			border: 1px solid #1785ca;
+			color:#1785ca;
+			background: #fff;
+			text-shadow: none;
+			box-shadow:none;
+		    min-width: 68px;
+		}
+		.calendar-control > .btn.active{
+			color:#fff;
+			background: #1785ca;
+		}
+		.row{
+	   		margin:0 10px;
+	   		overflow: hidden;
+	   	}
+	   	.cal-month-box, .cal-year-box, .cal-week-box{
+	   		border:0;
+	   	}
+	   	.cal-row-head .cal-year-box .row-fluid,
+	   	.cal-row-head .cal-month-box .cal-row-fluid{
+	   		border-bottom:0;
+	   	}
+	   	.cal-row-head [class*="cal-cell"]:first-child, 
+	   	.cal-row-head [class*="cal-cell"] {
+	   		padding: 10px 0;
+	   	}
+	   	.cal-row-head .cal-cell1:nth-child(6),.cal-row-head .cal-cell1:nth-child(7){color: darkred;}
+		.cal-year-box [class*="span"], 
+		.cal-month-box [class*="cal-cell"] {
+	    	min-height: 80px;
+	    	height: 112px;
+	    	border-right:1px solid #a1a1a1;
+	    }
+	    .cal-month-day{
+		   	/* overflow-y: hidden !important; */
+		   	height: 100%;
+		   	background-color: #f8f8f8;
+		   	border-top: 1px solid #a1a1a1;
+		   	box-sizing: border-box;
+	   	}
+	   	.cal-month-day:hover{
+	   		background: #ededed;
+	   	}
+	   	.cal-day-outmonth{
+	   		background-color: rgba(181,194,202,0.3);
+	   		border-top: 1px solid #a1a1a1;
+	   	}
+	    .cal-month-day .pull-right{
+	    	position:relative;
+	    	width: 100%;
+	   		padding: 0;
+	   		text-align:right;
+	   		line-height:20px;
+	   		float:none;
+	    }
+	    .cal-month-day div[data-cal-week]{
+			display: none !important;
+		}
+	   	.cal-day-outmonth span[data-cal-date],
+	   	span[data-cal-date]{
+		   	color: #333;
+		   	opacity: 1;
+		   	margin:0 5px;
+		   	font-size:16px;
+	   	}
+	   	.cal-day-outmonth.cal-day-weekend span[data-cal-date]{
+				color: #f00;
+	   	}
+	   	.cal-month-day .list{
+	   		padding:5px 12px;
+   		    position: relative;
+    		height: 80px;
+	   	}
+	   	.cal-month-day .list p{
+   		    margin: 0;
+		    white-space: nowrap;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+	   	}
+	   	.cal-day-today{
+	   		background-color: #e8fde7!important;
+	   	}
+	   	.cal-day-today .pull-right::before{
+	   		content:"今天";
+	   		position:absolute;
+	   		left:0;
+	   		top:0;
+	   		width:48px;
+	   		height:20px;
+	   		font-size:12px;
+	   		text-align:center;
+	   		line-height:20px;
+	   		color:#fff;
+	   		background-color:#1785ca;
+	   	}
+	   	.cal-day-today span[data-cal-date]{
+	   		color:#333;
+	   		font-size:16px!important;
+	   	}
+	   	.cal-month-day .more-detail{
+   		    position: absolute;
+		    bottom: 0px;
+		    width: 100%;
+		    line-height: 22px;
+		    text-align: center;
+		    font-size: 12px;
+		    background-color: rgba(0,0,0,.03);
+		    cursor: pointer;
+		    text-decoration: underline;
+	   	}
+	   	.cal-day-today .more-detail{
+	   		background-color: rgba(23,133,202,.1);
+	   	}
+	   	.cal-month-day .mini-model{
+	   		display:none;
+   		    position: absolute;
+		    left: 100%;
+		    top: -46.5px;
+		    background-color: #fff;
+		    min-width: 205px;
+		    max-width:360px;
+		    z-index: 999;
+		    height: 205px;
+		    border-radius: 5px;
+		    box-shadow: 1px 1px 3px rgba(0,0,0,.3);
+		    overflow:hidden;
+	   	}
+	   	.cal-month-box .cal-row-fluid:first-child .mini-model{
+	   		top:0;
+	   	}
+	   	.cal-month-box .cal-row-fluid:last-child .mini-model{
+	   		top:auto;
+	   		bottom:0;
+	   	}
+	   	.cal-month-day.cal-day-weekend .mini-model{
+	   		left:auto;
+	   		right:100%;
+	   	}
+	   	.mini-model .header{
+	   		background-color: #1785ca;
+		    line-height: 30px;
+		    color: #fff;
+		    height: 30px;
+		    padding: 0 12px;
+	   	}
+	   	.mini-model .header a{
+	   		float:right;
+	   		color:#fff;
+	   		text-decoration: none;
+    		font-size: 16px;
+	   	}
+	   	.mini-model .header a:hover{
+	   		color:#dedede;
+	   	}
+	   	.mini-model .body{
+	   		height: 165px;
+	   		padding:5px 0;
+		    overflow-y: auto;
+		    overflow-x: hidden;
+	   	}
+	   	.mini-model .item{
+	   		display:block;
+	   		position:relative;
+	   		line-height: 32px;
+		    font-size: 14px;
+		    color: #666;
+		    padding: 0 12px 0 16px;
+	        white-space: nowrap;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+	   	}
+	   	.mini-model .item::before{
+	   		content:" ";
+	   		position:absolute;
+	   		top:5px;
+	   		left:12px;
+	   		width:4px;
+	   		height:22px;
+	   		background-color:#1785ca;
+	   	}
+	   	.mini-model .item:hover{
+	   		background-color:rgba(0,96,202,0.2);
+	   	}
+	   	.mini-model .item .date{
+	   		color:#1785ca;
+	   	}
+	   	.mini-model .item span:first-child{
+	   		padding: 0 8px;
+	   	}
+	   	
+		/* .bounceInRight{
+			-webkit-animation:bounceInRight 1s .2s ease both;
+			-moz-animation:bounceInRight 1s .2s ease both;
+		}
+		@-webkit-keyframes bounceInRight{
+		0%{opacity:0;
+		-webkit-transform:translateX(2000px)}
+		60%{opacity:1;
+		-webkit-transform:translateX(-30px)}
+		80%{-webkit-transform:translateX(10px)}
+		100%{-webkit-transform:translateX(0)}
+		}
+		@-moz-keyframes bounceInRight{
+		0%{opacity:0;
+		-moz-transform:translateX(2000px)}
+		60%{opacity:1;
+		-moz-transform:translateX(-30px)}
+		80%{-moz-transform:translateX(10px)}
+		100%{-moz-transform:translateX(0)}
+		} */
+		
+	</style>
+</head>
+<body >
+<div class="container">
+	<div class="smart_bread"></div>
+	<div class="page-header">
+		<div class="pull-right form-inline">
+		    <div class="btn-group">
+				<button class="btn btn-primary small_blue" id="order" itemId="" onclick="showOrder(this)">查看指令</button>
+			</div>
+		    <div class="btn-group">
+				<button class="btn btn-primary small_blue" id="Temporary" onclick="temporaryModel()">时间控制策略配置</button>
+			</div>
+		    <div class="btn-group">
+				<button class="btn btn-primary small_blue"  onclick="showEditWindow(this)">日期控制策略状态/启停</button>
+			</div>
+			<div class="btn-group calendar-control" data-toggle="buttons-checkbox">
+				<button class="btn btn-primary prev" data-calendar-nav="prev">上一月</button>
+				<button class="btn btn-primary active" data-calendar-nav="today">本月</button>
+				<button class="btn btn-primary next" data-calendar-nav="next">下一月</button>
+			</div>
+			<!-- <div class="btn-group">
+				<button class="btn btn-warning" data-calendar-view="year">年</button>
+				<button class="btn btn-warning active" data-calendar-view="month">月</button>
+				<button class="btn btn-warning" data-calendar-view="week">周</button>
+				<button class="btn btn-warning" data-calendar-view="day">日</button>
+			</div> -->
+		</div>
+		<h3></h3>
+	</div>
+	<div class="row">
+		<div class="col-md-9">
+			<div id="calendar"></div>
+		</div>
+	</div>
+	<div id="myModal3" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		 <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h4 id="myModalLabel">运行策略启停</h4>
+		 </div>
+		<div class="modal-body" style="max-height: 450px">
+	  		<iframe id="Iframe3"></iframe>
+	    </div>
+	</div>
+	<div class="modal fade hide"  id="temporaryModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;width: 422px;">
+	    <div class="modal-dialog" >
+	        <div class="modal-content" >
+	            <div class="modal-header" >
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="closeModal">×</button>
+	                <h4 class="modal-title" id="myTemporaryModel">配置时间控制策略</h4>
+	            </div>
+	            <input type="hidden"  id="workmodelIds" name="workmodelIds"> 
+	           
+	            <div class="modal-body" >
+				<form  id="workModelform" class="form-horizontal">
+						<input type="hidden" id="workModelId_1" name="id">
+						<input type="hidden" id="date" name="date">
+						<div class="control-group" >
+							<label class="control-label" for="workModeName">策略名称:</label>
+							<div class="controls"> 
+							<select class="query_input input-medium" type="text" id="modelTemplateId_1" name="modelTemplateId" value=""> 
+						    <option value=""></option>
+						    </select>
+						    </div>
+						</div>
+						<div class="control-group" >
+							<label class="control-label" for="timeStart">开始时间:</label>
+							<div class="controls">
+							<input class="input-medium"  type="text" id="timeStart_1" name="timeStart" readonly="readonly" style="cursor:pointer;" onclick="WdatePicker({minDate:CurentTime(),dateFmt:'HH:mm',isShowClear:false})">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class=" control-label" for="timeEnd">结束时间:</label>
+							<div class="controls">
+							<input class="input-medium"  type="text" id="timeEnd_1" name="timeEnd" style="cursor:pointer;" readonly="readonly" onclick="WdatePicker({minDate:CurentTime(),dateFmt:'HH:mm',isShowClear:false})">
+							</div>
+						</div>
+	            		<div id="btn" class="form-actions">
+			                <input type="button" class="btn" onclick="closePopUp()" value="关闭">
+	               			<input type="submit" class="btn btn-primary" value="保存">
+			            </div>
+	             		</form>
+					</div>
+				</div> 
+	        </div>
+	    </div>
+	     <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		 <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h4 id="myModalLabel">设备信息</h4>
+		 </div>
+		<div class="modal-body" style="background-color:#fcfcfc;">
+	  		<iframe id="Iframe"></iframe>
+	    </div>
+	</div>
+	<div id="myModal2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		 <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h4 id="myModalLabel">指令管理</h4>
+		 </div>
+		<div class="modal-body">
+	  		<iframe id="Iframe2" style="height:400px"></iframe>
+	    </div>
+	</div>
+	<!-- <div class="clearfix"></div>
+	<br><br>
+	<div id="disqus_thread"></div> -->
+	<script type="text/javascript" src="../static/bootstrap_calendar/js/language/zh-CN.js"></script>
+	<script type="text/javascript" src="../static/bootstrap_calendar/components/underscore/underscore-min.js"></script>
+	<script type="text/javascript" src="../static/bootstrap_calendar/components/bootstrap2/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../static/bootstrap_calendar/components/jstimezonedetect/jstz.min.js"></script>
+	<script type="text/javascript" src="../static/bootstrap_calendar/js/calendar.js"></script>
+	<script type="text/javascript" src="../static/bootstrap_calendar/js/app.js"></script>
+	<link href="../static/media/css/my-style.css" rel="stylesheet" type="text/css"/>
+	<script src="../config/smart-common.js" type="text/javascript"></script>
+	<script src="../static/media/js/main.js" type="text/javascript"></script>
+	 
+	<script type="text/javascript">
+		$(document).ready(function(){
+			makeBread();//面包屑
+			$('[data-calendar-nav="today"]').addClass("active");//高亮本月
+			$(".cal-month-box .cal-day-today").click();//高亮今天
+		})
+		   var dayDate;
+		   var today;
+		   showEditWindow = function(index){
+			    	//调用公共方法，弹出窗口
+					insertItem('myModal3','ruag/ruagModelOnOff','Iframe3',1000);
+			    }  
+		
+			 initialize = function(){
+				var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = false;
+				dsq.src= '${ctx}/admin_comp/bootstrap_calendar/js/app.js';
+				document.getElementsByTagName('body')[0].appendChild(dsq);
+			}	 
+			
+			/* var wdWidth = window.screen.width;
+			// 获取body的高 赋值给td
+			if(wdWidth == 1366){
+				var windowHeight = $("body").height()/6.2;
+			}else{
+				var windowHeight = $("body").height()/5.8;
+			}
+			setTimeout(function(){
+				 $(".row .col-md-9 #calendar .cal-month-box .cal-row-fluid .cal-cell1").height(windowHeight);
+				$(".row .col-md-9 #calendar .cal-month-box .cal-row-fluid .cal-cell1 .cal-month-day").height(windowHeight);
+				$(".cal-month-box .cal-row-fluid .cal-cell1").css("height","41px")
+				$(".cal-month-box .cal-row-fluid .cal-cell1 .cal-month-day").css("height","41px");
+
+				 $(".cal-before-eventlist").click(function(){
+					$(this).children("div").animate({"height":"200px"},800);
+					$(this).children().children(".cal-month-day").animate({"height":"200px"},800);
+					$(this).siblings().children("div").animate({"height":"41px"},800);
+					$(this).siblings().children().children(".cal-month-day").animate({"height":"41px"},800);
+				}) 
+				// 日历点击高亮显示
+				$(".cal-month-box .cal-cell1").click(function(){
+					today = $(this).find(".pull-right").find("span").attr("id");
+					$("#order").attr("itemId",today);
+					$(".cal-month-box .cal-month-day").css("backgroundColor","");
+					$(this).find(".cal-month-day").css("backgroundColor","rgba(23, 133, 202,0.3)");
+				})
+				
+				setTimeout(function(){
+					$(".cal-month-box .cal-day-today").click();
+				},100)
+				 $(".btn-primary,.btn-warning").click(function(){
+					setTimeout(function(){
+						$(".row .col-md-9 #calendar .cal-month-box .cal-row-fluid .cal-cell1").height(windowHeight);
+						$(".row .col-md-9 #calendar .cal-month-box .cal-row-fluid .cal-cell1 .cal-month-day").height(windowHeight);
+
+						$(".cal-month-box .cal-row-fluid .cal-cell1").css("height","41px")
+						$(".cal-month-box .cal-row-fluid .cal-cell1 .cal-month-day").css("height","41px");
+						$(".cal-month-box .cal-row-fluid .cal-cell1").click(function(){
+							$(this).css("backgroundColor","#5BC0DE");
+							$(this).siblings().css("backgroundColor","")
+						})
+						$(".cal-before-eventlist").click(function(){
+							$(this).children("div").animate({"height":"200px"},800);
+							$(this).children().children(".cal-month-day").animate({"height":"200px"},800);
+							$(this).siblings().children("div").animate({"height":"41px"},800);
+							$(this).siblings().children().children(".cal-month-day").animate({"height":"41px"},800);
+						})
+					},200)
+					if($(".cal-month-box .cal-row-fluid .cal-cell1").find(".cal-day-today").length == 0){
+						setTimeout(function(){
+							$(".cal-before-eventlist:first").click();
+						},200)
+					}else{
+						setTimeout(function(){
+							$(".cal-month-box .cal-row-fluid .cal-cell1 .cal-day-today").click();
+						},200)
+					}
+				}) 
+			},200)*/
+			
+	</script>
+	<Script type="text/javascript"> 
+	function selectedDate(self){
+		today = $(self).find(".pull-right").find("span").attr("id");
+		$("#order").attr("itemId",today);
+		$(".cal-month-box .cal-month-day").css("backgroundColor","");
+		$(self).css("backgroundColor","rgba(23, 133, 202,0.3)");
+	}
+	function showMoreDetail(self){
+		var e = event || window.event;
+		e.stopPropagation();
+		$(".cal-month-day .mini-model").hide()
+		var miniModel = $(self).parent().next();
+		if(miniModel){
+			miniModel.show();
+		}
+		$(".mini-model .header a").click(function(){
+			$(this).closest(".mini-model").hide();
+		});
+		$(document).click(function(e){
+			if ($(e.target).closest('.mini-model').length != 1) {
+            	$(".mini-model").hide();
+            }
+		})
+		//点击主iframe外部
+		$(parent.document).click(function(e){
+			if ($(e.target).closest('.mini-model').length != 1) {
+            	$(".mini-model").hide();
+            }
+		})
+	}
+	function showModelDetails(index){
+		editItem(index,'itemId','ruag/ruagWorkModelTree','myModal','Iframe',320);
+	}
+	function showOrder(index){
+		editItem(index,'itemId','ruag/ruagDeviceCalendarInstctionListDay','myModal2','Iframe2',1000);
+	}
+	//模式日历添加
+	var date
+	temporaryModel = function(){
+	date=today;
+	var nowDate=new Date(getMyDate(new Date().getTime())).getTime();
+	var calendarDate=new Date(date).getTime();
+	if(calendarDate<nowDate){
+		$.jBox.alert("已是过去时，配置无效！", "提示");
+	}else{
+	$("#temporaryModel").css("display","block");
+	$("#temporaryModel").modal({
+		keyboard:true
+	});
+}
+	showTemporaryModels();
+} 
+	function showTemporaryModels(){
+		$.ajax({
+			  headers : {
+	                 "token" : localStorage.getItem("token"),
+	             },   
+			url : APIHost+'/ruag/ruag/ruagModelTemplate/getTimeList',
+			type : 'POST',
+			async : false, //或false,是否异步
+			data : {
+				"controlCode":"time",
+				
+			},
+			timeout : 5000,
+			dataType : 'json',
+			success : function(res) {
+				if(res.code === 1000){
+				//成功返回
+				$("#modelTemplateId_1").empty();
+				$("#modelTemplateId_1").append("<option value=''></option>");
+				var data = res.data;
+				for(var i=0;i<data.length;i++){
+    				$("#modelTemplateId_1").append("<option value='"+data[i].id+"'>"+data[i].workModeName+"</option>");
+    			}
+			}else if(res.code ===1003){
+						//没有登录状态
+						$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+							{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+					}else if(res.code === 1002){
+						//发生异常
+						$.jBox.alert(res.msg);
+					}else if(res.code === 1004){
+						//结果为空
+						$.jBox.alert(res.msg);
+					}
+			},
+			error : function() {
+				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+			}
+		})
+	}
+	function saveTimeModel(){
+    	$.ajax({
+			headers : {"token" : localStorage.getItem("token")},
+			url : APIHost + '/ruag/ruag/ruagModelCalendar/saveTimeModel',
+			type : 'POST',
+			async : false,
+			data : {
+				 date:date,
+				 modelTemplateId:$("#modelTemplateId_1").val(),
+				 timeStart:$("#timeStart_1").val(),
+				 timeEnd:$("#timeEnd_1").val(),
+			},
+			timeout : 5000,
+			dataType : 'json',
+			success : function(res) {
+				if(res.code === 1000){
+					if(res.data.msg=="success"){
+						//提示删除成功
+						$.jBox.alert('新建成功', '提示',{ closed: function ()
+							{window.location.href= APIHost + "/ruag/ruagModelCalendar.html";}});
+					}else if(res.data.msg=="conflict"){
+						$.jBox.alert("与已存在运行策略有设备冲突，冲突内容如下："+res.data.message,"提示")
+					}else{
+						$.jBox.alert("保存失败","提示")
+					}
+				}else if(res.code ===1003){
+					//没有登录状态
+					$.jBox.alert('您没有登录状态，请先登录', '提示',{ closed: function ()
+						{ window.parent.location.href= APIHost + "/sys/sysLogin.html"; } });
+				}else if(res.code === 1002){
+					//发生异常
+					$.jBox.alert(res.msg);
+				}else if(res.code === 1004){
+					//结果为空
+					$.jBox.alert(res.msg);
+				}
+			},
+			error : function() {
+				$.jBox.alert("服务器代码发生异常,请联系管理员!",'提示');
+
+			}
+		});
+    }
+	 // 关闭弹框
+    function closePopUp(){
+		$("#workModelform").validate().resetForm();
+		$("#workModelform").find("select").trigger("change");
+       $('#temporaryModel').modal('hide');
+    }
+
+    //获得年月日      得到日期oTime  
+    function getMyDate(str){  
+        var oDate = new Date(str),  
+        oYear = oDate.getFullYear(),  
+        oMonth = oDate.getMonth()+1,  
+        oDay = oDate.getDate(),  
+        oTime = oYear +'-'+ getzf(oMonth) +'-'+ getzf(oDay) ;//最后拼接时间  
+        return oTime;  
+    };  
+    //补0操作  
+    function getzf(num){  
+        if(parseInt(num) < 10){  
+            num = '0'+num;  
+        }  
+        return num;  
+    }
+    function CurentTime() {
+        var now = new Date();
+        var hh = now.getHours();           
+        var mm = now.getMinutes();         
+        var clock = "";
+ 		if(date==getMyDate(now)){
+ 			 if (hh < 10)
+                 clock += "0";
+             clock += hh + ":";
+             if (mm < 10) clock += '0';
+             clock += mm;
+        }else{
+        	 clock="00:00";
+        }
+        return (clock);
+    }
+    function startTime(){
+    	return $("#timeStart_1").val();
+    }
+ // 表单验证
+    $.validator.setDefaults({
+      submitHandler: function() {
+           // 调用提交
+        	saveTimeModel();
+        } 
+    });
+    $().ready(function () {
+    	 jQuery.validator.methods.compareDate = function(value, element, param) {  
+             var startDate =date+" "+jQuery(param).val();
+             value=date+" "+value;
+             var date1 = new Date(Date.parse(startDate)); 
+             var date2 = new Date(Date.parse(value)); 
+             console.log(date1 < date2);
+             return date1 < date2;  
+         };
+        // 在键盘按下并释放及提交后验证提交表单
+        	 $("#workModelform").validate({
+        		 focusInvalid:false, 
+        		 errorPlacement: function(error, element) {
+         			// Append error within linked label
+         			$(element).parent().append( error );
+         		},
+                 rules: {
+                	timeStart: {
+                        required: true,
+                    },
+                    timeEnd: {
+                        required: true,
+                        compareDate: "#timeStart_1",
+                    },
+                  },
+                messages:{
+                	timeStart: {
+                        required: "请选择开始时间",
+                    },
+                    timeEnd: {
+                        required: "请选择结束时间",
+                        compareDate: "结束时间必须大于开始时间!"  
+                    },
+                }
+        });
+       
+    })
+</script>	
+</div>
+</body>
+</html>

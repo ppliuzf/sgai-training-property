@@ -1,0 +1,2 @@
+/*TMODJS:{"version":2,"md5":"619fcc4ffb8cc91ca6e34fcae83516f1"}*/
+template('visit','<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <meta http-equiv="X-UA-Compatible" content="ie=edge"> <title>Document</title> </head> <body> <a href="./post-list.html">我发起的</a> <a href="./approval-list.html">我审核的</a> <a href="./receive-list.html">我收到的</a> <a href="./add-notice.html">新增公告</a> <a href="./add-notice.html?infoId=5a6c5773-c3b3-4d00-8bd1-90cef42e20f3">编辑公告</a> </body> </html> ');

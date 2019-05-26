@@ -1,0 +1,15 @@
+<div class="form-inline js-materiel-list h200">
+    {{each items as item index}}
+    {{if item.isChecked == 1}}
+    <div class="form-group add">
+        <input type="radio" name="radio" class="warn-btn" data-index="{{index}}" data-typeid="{{item.id}}" checked = "checked">
+        <span>{{item.applyNo}}</span>
+    </div>
+    {{else}}
+    <div class="form-group add">
+            <input type="radio" name="radio" class="warn-btn" data-index="{{index}}" data-typeid="{{item.id}}" >
+            <span>{{item.applyNo}}</span>
+        </div>
+        {{/if}}
+    {{/each}}
+</div>
