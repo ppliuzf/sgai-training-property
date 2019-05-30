@@ -44,6 +44,7 @@ public class DayWaterConsumptionServiceImpl extends AbstractMapperService<DayWat
         dayWaterConsumption.setTotal(BigDecimal.ZERO);
         dayWaterConsumption.setPuck(BigDecimal.ZERO);
         dayWaterConsumption.setSlip(BigDecimal.ZERO);
+        dayWaterConsumption.setCurling(BigDecimal.ZERO);
         dayWaterConsumption.setRecordTime(date);
         return dayWaterConsumption;
     }

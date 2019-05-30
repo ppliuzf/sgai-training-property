@@ -47,13 +47,12 @@ public class HourWaterServiceImpl extends AbstractMapperService<HourWater> imple
     public void record() {
         Example example = new Example(HourWaterConsumption.class);
         example.createCriteria().andEqualTo("recordTime", LocalDateTime.now().withSecond(0).withMinute(0).withNano(0));
+        HourWaterConsumption hourWaterConsumption = getRecentDataByMeterCode();
+        Example dayExample = new Example(DayWaterConsumption.class);
+        dayExample.createCriteria().andEqualTo("recordTime", LocalDate.now());
+        DayWaterConsumption dayWaterConsumption = dayWaterConsumptionService.selectOneByExample(dayExample);
         if (hourWaterConsumptionService.selectByExample(example).isEmpty()) {
-            HourWaterConsumption hourWaterConsumption = getRecentDataByMeterCode();
             hourWaterConsumptionService.insertSelective(hourWaterConsumption);
-
-            Example dayExample = new Example(DayWaterConsumption.class);
-            dayExample.createCriteria().andEqualTo("recordTime", LocalDate.now());
-            DayWaterConsumption dayWaterConsumption = dayWaterConsumptionService.selectOneByExample(dayExample);
             if (dayWaterConsumption == null) {
                 dayWaterConsumption = new DayWaterConsumption();
                 dayWaterConsumption.setPuck(hourWaterConsumption.getPuck());
@@ -69,6 +68,20 @@ public class HourWaterServiceImpl extends AbstractMapperService<HourWater> imple
                 dayWaterConsumption.setCurling(dayWaterConsumption.getCurling().add(hourWaterConsumption.getCurling()));
                 dayWaterConsumptionService.updateByPrimaryKeySelective(dayWaterConsumption);
             }
+        }else{
+            HourWaterConsumption original = hourWaterConsumptionService.selectOneByExample(example);
+            dayWaterConsumption.setTotal(dayWaterConsumption.getTotal().subtract(original.getTotal()).add(hourWaterConsumption.getTotal()));
+            dayWaterConsumption.setCurling(dayWaterConsumption.getCurling().subtract(original.getCurling().add(hourWaterConsumption.getCurling())));
+            dayWaterConsumption.setSlip(dayWaterConsumption.getSlip().subtract(original.getSlip().add(hourWaterConsumption.getSlip())));
+            dayWaterConsumption.setPuck(dayWaterConsumption.getPuck().subtract(original.getPuck()).add(hourWaterConsumption.getPuck()));
+
+            dayWaterConsumptionService.updateByPrimaryKeySelective(dayWaterConsumption);
+
+            original.setTotal(hourWaterConsumption.getTotal());
+            original.setPuck(hourWaterConsumption.getPuck());
+            original.setSlip(hourWaterConsumption.getSlip());
+            original.setCurling(hourWaterConsumption.getCurling());
+            hourWaterConsumptionService.updateByPrimaryKeySelective(original);
         }
     }
 

@@ -367,7 +367,7 @@
                         <ul class="breadcrumb clearfloat span12" id="tabstrip-menu">
                             <li class="activeTab home_li">
                                 <i class="icon-home"></i>
-                                <a id="link_home_right" class="menu_bg three_menu" href="/sys/home.html"
+                                <a id="link_home_right" class="menu_bg three_menu" href="home.html"
                                    target="mainFrame"><span class="title">HOME</span></a>
                             </li>
                         </ul>
@@ -379,7 +379,7 @@
             <!--=====================================右侧内容开始--->
             <div id="mainContainer" class="row-fluid">
                 <!--==================================== 右侧内容 -->
-                <iframe id="mainFrame" name="mainFrame" src=""
+                <iframe id="mainFrame" name="mainFrame" src="home.html"
                         style="height: 100%;" scrolling="auto"
                         frameborder="no" width="100%"></iframe>
                 <iframe src="home.html"
@@ -607,7 +607,7 @@
     var changeLiWidth;
 
     function loadMenu(data_json) {
-        var html = ['<li id="link_home_li" class="nav-item start active open "><a id="link_home" href= "/sys/home.html" target="mainFrame" class="nav-link"><i class="smartfont smart-home"></i><span class="title">首页</span></a></li>'],
+        var html = ['<li id="link_home_li" class="nav-item start active open "><a id="link_home" href= "home.html" target="mainFrame" class="nav-link"><i class="smartfont smart-home"></i><span class="title">首页</span></a></li>'],
             datas = [].concat(data_json);
         createMenu(html, datas);
         $("#page-sidebar-menu").append(html.join(''));

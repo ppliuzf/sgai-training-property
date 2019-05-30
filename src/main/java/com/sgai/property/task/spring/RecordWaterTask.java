@@ -32,7 +32,7 @@ public class RecordWaterTask {
     private Sender sender;
 
     //每小时执行一次.
-    @Scheduled(cron = "0 15,30,45 * * * ?")
+    @Scheduled(fixedRate = INTERVAL)
     public void recordWater() throws IOException {
         hourWaterService.record();
         WaterVo waterVo = new WaterVo();

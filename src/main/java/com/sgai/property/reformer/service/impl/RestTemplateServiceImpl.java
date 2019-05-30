@@ -53,7 +53,6 @@ public class RestTemplateServiceImpl implements RestTemplateService {
             HttpEntity<String> formEntity = new HttpEntity<>(psdParam, headers);
             response = restTemplate.postForObject(url, formEntity, String.class);
         } catch (Exception e) {
-            e.printStackTrace();
             throw new PostException("post请求异常");
         }
         return response;

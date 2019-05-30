@@ -68,20 +68,19 @@ public class HourElectricServiceImpl extends AbstractMapperService<HourElectric>
     public void record() {
         Example example = new Example(HourEnergyConsumption.class);
         example.createCriteria().andEqualTo("recordTime", LocalDateTime.now().withSecond(0).withMinute(0).withNano(0));
+        Example dayExample = new Example(DayEnergyConsumption.class);
+        dayExample.createCriteria().andEqualTo("recordTime", LocalDate.now());
+        DayEnergyConsumption dayEnergyConsumption = dayEnergyConsumptionService.selectOneByExample(dayExample);
+        HourEnergyConsumption hourEnergyConsumption = getRecentDataByMeterCode();
         if (hourEnergyConsumptionService.selectByExample(example).isEmpty()) {
-            HourEnergyConsumption hourEnergyConsumption = getRecentDataByMeterCode();
             hourEnergyConsumptionService.insert(hourEnergyConsumption);
-
-            Example dayExample = new Example(DayEnergyConsumption.class);
-            dayExample.createCriteria().andEqualTo("recordTime", LocalDate.now());
-            DayEnergyConsumption dayEnergyConsumption = dayEnergyConsumptionService.selectOneByExample(dayExample);
             if (dayEnergyConsumption == null) {
                 dayEnergyConsumption = new DayEnergyConsumption();
                 dayEnergyConsumption.setRecordTime(hourEnergyConsumption.getRecordTime().toLocalDate());
                 dayEnergyConsumption.setTotal(hourEnergyConsumption.getTotal());
                 dayEnergyConsumption.setPuck(hourEnergyConsumption.getPuck());
-                dayEnergyConsumption.setCurling(hourEnergyConsumption.getCurling());
                 dayEnergyConsumption.setSlip(hourEnergyConsumption.getSlip());
+                dayEnergyConsumption.setCurling(hourEnergyConsumption.getCurling());
                 dayEnergyConsumption.setPuckDrainage(hourEnergyConsumption.getPuckDrainage());
                 dayEnergyConsumption.setPuckIllumination(hourEnergyConsumption.getPuckIllumination());
                 dayEnergyConsumption.setPuckElevator(hourEnergyConsumption.getPuckDrainage());
@@ -108,6 +107,39 @@ public class HourElectricServiceImpl extends AbstractMapperService<HourElectric>
                 dayEnergyConsumption.setSlipDrainage(dayEnergyConsumption.getSlipDrainage().add(hourEnergyConsumption.getSlipDrainage()));
                 dayEnergyConsumptionService.updateByPrimaryKeySelective(dayEnergyConsumption);
             }
+        } else {
+            HourEnergyConsumption original = hourEnergyConsumptionService.selectOneByExample(example);
+            dayEnergyConsumption.setTotal(dayEnergyConsumption.getTotal().subtract(original.getTotal()).add(hourEnergyConsumption.getTotal()));
+            dayEnergyConsumption.setPuck(dayEnergyConsumption.getPuck().subtract(original.getPuck()).add(hourEnergyConsumption.getPuck()));
+            dayEnergyConsumption.setCurling(dayEnergyConsumption.getCurling().subtract(original.getCurling().add(hourEnergyConsumption.getCurling())));
+            dayEnergyConsumption.setSlip(dayEnergyConsumption.getSlip().subtract(original.getSlip().add(hourEnergyConsumption.getSlip())));
+            dayEnergyConsumption.setPuckDrainage(dayEnergyConsumption.getPuckDrainage().subtract(original.getPuckDrainage().add(hourEnergyConsumption.getPuckDrainage())));
+            dayEnergyConsumption.setPuckIllumination(dayEnergyConsumption.getPuckIllumination().subtract(original.getPuckIllumination()).add(hourEnergyConsumption.getPuckIllumination()));
+            dayEnergyConsumption.setPuckElevator(dayEnergyConsumption.getPuckDrainage().subtract(original.getPuckDrainage()).add(hourEnergyConsumption.getPuckDrainage()));
+            dayEnergyConsumption.setCurlingDrainage(dayEnergyConsumption.getCurlingDrainage().subtract(original.getCurlingDrainage()).add(hourEnergyConsumption.getCurlingDrainage()));
+            dayEnergyConsumption.setCurlingElevator(dayEnergyConsumption.getCurlingElevator().subtract(original.getCurlingElevator()).add(hourEnergyConsumption.getCurlingElevator()));
+            dayEnergyConsumption.setCurlingIllumination(dayEnergyConsumption.getCurlingIllumination().subtract(original.getCurlingIllumination()).add(hourEnergyConsumption.getCurlingIllumination()));
+            dayEnergyConsumption.setSlipIllumination(dayEnergyConsumption.getSlipIllumination().subtract(original.getSlipIllumination()).add(hourEnergyConsumption.getSlipIllumination()));
+            dayEnergyConsumption.setSlipElevator(dayEnergyConsumption.getSlipElevator().subtract(original.getSlipElevator()).add(hourEnergyConsumption.getSlipElevator()));
+            dayEnergyConsumption.setSlipDrainage(dayEnergyConsumption.getSlipDrainage().subtract(original.getSlipDrainage()).add(hourEnergyConsumption.getSlipDrainage()));
+
+            dayEnergyConsumptionService.updateByPrimaryKeySelective(dayEnergyConsumption);
+
+            original.setTotal(hourEnergyConsumption.getTotal());
+            original.setPuck(hourEnergyConsumption.getPuck());
+            original.setCurling(hourEnergyConsumption.getCurling());
+            original.setSlip(hourEnergyConsumption.getSlip());
+            original.setPuckDrainage(hourEnergyConsumption.getPuckDrainage());
+            original.setPuckIllumination(hourEnergyConsumption.getPuckIllumination());
+            original.setCurlingElevator(hourEnergyConsumption.getCurlingElevator());
+            original.setPuckElevator(hourEnergyConsumption.getPuckDrainage());
+            original.setCurlingDrainage(hourEnergyConsumption.getCurlingDrainage());
+            original.setCurlingIllumination(hourEnergyConsumption.getCurlingIllumination());
+            original.setSlipIllumination(hourEnergyConsumption.getSlipIllumination());
+            original.setSlipElevator(hourEnergyConsumption.getSlipElevator());
+            original.setSlipDrainage(hourEnergyConsumption.getSlipDrainage());
+            hourEnergyConsumptionService.updateByPrimaryKeySelective(original);
+
         }
     }
 

@@ -21,17 +21,9 @@ import java.io.IOException;
 public class RealTimeDataTransfer {
     private static final long INTERVAL = 15 * 1000;
     @Autowired
-    private OverviewService overviewService;
-    @Autowired
-    private IceHockeyHallService iceHockeyHallService;
-    @Autowired
-    private CurlingHallService curlingHallService;
-    @Autowired
     SpeedSkatingService speedSkatingService;
     @Autowired
     ParkingGarageService parkingGarageService;
-    @Autowired
-    private IceMakerService iceMakerService;
     @Autowired
     private Sender sender;
 

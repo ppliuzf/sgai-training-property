@@ -32,8 +32,7 @@ public class RecordEnergyTask {
     private Sender sender;
 
     //每小时执行一次.
-    //todo 总览数据.
-    @Scheduled(cron = "0 15,30,45 * * * ?")
+    @Scheduled(fixedRate = INTERVAL)
     public void recordEnergy() throws IOException {
         hourElectricService.record();
         EnergyVo energyVo = new EnergyVo();

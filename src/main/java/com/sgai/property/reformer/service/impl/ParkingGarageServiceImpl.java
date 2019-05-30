@@ -75,6 +75,7 @@ public class ParkingGarageServiceImpl implements ParkingGarageService {
             packing.setOut(new BigDecimal(inOutRecordList.stream().filter(inOutRecord -> "1".equals(inOutRecord.getInOrOut())).count()));
             return packing;
         } catch (Exception e) {
+            System.out.println("停车服务又关了！！！！！！！！！！！！！！！！！！");
             return Packing.exception();
         }
     }
