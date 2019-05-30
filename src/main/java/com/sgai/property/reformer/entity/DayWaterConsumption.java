@@ -1,10 +1,9 @@
 package com.sgai.property.reformer.entity;
 
-import org.apache.commons.lang3.time.DateFormatUtils;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * 天级单位水耗统计.
@@ -14,7 +13,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "record_water_day")
-public class DayWater {
+public class DayWaterConsumption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,7 +26,7 @@ public class DayWater {
     /** 花滑/速滑. */
     private BigDecimal slip;
     /** 记录时间. */
-    private Date recordTime;
+    private LocalDate recordTime;
     @Transient
     private String strRecordTime;
 
@@ -71,13 +70,13 @@ public class DayWater {
         this.slip = slip;
     }
 
-    public Date getRecordTime() {
+    public LocalDate getRecordTime() {
         return recordTime;
     }
 
-    public void setRecordTime(Date recordTime) {
+    public void setRecordTime(LocalDate recordTime) {
         this.recordTime = recordTime;
-        this.strRecordTime = DateFormatUtils.format(recordTime, "yyyy/MM/dd");
+        this.strRecordTime = recordTime.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
     }
 
     public String getStrRecordTime() {
@@ -86,24 +85,5 @@ public class DayWater {
 
     public void setStrRecordTime(String strRecordTime) {
         this.strRecordTime = strRecordTime;
-    }
-
-    public static DayWater emptyRecord() {
-        DayWater dayWater = new DayWater();
-        dayWater.setTotal(new BigDecimal(0));
-        dayWater.setSlip(new BigDecimal(0));
-        dayWater.setPuck(new BigDecimal(0));
-        dayWater.setCurling(new BigDecimal(0));
-        return dayWater;
-    }
-
-    public static DayWater emptyRecordWithDate(Date date) {
-        DayWater dayWater = new DayWater();
-        dayWater.setTotal(new BigDecimal(0));
-        dayWater.setSlip(new BigDecimal(0));
-        dayWater.setPuck(new BigDecimal(0));
-        dayWater.setCurling(new BigDecimal(0));
-        dayWater.setRecordTime(date);
-        return dayWater;
     }
 }

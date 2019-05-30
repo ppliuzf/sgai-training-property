@@ -44,11 +44,11 @@ public class ScreenVo {
     /** 最近几小时水耗. */
     private List<HourWaterConsumption> waterHour;
     /** 最近几天水耗. */
-    private List<DayWater> waterDay;
+    private List<DayWaterConsumption> waterDay;
     private DayEnergyConsumption energyToday;
     private DayEnergyConsumption energyYesterday;
-    private DayWater waterToday;
-    private DayWater waterYesterday;
+    private DayWaterConsumption waterToday;
+    private DayWaterConsumption waterYesterday;
     private List<IceMaker> iceMakerList;
 
     public Overview getOverview() {
@@ -156,11 +156,11 @@ public class ScreenVo {
         this.waterHour = waterHour;
     }
 
-    public List<DayWater> getWaterDay() {
+    public List<DayWaterConsumption> getWaterDay() {
         return waterDay;
     }
 
-    public void setWaterDay(List<DayWater> waterDay) {
+    public void setWaterDay(List<DayWaterConsumption> waterDay) {
         this.waterDay = waterDay;
     }
 
@@ -180,19 +180,19 @@ public class ScreenVo {
         this.energyYesterday = energyYesterday;
     }
 
-    public DayWater getWaterToday() {
+    public DayWaterConsumption getWaterToday() {
         return waterToday;
     }
 
-    public void setWaterToday(DayWater waterToday) {
+    public void setWaterToday(DayWaterConsumption waterToday) {
         this.waterToday = waterToday;
     }
 
-    public DayWater getWaterYesterday() {
+    public DayWaterConsumption getWaterYesterday() {
         return waterYesterday;
     }
 
-    public void setWaterYesterday(DayWater waterYesterday) {
+    public void setWaterYesterday(DayWaterConsumption waterYesterday) {
         this.waterYesterday = waterYesterday;
     }
 

@@ -1,11 +1,9 @@
 package com.sgai.property.reformer.entity;
 
-import org.apache.commons.lang3.time.DateFormatUtils;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *小时单位水耗统计.
@@ -28,7 +26,7 @@ public class HourWaterConsumption {
     /** 花滑/速滑. */
     private BigDecimal slip;
     /** 记录时间. */
-    private Date recordTime;
+    private LocalDateTime recordTime;
     @Transient
     private String strRecordTime;
 
@@ -72,13 +70,13 @@ public class HourWaterConsumption {
         this.slip = slip;
     }
 
-    public Date getRecordTime() {
+    public LocalDateTime getRecordTime() {
         return recordTime;
     }
 
-    public void setRecordTime(Date recordTime) {
+    public void setRecordTime(LocalDateTime recordTime) {
         this.recordTime = recordTime;
-        this.strRecordTime = DateFormatUtils.format(recordTime, "HH:mm");
+        this.strRecordTime = recordTime.format(DateTimeFormatter.ofPattern("HH:mm"));
     }
 
     public String getStrRecordTime() {
@@ -87,22 +85,5 @@ public class HourWaterConsumption {
 
     public void setStrRecordTime(String strRecordTime) {
         this.strRecordTime = strRecordTime;
-    }
-    public void summary(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MINUTE,0);
-        calendar.set(Calendar.SECOND,0);
-        calendar.set(Calendar.MILLISECOND,0);
-        this.total = this.puck.add(this.curling).add(this.slip);
-        this.recordTime = calendar.getTime();
-    }
-    public static HourWaterConsumption emptyRecordWithDate(Date date) {
-        HourWaterConsumption hour = new HourWaterConsumption();
-        hour.setTotal(new BigDecimal(0));
-        hour.setSlip(new BigDecimal(0));
-        hour.setPuck(new BigDecimal(0));
-        hour.setCurling(new BigDecimal(0));
-        hour.setRecordTime(date);
-        return hour;
     }
 }

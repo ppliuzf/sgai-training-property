@@ -5,6 +5,7 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.sgai.property.reformer.entity.DayEnergyConsumption;
 import com.sgai.property.reformer.entity.HourEnergyConsumption;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -12,10 +13,15 @@ import java.util.List;
  * created in 2019/1/22 14:18
  */
 public class EnergyVo {
+    private LocalDateTime localDateTime;
     /** 最近几小时能耗. */
     private List<HourEnergyConsumption> energyHour;
     /** 最近几天能耗. */
     private List<DayEnergyConsumption> energyDay;
+
+    public EnergyVo() {
+        this.localDateTime = LocalDateTime.now();
+    }
 
     public List<HourEnergyConsumption> getEnergyHour() {
         return energyHour;
@@ -33,8 +39,17 @@ public class EnergyVo {
         this.energyDay = energyDay;
     }
 
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
+    }
+
+    public void setLocalDateTime(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
+    }
+
     @Override
     public String toString() {
         return JSON.toJSONString(this, SerializerFeature.WriteDateUseDateFormat);
     }
+
 }
