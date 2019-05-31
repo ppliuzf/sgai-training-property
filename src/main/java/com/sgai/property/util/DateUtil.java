@@ -24,6 +24,9 @@ public class DateUtil {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 获取包含此小时的过去n小时.
+     */
     public static List<LocalDateTime> getRecentTime(int hours) {
         LocalDateTime start = LocalDateTime.now().withMinute(0).withSecond(0).withNano(0).plusHours(-hours + 1);
         return Stream.iterate(start, localDateTime -> localDateTime.plusHours(1))
