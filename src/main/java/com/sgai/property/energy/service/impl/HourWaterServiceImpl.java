@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -23,6 +22,7 @@ import java.time.LocalDateTime;
  */
 @Service
 public class HourWaterServiceImpl extends AbstractMapperService<HourWater> implements HourWaterService {
+    private LocalDateTime localDateTime;
     private static final String total = "DXZX";
     private static final String puck = "BQG";
     private static final String curling = "BHG";
@@ -38,18 +38,19 @@ public class HourWaterServiceImpl extends AbstractMapperService<HourWater> imple
         hourWaterConsumption.setPuck(getByMeterCode(puck));
         hourWaterConsumption.setCurling(getByMeterCode(curling));
         hourWaterConsumption.setSlip(getByMeterCode(slip));
-        hourWaterConsumption.setRecordTime(LocalDateTime.now().withSecond(0).withMinute(0).withNano(0));
+        hourWaterConsumption.setRecordTime(this.localDateTime);
 
         return hourWaterConsumption;
     }
 
     @Override
-    public void record() {
+    public void record(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
         Example example = new Example(HourWaterConsumption.class);
-        example.createCriteria().andEqualTo("recordTime", LocalDateTime.now().withSecond(0).withMinute(0).withNano(0));
+        example.createCriteria().andEqualTo("recordTime", this.localDateTime);
         HourWaterConsumption hourWaterConsumption = getRecentDataByMeterCode();
         Example dayExample = new Example(DayWaterConsumption.class);
-        dayExample.createCriteria().andEqualTo("recordTime", LocalDate.now());
+        dayExample.createCriteria().andEqualTo("recordTime",this.localDateTime.toLocalDate());
         DayWaterConsumption dayWaterConsumption = dayWaterConsumptionService.selectOneByExample(dayExample);
         if (hourWaterConsumptionService.selectByExample(example).isEmpty()) {
             hourWaterConsumptionService.insertSelective(hourWaterConsumption);
@@ -68,11 +69,11 @@ public class HourWaterServiceImpl extends AbstractMapperService<HourWater> imple
                 dayWaterConsumption.setCurling(dayWaterConsumption.getCurling().add(hourWaterConsumption.getCurling()));
                 dayWaterConsumptionService.updateByPrimaryKeySelective(dayWaterConsumption);
             }
-        }else{
+        } else {
             HourWaterConsumption original = hourWaterConsumptionService.selectOneByExample(example);
             dayWaterConsumption.setTotal(dayWaterConsumption.getTotal().subtract(original.getTotal()).add(hourWaterConsumption.getTotal()));
-            dayWaterConsumption.setCurling(dayWaterConsumption.getCurling().subtract(original.getCurling().add(hourWaterConsumption.getCurling())));
-            dayWaterConsumption.setSlip(dayWaterConsumption.getSlip().subtract(original.getSlip().add(hourWaterConsumption.getSlip())));
+            dayWaterConsumption.setCurling(dayWaterConsumption.getCurling().subtract(original.getCurling()).add(hourWaterConsumption.getCurling()));
+            dayWaterConsumption.setSlip(dayWaterConsumption.getSlip().subtract(original.getSlip()).add(hourWaterConsumption.getSlip()));
             dayWaterConsumption.setPuck(dayWaterConsumption.getPuck().subtract(original.getPuck()).add(hourWaterConsumption.getPuck()));
 
             dayWaterConsumptionService.updateByPrimaryKeySelective(dayWaterConsumption);
@@ -88,7 +89,7 @@ public class HourWaterServiceImpl extends AbstractMapperService<HourWater> imple
     private BigDecimal getByMeterCode(String meterCode) {
         Example example = new Example(HourWater.class);
         example.createCriteria()
-                .andEqualTo("recordTime", LocalDateTime.now().withMinute(0).withSecond(0).withNano(0))
+                .andEqualTo("recordTime", this.localDateTime)
                 .andEqualTo("meterCode", meterCode);
         HourWater hourElectric = selectOneByExample(example);
         return hourElectric == null ? BigDecimal.ZERO : hourElectric.getRecordValue();

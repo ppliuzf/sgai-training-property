@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 /**
  * @author ppliu
@@ -21,7 +22,7 @@ import java.io.IOException;
 @Lazy(false)
 @Transactional
 public class RecordEnergyTask {
-    private static final long INTERVAL = 30 * 1000;
+    private static final long INTERVAL = 300 * 1000;
     @Autowired
     private HourEnergyConsumptionService hourEnergyConsumptionService;
     @Autowired
@@ -34,10 +35,11 @@ public class RecordEnergyTask {
     //每小时执行一次.
     @Scheduled(fixedRate = INTERVAL)
     public void recordEnergy() throws IOException {
-        hourElectricService.record();
+        LocalDateTime localDateTime = LocalDateTime.now().withMinute(0).withSecond(0).withNano(0);
+        hourElectricService.record(localDateTime);
         EnergyVo energyVo = new EnergyVo();
-        energyVo.setEnergyDay(dayEnergyConsumptionService.getLast7DaysData());
-        energyVo.setEnergyHour(hourEnergyConsumptionService.getLast7HoursData());
+        energyVo.setEnergyDay(dayEnergyConsumptionService.getLast7DaysData(localDateTime.toLocalDate()));
+        energyVo.setEnergyHour(hourEnergyConsumptionService.getLast7HoursData(localDateTime));
         sender.sendEnergyMessage(energyVo.toString());
     }
 }

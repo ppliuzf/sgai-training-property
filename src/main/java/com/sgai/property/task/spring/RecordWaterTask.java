@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 /**
  * @author ppliu
@@ -21,7 +22,7 @@ import java.io.IOException;
 @Lazy(false)
 @Transactional
 public class RecordWaterTask {
-    private static final long INTERVAL = 30 * 1000;
+    private static final long INTERVAL = 300 * 1000;
     @Autowired
     private HourWaterConsumptionService hourWaterConsumptionService;
     @Autowired
@@ -34,10 +35,11 @@ public class RecordWaterTask {
     //每小时执行一次.
     @Scheduled(fixedRate = INTERVAL)
     public void recordWater() throws IOException {
-        hourWaterService.record();
+        LocalDateTime localDateTime = LocalDateTime.now().withMinute(0).withSecond(0).withNano(0);
+        hourWaterService.record(localDateTime);
         WaterVo waterVo = new WaterVo();
-        waterVo.setWaterDay(dayWaterConsumptionService.getLast7DaysData());
-        waterVo.setWaterHour(hourWaterConsumptionService.getLast7HoursData());
+        waterVo.setWaterDay(dayWaterConsumptionService.getLast7DaysData(localDateTime.toLocalDate()));
+        waterVo.setWaterHour(hourWaterConsumptionService.getLast7HoursData(localDateTime));
         sender.sendWaterMessage(waterVo.toString());
     }
 

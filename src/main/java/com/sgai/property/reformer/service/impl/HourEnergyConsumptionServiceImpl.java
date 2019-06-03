@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class HourEnergyConsumptionServiceImpl extends AbstractMapperService<HourEnergyConsumption> implements HourEnergyConsumptionService {
-    private List<LocalDateTime> timeList = DateUtil.getRecentTime(24);
+    private List<LocalDateTime> timeList;
 
     public List<HourEnergyConsumption> getRecent() {
         Example example = new Example(HourEnergyConsumption.class);
@@ -29,7 +29,8 @@ public class HourEnergyConsumptionServiceImpl extends AbstractMapperService<Hour
     }
 
     @Override
-    public List<HourEnergyConsumption> getLast7HoursData() {
+    public List<HourEnergyConsumption> getLast7HoursData(LocalDateTime localDateTime) {
+        this.timeList = DateUtil.getRecentTime(localDateTime, 24);
         List<HourEnergyConsumption> hourList = getRecent();
         Map<LocalDateTime, HourEnergyConsumption> map = hourList.stream()
                 .collect(Collectors.toMap(HourEnergyConsumption::getRecordTime, a -> a, (k1, k2) -> k1));

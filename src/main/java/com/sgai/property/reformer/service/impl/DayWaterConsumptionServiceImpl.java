@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class DayWaterConsumptionServiceImpl extends AbstractMapperService<DayWaterConsumption> implements DayWaterConsumptionService {
-    private List<LocalDate> dateList = DateUtil.getRecentDay(7);
+    private List<LocalDate> dateList;
 
     public List<DayWaterConsumption> getRecent() {
         Example example = new Example(DayWaterConsumption.class);
@@ -29,7 +29,8 @@ public class DayWaterConsumptionServiceImpl extends AbstractMapperService<DayWat
     }
 
     @Override
-    public List<DayWaterConsumption> getLast7DaysData() {
+    public List<DayWaterConsumption> getLast7DaysData(LocalDate localDate) {
+        this.dateList = DateUtil.getRecentDay(localDate, 7);
         List<DayWaterConsumption> dayList = getRecent();
         Map<LocalDate, DayWaterConsumption> map = dayList.stream().collect(Collectors.toMap(DayWaterConsumption::getRecordTime, a -> a));
         dateList.forEach(date -> {
@@ -39,6 +40,7 @@ public class DayWaterConsumptionServiceImpl extends AbstractMapperService<DayWat
         });
         return map.values().stream().sorted(Comparator.comparing(DayWaterConsumption::getRecordTime)).collect(Collectors.toList());
     }
+
     private DayWaterConsumption createByDate(LocalDate date) {
         DayWaterConsumption dayWaterConsumption = new DayWaterConsumption();
         dayWaterConsumption.setTotal(BigDecimal.ZERO);

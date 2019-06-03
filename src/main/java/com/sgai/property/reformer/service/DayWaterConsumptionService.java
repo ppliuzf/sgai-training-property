@@ -3,6 +3,7 @@ package com.sgai.property.reformer.service;
 import com.sgai.property.reformer.entity.DayWaterConsumption;
 import com.szx.core.service.MapperService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -13,5 +14,5 @@ public interface DayWaterConsumptionService extends MapperService<DayWaterConsum
     /**
      *获取过去7天的数据.
      */
-    List<DayWaterConsumption> getLast7DaysData();
+    List<DayWaterConsumption> getLast7DaysData(LocalDate localDate);
 }

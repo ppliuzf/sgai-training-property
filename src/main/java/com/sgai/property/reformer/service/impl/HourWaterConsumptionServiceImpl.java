@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class HourWaterConsumptionServiceImpl extends AbstractMapperService<HourWaterConsumption> implements HourWaterConsumptionService {
-    private List<LocalDateTime> timeList = DateUtil.getRecentTime(24);
+    private List<LocalDateTime> timeList;
 
     public List<HourWaterConsumption> getRecent() {
         Example example = new Example(HourWaterConsumption.class);
@@ -29,7 +29,8 @@ public class HourWaterConsumptionServiceImpl extends AbstractMapperService<HourW
     }
 
     @Override
-    public List<HourWaterConsumption> getLast7HoursData() {
+    public List<HourWaterConsumption> getLast7HoursData(LocalDateTime localDateTime) {
+        timeList = DateUtil.getRecentTime(localDateTime,24);
         List<HourWaterConsumption> hourList = getRecent();
         Map<LocalDateTime, HourWaterConsumption> map = hourList.stream()
                 .collect(Collectors.toMap(HourWaterConsumption::getRecordTime, a -> a, (k1, k2) -> k1));

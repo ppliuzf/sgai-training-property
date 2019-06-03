@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class DayEnergyConsumptionServiceImpl extends AbstractMapperService<DayEnergyConsumption> implements DayEnergyConsumptionService {
-    private List<LocalDate> dateList = DateUtil.getRecentDay(7);
+    private List<LocalDate> dateList;
 
     public List<DayEnergyConsumption> getRecent() {
         Example example = new Example(DayEnergyConsumption.class);
@@ -29,7 +29,8 @@ public class DayEnergyConsumptionServiceImpl extends AbstractMapperService<DayEn
     }
 
     @Override
-    public List<DayEnergyConsumption> getLast7DaysData() {
+    public List<DayEnergyConsumption> getLast7DaysData(LocalDate localDate) {
+        this.dateList = DateUtil.getRecentDay(localDate, 7);
         List<DayEnergyConsumption> dayList = getRecent();
         Map<LocalDate, DayEnergyConsumption> map = dayList.stream().collect(Collectors.toMap(DayEnergyConsumption::getRecordTime, a -> a));
         dateList.forEach(date -> {

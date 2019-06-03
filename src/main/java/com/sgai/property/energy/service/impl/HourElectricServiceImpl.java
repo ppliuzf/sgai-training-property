@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -23,6 +22,7 @@ import java.time.LocalDateTime;
  */
 @Service
 public class HourElectricServiceImpl extends AbstractMapperService<HourElectric> implements HourElectricService {
+    private LocalDateTime localDateTime;
     @Autowired
     private HourEnergyConsumptionService hourEnergyConsumptionService;
     @Autowired
@@ -59,24 +59,26 @@ public class HourElectricServiceImpl extends AbstractMapperService<HourElectric>
         hourEnergyConsumption.setSlipDrainage(getByMeterCode(slipDrainage));
         hourEnergyConsumption.setSlipElevator(getByMeterCode(slipElevator));
         hourEnergyConsumption.setSlipIllumination(getByMeterCode(slipIllumination));
-        hourEnergyConsumption.setRecordTime(LocalDateTime.now().withSecond(0).withMinute(0).withNano(0));
+        hourEnergyConsumption.setRecordTime(localDateTime);
 
         return hourEnergyConsumption;
     }
 
     @Override
-    public void record() {
+    public void record(LocalDateTime localDateTime) {
+        this.localDateTime = localDateTime;
         Example example = new Example(HourEnergyConsumption.class);
-        example.createCriteria().andEqualTo("recordTime", LocalDateTime.now().withSecond(0).withMinute(0).withNano(0));
+        example.createCriteria().andEqualTo("recordTime", this.localDateTime);
         Example dayExample = new Example(DayEnergyConsumption.class);
-        dayExample.createCriteria().andEqualTo("recordTime", LocalDate.now());
+        dayExample.createCriteria().andEqualTo("recordTime", this.localDateTime.toLocalDate());
         DayEnergyConsumption dayEnergyConsumption = dayEnergyConsumptionService.selectOneByExample(dayExample);
         HourEnergyConsumption hourEnergyConsumption = getRecentDataByMeterCode();
-        if (hourEnergyConsumptionService.selectByExample(example).isEmpty()) {
+        HourEnergyConsumption original = hourEnergyConsumptionService.selectOneByExample(example);
+        if (original == null) {
             hourEnergyConsumptionService.insert(hourEnergyConsumption);
             if (dayEnergyConsumption == null) {
                 dayEnergyConsumption = new DayEnergyConsumption();
-                dayEnergyConsumption.setRecordTime(hourEnergyConsumption.getRecordTime().toLocalDate());
+                dayEnergyConsumption.setRecordTime(localDateTime.toLocalDate());
                 dayEnergyConsumption.setTotal(hourEnergyConsumption.getTotal());
                 dayEnergyConsumption.setPuck(hourEnergyConsumption.getPuck());
                 dayEnergyConsumption.setSlip(hourEnergyConsumption.getSlip());
@@ -108,12 +110,11 @@ public class HourElectricServiceImpl extends AbstractMapperService<HourElectric>
                 dayEnergyConsumptionService.updateByPrimaryKeySelective(dayEnergyConsumption);
             }
         } else {
-            HourEnergyConsumption original = hourEnergyConsumptionService.selectOneByExample(example);
             dayEnergyConsumption.setTotal(dayEnergyConsumption.getTotal().subtract(original.getTotal()).add(hourEnergyConsumption.getTotal()));
             dayEnergyConsumption.setPuck(dayEnergyConsumption.getPuck().subtract(original.getPuck()).add(hourEnergyConsumption.getPuck()));
             dayEnergyConsumption.setCurling(dayEnergyConsumption.getCurling().subtract(original.getCurling().add(hourEnergyConsumption.getCurling())));
-            dayEnergyConsumption.setSlip(dayEnergyConsumption.getSlip().subtract(original.getSlip().add(hourEnergyConsumption.getSlip())));
-            dayEnergyConsumption.setPuckDrainage(dayEnergyConsumption.getPuckDrainage().subtract(original.getPuckDrainage().add(hourEnergyConsumption.getPuckDrainage())));
+            dayEnergyConsumption.setSlip(dayEnergyConsumption.getSlip().subtract(original.getSlip()).add(hourEnergyConsumption.getSlip()));
+            dayEnergyConsumption.setPuckDrainage(dayEnergyConsumption.getPuckDrainage().subtract(original.getPuckDrainage()).add(hourEnergyConsumption.getPuckDrainage()));
             dayEnergyConsumption.setPuckIllumination(dayEnergyConsumption.getPuckIllumination().subtract(original.getPuckIllumination()).add(hourEnergyConsumption.getPuckIllumination()));
             dayEnergyConsumption.setPuckElevator(dayEnergyConsumption.getPuckDrainage().subtract(original.getPuckDrainage()).add(hourEnergyConsumption.getPuckDrainage()));
             dayEnergyConsumption.setCurlingDrainage(dayEnergyConsumption.getCurlingDrainage().subtract(original.getCurlingDrainage()).add(hourEnergyConsumption.getCurlingDrainage()));
@@ -146,7 +147,7 @@ public class HourElectricServiceImpl extends AbstractMapperService<HourElectric>
     private BigDecimal getByMeterCode(String meterCode) {
         Example example = new Example(HourElectric.class);
         example.createCriteria()
-                .andEqualTo("recordTime", LocalDateTime.now().withMinute(0).withSecond(0).withNano(0))
+                .andEqualTo("recordTime", localDateTime)
                 .andEqualTo("meterCode", meterCode);
         HourElectric hourElectric = selectOneByExample(example);
         return hourElectric == null ? BigDecimal.ZERO : hourElectric.getRecordValue();
